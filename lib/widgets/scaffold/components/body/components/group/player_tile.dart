@@ -106,7 +106,7 @@ class PlayerTile extends StatelessWidget {
         tapCallback = (){
           actionBloc.selected.value[name] = rawSelected == false;
           actionBloc.selected.refresh();
-          if(scrolling){
+          if(this.isScrollingSomewhere){
             scrollerBloc.delayerController.scrolling();
             scrollerBloc.delayerController.leaving();
           }

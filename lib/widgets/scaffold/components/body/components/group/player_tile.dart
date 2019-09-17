@@ -1,12 +1,12 @@
 import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs.dart/game_action.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs.dart/game_group.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/scroller/scroller_detector.dart';
-import 'package:counter_spell_new/blocs/sub_blocs/scroller/scroller_recognizer.dart';
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
+import 'package:counter_spell_new/widgets/scaffold/components/body/components/group/player_tile_gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 
@@ -87,68 +87,24 @@ class PlayerTile extends StatelessWidget {
     //we will abstract the player tile later to manage other pages
     //like commander damage / casts / counters
 
-    VoidCallback tapCallback;
-    void Function(CSDragUpdateDetails) panCallback;
-    void returnToLife(){
-      if(bloc.scaffold.currentPage == CSPage.life)
-        return;
-      bloc.scaffold.goToPage(CSPage.life);
-      scrollerBloc.ignoringThisPan = true;
-    }
-
-    switch (page) {
-      case CSPage.history:
-        tapCallback = returnToLife;
-        panCallback = (details) => returnToLife();
-        break;
-      case CSPage.counters:
-      case CSPage.life:
-        tapCallback = (){
-          actionBloc.selected.value[name] = rawSelected == false;
-          actionBloc.selected.refresh();
-          if(this.isScrollingSomewhere){
-            scrollerBloc.delayerController.scrolling();
-            scrollerBloc.delayerController.leaving();
-          }
-        };
-        panCallback = (details){
-
-          if(scrollerBloc.ignoringThisPan) 
-            return;
-
-          actionBloc.selected.value[name] = true;
-          actionBloc.selected.refresh();
-          scrollerBloc.onDragUpdate(details);
-        };
-        break;
-      case CSPage.commander:
-        tapCallback = (){
-          if(attacking){
-            actionBloc.attackingPlayer.set("");
-            actionBloc.defendingPlayer.set("");
-          } else {
-            actionBloc.attackingPlayer.set(name);
-            actionBloc.defendingPlayer.set("");
-          }
-        };
-        panCallback = (details){
-          if(actionBloc.isSomeoneAttacking){
-            actionBloc.defendingPlayer.set(name);
-          }
-          scrollerBloc.onDragUpdate(details);
-        };
-        break;
-      default:
-    }
-    assert(tapCallback != null);
-    assert(panCallback != null);
-
     return Material(
       child: InkWell(
-        onTap: tapCallback,
+        onTap: () => PlayerGestures.tap(
+          name,
+          page: page,
+          attacking: attacking,
+          rawSelected: rawSelected,
+          bloc: bloc,
+          isScrollingSomewhere: isScrollingSomewhere,
+        ),
         child: VelocityPanDetector(
           onPanEnd: (_details) => scrollerBloc.onDragEnd(),
-          onPanUpdate: panCallback,
+          onPanUpdate: (details) => PlayerGestures.pan(
+            details,
+            name,
+            bloc: bloc,
+            page: page,
+          ),
           onPanCancel: scrollerBloc.onDragEnd,
           child: Container(
             //to make the pan callback working, the color cannot be just null
@@ -324,8 +280,3 @@ class PlayerTile extends StatelessWidget {
   }
 
 }
-
-
-
-
-

@@ -106,8 +106,10 @@ class PlayerTile extends StatelessWidget {
         tapCallback = (){
           actionBloc.selected.value[name] = rawSelected == false;
           actionBloc.selected.refresh();
-          scrollerBloc.delayerController.scrolling();
-          scrollerBloc.delayerController.leaving();
+          if(scrolling){
+            scrollerBloc.delayerController.scrolling();
+            scrollerBloc.delayerController.leaving();
+          }
         };
         panCallback = (details){
 

@@ -43,8 +43,8 @@ class _CSHomePageState extends State<CSHomePage> {
         bloc.scroller.cancel();
         return false;
       }
-      if(bloc.scaffold.currentPage != CSPage.life){
-        bloc.scaffold.goToPage(CSPage.life);
+      if(bloc.scaffold.page.value != CSPage.life){
+        bloc.scaffold.page.set(CSPage.life);
         return false;
       }
 

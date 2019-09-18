@@ -12,7 +12,7 @@ import '../bloc.dart';
 class CSScaffold {
 
   void dispose(){
-    mainIndex.dispose();
+    page.dispose();
     dimensions.dispose();
     isPanelMostlyOpen.dispose();
   }
@@ -25,7 +25,7 @@ class CSScaffold {
 
   final CSBloc parent;
 
-  BlocVar<int> mainIndex;
+  final BlocVar<CSPage> page;
 
   BlocVar<SidDimensions> dimensions;
   SidController controller;
@@ -37,67 +37,20 @@ class CSScaffold {
 
 
 
-  //===============================
-  // Getters
-  
-  Map<int,CSPage> get indexToPage {
-    final enabled = parent.settings.enabledPages.value;
-
-    Map<int, CSPage> result = <int, CSPage>{};
-    int n = 0;
-    for(final entry in enabled.entries){
-      if(entry.value){
-        result[n] = entry.key;
-        ++n;
-      }
-    }
-
-    return result;
-  }
-  Map<CSPage, int> get pageToIndex {
-    final map = indexToPage;
-    return {
-      for(final entry in map.entries)
-        entry.value: entry.key
-    };
-  }
-  CSPage get currentPage => indexToPage[mainIndex.value];
-  int get howManyPages {
-    int n = 0;
-    for(final enabled in parent.settings.enabledPages.value.values){
-      if(enabled) ++n;
-    }
-    return n;
-  }
-
-
 
   //===============================
   // Constructor
 
   CSScaffold(this.parent): 
-    isPanelMostlyOpen = BlocVar<bool>(false)
-  {
-    ///[CSScaffold] must be initialized after [CSSettings]
-    mainIndex = BlocVar<int>(pageToIndex[CSPage.life]);
-  }
+    isPanelMostlyOpen = BlocVar<bool>(false),
+    page = BlocVar<CSPage>(CSPage.life);
+
 
 
 
 
   //=============================
   // Actions
-
-  void goToIndex(int index){
-    if(index == null) return;
-    if(index < 0) return;
-    if(index >= howManyPages) return;
-    this.mainIndex.set(index);
-  }
-
-  void goToPage(CSPage page){
-    this.mainIndex.set(pageToIndex[page]);
-  }
 
   void updateDimensions(BuildContext newContext, BoxConstraints newConstraints){
     this.constraints = newConstraints;
@@ -130,17 +83,17 @@ class CSScaffold {
     Widget Function(
       BuildContext context, 
       CSTheme theme,
-      int index, 
+      CSPage page, 
       bool open, 
       bool casting, 
       Counter counter,
     ) builder,
   ) => parent.themer.animatedCurrentWidget(builder: (context, theme) =>  BlocVar.build4(
-    mainIndex,
+    page,
     isPanelMostlyOpen,
     parent.game.gameAction.isCasting,
     parent.game.gameAction.counterSet.variable,
-    builder: (con, ind, ope, cas, cou) => builder(con, theme, ind, ope, cas, cou),
+    builder: (con, pag, ope, cas, cou) => builder(con, theme, pag, ope, cas, cou),
   ));
 
 

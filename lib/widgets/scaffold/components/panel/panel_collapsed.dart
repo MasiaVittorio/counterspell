@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/themer.dart';
+import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
@@ -98,7 +99,7 @@ class _DelayerPanel extends StatelessWidget {
     return BlocVar.build5(
       scroller.isScrolling,
       scroller.intValue,
-      bloc.scaffold.mainIndex,
+      bloc.scaffold.page,
       bloc.settings.confirmDelay,
       actionBloc.isCasting,
       distinct: true,
@@ -106,11 +107,10 @@ class _DelayerPanel extends StatelessWidget {
         BuildContext context, 
         bool scrolling,
         int increment,
-        int mainIndex,
+        CSPage page,
         Duration confirmDelay,
         bool casting,
       ){
-        final page = bloc.scaffold.currentPage;
         final accentColor = Color.alphaBlend(
           CSThemer.getScreenColor(
             theme: theme,

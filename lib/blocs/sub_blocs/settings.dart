@@ -156,38 +156,44 @@ class CSSettings {
   void disablePage(CSPage page){
     assert(this.enabledPages.value[page]);
     assert(page != CSPage.life);
-
-    final scaffold = parent.scaffold;
-    final mainIndex = scaffold.mainIndex;
-    final pageToIndex = scaffold.pageToIndex;
-    final indexToAvoid = pageToIndex[page];
-    final targetIndex = mainIndex.value == indexToAvoid
-      ? pageToIndex[CSPage.life]
-      : mainIndex.value;
+    if(parent.scaffold.page.value == page){
+      parent.scaffold.page.set(CSPage.life);
+    }
+    this.enabledPages.value[page] = false;
+    this.enabledPages.refresh();
+    // final scaffold = parent.scaffold;
+    // final mainIndex = scaffold.mainIndex;
+    // final pageToIndex = scaffold.pageToIndex;
+    // final indexToAvoid = pageToIndex[page];
+    // final targetIndex = mainIndex.value == indexToAvoid
+    //   ? pageToIndex[CSPage.life]
+    //   : mainIndex.value;
     
-    final fixedTarget = targetIndex >= indexToAvoid
-      ? targetIndex - 1
-      : targetIndex;
+    // final fixedTarget = targetIndex >= indexToAvoid
+    //   ? targetIndex - 1
+    //   : targetIndex;
     
-    mainIndex.set(fixedTarget);
-    enabledPages.value[page] = false;
-    enabledPages.refresh();
+    // mainIndex.set(fixedTarget);
+    // enabledPages.value[page] = false;
+    // enabledPages.refresh();
   }
   void enablePage(CSPage page){
     assert(!this.enabledPages.value[page]);
     assert(page != CSPage.life);
 
-    final scaffold = parent.scaffold;
-    final mainIndex = scaffold.mainIndex;
-    final indexToPage = scaffold.indexToPage;
-    final previousIndex = mainIndex.value;
-    final previousPage = indexToPage[previousIndex];
+    this.enabledPages.value[page] = true;
+    this.enabledPages.refresh();
+    // final scaffold = parent.scaffold;
+    // final mainIndex = scaffold.mainIndex;
+    // final indexToPage = scaffold.indexToPage;
+    // final previousIndex = mainIndex.value;
+    // final previousPage = indexToPage[previousIndex];
     
-    enabledPages.value[page] = true;
-    enabledPages.refresh();
-    mainIndex.set(
-      scaffold.pageToIndex[previousPage]
-    );
+    // enabledPages.value[page] = true;
+    // enabledPages.refresh();
+    // mainIndex.set(
+    //   scaffold.pageToIndex[previousPage]
+    // );
   }
 
   void togglePage(CSPage page){

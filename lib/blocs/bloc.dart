@@ -45,7 +45,6 @@ class CSBloc extends BlocBase {
     sheetsBloc = SheetsBloc(this);
     game = CSGame(this);
     settings = CSSettings(this);
-    ///[CSScaffold] must be initialized after [CSSettings]
     scaffold = CSScaffold(this);
     scroller = CSScroller(this);
     themer = CSThemer(this);

@@ -17,9 +17,9 @@ class CSFab extends StatelessWidget {
     final CSBloc bloc = CSBloc.of(context);
     final controller = bloc.scaffold.controller;
 
-    return bloc.scaffold.reactiveBuild((context, theme, index, open, casting, counter)
+    return bloc.scaffold.reactiveBuild((context, theme, page, open, casting, counter)
       => bloc.scroller.isScrolling.build((context, scrolling){
-        final page = bloc.scaffold.indexToPage[index]; 
+
         final themeData = theme.data;
 
         Color color;

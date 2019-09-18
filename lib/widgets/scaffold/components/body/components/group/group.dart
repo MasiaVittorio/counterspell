@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
+import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ class BodyGroup extends StatelessWidget {
     final settings = bloc.settings;
 
     return BlocVar.build9(
-      bloc.scaffold.mainIndex,
+      bloc.scaffold.page,
       bloc.scroller.isScrolling,
       bloc.scroller.intValue,
       actionBloc.selected,
@@ -47,7 +48,7 @@ class BodyGroup extends StatelessWidget {
       bloc.game.gameState.gameState,
       builder: (
         BuildContext context, 
-        int _, 
+        CSPage page, 
         bool isScrolling, 
         int increment,
         Map<String,bool> selected, 
@@ -58,7 +59,6 @@ class BodyGroup extends StatelessWidget {
         GameState gameState,
       ) {
 
-        final page = bloc.scaffold.currentPage;
         final normalizedPlayerActions = CSGameAction.normalizedAction(
           pageValue: page,
           selectedValue: selected,

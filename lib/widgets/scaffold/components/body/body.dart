@@ -80,14 +80,12 @@ class CSBody extends StatelessWidget {
                         ),
                       ),
 
-                    scaffold.mainIndex.build((_, i) => AnimatedPositioned(
+                    scaffold.page.build((_, currentPage) => AnimatedPositioned(
                       duration: MyDurations.fast,
                       top: 0.0,
                       bottom: 0.0,
                       width: constraints.maxWidth,
-
-                      //scaffold.currentPage is updated when mainIndex changes
-                      left: scaffold.currentPage == CSPage.history 
+                      left: currentPage == CSPage.history 
                         ? constraints.maxWidth - CSConstants.minTileSize
                         : 0.0,
 

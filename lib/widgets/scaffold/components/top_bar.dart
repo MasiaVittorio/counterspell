@@ -31,9 +31,8 @@ class CSTopBar extends StatelessWidget {
 
     final bloc = CSBloc.of(context);
 
-    return bloc.scaffold.reactiveBuild((context, theme, index, open, casting, counter){
+    return bloc.scaffold.reactiveBuild((context, theme, page, open, casting, counter){
 
-      final page = bloc.scaffold.indexToPage[index]; 
       final themeData = theme.data;
       
       String text = "";

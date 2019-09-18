@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 class PlayerGestures{
 
   static void _returnToLife(CSBloc bloc){
-    if(bloc.scaffold.currentPage == CSPage.life)
+    if(bloc.scaffold.page.value == CSPage.life)
       return;
-    bloc.scaffold.goToPage(CSPage.life);
+    bloc.scaffold.page.set(CSPage.life);
     bloc.scroller.ignoringThisPan = true;
   }
 

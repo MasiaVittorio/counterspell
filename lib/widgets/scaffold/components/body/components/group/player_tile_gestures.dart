@@ -29,8 +29,10 @@ class PlayerGestures{
       case CSPage.life:
         if(scrollerBloc.ignoringThisPan) 
           return;
-        actionBloc.selected.value[name] = true;
-        actionBloc.selected.refresh();
+        if(actionBloc.selected.value[name] == false){
+          actionBloc.selected.value[name] = true;
+          actionBloc.selected.refresh();
+        }
         scrollerBloc.onDragUpdate(details);
         return;
         break;

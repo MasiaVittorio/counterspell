@@ -3,7 +3,6 @@ import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs.dart/game_
 import 'package:counter_spell_new/blocs/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
-import 'package:counter_spell_new/models/game/types/type_ui.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';

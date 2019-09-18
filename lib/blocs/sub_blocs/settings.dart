@@ -21,6 +21,9 @@ class CSSettings {
     this.confirmDelay.dispose();
   }
 
+
+  //===================================
+  // Values
   final CSBloc parent;
 
   final PersistentVar<double> scrollSensitivity;
@@ -34,6 +37,10 @@ class CSSettings {
   StreamSubscription customCountersSubscription;
   final PersistentVar<Duration> confirmDelay;
 
+
+
+  //===================================
+  // Constructor
   CSSettings(this.parent): 
     scrollSensitivity = PersistentVar<double>(
       key: "bloc_settings_blocvar_scrollsens",
@@ -141,6 +148,53 @@ class CSSettings {
         //dependent widgets see the changes (like the history section)
         if(updated) this.enabledCounters.refresh();
       });
+  }
+
+
+  //===================================
+  // Action
+  void disablePage(CSPage page){
+    assert(this.enabledPages.value[page]);
+    assert(page != CSPage.life);
+
+    final scaffold = parent.scaffold;
+    final mainIndex = scaffold.mainIndex;
+    final pageToIndex = scaffold.pageToIndex;
+    final indexToAvoid = pageToIndex[page];
+    final targetIndex = mainIndex.value == indexToAvoid
+      ? pageToIndex[CSPage.life]
+      : mainIndex.value;
+    
+    final fixedTarget = targetIndex >= indexToAvoid
+      ? targetIndex - 1
+      : targetIndex;
+    
+    mainIndex.set(fixedTarget);
+    enabledPages.value[page] = false;
+    enabledPages.refresh();
+  }
+  void enablePage(CSPage page){
+    assert(!this.enabledPages.value[page]);
+    assert(page != CSPage.life);
+
+    final scaffold = parent.scaffold;
+    final mainIndex = scaffold.mainIndex;
+    final indexToPage = scaffold.indexToPage;
+    final previousIndex = mainIndex.value;
+    final previousPage = indexToPage[previousIndex];
+    
+    enabledPages.value[page] = true;
+    enabledPages.refresh();
+    mainIndex.set(
+      scaffold.pageToIndex[previousPage]
+    );
+  }
+
+  void togglePage(CSPage page){
+    if(enabledPages.value[page])
+      disablePage(page);
+    else
+      enablePage(page);
   }
 
 }

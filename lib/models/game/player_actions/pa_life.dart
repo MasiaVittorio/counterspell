@@ -8,11 +8,11 @@ class PALife extends PlayerAction {
   const PALife(
     this.increment, 
     {
-      this.minVal = PlayerState.kMinValue, 
-      this.maxVal = PlayerState.kMaxValue,
+      int minVal = PlayerState.kMinValue, 
+      int maxVal = PlayerState.kMaxValue,
     }
-  ):  assert(minVal != null),
-      assert(maxVal != null);
+  ):  minVal = minVal ?? PlayerState.kMinValue,
+      maxVal = maxVal ?? PlayerState.kMaxValue;
 
   @override
   PlayerState apply(PlayerState state) 

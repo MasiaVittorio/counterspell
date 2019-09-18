@@ -30,7 +30,7 @@ abstract class PlayerAction{
       detectedAcions.add(PALife(
         next.life - previous.life, 
         minVal: minVal, 
-        maxVal: maxVal
+        maxVal: maxVal,
       ));
     //LOW PRIORITY: implementa detector per altre azioni
 

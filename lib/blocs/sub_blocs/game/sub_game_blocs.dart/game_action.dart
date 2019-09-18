@@ -93,7 +93,7 @@ class CSGameAction {
 
     if(pageValue == CSPage.life){
       //if they are all deselected this is a null action!
-      if(selectedValue.values.every((b) => !b))
+      if(selectedValue.values.every((b) => b == false))
         return GANull.instance;
 
       return GALife(

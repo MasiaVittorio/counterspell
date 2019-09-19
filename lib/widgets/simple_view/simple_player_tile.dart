@@ -268,6 +268,7 @@ class SimplePlayerTile extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         AnimatedScale(
+          alsoAlign: true,
           scale: scrolling ? scale : 1.0,
           duration: MyDurations.fast,
           child: AnimatedCount(

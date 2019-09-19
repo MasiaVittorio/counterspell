@@ -27,13 +27,24 @@ class CSPanelCollapsed extends StatelessWidget {
         => _panelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward),
       );
 
-      final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
-        => _panelButton(
-          [2,3,4].contains(state.players.length), 
-          Icons.import_contacts, 
-          ()=> showSimpleGroup(context: context, bloc: bloc)
-        )
-      );
+      final simpleDisplayer = gameStateBloc.gameState.build( (context, state){
+        final bool active = [2,3,4].contains(state.players.length);
+        return AnimatedOpacity(
+          duration: MyDurations.fast,
+          opacity: active ? 1.0 : 0.35,
+          child: InkResponse(
+            child: Container(
+              height: CSConstants.barSize,
+              width: CSConstants.barSize,
+              child: Icon(
+                Icons.import_contacts,
+                size: 20.0,
+              ),
+            ),
+            onTap: active ? ()=> showSimpleGroup(context: context, bloc: bloc) : null,
+          )
+        ); 
+      });
 
       final Widget backForward = Row(children: <Widget>[
         simpleDisplayer,
@@ -41,7 +52,7 @@ class CSPanelCollapsed extends StatelessWidget {
         backButton, 
         forwardButton,
         const Spacer(),
-        _fakeButton(),
+        const SizedBox(width: CSConstants.barSize),
       ]);
 
       /// missing: restarter
@@ -86,10 +97,6 @@ class CSPanelCollapsed extends StatelessWidget {
         onTap: active ? action : null,
       )
     );
-  static Widget _fakeButton() => SizedBox(
-    height: CSConstants.barSize,
-    width: CSConstants.barSize * 1.6,
-  );
 }
 
 

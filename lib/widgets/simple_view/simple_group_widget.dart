@@ -84,7 +84,6 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
   Size get buttonSize {
     return Size(_buttonSize,_buttonSize);
   }
-  //TODO: esci // riordina giocatori
   //TODO: delayer sincronizzato
 
   String get firstUnpositionedName {
@@ -139,21 +138,24 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     assert(centerChild != null);
     assert(centerTap != null);
 
-    return Material(
-      animationDuration: MyDurations.fast,
-      elevation: open ? 10 : 4,
-      borderRadius: BorderRadius.circular(_buttonSize/2),
-      child: InkWell(
-        onTap: centerTap,
-        onLongPress: Navigator.of(context).pop,
+    return Opacity(
+      opacity: widget.routeAnimationValue,
+      child: Material(
+        animationDuration: MyDurations.fast,
+        elevation: open ? 10 : 4,
         borderRadius: BorderRadius.circular(_buttonSize/2),
-        child: Container(
-          alignment: Alignment.center,
-          width: _buttonSize,
-          height: _buttonSize,
-          child: AnimatedSwitcher(
-            duration: MyDurations.fast,
-            child:centerChild,
+        child: InkWell(
+          onTap: centerTap,
+          onLongPress: Navigator.of(context).pop,
+          borderRadius: BorderRadius.circular(_buttonSize/2),
+          child: Container(
+            alignment: Alignment.center,
+            width: _buttonSize,
+            height: _buttonSize,
+            child: AnimatedSwitcher(
+              duration: MyDurations.fast,
+              child:centerChild,
+            ),
           ),
         ),
       ),
@@ -179,7 +181,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
   Widget buildButtons(){
     return AnimatedPositioned(
       duration: MyDurations.fast,
-      bottom: open ? 0.0 : - 120,
+      bottom: (open ? 0.0 : - 120) - 120 * (1 -widget.routeAnimationValue),
       left: 0.0,
       right: 0.0,
       child: Container(
@@ -499,32 +501,50 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = widget.group.parent.parent;
+
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor
         .withOpacity(widget.routeAnimationValue),
       child: SafeArea(
         top: true,
-        child: LayoutBuilder(builder: (context, constraints){
-          switch (widget.gameState.players.length) {
-            case 2:
-              return layout2Players(context,
-                constraints: constraints,
-              );
-              break;
-            case 3:
-              return layout3Players(context,
-                constraints: constraints,
-              );
-              break;
-            case 4:
-              return layout4Players(context,
-                constraints: constraints,
-              );
-              break;
-            default:
-              return Container();
-          }
-        }),
+        child: WillPopScope(
+          onWillPop: () async {
+            if(bloc.game.gameAction.actionPending){
+              bloc.scroller.cancel();
+              return false;
+            }
+            if(open){
+              this.setState((){
+                open = false;
+              });
+              return false;
+            }
+
+            return true;
+          },
+          child: LayoutBuilder(builder: (context, constraints){
+            switch (widget.gameState.players.length) {
+              case 2:
+                return layout2Players(context,
+                  constraints: constraints,
+                );
+                break;
+              case 3:
+                return layout3Players(context,
+                  constraints: constraints,
+                );
+                break;
+              case 4:
+                return layout4Players(context,
+                  constraints: constraints,
+                );
+                break;
+              default:
+                return Container();
+            }
+          }),
+        ),
       ),
     );
   }

@@ -95,60 +95,51 @@ class _SimpleGroup extends StatelessWidget {
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
 
-    return WillPopScope(
-      onWillPop: () async {
-        if(bloc.game.gameAction.actionPending){
-          bloc.scroller.cancel();
-          return false;
-        }
-        return true;
+    return bloc.themer.currentWidget(builder: (context, theme) => BlocVar.build4(
+      bloc.scroller.isScrolling,
+      bloc.scroller.intValue,
+      actionBloc.selected,
+      bloc.game.gameState.gameState,
+      builder: (
+        BuildContext context, 
+        bool isScrolling, 
+        int increment,
+        Map<String,bool> selected, 
+        GameState gameState,
+      ) {
+
+        final normalizedPlayerActions = CSGameAction.normalizedAction(
+          pageValue: CSPage.life,
+          selectedValue: selected,
+          gameState: gameState,
+          scrollerValue: increment,
+
+          //these two values are so rarely updated that all the actual
+          //reactive variables make this rebuild so often that min and max
+          //will basically always be correct. no need to add 2 streambuilders
+          minValue: settings.minValue.value,
+          maxValue: settings.maxValue.value,
+        ).actions(gameState.names);
+
+        return AnimatedBuilder(
+          animation: routeAnimationController,
+          builder: (context, _){
+            return SimpleGroupWidget(
+              gameState: gameState,
+              increment: increment,
+              routeAnimationValue: routeAnimationController.value,
+              selectedNames: selected,
+              isScrollingSomewhere: isScrolling,
+              normalizedPlayerActions: normalizedPlayerActions,
+              theme: theme,
+              group: bloc.game.gameGroup,
+              initialNameOrder: bloc.game.gameGroup.alternativeLayoutNameOrder.value,
+              onPositionNames: bloc.game.gameGroup.alternativeLayoutNameOrder.set,
+            );
+          },
+        );
       },
-      child: bloc.themer.currentWidget(builder: (context, theme) => BlocVar.build4(
-        bloc.scroller.isScrolling,
-        bloc.scroller.intValue,
-        actionBloc.selected,
-        bloc.game.gameState.gameState,
-        builder: (
-          BuildContext context, 
-          bool isScrolling, 
-          int increment,
-          Map<String,bool> selected, 
-          GameState gameState,
-        ) {
-
-          final normalizedPlayerActions = CSGameAction.normalizedAction(
-            pageValue: CSPage.life,
-            selectedValue: selected,
-            gameState: gameState,
-            scrollerValue: increment,
-
-            //these two values are so rarely updated that all the actual
-            //reactive variables make this rebuild so often that min and max
-            //will basically always be correct. no need to add 2 streambuilders
-            minValue: settings.minValue.value,
-            maxValue: settings.maxValue.value,
-          ).actions(gameState.names);
-
-          return AnimatedBuilder(
-            animation: routeAnimationController,
-            builder: (context, _){
-              return SimpleGroupWidget(
-                gameState: gameState,
-                increment: increment,
-                routeAnimationValue: routeAnimationController.value,
-                selectedNames: selected,
-                isScrollingSomewhere: isScrolling,
-                normalizedPlayerActions: normalizedPlayerActions,
-                theme: theme,
-                group: bloc.game.gameGroup,
-                initialNameOrder: bloc.game.gameGroup.alternativeLayoutNameOrder.value,
-                onPositionNames: bloc.game.gameGroup.alternativeLayoutNameOrder.set,
-              );
-            },
-          );
-        },
-      )),
-    );
+    ));
   }
 }
 

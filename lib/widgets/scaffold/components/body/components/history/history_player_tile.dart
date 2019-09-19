@@ -3,6 +3,7 @@ import 'package:counter_spell_new/models/game/history_model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/models/game/types/damage_type.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
+import 'package:counter_spell_new/widgets/resources/chip.dart';
 import 'package:flutter/material.dart';
 
 class HistoryPlayerTile extends StatelessWidget {
@@ -79,13 +80,13 @@ class _Change extends StatelessWidget {
     @required this.counters,
   });
 
-  static const double _height = 35;
   
   @override
   Widget build(BuildContext context) {
     final int increment = change.next - change.previous;
-    final String incString = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
-    
+    final String text = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
+    final String subText = "= ${change.next}";
+
     final Color color = CSThemer.getHistoryChipColor(
       attack: change.attack,
       theme: theme,
@@ -100,74 +101,14 @@ class _Change extends StatelessWidget {
       counters: counters,
     );
 
-    final Color textColor = theme.data.colorScheme.onPrimary;
-    
-    final chip = Container(
-      height: _height,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(_height),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            height: _height,
-            width: _height,
-            child: IconTheme(
-              data: theme.data.primaryIconTheme,
-              child: Icon(
-                icon,
-                color: textColor,
-                size: 18,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 4.0, right: 11.0),
-            child: Text(
-              incString,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 12,
-              ),
-            ),
-          ),
-        ],
-      )
-    );
-
-    final littleDarker = theme.data
-      .colorScheme
-      .onSurface
-      .withOpacity(0.1); 
-
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: littleDarker,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(_height / 2),
-            bottom: Radius.circular(_height / 2),
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            chip,
-              Text(
-              "= ${change.next}",
-              style: TextStyle(
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
+  	return SidChip(
+      icon: icon,
+      subText: subText,
+      text: text,
+      color: color,
     );
   }
+
 }
 
 class _Time extends StatelessWidget {

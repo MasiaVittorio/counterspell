@@ -15,6 +15,7 @@ class CSGameGroup {
   // Values
   final CSGame parent;
   PersistentVar<List<String>> names;
+  PersistentVar<Map<int,String>> alternativeLayoutNameOrder;
   StreamSubscription newNamesSub;
 
 
@@ -30,6 +31,21 @@ class CSGameGroup {
         for(final s in json)
           s as String,
       ],
+    );
+    alternativeLayoutNameOrder = PersistentVar<Map<int,String>>(
+      key: "bloc_game_group_blocvar_alternative_layout_name_order",
+      initVal: {
+        for(int i=0; i<this.names.value.length; ++i)
+          i: this.names.value[i],
+      },
+      toJson: (map) => {
+        for(final entry in map.entries)
+          entry.key.toString(): entry.value, 
+      },
+      fromJson: (json) => {
+        for(final entry in (json as Map<String,dynamic>).entries)
+          int.parse(entry.key): entry.value,
+      },
     );
 
     /// [CSGameGroup] Must be initialized after [CSGameState]

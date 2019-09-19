@@ -5,6 +5,7 @@ import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
 import 'package:counter_spell_new/widgets/scaffold/components/panel/delayer.dart';
+import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
 
@@ -26,13 +27,21 @@ class CSPanelCollapsed extends StatelessWidget {
         => _panelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward),
       );
 
-      /// missing: simple displayer
+      final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
+        => _panelButton(
+          [2,3,4].contains(state.players.length), 
+          Icons.import_contacts, 
+          ()=> showSimpleGroup(context: context, bloc: bloc)
+        )
+      );
 
       final Widget backForward = Row(children: <Widget>[
+        simpleDisplayer,
         const Spacer(),
         backButton, 
         forwardButton,
         const Spacer(),
+        _fakeButton(),
       ]);
 
       /// missing: restarter
@@ -77,6 +86,10 @@ class CSPanelCollapsed extends StatelessWidget {
         onTap: active ? action : null,
       )
     );
+  static Widget _fakeButton() => SizedBox(
+    height: CSConstants.barSize,
+    width: CSConstants.barSize * 1.6,
+  );
 }
 
 

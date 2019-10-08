@@ -126,9 +126,9 @@ class CSGameAction {
     maxValue: maxValue,
   ).normalizeOnLast(gameState);
 
-  GameAction get currentNormalizedAction => normalizedAction(
+  GameAction currentNormalizedAction(CSPage page) => normalizedAction(
     scrollerValue: parent.parent.scroller.intValue.value,
-    pageValue: parent.parent.scaffold.page.value,
+    pageValue: page,
     selectedValue: selected.value,
     gameState: parent.gameState.gameState.value,
     minValue: parent.parent.settings.minValue.value,
@@ -172,8 +172,8 @@ class CSGameAction {
 
   //Do not call this manually, let it be called by the isScrolling's "onChanged" method
   // -> if you want to trigger this, just call scroller.forceComplete()
-  void privateConfirm(){
-    this.parent.gameState.applyAction(this.currentNormalizedAction);
+  void privateConfirm(CSPage page){
+    this.parent.gameState.applyAction(this.currentNormalizedAction(page));
     this.clearSelection();
     this.parent.parent.scroller.value = 0.0;
     this.parent.parent.scroller.intValue.set(0);

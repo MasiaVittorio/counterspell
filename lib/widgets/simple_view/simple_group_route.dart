@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sidereus/bloc/bloc_var.dart';
+import 'package:sidereus/sidereus.dart';
 
 const Duration _kCarouselDuration = const Duration(milliseconds: 200);
 const Color _kBarrier = Colors.black12;
@@ -67,8 +68,9 @@ Future<T> showSimpleGroup<T>({
   @required CSBloc bloc,
 }) {
   assert(context != null);
-
-  bloc.scaffold.page.set(CSPage.life);
+  
+  final stageBoard = StageBoard.of(context);
+  stageBoard.pagesController.page = CSPage.life;
   bloc.game.gameAction.clearSelection();
 
   return Navigator.push(context, _SimpleGroupRoute<T>(

@@ -46,9 +46,11 @@ class Delayer extends StatefulWidget {
   final String message;
   final TextStyle style;
   final double circleOffset;
+  final bool half;
 
 
   Delayer({
+    @required this.half,
     @required this.animationListener,
     @required this.onManualCancel,
     @required this.onManualConfirm,
@@ -137,6 +139,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
       return Stack(
         children: <Widget>[
           _Content(
+            half: widget.half,
             message: widget.message,
             style: widget.style,
             color: widget.primaryColor,
@@ -147,6 +150,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
           AnimatedBuilder(
             animation: controller,
             child: _Content(
+              half: widget.half,
               message: widget.message,
               style: widget.style,
               color: widget.accentColor,
@@ -198,8 +202,10 @@ class _Content extends StatelessWidget{
 
   final String message;
   final TextStyle style;
+  final bool half;
 
   _Content({
+    @required this.half,
     @required this.width,
     @required this.height,
     @required this.color,
@@ -216,13 +222,13 @@ class _Content extends StatelessWidget{
       height: this.height,
       alignment: Alignment.topCenter,
       child: Container(
-        height: this.height/2,
+        height: this.height/(half?2:1),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               width: this.height,
-              height: this.height/2,
+              height: this.height/(half?2:1),
               child: Center(
                 child: Icon(
                   MdiIcons.close,

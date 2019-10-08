@@ -1,10 +1,9 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/themer.dart';
-import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
-import 'package:counter_spell_new/widgets/scaffold/components/panel/delayer.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
@@ -72,7 +71,7 @@ class CSPanelCollapsed extends StatelessWidget {
               left: 0.0,
               top: 0.0,
               right: 0.0,
-              height: CSConstants.barSize * 2,
+              height: CSConstants.barSize,
               child: _DelayerPanel(theme: theme, bloc: bloc,),
             ),
           ]
@@ -115,11 +114,12 @@ class _DelayerPanel extends StatelessWidget {
     final themeData = theme.data;
     final canvas = themeData.colorScheme.surface;
     final canvasContrast = themeData.colorScheme.onSurface;
+    final stageBoard = StageBoard.of(context);
+    final page = stageBoard.pagesController.page;
 
-    return BlocVar.build5(
+    return BlocVar.build4(
       scroller.isScrolling,
       scroller.intValue,
-      bloc.scaffold.page,
       bloc.settings.confirmDelay,
       actionBloc.isCasting,
       distinct: true,
@@ -127,7 +127,6 @@ class _DelayerPanel extends StatelessWidget {
         BuildContext context, 
         bool scrolling,
         int increment,
-        CSPage page,
         Duration confirmDelay,
         bool casting,
       ){
@@ -147,6 +146,7 @@ class _DelayerPanel extends StatelessWidget {
           child: IgnorePointer(
             ignoring: scrolling ? false : true,
             child: Delayer(
+              half: false,
               message: increment >= 0 ? '+ $increment' : '- ${- increment}',
 
               delayerController: scroller.delayerController,
@@ -160,7 +160,7 @@ class _DelayerPanel extends StatelessWidget {
               onAccentColor: themeData.colorScheme.onPrimary,
               style: themeData.primaryTextTheme.body1,
 
-              height: CSConstants.barSize * 2,
+              height: CSConstants.barSize,
               duration: confirmDelay,
               circleOffset: 44, //Floating Action Button
             ),

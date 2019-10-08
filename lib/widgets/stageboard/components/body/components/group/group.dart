@@ -1,6 +1,5 @@
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
-import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +18,10 @@ class BodyGroup extends StatelessWidget {
   final CSGameGroup group;
   final CSTheme theme;
   final bool landScape;
+  final double maxWidth;
   
   const BodyGroup(this.names,{
+    @required this.maxWidth,
     @required this.theme,
     @required this.count,
     @required this.group,
@@ -35,9 +36,10 @@ class BodyGroup extends StatelessWidget {
     final bloc = group.parent.parent;
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
+    final stageBoard = StageBoard.of(context);
+    final page = stageBoard.pagesController.page;
 
-    return BlocVar.build9(
-      bloc.scaffold.page,
+    return BlocVar.build8(
       bloc.scroller.isScrolling,
       bloc.scroller.intValue,
       actionBloc.selected,
@@ -48,7 +50,6 @@ class BodyGroup extends StatelessWidget {
       bloc.game.gameState.gameState,
       builder: (
         BuildContext context, 
-        CSPage page, 
         bool isScrolling, 
         int increment,
         Map<String,bool> selected, 
@@ -77,6 +78,7 @@ class BodyGroup extends StatelessWidget {
           for(final name in names)
             PlayerTile(
               name, 
+              maxWidth: maxWidth,
               increment: increment,
               theme: theme,
               group: group,

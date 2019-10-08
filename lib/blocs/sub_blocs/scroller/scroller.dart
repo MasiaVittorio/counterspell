@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/widgets/scaffold/components/panel/delayer.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/bloc/bloc_var.dart';
 import 'package:vibrate/vibrate.dart';
@@ -39,7 +39,7 @@ class CSScroller {
   {
     isScrolling = BlocVar<bool>(false, onChanged: (b){
       if(b == false){
-        parent.game.gameAction.privateConfirm();
+        parent.game.gameAction.privateConfirm(parent.stageBoard.controller.pagesController.page);
       }
     });
   }
@@ -52,14 +52,14 @@ class CSScroller {
   // Actions 
 
   static const double _maxVel = 600;
-  void onDragUpdate(CSDragUpdateDetails details){
+  void onDragUpdate(CSDragUpdateDetails details, double width){
     if(ignoringThisPan) return;
 
     this.delayerController.scrolling();
 
     final double vx = details.velocity.pixelsPerSecond.dx;
     final double multiplier = (vx / _maxVel).abs().clamp(0.0, 1.0) * 0.7 + 0.3;
-    final double width = this.parent.scaffold.dimensions.value.globalWidth;
+    // final double width = this.parent.scaffold.dimensions.value.globalWidth;
     final double max = this.parent.settings.scrollSensitivity.value;
     final double fraction = details.delta.dx / width;
 

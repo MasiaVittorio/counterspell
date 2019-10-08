@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/counter_icons.dart';
+import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +16,17 @@ class CSFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context);
-    final controller = bloc.scaffold.controller;
+    final stageBoard = StageBoard.of<CSPage,dynamic>(context);
+    final CSPage page = stageBoard.pagesController.page;
+    final bool open = stageBoard.panelController.isMostlyOpened;
 
-    return bloc.scaffold.reactiveBuild((context, theme, page, open, casting, counter)
-      => bloc.scroller.isScrolling.build((context, scrolling){
-
+    return BlocVar.build4(
+      bloc.game.gameAction.isCasting,
+      bloc.game.gameAction.counterSet.variable,
+      bloc.scroller.isScrolling,
+      bloc.themer.themeSet.variable,
+      builder:(context,casting, counter, bool scrolling, CSTheme theme){
+     
         final themeData = theme.data;
 
         Color color;
@@ -31,7 +38,7 @@ class CSFab extends StatelessWidget {
 
           color = themeData.primaryColor;
           callback = (){
-            controller.close();
+            stageBoard.panelController.closePanel();
             //bloc.themer.pickTheme();
           };
           icon = Icons.palette;
@@ -114,7 +121,7 @@ class CSFab extends StatelessWidget {
             ),
           ),
         );
-      }),
+      }
     );
   }
 }

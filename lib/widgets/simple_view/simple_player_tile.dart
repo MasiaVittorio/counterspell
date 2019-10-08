@@ -5,7 +5,7 @@ import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
-import 'package:counter_spell_new/widgets/scaffold/components/body/components/group/player_tile_gestures.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_gestures.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
@@ -139,6 +139,7 @@ class SimplePlayerTile extends StatelessWidget {
                     onPanUpdate: (details) => PlayerGestures.pan(
                       details,
                       name,
+                      constraints.maxWidth,
                       bloc: bloc,
                       page: CSPage.life,
                     ),

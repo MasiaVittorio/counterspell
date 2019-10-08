@@ -1,5 +1,5 @@
 export 'game/game.dart';
-export 'scaffold.dart';
+export 'stageboard_bloc.dart';
 export 'scroller/scroller.dart';
 export 'settings.dart';
 export 'themer.dart';

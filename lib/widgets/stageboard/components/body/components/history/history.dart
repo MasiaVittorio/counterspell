@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/models/game/types/counters.dart';
-import 'package:counter_spell_new/widgets/scaffold/components/body/components/history/history_tile.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/body/components/history/history_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
 
@@ -30,8 +30,8 @@ class BodyHistory extends StatelessWidget {
     final bloc = group.parent.parent;
     final game = group.parent;
     final history = game.gameHistory;
-    final scaffold = bloc.scaffold;
     final settings = bloc.settings;
+    final stageBoard = StageBoard.of(context);
 
     return settings.enabledCounters.build((context, enabled){
 
@@ -61,7 +61,7 @@ class BodyHistory extends StatelessWidget {
         physics: SidereusScrollPhysics(
           topBounce: true,
           bottomBounce: false,
-          topBounceCallback: () => scaffold.page.set(CSPage.life),
+          topBounceCallback: () => stageBoard.pagesController.page = CSPage.life,
           alwaysScrollable: true,
         ),
         shrinkWrap: false,

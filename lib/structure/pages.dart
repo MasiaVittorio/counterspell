@@ -26,7 +26,12 @@ const Map<CSPage, String> CSPAGE_TITLES_LONG = {
   CSPage.history: "History Screen",
   CSPage.counters: "Other Counters",
   CSPage.life: "Life Counter",
+  //never really shown
   CSPage.commander: "Commander Screen",
+};
+const Map<bool,String> CASTING_TITLES_LONG = {
+  true: "Commander Cast" ,
+  false: "Commander Damage",
 };
 const Map<CSPage, String> CSPAGE_TITLES_SHORT = {
   CSPage.history: "History",

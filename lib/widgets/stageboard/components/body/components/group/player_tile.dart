@@ -6,7 +6,7 @@ import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
-import 'package:counter_spell_new/widgets/scaffold/components/body/components/group/player_tile_gestures.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 
@@ -26,8 +26,10 @@ class PlayerTile extends StatelessWidget {
   final CSTheme theme;
   final int increment;
   final Map<String,PlayerAction> normalizedPlayerActions;
+  final double maxWidth;
 
   const PlayerTile(this.name, {
+    @required this.maxWidth,
     @required this.group,
     @required this.tileSize,
     @required this.coreTileSize,
@@ -102,6 +104,7 @@ class PlayerTile extends StatelessWidget {
           onPanUpdate: (details) => PlayerGestures.pan(
             details,
             name,
+            maxWidth,
             bloc: bloc,
             page: page,
           ),

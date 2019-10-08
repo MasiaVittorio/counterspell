@@ -4,7 +4,7 @@ import 'package:counter_spell_new/models/game/history_model.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
 
-import 'package:counter_spell_new/widgets/scaffold/components/body/components/history/history_tile.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/body/components/history/history_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/animated_widgets/animated_list/sid_animated_list.dart';
 

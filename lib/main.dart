@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
-import 'package:counter_spell_new/widgets/scaffold/homepage.dart';
+import 'package:counter_spell_new/widgets/stageboard/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/bloc/bloc_provider.dart';
 
@@ -33,10 +33,8 @@ class _ScryWalkerState extends State<ScryWalker> {
             title: 'ScryWalker',
             home: LayoutBuilder( builder: (context, constraints) {
 
+              //TODO: togli context pure
               bloc.context = context;
-
-              bloc.scaffold.updateDimensions(context, constraints);
-              // bloc.themer.updateBrightness();
 
               return const CSHomePage(key: KEY_HOME_PAGE);
             }),

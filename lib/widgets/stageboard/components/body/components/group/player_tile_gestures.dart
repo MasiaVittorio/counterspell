@@ -7,13 +7,14 @@ import 'package:flutter/material.dart';
 class PlayerGestures{
 
   static void _returnToLife(CSBloc bloc){
-    if(bloc.scaffold.page.value == CSPage.life)
+    final stageBoard = bloc.stageBoard.controller;
+    if(stageBoard.pagesController.page == CSPage.life)
       return;
-    bloc.scaffold.page.set(CSPage.life);
+    stageBoard.pagesController.page = CSPage.life;
     bloc.scroller.ignoringThisPan = true;
   }
 
-  static void pan(CSDragUpdateDetails details, String name, {
+  static void pan(CSDragUpdateDetails details, String name, double width, {
     @required CSPage page,
     @required CSBloc bloc,
   }){
@@ -33,14 +34,14 @@ class PlayerGestures{
           actionBloc.selected.value[name] = true;
           actionBloc.selected.refresh();
         }
-        scrollerBloc.onDragUpdate(details);
+        scrollerBloc.onDragUpdate(details, width);
         return;
         break;
       case CSPage.commander:
         if(actionBloc.isSomeoneAttacking){
           actionBloc.defendingPlayer.set(name);
         }
-        scrollerBloc.onDragUpdate(details);
+        scrollerBloc.onDragUpdate(details, width);
         return;
         break;
       default:

@@ -19,8 +19,10 @@ class BodyGroup extends StatelessWidget {
   final CSTheme theme;
   final bool landScape;
   final double maxWidth;
+  final double bottom;
   
   const BodyGroup(this.names,{
+    @required this.bottom,
     @required this.maxWidth,
     @required this.theme,
     @required this.count,
@@ -98,16 +100,19 @@ class BodyGroup extends StatelessWidget {
 
         return Material(
           elevation: 8,
-          child: Column(children: !landScape 
-            ? children
-            : [
-              for(final couple in partition(children,2))
-                Row(children: <Widget>[
-                  Expanded(child: couple[0]),
-                  if(couple.length == 2)
-                    Expanded(child: couple[1],)
-                ],),
-            ],
+          child: Padding(
+            padding: EdgeInsets.only(bottom: bottom),
+            child: Column(children: !landScape 
+              ? children
+              : [
+                for(final couple in partition(children,2))
+                  Row(children: <Widget>[
+                    Expanded(child: couple[0]),
+                    if(couple.length == 2)
+                      Expanded(child: couple[1],)
+                  ],),
+              ],
+            ),
           ),
         );
 

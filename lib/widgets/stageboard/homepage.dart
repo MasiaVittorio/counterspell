@@ -20,16 +20,18 @@ class CSHomePage extends StatelessWidget {
       openedPanelOverNavBar: true,
 
       controller: CSBloc.of(context).stageBoard.controller,
-      collapsedPanelBuilder: (context, val, child) => IgnorePointer(
-        ignoring: val != 0.0,
-        child: Opacity(
-          opacity: 1-val,
-          child: child,
-        ),
-      ),
+      collapsedPanelBuilder: (context, val, child) {
+        return IgnorePointer(
+          ignoring: val != 0.0,
+          child: Opacity(
+            opacity: 1-val,
+            child: child,
+          ),
+        );
+      },
       collapsedPanelChild: const CSPanelCollapsed(key: KEY_COLLAPSED,),
 
-      extendedPanelChild: const SizedBox(),
+      extendedPanelChild: const CSPanelExtended(),
 
       body: const CSBody(),
 
@@ -38,7 +40,7 @@ class CSHomePage extends StatelessWidget {
 
       backToClosePanel: true,
       backToDefaultPageClosed: true,
-      backToDefaultPageOpened: true,
+      backToDefaultPageOpened: false,
       backToPreviousPageClosed: false,
       backToPreviousPageOpened: false,
 

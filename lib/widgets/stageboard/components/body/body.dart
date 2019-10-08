@@ -50,69 +50,72 @@ class CSBody extends StatelessWidget {
         final int rowCount = landScape 
           ? (count / 2).ceil()
           : count;
-        final sureConstraints = constraints.copyWith(
-          maxHeight: constraints.maxHeight - stageBoard.collapsedPanelSize/2,
-          minHeight: constraints.maxHeight - stageBoard.collapsedPanelSize/2,
+
+        //padding to account for the half collapsed panel that is visible over the body
+        final bottom = stageBoard.collapsedPanelSize/2;
+
+        final _sureConstraints = constraints.copyWith(
+          maxHeight: constraints.maxHeight - bottom,
+          minHeight: constraints.maxHeight - bottom,
         );
         final double tileSize = CSConstants.computeTileSize(
-          sureConstraints, 
+          _sureConstraints, 
           _coreTileSize, 
           rowCount,
         );
 
-        final double totalSize = tileSize * rowCount;
+        final double totalSize = tileSize * rowCount + bottom;
 
-        return Material(
-          child: Padding(
-            padding: EdgeInsets.only(bottom: stageBoard.collapsedPanelSize/2),
-            child: ConstrainedBox(
-              constraints: sureConstraints,
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  width: sureConstraints.maxWidth,
-                  height: totalSize,
-                  child: themer.themeSet.build((_, theme) 
-                    => Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        if(!landScape)
-                          Positioned.fill(
-                            right: CSConstants.minTileSize,
-                            child: BodyHistory(
-                              theme: theme,
-                              count: count,
-                              tileSize: tileSize,
-                              group: group,
-                              names: names,
-                              coreTileSize: _coreTileSize,
-                            ),
-                          ),
-
-                        AnimatedPositioned(
-                          duration: MyDurations.fast,
-                          top: 0.0,
-                          bottom: 0.0,
-                          width: constraints.maxWidth,
-                          left: currentPage == CSPage.history 
-                            ? constraints.maxWidth - CSConstants.minTileSize
-                            : 0.0,
-
-                          child: BodyGroup(
-                            names,
-                            maxWidth: constraints.maxWidth,
-                            count: count,
-                            tileSize: tileSize,
-                            coreTileSize: _coreTileSize,
-                            theme: theme,
-                            group: group,
-                            landScape: landScape,
-                          ),
+        return ConstrainedBox(
+          constraints: constraints,
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: constraints.maxWidth,
+              height: totalSize,
+              child: themer.themeSet.build((_, theme) 
+                => Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    if(!landScape)
+                      Positioned.fill(
+                        right: CSConstants.minTileSize,
+                        child: BodyHistory(
+                          bottom: bottom,
+                          theme: theme,
+                          count: count,
+                          tileSize: tileSize,
+                          group: group,
+                          names: names,
+                          coreTileSize: _coreTileSize,
                         ),
+                      ),
 
-                      ],
-                    )
-                  ),
-                ),
+                    AnimatedPositioned(
+                      duration: MyDurations.fast,
+                      top: 0.0,
+                      bottom: 0.0,
+                      width: constraints.maxWidth,
+                      left: currentPage == CSPage.history 
+                        ? constraints.maxWidth - CSConstants.minTileSize
+                        : 0.0,
+
+                      child: Material(
+                        child: BodyGroup(
+                          names,
+                          bottom: bottom,
+                          maxWidth: constraints.maxWidth,
+                          count: count,
+                          tileSize: tileSize,
+                          coreTileSize: _coreTileSize,
+                          theme: theme,
+                          group: group,
+                          landScape: landScape,
+                        ),
+                      ),
+                    ),
+
+                  ],
+                )
               ),
             ),
           ),

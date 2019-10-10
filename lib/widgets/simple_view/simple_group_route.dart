@@ -96,6 +96,8 @@ class _SimpleGroup extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
+    final stageBoard = StageBoard.of(context);
+    final pageThemes = stageBoard.pagesController.pageThemes;
 
     return bloc.themer.currentWidget(builder: (context, theme) => BlocVar.build4(
       bloc.scroller.isScrolling,
@@ -127,6 +129,7 @@ class _SimpleGroup extends StatelessWidget {
           animation: routeAnimationController,
           builder: (context, _){
             return SimpleGroupWidget(
+              pageThemes: pageThemes,
               gameState: gameState,
               increment: increment,
               routeAnimationValue: routeAnimationController.value,

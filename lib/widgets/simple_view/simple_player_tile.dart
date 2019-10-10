@@ -16,6 +16,7 @@ class SimplePlayerTile extends StatelessWidget {
   final bool isScrollingSomewhere;
   final GameState gameState;
   final CSTheme theme;
+  final Map<CSPage,StageBoardPageTheme> pageThemes;
   final int increment;
   final Map<String,PlayerAction> normalizedPlayerActions;
   final BoxConstraints constraints;
@@ -28,6 +29,7 @@ class SimplePlayerTile extends StatelessWidget {
   final double routeAnimationValue;
 
   SimplePlayerTile(this.index, {
+    @required this.pageThemes,
     @required this.indexToName,
     @required this.onPosition,
     @required this.buttonAlignment,
@@ -313,8 +315,8 @@ class SimplePlayerTile extends StatelessWidget {
 
     if(page == CSPage.history){
     } else {
-
-      final Color color = theme.pageColors[CSPage.life];
+      
+      final Color color = pageThemes[CSPage.life].primaryColor;
 
       final normalizedPlayerAction = normalizedPlayerActions[name];
       int _increment;
@@ -369,7 +371,7 @@ class SimplePlayerTile extends StatelessWidget {
                 // height: coreTileSize,
                 child: Checkbox(
                   value: rawSelected,
-                  activeColor: theme.pageColors[CSPage.life],
+                  activeColor: pageThemes[CSPage.life].primaryColor,
                   tristate: true,
                   onChanged: (b) {
                     actionBloc.selected.value[name] = rawSelected == false ? true : false;

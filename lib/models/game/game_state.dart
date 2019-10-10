@@ -130,6 +130,8 @@ class GameState {
   void addNewPlayer(String name, {int startingLife = 20}){
     assert(startingLife != null);
     assert(!this.players.containsKey(name));
+    assert(name != null);
+    assert(name != "");
 
     final Player player = Player.start(
       name, 

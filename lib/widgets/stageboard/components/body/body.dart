@@ -22,8 +22,9 @@ class CSBody extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
     final themer = bloc.themer;
-    final stageBoard = StageBoard.of<CSPage,dynamic>(context);
+    final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
     final currentPage = stageBoard.pagesController.page;
+    final pageThemes = stageBoard.pagesController.pageThemes;
 
     return LayoutBuilder(builder: (context, constraints)
       => group.names.build((context, names){
@@ -82,6 +83,7 @@ class CSBody extends StatelessWidget {
                         child: BodyHistory(
                           bottom: bottom,
                           theme: theme,
+                          pageThemes: pageThemes,
                           count: count,
                           tileSize: tileSize,
                           group: group,

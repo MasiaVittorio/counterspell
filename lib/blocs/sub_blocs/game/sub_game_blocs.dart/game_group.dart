@@ -57,9 +57,13 @@ class CSGameGroup {
           names.value.add(name);
       }
 
+      final List<String> toBeRemoved = [];
       for(final name in names.value){
         if(!_names.contains(name))
-          names.value.remove(name);
+          toBeRemoved.add(name);
+      }
+      for(final name in toBeRemoved){
+        names.value.remove(name);        
       }
 
       names.refresh();

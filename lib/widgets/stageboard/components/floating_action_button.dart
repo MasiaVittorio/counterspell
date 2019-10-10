@@ -16,9 +16,10 @@ class CSFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context);
-    final stageBoard = StageBoard.of<CSPage,dynamic>(context);
+    final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
     final CSPage page = stageBoard.pagesController.page;
     final bool open = stageBoard.panelController.isMostlyOpened;
+    final Map<CSPage,StageBoardPageTheme> pageThemes = stageBoard.pagesController.pageThemes;
 
     return BlocVar.build4(
       bloc.game.gameAction.isCasting,
@@ -58,14 +59,14 @@ class CSFab extends StatelessWidget {
 
           color = casting 
             ? theme.commanderAttack 
-            : theme.pageColors[CSPage.commander];
+            : pageThemes[CSPage.commander].primaryColor;
           icon = casting 
             ? ATTACK_ICON_ALT
             : CounterIcons.command_cast_outlined;
 
         } else {
 
-          color = theme.pageColors[page];
+          color = pageThemes[page].primaryColor;
           iconColor = themeData.colorScheme.onPrimary;
 
           switch (page) {

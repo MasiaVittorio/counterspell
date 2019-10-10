@@ -91,3 +91,22 @@ final Map<CSPage,String> botLongNameMap = {
   CSPage.history: 'History Screen',
   // CSPages.cas: 'Commander Casts',
 };
+
+enum SettingsPage{
+  game,
+  settings,
+  info,
+  theme,
+}
+const Map<SettingsPage,String> SETTINGS_PAGE_TO_STRING = <SettingsPage,String>{
+  SettingsPage.game: "SettingsPage.game",
+  SettingsPage.settings: "SettingsPage.settings",
+  SettingsPage.info: "SettingsPage.info",
+  SettingsPage.theme: "SettingsPage.theme",
+};
+const Map<String,SettingsPage> STRING_TO_SETTINGS_PAGE = <String,SettingsPage>{
+  "SettingsPage.game": SettingsPage.game,
+  "SettingsPage.settings": SettingsPage.settings,
+  "SettingsPage.info": SettingsPage.info,
+  "SettingsPage.theme": SettingsPage.theme,
+};

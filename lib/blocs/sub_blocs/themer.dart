@@ -7,7 +7,6 @@ import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/themes/preset_themes.dart';
 import 'package:flutter/material.dart';
-import 'package:sidereus/reusable_widgets/material_color_picker/sheet_color_picker.dart';
 import 'package:sidereus/sidereus.dart';
 
 import '../bloc.dart';
@@ -207,31 +206,31 @@ class CSThemer {
 
 
 
-  void _pop() => Navigator.pop(this.parent.context);
+  // void _pop() => Navigator.pop(this.parent.context);
 
 
 
-  void pickColor({
-    Color initialColor, 
-    @required void Function(Color color) onColor
-  }){
+  // void pickColor({
+  //   Color initialColor, 
+  //   @required void Function(Color color) onColor
+  // }){
 
-    final Widget _sheet = SheetColorPicker(
-      color: initialColor ?? Colors.red[500],
-      onSubmitted: (Color c) {
-        _pop();
-        onColor(c);
-      },
-      bottomPadding: this.parent.bottomPadding,
-      underscrollCallback: _pop,
-    );
+  //   final Widget _sheet = SheetColorPicker(
+  //     color: initialColor ?? Colors.red[500],
+  //     onSubmitted: (Color c) {
+  //       _pop();
+  //       onColor(c);
+  //     },
+  //     bottomPadding: this.parent.bottomPadding,
+  //     underscrollCallback: _pop,
+  //   );
 
-    this.parent.buildSheet(
-      _sheet, 
-      resizeToAvoidBottomPadding: false, 
-      materialColor: Colors.transparent, 
-    );
-  }
+  //   this.parent.buildSheet(
+  //     _sheet, 
+  //     resizeToAvoidBottomPadding: false, 
+  //     materialColor: Colors.transparent, 
+  //   );
+  // }
 
 
   static Color getScreenColor({
@@ -239,6 +238,7 @@ class CSThemer {
     @required CSPage page, 
     @required bool casting, 
     @required bool open,
+    @required Map<CSPage,StageBoardPageTheme> pageThemes,
   }){
       if(open){ //panel
         return theme.data.primaryColor;
@@ -246,18 +246,19 @@ class CSThemer {
       if(page == CSPage.commander && !casting){
         return theme.commanderAttack;
       }
-      return theme.pageColors[page];
+      return pageThemes[page].primaryColor;
   }
 
   static Color getHistoryChipColor({
     @required DamageType type,
     @required bool attack,
     @required CSTheme theme,
+    @required Map<CSPage,StageBoardPageTheme> pageThemes,
   }){
     if(type == DamageType.commanderDamage){
       return attack ? theme.commanderAttack : theme.commanderDefence;
     } else {
-      return theme.pageColors[damageToPage[type]];
+      return pageThemes[damageToPage[type]].primaryColor;
     }
   }
 

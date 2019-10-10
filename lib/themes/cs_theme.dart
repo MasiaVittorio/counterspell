@@ -15,7 +15,7 @@ const String _kAmoled = "Amoled";
 const String _kNightBlue = "Night Blue";
 
 class CSTheme {
-  final Map<CSPage, Color> pageColors;
+  // final Map<CSPage, Color> pageColors;
   //CSPage.commander => cast!
   final Color commanderAttack;
   final Color commanderDefence;
@@ -26,7 +26,7 @@ class CSTheme {
   bool get dark => !this.light;
   
   const CSTheme({
-    @required this.pageColors,
+    // @required this.pageColors,
     @required this.commanderAttack,
     @required this.commanderDefence,
     @required this.accent,
@@ -35,10 +35,10 @@ class CSTheme {
   });
 
   CSTheme copy() => CSTheme(
-    pageColors: {
-      for(final entry in pageColors.entries)
-        entry.key: entry.value,
-    },
+    // pageColors: {
+    //   for(final entry in pageColors.entries)
+    //     entry.key: entry.value,
+    // },
     commanderAttack: Color(this.commanderAttack.value+0),
     commanderDefence: Color(this.commanderAttack.value+0),
     accent: Color(this.accent.value +0),
@@ -56,10 +56,10 @@ class CSTheme {
   }) => CSTheme(
     commanderAttack: commanderAttack ?? this.commanderAttack,
     commanderDefence: commanderDefence ?? this.commanderDefence,
-    pageColors: pageColors ?? {
-      for(final entry in this.pageColors.entries)
-        entry.key: entry.value,
-    },
+    // pageColors: pageColors ?? {
+    //   for(final entry in this.pageColors.entries)
+    //     entry.key: entry.value,
+    // },
     accent: accent ?? Color(this.accent.value +0),
     light: light ?? (this.light ? true : false),
     darkStyle: darkStyle ?? this.darkStyle,
@@ -68,10 +68,10 @@ class CSTheme {
   CSTheme.fromJson(Map<String,dynamic> json):
     this.commanderAttack = Color(json["commander_attack"]),
     this.commanderDefence = Color(json["commander_defence"]),
-    this.pageColors = {
-      for(final entry in json["page_colors"].entries)
-        STRING_TO_CSPAGE[entry.key] : Color(entry.value),
-    },
+    // this.pageColors = {
+    //   for(final entry in json["page_colors"].entries)
+    //     STRING_TO_CSPAGE[entry.key] : Color(entry.value),
+    // },
     this.accent = Color(json["accent"]),
     this.light = json["light"],
     this.darkStyle = darkNamesMapReversed[json["dark_style"]];
@@ -79,10 +79,10 @@ class CSTheme {
   Map<String,dynamic> toJson() => {
     "commander_attack": this.commanderAttack.value,
     "commander_defence": this.commanderDefence.value,
-    "page_colors": {
-      for(final entry in this.pageColors.entries)
-        CSPAGE_TO_STRING[entry.key] : entry.value.value,
-    },
+    // "page_colors": {
+    //   for(final entry in this.pageColors.entries)
+    //     CSPAGE_TO_STRING[entry.key] : entry.value.value,
+    // },
     "accent": this.accent.value,
     "light": this.light,
     "dark_style": darkNamesMap[this.darkStyle],
@@ -173,13 +173,13 @@ const Color _textColorLight = Color(0xA5000000);
 
 const _textStyleLight = TextStyle(
   inherit: true,
-  fontWeight: FontWeight.w700,
+  fontWeight: _fontWeight,
   color: _textColorLight,
 );
 const _bodyTextStyleLight = TextStyle(
   inherit: true,
   fontSize: 14.0,
-  fontWeight: FontWeight.w700,
+  fontWeight: _fontWeight,
   color: _textColorLight,
 );
 
@@ -201,13 +201,13 @@ const _textThemeLight = TextTheme(
 
 const _textStyleDark = TextStyle(
   inherit: true,
-  fontWeight: FontWeight.w700,
+  fontWeight: _fontWeight,
   color: Color(0xCCFFFFFF),
 );
 const _bodyTextStyleDark = TextStyle(
   inherit: true,
   fontSize: 14.0,
-  fontWeight: FontWeight.w700,
+  fontWeight: _fontWeight,
   color: Color(0xCCFFFFFF),
 );
 
@@ -229,13 +229,13 @@ const _textThemeDark = TextTheme(
 
 const _textStyle = TextStyle(
   inherit: true,
-  fontWeight: FontWeight.w700,
+  fontWeight: _fontWeight,
 );
 
 const _bodyTextStyle = TextStyle(
   inherit: true,
   fontSize: 14.0,
-  fontWeight: FontWeight.w700,
+  fontWeight: _fontWeight,
 );
 
 const _textTheme = TextTheme(
@@ -253,3 +253,6 @@ const _textTheme = TextTheme(
   subtitle: _textStyle,
   overline: _textStyle,
 );
+
+
+const _fontWeight = FontWeight.w600;

@@ -39,6 +39,7 @@ class BodyGroup extends StatelessWidget {
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
     final stageBoard = StageBoard.of(context);
+    final pageThemes = stageBoard.pagesController.pageThemes;
     final page = stageBoard.pagesController.page;
 
     return BlocVar.build8(
@@ -80,6 +81,7 @@ class BodyGroup extends StatelessWidget {
           for(final name in names)
             PlayerTile(
               name, 
+              pageThemes: pageThemes,
               maxWidth: maxWidth,
               increment: increment,
               theme: theme,

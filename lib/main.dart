@@ -1,8 +1,10 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
+import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/widgets/stageboard/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/bloc/bloc_provider.dart';
+import 'package:sidereus/sidereus.dart';
 
 void main() => runApp(ScryWalker());
 
@@ -26,19 +28,16 @@ class _ScryWalkerState extends State<ScryWalker> {
   Widget build(context) {
     return BlocProvider<CSBloc>(
       bloc: bloc,
-      child: bloc.themer.currentWidget(
-        builder: (context, theme)
-          => MaterialApp(
-            theme: theme.data, //so all the sheets under the navigator get the new theme
-            title: 'ScryWalker',
-            home: LayoutBuilder( builder: (context, constraints) {
-
-              //TODO: togli context pure
-              bloc.context = context;
-
-              return const CSHomePage(key: KEY_HOME_PAGE);
-            }),
-          )
+      child: StageBoardProvider<CSPage,SettingsPage>(
+        data: bloc.stageBoard.controller,
+        child: bloc.themer.currentWidget(
+          builder: (context, theme)
+            => MaterialApp(
+              theme: theme.data, //so all the sheets under the navigator get the new theme
+              title: 'ScryWalker',
+              home: const CSHomePage(key: KEY_HOME_PAGE),
+            )
+        ),
       ),
     );
   }

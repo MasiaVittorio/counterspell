@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs.dart/game_group.dart';
 import 'package:counter_spell_new/models/game/game_state.dart';
 import 'package:counter_spell_new/models/game/player_action.dart';
+import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
@@ -15,6 +16,7 @@ class SimpleGroupWidget extends StatefulWidget {
   final int increment;
   final CSGameGroup group;
   final CSTheme theme;
+  final Map<CSPage,StageBoardPageTheme> pageThemes;
   final Map<String,PlayerAction> normalizedPlayerActions;
 
   final double routeAnimationValue;
@@ -24,6 +26,7 @@ class SimpleGroupWidget extends StatefulWidget {
   final void Function(Map<int,String>) onPositionNames;
 
   const SimpleGroupWidget({
+    @required this.pageThemes,
     @required this.theme,
     @required this.gameState,
     @required this.selectedNames,
@@ -493,6 +496,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     isScrollingSomewhere: widget.isScrollingSomewhere,
     gameState: widget.gameState,
     theme: widget.theme,
+    pageThemes: widget.pageThemes,
     selectedNames: widget.selectedNames,
     normalizedPlayerActions: widget.normalizedPlayerActions,
 

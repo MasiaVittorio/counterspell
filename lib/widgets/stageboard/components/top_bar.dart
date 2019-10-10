@@ -14,9 +14,14 @@ class CSTopBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final bloc = CSBloc.of(context);
-    final stageBoard = StageBoard.of<CSPage,dynamic>(context);
+    final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
     final CSPage page = stageBoard.pagesController.page;
     final bool open = stageBoard.panelController.isMostlyOpened;
+
+    final color = stageBoard.currentPrimaryColor ?? Theme.of(context).primaryColor;
+    final textColor = ThemeData.estimateBrightnessForColor(color) == Brightness.dark 
+      ? Colors.white
+      : Colors.black;
 
     return BlocVar.build2(
       bloc.game.gameAction.isCasting,
@@ -26,20 +31,20 @@ class CSTopBarTitle extends StatelessWidget {
         String text = "";
         if(open){
           text = "CounterSpell";
-        }
-        if(page == CSPage.counters){
+        } else if(page == CSPage.counters){
           text = counter.longName;
-        }
-        else if(page == CSPage.commander){
+        } else if(page == CSPage.commander){
           text = casting ? "Commander Cast" : "Commander Damage";
+        } else {
+          text = CSPAGE_TITLES_LONG[page];
         }
-        else text = CSPAGE_TITLES_LONG[page];
 
         return AnimatedText(
           duration: MyDurations.fast,
           text: text,
           style: Theme.of(context).primaryTextTheme.title.copyWith(
-            fontWeight: FontWeight.w600
+            fontWeight: FontWeight.w600,
+            color: textColor,
           ),
         );
 

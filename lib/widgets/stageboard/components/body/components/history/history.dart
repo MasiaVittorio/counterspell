@@ -15,6 +15,7 @@ class BodyHistory extends StatelessWidget {
   final double coreTileSize;
   final CSTheme theme;
   final double bottom;
+  final Map<CSPage,StageBoardPageTheme> pageThemes;
 
   const BodyHistory({
     @required this.names,
@@ -24,6 +25,7 @@ class BodyHistory extends StatelessWidget {
     @required this.tileSize,
     @required this.coreTileSize,
     @required this.theme,
+    @required this.pageThemes,
   });
   
   @override
@@ -56,6 +58,7 @@ class BodyHistory extends StatelessWidget {
                 coreTileSize: coreTileSize,
                 avoidInteraction: false,
                 theme: theme,
+                pageThemes: pageThemes,
                 counters: counters,
                 names: names,
               ),

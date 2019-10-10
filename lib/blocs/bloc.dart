@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:counter_spell_new/blocs/sub_blocs/blocs.dart';
-import 'package:counter_spell_new/widgets/resources/confirm_alert_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sidereus/sidereus.dart';
@@ -25,9 +22,8 @@ class CSBloc extends BlocBase {
   //=============================
   // Values 
 
-  BuildContext context;
 
-  SheetsBloc sheetsBloc;
+  // SheetsBloc sheetsBloc;
 
   CSGame game;
   CSStageBoard stageBoard;
@@ -42,7 +38,7 @@ class CSBloc extends BlocBase {
   // Constructor 
 
   CSBloc(){
-    sheetsBloc = SheetsBloc(this);
+    // sheetsBloc = SheetsBloc(this);
     game = CSGame(this);
     settings = CSSettings(this);
     stageBoard = CSStageBoard(this);
@@ -56,11 +52,11 @@ class CSBloc extends BlocBase {
   //=====================================
   // Getters
 
-  double get bottomPadding => this._getBottomPadding();
-  double _getBottomPadding(){
-    final _mq = MediaQuery.of(this.context);
-    return max(_mq.padding.bottom-8, 0);
-  }
+  // double get bottomPadding => this._getBottomPadding();
+  // double _getBottomPadding(){
+  //   final _mq = MediaQuery.of(this.context);
+  //   return max(_mq.padding.bottom-8, 0);
+  // }
 
 
 
@@ -68,92 +64,92 @@ class CSBloc extends BlocBase {
   //=====================================
   // Builders
 
-  void buildSheet(
-    Widget sheet, {
-    bool resizeToAvoidBottomPadding = true, 
-    Color materialColor = Colors.transparent,
-    double verticalFrac = 9/16,
-  }) => this.buildContextedSheet(
-    sheet, 
-    this.context, 
-    materialColor: materialColor, 
-    verticalFrac: verticalFrac, 
-    resizeToAvoidBottomPadding: resizeToAvoidBottomPadding,  
-  );
+  // void buildSheet(
+  //   Widget sheet, {
+  //   bool resizeToAvoidBottomPadding = true, 
+  //   Color materialColor = Colors.transparent,
+  //   double verticalFrac = 9/16,
+  // }) => this.buildContextedSheet(
+  //   sheet, 
+  //   this.context, 
+  //   materialColor: materialColor, 
+  //   verticalFrac: verticalFrac, 
+  //   resizeToAvoidBottomPadding: resizeToAvoidBottomPadding,  
+  // );
 
-  void buildContextedSheet(
-    Widget sheet, BuildContext newContext, {
-    bool resizeToAvoidBottomPadding = true, 
-    Color materialColor = Colors.transparent, 
-    double verticalFrac = 9/16,
-  }) => 
-    this.sheetsBloc.show(
-      sheet: () => showModalBottomSheetApp<void>(
-        avoidTop: AvoidTop.always,
-        avoidOnlyIfNecessary: true,
-        verticalFrac: verticalFrac ?? 9/16,
-        landscapeVerticalFrac: 1,
-        resizeToAvoidBottomPadding: resizeToAvoidBottomPadding,
-        materialColor: materialColor,
-        dismissOnTap: false,
-        context: newContext,
-        builder: (_) => sheet,
-      )
-    );
+  // void buildContextedSheet(
+  //   Widget sheet, BuildContext newContext, {
+  //   bool resizeToAvoidBottomPadding = true, 
+  //   Color materialColor = Colors.transparent, 
+  //   double verticalFrac = 9/16,
+  // }) => 
+  //   this.sheetsBloc.show(
+  //     sheet: () => showModalBottomSheetApp<void>(
+  //       avoidTop: AvoidTop.always,
+  //       avoidOnlyIfNecessary: true,
+  //       verticalFrac: verticalFrac ?? 9/16,
+  //       landscapeVerticalFrac: 1,
+  //       resizeToAvoidBottomPadding: resizeToAvoidBottomPadding,
+  //       materialColor: materialColor,
+  //       dismissOnTap: false,
+  //       context: newContext,
+  //       builder: (_) => sheet,
+  //     )
+  //   );
 
-  void buildSheetTemp(
-    Widget sheet, {
-    bool resizeToAvoidBottomPadding = true, 
-    Color materialColor = Colors.transparent,
-    double verticalFrac = 9/16,
-  }) => this.sheetsBloc.showTemporary(
-    sheet: () => showModalBottomSheetApp<void>(
-      avoidTop: AvoidTop.always,
-      avoidOnlyIfNecessary: true,
-      verticalFrac: verticalFrac ?? 9/16,
-      landscapeVerticalFrac: 1,
-      resizeToAvoidBottomPadding: resizeToAvoidBottomPadding,
-      materialColor: materialColor,
-      dismissOnTap: false,
-      context: this.context,
-      builder: (_) => sheet,
-    ),
-  );
+  // void buildSheetTemp(
+  //   Widget sheet, {
+  //   bool resizeToAvoidBottomPadding = true, 
+  //   Color materialColor = Colors.transparent,
+  //   double verticalFrac = 9/16,
+  // }) => this.sheetsBloc.showTemporary(
+  //   sheet: () => showModalBottomSheetApp<void>(
+  //     avoidTop: AvoidTop.always,
+  //     avoidOnlyIfNecessary: true,
+  //     verticalFrac: verticalFrac ?? 9/16,
+  //     landscapeVerticalFrac: 1,
+  //     resizeToAvoidBottomPadding: resizeToAvoidBottomPadding,
+  //     materialColor: materialColor,
+  //     dismissOnTap: false,
+  //     context: this.context,
+  //     builder: (_) => sheet,
+  //   ),
+  // );
 
-  void confirmSheet({
-    @required void Function() action,
-    String warningText,
-    Color confirmColor,
-    String confirmText,
-    IconData confirmIcon,
-    Color cancelColor,
-    String cancelText,
-    IconData cancelIcon,
-    bool autoPop = false,
-  }){
-    final Widget _sheet = ConfirmSheet(
-      action: action,
-      warningText: warningText,
-      confirmColor: confirmColor,
-      confirmIcon: confirmIcon,
-      confirmText: confirmText,
-      cancelColor: cancelColor,
-      cancelIcon: cancelIcon,
-      cancelText: cancelText,
-      bottomPadding: this.bottomPadding,
-      autoPop: autoPop,
-    );
+  // void confirmSheet({
+  //   @required void Function() action,
+  //   String warningText,
+  //   Color confirmColor,
+  //   String confirmText,
+  //   IconData confirmIcon,
+  //   Color cancelColor,
+  //   String cancelText,
+  //   IconData cancelIcon,
+  //   bool autoPop = false,
+  // }){
+  //   final Widget _sheet = ConfirmSheet(
+  //     action: action,
+  //     warningText: warningText,
+  //     confirmColor: confirmColor,
+  //     confirmIcon: confirmIcon,
+  //     confirmText: confirmText,
+  //     cancelColor: cancelColor,
+  //     cancelIcon: cancelIcon,
+  //     cancelText: cancelText,
+  //     bottomPadding: this.bottomPadding,
+  //     autoPop: autoPop,
+  //   );
 
-    this.sheetsBloc.showTemporary(
-      sheet: () => showModalBottomSheetApp<void>(
-        verticalFrac: 9/16,
-        landscapeVerticalFrac: 1,
-        dismissOnTap: false,
-        context: this.context,
-        builder: (BuildContext context) => _sheet,
-      ),
-    );
-  }
+  //   this.sheetsBloc.showTemporary(
+  //     sheet: () => showModalBottomSheetApp<void>(
+  //       verticalFrac: 9/16,
+  //       landscapeVerticalFrac: 1,
+  //       dismissOnTap: false,
+  //       context: this.context,
+  //       builder: (BuildContext context) => _sheet,
+  //     ),
+  //   );
+  // }
 
 
 }

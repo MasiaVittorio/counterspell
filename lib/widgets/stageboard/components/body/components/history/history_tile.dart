@@ -1,10 +1,12 @@
 import 'package:counter_spell_new/models/game/history_model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
+import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/history/current_state_tile.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/history/history_player_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 
 class HistoryTile extends StatelessWidget {
   final double tileSize;
@@ -12,6 +14,7 @@ class HistoryTile extends StatelessWidget {
   final GameHistoryData data;
   final bool avoidInteraction;
   final CSTheme theme;
+  final Map<CSPage,StageBoardPageTheme> pageThemes;
   final Map<String, Counter> counters;
   final List<String> names;
 
@@ -20,6 +23,7 @@ class HistoryTile extends StatelessWidget {
     @required this.coreTileSize,
     @required this.avoidInteraction,
     @required this.theme,
+    @required this.pageThemes,
     @required this.counters,
     @required this.names,
   });
@@ -51,6 +55,7 @@ class HistoryTile extends StatelessWidget {
         (data as GameHistoryNull).index,
         names: names,
         theme: theme, 
+        pageThemes: pageThemes,
         tileSize: tileSize,
         coreTileSize: coreTileSize,
         counters: counters,
@@ -69,6 +74,7 @@ class HistoryTile extends StatelessWidget {
             HistoryPlayerTile(
               data.changes[name],
               time: data.time,
+              pageThemes: pageThemes,
               theme: theme,
               counters: counters,
               tileSize: knownTileSize,

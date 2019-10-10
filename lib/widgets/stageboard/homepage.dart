@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
+import 'package:counter_spell_new/blocs/sub_blocs/stageboard_bloc.dart';
 import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/widgets/stageboard/scaffold_components.dart';
@@ -13,7 +14,7 @@ class CSHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return StageBoard<CSPage,dynamic>(
+    return StageBoard<CSPage,SettingsPage>(
       accentSelectedPage: false,
       centeredClosedAppBar: true,
       centeredOpenedAppBar: true,
@@ -35,15 +36,16 @@ class CSHomePage extends StatelessWidget {
 
       body: const CSBody(),
 
-      openedPanelTitle: (_) => "CounterSpell",
+      openedPanelSubtitle: (settingsPage)=>settingsThemes[settingsPage].longName,
       customAppBarTitle: const CSTopBarTitle(),
 
       backToClosePanel: true,
       backToDefaultPageClosed: true,
-      backToDefaultPageOpened: false,
+      backToDefaultPageOpened: true,
       backToPreviousPageClosed: false,
       backToPreviousPageOpened: false,
 
+      pandaOpenedPanelBottomBar: true,
     );
 
   }

@@ -2,9 +2,11 @@ import 'package:counter_spell_new/blocs/sub_blocs/themer.dart';
 import 'package:counter_spell_new/models/game/history_model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/models/game/types/damage_type.dart';
+import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/widgets/resources/chip.dart';
 import 'package:flutter/material.dart';
+import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 
 class HistoryPlayerTile extends StatelessWidget {
 
@@ -19,12 +21,13 @@ class HistoryPlayerTile extends StatelessWidget {
   final double coreTileSize;
   final CSTheme theme;
   final Map<String, Counter> counters;
+  final Map<CSPage,StageBoardPageTheme> pageThemes;
 
   //===================================
   // Constructor
   const HistoryPlayerTile(this.changes, {
     @required this.time,
-
+    @required this.pageThemes,
     @required this.tileSize,
     @required this.coreTileSize,
     @required this.counters,
@@ -44,6 +47,7 @@ class HistoryPlayerTile extends StatelessWidget {
         )) _Change(
           change, 
           counters: counters,
+          pageThemes: pageThemes,
           theme: theme,
         ),
     ];
@@ -73,10 +77,12 @@ class _Change extends StatelessWidget {
   final PlayerHistoryChange change;
 
   final CSTheme theme;
+  final Map<CSPage,StageBoardPageTheme> pageThemes;
   final Map<String, Counter> counters;
   
   const _Change(this.change, {
     @required this.theme,
+    @required this.pageThemes,
     @required this.counters,
   });
 
@@ -91,6 +97,7 @@ class _Change extends StatelessWidget {
       attack: change.attack,
       theme: theme,
       type: change.type,
+      pageThemes: pageThemes,
     );
 
     final IconData icon = CSThemer.getHistoryChangeIcon(

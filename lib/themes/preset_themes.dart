@@ -2,15 +2,21 @@ import 'package:counter_spell_new/structure/pages.dart';
 
 import 'cs_theme.dart';
 import 'package:flutter/material.dart';
+const defaultPageColorsLight = const {
+  CSPage.history: Color(0xFF424242),
+  CSPage.counters: Color(0xFF263133), 
+  CSPage.life: Color(0xFF2E7D32), 
+  CSPage.commander: Color(0xFF00838F),
+};
+const defaultPageColorsDark = const {
+  CSPage.history: Color(0xFF303030),
+  CSPage.counters: MyColors.dark, 
+  CSPage.life: Color(0xFF004D40), 
+  CSPage.commander: Color(0xFF006064),
+};
 
 const Map<String, CSTheme> csDefaultThemesLight = {
   "Light Default" : const CSTheme(
-    pageColors: const {
-      CSPage.history: Color(0xFF424242),
-      CSPage.counters: Color(0xFF263133), 
-      CSPage.life: Color(0xFF2E7D32), 
-      CSPage.commander: Color(0xFF00838F),
-    },
     commanderAttack: const Color(0xFF983146),
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF64FFDA), 
@@ -21,12 +27,6 @@ const Map<String, CSTheme> csDefaultThemesLight = {
 
 const Map<String, CSTheme> csDefaultThemesDark = {
   "Night Blue Default" : const CSTheme(
-    pageColors: const {
-      CSPage.history: Color(0xFF303030),
-      CSPage.counters: MyColors.dark, 
-      CSPage.life: Color(0xFF004D40), 
-      CSPage.commander: Color(0xFF006064),
-    },
     commanderAttack: const Color(0xFF792738),
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF64FFDA), 
@@ -34,12 +34,6 @@ const Map<String, CSTheme> csDefaultThemesDark = {
     darkStyle: DarkStyle.nightBlue,
   ),
   "Night Black Default" : const CSTheme(
-    pageColors: const {
-      CSPage.history: Color(0xFF303030),
-      CSPage.counters: MyColors.dark, 
-      CSPage.life: Color(0xFF004D40), 
-      CSPage.commander: Color(0xFF006064),
-    },
     commanderAttack: const Color(0xFF792738),
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF212121),

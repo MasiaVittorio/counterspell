@@ -115,9 +115,16 @@ class CSGameState {
 
 
   void renamePlayer(String oldName, String newName){
+    if(this.gameState.value.players.containsKey(newName)){
+      return;
+    }
+    List<String> names = parent.gameGroup.names.value.toList(growable: true);
+    final int index = names.indexOf(oldName);
+    names[index] = newName;
     this.gameState.value.renamePlayer(oldName, newName);
     this.gameState.refresh();
     this.parent.gameHistory.listController.rebuild();
+    this.parent.gameGroup.names.set(names);
   }
   void deletePlayer(String name){
     this.gameState.value.deletePlayer(name);
@@ -125,10 +132,17 @@ class CSGameState {
     this.parent.gameHistory.listController.rebuild();
   }
   void addNewPlayer(String name){
+    if(name == null || name == ""){
+      return;
+    }
+    if(this.gameState.value.players.containsKey(name)){
+      return;
+    }
     this.gameState.value.addNewPlayer(
       name, 
       startingLife: this.parent.currentStartingLife,
     );
+    this.gameState.refresh();
     this.parent.gameHistory.listController.rebuild();
   }
 

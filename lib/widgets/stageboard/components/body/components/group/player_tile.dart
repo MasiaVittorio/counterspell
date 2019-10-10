@@ -27,6 +27,7 @@ class PlayerTile extends StatelessWidget {
   final int increment;
   final Map<String,PlayerAction> normalizedPlayerActions;
   final double maxWidth;
+  final Map<CSPage,StageBoardPageTheme> pageThemes;
 
   const PlayerTile(this.name, {
     @required this.maxWidth,
@@ -34,6 +35,7 @@ class PlayerTile extends StatelessWidget {
     @required this.tileSize,
     @required this.coreTileSize,
     @required this.page,
+    @required this.pageThemes,
     @required this.selectedNames,
     @required this.isScrollingSomewhere,
     @required this.whoIsAttacking,
@@ -158,7 +160,7 @@ class PlayerTile extends StatelessWidget {
         width: coreTileSize*_circleFrac,
         height: coreTileSize*_circleFrac,
         decoration: BoxDecoration(
-          color: theme.pageColors[page],
+          color: pageThemes[page].primaryColor,
           borderRadius: BorderRadius.circular(coreTileSize),
         ),
         alignment: Alignment.center,
@@ -180,7 +182,7 @@ class PlayerTile extends StatelessWidget {
           color = theme.commanderAttack.withOpacity(0.5);
         }
       } else {
-        color = theme.pageColors[page];
+        color = pageThemes[page].primaryColor;
       }
       assert(color != null);
 
@@ -237,7 +239,7 @@ class PlayerTile extends StatelessWidget {
                 height: coreTileSize,
                 child: Checkbox(
                   value: rawSelected,
-                  activeColor: theme.pageColors[page],
+                  activeColor: pageThemes[page].primaryColor,
                   tristate: true,
                   onChanged: (b) {
                     actionBloc.selected.value[name] = rawSelected == false ? true : false;

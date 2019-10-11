@@ -399,7 +399,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
         top: 0.0,
         right: 0.0,
         left: 0.0,
-        height: y,
+        height: y*2,
         child: Center(child: buildButton()),
       );
       players = ConstrainedBox(
@@ -465,7 +465,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
             buttonSize: buttonSize,
           ),
         ),
-        buildPlayer(1,
+        buildPlayer(2,
           constraints: box,
           buttonAlignment: Alignment.topCenter,
           buttonSize: buttonSize,

@@ -140,6 +140,7 @@ class CSGameState {
     }
     this.gameState.value.deletePlayer(name);
     this.parent.gameGroup.deletePlayer(name);
+    // this.parent.gameHistory.deletePlayerReferences(name);
     this.gameState.refresh();
     this.parent.gameHistory.listController.rebuild();
   }

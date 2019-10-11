@@ -3,6 +3,7 @@ import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/playgroup/playgroup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:sidereus/reusable_widgets/reordable_list_simple_reverse.dart';
 
 
@@ -36,12 +37,12 @@ class _CurrentPlayerState extends State<CurrentPlayer> {
   }
 
   void startEditing(){
-    this.widget.unFocuser.unFocusExceptFor(widget.name);
     this.setState((){
       this.editing = true;
       // this.focusNode.requestFocus();
     });
-    Future.delayed(Duration(milliseconds: 50)).then((_){
+    this.widget.unFocuser.unFocusExceptFor(widget.name);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       if(mounted){
         node.requestFocus();
       }
@@ -58,6 +59,7 @@ class _CurrentPlayerState extends State<CurrentPlayer> {
   void endEditing() {
     if(!mounted) return;
     this.setState((){
+      // this.node.unfocus();
       this.controller.clear();
       this.editing = false;
     });
@@ -99,9 +101,12 @@ class _CurrentPlayerState extends State<CurrentPlayer> {
 
   Widget buildLeading() => IconTheme.merge(
     data: IconThemeData(opacity: 1.0),
-    child: editing 
-      ? buildLeadingEditing() 
-      : buildLeadingDisplay()
+    child: SizedBox(
+      width: 56,
+      child: editing 
+        ? buildLeadingEditing() 
+        : buildLeadingDisplay()
+    ),
   );
   Widget buildLeadingEditing() => IconButton(
     icon: Icon(Icons.close),
@@ -127,7 +132,8 @@ class _CurrentPlayerState extends State<CurrentPlayer> {
     textCapitalization: TextCapitalization.words,
     maxLines: 1,
     // maxLength: 20,
-    autofocus: true,
+    focusNode: node,
+    // autofocus: true,
     decoration: InputDecoration(
       isDense: true,
       hintText: "Rename ${widget.name}",

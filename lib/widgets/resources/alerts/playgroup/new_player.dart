@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:counter_spell_new/blocs/bloc.dart';
+import 'package:flutter/scheduler.dart';
 import 'playgroup.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/animated_widgets/animated_widgets.dart';
@@ -16,25 +17,33 @@ class NewPlayer extends StatefulWidget {
 
 class _NewPlayerState extends State<NewPlayer> {
   TextEditingController controller;
+  FocusNode node;
   bool editing = false;
   @override
   void initState() {
     super.initState();
     controller = TextEditingController();
+    node = FocusNode();
     this.widget.unFocuser.listeners[""] = this.endEditing;
     editing = false;
   }
   @override
   void dispose() {
+    node.dispose();
     controller.dispose();
     super.dispose();
   }
 
   void startEditing(){
-    this.widget.unFocuser.unFocusExceptFor("");
     this.setState((){
       this.editing = true;
       // this.focusNode.requestFocus();
+    });
+    this.widget.unFocuser.unFocusExceptFor("");
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if(mounted){
+        node.requestFocus();
+      }
     });
   }
   void confirm(){
@@ -46,6 +55,7 @@ class _NewPlayerState extends State<NewPlayer> {
   void endEditing() {
     if(!mounted) return;
     this.setState((){
+      // this.node.unfocus();
       this.controller.clear();
       this.editing = false;
     });
@@ -99,7 +109,8 @@ class _NewPlayerState extends State<NewPlayer> {
     textCapitalization: TextCapitalization.words,
     maxLines: 1,
     // maxLength: 20,
-    autofocus: true,
+    // autofocus: true,
+    focusNode: node,
     decoration: InputDecoration(
       isDense: true,
       hintText: "Player's name",

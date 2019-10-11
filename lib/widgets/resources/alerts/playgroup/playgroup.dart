@@ -22,63 +22,67 @@ class _PlayGroupAlertState extends State<PlayGroupAlert> {
     this.unFocuser.dispose();
     super.dispose();
   }
+  //TODO:  tutto stateful con robbe
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
     final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
-    return Material(
-      color: backgroundColor,
-      child: Column(
-        children: <Widget>[
-          Material(
-            child: Container(
-              height: 32,
-              alignment: Alignment.center,
-              child: Text("Edit Playgroup"),
+    return ListTileTheme.merge(
+      contentPadding: const EdgeInsets.all(0.0),
+      child: Material(
+        color: backgroundColor,
+        child: Column(
+          children: <Widget>[
+            Material(
+              child: Container(
+                height: 32,
+                alignment: Alignment.center,
+                child: Text("Edit Playgroup"),
+              ),
             ),
-          ),
-          Expanded(
-            child: bloc.game.gameGroup.names.build((context, names) 
-              => Material(
-                elevation: 2,
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: ReorderableList(
-                    onReorder: (from,to){
-                      final String name = group.names.value
-                        .firstWhere((name)=> ValueKey(name) == from);
-                      final int newIndex = group.names.value
-                        .indexWhere((name)=> ValueKey(name) == to);
-                      group.moveName(name, newIndex);
-                      return true;
-                    },
-                    child: ListView(
-                      primary: false,
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        for(final name in names)
-                          ReorderableItem(
-                            key: ValueKey(name),
-                            childBuilder:(context,state) => Material(
-                              child: Opacity(
-                                opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
-                                child: IgnorePointer(
-                                  ignoring: state == ReorderableItemState.placeholder,
-                                  child: CurrentPlayer(name, bloc, unFocuser),
+            Expanded(
+              child: bloc.game.gameGroup.names.build((context, names) 
+                => Material(
+                  elevation: 2,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: ReorderableList(
+                      onReorder: (from,to){
+                        final String name = group.names.value
+                          .firstWhere((name)=> ValueKey(name) == from);
+                        final int newIndex = group.names.value
+                          .indexWhere((name)=> ValueKey(name) == to);
+                        group.moveName(name, newIndex);
+                        return true;
+                      },
+                      child: ListView(
+                        primary: false,
+                        shrinkWrap: true,
+                        children: <Widget>[
+                          for(final name in names)
+                            ReorderableItem(
+                              key: ValueKey(name),
+                              childBuilder:(context,state) => Material(
+                                child: Opacity(
+                                  opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
+                                  child: IgnorePointer(
+                                    ignoring: state == ReorderableItemState.placeholder,
+                                    child: CurrentPlayer(name, bloc, unFocuser),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          NewPlayer(bloc, unFocuser),
-        ],
+            NewPlayer(bloc, unFocuser),
+          ],
+        ),
       ),
     );
   }

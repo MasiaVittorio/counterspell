@@ -78,4 +78,26 @@ class CSGameHistory {
     ),
     duration: MyDurations.fast,
   );
+
+  void deletePlayerReferences(String name){
+    final List<int> indexesToBeRemoved = <int>[];
+    for(int i=0; i < this.data.length; ++i){
+      if(data[i].changes == null || data[i].changes.isEmpty || data[i].changes.keys.every(
+        (key) => key == name || data[i].changes[key].isEmpty
+      )){
+        indexesToBeRemoved.add(i);
+      }
+    }
+    indexesToBeRemoved.sort();
+    int removed=0;
+    //TODO: debugga abbomba
+    for(final index in indexesToBeRemoved){
+      final out = data.removeAt(index - removed);
+      this.back(
+        data.length-(index - removed), 
+        out,
+      );
+      ++removed;
+    }
+  }
 }

@@ -29,7 +29,7 @@ class CSTopBarTitle extends StatelessWidget {
       builder:(context,casting, counter){
      
         String text = "";
-        if(open){
+        if(open && !stageBoard.isShowingAlert){
           text = "CounterSpell";
         } else if(page == CSPage.counters){
           text = counter.longName;

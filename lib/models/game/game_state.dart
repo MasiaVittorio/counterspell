@@ -121,6 +121,11 @@ class GameState {
   // Group Actions
 
   void renamePlayer(String oldName, String newName){
+    assert(oldName != null && newName != null);
+    assert(newName != "" && oldName != "");
+    assert(players.containsKey(oldName));
+    assert(!players.containsKey(newName));
+
     for(final player in players.values){
       player.renamePlayer(oldName, newName);
     }
@@ -147,6 +152,7 @@ class GameState {
   }
 
   void deletePlayer(String name){
+    assert(players.containsKey(name));
     this.players.remove(name);
     for(final player in this.players.values){
       player.deletePlayerReferences(name);

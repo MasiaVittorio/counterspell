@@ -1,11 +1,27 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
-import 'package:counter_spell_new/widgets/resources/playgroup/current_player.dart';
-import 'package:counter_spell_new/widgets/resources/playgroup/new_player.dart';
+import 'current_player.dart';
+import 'new_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 
-class PlayGroupAlert extends StatelessWidget {
+class PlayGroupAlert extends StatefulWidget {
 
+  @override
+  _PlayGroupAlertState createState() => _PlayGroupAlertState();
+}
+
+class _PlayGroupAlertState extends State<PlayGroupAlert> {
+  UnFocuser unFocuser;
+  @override
+  void initState() {
+    super.initState();
+    this.unFocuser = UnFocuser();
+  }
+  @override
+  void dispose() {
+    this.unFocuser.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
@@ -19,7 +35,7 @@ class PlayGroupAlert extends StatelessWidget {
             child: Container(
               height: 32,
               alignment: Alignment.center,
-              child: Text("Edit PlayGroup"),
+              child: Text("Edit Playgroup"),
             ),
           ),
           Expanded(
@@ -47,7 +63,7 @@ class PlayGroupAlert extends StatelessWidget {
                               opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
                               child: IgnorePointer(
                                 ignoring: state == ReorderableItemState.placeholder,
-                                child: CurrentPlayer(name, bloc),
+                                child: CurrentPlayer(name, bloc, unFocuser),
                               ),
                             ),
                           ),
@@ -58,10 +74,24 @@ class PlayGroupAlert extends StatelessWidget {
               ),
             ),
           ),
-          NewPlayer(bloc),
+          NewPlayer(bloc, unFocuser),
         ],
       ),
     );
   }
 }
 
+class UnFocuser {
+  final Map<String,VoidCallback> listeners = <String,VoidCallback>{};
+  UnFocuser();
+  void unFocusExceptFor(String name){
+    for(final entry in listeners.entries){
+      if(entry.key != name){
+        entry.value();
+      }
+    }
+  }
+  void dispose(){
+    this.listeners.clear();
+  }
+}

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 
 import 'components/components.dart';
@@ -33,18 +34,19 @@ class CSBody extends StatelessWidget {
         final historyEnabled = stageBoard.pagesController.enabledPages[CSPage.history];
         if(landScape){
           if(historyEnabled){
-            stageBoard.pagesController.disablePage(CSPage.history);
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              //cant notify listeners during build phase lol
+              stageBoard.pagesController.disablePage(CSPage.history);
+            });
           }
         } else {
-          if(!historyEnabled){
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            //just (dont) build lol
             stageBoard.pagesController.enablePage(CSPage.history);
-            () async {
-              await Future.delayed(const Duration(milliseconds: 50));
-              bloc.game.gameHistory.listController.refresh(
-                bloc.game.gameState.gameState.value.historyLenght,
-              );
-            } ();
-          }
+            bloc.game.gameHistory.listController.refresh(
+              bloc.game.gameState.gameState.value.historyLenght,
+            );
+          });
         }
 
         final int count = names.length;

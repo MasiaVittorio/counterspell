@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'dart:math';
 
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 
 class DelayerController {
   void Function() _start;
@@ -181,6 +179,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
             }
           ),
           _ContentTappable(
+            half: widget.half,
             onCancel: widget.onManualCancel,
             onConfirm: widget.onManualConfirm,
             width: width,
@@ -231,7 +230,7 @@ class _Content extends StatelessWidget{
               height: this.height/(half?2:1),
               child: Center(
                 child: Icon(
-                  MdiIcons.close,
+                  Icons.close,
                   color: this.contrast,
                 ),
               ),
@@ -241,6 +240,16 @@ class _Content extends StatelessWidget{
                 child: Text(
                   this.message,
                   style: this.style.copyWith(color: this.contrast),
+                ),
+              ),
+            ),
+            Container(
+              width: this.height,
+              height: this.height/(half?2:1),
+              child: Center(
+                child: Icon(
+                  Icons.check,
+                  color: this.contrast,
                 ),
               ),
             ),
@@ -255,11 +264,13 @@ class _Content extends StatelessWidget{
 class _ContentTappable extends StatelessWidget{
   final double width;
   final double height;
+  final bool half;
 
   final void Function() onConfirm;
   final void Function() onCancel;
 
   _ContentTappable({
+    @required this.half,
     @required this.width,
     @required this.height,
     @required this.onConfirm,
@@ -275,15 +286,22 @@ class _ContentTappable extends StatelessWidget{
         height: this.height,
         alignment: Alignment.topCenter,
         child: Container(
-          height: this.height/2,
+          height: this.height/(half?2:1),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               InkResponse(
                 onTap: this.onCancel,
                 child: Container(
                   width: this.height,
-                  height: this.height/2,
+                  height: this.height/(half?2:1),
+                ),
+              ),
+              InkResponse(
+                onTap: this.onConfirm,
+                child: Container(
+                  width: this.height,
+                  height: this.height/(half?2:1),
                 ),
               ),
             ],

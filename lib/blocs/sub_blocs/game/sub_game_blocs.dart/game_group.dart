@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:counter_spell_new/models/game/game_state.dart';
 import 'package:sidereus/bloc/bloc.dart';
 
 import '../game.dart';
@@ -50,27 +51,51 @@ class CSGameGroup {
 
     /// [CSGameGroup] Must be initialized after [CSGameState]
     newNamesSub = this.parent.gameState.gameState.behavior.listen((state){
-      final Set _names = state.names;
-      
-      for(final name in _names){
-        if(!names.value.contains(name))
-          names.value.add(name);
-      }
-
-      final List<String> toBeRemoved = [];
-      for(final name in names.value){
-        if(!_names.contains(name))
-          toBeRemoved.add(name);
-      }
-      for(final name in toBeRemoved){
-        names.value.remove(name);        
-      }
-
-      names.refresh();
-
+      updateNames(state);
+      updateNamesAltLayout(this.names.value);
     });
   }
 
+  void updateNames(GameState state){
+    final Set _names = state.names;
+    for(final name in _names){
+      if(!names.value.contains(name))
+        names.value.add(name);
+    }
+    final List<String> toBeRemoved = [];
+    for(final name in names.value){
+      if(!_names.contains(name))
+        toBeRemoved.add(name);
+    }
+    for(final name in toBeRemoved){
+      names.value.remove(name);        
+    }
+    names.refresh();
+  }
+  void updateNamesAltLayout(List<String> newNames){
+    for(final name in newNames){
+      if(!alternativeLayoutNameOrder.value.containsValue(name)){
+        alternativeLayoutNameOrder.value[alternativeLayoutNameOrder.value.length] = name;
+      }
+    }
+    final List<String> current = <String>[
+      for(int i=0; i<alternativeLayoutNameOrder.value.length; ++i)
+        alternativeLayoutNameOrder.value[i],
+    ];
+    final List<String> toBeRemoved= <String>[];
+    for(final name in current){
+      if(!newNames.contains(name))
+        toBeRemoved.add(name);
+    }
+    for(final name in toBeRemoved){
+      current.remove(name);        
+    }
+    alternativeLayoutNameOrder.set(<int,String>{
+      for(int i=0; i<current.length; ++i)
+        i:current[i],
+    });
+    names.refresh();
+  }
 
 
   //========================
@@ -87,4 +112,35 @@ class CSGameGroup {
   void moveName(String name, int newIndex)
     => this.moveIndex(names.value.indexOf(name), newIndex);
 
+  void rename(String oldName, String newName){
+    final int index = this.names.value.indexOf(oldName);
+    this.names.value[index] = newName;
+    this.names.refresh();
+
+    int altIndex;
+    for(final entry in this.alternativeLayoutNameOrder.value.entries){
+      if(entry.value == oldName){
+        altIndex = entry.key;
+      }
+    }
+    if(altIndex != null){
+      this.alternativeLayoutNameOrder.value[altIndex] = newName;
+      this.alternativeLayoutNameOrder.refresh();
+    }
+  }
+  void deletePlayer(String name){
+    this.names.value.remove(name);
+    this.names.refresh();
+  }
+  void newPlayer(String newName){
+    this.names.value.add(newName);
+    this.names.refresh();
+  }
+  void newGroup(List<String> newNames){
+    this.names.set(newNames);
+    this.alternativeLayoutNameOrder.set({
+      for(int i=0; i<newNames.length; ++i)
+        i: newNames[i],
+    });
+  }
 }

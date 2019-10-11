@@ -4,7 +4,7 @@ import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
-import 'package:counter_spell_new/widgets/resources/playgroup/playgroup.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/playgroup/playgroup.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:flutter/material.dart';
@@ -18,57 +18,36 @@ class CSPanelCollapsed extends StatelessWidget {
     final CSBloc bloc = CSBloc.of(context);
     final gameStateBloc = bloc.game.gameState;
     final stageBoard = StageBoard.of(context);
+
     return bloc.themer.themeSet.build((context, theme){
-      
-
       final Widget backButton = gameStateBloc.gameState.build( (context, state)
-        => _panelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back),
+        => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3),
       );
-
       final Widget forwardButton = gameStateBloc.futureActions.build( (context, futures)
-        => _panelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward),
+        => _PanelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward, 1.3),
+      );
+      final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
+        => _PanelButton(
+          [2,3,4].contains(state.players.length), 
+          Icons.import_contacts, 
+          ()=> showSimpleGroup(context: context, bloc: bloc), 
+          1.0
+        ),
       );
 
-      final simpleDisplayer = gameStateBloc.gameState.build( (context, state){
-        final bool active = [2,3,4].contains(state.players.length);
-        return AnimatedOpacity(
-          duration: MyDurations.fast,
-          opacity: active ? 1.0 : 0.35,
-          child: InkResponse(
-            child: Container(
-              height: CSConstants.barSize,
-              width: CSConstants.barSize,
-              child: Icon(
-                Icons.import_contacts,
-                size: 22.0,
-              ),
-            ),
-            onTap: active ? ()=> showSimpleGroup(context: context, bloc: bloc) : null,
-          )
-        ); 
-      });
-      final groupDisplayer = gameStateBloc.gameState.build( (context, state){
-        final bool active = true;
-        return AnimatedOpacity(
-          duration: MyDurations.fast,
-          opacity: active ? 1.0 : 0.35,
-          child: InkResponse(
-            child: Container(
-              height: CSConstants.barSize,
-              width: CSConstants.barSize,
-              child: Icon(
-                McIcons.account_multiple_outline,
-              ),
-            ),
-            onTap: active ? () => stageBoard.showAlert(
-              PlayGroupAlert(),
-              dimension: (bloc.game.gameGroup.names.value.length + 1).clamp(2, 6.5) * 56.0 + 32.0
-            ) : null,
-          )
-        ); 
-      });
+      final groupDisplayer = gameStateBloc.gameState.build( (context, state)
+        => _PanelButton(
+          true, 
+          McIcons.account_multiple_outline, 
+          () => stageBoard.showAlert(
+            PlayGroupAlert(),
+            dimension: (bloc.game.gameGroup.names.value.length + 1).clamp(2, 6.5) * 56.0 + 32.0
+          ),
+          1.0
+        ),
+      );
 
-      final Widget backForward = Row(children: <Widget>[
+      final Widget row = Row(children: <Widget>[
         simpleDisplayer,
         const Spacer(),
         backButton, 
@@ -89,7 +68,7 @@ class CSPanelCollapsed extends StatelessWidget {
               top: 0.0,
               right: 0.0,
               height: CSConstants.barSize,
-              child: backForward
+              child: row
             ),
             Positioned(
               left: 0.0,
@@ -104,22 +83,7 @@ class CSPanelCollapsed extends StatelessWidget {
     });
   }
 
-  static Widget _panelButton(bool active, IconData icon, VoidCallback action)
-    => AnimatedOpacity(
-      duration: MyDurations.fast,
-      opacity: active ? 1.0 : 0.35,
-      child: InkResponse(
-        child: Container(
-          height: CSConstants.barSize,
-          width: CSConstants.barSize * 1.3,
-          child: Icon(
-            icon,
-            size: 20.0,
-          ),
-        ),
-        onTap: active ? action : null,
-      )
-    );
+
 }
 
 
@@ -194,5 +158,35 @@ class _DelayerPanel extends StatelessWidget {
         );
       }
     );  
+  }
+}
+
+
+class _PanelButton extends StatelessWidget {
+  final bool active; 
+  final IconData icon; 
+  final VoidCallback action;
+  final double factor;
+  const _PanelButton(this.active, this.icon, this.action, this.factor, {
+    Key key,
+  }): super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      duration: MyDurations.fast,
+      opacity: active ? 1.0 : 0.35,
+      child: InkResponse(
+        child: Container(
+          height: CSConstants.barSize,
+          width: CSConstants.barSize * factor,
+          child: Icon(
+            icon,
+            size: 20.0,
+          ),
+        ),
+        onTap: active ? action : null,
+      )
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/playgroup/playgroup.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reordable_list_simple_reverse.dart';
 
@@ -9,7 +10,8 @@ import 'package:sidereus/reusable_widgets/reordable_list_simple_reverse.dart';
 class CurrentPlayer extends StatefulWidget {
   final String name;
   final CSBloc bloc;
-  const CurrentPlayer(this.name,this.bloc);
+  final UnFocuser unFocuser;
+  const CurrentPlayer(this.name,this.bloc, this.unFocuser);
   @override
   _CurrentPlayerState createState() => _CurrentPlayerState();
 }
@@ -17,32 +19,32 @@ class CurrentPlayer extends StatefulWidget {
 class _CurrentPlayerState extends State<CurrentPlayer> {
   TextEditingController controller;
   bool editing = false;
-  FocusNode focusNode;
+  FocusNode node;
   @override
   void initState() {
     super.initState();
     controller = TextEditingController();
-    focusNode = FocusNode();
-    focusNode.addListener((){
-      if(mounted){
-        if(focusNode.hasPrimaryFocus == false){
-          this.endEditing();
-        }
-      }
-    });
+    node = FocusNode();
+    this.widget.unFocuser.listeners[this.widget.name] = this.endEditing;
     editing = false;
   }
   @override
   void dispose() {
-    focusNode.dispose();
     controller.dispose();
+    node.dispose();
     super.dispose();
   }
 
   void startEditing(){
+    this.widget.unFocuser.unFocusExceptFor(widget.name);
     this.setState((){
       this.editing = true;
       // this.focusNode.requestFocus();
+    });
+    Future.delayed(Duration(milliseconds: 50)).then((_){
+      if(mounted){
+        node.requestFocus();
+      }
     });
   }
   void confirm(){
@@ -53,10 +55,13 @@ class _CurrentPlayerState extends State<CurrentPlayer> {
     this.endEditing();
   }
   void cancel() => this.endEditing();
-  void endEditing() => this.setState((){
-    this.controller.clear();
-    this.editing = false;
-  });
+  void endEditing() {
+    if(!mounted) return;
+    this.setState((){
+      this.controller.clear();
+      this.editing = false;
+    });
+  }
 
 
   @override

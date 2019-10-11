@@ -1,13 +1,15 @@
 import 'dart:math';
 
 import 'package:counter_spell_new/blocs/bloc.dart';
+import 'playgroup.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/animated_widgets/animated_widgets.dart';
 
 
 class NewPlayer extends StatefulWidget {
   final CSBloc bloc;
-  const NewPlayer(this.bloc);
+  final UnFocuser unFocuser;
+  const NewPlayer(this.bloc, this.unFocuser);
   @override
   _NewPlayerState createState() => _NewPlayerState();
 }
@@ -15,29 +17,21 @@ class NewPlayer extends StatefulWidget {
 class _NewPlayerState extends State<NewPlayer> {
   TextEditingController controller;
   bool editing = false;
-  FocusNode focusNode;
   @override
   void initState() {
     super.initState();
     controller = TextEditingController();
-    focusNode = FocusNode();
-    focusNode.addListener((){
-      if(mounted){
-        if(focusNode.hasPrimaryFocus == false){
-          this.endEditing();
-        }
-      }
-    });
+    this.widget.unFocuser.listeners[""] = this.endEditing;
     editing = false;
   }
   @override
   void dispose() {
-    focusNode.dispose();
     controller.dispose();
     super.dispose();
   }
 
   void startEditing(){
+    this.widget.unFocuser.unFocusExceptFor("");
     this.setState((){
       this.editing = true;
       // this.focusNode.requestFocus();
@@ -49,10 +43,13 @@ class _NewPlayerState extends State<NewPlayer> {
     this.endEditing();
   }
   void cancel() => this.endEditing();
-  void endEditing() => this.setState((){
-    this.controller.clear();
-    this.editing = false;
-  });
+  void endEditing() {
+    if(!mounted) return;
+    this.setState((){
+      this.controller.clear();
+      this.editing = false;
+    });
+  }
 
 
   @override
@@ -98,7 +95,6 @@ class _NewPlayerState extends State<NewPlayer> {
 
   Widget buildTitleEditing() => TextField(
     controller: controller,
-    focusNode: this.focusNode,
     keyboardType: TextInputType.text,
     textCapitalization: TextCapitalization.words,
     maxLines: 1,

@@ -102,11 +102,13 @@ class CSGameState {
     => _resetGame(this.gameState.value.newGame(
       startingLife: this.parent.currentStartingLife,
     ));
-  void startNew(Set<String> names)
-    => _resetGame(GameState.start(
+  void startNew(Set<String> names){
+    this.parent.gameGroup.newGroup(names.toList());
+    _resetGame(GameState.start(
       names, 
       startingLife: this.parent.currentStartingLife,
     ));
+  }
   void _resetGame(GameState newGameState){
     this.gameState.set(newGameState);
     this.parent.gameHistory.listController.refresh(1);
@@ -115,19 +117,29 @@ class CSGameState {
 
 
   void renamePlayer(String oldName, String newName){
+    if(oldName == null || newName == null){
+      return;
+    }
+    if(oldName == "" || newName == ""){
+      return;
+    }
+    if(!this.gameState.value.players.containsKey(oldName)){
+      return;
+    }
     if(this.gameState.value.players.containsKey(newName)){
       return;
     }
-    List<String> names = parent.gameGroup.names.value.toList(growable: true);
-    final int index = names.indexOf(oldName);
-    names[index] = newName;
     this.gameState.value.renamePlayer(oldName, newName);
+    this.parent.gameGroup.rename(oldName, newName);
     this.gameState.refresh();
     this.parent.gameHistory.listController.rebuild();
-    this.parent.gameGroup.names.set(names);
   }
   void deletePlayer(String name){
+    if(!gameState.value.players.containsKey(name)){
+      return;
+    }
     this.gameState.value.deletePlayer(name);
+    this.parent.gameGroup.deletePlayer(name);
     this.gameState.refresh();
     this.parent.gameHistory.listController.rebuild();
   }
@@ -142,6 +154,7 @@ class CSGameState {
       name, 
       startingLife: this.parent.currentStartingLife,
     );
+    this.parent.gameGroup.newPlayer(name);
     this.gameState.refresh();
     this.parent.gameHistory.listController.rebuild();
   }

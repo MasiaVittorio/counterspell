@@ -1,9 +1,11 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/themer.dart';
+import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/confirm_alert_sheet.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/playgroup/playgroup.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
@@ -21,31 +23,51 @@ class CSPanelCollapsed extends StatelessWidget {
 
     return bloc.themer.themeSet.build((context, theme){
       final Widget backButton = gameStateBloc.gameState.build( (context, state)
-        => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3),
+        => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3, iconSize: 20,),
       );
       final Widget forwardButton = gameStateBloc.futureActions.build( (context, futures)
-        => _PanelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward, 1.3),
+        => _PanelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward, 1.3, iconSize: 20,),
       );
       final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
         => _PanelButton(
           [2,3,4].contains(state.players.length), 
-          Icons.import_contacts, 
+          McIcons.view_dashboard_outline,
           ()=> showSimpleGroup(context: context, bloc: bloc), 
-          1.0
+          1.0,
+          iconSize: 23,
         ),
       );
 
-      final groupDisplayer = gameStateBloc.gameState.build( (context, state)
-        => _PanelButton(
-          true, 
-          McIcons.account_multiple_outline, 
-          () => stageBoard.showAlert(
-            PlayGroupAlert(),
-            dimension: (bloc.game.gameGroup.names.value.length + 1).clamp(2, 6.5) * 56.0 + 32.0
+      final rightButton = <CSPage,Widget>{
+        CSPage.life: gameStateBloc.gameState.build( (context, state)
+          => _PanelButton(
+            true, 
+            McIcons.account_multiple_outline, 
+            () => stageBoard.showAlert(
+              PlayGroupAlert(),
+              dimension: ((bloc.game.gameGroup.names.value.length + 1).clamp(2, 6)+0.5) * 56.0 + 32.0
+            ),
+            1.0,
+            iconSize: 25,
           ),
-          1.0
         ),
-      );
+        CSPage.history : _PanelButton(
+          true,
+          McIcons.restart,
+          () => stageBoard.showAlert(
+            ConfirmStageAlert(
+              action: bloc.game.gameState.restart,
+              warningText: "This action cannot be undone.",
+              confirmText: "Restart the game",
+              confirmIcon: McIcons.restart,
+              cancelColor: DELETE_COLOR,
+            ),
+            dimension: 56*2+32.0,
+          ),
+          1.0,
+          iconSize: 24,
+        ),
+      }[stageBoard.pagesController.page] ?? SizedBox(width: CSConstants.barSize,);
 
       final Widget row = Row(children: <Widget>[
         simpleDisplayer,
@@ -53,7 +75,7 @@ class CSPanelCollapsed extends StatelessWidget {
         backButton, 
         forwardButton,
         const Spacer(),
-        groupDisplayer,
+        rightButton,
       ]);
 
       /// missing: restarter
@@ -167,8 +189,10 @@ class _PanelButton extends StatelessWidget {
   final IconData icon; 
   final VoidCallback action;
   final double factor;
+  final double iconSize;
   const _PanelButton(this.active, this.icon, this.action, this.factor, {
     Key key,
+    this.iconSize,
   }): super(key: key);
 
   @override
@@ -182,7 +206,7 @@ class _PanelButton extends StatelessWidget {
           width: CSConstants.barSize * factor,
           child: Icon(
             icon,
-            size: 20.0,
+            size: iconSize ?? 24,
           ),
         ),
         onTap: active ? action : null,

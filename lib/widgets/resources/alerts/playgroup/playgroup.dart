@@ -42,33 +42,36 @@ class _PlayGroupAlertState extends State<PlayGroupAlert> {
             child: bloc.game.gameGroup.names.build((context, names) 
               => Material(
                 elevation: 2,
-                child: ReorderableList(
-                  onReorder: (from,to){
-                    final String name = group.names.value
-                      .firstWhere((name)=> ValueKey(name) == from);
-                    final int newIndex = group.names.value
-                      .indexWhere((name)=> ValueKey(name) == to);
-                    group.moveName(name, newIndex);
-                    return true;
-                  },
-                  child: ListView(
-                    primary: false,
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      for(final name in names)
-                        ReorderableItem(
-                          key: ValueKey(name),
-                          childBuilder:(context,state) => Material(
-                            child: Opacity(
-                              opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
-                              child: IgnorePointer(
-                                ignoring: state == ReorderableItemState.placeholder,
-                                child: CurrentPlayer(name, bloc, unFocuser),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: ReorderableList(
+                    onReorder: (from,to){
+                      final String name = group.names.value
+                        .firstWhere((name)=> ValueKey(name) == from);
+                      final int newIndex = group.names.value
+                        .indexWhere((name)=> ValueKey(name) == to);
+                      group.moveName(name, newIndex);
+                      return true;
+                    },
+                    child: ListView(
+                      primary: false,
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        for(final name in names)
+                          ReorderableItem(
+                            key: ValueKey(name),
+                            childBuilder:(context,state) => Material(
+                              child: Opacity(
+                                opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
+                                child: IgnorePointer(
+                                  ignoring: state == ReorderableItemState.placeholder,
+                                  child: CurrentPlayer(name, bloc, unFocuser),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

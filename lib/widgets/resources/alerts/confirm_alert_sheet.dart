@@ -1,10 +1,11 @@
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:sidereus/sidereus.dart';
 
 const IconData _kCancelIcon = McIcons.close_circle_outline;
 const IconData _kConfirmIcon = Icons.check;
 
-class ConfirmSheet extends StatelessWidget {
+class ConfirmStageAlert extends StatelessWidget {
 
   final String warningText;
 
@@ -20,9 +21,9 @@ class ConfirmSheet extends StatelessWidget {
 
   final double bottomPadding;
 
-  final bool autoPop;
+  final bool autoClose;
 
-  ConfirmSheet({
+  ConfirmStageAlert({
     @required this.action,
     String warningText,
     String confirmText,
@@ -32,7 +33,7 @@ class ConfirmSheet extends StatelessWidget {
     IconData cancelIcon,
     this.cancelColor, //defaults to the text color provided by the context
     this.bottomPadding = 0,
-    this.autoPop = true,
+    this.autoClose = true,
   }):
     this.cancelText = cancelText ?? "Cancel",
     this.confirmText = confirmText ?? "Confirm",
@@ -48,48 +49,53 @@ class ConfirmSheet extends StatelessWidget {
     final Color _cancelColor = this.cancelColor 
       ?? Theme.of(context)?.textTheme?.body1?.color;
 
-    return Material(
-      child: Padding(
-        padding: EdgeInsets.only(bottom: this.bottomPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+    return IconTheme(
+      data: IconThemeData(opacity: 1.0),
+      child: Material(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: this.bottomPadding),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
 
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-              child: Text(this.warningText),
-            ),
+              Container(
+                height: 32,
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text(this.warningText, maxLines: 1, overflow: TextOverflow.ellipsis,),
+              ),
 
-            ListTile(
-              onTap: (){
-                if(this.autoPop)
-                  Navigator.pop(context);
-                this.action();
-              },
-              leading: Icon(
-                this.confirmIcon ?? _kConfirmIcon,
-                color: _confirmColor,
+              ListTile(
+                onTap: (){
+                  if(this.autoClose)
+                    StageBoard.of(context).panelController.closePanel();
+                  this.action();
+                },
+                leading: Icon(
+                  this.confirmIcon ?? _kConfirmIcon,
+                  color: _confirmColor,
+                ),
+                title: Text(
+                  this.confirmText,
+                  style: TextStyle(color: _confirmColor),
+                ),
               ),
-              title: Text(
-                this.confirmText,
-                style: TextStyle(color: _confirmColor),
-              ),
-            ),
 
-            ListTile(
-              onTap: () => Navigator.pop(context),
-              leading: Icon(
-                this.cancelIcon ?? _kCancelIcon,
-                color: _cancelColor,
+              ListTile(
+                onTap: () => StageBoard.of(context).panelController.closePanel(),
+                leading: Icon(
+                  this.cancelIcon ?? _kCancelIcon,
+                  color: _cancelColor,
+                ),
+                title: Text(
+                  this.cancelText,
+                  style: TextStyle(color: _cancelColor),
+                ),
               ),
-              title: Text(
-                this.cancelText,
-                style: TextStyle(color: _cancelColor),
-              ),
-            ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

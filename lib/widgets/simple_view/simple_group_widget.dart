@@ -465,7 +465,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
             buttonSize: buttonSize,
           ),
         ),
-        buildPlayer(2,
+        buildPlayer(0,
           constraints: box,
           buttonAlignment: Alignment.topCenter,
           buttonSize: buttonSize,

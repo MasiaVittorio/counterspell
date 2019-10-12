@@ -40,13 +40,16 @@ class CSBody extends StatelessWidget {
             });
           }
         } else {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            //just (dont) build lol
-            stageBoard.pagesController.enablePage(CSPage.history);
-            bloc.game.gameHistory.listController.refresh(
-              bloc.game.gameState.gameState.value.historyLenght,
-            );
-          });
+          if(!historyEnabled){
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              //just (dont) build lol
+              stageBoard.pagesController.enablePage(CSPage.history);
+              debugPrint("sto per refreshare la lista animata end frame");
+              bloc.game.gameHistory.listController.refresh(
+                bloc.game.gameState.gameState.value.historyLenght,
+              );
+            });
+          }
         }
 
         final int count = names.length;

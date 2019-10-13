@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/material_color_picker/sheet_color_picker.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
+import 'package:stage_board/stage_board.dart';
 
 
 class PanelTheme extends StatelessWidget {

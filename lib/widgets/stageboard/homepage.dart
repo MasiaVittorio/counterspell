@@ -4,7 +4,7 @@ import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/widgets/stageboard/scaffold_components.dart';
 import 'package:flutter/material.dart';
-import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 class CSHomePage extends StatelessWidget {
   const CSHomePage({

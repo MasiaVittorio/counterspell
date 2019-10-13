@@ -7,6 +7,7 @@ import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs.dart/game_
 import 'package:sidereus/bloc/bloc_var.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs.dart/game_action.dart';
 import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 import 'player_tile.dart';
 

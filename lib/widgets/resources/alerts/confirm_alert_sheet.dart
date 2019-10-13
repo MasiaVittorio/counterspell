@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 const IconData _kCancelIcon = McIcons.close_circle_outline;
 const IconData _kConfirmIcon = Icons.check;

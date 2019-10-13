@@ -5,6 +5,7 @@ import 'package:counter_spell_new/widgets/stageboard/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/bloc/bloc_provider.dart';
 import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 void main() => runApp(ScryWalker());
 

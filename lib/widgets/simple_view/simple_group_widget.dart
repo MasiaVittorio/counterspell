@@ -8,6 +8,7 @@ import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_player_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
+import 'package:stage_board/stage_board.dart';
 
 class SimpleGroupWidget extends StatefulWidget {
   final GameState gameState;

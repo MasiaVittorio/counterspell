@@ -19,6 +19,8 @@ environment:
 dependencies:
   sidereus:
     path: ../sidereus 
+  stage_board:
+    path: ../stage_board 
   division: ^0.7.0
   flutter_statusbarcolor: ^0.2.0
   http: ^0.12.0+2

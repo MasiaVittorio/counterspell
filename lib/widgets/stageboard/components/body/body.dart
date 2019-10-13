@@ -5,7 +5,7 @@ import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
+import 'package:stage_board/stage_board.dart';
 
 import 'components/components.dart';
 

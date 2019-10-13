@@ -8,7 +8,7 @@ import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:counter_spell_new/models/game/game_state.dart';
-import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 
 class CurrentStateTile extends StatelessWidget {

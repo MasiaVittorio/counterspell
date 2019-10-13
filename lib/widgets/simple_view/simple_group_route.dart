@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sidereus/bloc/bloc_var.dart';
 import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 const Duration _kCarouselDuration = const Duration(milliseconds: 200);
 const Color _kBarrier = Colors.black12;

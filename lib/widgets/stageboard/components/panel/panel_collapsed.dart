@@ -11,6 +11,7 @@ import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.da
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 class CSPanelCollapsed extends StatelessWidget {
   const CSPanelCollapsed({Key key}): super(key: key);

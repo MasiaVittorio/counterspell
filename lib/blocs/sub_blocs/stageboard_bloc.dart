@@ -3,7 +3,7 @@ import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/preset_themes.dart';
 import 'package:flutter/material.dart';
-import 'package:sidereus/reusable_widgets/stageboard/stage_board.dart';
+import 'package:stage_board/stage_board.dart';
 
 import '../bloc.dart';
 

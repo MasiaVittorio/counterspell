@@ -6,7 +6,7 @@ import 'package:counter_spell_new/widgets/constants.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/history/current_state_tile.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/history/history_player_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
+import 'package:stage_board/stage_board.dart';
 
 class HistoryTile extends StatelessWidget {
   final double tileSize;

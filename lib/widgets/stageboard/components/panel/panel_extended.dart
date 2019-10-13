@@ -3,6 +3,7 @@ import 'package:counter_spell_new/widgets/stageboard/components/panel/extended_c
 import 'package:counter_spell_new/widgets/stageboard/components/panel/extended_components/panel_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
+import 'package:stage_board/stage_board.dart';
 
 class CSPanelExtended extends StatelessWidget {
   const CSPanelExtended({Key key}): super(key: key);

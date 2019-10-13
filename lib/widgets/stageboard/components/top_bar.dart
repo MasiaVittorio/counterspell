@@ -3,6 +3,7 @@ import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 //position, size, dragUpdate, dragEnd, menuButton
 class CSTopBarTitle extends StatelessWidget {

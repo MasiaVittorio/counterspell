@@ -138,6 +138,9 @@ class CSGameState {
     if(!gameState.value.players.containsKey(name)){
       return;
     }
+    if(gameState.value.players.length <= 1){
+      return;
+    }
     this.gameState.value.deletePlayer(name);
     this.parent.gameGroup.deletePlayer(name);
     // this.parent.gameHistory.deletePlayerReferences(name);

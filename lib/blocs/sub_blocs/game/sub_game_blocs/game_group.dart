@@ -5,6 +5,8 @@ import 'package:sidereus/bloc/bloc.dart';
 
 import '../game.dart';
 
+const int maxNumberOfPlayers = 12; 
+
 class CSGameGroup {
 
   void dispose(){
@@ -18,12 +20,22 @@ class CSGameGroup {
   PersistentVar<List<String>> names;
   PersistentVar<Map<int,String>> alternativeLayoutNameOrder;
   StreamSubscription newNamesSub;
-
+  final PersistentVar<Set<String>> savedNames;
 
 
   ///========================
   /// Constructor
-  CSGameGroup(this.parent){
+  CSGameGroup(this.parent): 
+    savedNames = PersistentVar<Set<String>>(
+      initVal: <String>{},
+      key: "bloc_game_group_blocvar_saved_names",
+      toJson: (stringSet) => stringSet.toList(),
+      fromJson: (json) => {
+        for(final s in json)  
+          s as String,
+      },
+    )
+  {
     names = PersistentVar<List<String>>(
       key: "bloc_game_group_blocvar_names",
       initVal: this.parent.gameState.gameState.value.names.toList(),
@@ -127,6 +139,7 @@ class CSGameGroup {
       this.alternativeLayoutNameOrder.value[altIndex] = newName;
       this.alternativeLayoutNameOrder.refresh();
     }
+    this.saveName(newName);
   }
   void deletePlayer(String name){
     this.names.value.remove(name);
@@ -135,6 +148,7 @@ class CSGameGroup {
   void newPlayer(String newName){
     this.names.value.add(newName);
     this.names.refresh();
+    this.saveName(newName);
   }
   void newGroup(List<String> newNames){
     this.names.set(newNames);
@@ -142,5 +156,32 @@ class CSGameGroup {
       for(int i=0; i<newNames.length; ++i)
         i: newNames[i],
     });
+    this.saveNames(newNames);
+  }
+  void saveName(String name){
+    if(this.savedNames.value.add(name))
+      this.savedNames.refresh();
+  }
+  void unSaveName(String name){
+    if(this.savedNames.value.remove(name))
+      this.savedNames.refresh();
+  }
+  void saveNames(Iterable<String> names){
+    bool refresh = false;
+    for(final name in names){
+      if(this.savedNames.value.add(name)){
+        refresh = true;
+      }
+    }
+    if(refresh) this.savedNames.refresh();
+  }
+  void unSaveNames(Iterable<String> names){
+    bool refresh = false;
+    for(final name in names){
+      if(this.savedNames.value.remove(name)){
+        refresh = true;
+      }
+    }
+    if(refresh) this.savedNames.refresh();
   }
 }

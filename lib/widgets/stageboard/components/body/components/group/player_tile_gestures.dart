@@ -41,8 +41,8 @@ class PlayerGestures{
       case CSPage.commanderDamage:
         if(actionBloc.isSomeoneAttacking){
           actionBloc.defendingPlayer.set(name);
+          scrollerBloc.onDragUpdate(details, width);
         }
-        scrollerBloc.onDragUpdate(details, width);
         return;
         break;
       default:

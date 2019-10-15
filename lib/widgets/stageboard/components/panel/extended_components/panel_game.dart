@@ -26,7 +26,7 @@ class PanelGame extends StatelessWidget {
           SectionTitle("Enabled Screens"),
           for(final page in disablablePages)
             SwitchListTile(
-              title: Text(pageThemes[page].name),
+              title: Text(pageThemes[page].longName),
               value: enabledPages[page],
               onChanged: (_) => pagesController.togglePage(page),
               secondary: Icon(pageThemes[page].icon),

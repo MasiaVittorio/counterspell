@@ -78,7 +78,7 @@ class CSBody extends StatelessWidget {
             child: SizedBox(
               width: constraints.maxWidth,
               height: totalSize,
-              child: themer.themeSet.build((_, theme) 
+              child: themer.theme.build((_, theme) 
                 => Stack(
                   fit: StackFit.expand,
                   children: <Widget>[

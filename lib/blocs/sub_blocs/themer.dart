@@ -21,20 +21,20 @@ class CSThemer {
   //================================
   // Values
   final CSBloc parent;
-  final PersistentSet<CSTheme> themeSet;
-  final BlocVar<CSTheme> temporary;
+  final PersistentVar<CSTheme> theme;
+  // final BlocVar<CSTheme> temporary;
 
 
 
   //================================
   // Getters
 
-  CSTheme get currentTheme => themeSet.variable.value;
-  bool get isSaved {
-    if(temporary.value == null) return false;
+  CSTheme get currentTheme => theme.value;
+  // bool get isSaved {
+  //   if(temporary.value == null) return false;
 
-    return temporary.value.isEqualTo(currentTheme);
-  }
+  //   return temporary.value.isEqualTo(currentTheme);
+  // }
 
 
 
@@ -42,22 +42,13 @@ class CSThemer {
   //================================
   // Constructor
   CSThemer(this.parent): 
-    themeSet = PersistentSet(
+    theme = PersistentVar(
       key: "bloc_themer_blocvar_themeset",
-      initList: [
-        ...csDefaultThemesLight.values,
-        ...csDefaultThemesDark.values,
-      ],
-      toJson: (list) => [
-        for(final theme in list)
-          theme.toJson(),
-      ],
-      fromJson: (jsonList) => [
-        for(final json in jsonList)
-          CSTheme.fromJson(json),
-      ]
-    ),
-    temporary = BlocVar<CSTheme>(null);
+      initVal: csDefaultThemesLight.values.first,
+      toJson: (theme) => theme.toJson(),
+      fromJson: (json) => CSTheme.fromJson(json),
+    );
+    // temporary = BlocVar<CSTheme>(null);
 
 
 
@@ -124,12 +115,12 @@ class CSThemer {
 
   ///does not animate the changing theme
   Widget _currentChild({@required Widget child})
-    => this.themeSet.build((context, themeVal)
+    => this.theme.build((context, themeVal)
       => applyTheme(themeVal.data, child),
     );
   ///does not animate the changing theme
   Widget _currentBuilder(Widget Function(BuildContext, CSTheme) builder)
-    => this.themeSet.build((context, themeVal)
+    => this.theme.build((context, themeVal)
       => applyTheme(themeVal.data, Builder(
         builder: (context) => builder(context, themeVal)
       )),
@@ -154,11 +145,11 @@ class CSThemer {
       return this._animatedCurrentBuilder(builder);
   }
   Widget _animatedCurrentChild({@required Widget child})
-    => this.themeSet.build((context, themeVal)
+    => this.theme.build((context, themeVal)
       => _applyThemeAnimated(themeVal.data, child),
     );
   Widget _animatedCurrentBuilder(Widget Function(BuildContext, CSTheme) builder)
-    => this.themeSet.build( (context, themeVal)
+    => this.theme.build( (context, themeVal)
       => _applyThemeAnimated(themeVal.data, Builder(
         builder: (context) => builder(context, themeVal)
       )),
@@ -166,73 +157,40 @@ class CSThemer {
 
 
 
-  Widget animatedTemporaryWidget({
-    Widget child,
-    Widget Function(BuildContext, CSTheme) builder,
-  }){
-    assert(builder == null || child == null);
-    assert(builder != null || child != null);
-
-    if(child != null)
-      return this._animatedTemporaryChild(child: child);
-    else
-      return this.animatedTemporaryBuilder(builder);
-  }
-  Widget _animatedTemporaryChild({@required Widget child})
-    => this.temporary.build((context, tempThemeVal)
-      => _applyThemeAnimated(tempThemeVal.data, child),
-    );
-  Widget animatedTemporaryBuilder(Widget Function(BuildContext, CSTheme) builder)
-    => this.temporary.build((context, tempThemeVal)
-      => _applyThemeAnimated(tempThemeVal.data, Builder(
-        builder: (context) => builder(context, tempThemeVal)
-      )),
-    );
-
-
-  Widget animatedTemporaryInformed(Widget Function(BuildContext, CSTheme, bool) builder)
-    => BlocVar.build2(
-      this.themeSet.variable,
-      this.temporary,
-      builder: (_, __, CSTheme tempThemeVal)
-        => _applyThemeAnimated(tempThemeVal.data, Builder(
-          builder: (themedContext) 
-            => builder(themedContext, tempThemeVal, this.isSaved)
-        )),
-    );
-
-
-
-
-
-
-
-  // void _pop() => Navigator.pop(this.parent.context);
-
-
-
-  // void pickColor({
-  //   Color initialColor, 
-  //   @required void Function(Color color) onColor
+  // Widget animatedTemporaryWidget({
+  //   Widget child,
+  //   Widget Function(BuildContext, CSTheme) builder,
   // }){
+  //   assert(builder == null || child == null);
+  //   assert(builder != null || child != null);
 
-  //   final Widget _sheet = SheetColorPicker(
-  //     color: initialColor ?? Colors.red[500],
-  //     onSubmitted: (Color c) {
-  //       _pop();
-  //       onColor(c);
-  //     },
-  //     bottomPadding: this.parent.bottomPadding,
-  //     underscrollCallback: _pop,
-  //   );
-
-  //   this.parent.buildSheet(
-  //     _sheet, 
-  //     resizeToAvoidBottomPadding: false, 
-  //     materialColor: Colors.transparent, 
-  //   );
+  //   if(child != null)
+  //     return this._animatedTemporaryChild(child: child);
+  //   else
+  //     return this.animatedTemporaryBuilder(builder);
   // }
+  // Widget _animatedTemporaryChild({@required Widget child})
+  //   => this.temporary.build((context, tempThemeVal)
+  //     => _applyThemeAnimated(tempThemeVal.data, child),
+  //   );
+  // Widget animatedTemporaryBuilder(Widget Function(BuildContext, CSTheme) builder)
+  //   => this.temporary.build((context, tempThemeVal)
+  //     => _applyThemeAnimated(tempThemeVal.data, Builder(
+  //       builder: (context) => builder(context, tempThemeVal)
+  //     )),
+  //   );
 
+
+  // Widget animatedTemporaryInformed(Widget Function(BuildContext, CSTheme, bool) builder)
+  //   => BlocVar.build2(
+  //     this.theme,
+  //     this.temporary,
+  //     builder: (_, __, CSTheme tempThemeVal)
+  //       => _applyThemeAnimated(tempThemeVal.data, Builder(
+  //         builder: (themedContext) 
+  //           => builder(themedContext, tempThemeVal, this.isSaved)
+  //       )),
+  //   );
 
   static Color getScreenColor({
     @required CSTheme theme, 

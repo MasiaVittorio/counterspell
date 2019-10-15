@@ -22,7 +22,7 @@ class CSPanelCollapsed extends StatelessWidget {
     final gameStateBloc = bloc.game.gameState;
     final stageBoard = StageBoard.of(context);
 
-    return bloc.themer.themeSet.build((context, theme){
+    return bloc.themer.theme.build((context, theme){
       final Widget backButton = gameStateBloc.gameState.build( (context, state)
         => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3, iconSize: 20,),
       );

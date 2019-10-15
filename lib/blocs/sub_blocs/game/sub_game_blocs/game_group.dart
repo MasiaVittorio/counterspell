@@ -169,8 +169,10 @@ class CSGameGroup {
   void saveNames(Iterable<String> names){
     bool refresh = false;
     for(final name in names){
-      if(this.savedNames.value.add(name)){
-        refresh = true;
+      if(!name.contains("Player ")){
+        if(this.savedNames.value.add(name)){
+          refresh = true;
+        }
       }
     }
     if(refresh) this.savedNames.refresh();

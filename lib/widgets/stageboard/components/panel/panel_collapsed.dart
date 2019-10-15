@@ -6,7 +6,7 @@ import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/confirm_alert_sheet.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/playgroup/playgroup.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/playgroup_editor/playgroup_editor.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +45,8 @@ class CSPanelCollapsed extends StatelessWidget {
             true, 
             McIcons.account_multiple_outline, 
             () => stageBoard.showAlert(
-              PlayGroupAlert(),
-              dimension: ((bloc.game.gameGroup.names.value.length + 1).clamp(2, 6)+0.5) * 56.0 + 32.0
+              PlayGroupEditor(bloc),
+              alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
             ),
             1.0,
             iconSize: 25,
@@ -63,7 +63,7 @@ class CSPanelCollapsed extends StatelessWidget {
               confirmIcon: McIcons.restart,
               cancelColor: DELETE_COLOR,
             ),
-            dimension: 56*2+32.0,
+            alertSize: 56*2+32.0,
           ),
           1.0,
           iconSize: 24,

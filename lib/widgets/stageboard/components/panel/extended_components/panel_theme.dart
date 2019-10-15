@@ -40,7 +40,7 @@ class PanelTheme extends StatelessWidget {
                       stageBoard.panelController.closePanel();
                     },
                   ),
-                  dimension: 480.0,
+                  alertSize: 480.0,
                 );
               },
             ),

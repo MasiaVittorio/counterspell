@@ -22,7 +22,6 @@ class _PlayGroupAlertState extends State<PlayGroupAlert> {
     this.unFocuser.dispose();
     super.dispose();
   }
-  //TODO:  tutto stateful con robbe
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);

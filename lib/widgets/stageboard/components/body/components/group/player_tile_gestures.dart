@@ -27,6 +27,7 @@ class PlayerGestures{
         return;
         break;
       case CSPage.counters:
+      case CSPage.commanderCast: //TODO: controlla pan cast??
       case CSPage.life:
         if(scrollerBloc.ignoringThisPan) 
           return;
@@ -37,7 +38,7 @@ class PlayerGestures{
         scrollerBloc.onDragUpdate(details, width);
         return;
         break;
-      case CSPage.commander:
+      case CSPage.commanderDamage:
         if(actionBloc.isSomeoneAttacking){
           actionBloc.defendingPlayer.set(name);
         }
@@ -63,6 +64,7 @@ class PlayerGestures{
         return;
         break;
       case CSPage.counters:
+      case CSPage.commanderCast: //TODO: controlla cast
       case CSPage.life:
         actionBloc.selected.value[name] = rawSelected == false;
         actionBloc.selected.refresh();
@@ -72,7 +74,7 @@ class PlayerGestures{
         }
         return;
         break;
-      case CSPage.commander:
+      case CSPage.commanderDamage:
         if(attacking){
           actionBloc.attackingPlayer.set("");
           actionBloc.defendingPlayer.set("");

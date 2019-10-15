@@ -15,9 +15,6 @@ const String _kAmoled = "Amoled";
 const String _kNightBlue = "Night Blue";
 
 class CSTheme {
-  // final Map<CSPage, Color> pageColors;
-  //CSPage.commander => cast!
-  final Color commanderAttack;
   final Color commanderDefence;
   final Color accent;
   final bool light;
@@ -26,8 +23,6 @@ class CSTheme {
   bool get dark => !this.light;
   
   const CSTheme({
-    // @required this.pageColors,
-    @required this.commanderAttack,
     @required this.commanderDefence,
     @required this.accent,
     @required this.light,
@@ -35,12 +30,7 @@ class CSTheme {
   });
 
   CSTheme copy() => CSTheme(
-    // pageColors: {
-    //   for(final entry in pageColors.entries)
-    //     entry.key: entry.value,
-    // },
-    commanderAttack: Color(this.commanderAttack.value+0),
-    commanderDefence: Color(this.commanderAttack.value+0),
+    commanderDefence: Color(this.commanderDefence.value+0),
     accent: Color(this.accent.value +0),
     light: this.light ? true : false,
     darkStyle: this.darkStyle,
@@ -54,35 +44,20 @@ class CSTheme {
     Color commanderAttack,
     Color commanderDefence,
   }) => CSTheme(
-    commanderAttack: commanderAttack ?? this.commanderAttack,
     commanderDefence: commanderDefence ?? this.commanderDefence,
-    // pageColors: pageColors ?? {
-    //   for(final entry in this.pageColors.entries)
-    //     entry.key: entry.value,
-    // },
     accent: accent ?? Color(this.accent.value +0),
     light: light ?? (this.light ? true : false),
     darkStyle: darkStyle ?? this.darkStyle,
   );
 
   CSTheme.fromJson(Map<String,dynamic> json):
-    this.commanderAttack = Color(json["commander_attack"]),
     this.commanderDefence = Color(json["commander_defence"]),
-    // this.pageColors = {
-    //   for(final entry in json["page_colors"].entries)
-    //     STRING_TO_CSPAGE[entry.key] : Color(entry.value),
-    // },
     this.accent = Color(json["accent"]),
     this.light = json["light"],
     this.darkStyle = darkNamesMapReversed[json["dark_style"]];
 
   Map<String,dynamic> toJson() => {
-    "commander_attack": this.commanderAttack.value,
     "commander_defence": this.commanderDefence.value,
-    // "page_colors": {
-    //   for(final entry in this.pageColors.entries)
-    //     CSPAGE_TO_STRING[entry.key] : entry.value.value,
-    // },
     "accent": this.accent.value,
     "light": this.light,
     "dark_style": darkNamesMap[this.darkStyle],

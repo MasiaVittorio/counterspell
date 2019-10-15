@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 import 'package:stage_board/stage_board.dart';
 
+const Set<CSPage> disablablePages = const {
+  CSPage.commanderDamage, 
+  CSPage.commanderCast, 
+  CSPage.counters,
+};
 
 class PanelGame extends StatelessWidget {
   const PanelGame();
@@ -19,7 +24,7 @@ class PanelGame extends StatelessWidget {
       children: <Widget>[
         Section([
           SectionTitle("Enabled Screens"),
-          for(final page in [CSPage.commander, CSPage.counters])
+          for(final page in disablablePages)
             SwitchListTile(
               title: Text(pageThemes[page].name),
               value: enabledPages[page],

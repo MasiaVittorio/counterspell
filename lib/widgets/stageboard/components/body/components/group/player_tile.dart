@@ -20,7 +20,7 @@ class PlayerTile extends StatelessWidget {
   final bool isScrollingSomewhere;
   final String whoIsAttacking;
   final String whoIsDefending;
-  final bool casting;
+  // final bool casting;
   final Counter counter;
   final GameState gameState;
   final CSTheme theme;
@@ -40,17 +40,17 @@ class PlayerTile extends StatelessWidget {
     @required this.isScrollingSomewhere,
     @required this.whoIsAttacking,
     @required this.whoIsDefending,
-    @required this.casting,
+    // @required this.casting,
     @required this.counter,
     @required this.gameState,
     @required this.theme,
     @required this.increment,
     @required this.normalizedPlayerActions,
   }): 
-    assert(!(
-      page == CSPage.commander
-      && casting == null
-    )),
+    // assert(!(
+    //   page == CSPage.commanderDamage
+    //   && casting == null
+    // )),
     assert(!(
       page == CSPage.counters
       && counter == null
@@ -73,13 +73,12 @@ class PlayerTile extends StatelessWidget {
         scrolling = false;
         break;
       case CSPage.counters:
+      case CSPage.commanderCast: //TODO: controlla cast
       case CSPage.life:
         scrolling = highlighted && isScrollingSomewhere;
         break;
-      case CSPage.commander:
-        scrolling = casting 
-          ? highlighted && isScrollingSomewhere
-          : defending;
+      case CSPage.commanderDamage:
+        scrolling = defending;
         break;
       default:
     }
@@ -173,13 +172,14 @@ class PlayerTile extends StatelessWidget {
     } else {
 
       Color color;
-      if(page == CSPage.commander && !casting){
+      if(page == CSPage.commanderDamage){
         if(attacking){
-          color = theme.commanderAttack;
+          color = pageThemes[CSPage.commanderDamage].primaryColor;
         } else if(defending){
           color = theme.commanderDefence;
         } else {
-          color = theme.commanderAttack.withOpacity(0.5);
+          color = pageThemes[CSPage.commanderDamage].primaryColor
+              .withOpacity(0.5);
         }
       } else {
         color = pageThemes[page].primaryColor;

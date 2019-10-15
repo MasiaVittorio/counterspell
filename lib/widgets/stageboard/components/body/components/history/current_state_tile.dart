@@ -133,7 +133,7 @@ class PieceOfInformation extends StatelessWidget {
     IconData icon;
 
     if(damageType == DamageType.commanderDamage){
-      color = attacking ? theme.commanderAttack : theme.commanderDefence;
+      color = attacking ? pageThemes[CSPage.commanderDamage].primaryColor : theme.commanderDefence;
       icon = attacking ? CSTypesUI.attackIconOne : CSTypesUI.defenceIconFilled;
     } else {
       color = pageThemes[damageToPage[damageType]].primaryColor;

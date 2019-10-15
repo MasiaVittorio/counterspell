@@ -244,9 +244,9 @@ class CSThemer {
       if(open){ //panel
         return theme.data.primaryColor;
       }
-      if(page == CSPage.commander && !casting){
-        return theme.commanderAttack;
-      }
+      // if(page == CSPage.commander && !casting){
+      //   return theme.commanderAttack;
+      // }
       return pageThemes[page].primaryColor;
   }
 
@@ -257,7 +257,7 @@ class CSThemer {
     @required Map<CSPage,StageBoardPageTheme> pageThemes,
   }){
     if(type == DamageType.commanderDamage){
-      return attack ? theme.commanderAttack : theme.commanderDefence;
+      return attack ? pageThemes[CSPage.commanderDamage] : theme.commanderDefence;
     } else {
       return pageThemes[damageToPage[type]].primaryColor;
     }

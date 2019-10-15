@@ -94,7 +94,7 @@ class BodyGroup extends StatelessWidget {
               whoIsDefending: defendingPlayer,
               isScrollingSomewhere: isScrolling,
               counter: counter,
-              casting: isCasting,
+              // casting: isCasting,
               gameState: gameState,
               normalizedPlayerActions: normalizedPlayerActions,
             ),

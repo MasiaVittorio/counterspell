@@ -6,18 +6,19 @@ const defaultPageColorsLight = const {
   CSPage.history: Color(0xFF424242),
   CSPage.counters: Color(0xFF263133), 
   CSPage.life: Color(0xFF2E7D32), 
-  CSPage.commander: Color(0xFF00838F),
+  CSPage.commanderCast: Color(0xFF00838F),
+  CSPage.commanderDamage: const Color(0xFF983146),
 };
 const defaultPageColorsDark = const {
   CSPage.history: Color(0xFF303030),
   CSPage.counters: MyColors.dark, 
   CSPage.life: Color(0xFF004D40), 
-  CSPage.commander: Color(0xFF006064),
+  CSPage.commanderCast: Color(0xFF006064),
+  CSPage.commanderDamage: Color(0xFF792738),
 };
 
 const Map<String, CSTheme> csDefaultThemesLight = {
   "Light Default" : const CSTheme(
-    commanderAttack: const Color(0xFF983146),
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF64FFDA), 
     light: true,
@@ -27,22 +28,18 @@ const Map<String, CSTheme> csDefaultThemesLight = {
 
 const Map<String, CSTheme> csDefaultThemesDark = {
   "Night Blue Default" : const CSTheme(
-    commanderAttack: const Color(0xFF792738),
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF64FFDA), 
     light: false,
     darkStyle: DarkStyle.nightBlue,
   ),
   "Night Black Default" : const CSTheme(
-    commanderAttack: const Color(0xFF792738),
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF212121),
     light: false,
     darkStyle: DarkStyle.nightBlack,
   ),
 };
-
-
 
 
 class MyColors {

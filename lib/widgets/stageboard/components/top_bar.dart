@@ -34,8 +34,6 @@ class CSTopBarTitle extends StatelessWidget {
           text = "CounterSpell";
         } else if(page == CSPage.counters){
           text = counter.longName;
-        } else if(page == CSPage.commander){
-          text = casting ? "Commander Cast" : "Commander Damage";
         } else {
           text = CSPAGE_TITLES_LONG[page];
         }

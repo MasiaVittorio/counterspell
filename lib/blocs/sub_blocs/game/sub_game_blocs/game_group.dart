@@ -37,7 +37,7 @@ class CSGameGroup {
     )
   {
     names = PersistentVar<List<String>>(
-      key: "newcounterspell_bloc_game_group_blocvar_names",
+      key: "bloc_game_group_blocvar_names_ordered_list_counterspell",
       initVal: this.parent.gameState.gameState.value.names.toList(),
       toJson: (list) => list,
       fromJson: (json) => [

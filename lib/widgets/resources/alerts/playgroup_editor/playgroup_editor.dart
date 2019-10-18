@@ -95,7 +95,6 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     });
   }
   int validateNumber(){
-    debugPrint("validating number: ${controller.text}");
     int result;
     try {
       final int howMany = int.parse(this.controller.text);

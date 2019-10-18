@@ -60,7 +60,7 @@ class CSStageBoard {
       //themes
       light: true,
       darkStyle: DarkStyle.nightBlack,
-      lightPrimary: const Color(0xFF263),
+      lightPrimary: _primary,
       darkPrimaries: _darkPrimaries,
       lightPrimaryPerPage: defaultPageColorsLight,
       darkPrimariesPerPage: {
@@ -72,9 +72,7 @@ class CSStageBoard {
       lastClosedPage: CSPage.life,
   );
   final CSBloc parent;
-  CSStageBoard(this.parent){
-    print("starting dark primaries = $_darkPrimaries");
-  }
+  CSStageBoard(this.parent);
 }
 
 const settingsThemes = <SettingsPage,StageBoardPage>{

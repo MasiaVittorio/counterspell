@@ -69,7 +69,7 @@ class PlayerTile extends StatelessWidget {
         scrolling = false;
         break;
       case CSPage.counters:
-      case CSPage.commanderCast: //TODO: controlla cast
+      case CSPage.commanderCast:
       case CSPage.life:
         scrolling = highlighted && isScrollingSomewhere;
         break;

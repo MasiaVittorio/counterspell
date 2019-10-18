@@ -47,7 +47,7 @@ class GameState {
     startingTime: DateTime.now(),
     players: {
       for(final name in names)
-        name: Player.start(name, startingLife: startingLife)
+        name: Player.start(name, names, startingLife: startingLife)
     }
   );
 
@@ -140,6 +140,7 @@ class GameState {
 
     final Player player = Player.start(
       name, 
+      this.names,
       startingLife: startingLife
     );
 

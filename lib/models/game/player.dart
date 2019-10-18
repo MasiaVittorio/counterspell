@@ -42,13 +42,13 @@ class Player {
     assert(states != null),
     assert(states.isNotEmpty);
 
-  factory Player.start(String name, {int startingLife = 20}) 
+  factory Player.start(String name, Set<String> others,{int startingLife = 20}) 
     => Player(
       name, 
       states: [
-        PlayerState(
-          time: DateTime.now(),
+        PlayerState.start(
           life: startingLife, 
+          others: others,
         ),
       ]
     );

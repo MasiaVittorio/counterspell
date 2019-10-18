@@ -27,7 +27,7 @@ class PlayerGestures{
         return;
         break;
       case CSPage.counters:
-      case CSPage.commanderCast: //TODO: controlla pan cast??
+      case CSPage.commanderCast:
       case CSPage.life:
         if(scrollerBloc.ignoringThisPan) 
           return;
@@ -64,7 +64,7 @@ class PlayerGestures{
         return;
         break;
       case CSPage.counters:
-      case CSPage.commanderCast: //TODO: controlla cast
+      case CSPage.commanderCast:
       case CSPage.life:
         actionBloc.selected.value[name] = rawSelected == false;
         actionBloc.selected.refresh();

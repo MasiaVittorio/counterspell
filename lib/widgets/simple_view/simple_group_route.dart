@@ -118,7 +118,10 @@ class _SimpleGroup extends StatelessWidget {
           selectedValue: selected,
           gameState: gameState,
           scrollerValue: increment,
-
+          defender: null,
+          attacker: null,
+          usingPartnerA: true,
+          applyDamageToLife: true,
           //these two values are so rarely updated that all the actual
           //reactive variables make this rebuild so often that min and max
           //will basically always be correct. no need to add 2 streambuilders

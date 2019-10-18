@@ -90,7 +90,11 @@ class _Change extends StatelessWidget {
   Widget build(BuildContext context) {
     final int increment = change.next - change.previous;
     final String text = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
-    final String subText = "= ${change.next}";
+    final String subText = "= ${change.next}" + (
+      change.type == DamageType.commanderCast
+        ? change.partnerA ? " (A)" : " (B)"
+        : ""
+    );
 
     final Color color = CSThemer.getHistoryChipColor(
       attack: change.attack,

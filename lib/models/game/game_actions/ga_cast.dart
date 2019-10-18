@@ -2,16 +2,16 @@
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:flutter/widgets.dart';
 
-class GALife extends GameAction{
+class GACast extends GameAction{
   final Map<String,bool> selected;
   final int increment;
-  final int minVal;
   final int maxVal;
+  final bool partnerA;
 
-  const GALife(
+  const GACast(
     this.increment, {
       @required this.selected,
-      this.minVal,
+      @required this.partnerA,
       this.maxVal,
     }
   );
@@ -23,12 +23,12 @@ class GALife extends GameAction{
         ? PANull.instance
         : selected[name] == false 
           ? PANull.instance
-          : PALife(
+          : PACast(
             selected[name] == null 
               ? -increment
               : increment, // true
             maxVal: maxVal,
-            minVal: minVal,
+            partnerA: partnerA,
           ),
   };
 

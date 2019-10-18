@@ -57,6 +57,17 @@ class PlayerState {
 
   //LOW PRIORITY: implementa commander damage (insieme a rename references e delete references)
 
+  //===================================
+  // Getters
+  int get totalDamageTaken {
+    int sum = 0;
+    for(final value in this.damages.values){
+      sum += value.a;
+      sum += value.b;
+    }
+    return sum;
+  }
+
 
 
   //===================================

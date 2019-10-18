@@ -68,7 +68,10 @@ class BodyGroup extends StatelessWidget {
           selectedValue: selected,
           gameState: gameState,
           scrollerValue: increment,
-
+          applyDamageToLife: true,//TODO: setting damage to life
+          usingPartnerA: true,//TODO: setting partner
+          attacker: attackingPlayer,
+          defender: defendingPlayer,
           //these two values are so rarely updated that all the actual
           //reactive variables make this rebuild so often that min and max
           //will basically always be correct. no need to add 2 streambuilders

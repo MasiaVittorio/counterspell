@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:counter_spell_new/models/game/game_actions/ga_damage.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:counter_spell_new/models/game/game_actions/ga_null.dart';
@@ -87,6 +88,10 @@ class CSGameAction {
     @required Map<String,bool> selectedValue,
     @required int minValue,
     @required int maxValue,
+    @required String attacker,
+    @required String defender,
+    @required bool applyDamageToLife,
+    @required bool usingPartnerA,
   }) {
     if(scrollerValue == 0)
       return GANull.instance;
@@ -104,9 +109,34 @@ class CSGameAction {
       );
     }
 
-    //if(pageValue  == CSPage.commander) bla bla bla
-      //if(isCasting) bla bla bla
-      //else bla bla bla
+    if(pageValue == CSPage.commanderCast){
+      if(selectedValue.values.every((b) => b == false))
+        return GANull.instance;
+      
+      return GACast(
+        scrollerValue,
+        selected: selectedValue,
+        maxVal: maxValue,
+        partnerA: usingPartnerA,
+      );
+    }
+
+    if(pageValue == CSPage.commanderDamage){
+      if(attacker != null && defender != null){
+        if(attacker != "" && defender != ""){
+          return GADamage(
+            scrollerValue,
+            attacker: attacker,
+            defender: defender,
+            applyToLife: applyDamageToLife,
+            partnerA: usingPartnerA,
+            minLife: minValue,
+            maxVal: maxValue,
+          );
+        }
+      }
+    }
+
     //if(pageValue  == CSPage.counters) bla bla bla
 
     return GANull.instance;
@@ -118,12 +148,20 @@ class CSGameAction {
     @required GameState gameState,
     @required int minValue,
     @required int maxValue,
+    @required String attacker,
+    @required String defender,
+    @required bool usingPartnerA,
+    @required bool applyDamageToLife,
   }) => action(
     pageValue: pageValue,
     scrollerValue: scrollerValue,
     selectedValue: selectedValue,
     minValue: minValue,
     maxValue: maxValue,
+    attacker: attacker,
+    defender: defender,
+    usingPartnerA: usingPartnerA,
+    applyDamageToLife: applyDamageToLife,
   ).normalizeOnLast(gameState);
 
   GameAction currentNormalizedAction(CSPage page) => normalizedAction(
@@ -133,6 +171,10 @@ class CSGameAction {
     gameState: parent.gameState.gameState.value,
     minValue: parent.parent.settings.minValue.value,
     maxValue: parent.parent.settings.maxValue.value,
+    attacker: this.attackingPlayer.value,
+    defender: this.defendingPlayer.value,
+    applyDamageToLife: true, /////////////////////
+    usingPartnerA: true, ///////////////////
   );
 
   bool get isSomeoneAttacking => selected.value.keys.contains(attackingPlayer.value);

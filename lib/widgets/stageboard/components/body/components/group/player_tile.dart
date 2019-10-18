@@ -27,7 +27,7 @@ class PlayerTile extends StatelessWidget {
   final int increment;
   final Map<String,PlayerAction> normalizedPlayerActions;
   final double maxWidth;
-  final Map<CSPage,StageBoardPageTheme> pageThemes;
+  final Map<CSPage,Color> pageColors;
 
   const PlayerTile(this.name, {
     @required this.maxWidth,
@@ -35,22 +35,17 @@ class PlayerTile extends StatelessWidget {
     @required this.tileSize,
     @required this.coreTileSize,
     @required this.page,
-    @required this.pageThemes,
+    @required this.pageColors,
     @required this.selectedNames,
     @required this.isScrollingSomewhere,
     @required this.whoIsAttacking,
     @required this.whoIsDefending,
-    // @required this.casting,
     @required this.counter,
     @required this.gameState,
     @required this.theme,
     @required this.increment,
     @required this.normalizedPlayerActions,
   }): 
-    // assert(!(
-    //   page == CSPage.commanderDamage
-    //   && casting == null
-    // )),
     assert(!(
       page == CSPage.counters
       && counter == null
@@ -61,6 +56,7 @@ class PlayerTile extends StatelessWidget {
     final bloc = group.parent.parent;
     final scrollerBloc = bloc.scroller;
     final actionBloc = bloc.game.gameAction;
+    final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
 
     final bool attacking = whoIsAttacking == name;
     final bool defending = whoIsDefending == name;
@@ -125,6 +121,7 @@ class PlayerTile extends StatelessWidget {
                   playerState: playerState,
                   page: page,
                   defending: defending,
+                  stageBoard: stageBoard,
                 ),
                 Expanded(child: buildBody()),
                 buildTrailing(rawSelected, actionBloc),
@@ -144,11 +141,17 @@ class PlayerTile extends StatelessWidget {
     @required bool scrolling,
     @required bool attacking,
     @required bool defending,
+    @required StageBoardData<CSPage,SettingsPage> stageBoard,
   }){
     Widget child;
 
+    final currentColor = pageColors[page];
+    final colorBrightness = ThemeData.estimateBrightnessForColor(currentColor);
+    final Color textColor = colorBrightness == Brightness.light
+      ? Colors.black 
+      : Colors.white;
     final textStyle = TextStyle(
-      color: theme.data.colorScheme.onPrimary,
+      color: textColor,
       fontSize: 0.26 * coreTileSize,
     );
 
@@ -159,7 +162,7 @@ class PlayerTile extends StatelessWidget {
         width: coreTileSize*_circleFrac,
         height: coreTileSize*_circleFrac,
         decoration: BoxDecoration(
-          color: pageThemes[page].primaryColor,
+          color: currentColor,
           borderRadius: BorderRadius.circular(coreTileSize),
         ),
         alignment: Alignment.center,
@@ -174,15 +177,15 @@ class PlayerTile extends StatelessWidget {
       Color color;
       if(page == CSPage.commanderDamage){
         if(attacking){
-          color = pageThemes[CSPage.commanderDamage].primaryColor;
+          color = pageColors[CSPage.commanderDamage];
         } else if(defending){
           color = theme.commanderDefence;
         } else {
-          color = pageThemes[CSPage.commanderDamage].primaryColor
+          color = pageColors[CSPage.commanderDamage]
               .withOpacity(0.5);
         }
       } else {
-        color = pageThemes[page].primaryColor;
+        color = pageColors[page];
       }
       assert(color != null);
 
@@ -239,7 +242,7 @@ class PlayerTile extends StatelessWidget {
                 height: coreTileSize,
                 child: Checkbox(
                   value: rawSelected,
-                  activeColor: pageThemes[page].primaryColor,
+                  activeColor: pageColors[page],
                   tristate: true,
                   onChanged: (b) {
                     actionBloc.selected.value[name] = rawSelected == false ? true : false;

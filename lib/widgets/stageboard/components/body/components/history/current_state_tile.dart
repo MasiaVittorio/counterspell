@@ -8,7 +8,6 @@ import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:counter_spell_new/models/game/game_state.dart';
-import 'package:stage_board/stage_board.dart';
 
 
 class CurrentStateTile extends StatelessWidget {
@@ -19,7 +18,7 @@ class CurrentStateTile extends StatelessWidget {
   final int stateIndex;
   final GameState gameState;
   final CSTheme theme;
-  final Map<CSPage,StageBoardPageTheme> pageThemes;
+  final Map<CSPage,Color> pagesColor;
 
   const CurrentStateTile(this.gameState, this.stateIndex,{
     @required this.names,
@@ -27,7 +26,7 @@ class CurrentStateTile extends StatelessWidget {
     @required this.coreTileSize,
     @required this.theme,
     @required this.counters,
-    @required this.pageThemes,
+    @required this.pagesColor,
   });
 
   @override
@@ -43,11 +42,11 @@ class CurrentStateTile extends StatelessWidget {
               gameState, 
               stateIndex,
               name: name,
-              pageThemes: pageThemes,
+              pagesColor: pagesColor,
               tileSize: tileSize,  
               coreTileSize: coreTileSize,
-              theme: theme,
               counters: counters,
+              theme: theme,
             ),
         ]),
       ),
@@ -64,14 +63,14 @@ class CurrentStatePlayerTile extends StatelessWidget {
   final double coreTileSize;
   final CSTheme theme;
   final Map<String, Counter> counters;
-  final Map<CSPage,StageBoardPageTheme> pageThemes;
+  final Map<CSPage,Color> pagesColor;
 
   const CurrentStatePlayerTile(this.gameState, this.stateIndex, {
     @required this.name,
     @required this.tileSize,
     @required this.coreTileSize,
     @required this.theme,
-    @required this.pageThemes,
+    @required this.pagesColor,
     @required this.counters,
   });
 
@@ -95,8 +94,8 @@ class CurrentStatePlayerTile extends StatelessWidget {
             child: PieceOfInformation(
               damageType: DamageType.life,
               value: playerState.life,
+              pagesColor: pagesColor,
               theme: theme,
-              pageThemes: pageThemes,
             ),
           ),
           // for other counters, just sum up to the counters that are present in the map,
@@ -112,10 +111,10 @@ class PieceOfInformation extends StatelessWidget {
   final bool attacking;
   final int value;
   final CSTheme theme;
-  final Map<CSPage,StageBoardPageTheme> pageThemes;
+  final Map<CSPage,Color> pagesColor;
 
   PieceOfInformation({
-    @required this.pageThemes,
+    @required this.pagesColor,
     @required this.damageType,
     @required this.value,
     @required this.theme,
@@ -127,16 +126,16 @@ class PieceOfInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = theme.data;
+    final themeData = Theme.of(context);
 
     Color color;
     IconData icon;
 
     if(damageType == DamageType.commanderDamage){
-      color = attacking ? pageThemes[CSPage.commanderDamage].primaryColor : theme.commanderDefence;
+      color = attacking ? pagesColor[CSPage.commanderDamage]: theme.commanderDefence;
       icon = attacking ? CSTypesUI.attackIconOne : CSTypesUI.defenceIconFilled;
     } else {
-      color = pageThemes[damageToPage[damageType]].primaryColor;
+      color = pagesColor[damageToPage[damageType]];
       icon = CSTypesUI.typeIconsFilled[damageType];
     }
 

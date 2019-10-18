@@ -21,7 +21,6 @@ const Map<String, CSTheme> csDefaultThemesLight = {
   "Light Default" : const CSTheme(
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF64FFDA), 
-    light: true,
   ),
 };
 
@@ -30,14 +29,10 @@ const Map<String, CSTheme> csDefaultThemesDark = {
   "Night Blue Default" : const CSTheme(
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF64FFDA), 
-    light: false,
-    darkStyle: DarkStyle.nightBlue,
   ),
   "Night Black Default" : const CSTheme(
     commanderDefence: MyColors.blue,
     accent: const Color(0xFF212121),
-    light: false,
-    darkStyle: DarkStyle.nightBlack,
   ),
 };
 

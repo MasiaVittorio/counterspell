@@ -3,7 +3,6 @@ export 'stageboard_bloc.dart';
 export 'scroller/scroller.dart';
 export 'settings.dart';
 export 'themer.dart';
-export 'sheets_bloc.dart';
 
 export 'game/sub_game_blocs/game_group.dart';
 export 'game/sub_game_blocs/game_state.dart';

@@ -50,11 +50,5 @@ class CSHomePage extends StatelessWidget {
 
   }
 
-      // CSPage.history: Color(0xFF424242),
-      // CSPage.counters: Color(0xFF263133), 
-      // CSPage.life: Color(0xFF2E7D32), 
-      // CSPage.commander: Color(0xFF00838F),
-
-
 }
 

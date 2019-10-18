@@ -25,7 +25,7 @@ class CSBody extends StatelessWidget {
     final themer = bloc.themer;
     final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
     final currentPage = stageBoard.pagesController.page;
-    final pageThemes = stageBoard.pagesController.pageThemes;
+    final pageColors = stageBoard.themeController.primaryColorsMap();
 
     return LayoutBuilder(builder: (context, constraints)
       => group.names.build((context, names){
@@ -88,7 +88,7 @@ class CSBody extends StatelessWidget {
                         child: BodyHistory(
                           bottom: bottom,
                           theme: theme,
-                          pageThemes: pageThemes,
+                          pageColors: pageColors,
                           count: count,
                           tileSize: tileSize,
                           group: group,

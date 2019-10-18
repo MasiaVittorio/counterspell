@@ -1,5 +1,4 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
-import 'package:counter_spell_new/blocs/sub_blocs/themer.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
@@ -122,12 +121,10 @@ class _DelayerPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final actionBloc = bloc.game.gameAction;
     final scroller = bloc.scroller;
-    final themeData = theme.data;
+    final themeData = Theme.of(context);
     final canvas = themeData.colorScheme.surface;
     final canvasContrast = themeData.colorScheme.onSurface;
     final stageBoard = StageBoard.of(context);
-    final page = stageBoard.pagesController.page;
-    final pageThemes = stageBoard.pagesController.pageThemes;
     
     return BlocVar.build4(
       scroller.isScrolling,
@@ -143,13 +140,7 @@ class _DelayerPanel extends StatelessWidget {
         bool casting,
       ){
         final accentColor = Color.alphaBlend(
-          CSThemer.getScreenColor(
-            theme: theme,
-            page: page,
-            pageThemes: pageThemes,
-            casting: casting,
-            open: false,
-          ).withOpacity(0.8), 
+          stageBoard.currentPrimaryColor,
           canvas,
         );
         return AnimatedOpacity(

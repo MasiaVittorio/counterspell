@@ -24,23 +24,28 @@ class _ScryWalkerState extends State<ScryWalker> {
     super.initState();
   }
 
-
   @override
   Widget build(context) {
     return BlocProvider<CSBloc>(
       bloc: bloc,
       child: StageBoardProvider<CSPage,SettingsPage>(
         data: bloc.stageBoard.controller,
-        child: bloc.themer.currentWidget(
-          builder: (context, theme)
-            => MaterialApp(
-              theme: theme.data, //so all the sheets under the navigator get the new theme
-              title: 'ScryWalker',
-              home: const CSHomePage(key: KEY_HOME_PAGE),
-            )
-        ),
+        child: const _MaterialApp(),
       ),
     );
   }
     
+}
+
+class _MaterialApp extends StatelessWidget {
+  const _MaterialApp();
+  @override
+  Widget build(BuildContext context) {
+    final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
+    return MaterialApp(
+      theme: stageBoard.themeController.currentThemeData,
+      title: 'ScryWalker',
+      home: const CSHomePage(key: KEY_HOME_PAGE),
+    );
+  }
 }

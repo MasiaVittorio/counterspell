@@ -16,7 +16,7 @@ class PanelGame extends StatelessWidget {
   Widget build(BuildContext context) {
     final stageBoard = StageBoard.of(context);
     final pagesController = stageBoard.pagesController;
-    final pageThemes = pagesController.pageThemes;
+    final pageThemes = pagesController.pagesData;
     final enabledPages = pagesController.enabledPages;
     return ListView(
       primary: false,

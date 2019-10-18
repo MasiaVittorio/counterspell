@@ -7,6 +7,12 @@ import 'package:stage_board/stage_board.dart';
 
 import '../bloc.dart';
 
+final _primary = const Color(0xFF263133);
+final _darkPrimaries = <DarkStyle,Color>{
+  for(final style in DarkStyle.values)
+    style: _primary,
+};
+
 class CSStageBoard {
 
   void dispose(){
@@ -14,16 +20,20 @@ class CSStageBoard {
   }
 
   final StageBoardData<CSPage,SettingsPage> controller = StageBoardData<CSPage,SettingsPage>(
+      // sizes
       barSize: StageBoard.kBarSize,
       collapsedPanelSize: StageBoard.kBarSize,
       panelRadiusClosed: StageBoard.kBarSize/2,
       panelRadiusOpened: StageBoard.kPanelRadius,
+      panelHorizontalPaddingClosed: StageBoard.kPanelHorizontalPaddingClosed,
+      panelHorizontalPaddingOpened: StageBoard.kPanelHorizontalPaddingOpened,
 
+      // closed pages
       initialClosedPage: CSPage.life,
-      initialClosedPagesData: <CSPage,StageBoardPageTheme>{
+      initialClosedPagesData: <CSPage,StageBoardPage>{
         for(final page in CSPage.values)
-          page: StageBoardPageTheme(
-            primaryColor: defaultPageColorsLight[page],
+          page: StageBoardPage(
+            // primaryColor: defaultPageColorsLight[page],
             name: CSPAGE_TITLES_SHORT[page],
             longName: CSPAGE_TITLES_LONG[page],
             unselectedIcon: CSTypesUI.pageIconsOutlined[page],
@@ -34,6 +44,7 @@ class CSStageBoard {
       encodePageClosed: (page) => CSPAGE_TO_STRING[page],
       initialClosedPagesList: CSPage.values,
 
+      // opened pages
       initialOpenedPage: SettingsPage.game,
       decodePageOpened: (json) => STRING_TO_SETTINGS_PAGE[json as String],
       encodePageOpened: (page) => SETTINGS_PAGE_TO_STRING[page],
@@ -46,35 +57,45 @@ class CSStageBoard {
       ],
       lastOpenedPage: SettingsPage.game,
 
+      //themes
+      light: true,
+      darkStyle: DarkStyle.nightBlack,
+      lightPrimary: const Color(0xFF263),
+      darkPrimaries: _darkPrimaries,
+      lightPrimaryPerPage: defaultPageColorsLight,
+      darkPrimariesPerPage: {
+        for(final style in DarkStyle.values)
+          style: defaultPageColorsDark,
+      },
 
-      panelHorizontalPaddingClosed: StageBoard.kPanelHorizontalPaddingClosed,
-      panelHorizontalPaddingOpened: StageBoard.kPanelHorizontalPaddingOpened,
-
+      //back behavior
       lastClosedPage: CSPage.life,
   );
   final CSBloc parent;
-  CSStageBoard(this.parent);
+  CSStageBoard(this.parent){
+    print("starting dark primaries = $_darkPrimaries");
+  }
 }
 
-const settingsThemes = <SettingsPage,StageBoardPageTheme>{
-  SettingsPage.game: const StageBoardPageTheme(
+const settingsThemes = <SettingsPage,StageBoardPage>{
+  SettingsPage.game: const StageBoardPage(
     name: "Game",
     longName: "Your game, your rules",
     icon: Icons.menu,
   ),
-  SettingsPage.settings: const StageBoardPageTheme(
+  SettingsPage.settings: const StageBoardPage(
     name: "Settings",
     longName: "Specify behaviors",
     icon: McIcons.settings,
     unselectedIcon: McIcons.settings_outline,
   ),
-  SettingsPage.info: const StageBoardPageTheme(
+  SettingsPage.info: const StageBoardPage(
     name: "Info",
     longName: "Details and contacts",
     icon: Icons.info,
     unselectedIcon: Icons.info_outline,
   ),
-  SettingsPage.theme: const StageBoardPageTheme(
+  SettingsPage.theme: const StageBoardPage(
     name: "Theme",
     longName: "Customize appearance",
     icon: Icons.palette,

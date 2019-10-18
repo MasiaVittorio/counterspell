@@ -3,7 +3,6 @@ import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs/game_group
 import 'package:counter_spell_new/blocs/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/structure/pages.dart';
-import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_gestures.dart';
 import 'package:division/division.dart';
@@ -16,8 +15,8 @@ class SimplePlayerTile extends StatelessWidget {
   final Map<String, bool> selectedNames;
   final bool isScrollingSomewhere;
   final GameState gameState;
-  final CSTheme theme;
-  final Map<CSPage,StageBoardPageTheme> pageThemes;
+  // final CSTheme theme;
+  final Map<CSPage,Color> pageColors;
   final int increment;
   final Map<String,PlayerAction> normalizedPlayerActions;
   final BoxConstraints constraints;
@@ -30,7 +29,7 @@ class SimplePlayerTile extends StatelessWidget {
   final double routeAnimationValue;
 
   SimplePlayerTile(this.index, {
-    @required this.pageThemes,
+    @required this.pageColors,
     @required this.indexToName,
     @required this.onPosition,
     @required this.buttonAlignment,
@@ -40,7 +39,7 @@ class SimplePlayerTile extends StatelessWidget {
     @required this.selectedNames,
     @required this.isScrollingSomewhere,
     @required this.gameState,
-    @required this.theme,
+    // @required this.theme,
     @required this.increment,
     @required this.normalizedPlayerActions,
     @required this.routeAnimationValue,
@@ -298,60 +297,9 @@ class SimplePlayerTile extends StatelessWidget {
     );
   }
 
-  static const _circleFrac = 0.7;
-  Widget buildLeading({
-    @required PlayerState playerState,
-    @required CSPage page,
-    @required bool rawSelected,
-    @required bool scrolling,
-    @required bool attacking,
-    @required bool defending,
-  }){
-    Widget child;
 
-    // final textStyle = TextStyle(
-    //   color: theme.data.colorScheme.onPrimary,
-    //   fontSize: 0.26 * coreTileSize,
-    // );
-
-    if(page == CSPage.history){
-    } else {
-      
-      final Color color = pageThemes[CSPage.life].primaryColor;
-
-      final normalizedPlayerAction = normalizedPlayerActions[name];
-      int _increment;
-      if(normalizedPlayerAction is PALife){
-        _increment = normalizedPlayerAction.increment;         
-      } else if(normalizedPlayerAction is PANull){
-        _increment = 0;
-      }
-      assert(_increment != null);
-
-      child = CircleNumber(
-        key: ValueKey("circle number"),
-        size: 2 * _circleFrac, ///////////
-        value: playerState.life,
-        numberOpacity: 1.0, 
-        open: scrolling,
-        style: null,//textStyle,
-        duration: MyDurations.fast,
-        color: color,
-        increment: _increment,
-        borderRadiusFraction: attacking ? 0.1 : 1.0,
-      );
-
-    }
-
-    assert(child != null);
-
-    return Padding(
-      padding: EdgeInsets.all(0000 * (1 - _circleFrac)/2),
-      child: child
-    );
-  }
   
-  Widget buildTrailing(bool rawSelected, CSGameAction actionBloc){
+  Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, StageBoardData stageBoard){
     return SizedBox(
       // width: coreTileSize,
       // height: coreTileSize,
@@ -372,7 +320,7 @@ class SimplePlayerTile extends StatelessWidget {
                 // height: coreTileSize,
                 child: Checkbox(
                   value: rawSelected,
-                  activeColor: pageThemes[CSPage.life].primaryColor,
+                  activeColor: pageColors[CSPage.life],
                   tristate: true,
                   onChanged: (b) {
                     actionBloc.selected.value[name] = rawSelected == false ? true : false;

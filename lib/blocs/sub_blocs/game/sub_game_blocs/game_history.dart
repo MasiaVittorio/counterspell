@@ -70,7 +70,7 @@ class CSGameHistory {
         counters: parent.gameAction.currentCounterMap,
         tileSize: null,
         theme: parent.parent.themer.currentTheme,
-        pageThemes: parent.parent.stageBoard.controller.pagesController.pageThemes,
+        pageColors: parent.parent.stageBoard.controller.themeController.primaryColorsMap(),
         avoidInteraction: true,
         coreTileSize: CSConstants.minTileSize,
         names: parent.gameGroup.names.value,

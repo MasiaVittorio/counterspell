@@ -4,25 +4,22 @@ import 'package:counter_spell_new/models/game/types/type_ui.dart';
 import 'package:counter_spell_new/structure/damage_types_to_pages.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
-import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/themes/preset_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
-import 'package:stage_board/stage_board.dart';
 
 import '../bloc.dart';
 
 class CSThemer {
 
   void dispose(){
-
+    theme.dispose();
   }
 
   //================================
   // Values
   final CSBloc parent;
   final PersistentVar<CSTheme> theme;
-  // final BlocVar<CSTheme> temporary;
 
 
 
@@ -30,12 +27,6 @@ class CSThemer {
   // Getters
 
   CSTheme get currentTheme => theme.value;
-  // bool get isSaved {
-  //   if(temporary.value == null) return false;
-
-  //   return temporary.value.isEqualTo(currentTheme);
-  // }
-
 
 
 
@@ -48,7 +39,6 @@ class CSThemer {
       toJson: (theme) => theme.toJson(),
       fromJson: (json) => CSTheme.fromJson(json),
     );
-    // temporary = BlocVar<CSTheme>(null);
 
 
 
@@ -57,74 +47,42 @@ class CSThemer {
   //=================================
   // Helper Functions
 
-  static Widget _applyThemeAnimated(ThemeData theme, Widget child) 
-    => DefaultTextStyle.merge(
-      style: theme.textTheme.body1,
-      child: ListTileTheme.merge(
-        iconColor: theme.iconTheme.color,
-        child: RadioSliderTheme(
-          data: RadioSliderThemeData(
-            selectedColor: RightContrast(theme).onCanvas,
-          ),
-          child: AnimatedTheme(
-            duration: MyDurations.fast,
-            data: theme,
-            child: child,
-          ),
-        ),
-      ),
-    );
-  static Widget applyTheme(ThemeData theme, Widget child) 
-    => DefaultTextStyle(
-      style: theme.textTheme.body1,
-      child: RadioSliderTheme(
-        data: RadioSliderThemeData(
-          selectedColor: theme.brightness == Brightness.dark 
-            ? theme.colorScheme.onSurface
-            : RightContrast(theme).onCanvas,
-        ),
-        child: Theme(
-          data: theme,
-          child: ListTileTheme.merge(
-            iconColor: theme.iconTheme.color,
-            child: child,
-          ),
-        ),
-      ),
-    );
+  // static Widget _applyThemeAnimated(ThemeData theme, Widget child) 
+  //   => DefaultTextStyle.merge(
+  //     style: theme.textTheme.body1,
+  //     child: ListTileTheme.merge(
+  //       iconColor: theme.iconTheme.color,
+  //       child: RadioSliderTheme(
+  //         data: RadioSliderThemeData(
+  //           selectedColor: RightContrast(theme).onCanvas,
+  //         ),
+  //         child: AnimatedTheme(
+  //           duration: MyDurations.fast,
+  //           data: theme,
+  //           child: child,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // static Widget applyTheme(ThemeData theme, Widget child) 
+  //   => DefaultTextStyle(
+  //     style: theme.textTheme.body1,
+  //     child: RadioSliderTheme(
+  //       data: RadioSliderThemeData(
+  //         selectedColor: theme.brightness == Brightness.dark 
+  //           ? theme.colorScheme.onSurface
+  //           : RightContrast(theme).onCanvas,
+  //       ),
+  //       child: Theme(
+  //         data: theme,
+  //         child: ListTileTheme.merge(
+  //           iconColor: theme.iconTheme.color,
+  //           child: child,
+  //         ),
+  //       ),
+  //     ),
+  //   );
 
-
-
-
-  //===================
-  // Builder Functions
-  //===================
-
-  Widget currentWidget({
-    Widget child,
-    Widget Function(BuildContext, CSTheme) builder,
-  }){
-    assert(builder == null || child == null);
-    assert(builder != null || child != null);
-
-    if(child != null)
-      return this._currentChild(child: child);
-    else
-      return this._currentBuilder(builder);
-  }
-
-  ///does not animate the changing theme
-  Widget _currentChild({@required Widget child})
-    => this.theme.build((context, themeVal)
-      => applyTheme(themeVal.data, child),
-    );
-  ///does not animate the changing theme
-  Widget _currentBuilder(Widget Function(BuildContext, CSTheme) builder)
-    => this.theme.build((context, themeVal)
-      => applyTheme(themeVal.data, Builder(
-        builder: (context) => builder(context, themeVal)
-      )),
-    );
 
 
 
@@ -132,92 +90,33 @@ class CSThemer {
   // Animated Builder Functions
   //============================
 
-  Widget animatedCurrentWidget({
-    Widget child,
-    Widget Function(BuildContext, CSTheme) builder,
-  }){
-    assert(builder == null || child == null);
-    assert(builder != null || child != null);
 
-    if(child != null)
-      return this._animatedCurrentChild(child: child);
-    else
-      return this._animatedCurrentBuilder(builder);
-  }
-  Widget _animatedCurrentChild({@required Widget child})
-    => this.theme.build((context, themeVal)
-      => _applyThemeAnimated(themeVal.data, child),
-    );
-  Widget _animatedCurrentBuilder(Widget Function(BuildContext, CSTheme) builder)
-    => this.theme.build( (context, themeVal)
-      => _applyThemeAnimated(themeVal.data, Builder(
-        builder: (context) => builder(context, themeVal)
-      )),
-    );
-
-
-
-  // Widget animatedTemporaryWidget({
-  //   Widget child,
-  //   Widget Function(BuildContext, CSTheme) builder,
+  // static Color getScreenColor({
+  //   @required CSTheme theme, 
+  //   @required CSPage page, 
+  //   @required bool casting, 
+  //   @required bool open,
+  //   @required Map<CSPage,StageBoardPage> pageThemes,
   // }){
-  //   assert(builder == null || child == null);
-  //   assert(builder != null || child != null);
-
-  //   if(child != null)
-  //     return this._animatedTemporaryChild(child: child);
-  //   else
-  //     return this.animatedTemporaryBuilder(builder);
+  //     if(open){ //panel
+  //       return theme.data.primaryColor;
+  //     }
+  //     // if(page == CSPage.commander && !casting){
+  //     //   return theme.commanderAttack;
+  //     // }
+  //     return pageThemes[page].primaryColor;
   // }
-  // Widget _animatedTemporaryChild({@required Widget child})
-  //   => this.temporary.build((context, tempThemeVal)
-  //     => _applyThemeAnimated(tempThemeVal.data, child),
-  //   );
-  // Widget animatedTemporaryBuilder(Widget Function(BuildContext, CSTheme) builder)
-  //   => this.temporary.build((context, tempThemeVal)
-  //     => _applyThemeAnimated(tempThemeVal.data, Builder(
-  //       builder: (context) => builder(context, tempThemeVal)
-  //     )),
-  //   );
-
-
-  // Widget animatedTemporaryInformed(Widget Function(BuildContext, CSTheme, bool) builder)
-  //   => BlocVar.build2(
-  //     this.theme,
-  //     this.temporary,
-  //     builder: (_, __, CSTheme tempThemeVal)
-  //       => _applyThemeAnimated(tempThemeVal.data, Builder(
-  //         builder: (themedContext) 
-  //           => builder(themedContext, tempThemeVal, this.isSaved)
-  //       )),
-  //   );
-
-  static Color getScreenColor({
-    @required CSTheme theme, 
-    @required CSPage page, 
-    @required bool casting, 
-    @required bool open,
-    @required Map<CSPage,StageBoardPageTheme> pageThemes,
-  }){
-      if(open){ //panel
-        return theme.data.primaryColor;
-      }
-      // if(page == CSPage.commander && !casting){
-      //   return theme.commanderAttack;
-      // }
-      return pageThemes[page].primaryColor;
-  }
 
   static Color getHistoryChipColor({
     @required DamageType type,
     @required bool attack,
     @required CSTheme theme,
-    @required Map<CSPage,StageBoardPageTheme> pageThemes,
+    @required Map<CSPage,Color> pageColors,
   }){
     if(type == DamageType.commanderDamage){
-      return attack ? pageThemes[CSPage.commanderDamage] : theme.commanderDefence;
+      return attack ? pageColors[CSPage.commanderDamage] : theme.commanderDefence;
     } else {
-      return pageThemes[damageToPage[type]].primaryColor;
+      return pageColors[damageToPage[type]];
     }
   }
 
@@ -238,39 +137,8 @@ class CSThemer {
   }
 
 
-  // void updateBrightness(){
-  //   final platform = MediaQuery.platformBrightnessOf(parentBloc.context);
-  //   if(autoDark.value == false) 
-  //     return;
-
-  //   if(timeOfDay.value == true){
-  //     final now = DateTime.now();
-
-  //     if(
-  //       now.hour >= startOfDay.value 
-  //       && 
-  //       now.hour <= endOfDay.value   
-  //     ){
-  //       this.brightnessDark.setDistinct(false);
-  //     }
-  //     else {
-  //       this.brightnessDark.setDistinct(true);
-  //     }
-
-  //   }
-
-  //   else{ //system
-  //     if(platform == Brightness.dark){
-  //       this.brightnessDark.setDistinct(true);
-  //     }
-  //     else{
-  //       this.brightnessDark.setDistinct(false);
-  //     }
-  //   }
-  // }
-
-
-
 
 
 }
+
+// TODO: animated theme  dalla stageboard

@@ -2,13 +2,11 @@ import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs/game_group
 import 'package:counter_spell_new/models/game/game_state.dart';
 import 'package:counter_spell_new/models/game/player_action.dart';
 import 'package:counter_spell_new/structure/pages.dart';
-import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_player_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:stage_board/stage_board.dart';
 
 class SimpleGroupWidget extends StatefulWidget {
   final GameState gameState;
@@ -16,8 +14,8 @@ class SimpleGroupWidget extends StatefulWidget {
   final bool isScrollingSomewhere;
   final int increment;
   final CSGameGroup group;
-  final CSTheme theme;
-  final Map<CSPage,StageBoardPageTheme> pageThemes;
+  // final CSTheme theme;
+  final Map<CSPage,Color> pageColors;
   final Map<String,PlayerAction> normalizedPlayerActions;
 
   final double routeAnimationValue;
@@ -27,8 +25,8 @@ class SimpleGroupWidget extends StatefulWidget {
   final void Function(Map<int,String>) onPositionNames;
 
   const SimpleGroupWidget({
-    @required this.pageThemes,
-    @required this.theme,
+    @required this.pageColors,
+    // @required this.theme,
     @required this.gameState,
     @required this.selectedNames,
     @required this.isScrollingSomewhere,
@@ -496,8 +494,8 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     group: widget.group,
     isScrollingSomewhere: widget.isScrollingSomewhere,
     gameState: widget.gameState,
-    theme: widget.theme,
-    pageThemes: widget.pageThemes,
+    // theme: widget.theme,
+    pageColors: widget.pageColors,
     selectedNames: widget.selectedNames,
     normalizedPlayerActions: widget.normalizedPlayerActions,
 

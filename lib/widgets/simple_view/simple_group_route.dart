@@ -98,9 +98,9 @@ class _SimpleGroup extends StatelessWidget {
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
     final stageBoard = StageBoard.of(context);
-    final pageThemes = stageBoard.pagesController.pageThemes;
+    final pageColors = stageBoard.themeController.primaryColorsMap();
 
-    return bloc.themer.currentWidget(builder: (context, theme) => BlocVar.build4(
+    return BlocVar.build4(
       bloc.scroller.isScrolling,
       bloc.scroller.intValue,
       actionBloc.selected,
@@ -130,14 +130,14 @@ class _SimpleGroup extends StatelessWidget {
           animation: routeAnimationController,
           builder: (context, _){
             return SimpleGroupWidget(
-              pageThemes: pageThemes,
+              pageColors: pageColors,
               gameState: gameState,
               increment: increment,
               routeAnimationValue: routeAnimationController.value,
               selectedNames: selected,
               isScrollingSomewhere: isScrolling,
               normalizedPlayerActions: normalizedPlayerActions,
-              theme: theme,
+              // theme: theme,
               group: bloc.game.gameGroup,
               initialNameOrder: bloc.game.gameGroup.alternativeLayoutNameOrder.value,
               onPositionNames: bloc.game.gameGroup.alternativeLayoutNameOrder.set,
@@ -145,7 +145,7 @@ class _SimpleGroup extends StatelessWidget {
           },
         );
       },
-    ));
+    );
   }
 }
 

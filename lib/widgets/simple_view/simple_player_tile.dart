@@ -160,7 +160,7 @@ class SimplePlayerTile extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 if(hasAnnotations && buttonToTheRight)
-                                  buildAnnotations(),
+                                  buildExtraInfo(),
                                 Expanded(child: buildLifeAndName(
                                   annotationsToTheRight: !buttonToTheRight,
                                   rawSelected: rawSelected,
@@ -169,7 +169,7 @@ class SimplePlayerTile extends StatelessWidget {
                                   actionBloc: bloc.game.gameAction,
                                 )),
                                 if(hasAnnotations && !buttonToTheRight)
-                                  buildAnnotations(),
+                                  buildExtraInfo(),
                               ],
                             ),
                           ),
@@ -209,7 +209,7 @@ class SimplePlayerTile extends StatelessWidget {
     );
   }
 
-  Widget buildAnnotations(){
+  Widget buildExtraInfo(){
     //TODO: implementa annotations commander damage //  cast // counters
     return Container();
   }

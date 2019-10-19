@@ -12,6 +12,7 @@ class PTileUtils {
     bool defending,
     Map<CSPage,Color> pageColors,
     CSTheme theme,
+    bool someoneAttacking,
   ){
     if(page == CSPage.commanderDamage){
       if(attacking){
@@ -19,8 +20,12 @@ class PTileUtils {
       } else if(defending){
         return theme.commanderDefence;
       } else {
-        return pageColors[CSPage.commanderDamage]
-            .withOpacity(0.5);
+        if(someoneAttacking){
+          return theme.commanderDefence.withOpacity(0.8);
+        } else {
+          return pageColors[CSPage.commanderDamage]
+              .withOpacity(0.5);
+        }
       }
     } else {
       return pageColors[page];
@@ -55,9 +60,8 @@ class PTileUtils {
     String defendingName, 
     bool usingPartnerB,
     PlayerState playerState,
-    // Map<String,PlayerState> group,
+    bool attackerUsingPartnerB,
   ){
-    // final playerState = group[name];
     switch (page) {
       case CSPage.life:
         return playerState.life;
@@ -71,7 +75,7 @@ class PTileUtils {
       case CSPage.commanderDamage:
         if(attackingName!=null && attackingName!=""){
           if(playerState.damages.containsKey(attackingName)){
-            return playerState.damages[attackingName]?.fromPartner(!usingPartnerB) ?? 0;
+            return playerState.damages[attackingName]?.fromPartner(!attackerUsingPartnerB) ?? 0;
           }
         }
         return 0; //will be opaque anyway
@@ -84,4 +88,70 @@ class PTileUtils {
     return 0;
   }
 
+  static String tileAnnotation(
+    String name,
+    CSPage page,
+    bool rawSelected,
+    String attacker,
+    bool havingPartnerB,
+    bool usingPartnerB,
+    bool attackerHavingPartnerB,
+    bool attackerUsingPartnerB,
+  ){
+    switch (page) {
+      case CSPage.counters:
+      case CSPage.life:
+        if(rawSelected == null){
+          return "Anti - Selected";
+        }
+        return "";
+        break;
+      case CSPage.commanderDamage:
+        if(attacker==name){
+          if(havingPartnerB){
+            if(usingPartnerB){
+              return "Attacking with Partner B";
+            } else {
+              return "Attacking with Partner A";
+            }
+          } else {
+            return "Attacking";
+          }
+        } else if (attacker != ""){
+          final string = "Dmg taken from ${_subString(attacker, 3)}";
+          if(attackerHavingPartnerB){
+            if(attackerUsingPartnerB){
+              return string + " (B)";
+            } else {
+              return string + " (A)";
+            }
+          } else {
+            return string;
+          }
+        }
+        break;
+      case CSPage.commanderCast:
+        if(havingPartnerB){
+          if(usingPartnerB){
+            return "Second Partner (B)";
+          } else {
+            return "First Partner (A)";
+          }
+        } else {
+          return "Single Commander";
+        }
+        break;
+      default:
+    }
+    return "";
+  }
+
+}
+
+String _subString(String string, int len){
+  final slen = string.length;
+  if(slen > len){
+    return string.substring(0,(len-1).clamp(0,double.infinity))+".";
+  }
+  return string;
 }

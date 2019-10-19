@@ -132,8 +132,9 @@ class PlayerTile extends StatelessWidget {
                   playerState: playerState,
                   defending: defending,
                   stageBoard: stageBoard,
+                  someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
                 ),
-                Expanded(child: buildBody()),
+                Expanded(child: buildBody(rawSelected)),
                 buildTrailing(rawSelected, actionBloc),
               ]),
             ),
@@ -151,10 +152,11 @@ class PlayerTile extends StatelessWidget {
     @required bool attacking,
     @required bool defending,
     @required StageBoardData<CSPage,SettingsPage> stageBoard,
+    @required bool someoneAttacking,
   }){
     Widget child;
 
-    final Color color = PTileUtils.cnColor(page, attacking, defending, pageColors, theme);
+    final Color color = PTileUtils.cnColor(page, attacking, defending, pageColors, theme, someoneAttacking);
 
     final colorBright = ThemeData.estimateBrightnessForColor(color);
     final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;
@@ -192,6 +194,7 @@ class PlayerTile extends StatelessWidget {
           whoIsDefending,
           usingPartnerB[name] ?? false,
           playerState,
+          usingPartnerB[whoIsAttacking] ?? false,
         ),
         numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
         open: scrolling,
@@ -222,7 +225,7 @@ class PlayerTile extends StatelessWidget {
           //normal selector (+anti selector) for life screen
           Positioned.fill(child: AnimatedPresented(
             duration: MyDurations.fast,
-            presented: page == CSPage.life,
+            presented: page == CSPage.life || page == CSPage.counters,
             child: InkWell(
               onLongPress: (){
                 actionBloc.selected.value[name]= rawSelected == null ? true : null;
@@ -253,8 +256,8 @@ class PlayerTile extends StatelessWidget {
                 width: coreTileSize,
                 height: coreTileSize,
                 child: Icon(
-                  havingPartnerB[name]
-                    ? McIcons.account_group_outline
+                  havingPartnerB[name]==true
+                    ? McIcons.account_multiple_outline
                     : McIcons.account_outline,
                 ),
               ),
@@ -270,7 +273,7 @@ class PlayerTile extends StatelessWidget {
                 width: coreTileSize,
                 height: coreTileSize,
                 child: Icon(
-                  havingPartnerB[name]
+                  havingPartnerB[name]==true
                     ? CSTypesUI.attackIconTwo
                     : CSTypesUI.attackIconOne,
                 ),
@@ -300,7 +303,12 @@ class PlayerTile extends StatelessWidget {
     );
   }
 
-  Widget buildBody(){
+  Widget buildBody(bool rawSelected){
+    final annotation = PTileUtils.tileAnnotation(
+      name,    page,    rawSelected,    whoIsAttacking,
+      havingPartnerB[name]??false,    usingPartnerB[name]??false, 
+      havingPartnerB[whoIsAttacking]??false,    usingPartnerB[whoIsAttacking]??false,
+    ) ?? "";
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
@@ -309,20 +317,17 @@ class PlayerTile extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(
-                name,
-                style: TextStyle(
-                  fontSize: 19,
-                ),
+            Text(
+              name,
+              style: TextStyle(
+                fontSize: 19,
               ),
             ),
             AnimatedListed(
-              listed: false,
+              listed: annotation!="", 
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Text("annotations to be defined"),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: AnimatedText(text:annotation),
               ),
             ),
           ],

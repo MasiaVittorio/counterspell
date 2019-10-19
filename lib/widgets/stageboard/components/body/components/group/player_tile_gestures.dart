@@ -77,24 +77,11 @@ class PlayerGestures{
         return;
         break;
       case CSPage.commanderCast:
-        if(rawSelected != true){
-          actionBloc.selected.value = {
-            for(final _name in actionBloc.selected.value.keys)
-              _name: false,
-          }; // just one casting at a time
-          actionBloc.selected.value[name] = true;
-          actionBloc.selected.refresh();
-        } else {
-          if(hasPartnerB){
-            //toggling used partners
-            gameGroup.usingPartnerB.value[name] = 
-                !(gameGroup.usingPartnerB.value[name] ?? false);
-            gameGroup.usingPartnerB.refresh();
-          } else {
-            //just deselecting
-            actionBloc.selected.value[name] = false;
-            actionBloc.selected.refresh();
-          }
+        if(hasPartnerB==true){
+          //toggling used partners
+          gameGroup.usingPartnerB.value[name] = 
+              !(gameGroup.usingPartnerB.value[name] ?? false);
+          gameGroup.usingPartnerB.refresh();
         }
         if(isScrollingSomewhere){
           scrollerBloc.delayerController.scrolling();
@@ -104,8 +91,8 @@ class PlayerGestures{
         break;
       case CSPage.commanderDamage:
         if(attacking){
-          if(hasPartnerB){
-            actionBloc.parent.gameGroup.usingPartnerB.value[name] = !hasPartnerB;
+          if(hasPartnerB==true){
+            actionBloc.parent.gameGroup.usingPartnerB.value[name] = !(usePartnerB??false);
             actionBloc.parent.gameGroup.usingPartnerB.refresh();
           }
         } else {

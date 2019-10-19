@@ -19,60 +19,61 @@ class CSStageBoard {
     controller.dispose();
   }
 
-  final StageBoardData<CSPage,SettingsPage> controller = StageBoardData<CSPage,SettingsPage>(
-      // sizes
-      barSize: StageBoard.kBarSize,
-      collapsedPanelSize: StageBoard.kBarSize,
-      panelRadiusClosed: StageBoard.kBarSize/2,
-      panelRadiusOpened: StageBoard.kPanelRadius,
-      panelHorizontalPaddingClosed: StageBoard.kPanelHorizontalPaddingClosed,
-      panelHorizontalPaddingOpened: StageBoard.kPanelHorizontalPaddingOpened,
-
-      // closed pages
-      initialClosedPage: CSPage.life,
-      initialClosedPagesData: <CSPage,StageBoardPage>{
-        for(final page in CSPage.values)
-          page: StageBoardPage(
-            // primaryColor: defaultPageColorsLight[page],
-            name: CSPAGE_TITLES_SHORT[page],
-            longName: CSPAGE_TITLES_LONG[page],
-            unselectedIcon: CSTypesUI.pageIconsOutlined[page],
-            icon: CSTypesUI.pageIconsFilled[page],
-          ),
-      },
-      decodePageClosed: (json) => STRING_TO_CSPAGE[json as String],
-      encodePageClosed: (page) => CSPAGE_TO_STRING[page],
-      initialClosedPagesList: CSPage.values,
-
-      // opened pages
-      initialOpenedPage: SettingsPage.game,
-      decodePageOpened: (json) => STRING_TO_SETTINGS_PAGE[json as String],
-      encodePageOpened: (page) => SETTINGS_PAGE_TO_STRING[page],
-      initialOpenedPagesData: settingsThemes,
-      initialOpenedPagesList: [
-        SettingsPage.game,
-        SettingsPage.settings,
-        SettingsPage.theme,
-        SettingsPage.info,
-      ],
-      lastOpenedPage: SettingsPage.game,
-
-      //themes
-      light: true,
-      darkStyle: DarkStyle.nightBlack,
-      lightPrimary: _primary,
-      darkPrimaries: _darkPrimaries,
-      lightPrimaryPerPage: defaultPageColorsLight,
-      darkPrimariesPerPage: {
-        for(final style in DarkStyle.values)
-          style: defaultPageColorsDark,
-      },
-
-      //back behavior
-      lastClosedPage: CSPage.life,
-  );
+  final StageBoardData<CSPage,SettingsPage> controller;
   final CSBloc parent;
-  CSStageBoard(this.parent);
+  CSStageBoard(this.parent): controller = StageBoardData<CSPage,SettingsPage>(
+    // sizes
+    barSize: StageBoard.kBarSize,
+    collapsedPanelSize: StageBoard.kBarSize,
+    panelRadiusClosed: StageBoard.kBarSize/2,
+    panelRadiusOpened: StageBoard.kPanelRadius,
+    panelHorizontalPaddingClosed: StageBoard.kPanelHorizontalPaddingClosed,
+    panelHorizontalPaddingOpened: StageBoard.kPanelHorizontalPaddingOpened,
+
+    // closed pages
+    initialClosedPage: CSPage.life,
+    initialClosedPagesData: <CSPage,StageBoardPage>{
+      for(final page in CSPage.values)
+        page: StageBoardPage(
+          // primaryColor: defaultPageColorsLight[page],
+          name: CSPAGE_TITLES_SHORT[page],
+          longName: CSPAGE_TITLES_LONG[page],
+          unselectedIcon: CSTypesUI.pageIconsOutlined[page],
+          icon: CSTypesUI.pageIconsFilled[page],
+        ),
+    },
+    decodePageClosed: (json) => STRING_TO_CSPAGE[json as String],
+    encodePageClosed: (page) => CSPAGE_TO_STRING[page],
+    initialClosedPagesList: CSPage.values,
+    onClosedPageChanged: (_) => parent.game.gameAction.clearSelection(),
+
+    // opened pages
+    initialOpenedPage: SettingsPage.game,
+    decodePageOpened: (json) => STRING_TO_SETTINGS_PAGE[json as String],
+    encodePageOpened: (page) => SETTINGS_PAGE_TO_STRING[page],
+    initialOpenedPagesData: settingsThemes,
+    initialOpenedPagesList: [
+      SettingsPage.game,
+      SettingsPage.settings,
+      SettingsPage.theme,
+      SettingsPage.info,
+    ],
+    lastOpenedPage: SettingsPage.game,
+
+    //themes
+    light: true,
+    darkStyle: DarkStyle.nightBlack,
+    lightPrimary: _primary,
+    darkPrimaries: _darkPrimaries,
+    lightPrimaryPerPage: defaultPageColorsLight,
+    darkPrimariesPerPage: {
+      for(final style in DarkStyle.values)
+        style: defaultPageColorsDark,
+    },
+
+    //back behavior
+    lastClosedPage: CSPage.life,
+  );
 }
 
 const settingsThemes = <SettingsPage,StageBoardPage>{

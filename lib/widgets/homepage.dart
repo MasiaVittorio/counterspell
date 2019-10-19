@@ -2,7 +2,7 @@ import 'package:counter_spell_new/blocs/bloc.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/stageboard_bloc.dart';
 import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
 import 'package:counter_spell_new/structure/pages.dart';
-import 'package:counter_spell_new/widgets/stageboard/scaffold_components.dart';
+import 'package:counter_spell_new/widgets/stageboard/stageboard_components.dart';
 import 'package:flutter/material.dart';
 import 'package:stage_board/stage_board.dart';
 

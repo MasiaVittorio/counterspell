@@ -49,7 +49,7 @@ class BodyGroup extends StatelessWidget {
       actionBloc.attackingPlayer,
       actionBloc.defendingPlayer,
       actionBloc.counterSet.variable,
-      actionBloc.isCasting,
+      settings.applyDamageToLife,
       bloc.game.gameState.gameState,
       group.usingPartnerB,
       builder: (
@@ -60,7 +60,7 @@ class BodyGroup extends StatelessWidget {
         String attackingPlayer, 
         String defendingPlayer,
         Counter counter,
-        bool isCasting,
+        bool applyDamageToLife,
         GameState gameState,
         Map<String,bool> usingPartnerB,
       ) {
@@ -70,16 +70,16 @@ class BodyGroup extends StatelessWidget {
           selectedValue: selected,
           gameState: gameState,
           scrollerValue: increment,
-          applyDamageToLife: true,//TODO: setting damage to life
           usingPartnerB: usingPartnerB,
           attacker: attackingPlayer,
           defender: defendingPlayer,
-          //these two values are so rarely updated that all the actual
+
+          applyDamageToLife: applyDamageToLife,
+          //these three values are so rarely updated that all the actual
           //reactive variables make this rebuild so often that min and max
           //will basically always be correct. no need to add 2 streambuilders
           minValue: settings.minValue.value,
           maxValue: settings.maxValue.value,
-
         ).actions(gameState.names);
 
         final children = <Widget>[

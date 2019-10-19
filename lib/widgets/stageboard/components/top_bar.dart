@@ -24,31 +24,25 @@ class CSTopBarTitle extends StatelessWidget {
       ? Colors.white
       : Colors.black;
 
-    return BlocVar.build2(
-      bloc.game.gameAction.isCasting,
-      bloc.game.gameAction.counterSet.variable,
-      builder:(context,casting, counter){
-     
-        String text = "";
-        if(open && !stageBoard.isShowingAlert){
-          text = "CounterSpell";
-        } else if(page == CSPage.counters){
-          text = counter.longName;
-        } else {
-          text = CSPAGE_TITLES_LONG[page];
-        }
-
-        return AnimatedText(
-          duration: MyDurations.fast,
-          text: text,
-          style: Theme.of(context).primaryTextTheme.title.copyWith(
-            fontWeight: FontWeight.w600,
-            color: textColor,
-          ),
-        );
-
+    return bloc.game.gameAction.counterSet.build((context, counter){
+      String text = "";
+      if(open && !stageBoard.isShowingAlert){
+        text = "CounterSpell";
+      } else if(page == CSPage.counters){
+        text = counter.longName;
+      } else {
+        text = CSPAGE_TITLES_LONG[page];
       }
-    );
+
+      return AnimatedText(
+        duration: MyDurations.fast,
+        text: text,
+        style: Theme.of(context).primaryTextTheme.title.copyWith(
+          fontWeight: FontWeight.w600,
+          color: textColor,
+        ),
+      );
+    });
   }
 
 }

@@ -119,25 +119,22 @@ class _DelayerPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actionBloc = bloc.game.gameAction;
     final scroller = bloc.scroller;
     final themeData = Theme.of(context);
     final canvas = themeData.colorScheme.surface;
     final canvasContrast = themeData.colorScheme.onSurface;
     final stageBoard = StageBoard.of(context);
     
-    return BlocVar.build4(
+    return BlocVar.build3(
       scroller.isScrolling,
       scroller.intValue,
       bloc.settings.confirmDelay,
-      actionBloc.isCasting,
       distinct: true,
       builder: (
         BuildContext context, 
         bool scrolling,
         int increment,
         Duration confirmDelay,
-        bool casting,
       ){
         final accentColor = Color.alphaBlend(
           stageBoard.currentPrimaryColor,

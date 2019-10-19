@@ -16,7 +16,6 @@ class CSGameAction {
   void dispose(){
     this.selected.dispose();
     newNamesSub.cancel();
-    this.isCasting.dispose();
   }
 
 
@@ -33,10 +32,6 @@ class CSGameAction {
 
   final BlocVar<String> attackingPlayer = BlocVar("");
   final BlocVar<String> defendingPlayer = BlocVar("");
-
-
-  //as opposed to commander damage
-  final BlocVar<bool> isCasting;
 
   final PersistentSet<Counter> counterSet;
 
@@ -58,8 +53,7 @@ class CSGameAction {
         for(final json in jsonList)
           Counter.fromJson(json),
       ],
-    ),
-    isCasting = BlocVar<bool>(false)
+    )
   {
     //deselect names (and most importantly set the names as keys)
     //every time the ordered list of names changes
@@ -206,10 +200,6 @@ class CSGameAction {
     selected.refresh();
     defendingPlayer.set("");
     attackingPlayer.set("");
-  }
-
-  void toggleCasting(){
-    this.isCasting.set(!this.isCasting.value);
   }
 
   //Do not call this manually, let it be called by the isScrolling's "onChanged" method

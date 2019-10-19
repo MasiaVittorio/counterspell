@@ -14,7 +14,6 @@ class CSSettings {
     this.startingLife.dispose();
     this.minValue.dispose();
     this.maxValue.dispose();
-    // this.enabledPages.dispose();
     this.enabledCounters.dispose();
     customCountersSubscription.cancel();
     this.confirmDelay.dispose();
@@ -31,10 +30,10 @@ class CSSettings {
   final PersistentVar<int> startingLife;
   final PersistentVar<int> minValue;
   final PersistentVar<int> maxValue;
-  // final PersistentVar<Map<CSPage, bool>> enabledPages;
   final PersistentVar<Map<String, bool>> enabledCounters;
   StreamSubscription customCountersSubscription;
   final PersistentVar<Duration> confirmDelay;
+  final PersistentVar<bool> applyDamageToLife;
 
 
 
@@ -49,6 +48,12 @@ class CSSettings {
     ),
     wantVibrate = PersistentVar<bool>(
       key: "bloc_settings_blocvar_wantvibrate",
+      initVal: true,
+      toJson: (b) => b,
+      fromJson: (j) => j,
+    ),
+    applyDamageToLife= PersistentVar<bool>(
+      key: "bloc_settings_blocvar_applyDamageToLife",
       initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j,
@@ -71,24 +76,7 @@ class CSSettings {
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    // enabledPages = PersistentVar<Map<CSPage, bool>>(
-    //   key: "bloc_settings_blocvar_enabledpages",
-    //   initVal: {
-    //     CSPage.history: true,
-    //     CSPage.counters: false,
-    //     CSPage.life: true,
-    //     CSPage.commander: false,
-    //   },
-    //   toJson: (map) => {
-    //     for(final entry in map.entries)
-    //       CSPAGE_TO_STRING[entry.key] : entry.value,
-    //   },
-    //   fromJson: (json) => {
-    //     for(final entry in json.entries)
-    //       STRING_TO_CSPAGE[entry.key] : entry.value,
-    //   },
 
-    // ),
     enabledCounters = PersistentVar<Map<String, bool>>(
       key: "bloc_settings_blocvar_enabledcounters",
       initVal: ((int inEn)=> {

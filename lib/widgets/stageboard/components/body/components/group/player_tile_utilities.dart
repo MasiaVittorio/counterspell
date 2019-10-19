@@ -43,7 +43,7 @@ class PTileUtils {
   }
 
   static double cnNumberOpacity(CSPage page, String whoIsAttacking,){
-    if(page == CSPage.commanderDamage && whoIsAttacking!=null && whoIsAttacking!="")
+    if(page == CSPage.commanderDamage && (whoIsAttacking==null || whoIsAttacking==""))
       return 0.0;
     return 1.0;
   }

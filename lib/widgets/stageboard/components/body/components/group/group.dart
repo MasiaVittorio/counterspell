@@ -94,6 +94,7 @@ class BodyGroup extends StatelessWidget {
               tileSize: tileSize,
               coreTileSize: coreTileSize,
               page: page,
+              usingPartnerB: usingPartnerB,
               selectedNames: selected,
               whoIsAttacking: attackingPlayer,
               whoIsDefending: defendingPlayer,

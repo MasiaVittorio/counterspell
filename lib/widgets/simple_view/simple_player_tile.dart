@@ -8,7 +8,6 @@ import 'package:counter_spell_new/widgets/stageboard/components/body/components/
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:stage_board/stage_board.dart';
 
 class SimplePlayerTile extends StatelessWidget {
   final CSGameGroup group;
@@ -192,6 +191,7 @@ class SimplePlayerTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Checkbox(
+            activeColor: pageColors[CSPage.life],
             value: rawSelected,
             tristate: true,
             onChanged: (b) {
@@ -313,41 +313,41 @@ class SimplePlayerTile extends StatelessWidget {
 
 
   
-  Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, StageBoardData stageBoard){
-    return SizedBox(
-      // width: coreTileSize,
-      // height: coreTileSize,
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          //normal selector (+anti selector) for life screen
-          Positioned.fill(child: AnimatedPresented(
-            duration: MyDurations.fast,
-            presented: true, //LOW PRIORITY: other trailing widgets to be defined
-            child: InkWell(
-              onLongPress: (){
-                actionBloc.selected.value[name]= rawSelected == null ? true : null;
-                actionBloc.selected.refresh();
-              },
-              child: Container(
-                // width: coreTileSize,
-                // height: coreTileSize,
-                child: Checkbox(
-                  value: rawSelected,
-                  activeColor: pageColors[CSPage.life],
-                  tristate: true,
-                  onChanged: (b) {
-                    actionBloc.selected.value[name] = rawSelected == false ? true : false;
-                    actionBloc.selected.refresh();
-                  },
-                ),
-              ),
-            ),
-          ),),
-        ],
-      ),
-    );
-  }
+  // Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, StageBoardData stageBoard){
+  //   return SizedBox(
+  //     // width: coreTileSize,
+  //     // height: coreTileSize,
+  //     child: Stack(
+  //       fit: StackFit.expand,
+  //       children: <Widget>[
+  //         //normal selector (+anti selector) for life screen
+  //         Positioned.fill(child: AnimatedPresented(
+  //           duration: MyDurations.fast,
+  //           presented: true, 
+  //           child: InkWell(
+  //             onLongPress: (){
+  //               actionBloc.selected.value[name]= rawSelected == null ? true : null;
+  //               actionBloc.selected.refresh();
+  //             },
+  //             child: Container(
+  //               // width: coreTileSize,
+  //               // height: coreTileSize,
+  //               child: Checkbox(
+  //                 value: rawSelected,
+  //                 activeColor: pageColors[CSPage.life],
+  //                 tristate: true,
+  //                 onChanged: (b) {
+  //                   actionBloc.selected.value[name] = rawSelected == false ? true : false;
+  //                   actionBloc.selected.refresh();
+  //                 },
+  //               ),
+  //             ),
+  //           ),
+  //         ),),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget buildBody(){
     return Align(

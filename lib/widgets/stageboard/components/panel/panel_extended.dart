@@ -35,6 +35,6 @@ class CSPanelExtended extends StatelessWidget {
             ),)
         ],
       ),
-    ); //LOW PRIORITY: fai il pannello esteso
+    );
   }
 }

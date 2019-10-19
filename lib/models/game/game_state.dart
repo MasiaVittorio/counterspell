@@ -78,6 +78,11 @@ class GameState {
     return players.values.first.states.length;
   }
 
+  Map<String,PlayerState> get lastPlayerStates => {
+    for(final entry in this.players.entries)
+      entry.key: entry.value.states.last,
+  };
+
   
 
 

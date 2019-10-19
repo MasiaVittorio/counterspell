@@ -55,7 +55,6 @@ class PlayerState {
 
   final CommanderCast cast;
 
-  //LOW PRIORITY: implementa commander damage (insieme a rename references e delete references)
 
   //===================================
   // Getters
@@ -66,6 +65,17 @@ class PlayerState {
       sum += value.b;
     }
     return sum;
+  }
+
+  bool get isAlive {
+    if(life < 1) return false;
+    for(final damage in this.damages.values){
+      if(damage.a >= 21) return false;
+      if(damage.b >= 21) return false;
+    }
+    //LOW PRIORITY: implementa counters e letalità dei segnalini veleno
+
+    return true;
   }
 
 
@@ -216,11 +226,12 @@ class PlayerState {
     //not necessairly renamig this player,
     //maybe renaming an opponent and updating
     //the name keys on the commander damage maps.
-
+    this.damages[newName] = this.damages.remove(oldName)
+      ?? CommanderDamage(0);
   }
 
   void deletePlayerReferences(String name){
-
+    this.damages.remove(name);
   }
 
   

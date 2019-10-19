@@ -68,7 +68,7 @@ abstract class PlayerAction{
         maxVal: maxVal,
       ));
 
-    //LOW PRIORITY: implementa detector per altre azioni
+    //LOW PRIORITY: implementa detector per altre azioni (counters)
 
     if(detectedAcions.isEmpty)
       return PANull();

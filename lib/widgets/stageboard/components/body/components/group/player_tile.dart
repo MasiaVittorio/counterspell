@@ -6,6 +6,7 @@ import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_gestures.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 import 'package:stage_board/stage_board.dart';
@@ -28,8 +29,10 @@ class PlayerTile extends StatelessWidget {
   final Map<String,PlayerAction> normalizedPlayerActions;
   final double maxWidth;
   final Map<CSPage,Color> pageColors;
+  final Map<String,bool> usingPartnerB;
 
   const PlayerTile(this.name, {
+    @required this.usingPartnerB,
     @required this.maxWidth,
     @required this.group,
     @required this.tileSize,
@@ -50,6 +53,8 @@ class PlayerTile extends StatelessWidget {
       page == CSPage.counters
       && counter == null
     ));
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +124,6 @@ class PlayerTile extends StatelessWidget {
                   scrolling: scrolling,
                   attacking: attacking,
                   playerState: playerState,
-                  page: page,
                   defending: defending,
                   stageBoard: stageBoard,
                 ),
@@ -136,7 +140,6 @@ class PlayerTile extends StatelessWidget {
   static const _circleFrac = 0.7;
   Widget buildLeading({
     @required PlayerState playerState,
-    @required CSPage page,
     @required bool rawSelected,
     @required bool scrolling,
     @required bool attacking,
@@ -145,15 +148,11 @@ class PlayerTile extends StatelessWidget {
   }){
     Widget child;
 
-    final currentColor = pageColors[page];
-    final colorBrightness = ThemeData.estimateBrightnessForColor(currentColor);
-    final Color textColor = colorBrightness == Brightness.light
-      ? Colors.black 
-      : Colors.white;
-    final textStyle = TextStyle(
-      color: textColor,
-      fontSize: 0.26 * coreTileSize,
-    );
+    final Color color = PTileUtils.cnColor(page, attacking, defending, pageColors, theme);
+
+    final colorBright = ThemeData.estimateBrightnessForColor(color);
+    final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;
+    final textStyle = TextStyle(color: textColor, fontSize: 0.26 * coreTileSize);
 
     if(page == CSPage.history){
 
@@ -162,7 +161,7 @@ class PlayerTile extends StatelessWidget {
         width: coreTileSize*_circleFrac,
         height: coreTileSize*_circleFrac,
         decoration: BoxDecoration(
-          color: currentColor,
+          color: color,
           borderRadius: BorderRadius.circular(coreTileSize),
         ),
         alignment: Alignment.center,
@@ -174,35 +173,21 @@ class PlayerTile extends StatelessWidget {
 
     } else {
 
-      Color color;
-      if(page == CSPage.commanderDamage){
-        if(attacking){
-          color = pageColors[CSPage.commanderDamage];
-        } else if(defending){
-          color = theme.commanderDefence;
-        } else {
-          color = pageColors[CSPage.commanderDamage]
-              .withOpacity(0.5);
-        }
-      } else {
-        color = pageColors[page];
-      }
-      assert(color != null);
-
       final normalizedPlayerAction = normalizedPlayerActions[name];
-      int _increment;
-      if(normalizedPlayerAction is PALife){
-        _increment = normalizedPlayerAction.increment;         
-      } else if(normalizedPlayerAction is PANull){
-        _increment = 0;
-      }
-      assert(_increment != null);
+      final int _increment = PTileUtils.cnIncrement(normalizedPlayerAction);
 
       child = CircleNumber(
         key: ValueKey("circle number"),
         size: coreTileSize * _circleFrac,
-        value: playerState.life,
-        numberOpacity: 1.0, //LOW PRIORITY: PLAYERSTATE -> ISDED
+        value: PTileUtils.cnValue(
+          name, 
+          page, 
+          whoIsAttacking, 
+          whoIsDefending,
+          usingPartnerB[name] ?? false,
+          playerState,
+        ),
+        numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
         open: scrolling,
         style: textStyle,
         duration: MyDurations.fast,

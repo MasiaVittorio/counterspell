@@ -11,8 +11,10 @@ class GameHistoryData{
   factory GameHistoryData.fromStates(
     GameState gameState,
     int previous,
-    int next,
-    { Map<DamageType, bool> types = allTypesEnabled }
+    int next, { 
+      Map<DamageType, bool> types = allTypesEnabled,
+      Map<String,bool> havePartnerB,
+    }
   ) {
     final allNext = {
       for(final eEntry in gameState.players.entries)
@@ -33,7 +35,9 @@ class GameHistoryData{
             previous: entry.value.states[previous],
             next: entry.value.states[next],
             types: types,
-            partnerBAllowed: true, //TODO: setting per partnerB allowed
+            partnerBAllowed: havePartnerB == null 
+              ? true
+              : havePartnerB[entry.key] ?? false,
           ),
       }
     );

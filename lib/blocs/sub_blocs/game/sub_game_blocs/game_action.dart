@@ -91,7 +91,7 @@ class CSGameAction {
     @required String attacker,
     @required String defender,
     @required bool applyDamageToLife,
-    @required bool usingPartnerA,
+    @required Map<String,bool> usingPartnerB,
   }) {
     if(scrollerValue == 0)
       return GANull.instance;
@@ -117,7 +117,7 @@ class CSGameAction {
         scrollerValue,
         selected: selectedValue,
         maxVal: maxValue,
-        partnerA: usingPartnerA,
+        usingPartnerB: usingPartnerB,
       );
     }
 
@@ -129,7 +129,7 @@ class CSGameAction {
             attacker: attacker,
             defender: defender,
             applyToLife: applyDamageToLife,
-            partnerA: usingPartnerA,
+            usingPartnerB: usingPartnerB,
             minLife: minValue,
             maxVal: maxValue,
           );
@@ -150,7 +150,7 @@ class CSGameAction {
     @required int maxValue,
     @required String attacker,
     @required String defender,
-    @required bool usingPartnerA,
+    @required Map<String,bool> usingPartnerB,
     @required bool applyDamageToLife,
   }) => action(
     pageValue: pageValue,
@@ -160,7 +160,7 @@ class CSGameAction {
     maxValue: maxValue,
     attacker: attacker,
     defender: defender,
-    usingPartnerA: usingPartnerA,
+    usingPartnerB: usingPartnerB,
     applyDamageToLife: applyDamageToLife,
   ).normalizeOnLast(gameState);
 
@@ -174,7 +174,7 @@ class CSGameAction {
     attacker: this.attackingPlayer.value,
     defender: this.defendingPlayer.value,
     applyDamageToLife: true, /////////////////////
-    usingPartnerA: true, ///////////////////
+    usingPartnerB: this.parent.gameGroup.usingPartnerB.value,
   );
 
   bool get isSomeoneAttacking => selected.value.keys.contains(attackingPlayer.value);

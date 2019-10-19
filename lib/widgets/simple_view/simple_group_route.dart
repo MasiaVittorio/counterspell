@@ -100,17 +100,19 @@ class _SimpleGroup extends StatelessWidget {
     final stageBoard = StageBoard.of(context);
     final pageColors = stageBoard.themeController.primaryColorsMap();
 
-    return BlocVar.build4(
+    return BlocVar.build5(
       bloc.scroller.isScrolling,
       bloc.scroller.intValue,
       actionBloc.selected,
       bloc.game.gameState.gameState,
+      bloc.game.gameGroup.usingPartnerB,
       builder: (
         BuildContext context, 
         bool isScrolling, 
         int increment,
         Map<String,bool> selected, 
         GameState gameState,
+        Map<String,bool> usingPartnerB,
       ) {
 
         final normalizedPlayerActions = CSGameAction.normalizedAction(
@@ -120,7 +122,7 @@ class _SimpleGroup extends StatelessWidget {
           scrollerValue: increment,
           defender: null,
           attacker: null,
-          usingPartnerA: true,
+          usingPartnerB: usingPartnerB,
           applyDamageToLife: true,
           //these two values are so rarely updated that all the actual
           //reactive variables make this rebuild so often that min and max

@@ -42,7 +42,7 @@ class BodyGroup extends StatelessWidget {
     final pageColors = stageBoard.themeController.primaryColorsMap();
     final page = stageBoard.pagesController.page;
 
-    return BlocVar.build8(
+    return BlocVar.build9(
       bloc.scroller.isScrolling,
       bloc.scroller.intValue,
       actionBloc.selected,
@@ -51,6 +51,7 @@ class BodyGroup extends StatelessWidget {
       actionBloc.counterSet.variable,
       actionBloc.isCasting,
       bloc.game.gameState.gameState,
+      group.usingPartnerB,
       builder: (
         BuildContext context, 
         bool isScrolling, 
@@ -61,6 +62,7 @@ class BodyGroup extends StatelessWidget {
         Counter counter,
         bool isCasting,
         GameState gameState,
+        Map<String,bool> usingPartnerB,
       ) {
 
         final normalizedPlayerActions = CSGameAction.normalizedAction(
@@ -69,7 +71,7 @@ class BodyGroup extends StatelessWidget {
           gameState: gameState,
           scrollerValue: increment,
           applyDamageToLife: true,//TODO: setting damage to life
-          usingPartnerA: true,//TODO: setting partner
+          usingPartnerB: usingPartnerB,
           attacker: attackingPlayer,
           defender: defendingPlayer,
           //these two values are so rarely updated that all the actual

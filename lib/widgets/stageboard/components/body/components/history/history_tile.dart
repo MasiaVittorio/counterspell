@@ -16,8 +16,10 @@ class HistoryTile extends StatelessWidget {
   final Map<CSPage,Color> pageColors;
   final Map<String, Counter> counters;
   final List<String> names;
+  final Map<String,bool> havePartnerB;
 
   const HistoryTile(this.data, {
+    @required this.havePartnerB,
     @required this.tileSize,
     @required this.coreTileSize,
     @required this.avoidInteraction,
@@ -78,6 +80,7 @@ class HistoryTile extends StatelessWidget {
               counters: counters,
               tileSize: knownTileSize,
               coreTileSize: coreTileSize,
+              partnerB: havePartnerB[name] ?? false,
             ),
         ],
       ),

@@ -14,7 +14,7 @@ class HistoryPlayerTile extends StatelessWidget {
   // Data
   final DateTime time;
   final List<PlayerHistoryChange> changes;
-
+  final bool partnerB;
   //===================================
   // UI resources
   final double tileSize;
@@ -26,6 +26,7 @@ class HistoryPlayerTile extends StatelessWidget {
   //===================================
   // Constructor
   const HistoryPlayerTile(this.changes, {
+    @required this.partnerB,
     @required this.time,
     @required this.pageColors,
     @required this.tileSize,
@@ -49,6 +50,7 @@ class HistoryPlayerTile extends StatelessWidget {
           counters: counters,
           pageColors: pageColors,
           theme: theme,
+          partnerB: this.partnerB ?? false,
         ),
     ];
 
@@ -84,12 +86,14 @@ class HistoryPlayerTile extends StatelessWidget {
 
 class _Change extends StatelessWidget {
   final PlayerHistoryChange change;
+  final bool partnerB;
 
   final CSTheme theme;
   final Map<CSPage,Color> pageColors;
   final Map<String, Counter> counters;
   
   const _Change(this.change, {
+    @required this.partnerB,
     @required this.theme,
     @required this.pageColors,
     @required this.counters,
@@ -101,12 +105,17 @@ class _Change extends StatelessWidget {
     final int increment = change.next - change.previous;
     final String text = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
     final String subText = "= ${change.next}" + (
-      change.type == DamageType.commanderCast || (change.type == DamageType.commanderDamage && change.attack)
+      ( this.partnerB 
+        &&
+        ( change.type == DamageType.commanderCast 
+          || 
+          ( change.type == DamageType.commanderDamage 
+            && 
+            change.attack) ) )
+
         ? change.partnerA ? " (A)" : " (B)"
-        : ""
-    );
-    //TODO: impostazione per abilitare o meno il secondo partner, e dunque mostrare o meno la lettera A // B
-    //in questo senso si omettono proprio i B
+        : "");
+
 
     final Color color = CSThemer.getHistoryChipColor(
       attack: change.attack,

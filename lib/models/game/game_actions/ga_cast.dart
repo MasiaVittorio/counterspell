@@ -6,12 +6,12 @@ class GACast extends GameAction{
   final Map<String,bool> selected;
   final int increment;
   final int maxVal;
-  final bool partnerA;
+  final Map<String,bool> usingPartnerB;
 
   const GACast(
     this.increment, {
       @required this.selected,
-      @required this.partnerA,
+      @required this.usingPartnerB,
       this.maxVal,
     }
   );
@@ -28,7 +28,7 @@ class GACast extends GameAction{
               ? -increment
               : increment, // true
             maxVal: maxVal,
-            partnerA: partnerA,
+            partnerA: !(usingPartnerB[name] ?? false),
           ),
   };
 

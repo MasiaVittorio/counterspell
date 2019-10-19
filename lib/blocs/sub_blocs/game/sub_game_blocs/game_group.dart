@@ -21,6 +21,8 @@ class CSGameGroup {
   PersistentVar<Map<int,String>> alternativeLayoutNameOrder;
   StreamSubscription newNamesSub;
   final PersistentVar<Set<String>> savedNames;
+  final PersistentVar<Map<String,bool>> havingPartnerB;
+  final PersistentVar<Map<String,bool>> usingPartnerB;
 
 
   ///========================
@@ -33,6 +35,24 @@ class CSGameGroup {
       fromJson: (json) => {
         for(final s in json)  
           s as String,
+      },
+    ),
+    havingPartnerB = PersistentVar<Map<String,bool>>(
+      initVal: <String,bool>{},
+      key: "bloc_game_group_blocvar_have_partner_b",
+      toJson: (map) => map,
+      fromJson: (json) => {
+        for(final entry in (json as Map<String,dynamic>).entries)  
+          entry.key: entry.value as bool,
+      },
+    ),
+    usingPartnerB = PersistentVar<Map<String,bool>>(
+      initVal: <String,bool>{},
+      key: "bloc_game_group_blocvar_use_partner_b",
+      toJson: (map) => map,
+      fromJson: (json) => {
+        for(final entry in (json as Map<String,dynamic>).entries)  
+          entry.key: entry.value as bool,
       },
     )
   {
@@ -107,6 +127,22 @@ class CSGameGroup {
         i:current[i],
     });
     names.refresh();
+  }
+  void updatePartners(GameState state){
+    bool refreshHave = false;
+    bool refreshUse = false;
+    for(final name in state.names){
+      if(!this.havingPartnerB.value.containsKey(name)){
+        this.havingPartnerB.value[name] = false;
+        refreshHave = true;
+      }
+      if(!this.usingPartnerB.value.containsKey(name)){
+        this.usingPartnerB.value[name] = false;
+        refreshUse = true;
+      }
+    }
+    if(refreshHave) this.havingPartnerB.refresh();
+    if(refreshUse) this.usingPartnerB.refresh();
   }
 
 

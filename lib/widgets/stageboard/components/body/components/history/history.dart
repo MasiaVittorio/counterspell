@@ -38,43 +38,48 @@ class BodyHistory extends StatelessWidget {
     final settings = bloc.settings;
     final stageBoard = StageBoard.of(context);
 
-    return settings.enabledCounters.build((context, enabled){
+    return BlocVar.build2(
+      settings.enabledCounters, 
+      group.havingPartnerB, 
+      builder:(context, enabled, havePartnerB){
 
-      final Map<String, Counter> counters = game.gameAction.currentCounterMap;
+        final Map<String, Counter> counters = game.gameAction.currentCounterMap;
 
-      return Padding(
-        padding: EdgeInsets.only(bottom: bottom),
-        child: SidAnimatedList(
-          listController: history.listController,
-          reverse: true, //reverse to make it appear aligned to the right
-          itemBuilder: (context, index, animation) 
-            => SizeTransition(
-              axisAlignment: -1.0,
-              axis: Axis.horizontal,
-              sizeFactor: animation,
-              child: HistoryTile(
-                //but you must reverse the list to keep the last state on its "top"
-                history.data[history.data.length -1 - index],
-                tileSize: tileSize,
-                coreTileSize: coreTileSize,
-                avoidInteraction: false,
-                theme: theme,
-                pageColors: pageColors,
-                counters: counters,
-                names: names,
+        return Padding(
+          padding: EdgeInsets.only(bottom: bottom),
+          child: SidAnimatedList(
+            listController: history.listController,
+            reverse: true, //reverse to make it appear aligned to the right
+            itemBuilder: (context, index, animation) 
+              => SizeTransition(
+                axisAlignment: -1.0,
+                axis: Axis.horizontal,
+                sizeFactor: animation,
+                child: HistoryTile(
+                  //but you must reverse the list to keep the last state on its "top"
+                  history.data[history.data.length -1 - index],
+                  tileSize: tileSize,
+                  coreTileSize: coreTileSize,
+                  avoidInteraction: false,
+                  theme: theme,
+                  pageColors: pageColors,
+                  counters: counters,
+                  names: names,
+                  havePartnerB: havePartnerB,
+                ),
               ),
+            initialItemCount: 1,
+            scrollDirection: Axis.horizontal,
+            physics: SidereusScrollPhysics(
+              topBounce: true,
+              bottomBounce: false,
+              topBounceCallback: () => stageBoard.pagesController.page = CSPage.life,
+              alwaysScrollable: true,
             ),
-          initialItemCount: 1,
-          scrollDirection: Axis.horizontal,
-          physics: SidereusScrollPhysics(
-            topBounce: true,
-            bottomBounce: false,
-            topBounceCallback: () => stageBoard.pagesController.page = CSPage.life,
-            alwaysScrollable: true,
+            shrinkWrap: false,
           ),
-          shrinkWrap: false,
-        ),
-      );
-    });
+        );
+      }
+    );
   }
 }

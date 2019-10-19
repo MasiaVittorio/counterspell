@@ -74,6 +74,7 @@ class CSGameHistory {
         avoidInteraction: true,
         coreTileSize: CSConstants.minTileSize,
         names: parent.gameGroup.names.value,
+        havePartnerB: parent.gameGroup.havingPartnerB.value,
       )
     ),
     duration: MyDurations.fast,

@@ -2,12 +2,17 @@ import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs/game_actio
 import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs/game_group.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/models/game/model.dart';
+import 'package:counter_spell_new/models/game/types/damage_type.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
+import 'package:counter_spell_new/widgets/resources/chip.dart';
+import 'package:counter_spell_new/widgets/simple_view/extra_info.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_gestures.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
+import 'package:sidereus/sidereus.dart';
+import 'package:stage_board/stage_board.dart';
 
 class SimplePlayerTile extends StatelessWidget {
   final CSGameGroup group;
@@ -80,7 +85,8 @@ class SimplePlayerTile extends StatelessWidget {
 
     final playerState = gameState.players[name].states.last;
 
-    final bool hasAnnotations = false; //playerState.annotations bla bla
+    // final bool hasAnnotations = false;
+    final Widget info = buildExtraInfo(context, themeData);
 
     final bool buttonToTheRight = (buttonAlignment?.x ?? 0) >= 0;
 
@@ -159,8 +165,8 @@ class SimplePlayerTile extends StatelessWidget {
                           Positioned.fill(
                             child: Row(
                               children: <Widget>[
-                                if(hasAnnotations && buttonToTheRight)
-                                  buildExtraInfo(),
+                                if(info != null && buttonToTheRight)
+                                  info,
                                 Expanded(child: buildLifeAndName(
                                   annotationsToTheRight: !buttonToTheRight,
                                   rawSelected: rawSelected,
@@ -168,8 +174,8 @@ class SimplePlayerTile extends StatelessWidget {
                                   playerState: playerState,
                                   actionBloc: bloc.game.gameAction,
                                 )),
-                                if(hasAnnotations && !buttonToTheRight)
-                                  buildExtraInfo(),
+                                if(info != null && !buttonToTheRight)
+                                  info,
                               ],
                             ),
                           ),
@@ -209,9 +215,49 @@ class SimplePlayerTile extends StatelessWidget {
     );
   }
 
-  Widget buildExtraInfo(){
-    //TODO: implementa annotations commander damage //  cast // counters
-    return Container();
+  Widget buildExtraInfo(BuildContext context, ThemeData themeData){
+    final StageBoardData<CSPage,SettingsPage> stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
+    final enabledPages = stageBoard.pagesController.enabledPages;
+    return BlocVar.build2(
+      group.havingPartnerB,
+      group.parent.parent.themer.theme,
+      builder: (context, havingPartnerB, theme){
+        final list = ExtraInfo.fromPlayer(name,
+          ofGroup: gameState.lastPlayerStates,
+          pageColors: pageColors,
+          havingPartnerB: havingPartnerB,
+          theme: theme,
+          types: DamageTypes.fromPages(enabledPages),
+        );
+        final children = <Widget>[
+          for(final info in list)
+            SidChip(
+              icon: info.icon,
+              text: info.value.toString(),
+              subText: info.note??"",//TODO: sub text non necessario??
+              color: info.color,
+            ),
+        ];
+        if(list.isEmpty) return SizedBox();
+        //TODO: implementa annotations commander damage //  cast // counters
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal:4.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: themeData.colorScheme.onSurface.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(SidChip.height/2),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: divideList(children, SizedBox(height: 4,)),
+              ),
+            ),
+          ),
+        );
+      }
+    );
   }
 
   Widget buildLifeAndName({

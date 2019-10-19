@@ -118,7 +118,7 @@ class PTileUtils {
             return "Attacking";
           }
         } else if (attacker != ""){
-          final string = "Dmg taken from ${_subString(attacker, 3)}";
+          final string = "Dmg taken from ${subString(attacker, 3)}";
           if(attackerHavingPartnerB){
             if(attackerUsingPartnerB){
               return string + " (B)";
@@ -145,13 +145,12 @@ class PTileUtils {
     }
     return "";
   }
-
+  static String subString(String string, int len){
+    final slen = string.length;
+    if(slen > len){
+      return string.substring(0,(len-1).clamp(0,double.infinity))+".";
+    }
+    return string;
+}
 }
 
-String _subString(String string, int len){
-  final slen = string.length;
-  if(slen > len){
-    return string.substring(0,(len-1).clamp(0,double.infinity))+".";
-  }
-  return string;
-}

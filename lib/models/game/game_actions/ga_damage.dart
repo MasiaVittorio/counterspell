@@ -29,7 +29,7 @@ class GADamage extends GameAction{
         ? PADamage(
           attacker,
           increment,
-          partnerA: !(usingPartnerB[name] ?? false),
+          partnerA: !(usingPartnerB[attacker] ?? false),
           applyToLife: this.applyToLife,
           minLife: this.minLife,
           maxVal: this.maxVal,

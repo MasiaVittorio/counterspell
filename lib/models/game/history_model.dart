@@ -35,9 +35,7 @@ class GameHistoryData{
             previous: entry.value.states[previous],
             next: entry.value.states[next],
             types: types,
-            partnerBAllowed: havePartnerB == null 
-              ? true
-              : havePartnerB[entry.key] ?? false,
+            havingPartnerB: havePartnerB,
           ),
       }
     );
@@ -71,7 +69,7 @@ class PlayerHistoryChange{
     @required Map<DamageType, bool> types,
     @required Map<String,PlayerState> previousOthers,
     @required Map<String,PlayerState> nextOthers,
-    @required bool partnerBAllowed,
+    @required Map<String,bool> havingPartnerB,
   }){
     return [
       if(previous.life != next.life)
@@ -88,7 +86,7 @@ class PlayerHistoryChange{
           next: next.cast.a,
           partnerA: true,
         ),
-      if(partnerBAllowed!=false)
+      if(havingPartnerB[playerName]==true)
       if(types[DamageType.commanderCast])
       if(previous.cast.b != next.cast.b)
         PlayerHistoryChange(
@@ -109,7 +107,7 @@ class PlayerHistoryChange{
                 attack: false,
               )];
             }
-            if(partnerBAllowed!=false){
+            if(havingPartnerB[damageEntry.key]==true){
               if(damageEntry.value.b != next.damages[damageEntry.key].b){
                 return [PlayerHistoryChange(
                   previous: damageEntry.value.b,
@@ -136,7 +134,7 @@ class PlayerHistoryChange{
                 partnerA: true,
               )];
             }
-            if(partnerBAllowed!=false){
+            if(havingPartnerB[playerName]==true){
               if(otherPrev.value.damages[playerName].b != otherNextValue.damages[playerName].b){
                 return [PlayerHistoryChange(
                   previous: otherPrev.value.damages[playerName].b,

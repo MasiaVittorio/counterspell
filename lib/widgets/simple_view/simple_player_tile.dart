@@ -133,6 +133,8 @@ class SimplePlayerTile extends StatelessWidget {
                     rawSelected: rawSelected,
                     bloc: bloc,
                     isScrollingSomewhere: isScrollingSomewhere,
+                    hasPartnerB: false,
+                    usePartnerB: false, // just life lol
                   ),
                   child: VelocityPanDetector(
                     onPanEnd: (_details) => scrollerBloc.onDragEnd(),
@@ -208,6 +210,7 @@ class SimplePlayerTile extends StatelessWidget {
   }
 
   Widget buildAnnotations(){
+    //TODO: implementa annotations commander damage //  cast // counters
     return Container();
   }
 

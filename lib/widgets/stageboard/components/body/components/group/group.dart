@@ -49,7 +49,7 @@ class BodyGroup extends StatelessWidget {
       actionBloc.attackingPlayer,
       actionBloc.defendingPlayer,
       actionBloc.counterSet.variable,
-      settings.applyDamageToLife,
+      group.havingPartnerB,
       bloc.game.gameState.gameState,
       group.usingPartnerB,
       builder: (
@@ -60,7 +60,7 @@ class BodyGroup extends StatelessWidget {
         String attackingPlayer, 
         String defendingPlayer,
         Counter counter,
-        bool applyDamageToLife,
+        Map<String,bool> havingPartnerB,
         GameState gameState,
         Map<String,bool> usingPartnerB,
       ) {
@@ -73,11 +73,10 @@ class BodyGroup extends StatelessWidget {
           usingPartnerB: usingPartnerB,
           attacker: attackingPlayer,
           defender: defendingPlayer,
-
-          applyDamageToLife: applyDamageToLife,
           //these three values are so rarely updated that all the actual
           //reactive variables make this rebuild so often that min and max
           //will basically always be correct. no need to add 2 streambuilders
+          applyDamageToLife: bloc.settings.applyDamageToLife.value,
           minValue: settings.minValue.value,
           maxValue: settings.maxValue.value,
         ).actions(gameState.names);
@@ -94,6 +93,7 @@ class BodyGroup extends StatelessWidget {
               tileSize: tileSize,
               coreTileSize: coreTileSize,
               page: page,
+              havingPartnerB: havingPartnerB,
               usingPartnerB: usingPartnerB,
               selectedNames: selected,
               whoIsAttacking: attackingPlayer,

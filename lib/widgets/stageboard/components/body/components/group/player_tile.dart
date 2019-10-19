@@ -2,8 +2,10 @@ import 'package:counter_spell_new/blocs/sub_blocs/blocs.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
+import 'package:counter_spell_new/models/game/types/type_ui.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
+import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_gestures.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_utilities.dart';
@@ -30,9 +32,11 @@ class PlayerTile extends StatelessWidget {
   final double maxWidth;
   final Map<CSPage,Color> pageColors;
   final Map<String,bool> usingPartnerB;
+  final Map<String,bool> havingPartnerB;
 
   const PlayerTile(this.name, {
     @required this.usingPartnerB,
+    @required this.havingPartnerB,
     @required this.maxWidth,
     @required this.group,
     @required this.tileSize,
@@ -100,6 +104,8 @@ class PlayerTile extends StatelessWidget {
           rawSelected: rawSelected,
           bloc: bloc,
           isScrollingSomewhere: isScrollingSomewhere,
+          hasPartnerB: havingPartnerB[name],
+          usePartnerB: usingPartnerB[name],
         ),
         child: VelocityPanDetector(
           onPanEnd: (_details) => scrollerBloc.onDragEnd(),
@@ -216,7 +222,7 @@ class PlayerTile extends StatelessWidget {
           //normal selector (+anti selector) for life screen
           Positioned.fill(child: AnimatedPresented(
             duration: MyDurations.fast,
-            presented: true, //LOW PRIORITY: other trailing widgets to be defined
+            presented: page == CSPage.life,
             child: InkWell(
               onLongPress: (){
                 actionBloc.selected.value[name]= rawSelected == null ? true : null;
@@ -234,6 +240,58 @@ class PlayerTile extends StatelessWidget {
                     actionBloc.selected.refresh();
                   },
                 ),
+              ),
+            ),
+          ),),
+          //double partner // single partner for cast screen
+          Positioned.fill(child: AnimatedPresented(
+            duration: MyDurations.fast,
+            presented: page == CSPage.commanderCast,
+            child: InkWell(
+              onTap: () => group.toggleHavePartner(name),
+              child: Container(
+                width: coreTileSize,
+                height: coreTileSize,
+                child: Icon(
+                  havingPartnerB[name]
+                    ? McIcons.account_group_outline
+                    : McIcons.account_outline,
+                ),
+              ),
+            ),
+          ),),
+          //attacking icon for commander damage screen
+          Positioned.fill(child: AnimatedPresented(
+            duration: MyDurations.fast,
+            presented: page == CSPage.commanderDamage && whoIsAttacking==name,
+            child: InkWell(
+              onTap: () => group.toggleHavePartner(name),
+              child: Container(
+                width: coreTileSize,
+                height: coreTileSize,
+                child: Icon(
+                  havingPartnerB[name]
+                    ? CSTypesUI.attackIconTwo
+                    : CSTypesUI.attackIconOne,
+                ),
+              ),
+            ),
+          ),),
+          //defending icon for commander damage screen
+          Positioned.fill(child: AnimatedPresented(
+            duration: MyDurations.fast,
+            presented: 
+              page == CSPage.commanderDamage && 
+              whoIsAttacking!=name && 
+              whoIsAttacking!=null && 
+              whoIsAttacking!="",
+            child: Container(
+              width: coreTileSize,
+              height: coreTileSize,
+              child: Icon(
+                whoIsDefending == name
+                  ? CSTypesUI.defenceIconFilled
+                  : CSTypesUI.defenceIconOutline,
               ),
             ),
           ),),

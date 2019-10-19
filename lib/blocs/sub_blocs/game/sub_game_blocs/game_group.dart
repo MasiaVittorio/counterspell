@@ -149,6 +149,19 @@ class CSGameGroup {
   //========================
   // Actions
 
+  void toggleHavePartner(String name){
+    final has = this.havingPartnerB.value[name] ?? false;
+    if(has){
+      this.usingPartnerB.value[name] = false;
+      this.havingPartnerB.value[name] = false;
+      this.usingPartnerB.refresh();
+      this.havingPartnerB.refresh();
+    } else {
+      this.havingPartnerB.value[name] = true;
+      this.havingPartnerB.refresh();
+    }
+  }
+
   void moveIndex(int oldIndex, int newIndex){
     this.names.value.insert(
       newIndex, 

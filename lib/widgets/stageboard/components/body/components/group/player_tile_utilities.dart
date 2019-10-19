@@ -63,7 +63,7 @@ class PTileUtils {
         return playerState.life;
         break;
       case CSPage.counters:
-        return 0; //LOWPRIORITY: implement counters
+        return 0; //LOW PRIORITY: implement counters
         break;
       case CSPage.commanderCast:
         return playerState.cast.fromPartner(!usingPartnerB);

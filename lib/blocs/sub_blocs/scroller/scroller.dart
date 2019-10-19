@@ -89,14 +89,19 @@ class CSScroller {
   }
 
 
-  void cancel(){
+
+  void cancel([bool alsoAttacker = false]){
     this.value = 0.0;
     this.intValue.set(0);
     
     //this will trigger confirm() but the action will be null, so it will
     //not affect the gamestate's history
-    if(!this.forceComplete())
-      parent.game.gameAction.clearSelection();
+    if(!this.forceComplete()){
+      parent.game.gameAction.clearSelection(true);
+    } else {
+      if(alsoAttacker) 
+        parent.game.gameAction.attackingPlayer.set("");
+    }
   }
   bool forceComplete() => isScrolling.setDistinct(false);
 

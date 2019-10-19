@@ -45,7 +45,7 @@ class CSStageBoard {
     decodePageClosed: (json) => STRING_TO_CSPAGE[json as String],
     encodePageClosed: (page) => CSPAGE_TO_STRING[page],
     initialClosedPagesList: CSPage.values,
-    onClosedPageChanged: (_) => parent.game.gameAction.clearSelection(),
+    onClosedPageChanged: (_) => parent.scroller.cancel(true),
 
     // opened pages
     initialOpenedPage: SettingsPage.game,

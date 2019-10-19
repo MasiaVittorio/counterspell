@@ -6,6 +6,7 @@ import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/widgets/resources/chip.dart';
 import 'package:flutter/material.dart';
+import 'package:sidereus/utils/divide_list.dart';
 
 class HistoryPlayerTile extends StatelessWidget {
 
@@ -61,10 +62,19 @@ class HistoryPlayerTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _Time(time),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
+          Padding(
+            padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 4.0, bottom: 6.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: SidChip.backgroundColor(Theme.of(context)),
+                borderRadius: BorderRadius.circular(SidChip.height/2),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: divideList(children, SizedBox(width: 4.0,)),
+              ),
+            ),
           ),
         ],
       ),
@@ -91,10 +101,12 @@ class _Change extends StatelessWidget {
     final int increment = change.next - change.previous;
     final String text = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
     final String subText = "= ${change.next}" + (
-      change.type == DamageType.commanderCast
+      change.type == DamageType.commanderCast || (change.type == DamageType.commanderDamage && change.attack)
         ? change.partnerA ? " (A)" : " (B)"
         : ""
     );
+    //TODO: impostazione per abilitare o meno il secondo partner, e dunque mostrare o meno la lettera A // B
+    //in questo senso si omettono proprio i B
 
     final Color color = CSThemer.getHistoryChipColor(
       attack: change.attack,

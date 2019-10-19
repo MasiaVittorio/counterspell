@@ -15,7 +15,11 @@ class SidChip extends StatelessWidget {
     this.color,
   });
 
-  static const double _height = 35;
+  static const double height = 35;
+  static Color backgroundColor(ThemeData theme) => Color.alphaBlend(
+    theme.colorScheme.onSurface.withOpacity(0.1), 
+    theme.scaffoldBackgroundColor,
+  );
   
   @override
   Widget build(BuildContext context) {
@@ -29,18 +33,18 @@ class SidChip extends StatelessWidget {
       : Colors.black;
     
     final chip = Container(
-      height: _height,
+      height: height,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(_height),
+        borderRadius: BorderRadius.circular(height),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            height: _height,
-            width: _height,
+            height: height,
+            width: height,
             child: IconTheme(
               data: IconThemeData(
                 opacity: 1.0,
@@ -63,34 +67,27 @@ class SidChip extends StatelessWidget {
         ],
       )
     );
+ 
 
-    final littleDarker = theme
-      .colorScheme
-      .onSurface
-      .withOpacity(0.1); 
-
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: littleDarker,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(_height / 2),
-            bottom: Radius.circular(_height / 2),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor(theme),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(height / 2),
+          bottom: Radius.circular(height / 2),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            chip,
-            Text(
-              subText,
-              style: TextStyle(
-                fontSize: 12,
-              ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          chip,
+          Text(
+            subText,
+            style: TextStyle(
+              fontSize: 12,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

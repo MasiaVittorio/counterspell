@@ -33,6 +33,7 @@ class GameHistoryData{
             previous: entry.value.states[previous],
             next: entry.value.states[next],
             types: types,
+            partnerBAllowed: true, //TODO: setting per partnerB allowed
           ),
       }
     );
@@ -66,6 +67,7 @@ class PlayerHistoryChange{
     @required Map<DamageType, bool> types,
     @required Map<String,PlayerState> previousOthers,
     @required Map<String,PlayerState> nextOthers,
+    @required bool partnerBAllowed,
   }){
     return [
       if(previous.life != next.life)
@@ -82,6 +84,7 @@ class PlayerHistoryChange{
           next: next.cast.a,
           partnerA: true,
         ),
+      if(partnerBAllowed!=false)
       if(types[DamageType.commanderCast])
       if(previous.cast.b != next.cast.b)
         PlayerHistoryChange(
@@ -91,35 +94,58 @@ class PlayerHistoryChange{
           partnerA: false,
         ),
       if(types[DamageType.commanderDamage])
-      if(previous.totalDamageTaken != next.totalDamageTaken)
-        PlayerHistoryChange(
-          type: DamageType.commanderDamage,
-          previous: previous.totalDamageTaken,
-          next: next.totalDamageTaken,
-          attack: false,
-        ),
+        ...(){
+          //first player to have damaged our player is shown
+          for(final damageEntry in previous.damages.entries){
+            if(damageEntry.value.a != next.damages[damageEntry.key].a){
+              return [PlayerHistoryChange(
+                previous: damageEntry.value.a,
+                next: next.damages[damageEntry.key].a,
+                type: DamageType.commanderDamage,
+                attack: false,
+              )];
+            }
+            if(partnerBAllowed!=false){
+              if(damageEntry.value.b != next.damages[damageEntry.key].b){
+                return [PlayerHistoryChange(
+                  previous: damageEntry.value.b,
+                  next: next.damages[damageEntry.key].b,
+                  type: DamageType.commanderDamage,
+                  attack: false,
+                )];
+              }
+            }
+          }
+          return [];
+        }(),
       if(types[DamageType.commanderDamage])
         ...(){
-          final prevDealtA = damageDealt(playerName, previousOthers , true);
-          final nextDealtA = damageDealt(playerName, nextOthers     , true);
-          final prevDealtB = damageDealt(playerName, previousOthers , false);
-          final nextDealtB = damageDealt(playerName, nextOthers     , false);
-          return <PlayerHistoryChange>[
-            if(prevDealtA != nextDealtA)
-              PlayerHistoryChange(
-                type: DamageType.commanderCast,
-                previous: prevDealtA,
-                next: nextDealtA,
+          //first player to be damaged by our player is shown
+          for(final otherPrev in previousOthers.entries){
+            final otherNextValue = nextOthers[otherPrev.key];
+            if(otherPrev.value.damages[playerName].a != otherNextValue.damages[playerName].a){
+              return [PlayerHistoryChange(
+                previous: otherPrev.value.damages[playerName].a,
+                next: otherNextValue.damages[playerName].a,
+                type: DamageType.commanderDamage,
+                attack: true,
                 partnerA: true,
-              ),
-            if(prevDealtB != nextDealtB)
-              PlayerHistoryChange(
-                type: DamageType.commanderCast,
-                previous: prevDealtB,
-                next: nextDealtB,
-                partnerA: false,
-              ),
-          ];
+              )];
+            }
+            if(partnerBAllowed!=false){
+              if(otherPrev.value.damages[playerName].b != otherNextValue.damages[playerName].b){
+                return [PlayerHistoryChange(
+                  previous: otherPrev.value.damages[playerName].b,
+                  next: otherNextValue.damages[playerName].b,
+                  type: DamageType.commanderDamage,
+                  attack: true,
+                  partnerA: false,
+                )];
+              }
+            }
+          }
+          return [];
+
         }()
 
     ];

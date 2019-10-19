@@ -15,7 +15,6 @@ class SimplePlayerTile extends StatelessWidget {
   final Map<String, bool> selectedNames;
   final bool isScrollingSomewhere;
   final GameState gameState;
-  // final CSTheme theme;
   final Map<CSPage,Color> pageColors;
   final int increment;
   final Map<String,PlayerAction> normalizedPlayerActions;
@@ -39,7 +38,6 @@ class SimplePlayerTile extends StatelessWidget {
     @required this.selectedNames,
     @required this.isScrollingSomewhere,
     @required this.gameState,
-    // @required this.theme,
     @required this.increment,
     @required this.normalizedPlayerActions,
     @required this.routeAnimationValue,
@@ -68,6 +66,7 @@ class SimplePlayerTile extends StatelessWidget {
               padding: const EdgeInsets.all(24.0),
               child: Text(
                 "Tap to put $firstUnpositionedName here",
+                style: themeData.textTheme.button,
               ),
             ),),
           ),
@@ -166,6 +165,7 @@ class SimplePlayerTile extends StatelessWidget {
                                   rawSelected: rawSelected,
                                   scrolling: scrolling,
                                   playerState: playerState,
+                                  actionBloc: bloc.game.gameAction,
                                 )),
                                 if(hasAnnotations && !buttonToTheRight)
                                   buildAnnotations(),
@@ -185,12 +185,25 @@ class SimplePlayerTile extends StatelessWidget {
     );
   }
 
-  Widget buildName(){
+  Widget buildName(CSGameAction actionBloc, bool rawSelected){
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text("$name", style: TextStyle(
-        fontSize: 16,
-      ),),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Checkbox(
+            value: rawSelected,
+            tristate: true,
+            onChanged: (b) {
+              actionBloc.selected.value[name] = rawSelected == false ? true : false;
+              actionBloc.selected.refresh();
+            },
+          ),
+          Text("$name", style: TextStyle(
+            fontSize: 16,
+          ),),
+        ],
+      ),
     );
   }
 
@@ -203,6 +216,7 @@ class SimplePlayerTile extends StatelessWidget {
     @required bool rawSelected,
     @required bool scrolling,
     @required bool annotationsToTheRight,
+    @required CSGameAction actionBloc,
   }){
     return LayoutBuilder(builder: (context, intConstraints){
       double offset;
@@ -241,7 +255,7 @@ class SimplePlayerTile extends StatelessWidget {
           Row(children: <Widget>[
             if(betterRightSide)
               SizedBox(width: offset),
-            Expanded(child: Center(child: buildName())),
+            Expanded(child: Center(child: buildName(actionBloc, rawSelected))),
             if(!betterRightSide)
               SizedBox(width: offset),
           ],),

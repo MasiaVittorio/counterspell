@@ -5,6 +5,8 @@ import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/confirm_alert_sheet.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/info/cast_info.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/info/damage_info.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/playgroup_editor/playgroup_editor.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
@@ -39,18 +41,6 @@ class CSPanelCollapsed extends StatelessWidget {
       );
 
       final rightButton = <CSPage,Widget>{
-        CSPage.life: gameStateBloc.gameState.build( (context, state)
-          => _PanelButton(
-            true, 
-            McIcons.account_multiple_outline, 
-            () => stageBoard.showAlert(
-              PlayGroupEditor(bloc),
-              alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
-            ),
-            1.0,
-            iconSize: 25,
-          ),
-        ),
         CSPage.history : _PanelButton(
           true,
           McIcons.restart,
@@ -66,6 +56,30 @@ class CSPanelCollapsed extends StatelessWidget {
           ),
           1.0,
           iconSize: 24,
+        ),
+        CSPage.life: gameStateBloc.gameState.build( (context, state)
+          => _PanelButton(
+            true, 
+            McIcons.account_multiple_outline, 
+            () => stageBoard.showAlert(
+              PlayGroupEditor(bloc),
+              alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
+            ),
+            1.0,
+            iconSize: 25,
+          ),
+        ),
+        CSPage.commanderCast: _PanelButton(
+          true,
+          Icons.info_outline,
+          () => stageBoard.showAlert(const CastInfo(), alertSize: CastInfo.height),
+          1.0,
+        ),
+        CSPage.commanderDamage: _PanelButton(
+          true,
+          Icons.info_outline,
+          () => stageBoard.showAlert(const DamageInfo(), alertSize: DamageInfo.height),
+          1.0,
         ),
       }[stageBoard.pagesController.page] ?? SizedBox(width: CSConstants.barSize,);
 

@@ -239,7 +239,6 @@ class SimplePlayerTile extends StatelessWidget {
             ),
         ];
         if(list.isEmpty) return SizedBox();
-        //TODO: implementa annotations commander damage //  cast // counters
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal:4.0),
           child: Container(

@@ -218,16 +218,18 @@ class SimplePlayerTile extends StatelessWidget {
   Widget buildExtraInfo(BuildContext context, ThemeData themeData){
     final StageBoardData<CSPage,SettingsPage> stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
     final enabledPages = stageBoard.pagesController.enabledPages;
-    return BlocVar.build2(
+    return BlocVar.build3(
       group.havingPartnerB,
       group.parent.parent.themer.theme,
-      builder: (context, havingPartnerB, theme){
+      group.parent.gameAction.counterSet.variable,
+      builder: (context, havingPartnerB, theme, _){
         final list = ExtraInfo.fromPlayer(name,
           ofGroup: gameState.lastPlayerStates,
           pageColors: pageColors,
           havingPartnerB: havingPartnerB,
           theme: theme,
           types: DamageTypes.fromPages(enabledPages),
+          counterMap: group.parent.gameAction.currentCounterMap,
         );
         final children = <Widget>[
           for(final info in list)

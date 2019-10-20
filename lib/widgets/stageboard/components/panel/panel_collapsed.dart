@@ -87,7 +87,7 @@ class CSPanelCollapsed extends StatelessWidget {
             true,
             counter.icon,
             () => stageBoard.showAlert(const CounterSelector(), alertSize: CounterSelector.height),
-            1.0,
+            1.0, 
           ),
         ),
       }[stageBoard.pagesController.page] ?? SizedBox(width: CSConstants.barSize,);

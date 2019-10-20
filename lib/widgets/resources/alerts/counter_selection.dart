@@ -25,6 +25,7 @@ class CounterSelector extends StatelessWidget {
                   counterSet.list.indexWhere((c) => c.longName == name),
                 ),
                 title: Text(counter.longName),
+                secondary: Icon(counter.icon),
               ),
           ],
         ),

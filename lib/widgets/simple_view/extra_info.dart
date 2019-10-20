@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/models/game/model.dart';
+import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/models/game/types/damage_type.dart';
 import 'package:counter_spell_new/models/ui/type_ui.dart';
 import 'package:counter_spell_new/structure/pages.dart';
@@ -23,6 +24,7 @@ class ExtraInfo {
     @required Map<String, bool> havingPartnerB,
     @required Map<CSPage,Color> pageColors,
     @required CSTheme theme,
+    @required Map<String,Counter> counterMap,
   }){
     final state = ofGroup[name];
     final iHaveB = havingPartnerB[name] == true;
@@ -67,6 +69,7 @@ class ExtraInfo {
               note: "${PTileUtils.subString(entry.key,3)} (B)",
             ),
         ],
+      if(types[DamageType.commanderDamage])
       for(final otherEntry in ofGroup.entries)
         ...[
           if((otherEntry.value.damages[name]?.a ?? 0) != 0)
@@ -87,6 +90,15 @@ class ExtraInfo {
               note: "${PTileUtils.subString(otherEntry.key,3)} (B)",
             ),
         ],
+      if(types[DamageType.counters])
+      for(final entry in state.counters.entries)
+        if(entry.value != 0)
+          ExtraInfo(
+            color: pageColors[CSPage.counters],
+            value: entry.value,
+            icon: counterMap[entry.key].icon,
+            note: counterMap[entry.key].shortName,
+          ),
       
     ];
   }

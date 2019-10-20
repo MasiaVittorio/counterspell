@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:sidereus/bloc/bloc_var_persistent.dart';
 import 'package:vibrate/vibrate.dart';
 
@@ -14,8 +11,6 @@ class CSSettings {
     this.startingLife.dispose();
     this.minValue.dispose();
     this.maxValue.dispose();
-    this.enabledCounters.dispose();
-    customCountersSubscription.cancel();
     this.confirmDelay.dispose();
   }
 
@@ -30,8 +25,7 @@ class CSSettings {
   final PersistentVar<int> startingLife;
   final PersistentVar<int> minValue;
   final PersistentVar<int> maxValue;
-  final PersistentVar<Map<String, bool>> enabledCounters;
-  StreamSubscription customCountersSubscription;
+
   final PersistentVar<Duration> confirmDelay;
   final PersistentVar<bool> applyDamageToLife;
 
@@ -76,18 +70,6 @@ class CSSettings {
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-
-    enabledCounters = PersistentVar<Map<String, bool>>(
-      key: "bloc_settings_blocvar_enabledcounters",
-      initVal: ((int inEn)=> {
-        for(int i=0; i<inEn; ++i)
-          DEFAULT_CUSTOM_COUNTERS[i].longName: true,
-        for(final c in DEFAULT_CUSTOM_COUNTERS.skip(inEn))
-          c.longName: false,
-      })(3),
-      toJson: (map) => map,
-      fromJson: (json) => json,
-    ),
     confirmDelay = PersistentVar<Duration>(
       key: "bloc_settings_blocvar_confirmdelay",
       initVal: const Duration(milliseconds: 700),
@@ -98,96 +80,11 @@ class CSSettings {
     Vibrate.canVibrate.then(
       (canIt) => canVibrate = canIt
     );
-    final gameAction = this.parent.game.gameAction;
-    customCountersSubscription = gameAction
-      .counterSet
-      .variable
-      .behavior
-      .listen((_){
-
-        //possibly updated, IF you remember to call counterSet.refresh() every time you 
-        //change its underlying list of counters (e.g.: adding a new custom counter)
-        final updatedList = gameAction.counterSet.list;
-        bool updated = false;
-
-        //add new counter names (enabled by default)
-        for(final counter in updatedList){
-          if(!this.enabledCounters.value.containsKey(counter.longName)){
-            this.enabledCounters.value[counter.longName] = true;
-            updated = true;
-          }
-        }
-
-        //remove deleted counter names (carefully)
-        List<String> namesToBeRemoved = <String>[];
-        for(final name in this.enabledCounters.value.keys){
-          if(!updatedList.any((counter) => counter.longName == name)){
-            namesToBeRemoved.add(name);
-            updated = true;
-            //do not modify a map while iterating on its values
-          }
-        }
-        for(final nameToBeRemoved in namesToBeRemoved){
-          this.enabledCounters.value.remove(nameToBeRemoved);
-        }
-
-        //finally refresh this variable to make the  
-        //dependent widgets see the changes (like the history section)
-        if(updated) this.enabledCounters.refresh();
-      });
   }
 
 
   //===================================
   // Action
-  // void disablePage(CSPage page){
-  //   assert(this.enabledPages.value[page]);
-  //   assert(page != CSPage.life);
-  //   if(parent.scaffold.page.value == page){
-  //     parent.scaffold.page.set(CSPage.life);
-  //   }
-  //   this.enabledPages.value[page] = false;
-  //   this.enabledPages.refresh();
-  //   // final scaffold = parent.scaffold;
-  //   // final mainIndex = scaffold.mainIndex;
-  //   // final pageToIndex = scaffold.pageToIndex;
-  //   // final indexToAvoid = pageToIndex[page];
-  //   // final targetIndex = mainIndex.value == indexToAvoid
-  //   //   ? pageToIndex[CSPage.life]
-  //   //   : mainIndex.value;
-    
-  //   // final fixedTarget = targetIndex >= indexToAvoid
-  //   //   ? targetIndex - 1
-  //   //   : targetIndex;
-    
-  //   // mainIndex.set(fixedTarget);
-  //   // enabledPages.value[page] = false;
-  //   // enabledPages.refresh();
-  // }
-  // void enablePage(CSPage page){
-  //   assert(!this.enabledPages.value[page]);
-  //   assert(page != CSPage.life);
 
-  //   this.enabledPages.value[page] = true;
-  //   this.enabledPages.refresh();
-  //   // final scaffold = parent.scaffold;
-  //   // final mainIndex = scaffold.mainIndex;
-  //   // final indexToPage = scaffold.indexToPage;
-  //   // final previousIndex = mainIndex.value;
-  //   // final previousPage = indexToPage[previousIndex];
-    
-  //   // enabledPages.value[page] = true;
-  //   // enabledPages.refresh();
-  //   // mainIndex.set(
-  //   //   scaffold.pageToIndex[previousPage]
-  //   // );
-  // }
-
-  // void togglePage(CSPage page){
-  //   if(enabledPages.value[page])
-  //     disablePage(page);
-  //   else
-  //     enablePage(page);
-  // }
 
 }

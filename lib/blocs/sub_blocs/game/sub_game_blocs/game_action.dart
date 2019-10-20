@@ -187,7 +187,7 @@ class CSGameAction {
   
   Map<String, Counter> get currentCounterMap => {
     for(final counter in counterSet.list)
-      if(parent.parent.settings.enabledCounters.value[counter.longName])
+      // if(parent.parent.settings.enabledCounters.value[counter.longName])
         counter.longName : counter, 
   };
 

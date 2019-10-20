@@ -32,16 +32,11 @@ class BodyHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final bloc = group.parent.parent;
     final game = group.parent;
     final history = game.gameHistory;
-    final settings = bloc.settings;
     final stageBoard = StageBoard.of(context);
 
-    return BlocVar.build2(
-      settings.enabledCounters, 
-      group.havingPartnerB, 
-      builder:(context, enabled, havePartnerB){
+    return group.havingPartnerB.build((context, havePartnerB){
 
         final Map<String, Counter> counters = game.gameAction.currentCounterMap;
 

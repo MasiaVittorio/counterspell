@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/models/game/model.dart';
+import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:sidereus/sidereus.dart';
 
 import '../game.dart';
@@ -32,7 +33,10 @@ class CSGameState {
   CSGameState(this.parent): 
     gameState = PersistentVar<GameState>(
       key: "bloc_game_state_blocvar_gamestate",
-      initVal: GameState.start(_kNames, startingLife: 40),
+      initVal: GameState.start(_kNames, {
+        for(final counter in DEFAULT_CUSTOM_COUNTERS)
+          counter.longName,
+      }, startingLife: 40),
       toJson: (s) => s.toJson(),
       fromJson: (j) => GameState.fromJson(j),
       readCallback: (afterReadState) 
@@ -106,6 +110,9 @@ class CSGameState {
     this.parent.gameGroup.newGroup(names.toList());
     _resetGame(GameState.start(
       names, 
+      <String>{for(final counter in this.parent.gameAction.counterSet.list) 
+        counter.longName
+      },
       startingLife: this.parent.currentStartingLife,
     ));
   }

@@ -44,10 +44,10 @@ class HistoryPlayerTile extends StatelessWidget {
       for(final change in changes)
         if(!(
           change.type == DamageType.counters 
-          && !counters.containsKey(change.counterName)
+          && !counters.containsKey(change.counter.longName)
         )) _Change(
           change, 
-          counters: counters,
+          // counters: counters,
           pageColors: pageColors,
           theme: theme,
           partnerB: this.partnerB ?? false,
@@ -90,13 +90,13 @@ class _Change extends StatelessWidget {
 
   final CSTheme theme;
   final Map<CSPage,Color> pageColors;
-  final Map<String, Counter> counters;
+  // final Map<String, Counter> counters;
   
   const _Change(this.change, {
     @required this.partnerB,
     @required this.theme,
     @required this.pageColors,
-    @required this.counters,
+    // @required this.counters,
   });
 
   
@@ -128,8 +128,7 @@ class _Change extends StatelessWidget {
       attack: change.attack,
       type: change.type,
       theme: theme,
-      counterName: change.counterName,
-      counters: counters,
+      counter: change.counter,
     );
 
   	return SidChip(

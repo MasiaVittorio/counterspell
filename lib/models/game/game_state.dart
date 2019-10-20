@@ -43,11 +43,11 @@ class GameState {
     @required this.players
   });
 
-  factory GameState.start(Set<String> names, {int startingLife = 20}) => GameState(
+  factory GameState.start(Set<String> names, Set<String> counters, {int startingLife = 20}) => GameState(
     startingTime: DateTime.now(),
     players: {
       for(final name in names)
-        name: Player.start(name, names, startingLife: startingLife)
+        name: Player.start(name, names, counters, startingLife: startingLife)
     }
   );
 
@@ -107,6 +107,7 @@ class GameState {
     assert(startingLife != null);
     return GameState.start(
       this.names,
+      this.players.values.first.states.last.counters.keys.toSet(),
       startingLife: startingLife,
     );
   }
@@ -146,6 +147,7 @@ class GameState {
     final Player player = Player.start(
       name, 
       this.names,
+      this.players.values.first.states.last.counters.keys.toSet(),
       startingLife: startingLife
     );
 

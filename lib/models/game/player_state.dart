@@ -1,45 +1,9 @@
+import 'dart:math';
+
 import 'package:counter_spell_new/models/game/model.dart';
+import 'package:counter_spell_new/models/game/types/commander.dart';
+import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:flutter/widgets.dart';
-
-class CommanderDamage{
-  //different partners
-  final int a;
-  final int b;
-
-  int fromPartner(bool partnerA) => partnerA ? a:b;
-  
-  const CommanderDamage(this.a, [this.b = 0])
-      : assert(a!=null && b!=null), 
-        assert(a>=0 && b>=0);
- 
-  dynamic get json => <int>[this.a, this.b];
-  static CommanderDamage fromJson(dynamic json) => CommanderDamage(
-    (json as List)[0] as int,
-    (json as List)[1] as int,
-  ); 
-  int get total => a+b;
-  int getTotal({bool alsoB = true}) => a +  (alsoB==true ? b : 0);
-
-  CommanderDamage withDamage(int damage, {
-      bool partnerA = true, 
-      int maxValue = PlayerState.kMaxValue
-  }) => CommanderDamage(
-    (partnerA ? damage : a).clamp(0, maxValue ?? PlayerState.kMaxValue),
-    (!partnerA ? damage : b).clamp(0, maxValue ?? PlayerState.kMaxValue),
-  );
-}
-class CommanderCast extends CommanderDamage{
-  const CommanderCast(int a, [int b = 0]): super(a,b);
-  static CommanderCast fromDamage(CommanderDamage damage)=> CommanderCast(damage.a ?? 0, damage.b ?? 0);
-  static CommanderCast fromJson(dynamic json) => fromDamage(CommanderDamage.fromJson(json));
-  CommanderCast withCast(int cast, {
-      bool partnerA = true,
-      int maxValue = PlayerState.kMaxValue,
-  }) => CommanderCast(
-    (partnerA ? cast : a).clamp(0, maxValue ?? PlayerState.kMaxValue),
-    (!partnerA ? cast : b).clamp(0, maxValue ?? PlayerState.kMaxValue),
-  );
-}
 
 class PlayerState {
 
@@ -54,6 +18,8 @@ class PlayerState {
   final Map<String,CommanderDamage> damages;
 
   final CommanderCast cast;
+
+  final Map<String,int> counters;
 
 
   //===================================
@@ -73,7 +39,9 @@ class PlayerState {
       if(damage.a >= 21) return false;
       if(damage.b >= 21) return false;
     }
-    //LOW PRIORITY: implementa counters e letalità dei segnalini veleno
+    if(counters[POISON.longName] >= 10){
+      return false;
+    }
 
     return true;
   }
@@ -93,6 +61,7 @@ class PlayerState {
     life: life.clamp(minVal ?? kMinValue, maxVal ?? kMaxValue),
     cast: this.cast,
     damages: this.damages,
+    counters: this.counters,
   );
   PlayerState incrementLife(
     int increment, {
@@ -107,6 +76,7 @@ class PlayerState {
   }) => PlayerState.now(
     life: this.life,
     cast: this.cast,
+    counters: this.counters,
     damages: {
       for(final entry in this.damages.entries)
         if(entry.key == from) entry.key: entry.value
@@ -138,6 +108,7 @@ class PlayerState {
   PlayerState withCast(int cast, {bool partnerA=true, int maxCast = kMaxValue}) => PlayerState.now(
     life: this.life,
     damages: this.damages,
+    counters: this.counters,
     cast: this.cast.withCast(cast, partnerA: partnerA, maxValue: maxCast),
   );
   PlayerState castAgain(int times, {bool partnerA, int maxCast = kMaxValue}) => this.withCast(
@@ -146,6 +117,31 @@ class PlayerState {
     maxCast: maxCast,
   );
 
+  PlayerState withCounter(Counter counter, int value, {
+      int minValue = kMinValue, 
+      int maxValue = kMaxValue
+  }) => PlayerState.now(
+    life: this.life,
+    damages: this.damages,
+    counters: (){
+      Map<String,int> copy = Map.from(this.counters ?? <String,int>{});
+      copy[counter.longName] = value.clamp(
+        max(minValue, counter.minValue), 
+        min(maxValue, counter.maxValue),
+      );
+      return copy;
+    }(),
+    cast: this.cast,
+  );
+  PlayerState incrementCounter(Counter counter, int increment, {
+      int minValue = kMinValue, 
+      int maxValue = kMaxValue
+  }) => this.withCounter(
+    counter, 
+    (this.counters[counter.longName] ?? 0) + increment,
+    minValue: minValue ?? kMinValue,
+    maxValue: maxValue ?? kMaxValue,
+  );
 
 
 
@@ -155,21 +151,26 @@ class PlayerState {
   Map<String,dynamic> toJson() => {
     "life": life,
     "time": time.toString(),
+    "cast": this.cast.json,
     "damages": <String,dynamic>{
       for(final entry in damages.entries)
         entry.key: entry.value.json,
     },
-    "cast": this.cast.json,
+    "counters": this.counters,
   };
 
   factory PlayerState.fromJson(Map<String,dynamic> json) => PlayerState(
     life: json["life"],
     time: DateTime.parse(json["time"]),
+    cast: CommanderCast.fromJson(json["cast"]),
     damages: <String,CommanderDamage>{
       for(final entry in (json["damages"] as Map<String,dynamic>).entries)
         entry.key: CommanderDamage.fromJson(entry.value),
     },
-    cast: CommanderCast.fromJson(json["cast"]),
+    counters: <String,int>{
+      for(final entry in (json["counters"] as Map<String,dynamic>).entries)
+        entry.key : entry.value as int,
+    },
   );
 
 
@@ -183,22 +184,26 @@ class PlayerState {
     @required this.time,
     @required this.damages,
     @required this.cast,
+    @required this.counters,
   });
   
   factory PlayerState.now({
     @required int life,
     @required CommanderCast cast,
     @required Map<String,CommanderDamage> damages,
+    @required Map<String,int> counters,
    }) => PlayerState(
     life: life,
     time: DateTime.now(),
     cast: cast,
     damages: damages,
+    counters: counters,
   );
 
   factory PlayerState.start({
     @required int life,
     @required Set<String> others,
+    @required Set<String> counters,
   }) => PlayerState.now(
     life: life,
     damages: {
@@ -206,6 +211,10 @@ class PlayerState {
         name: CommanderDamage(0),
     },
     cast: CommanderCast(0),
+    counters: {
+      for(final counter in counters)
+        counter: 0,
+    },
   );
 
 

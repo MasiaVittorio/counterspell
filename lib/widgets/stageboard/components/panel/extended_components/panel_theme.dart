@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
-import 'package:counter_spell_new/models/game/types/type_ui.dart';
+import 'package:counter_spell_new/models/ui/type_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/material_color_picker/sheet_color_picker.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';

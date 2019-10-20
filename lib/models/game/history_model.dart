@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/models/game/game_state.dart';
 import 'package:counter_spell_new/models/game/player_state.dart';
+import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/models/game/types/damage_type.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +13,9 @@ class GameHistoryData{
     GameState gameState,
     int previous,
     int next, { 
-      Map<DamageType, bool> types = allTypesEnabled,
-      Map<String,bool> havePartnerB,
+      @required Map<DamageType, bool> types,
+      @required Map<String,bool> havePartnerB,
+      @required Map<String,Counter> counterMap,
     }
   ) {
     final allNext = {
@@ -36,6 +38,7 @@ class GameHistoryData{
             next: entry.value.states[next],
             types: types,
             havingPartnerB: havePartnerB,
+            counterMap: counterMap,
           ),
       }
     );
@@ -47,7 +50,7 @@ class PlayerHistoryChange{
   final int next;
   final DamageType type;
   final bool attack;
-  final String counterName;
+  final Counter counter;
   final bool partnerA;
 
   PlayerHistoryChange({
@@ -55,12 +58,12 @@ class PlayerHistoryChange{
     @required this.previous,
     @required this.next,
     this.attack,
-    this.counterName,
+    this.counter,
     this.partnerA,
   }): 
     assert(!(type == DamageType.commanderDamage && (attack==null || (attack==true&&partnerA==null)))),
     assert(!(type == DamageType.commanderCast && partnerA==null)),
-    assert(!(type == DamageType.counters && counterName == null));
+    assert(!(type == DamageType.counters && counter == null));
 
   static List<PlayerHistoryChange> changesFromStates({
     @required String playerName,
@@ -70,6 +73,7 @@ class PlayerHistoryChange{
     @required Map<String,PlayerState> previousOthers,
     @required Map<String,PlayerState> nextOthers,
     @required Map<String,bool> havingPartnerB,
+    @required Map<String,Counter> counterMap,
   }){
     return [
       if(previous.life != next.life)
@@ -148,6 +152,23 @@ class PlayerHistoryChange{
           }
           return [];
 
+        }(),
+      if(types[DamageType.counters])
+        ...(){
+          final Set<String> counters = {
+            ...(previous.counters.keys),
+            ...(next.counters.keys),
+          };
+          return [
+            for(final name in counters)
+              if((previous.counters[name] ?? 0) != (next.counters[name] ?? 0))
+                PlayerHistoryChange(
+                  type: DamageType.counters,
+                  counter: counterMap[name],
+                  next: next.counters[name] ?? 0,
+                  previous: previous.counters[name] ?? 0,
+                ),
+          ];
         }()
 
     ];

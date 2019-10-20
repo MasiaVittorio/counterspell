@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/models/game/types/damage_type.dart';
-import 'package:counter_spell_new/models/game/types/type_ui.dart';
+import 'package:counter_spell_new/models/ui/type_ui.dart';
 import 'package:counter_spell_new/structure/damage_types_to_pages.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';

@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/blocs/bloc.dart';
-import 'package:counter_spell_new/models/game/types/type_ui.dart';
+import 'package:counter_spell_new/models/ui/type_ui.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/info_basics.dart';

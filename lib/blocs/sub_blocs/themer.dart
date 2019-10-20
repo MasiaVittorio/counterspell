@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/models/game/types/damage_type.dart';
-import 'package:counter_spell_new/models/game/types/type_ui.dart';
+import 'package:counter_spell_new/models/ui/type_ui.dart';
 import 'package:counter_spell_new/structure/damage_types_to_pages.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
@@ -124,13 +124,12 @@ class CSThemer {
     @required CSTheme theme,
     @required DamageType type,
     @required bool attack,
-    @required Map<String,Counter> counters,
-    @required String counterName,
+    @required Counter counter,
   }){
     if(type == DamageType.commanderDamage){
       return attack ? CSTypesUI.attackIconOne : CSTypesUI.defenceIconFilled;
     } else if (type == DamageType.counters){
-      return counters[counterName].icon;
+      return counter.icon;
     } else {
       return CSTypesUI.typeIconsFilled[type];
     }

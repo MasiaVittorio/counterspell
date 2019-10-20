@@ -39,6 +39,7 @@ class CSGameHistory {
             GameHistoryData.fromStates(state, i-1 , i,
               types: DamageTypes.fromPages(parent.parent.stageBoard.controller.pagesController.enabledPages),
               havePartnerB: parent.gameGroup.havingPartnerB.value,
+              counterMap: parent.gameAction.currentCounterMap,
             ),
           GameHistoryNull(state, newLen - 1),
         ];

@@ -42,13 +42,20 @@ class Player {
     assert(states != null),
     assert(states.isNotEmpty);
 
-  factory Player.start(String name, Set<String> others,{int startingLife = 20}) 
-    => Player(
+  factory Player.start(
+    String name, 
+    Set<String> others,
+    Set<String> counters,
+    {
+      int startingLife = 20
+    }
+  ) => Player(
       name, 
       states: [
         PlayerState.start(
           life: startingLife, 
           others: others,
+          counters: counters,
         ),
       ]
     );

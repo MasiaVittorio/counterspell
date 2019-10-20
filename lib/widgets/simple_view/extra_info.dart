@@ -29,7 +29,6 @@ class ExtraInfo {
     final state = ofGroup[name];
     final iHaveB = havingPartnerB[name] == true;
     return [
-      //TODO: implement counters
       if(types[DamageType.commanderCast])
       if(state.cast.a != 0)
         ExtraInfo(

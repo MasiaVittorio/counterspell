@@ -86,7 +86,10 @@ class CSPanelCollapsed extends StatelessWidget {
           => _PanelButton(
             true,
             counter.icon,
-            () => stageBoard.showAlert(const CounterSelector(), alertSize: CounterSelector.height),
+            () => stageBoard.showAlert(
+              const CounterSelector(), 
+              alertSize: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)),
+            ),
             1.0, 
           ),
         ),

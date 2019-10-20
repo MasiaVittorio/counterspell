@@ -5,7 +5,6 @@ import 'package:stage_board/stage_board.dart';
 
 class CounterSelector extends StatelessWidget {
   const CounterSelector();
-  static const height = 400.0;
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);

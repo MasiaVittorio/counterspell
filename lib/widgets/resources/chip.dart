@@ -10,7 +10,7 @@ class SidChip extends StatelessWidget {
 
   const SidChip({
     @required this.icon,
-    @required this.subText,
+    this.subText,
     @required this.text,
     this.color,
   });
@@ -67,6 +67,10 @@ class SidChip extends StatelessWidget {
         ],
       )
     );
+
+    if(subText == null){
+      return chip;
+    }
  
 
     return Container(

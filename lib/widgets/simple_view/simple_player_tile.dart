@@ -234,7 +234,7 @@ class SimplePlayerTile extends StatelessWidget {
             SidChip(
               icon: info.icon,
               text: info.value.toString(),
-              subText: info.note??"",//TODO: sub text non necessario??
+              subText: info.note,
               color: info.color,
             ),
         ];

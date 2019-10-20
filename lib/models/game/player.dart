@@ -1,3 +1,4 @@
+import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:flutter/widgets.dart';
 import 'model.dart';
 
@@ -72,20 +73,21 @@ class Player {
     );
   }
 
-  PlayerAction back(){
+  PlayerAction back(Map<String,Counter> counterMap){
     final PlayerState outgoingState = states.removeLast();
     return PlayerAction.fromStates(
       previous: states.last,
       next: outgoingState,
+      counterMap: counterMap,
     );
   }
 
-  void insertAction(int stateIndex, PlayerAction action){
+  void insertAction(int stateIndex, PlayerAction action, Map<String,Counter> counterMap){
     assert(stateIndex >= 1 && stateIndex < states.length);
 
     List<PlayerAction> actions = [
       for(int i=states.length-1; i>=stateIndex; --i)
-        this.back(),
+        this.back(counterMap),
     ];
 
     this.applyAction(action);
@@ -96,12 +98,12 @@ class Player {
 
   }
 
-  PlayerAction cancelAction(int stateIndex){
+  PlayerAction cancelAction(int stateIndex, Map<String,Counter> counterMap){
     assert(stateIndex >= 1 && stateIndex < states.length);
 
     List<PlayerAction> actions = [
       for(int i=states.length-1; i>=stateIndex; --i)
-        this.back(),
+        this.back(counterMap),
     ];
 
     final result = actions.removeLast();

@@ -1,5 +1,7 @@
 import 'package:counter_spell_new/models/game/model.dart';
 import 'package:counter_spell_new/models/game/player_action.dart';
+import 'package:counter_spell_new/models/game/player_actions/pa_counter.dart';
+import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +45,8 @@ class PTileUtils {
       return action.increment;
     } else if(action is PADamage){
       return action.increment;
+    } else if(action is PACounter){
+      return action.increment;
     }
     return 0;
   }
@@ -61,13 +65,14 @@ class PTileUtils {
     bool usingPartnerB,
     PlayerState playerState,
     bool attackerUsingPartnerB,
+    Counter counter,
   ){
     switch (page) {
       case CSPage.life:
         return playerState.life;
         break;
       case CSPage.counters:
-        return 0; //LOW PRIORITY: implement counters
+        return playerState.counters[counter.longName] ?? 0;
         break;
       case CSPage.commanderCast:
         return playerState.cast.fromPartner(!usingPartnerB);

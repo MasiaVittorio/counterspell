@@ -195,6 +195,7 @@ class PlayerTile extends StatelessWidget {
           usingPartnerB[name] ?? false,
           playerState,
           usingPartnerB[whoIsAttacking] ?? false,
+          counter,
         ),
         numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
         open: scrolling,

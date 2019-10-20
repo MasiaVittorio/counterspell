@@ -116,12 +116,15 @@ class _SimpleGroup extends StatelessWidget {
       ) {
 
         final normalizedPlayerActions = CSGameAction.normalizedAction(
-          pageValue: CSPage.life,
           selectedValue: selected,
           gameState: gameState,
           scrollerValue: increment,
-          defender: null,
-          attacker: null,
+
+          pageValue: CSPage.life, // nulls are justified because 
+          defender: null,         // it is always life page
+          attacker: null,         //
+          counter: null,          //
+
           usingPartnerB: usingPartnerB,
           applyDamageToLife: true,
           //these two values are so rarely updated that all the actual

@@ -79,6 +79,7 @@ class BodyGroup extends StatelessWidget {
           applyDamageToLife: bloc.settings.applyDamageToLife.value,
           minValue: settings.minValue.value,
           maxValue: settings.maxValue.value,
+          counter: counter,
         ).actions(gameState.names);
 
         final children = <Widget>[

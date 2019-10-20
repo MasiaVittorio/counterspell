@@ -1,3 +1,4 @@
+import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:flutter/widgets.dart';
 
 import 'model.dart';
@@ -21,6 +22,7 @@ abstract class PlayerAction{
   factory PlayerAction.fromStates({
     @required PlayerState previous,
     @required PlayerState next,
+    @required Map<String,Counter> counterMap,
     int minVal, 
     int maxVal,
   }){
@@ -67,8 +69,21 @@ abstract class PlayerAction{
         partnerA: false,
         maxVal: maxVal,
       ));
-
-    //LOW PRIORITY: implementa detector per altre azioni (counters)
+    
+    final Set<String> counters = <String>{
+      ...next.counters.keys,
+      ...previous.counters.keys,
+    };
+    for(final counter in counters){
+      final deltaCounter = (next.counters[counter] ?? 0) - (previous.counters[counter] ?? 0);
+      if(deltaCounter != 0)
+        detectedAcions.add(PACounter(
+          deltaCounter,
+          counterMap[counter],
+          minVal: minVal,
+          maxVal: maxVal,
+        ));
+    }
 
     if(detectedAcions.isEmpty)
       return PANull();

@@ -89,6 +89,7 @@ class CSGameAction {
     @required String defender,
     @required bool applyDamageToLife,
     @required Map<String,bool> usingPartnerB,
+    @required Counter counter,
   }) {
     if(scrollerValue == 0)
       return GANull.instance;
@@ -134,7 +135,16 @@ class CSGameAction {
       }
     }
 
-    //if(pageValue  == CSPage.counters) bla bla bla
+    if(pageValue  == CSPage.counters){
+      if(counter != null)
+        return GACounter(
+          scrollerValue,
+          counter,
+          minVal: minValue,
+          maxVal: maxValue,
+          selected: selectedValue,
+        );
+    }
 
     return GANull.instance;
   }
@@ -149,6 +159,7 @@ class CSGameAction {
     @required String defender,
     @required Map<String,bool> usingPartnerB,
     @required bool applyDamageToLife,
+    @required Counter counter,
   }) => action(
     pageValue: pageValue,
     scrollerValue: scrollerValue,
@@ -159,6 +170,7 @@ class CSGameAction {
     defender: defender,
     usingPartnerB: usingPartnerB,
     applyDamageToLife: applyDamageToLife,
+    counter: counter,
   ).normalizeOnLast(gameState);
 
   GameAction currentNormalizedAction(CSPage page) => normalizedAction(
@@ -172,6 +184,7 @@ class CSGameAction {
     defender: this.defendingPlayer.value,
     applyDamageToLife: true, /////////////////////
     usingPartnerB: this.parent.gameGroup.usingPartnerB.value,
+    counter: this.counterSet.variable.value,
   );
 
   bool get isSomeoneAttacking => selected.value.keys.contains(attackingPlayer.value);

@@ -5,6 +5,7 @@ import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/confirm_alert_sheet.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/counter_selection.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/cast_info.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/damage_info.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/playgroup_editor/playgroup_editor.dart';
@@ -80,6 +81,14 @@ class CSPanelCollapsed extends StatelessWidget {
           Icons.info_outline,
           () => stageBoard.showAlert(const DamageInfo(), alertSize: DamageInfo.height),
           1.0,
+        ),
+        CSPage.counters: bloc.game.gameAction.counterSet.build((context, counter)
+          => _PanelButton(
+            true,
+            counter.icon,
+            () => stageBoard.showAlert(const CounterSelector(), alertSize: CounterSelector.height),
+            1.0,
+          ),
         ),
       }[stageBoard.pagesController.page] ?? SizedBox(width: CSConstants.barSize,);
 

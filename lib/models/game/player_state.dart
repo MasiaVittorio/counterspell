@@ -164,11 +164,11 @@ class PlayerState {
     time: DateTime.parse(json["time"]),
     cast: CommanderCast.fromJson(json["cast"]),
     damages: <String,CommanderDamage>{
-      for(final entry in (json["damages"] as Map<String,dynamic>).entries)
+      for(final entry in ((json["damages"] ?? {}) as Map<String,dynamic>).entries)
         entry.key: CommanderDamage.fromJson(entry.value),
     },
     counters: <String,int>{
-      for(final entry in (json["counters"] as Map<String,dynamic>).entries)
+      for(final entry in ((json["counters"] ?? {}) as Map<String,dynamic>).entries)
         entry.key : entry.value as int,
     },
   );

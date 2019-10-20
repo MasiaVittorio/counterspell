@@ -79,7 +79,7 @@ class CSGameState {
   void _back(){
     assert(backable);
     this.futureActions.value.add(
-      this.gameState.value.back()
+      this.gameState.value.back(this.parent.gameAction.currentCounterMap)
     );
     this.gameState.refresh();
     this.futureActions.refresh();

@@ -1,3 +1,4 @@
+import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:flutter/widgets.dart';
 import 'model.dart';
 
@@ -94,10 +95,10 @@ class GameState {
   void applyAction(GameAction action)
     => action.applyTo(this);
 
-  GameAction back(){
+  GameAction back(Map<String,Counter> counterMap){
     final Map<String,PlayerAction> actions = {
       for(final entry in players.entries)
-        entry.key: entry.value.back(),
+        entry.key: entry.value.back(counterMap),
     };
 
     return GameAction.fromPlayerActions(actions);
@@ -112,11 +113,11 @@ class GameState {
     );
   }
 
-  GameAction cancelAction(int stateIndex){
+  GameAction cancelAction(int stateIndex, Map<String,Counter>counterMap){
 
     final Map<String,PlayerAction> actions = {
       for(final entry in players.entries)
-        entry.key: entry.value.cancelAction(stateIndex),
+        entry.key: entry.value.cancelAction(stateIndex, counterMap),
     };
 
     return GameAction.fromPlayerActions(actions);

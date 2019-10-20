@@ -18,11 +18,10 @@ class PanelTheme extends StatelessWidget {
     final primary = themeController.panelPrimaryColor();
     final bloc = CSBloc.of(context);
 
-    return ListView(
-      physics: stageBoard.scrollPhysics,
-      primary: false,
-      shrinkWrap: true,
-      children: <Widget>[
+    return SingleChildScrollView(
+      physics: stageBoard.scrollPhysics(),
+      child: Column(
+        children: <Widget>[
           Section(<Widget>[
             SectionTitle("Colors"),
             for(final page in closedPages.orderedPages)
@@ -177,7 +176,8 @@ class PanelTheme extends StatelessWidget {
               ),
             ),
           ]),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -23,10 +23,11 @@ class DamageInfo extends StatelessWidget {
   static const double divider = 8.0;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      child: SingleChildScrollView(
-        physics: StageBoard.of(context).scrollPhysics,
+    return SingleChildScrollView(
+      physics: StageBoard.of(context).scrollPhysics(),
+      primary: true,
+      child: Container(
+        height: height,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

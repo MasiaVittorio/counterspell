@@ -18,22 +18,22 @@ class PanelGame extends StatelessWidget {
     final pagesController = stageBoard.pagesController;
     final pageThemes = pagesController.pagesData;
     final enabledPages = pagesController.enabledPages;
-    return ListView(
-      physics: stageBoard.scrollPhysics,
-      primary: false,
-      shrinkWrap: true,
-      children: <Widget>[
-        Section([
-          SectionTitle("Enabled Screens"),
-          for(final page in disablablePages)
-            SwitchListTile(
-              title: Text(pageThemes[page].longName),
-              value: enabledPages[page],
-              onChanged: (_) => pagesController.togglePage(page),
-              secondary: Icon(pageThemes[page].icon),
-            ),
-        ]),
-      ],
+    return SingleChildScrollView(
+      physics: stageBoard.scrollPhysics(),
+      child: Column(
+        children: <Widget>[
+          Section([
+            SectionTitle("Enabled Screens"),
+            for(final page in disablablePages)
+              SwitchListTile(
+                title: Text(pageThemes[page].longName),
+                value: enabledPages[page],
+                onChanged: (_) => pagesController.togglePage(page),
+                secondary: Icon(pageThemes[page].icon),
+              ),
+          ]),
+        ],
+      )
     );
   }
 }

@@ -18,7 +18,7 @@ class CastInfo extends StatelessWidget {
     return Container(
       height: height,
       child: SingleChildScrollView(
-        physics: StageBoard.of(context).scrollPhysics,
+        physics: StageBoard.of(context).scrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

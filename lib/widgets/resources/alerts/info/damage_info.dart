@@ -25,23 +25,26 @@ class DamageInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const _AttackerSection(),
-          const Divider(height: divider,),
-          const InfoSection(
-            icon: const Icon(McIcons.account_multiple_outline),
-            title: _partnerTitle,
-            info: [
-              _partner1,
-              _partner2,
-            ],
-          ),
-          const Divider(height: divider,),
-          const _DefenderSection(),
-        ],
+      child: SingleChildScrollView(
+        physics: StageBoard.of(context).scrollPhysics,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const _AttackerSection(),
+            const Divider(height: divider,),
+            const InfoSection(
+              icon: const Icon(McIcons.account_multiple_outline),
+              title: _partnerTitle,
+              info: [
+                _partner1,
+                _partner2,
+              ],
+            ),
+            const Divider(height: divider,),
+            const _DefenderSection(),
+          ],
+        ),
       ),
     );
   }

@@ -19,6 +19,7 @@ class PanelTheme extends StatelessWidget {
     final bloc = CSBloc.of(context);
 
     return ListView(
+      physics: stageBoard.scrollPhysics,
       primary: false,
       shrinkWrap: true,
       children: <Widget>[

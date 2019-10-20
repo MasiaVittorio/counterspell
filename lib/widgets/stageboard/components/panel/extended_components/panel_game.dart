@@ -19,6 +19,7 @@ class PanelGame extends StatelessWidget {
     final pageThemes = pagesController.pagesData;
     final enabledPages = pagesController.enabledPages;
     return ListView(
+      physics: stageBoard.scrollPhysics,
       primary: false,
       shrinkWrap: true,
       children: <Widget>[

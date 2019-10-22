@@ -4,11 +4,11 @@ import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/confirm_alert_sheet.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/counter_selection.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/cast_info.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/damage_info.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/playgroup_editor/playgroup_editor.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/restarter.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class CSPanelCollapsed extends StatelessWidget {
       final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
         => _PanelButton(
           [2,3,4].contains(state.players.length), 
-          McIcons.view_dashboard_outline,
+          simpleViewIcon,
           ()=> showSimpleGroup(context: context, bloc: bloc), 
           1.0,
           iconSize: 23,
@@ -46,14 +46,8 @@ class CSPanelCollapsed extends StatelessWidget {
           true,
           McIcons.restart,
           () => stageBoard.showAlert(
-            ConfirmStageAlert(
-              action: bloc.game.gameState.restart,
-              warningText: "This action cannot be undone.",
-              confirmText: "Restart the game",
-              confirmIcon: McIcons.restart,
-              cancelColor: DELETE_COLOR,
-            ),
-            alertSize: 56*2+32.0,
+            RestarterAlert(),
+            alertSize: RestarterAlert.height,
           ),
           1.0,
           iconSize: 24,

@@ -122,21 +122,24 @@ class PlayerTile extends StatelessWidget {
             color: Colors.transparent,
             height: tileSize,
             alignment: Alignment.center,
-            child: SizedBox(
-              height: coreTileSize,
-              child: Row(children: <Widget>[
-                buildLeading(
-                  rawSelected: rawSelected,
-                  scrolling: scrolling,
-                  attacking: attacking,
-                  playerState: playerState,
-                  defending: defending,
-                  stageBoard: stageBoard,
-                  someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
-                ),
-                Expanded(child: buildBody(rawSelected)),
-                buildTrailing(rawSelected, actionBloc),
-              ]),
+            child: Opacity(
+              opacity: playerState.isAlive ? 1.0 : 0.7,
+              child: SizedBox(
+                height: coreTileSize,
+                child: Row(children: <Widget>[
+                  buildLeading(
+                    rawSelected: rawSelected,
+                    scrolling: scrolling,
+                    attacking: attacking,
+                    playerState: playerState,
+                    defending: defending,
+                    stageBoard: stageBoard,
+                    someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
+                  ),
+                  Expanded(child: buildBody(rawSelected)),
+                  buildTrailing(rawSelected, actionBloc),
+                ]),
+              ),
             ),
           ),
         ),

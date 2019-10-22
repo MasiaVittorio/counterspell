@@ -46,6 +46,7 @@ class CSHomePage extends StatelessWidget {
       backToPreviousPageOpened: false,
 
       pandaOpenedPanelBottomBar: true,
+      // materialGradient: true,
     );
 
   }

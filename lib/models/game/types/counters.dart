@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/themes/counter_icons.dart';
+import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -37,13 +38,14 @@ class Counter{
 
   static Counter fromJson(Map<String,dynamic> json){
     return Counter(
-      icon: Icons.palette,
+      icon: _icons[json["longName"]] ?? Icons.palette,
       longName: json['longName'],
       shortName: json['shortName'],
       minValue: json['minValue'],
       maxValue: json['maxValue'],
     );
   }
+  //TODO: persisti icon data per bene benino
 
   Map<String,dynamic> toJson() => {
     'longName' : this.longName,
@@ -110,6 +112,16 @@ const Counter ENERGY = Counter(
   maxValue: MAX_LIFE,
   icon: MdiIcons.flash,
 );
+const Map<String,IconData> _icons = <String,IconData>{
+  'Poison Counters': CounterIcons.phyrexia,
+  'Experience Counters': CounterIcons.experience_filled,
+  'Storm Count': McIcons.weather_lightning,
+  "City's Blessing": McIcons.ship_wheel,
+  'Take the Crown': McIcons.crown,
+  'Total Mana': McIcons.alpha_x_circle,
+  // 'Custom Counter': Icons.palette,
+  'Energy Counters': MdiIcons.flash,
+};
 
 const List<Counter> DEFAULT_CUSTOM_COUNTERS = [
   POISON,

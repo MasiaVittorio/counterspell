@@ -22,84 +22,8 @@ class PanelTheme extends StatelessWidget {
       physics: stageBoard.scrollPhysics(),
       child: Column(
         children: <Widget>[
-          Section(<Widget>[
-            SectionTitle("Colors"),
-            for(final page in closedPages.orderedPages)
-              ListTile(
-                title: Text(closedPages.pagesData[page].longName),
-                leading: Icon(
-                  closedPages.pagesData[page].icon, 
-                  color: themeController.primaryColor(page, false, false),
-                ),
-                trailing: CircleAvatar(backgroundColor: themeController.primaryColor(page, false, false),),
-                onTap: () {
-                  closedPages.page = page;
-                  stageBoard.showAlert(
-                    SheetColorPicker(
-                      underscrollCallback: stageBoard.panelController.closePanel,
-                      color: themeController.primaryColor(page, false, false) ?? Colors.green.shade700,
-                      onSubmitted: (color){
-                        themeController.editPrimaryPerPage(
-                          page, 
-                          color,
-                        );
-                        stageBoard.panelController.closePanel();
-                      },
-                    ),
-                    alertSize: 480.0,
-                  );
-                },
-              ),
-            bloc.themer.theme.build((context, csTheme)
-              => ListTile(
-                title: Text("Commander Defence"),
-                leading: Icon(
-                  CSTypesUI.defenceIconFilled, 
-                  color: csTheme.commanderDefence,
-                ),
-                trailing: CircleAvatar(backgroundColor: csTheme.commanderDefence,),
-                onTap: () {
-                  stageBoard.showAlert(
-                    SheetColorPicker(
-                      underscrollCallback: stageBoard.panelController.closePanel,
-                      color: csTheme.commanderDefence ?? Colors.green.shade700,
-                      onSubmitted: (color){
-                        themeController.editPrimaryPerPage(
-                          csTheme.commanderDefence, 
-                          color,
-                        );
-                        stageBoard.panelController.closePanel();
-                      },
-                    ),
-                    alertSize: 480.0,
-                  );
-                },
-              ),
-            ),
-            ListTile(
-              title: Text("Primary Color"),
-              leading: Icon(
-                Icons.palette, 
-                color: primary,
-              ),
-              trailing: CircleAvatar(backgroundColor: primary,),
-              onTap: () {
-                stageBoard.showAlert(
-                  SheetColorPicker(
-                    underscrollCallback: stageBoard.panelController.closePanel,
-                    color: primary,
-                    onSubmitted: (color){
-                      themeController.editPrimaryDefault(color);
-                      stageBoard.panelController.closePanel();
-                    },
-                  ),
-                  alertSize: 480.0,
-                );
-              },            
-            ),
-          ],),
           Section([
-            SectionTitle("Overall Theme"),
+            SectionTitle("Brightness"),
             RadioSlider(
               selectedIndex: themeController.autoDark ? 1 : themeController.light ? 0 : 2,
               items: [
@@ -176,6 +100,82 @@ class PanelTheme extends StatelessWidget {
               ),
             ),
           ]),
+          Section(<Widget>[
+            SectionTitle("Colors"),
+            for(final page in closedPages.orderedPages)
+              ListTile(
+                title: Text(closedPages.pagesData[page].longName),
+                leading: Icon(
+                  closedPages.pagesData[page].icon, 
+                  color: themeController.primaryColor(page, false, false),
+                ),
+                trailing: CircleAvatar(backgroundColor: themeController.primaryColor(page, false, false),),
+                onTap: () {
+                  closedPages.page = page;
+                  stageBoard.showAlert(
+                    SheetColorPicker(
+                      underscrollCallback: stageBoard.panelController.closePanel,
+                      color: themeController.primaryColor(page, false, false) ?? Colors.green.shade700,
+                      onSubmitted: (color){
+                        themeController.editPrimaryPerPage(
+                          page, 
+                          color,
+                        );
+                        stageBoard.panelController.closePanel();
+                      },
+                    ),
+                    alertSize: 480.0,
+                  );
+                },
+              ),
+            bloc.themer.theme.build((context, csTheme)
+              => ListTile(
+                title: Text("Commander Defence"),
+                leading: Icon(
+                  CSTypesUI.defenceIconFilled, 
+                  color: csTheme.commanderDefence,
+                ),
+                trailing: CircleAvatar(backgroundColor: csTheme.commanderDefence,),
+                onTap: () {
+                  stageBoard.showAlert(
+                    SheetColorPicker(
+                      underscrollCallback: stageBoard.panelController.closePanel,
+                      color: csTheme.commanderDefence ?? Colors.green.shade700,
+                      onSubmitted: (color){
+                        themeController.editPrimaryPerPage(
+                          csTheme.commanderDefence, 
+                          color,
+                        );
+                        stageBoard.panelController.closePanel();
+                      },
+                    ),
+                    alertSize: 480.0,
+                  );
+                },
+              ),
+            ),
+            ListTile(
+              title: Text("Primary Color"),
+              leading: Icon(
+                Icons.palette, 
+                color: primary,
+              ),
+              trailing: CircleAvatar(backgroundColor: primary,),
+              onTap: () {
+                stageBoard.showAlert(
+                  SheetColorPicker(
+                    underscrollCallback: stageBoard.panelController.closePanel,
+                    color: primary,
+                    onSubmitted: (color){
+                      themeController.editPrimaryDefault(color);
+                      stageBoard.panelController.closePanel();
+                    },
+                  ),
+                  alertSize: 480.0,
+                );
+              },            
+            ),
+          ],),
         ],
       ),
     );

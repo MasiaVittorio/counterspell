@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/panel/extended_components/panel_game.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/panel/extended_components/panel_settings.dart';
 import 'package:counter_spell_new/widgets/stageboard/components/panel/extended_components/panel_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
@@ -29,7 +30,7 @@ class CSPanelExtended extends StatelessWidget {
               child: const {
                 SettingsPage.game: const PanelGame(),
                 SettingsPage.info: const SizedBox(),
-                SettingsPage.settings: const SizedBox(),
+                SettingsPage.settings: const PanelSettings(),
                 SettingsPage.theme: const PanelTheme(),
               }[settingsPage],
             ),)

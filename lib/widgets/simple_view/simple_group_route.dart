@@ -16,7 +16,7 @@ import 'package:stage_board/stage_board.dart';
 
 const Duration _kCarouselDuration = const Duration(milliseconds: 200);
 const Color _kBarrier = Colors.black12;
-const IconData simpleViewIcon = McIcons.view_dashboard_outline;
+const IconData simpleViewIcon = McIcons.view_dashboard;
 
 
 

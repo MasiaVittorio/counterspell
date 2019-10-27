@@ -5,7 +5,7 @@ import 'package:counter_spell_new/widgets/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/bloc/bloc_provider.dart';
 import 'package:sidereus/sidereus.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 void main() => runApp(ScryWalker());
 
@@ -28,8 +28,8 @@ class _ScryWalkerState extends State<ScryWalker> {
   Widget build(context) {
     return BlocProvider<CSBloc>(
       bloc: bloc,
-      child: StageBoardProvider<CSPage,SettingsPage>(
-        data: bloc.stageBoard.controller,
+      child: StageProvider<CSPage,SettingsPage>(
+        data: bloc.stage.controller,
         child: const _MaterialApp(),
       ),
     );
@@ -41,11 +41,14 @@ class _MaterialApp extends StatelessWidget {
   const _MaterialApp();
   @override
   Widget build(BuildContext context) {
-    final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
-    return MaterialApp(
-      theme: stageBoard.themeController.currentThemeData,
-      title: 'ScryWalker',
-      home: const CSHomePage(key: KEY_HOME_PAGE),
+    final stage = Stage.of<CSPage,SettingsPage>(context);
+    return stage.themeController.currentThemeData.build((_,theme)
+      => MaterialApp(
+        theme: theme,
+        title: 'ScryWalker',
+        home: const CSHomePage(key: KEY_HOME_PAGE),
+      ),
     );
+      
   }
 }

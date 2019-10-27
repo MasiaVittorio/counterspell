@@ -96,7 +96,7 @@ class CSThemer {
   //   @required CSPage page, 
   //   @required bool casting, 
   //   @required bool open,
-  //   @required Map<CSPage,StageBoardPage> pageThemes,
+  //   @required Map<CSPage,StagePage> pageThemes,
   // }){
   //     if(open){ //panel
   //       return theme.data.primaryColor;

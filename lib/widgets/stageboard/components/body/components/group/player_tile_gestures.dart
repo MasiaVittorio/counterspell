@@ -7,11 +7,10 @@ import 'package:flutter/material.dart';
 class PlayerGestures{
 
   static void _returnToLife(CSBloc bloc){
-    final stageBoard = bloc.stageBoard.controller;
-    if(stageBoard.pagesController.page == CSPage.life)
-      return;
-    stageBoard.pagesController.page = CSPage.life;
-    bloc.scroller.ignoringThisPan = true;
+    final stage = bloc.stage.controller;
+    if(stage.pagesController.page.setDistinct(CSPage.life)){
+      bloc.scroller.ignoringThisPan = true;
+    }
   }
 
   static void pan(CSDragUpdateDetails details, String name, double width, {

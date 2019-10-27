@@ -13,7 +13,7 @@ import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.da
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 class CSPanelCollapsed extends StatelessWidget {
   const CSPanelCollapsed({Key key}): super(key: key);
@@ -22,7 +22,7 @@ class CSPanelCollapsed extends StatelessWidget {
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context);
     final gameStateBloc = bloc.game.gameState;
-    final stageBoard = StageBoard.of(context);
+    final stage = Stage.of(context);
 
     return bloc.themer.theme.build((context, theme){
       final Widget backButton = gameStateBloc.gameState.build( (context, state)
@@ -45,7 +45,7 @@ class CSPanelCollapsed extends StatelessWidget {
         CSPage.history : _PanelButton(
           true,
           McIcons.restart,
-          () => stageBoard.showAlert(
+          () => stage.showAlert(
             RestarterAlert(),
             alertSize: RestarterAlert.height,
           ),
@@ -56,7 +56,7 @@ class CSPanelCollapsed extends StatelessWidget {
           => _PanelButton(
             true, 
             McIcons.account_multiple_outline, 
-            () => stageBoard.showAlert(
+            () => stage.showAlert(
               PlayGroupEditor(bloc),
               alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
             ),
@@ -67,27 +67,27 @@ class CSPanelCollapsed extends StatelessWidget {
         CSPage.commanderCast: _PanelButton(
           true,
           Icons.info_outline,
-          () => stageBoard.showAlert(const CastInfo(), alertSize: CastInfo.height),
+          () => stage.showAlert(const CastInfo(), alertSize: CastInfo.height),
           1.0,
         ),
         CSPage.commanderDamage: _PanelButton(
           true,
           Icons.info_outline,
-          () => stageBoard.showAlert(const DamageInfo(), alertSize: DamageInfo.height),
+          () => stage.showAlert(const DamageInfo(), alertSize: DamageInfo.height),
           1.0,
         ),
         CSPage.counters: bloc.game.gameAction.counterSet.build((context, counter)
           => _PanelButton(
             true,
             counter.icon,
-            () => stageBoard.showAlert(
+            () => stage.showAlert(
               const CounterSelector(), 
               alertSize: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)),
             ),
             1.0, 
           ),
         ),
-      }[stageBoard.pagesController.page] ?? SizedBox(width: CSConstants.barSize,);
+      }[stage.pagesController.page] ?? SizedBox(width: CSConstants.barSize,);
 
       final Widget row = Row(children: <Widget>[
         simpleDisplayer,
@@ -143,21 +143,23 @@ class _DelayerPanel extends StatelessWidget {
     final themeData = Theme.of(context);
     final canvas = themeData.colorScheme.surface;
     final canvasContrast = themeData.colorScheme.onSurface;
-    final stageBoard = StageBoard.of(context);
+    final stage = Stage.of(context);
     
-    return BlocVar.build3(
+    return BlocVar.build4(
       scroller.isScrolling,
       scroller.intValue,
       bloc.settings.confirmDelay,
+      stage.themeController.primaryColor,
       distinct: true,
       builder: (
         BuildContext context, 
         bool scrolling,
         int increment,
         Duration confirmDelay,
+        Color currentPrimaryColor,
       ){
         final accentColor = Color.alphaBlend(
-          stageBoard.currentPrimaryColor,
+          currentPrimaryColor,
           canvas,
         );
         return AnimatedOpacity(

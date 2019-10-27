@@ -9,7 +9,7 @@ import 'package:counter_spell_new/widgets/stageboard/components/panel/extended_c
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 import 'package:sidereus/utils/null_action.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 const Set<CSPage> disablablePages = const {
   CSPage.commanderDamage, 
@@ -23,13 +23,13 @@ class PanelGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final stageBoard = StageBoard.of(context);
-    // final pagesController = stageBoard.pagesController;
+    final stage = Stage.of(context);
+    // final pagesController = stage.pagesController;
     // final pageThemes = pagesController.pagesData;
     // final enabledPages = pagesController.enabledPages;
 
     return SingleChildScrollView(
-      physics: stageBoard.scrollPhysics(),
+      physics: stage.panelScrollPhysics(),
       child: Column(
         children: <Widget>[
           Section([
@@ -62,7 +62,7 @@ class PanelGame extends StatelessWidget {
           Section([
             const SectionTitle("Game State"),
             ListTile(
-              onTap: () => stageBoard.showAlert(
+              onTap: () => stage.showAlert(
                 PlayGroupEditor(bloc),
                 alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
               ),
@@ -70,7 +70,7 @@ class PanelGame extends StatelessWidget {
               leading: const Icon(McIcons.account_multiple_outline),
             ),
             ListTile(
-              onTap: () => stageBoard.showAlert(
+              onTap: () => stage.showAlert(
                 RestarterAlert(),
                 alertSize: RestarterAlert.height,
               ),

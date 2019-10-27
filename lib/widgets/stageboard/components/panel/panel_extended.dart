@@ -4,18 +4,18 @@ import 'package:counter_spell_new/widgets/stageboard/components/panel/extended_c
 import 'package:counter_spell_new/widgets/stageboard/components/panel/extended_components/panel_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 class CSPanelExtended extends StatelessWidget {
   const CSPanelExtended({Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final stageBoard = StageBoard.of(context);
-    final panelPages = stageBoard.panelPagesController;
+    final stage = Stage.of(context);
+    final panelPages = stage.panelPagesController;
     final currentPage = panelPages.page;
 
-    return Container(
+    return currentPage.build((_, currentPage) => Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Stack(
         fit: StackFit.expand,
@@ -36,6 +36,6 @@ class CSPanelExtended extends StatelessWidget {
             ),)
         ],
       ),
-    );
+    ));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/info_basics.dart';
 import 'package:flutter/material.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 const String _multiTitle = "No multi selection";
 const String _multi1 = "You'll just have to scroll on one player at a time";
@@ -18,7 +18,7 @@ class CastInfo extends StatelessWidget {
     return Container(
       height: height,
       child: SingleChildScrollView(
-        physics: StageBoard.of(context).scrollPhysics(),
+        physics: Stage.of(context).panelScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -12,7 +12,7 @@ import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 import 'package:sidereus/sidereus.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 class SimplePlayerTile extends StatelessWidget {
   final CSGameGroup group;
@@ -216,13 +216,13 @@ class SimplePlayerTile extends StatelessWidget {
   }
 
   Widget buildExtraInfo(BuildContext context, ThemeData themeData){
-    final StageBoardData<CSPage,SettingsPage> stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
-    final enabledPages = stageBoard.pagesController.enabledPages;
-    return BlocVar.build3(
+    final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
+    return BlocVar.build4(
       group.havingPartnerB,
       group.parent.parent.themer.theme,
       group.parent.gameAction.counterSet.variable,
-      builder: (context, havingPartnerB, theme, _){
+      stage.pagesController.enabledPages,
+      builder: (context, havingPartnerB, theme, _, enabledPages){
         final list = ExtraInfo.fromPlayer(name,
           ofGroup: gameState.lastPlayerStates,
           pageColors: pageColors,
@@ -363,7 +363,7 @@ class SimplePlayerTile extends StatelessWidget {
 
 
   
-  // Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, StageBoardData stageBoard){
+  // Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, StageData stage){
   //   return SizedBox(
   //     // width: coreTileSize,
   //     // height: coreTileSize,

@@ -3,7 +3,7 @@ import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 
 //UI for changing the default starting life total
@@ -50,31 +50,33 @@ class StartingLifeTile extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final settings= bloc.settings;
     final startingLife = settings.startingLife;
-    final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
-    final color = stageBoard.themeController.primaryColorsMap()[CSPage.life];
+    final stage = Stage.of<CSPage,SettingsPage>(context);
 
     //rebuild every time the default life changes
-    return startingLife.build( (_, life)
-      => Column(
-        children: <Widget>[
+    return BlocVar.build2(
+      startingLife,
+      stage.themeController.primaryColorsMap,
+      builder: (_, life, colorMap)
+        => Column(
+          children: <Widget>[
 
-          ListTile(
-            leading: const Icon(McIcons.flag_outline),
-            trailing: const Icon(McIcons.pencil_outline),
-            title: AnimatedText(text:'Starting Life: ' + ( _lfnm[life] ?? 'Custom ($life)')),
-            onTap: (){}, //TODO: insert custom default life
-          ),
+            ListTile(
+              leading: const Icon(McIcons.flag_outline),
+              trailing: const Icon(McIcons.pencil_outline),
+              title: AnimatedText(text:'Starting Life: ' + ( _lfnm[life] ?? 'Custom ($life)')),
+              onTap: (){}, //TODO: insert custom default life
+            ),
 
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _buildButton(20, life, bloc, color),
-              _buildButton(30, life, bloc, color),
-              _buildButton(40, life, bloc, color),
-            ],
-          ),
-        ],
-      ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                _buildButton(20, life, bloc, colorMap[CSPage.life]),
+                _buildButton(30, life, bloc, colorMap[CSPage.life]),
+                _buildButton(40, life, bloc, colorMap[CSPage.life]),
+              ],
+            ),
+          ],
+        ),
     );
   }
   

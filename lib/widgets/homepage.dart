@@ -4,7 +4,7 @@ import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/widgets/stageboard/stageboard_components.dart';
 import 'package:flutter/material.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 class CSHomePage extends StatelessWidget {
   const CSHomePage({
@@ -14,13 +14,13 @@ class CSHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return StageBoard<CSPage,SettingsPage>(
+    return Stage<CSPage,SettingsPage>(
       accentSelectedPage: false,
       centeredClosedAppBar: true,
       centeredOpenedAppBar: true,
-      openedPanelOverNavBar: true,
+      forceOpenedPanelOverNavBar: true,
 
-      controller: CSBloc.of(context).stageBoard.controller,
+      controller: CSBloc.of(context).stage.controller,
       collapsedPanelBuilder: (context, val, child) {
         return IgnorePointer(
           ignoring: val != 0.0,
@@ -37,7 +37,7 @@ class CSHomePage extends StatelessWidget {
       body: const CSBody(),
 
       openedPanelSubtitle: (settingsPage)=>settingsThemes[settingsPage].longName,
-      customAppBarTitle: const CSTopBarTitle(),
+      appBarTitle: const CSTopBarTitle(),
 
       backToClosePanel: true,
       backToDefaultPageClosed: true,

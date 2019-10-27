@@ -3,7 +3,7 @@ import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/themes/preset_themes.dart';
 import 'package:flutter/material.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 import '../bloc.dart';
 
@@ -13,28 +13,29 @@ final _darkPrimaries = <DarkStyle,Color>{
     style: _primary,
 };
 
-class CSStageBoard {
+class CSStage {
 
   void dispose(){
     controller.dispose();
   }
 
-  final StageBoardData<CSPage,SettingsPage> controller;
+  final StageData<CSPage,SettingsPage> controller;
   final CSBloc parent;
-  CSStageBoard(this.parent): controller = StageBoardData<CSPage,SettingsPage>(
-    // sizes
-    barSize: StageBoard.kBarSize,
-    collapsedPanelSize: StageBoard.kBarSize,
-    panelRadiusClosed: StageBoard.kBarSize/2,
-    panelRadiusOpened: StageBoard.kPanelRadius,
-    panelHorizontalPaddingClosed: StageBoard.kPanelHorizontalPaddingClosed,
-    panelHorizontalPaddingOpened: StageBoard.kPanelHorizontalPaddingOpened,
+  CSStage(this.parent): controller = StageData<CSPage,SettingsPage>(
+    dimensions: StageDimensions(
+      barSize: Stage.kBarSize,
+      collapsedPanelSize: Stage.kBarSize,
+      panelRadiusClosed: Stage.kBarSize/2,
+      panelRadiusOpened: Stage.kPanelRadius,
+      panelHorizontalPaddingClosed: Stage.kPanelHorizontalPaddingClosed,
+      panelHorizontalPaddingOpened: Stage.kPanelHorizontalPaddingOpened,
+    ),
 
     // closed pages
     initialClosedPage: CSPage.life,
-    initialClosedPagesData: <CSPage,StageBoardPage>{
+    initialClosedPagesData: <CSPage,StagePage>{
       for(final page in CSPage.values)
-        page: StageBoardPage(
+        page: StagePage(
           // primaryColor: defaultPageColorsLight[page],
           name: CSPAGE_TITLES_SHORT[page],
           longName: CSPAGE_TITLES_LONG[page],
@@ -76,25 +77,25 @@ class CSStageBoard {
   );
 }
 
-const settingsThemes = <SettingsPage,StageBoardPage>{
-  SettingsPage.game: const StageBoardPage(
+const settingsThemes = <SettingsPage,StagePage>{
+  SettingsPage.game: const StagePage(
     name: "Game",
     longName: "Your game, your rules",
     icon: Icons.menu,
   ),
-  SettingsPage.settings: const StageBoardPage(
+  SettingsPage.settings: const StagePage(
     name: "Settings",
     longName: "Specify behaviors",
     icon: McIcons.settings,
     unselectedIcon: McIcons.settings_outline,
   ),
-  SettingsPage.info: const StageBoardPage(
+  SettingsPage.info: const StagePage(
     name: "Info",
     longName: "Details and contacts",
     icon: Icons.info,
     unselectedIcon: Icons.info_outline,
   ),
-  SettingsPage.theme: const StageBoardPage(
+  SettingsPage.theme: const StagePage(
     name: "Theme",
     longName: "Customize appearance",
     icon: Icons.palette,

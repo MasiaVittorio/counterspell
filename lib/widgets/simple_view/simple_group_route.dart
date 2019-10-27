@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sidereus/bloc/bloc_var.dart';
 import 'package:sidereus/sidereus.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 const Duration _kCarouselDuration = const Duration(milliseconds: 200);
 const Color _kBarrier = Colors.black12;
@@ -71,8 +71,8 @@ Future<T> showSimpleGroup<T>({
 }) {
   assert(context != null);
   
-  final stageBoard = StageBoard.of(context);
-  stageBoard.pagesController.page = CSPage.life;
+  final stage = Stage.of(context);
+  stage.pagesController.pageSet(CSPage.life);
   bloc.game.gameAction.clearSelection();
 
   return Navigator.push(context, _SimpleGroupRoute<T>(
@@ -98,15 +98,15 @@ class _SimpleGroup extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
-    final stageBoard = StageBoard.of(context);
-    final pageColors = stageBoard.themeController.primaryColorsMap();
+    final stage = Stage.of<CSPage,SettingsPage>(context);
 
-    return BlocVar.build5(
+    return BlocVar.build6(
       bloc.scroller.isScrolling,
       bloc.scroller.intValue,
       actionBloc.selected,
       bloc.game.gameState.gameState,
       bloc.game.gameGroup.usingPartnerB,
+      stage.themeController.primaryColorsMap,
       builder: (
         BuildContext context, 
         bool isScrolling, 
@@ -114,6 +114,7 @@ class _SimpleGroup extends StatelessWidget {
         Map<String,bool> selected, 
         GameState gameState,
         Map<String,bool> usingPartnerB,
+        pageColors,
       ) {
 
         final normalizedPlayerActions = CSGameAction.normalizedAction(

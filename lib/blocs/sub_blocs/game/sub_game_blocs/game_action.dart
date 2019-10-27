@@ -182,7 +182,7 @@ class CSGameAction {
     maxValue: parent.parent.settings.maxValue.value,
     attacker: this.attackingPlayer.value,
     defender: this.defendingPlayer.value,
-    applyDamageToLife: true, /////////////////////
+    applyDamageToLife: this.parent.parent.settings.applyDamageToLife.value,
     usingPartnerB: this.parent.gameGroup.usingPartnerB.value,
     counter: this.counterSet.variable.value,
   );

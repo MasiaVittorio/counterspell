@@ -39,7 +39,7 @@ class CSScroller {
   {
     isScrolling = BlocVar<bool>(false, onChanged: (b){
       if(b == false){
-        parent.game.gameAction.privateConfirm(parent.stageBoard.controller.pagesController.page);
+        parent.game.gameAction.privateConfirm(parent.stage.controller.pagesController.page.value);
       }
     });
   }
@@ -51,7 +51,7 @@ class CSScroller {
   //========================
   // Actions 
 
-  static const double _maxVel = 600;
+  static const double _maxVel = 700;
   void onDragUpdate(CSDragUpdateDetails details, double width){
     if(ignoringThisPan) return;
 

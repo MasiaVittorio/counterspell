@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 const IconData _kCancelIcon = McIcons.close_circle_outline;
 const IconData _kConfirmIcon = Icons.check;
@@ -69,7 +69,7 @@ class ConfirmStageAlert extends StatelessWidget {
               ListTile(
                 onTap: (){
                   if(this.autoClose)
-                    StageBoard.of(context).panelController.closePanel();
+                    Stage.of(context).panelController.closePanel();
                   this.action();
                 },
                 leading: Icon(
@@ -83,7 +83,7 @@ class ConfirmStageAlert extends StatelessWidget {
               ),
 
               ListTile(
-                onTap: () => StageBoard.of(context).panelController.closePanel(),
+                onTap: () => Stage.of(context).panelController.closePanel(),
                 leading: Icon(
                   this.cancelIcon ?? _kCancelIcon,
                   color: _cancelColor,

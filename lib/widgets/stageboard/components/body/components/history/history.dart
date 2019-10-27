@@ -6,7 +6,7 @@ import 'package:sidereus/sidereus.dart';
 import 'package:counter_spell_new/blocs/sub_blocs/blocs.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 class BodyHistory extends StatelessWidget {
   final List<String> names;
@@ -34,7 +34,7 @@ class BodyHistory extends StatelessWidget {
 
     final game = group.parent;
     final history = game.gameHistory;
-    final stageBoard = StageBoard.of(context);
+    final stage = Stage.of(context);
 
     return group.havingPartnerB.build((context, havePartnerB){
 
@@ -68,7 +68,7 @@ class BodyHistory extends StatelessWidget {
             physics: SidereusScrollPhysics(
               topBounce: true,
               bottomBounce: false,
-              topBounceCallback: () => stageBoard.pagesController.page = CSPage.life,
+              topBounceCallback: () => stage.pagesController.page.set(CSPage.life),
               alwaysScrollable: true,
             ),
             shrinkWrap: false,

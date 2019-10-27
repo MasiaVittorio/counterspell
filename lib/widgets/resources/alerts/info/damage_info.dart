@@ -4,7 +4,7 @@ import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/info_basics.dart';
 import 'package:flutter/material.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 
 const String _attackerTitle = "Select the attacker";
@@ -24,7 +24,7 @@ class DamageInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: StageBoard.of(context).scrollPhysics(),
+      physics: Stage.of(context).panelScrollPhysics(),
       primary: true,
       child: Container(
         height: height,
@@ -76,12 +76,16 @@ class _AttackerSection extends StatelessWidget {
   const _AttackerSection();
   @override
   Widget build(BuildContext context) {
+    final stage = Stage.of(context);
+    
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
       child: InfoSection(
-        icon: Icon(
-          CSTypesUI.attackIconOne,
-          color: StageBoard.of(context).themeController.primaryColorsMap()[CSPage.commanderDamage],
+        icon: stage.themeController.primaryColorsMap.build((_,map)
+          => Icon(
+            CSTypesUI.attackIconOne,
+            color: map[CSPage.commanderDamage],
+          ),
         ),
         title: _attackerTitle,
         info: [

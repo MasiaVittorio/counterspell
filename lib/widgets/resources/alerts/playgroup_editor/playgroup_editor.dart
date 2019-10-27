@@ -4,7 +4,7 @@ import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 class PlayGroupEditor extends StatefulWidget {
   final CSBloc bloc;
@@ -47,8 +47,8 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
 
   void _reCalcSize(){
     final int howMany = state.gameState.value.players.length;
-    final stageBoard = StageBoard.of(context);
-    stageBoard.alertSize = PlayGroupEditor.sizeCalc(howMany);
+    final stage = Stage.of(context);
+    stage.alertSize.setDistinct(PlayGroupEditor.sizeCalc(howMany));
   }
 
   void startEditing(String who){

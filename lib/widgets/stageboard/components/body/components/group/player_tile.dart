@@ -11,7 +11,7 @@ import 'package:counter_spell_new/widgets/stageboard/components/body/components/
 import 'package:counter_spell_new/widgets/stageboard/components/body/components/group/player_tile_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:stage_board/stage_board.dart';
+import 'package:stage/stage.dart';
 
 class PlayerTile extends StatelessWidget {
   final String name;
@@ -65,7 +65,7 @@ class PlayerTile extends StatelessWidget {
     final bloc = group.parent.parent;
     final scrollerBloc = bloc.scroller;
     final actionBloc = bloc.game.gameAction;
-    final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
+    final stage = Stage.of<CSPage,SettingsPage>(context);
 
     final bool attacking = whoIsAttacking == name;
     final bool defending = whoIsDefending == name;
@@ -133,7 +133,7 @@ class PlayerTile extends StatelessWidget {
                     attacking: attacking,
                     playerState: playerState,
                     defending: defending,
-                    stageBoard: stageBoard,
+                    stage: stage,
                     someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
                   ),
                   Expanded(child: buildBody(rawSelected)),
@@ -154,7 +154,7 @@ class PlayerTile extends StatelessWidget {
     @required bool scrolling,
     @required bool attacking,
     @required bool defending,
-    @required StageBoardData<CSPage,SettingsPage> stageBoard,
+    @required StageData<CSPage,SettingsPage> stage,
     @required bool someoneAttacking,
   }){
     Widget child;

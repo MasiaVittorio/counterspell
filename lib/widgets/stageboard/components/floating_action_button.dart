@@ -6,7 +6,7 @@
 // import 'package:counter_spell_new/themes/my_durations.dart';
 // import 'package:flutter/material.dart';
 // import 'package:sidereus/sidereus.dart';
-// import 'package:stage_board/stage_board.dart';
+// import 'package:stage/stage.dart';
 
 // final myDur = MyDurations.medium;
 
@@ -17,10 +17,10 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     final CSBloc bloc = CSBloc.of(context);
-//     final stageBoard = StageBoard.of<CSPage,SettingsPage>(context);
-//     final CSPage page = stageBoard.pagesController.page;
-//     final bool open = stageBoard.panelController.isMostlyOpened;
-//     final Map<CSPage,StageBoardPageTheme> pageThemes = stageBoard.pagesController.pageThemes;
+//     final stage = Stage.of<CSPage,SettingsPage>(context);
+//     final CSPage page = stage.pagesController.page;
+//     final bool open = stage.panelController.isMostlyOpened;
+//     final Map<CSPage,StagePageTheme> pageThemes = stage.pagesController.pageThemes;
 
 //     return BlocVar.build4(
 //       bloc.game.gameAction.isCasting,
@@ -40,7 +40,7 @@
 
 //           color = themeData.primaryColor;
 //           callback = (){
-//             stageBoard.panelController.closePanel();
+//             stage.panelController.closePanel();
 //             //bloc.themer.pickTheme();
 //           };
 //           icon = Icons.palette;

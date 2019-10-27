@@ -1,5 +1,5 @@
 import 'package:sidereus/bloc/bloc_var_persistent.dart';
-import 'package:vibrate/vibrate.dart';
+// import 'package:vibrate/vibrate.dart';
 
 import '../bloc.dart';
 
@@ -77,9 +77,9 @@ class CSSettings {
       fromJson: (json) => Duration(milliseconds: json),
     )
   {
-    Vibrate.canVibrate.then(
-      (canIt) => canVibrate = canIt
-    );
+    // Vibrate.canVibrate.then(
+    //   (canIt) => canVibrate = canIt
+    // );
   }
 
 

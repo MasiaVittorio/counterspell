@@ -80,18 +80,18 @@ class _AttackerSection extends StatelessWidget {
     
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
-      child: InfoSection(
-        icon: stage.themeController.primaryColorsMap.build((_,map)
-          => Icon(
+      child: stage.themeController.primaryColorsMap.build((_,map)
+        => InfoSection(
+          icon: Icon(
             CSTypesUI.attackIconOne,
             color: map[CSPage.commanderDamage],
           ),
+          title: _attackerTitle,
+          info: [
+            _attacker1,
+            _attacker2,
+          ],
         ),
-        title: _attackerTitle,
-        info: [
-          _attacker1,
-          _attacker2,
-        ],
       ),
     );
   }

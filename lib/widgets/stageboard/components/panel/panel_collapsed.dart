@@ -9,7 +9,7 @@ import 'package:counter_spell_new/widgets/resources/alerts/info/cast_info.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/damage_info.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/playgroup_editor/playgroup_editor.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/restarter.dart';
-import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/panel/collapsed_components/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
@@ -24,105 +24,109 @@ class CSPanelCollapsed extends StatelessWidget {
     final gameStateBloc = bloc.game.gameState;
     final stage = Stage.of(context);
 
-    return bloc.themer.theme.build((context, theme){
-      final Widget backButton = gameStateBloc.gameState.build( (context, state)
-        => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3, iconSize: 20,),
-      );
-      final Widget forwardButton = gameStateBloc.futureActions.build( (context, futures)
-        => _PanelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward, 1.3, iconSize: 20,),
-      );
-      final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
-        => _PanelButton(
-          [2,3,4].contains(state.players.length), 
-          simpleViewIcon,
-          ()=> showSimpleGroup(context: context, bloc: bloc), 
-          1.0,
-          iconSize: 23,
-        ),
-      );
-
-      final rightButton = <CSPage,Widget>{
-        CSPage.history : _PanelButton(
-          true,
-          McIcons.restart,
-          () => stage.showAlert(
-            RestarterAlert(),
-            alertSize: RestarterAlert.height,
-          ),
-          1.0,
-          iconSize: 24,
-        ),
-        CSPage.life: gameStateBloc.gameState.build( (context, state)
+    return BlocVar.build2(
+      stage.pagesController.page, 
+      bloc.themer.theme, 
+      builder: (context, currentPage, csTheme){
+        final Widget backButton = gameStateBloc.gameState.build( (context, state)
+          => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3, iconSize: 20,),
+        );
+        final Widget forwardButton = gameStateBloc.futureActions.build( (context, futures)
+          => _PanelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward, 1.3, iconSize: 20,),
+        );
+        final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
           => _PanelButton(
-            true, 
-            McIcons.account_multiple_outline, 
+            [2,3,4].contains(state.players.length), 
+            simpleViewIcon,
+            ()=> showSimpleGroup(context: context, bloc: bloc), 
+            1.0,
+            iconSize: 23,
+          ),
+        );
+
+        final rightButton = <CSPage,Widget>{
+          CSPage.history : _PanelButton(
+            true,
+            McIcons.restart,
             () => stage.showAlert(
-              PlayGroupEditor(bloc),
-              alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
+              RestarterAlert(),
+              alertSize: RestarterAlert.height,
             ),
             1.0,
-            iconSize: 25,
+            iconSize: 24,
           ),
-        ),
-        CSPage.commanderCast: _PanelButton(
-          true,
-          Icons.info_outline,
-          () => stage.showAlert(const CastInfo(), alertSize: CastInfo.height),
-          1.0,
-        ),
-        CSPage.commanderDamage: _PanelButton(
-          true,
-          Icons.info_outline,
-          () => stage.showAlert(const DamageInfo(), alertSize: DamageInfo.height),
-          1.0,
-        ),
-        CSPage.counters: bloc.game.gameAction.counterSet.build((context, counter)
-          => _PanelButton(
+          CSPage.life: gameStateBloc.gameState.build( (context, state)
+            => _PanelButton(
+              true, 
+              McIcons.account_multiple_outline, 
+              () => stage.showAlert(
+                PlayGroupEditor(bloc),
+                alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
+              ),
+              1.0,
+              iconSize: 25,
+            ),
+          ),
+          CSPage.commanderCast: _PanelButton(
             true,
-            counter.icon,
-            () => stage.showAlert(
-              const CounterSelector(), 
-              alertSize: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)),
-            ),
-            1.0, 
+            Icons.info_outline,
+            () => stage.showAlert(const CastInfo(), alertSize: CastInfo.height),
+            1.0,
           ),
-        ),
-      }[stage.pagesController.page] ?? SizedBox(width: CSConstants.barSize,);
-
-      final Widget row = Row(children: <Widget>[
-        simpleDisplayer,
-        const Spacer(),
-        backButton, 
-        forwardButton,
-        const Spacer(),
-        rightButton,
-      ]);
-
-      /// missing: restarter
-
-      return Material(
-        type: MaterialType.transparency,
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Positioned(
-              left: 0.0,
-              top: 0.0,
-              right: 0.0,
-              height: CSConstants.barSize,
-              child: row
+          CSPage.commanderDamage: _PanelButton(
+            true,
+            Icons.info_outline,
+            () => stage.showAlert(const DamageInfo(), alertSize: DamageInfo.height),
+            1.0,
+          ),
+          CSPage.counters: bloc.game.gameAction.counterSet.build((context, counter)
+            => _PanelButton(
+              true,
+              counter.icon,
+              () => stage.showAlert(
+                const CounterSelector(), 
+                alertSize: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)),
+              ),
+              1.0, 
             ),
-            Positioned(
-              left: 0.0,
-              top: 0.0,
-              right: 0.0,
-              height: CSConstants.barSize,
-              child: _DelayerPanel(theme: theme, bloc: bloc,),
-            ),
-          ]
-        )
-      );
-    });
+          ),
+        }[currentPage] ?? SizedBox(width: CSConstants.barSize,);
+
+        final Widget row = Row(children: <Widget>[
+          simpleDisplayer,
+          const Spacer(),
+          backButton, 
+          forwardButton,
+          const Spacer(),
+          rightButton,
+        ]);
+
+        /// missing: restarter
+
+        return Material(
+          type: MaterialType.transparency,
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Positioned(
+                left: 0.0,
+                top: 0.0,
+                right: 0.0,
+                height: CSConstants.barSize,
+                child: row
+              ),
+              Positioned(
+                left: 0.0,
+                top: 0.0,
+                right: 0.0,
+                height: CSConstants.barSize,
+                child: _DelayerPanel(theme: csTheme, bloc: bloc,),
+              ),
+            ]
+          )
+        );
+      },
+    );
   }
 
 

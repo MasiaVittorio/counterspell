@@ -1,7 +1,7 @@
-import 'package:counter_spell_new/widgets/stageboard/components/panel/delayer.dart';
+import 'package:counter_spell_new/widgets/stageboard/components/panel/collapsed_components/delayer.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/bloc/bloc_var.dart';
-import 'package:vibrate/vibrate.dart';
+// import 'package:vibrate/vibrate.dart';
 
 import 'scroller_recognizer.dart';
 import '../../bloc.dart';
@@ -83,9 +83,9 @@ class CSScroller {
   }
 
   void feedBack(){
-    if(parent.settings.canVibrate == true)
-      if(parent.settings.wantVibrate.value)
-        Vibrate.feedback(FeedbackType.success);
+    // if(parent.settings.canVibrate == true)
+    //   if(parent.settings.wantVibrate.value)
+    //     Vibrate.feedback(FeedbackType.success);
   }
 
 

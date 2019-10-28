@@ -88,8 +88,8 @@ class OverallTheme extends StatelessWidget {
             ),
             leading: const Icon(Icons.format_color_fill),
             onTap: (){
-              final current = themeController.darkStyle;
-              themeController.darkStyle.set(DarkStyles.next[current]);
+              final current = themeController.darkStyle.value;
+              themeController.darkStyle.setDistinct(DarkStyles.next[current]);
             },
           ),
         ),

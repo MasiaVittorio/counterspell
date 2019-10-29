@@ -3,7 +3,7 @@ import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'package:counter_spell_new/blocs/sub_blocs/blocs.dart';
+import 'package:counter_spell_new/logic/sub_blocs/blocs.dart';
 import 'package:sidereus/bloc/bloc_var.dart';
 import 'package:sidereus/sidereus.dart';
 import 'package:stage/stage.dart';

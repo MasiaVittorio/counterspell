@@ -21,21 +21,30 @@ class GACounter extends GameAction{
   );
 
   @override
-  Map<String, PlayerAction> actions(names) => {
-    for(final name in names)
-      name: !selected.containsKey(name)
-        ? PANull.instance
-        : selected[name] == false 
+  Map<String, PlayerAction> actions(names) {
+    if(counter.uniquePlayer){
+      int number = [for(final name in names) if(selected[name] != false) name].length;
+      assert(number <= 1);
+
+    }
+    return {
+      for(final name in names)
+        name: !selected.containsKey(name)
           ? PANull.instance
-          : PACounter(
-            selected[name] == null 
-              ? -increment
-              : increment, // true
-            this.counter,
-            maxVal: maxVal,
-            minVal: minVal,
-          ),
-  };
+          : selected[name] == false 
+            ? this.counter.uniquePlayer 
+              ? PACounterReset(this.counter) 
+              : PANull.instance
+            : PACounter(
+              selected[name] == null 
+                ? -increment
+                : increment, // true
+              this.counter,
+              maxVal: maxVal,
+              minVal: minVal,
+            ),
+    };
+  }
 
 
 }

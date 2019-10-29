@@ -1,4 +1,4 @@
-// import 'package:counter_spell_new/blocs/bloc.dart';
+// import 'package:counter_spell_new/logic/bloc.dart';
 // import 'package:counter_spell_new/structure/pages.dart';
 // import 'package:counter_spell_new/themes/counter_icons.dart';
 // import 'package:counter_spell_new/themes/cs_theme.dart';

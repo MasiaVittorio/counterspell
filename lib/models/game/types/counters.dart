@@ -14,6 +14,7 @@ class Counter{
   final int minValue;
   final int maxValue;
   final IconData icon;
+  final bool uniquePlayer;
   
   const Counter({
     @required this.shortName,
@@ -21,6 +22,7 @@ class Counter{
     @required this.icon,    
     @required this.minValue,
     @required this.maxValue,
+    @required this.uniquePlayer,
   });
 
   factory Counter.custom({
@@ -28,7 +30,9 @@ class Counter{
     String longName,
     @required int minValue,
     @required int maxValue,
+    bool uniquePlayer = false,
   }) => Counter(
+    uniquePlayer: uniquePlayer,
     shortName: shortName,
     longName: longName,
     minValue: max(MIN_LIFE, minValue),
@@ -38,6 +42,7 @@ class Counter{
 
   static Counter fromJson(Map<String,dynamic> json){
     return Counter(
+      uniquePlayer: json["uniquePlayer"] ?? false,
       icon: _icons[json["longName"]] ?? Icons.palette,
       longName: json['longName'],
       shortName: json['shortName'],
@@ -52,6 +57,7 @@ class Counter{
     'shortName' : this.shortName,
     'minValue' : this.minValue,
     'maxValue' : this.maxValue,
+    'uniquePlayer': this.uniquePlayer,
   };
 
 }
@@ -62,6 +68,7 @@ const Counter POISON = Counter(
   minValue: 0,
   maxValue: MAX_LIFE,
   icon: CounterIcons.phyrexia,
+  uniquePlayer: false,
 );
 const Counter EXPERIENCE = Counter(
   shortName: 'Experience',
@@ -69,6 +76,7 @@ const Counter EXPERIENCE = Counter(
   minValue: 0,
   maxValue: MAX_LIFE,
   icon: CounterIcons.experience_filled,
+  uniquePlayer: false,
 );
 const Counter STORM = const Counter(
   shortName: 'Storm',
@@ -76,6 +84,7 @@ const Counter STORM = const Counter(
   minValue: 0,
   maxValue: MAX_LIFE,
   icon: MdiIcons.weatherLightning,
+  uniquePlayer: false,
 );
 const Counter BLESSING = Counter(
   shortName: 'Blessing',
@@ -83,6 +92,7 @@ const Counter BLESSING = Counter(
   minValue: 0,
   maxValue: 1,
   icon: MdiIcons.shipWheel,
+  uniquePlayer: false,
 );
 const Counter MONARCH = Counter(
   shortName: 'Monarch',
@@ -90,6 +100,7 @@ const Counter MONARCH = Counter(
   minValue: 0,
   maxValue: 1,
   icon: MdiIcons.crown,
+  uniquePlayer: true,
 );
 const Counter MANA = Counter(
   shortName: 'Mana',
@@ -97,6 +108,7 @@ const Counter MANA = Counter(
   minValue: 0,
   maxValue: MAX_LIFE,
   icon: MdiIcons.alphaXCircle,
+  uniquePlayer: false,
 );
 const Counter CUSTOM = Counter(
   shortName: 'Custom',
@@ -104,6 +116,7 @@ const Counter CUSTOM = Counter(
   minValue: MIN_LIFE,
   maxValue: MAX_LIFE,
   icon: MdiIcons.palette,
+  uniquePlayer: false,
 );
 const Counter ENERGY = Counter(
   shortName: 'Energy',
@@ -111,6 +124,7 @@ const Counter ENERGY = Counter(
   minValue: 0,
   maxValue: MAX_LIFE,
   icon: MdiIcons.flash,
+  uniquePlayer: false,
 );
 const Map<String,IconData> _icons = <String,IconData>{
   'Poison Counters': CounterIcons.phyrexia,

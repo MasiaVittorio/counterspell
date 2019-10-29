@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/blocs/bloc.dart';
+import 'package:counter_spell_new/logic/bloc.dart';
 import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/widgets/homepage.dart';

@@ -47,3 +47,23 @@ class PACounter extends PlayerAction {
     );
   }
 }
+
+
+class PACounterReset extends PlayerAction {
+  final Counter counter;
+
+  const PACounterReset(
+    this.counter,
+  );
+
+  @override
+  PlayerState apply(PlayerState state) => state.incrementCounter(
+    counter, 
+    - state.counters[counter.longName],
+  );
+
+  @override
+  PlayerAction normalizeOn(PlayerState state) {
+    return PACounterReset(this.counter);
+  }
+}

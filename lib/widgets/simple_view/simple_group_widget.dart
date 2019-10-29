@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/blocs/sub_blocs/game/sub_game_blocs/game_group.dart';
+import 'package:counter_spell_new/logic/sub_blocs/game/sub_game_blocs/game_group.dart';
 import 'package:counter_spell_new/models/game/game_state.dart';
 import 'package:counter_spell_new/models/game/player_action.dart';
 import 'package:counter_spell_new/structure/pages.dart';

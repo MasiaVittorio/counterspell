@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/blocs/sub_blocs/themer.dart';
+import 'package:counter_spell_new/logic/sub_blocs/themer.dart';
 import 'package:counter_spell_new/models/game/history_model.dart';
 import 'package:counter_spell_new/models/game/types/counters.dart';
 import 'package:counter_spell_new/models/game/types/damage_type.dart';

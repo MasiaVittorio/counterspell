@@ -1,5 +1,5 @@
-import 'package:counter_spell_new/blocs/bloc.dart';
-import 'package:counter_spell_new/blocs/sub_blocs/stageboard_bloc.dart';
+import 'package:counter_spell_new/logic/bloc.dart';
+import 'package:counter_spell_new/logic/sub_blocs/stageboard_bloc.dart';
 import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/widgets/stageboard/stageboard_components.dart';

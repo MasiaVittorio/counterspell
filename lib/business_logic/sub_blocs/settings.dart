@@ -1,5 +1,5 @@
 import 'package:sidereus/bloc/bloc_var_persistent.dart';
-// import 'package:vibrate/vibrate.dart';
+import 'package:vibrate/vibrate.dart';
 
 import '../bloc.dart';
 
@@ -12,6 +12,12 @@ class CSSettings {
     this.minValue.dispose();
     this.maxValue.dispose();
     this.confirmDelay.dispose();
+    this.applyDamageToLife.dispose();
+
+    this.scroll1Static.dispose();
+    this.scroll1StaticValue.dispose();
+    this.scrollPreBoost.dispose();
+    this.scrollPreBoostValue.dispose();
   }
 
 
@@ -29,14 +35,42 @@ class CSSettings {
   final PersistentVar<Duration> confirmDelay;
   final PersistentVar<bool> applyDamageToLife;
 
+  final PersistentVar<bool> scrollPreBoost;
+  final PersistentVar<bool> scroll1Static;
 
+  final PersistentVar<double> scrollPreBoostValue;
+  final PersistentVar<double> scroll1StaticValue;
 
   //===================================
   // Constructor
   CSSettings(this.parent): 
     scrollSensitivity = PersistentVar<double>(
       key: "bloc_settings_blocvar_scrollsens",
-      initVal: 8,
+      initVal: 8.0,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scroll1Static = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_scroll1Static",
+      initVal: true,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scroll1StaticValue = PersistentVar<double>(
+      key: "bloc_settings_blocvar_scroll1StaticValue",
+      initVal: 0.8,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scrollPreBoost = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_scrollPreBoost",
+      initVal: true,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scrollPreBoostValue = PersistentVar<double>(
+      key: "bloc_settings_blocvar_scrollPreBoostValue",
+      initVal: 0.8,
       toJson: (d) => d,
       fromJson: (j) => j,
     ),
@@ -77,9 +111,9 @@ class CSSettings {
       fromJson: (json) => Duration(milliseconds: json),
     )
   {
-    // Vibrate.canVibrate.then(
-    //   (canIt) => canVibrate = canIt
-    // );
+    Vibrate.canVibrate.then(
+      (canIt) => canVibrate = canIt
+    );
   }
 
 

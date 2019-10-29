@@ -7,7 +7,7 @@ import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/ui_model/ui_model.dart';
 import 'package:counter_spell_new/widgets/resources/chip.dart';
 import 'package:counter_spell_new/widgets/simple_view/extra_info.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/components/group/player_tile_gestures.dart';
+import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';

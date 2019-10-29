@@ -1,8 +1,7 @@
 import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/ui_model/ui_model.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/playgroup_editor/playgroup_editor.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/restarter.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/alerts.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/game_components/starting_life.dart';
 import 'package:flutter/material.dart';

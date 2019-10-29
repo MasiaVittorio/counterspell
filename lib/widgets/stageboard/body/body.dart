@@ -6,7 +6,7 @@ import 'package:counter_spell_new/ui_model/ui_model.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:stage/stage.dart';
 
-import 'components/components.dart';
+import 'components.dart';
 
 
 class CSBody extends StatelessWidget {

@@ -2,8 +2,8 @@ import 'package:counter_spell_new/game_model/history_model.dart';
 import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/ui_model/ui_model.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/components/history/current_state_tile.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/components/history/history_player_tile.dart';
+import 'package:counter_spell_new/widgets/stageboard/body/history/current_state_tile.dart';
+import 'package:counter_spell_new/widgets/stageboard/body/history/history_player_tile.dart';
 import 'package:flutter/material.dart';
 
 class HistoryTile extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/bloc/bloc_var.dart';
-// import 'package:vibrate/vibrate.dart';
+import 'package:vibrate/vibrate.dart';
 
 import 'scroller_recognizer.dart';
 import '../../bloc.dart';
@@ -58,12 +58,19 @@ class CSScroller {
     this.delayerController.scrolling();
 
     final double vx = details.velocity.pixelsPerSecond.dx;
-    final double multiplier = (vx / _maxVel).abs().clamp(0.0, 1.0) * 0.7 + 0.3;
+    final double multiplierVel = (vx / _maxVel).abs().clamp(0.0, 1.0) * 0.7 + 0.3;
+    final double multiplierPreBoost = (this.parent.settings.scrollPreBoost.value && this.value > -1.0 && this.value < 1.0)
+      ? 1.0 + this.parent.settings.scrollPreBoostValue.value.clamp(0.0, 1.0) * 0.6
+      : 1.0;
+    final double multiplier1Static = (this.parent.settings.scroll1Static.value && this.value.abs() > 1.0 && this.value.abs() < 2.0)
+      ? 1.0 - this.parent.settings.scroll1StaticValue.value.clamp(0.0, 1.0) * 0.4
+      : 1.0;
+
     // final double width = this.parent.scaffold.dimensions.value.globalWidth;
     final double max = this.parent.settings.scrollSensitivity.value;
     final double fraction = details.delta.dx / width;
 
-    this.value += fraction * max * multiplier;
+    this.value += fraction * max * multiplierVel * multiplier1Static * multiplierPreBoost;
 
     if(intValue.setDistinct(value.round()))
       feedBack();
@@ -83,9 +90,9 @@ class CSScroller {
   }
 
   void feedBack(){
-    // if(parent.settings.canVibrate == true)
-    //   if(parent.settings.wantVibrate.value)
-    //     Vibrate.feedback(FeedbackType.success);
+    if(parent.settings.canVibrate == true)
+      if(parent.settings.wantVibrate.value)
+        Vibrate.feedback(FeedbackType.success);
   }
 
 

@@ -33,7 +33,7 @@ dependencies:
   tinycolor: ^1.0.2
   # in_app_purchase: ^0.1.1+2
   # path_provider: ^0.5.0+1
-  # vibrate: ^0.0.4
+  vibrate: ^0.0.4
   # rxdart: ^0.20.0
   url_launcher: ^5.0.1
   flutter:

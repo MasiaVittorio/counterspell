@@ -1,7 +1,7 @@
-import 'package:counter_spell_new/logic/bloc.dart';
-import 'package:counter_spell_new/logic/sub_blocs/stageboard_bloc.dart';
-import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
-import 'package:counter_spell_new/structure/pages.dart';
+import 'package:counter_spell_new/business_logic/bloc.dart';
+import 'package:counter_spell_new/business_logic/sub_blocs/stageboard_bloc.dart';
+import 'package:counter_spell_new/app_structure/counterspell_widget_keys.dart';
+import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/widgets/stageboard/stageboard_components.dart';
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';

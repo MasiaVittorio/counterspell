@@ -1,6 +1,5 @@
-import 'package:counter_spell_new/logic/bloc.dart';
-import 'package:counter_spell_new/themes/cs_theme.dart';
-import 'package:counter_spell_new/themes/material_community_icons.dart';
+import 'package:counter_spell_new/business_logic/bloc.dart';
+import 'package:counter_spell_new/ui_model/ui_model.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/playgroup/playgroup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

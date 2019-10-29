@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/logic/bloc.dart';
+import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'current_player.dart';
 import 'new_player.dart';
 import 'package:flutter/material.dart';

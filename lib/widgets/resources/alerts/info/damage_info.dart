@@ -1,7 +1,6 @@
-import 'package:counter_spell_new/logic/bloc.dart';
-import 'package:counter_spell_new/models/ui/type_ui.dart';
-import 'package:counter_spell_new/structure/pages.dart';
-import 'package:counter_spell_new/themes/material_community_icons.dart';
+import 'package:counter_spell_new/business_logic/bloc.dart';
+import 'package:counter_spell_new/app_structure/pages.dart';
+import 'package:counter_spell_new/ui_model/ui_model.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/info/info_basics.dart';
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';

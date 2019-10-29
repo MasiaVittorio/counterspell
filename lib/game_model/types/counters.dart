@@ -1,5 +1,4 @@
-import 'package:counter_spell_new/themes/counter_icons.dart';
-import 'package:counter_spell_new/themes/material_community_icons.dart';
+import 'package:counter_spell_new/ui_model/ui_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 

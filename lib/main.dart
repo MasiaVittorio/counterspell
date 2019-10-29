@@ -1,6 +1,6 @@
-import 'package:counter_spell_new/logic/bloc.dart';
-import 'package:counter_spell_new/structure/counterspell_widget_keys.dart';
-import 'package:counter_spell_new/structure/pages.dart';
+import 'package:counter_spell_new/business_logic/bloc.dart';
+import 'package:counter_spell_new/app_structure/counterspell_widget_keys.dart';
+import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/widgets/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/bloc/bloc_provider.dart';

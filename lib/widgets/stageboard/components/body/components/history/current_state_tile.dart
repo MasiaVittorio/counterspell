@@ -1,13 +1,13 @@
-import 'package:counter_spell_new/models/game/model.dart';
-import 'package:counter_spell_new/models/game/types/counters.dart';
-import 'package:counter_spell_new/models/game/types/damage_type.dart';
+import 'package:counter_spell_new/game_model/model.dart';
+import 'package:counter_spell_new/game_model/types/counters.dart';
+import 'package:counter_spell_new/game_model/types/damage_type.dart';
 import 'package:counter_spell_new/models/ui/type_ui.dart';
 import 'package:counter_spell_new/structure/damage_types_to_pages.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'package:counter_spell_new/models/game/game_state.dart';
+import 'package:counter_spell_new/game_model/game_state.dart';
 
 
 class CurrentStateTile extends StatelessWidget {

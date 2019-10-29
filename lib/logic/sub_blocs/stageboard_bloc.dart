@@ -37,21 +37,21 @@ class CSStage {
       for(final page in CSPage.values)
         page: StagePage(
           // primaryColor: defaultPageColorsLight[page],
-          name: CSPAGE_TITLES_SHORT[page],
-          longName: CSPAGE_TITLES_LONG[page],
+          name: CSPages.shortTitleOf(page),
+          longName: CSPages.longTitleOf(page),
           unselectedIcon: CSTypesUI.pageIconsOutlined[page],
           icon: CSTypesUI.pageIconsFilled[page],
         ),
     },
-    decodePageClosed: (json) => STRING_TO_CSPAGE[json as String],
-    encodePageClosed: (page) => CSPAGE_TO_STRING[page],
+    decodePageClosed: (json) => CSPages.fromName(json as String),
+    encodePageClosed: (page) => CSPages.nameOf(page),
     initialClosedPagesList: CSPage.values,
     onClosedPageChanged: (_) => parent.scroller.cancel(true),
 
     // opened pages
     initialOpenedPage: SettingsPage.game,
-    decodePageOpened: (json) => STRING_TO_SETTINGS_PAGE[json as String],
-    encodePageOpened: (page) => SETTINGS_PAGE_TO_STRING[page],
+    decodePageOpened: (json) => SettingsPages.fromName(json as String),
+    encodePageOpened: (page) => SettingsPages.nameOf(page),
     initialOpenedPagesData: settingsThemes,
     initialOpenedPagesList: [
       SettingsPage.game,

@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/models/game/types/damage_type.dart';
+import 'package:counter_spell_new/game_model/types/damage_type.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/counter_icons.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';

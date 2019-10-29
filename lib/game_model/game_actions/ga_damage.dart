@@ -1,5 +1,5 @@
 
-import 'package:counter_spell_new/models/game/model.dart';
+import 'package:counter_spell_new/game_model/model.dart';
 import 'package:flutter/widgets.dart';
 
 class GADamage extends GameAction{

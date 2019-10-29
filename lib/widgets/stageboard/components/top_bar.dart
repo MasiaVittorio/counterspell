@@ -34,7 +34,7 @@ class CSTopBarTitle extends StatelessWidget {
           } else if(page == CSPage.counters){
             text = counter.longName;
           } else {
-            text = CSPAGE_TITLES_LONG[page];
+            text = CSPages.longTitleOf(page);
           }
 
           return AnimatedText(

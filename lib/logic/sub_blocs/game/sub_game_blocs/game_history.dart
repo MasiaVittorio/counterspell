@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:counter_spell_new/models/game/history_model.dart';
-import 'package:counter_spell_new/models/game/types/damage_type.dart';
+import 'package:counter_spell_new/game_model/history_model.dart';
+import 'package:counter_spell_new/game_model/types/damage_type.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/constants.dart';
 

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:counter_spell_new/models/game/game_state.dart';
+import 'package:counter_spell_new/game_model/game_state.dart';
 import 'package:sidereus/bloc/bloc.dart';
 
 import '../game.dart';

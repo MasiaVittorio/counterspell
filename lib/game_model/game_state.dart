@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/models/game/types/counters.dart';
+import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:flutter/widgets.dart';
 import 'model.dart';
 

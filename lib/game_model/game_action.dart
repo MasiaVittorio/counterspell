@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/models/game/game_actions/ga_composite.dart';
+import 'package:counter_spell_new/game_model/game_actions/ga_composite.dart';
 
 import 'model.dart';
 

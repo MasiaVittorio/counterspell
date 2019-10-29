@@ -1,7 +1,7 @@
-import 'package:counter_spell_new/models/game/game_state.dart';
-import 'package:counter_spell_new/models/game/player_state.dart';
-import 'package:counter_spell_new/models/game/types/counters.dart';
-import 'package:counter_spell_new/models/game/types/damage_type.dart';
+import 'package:counter_spell_new/game_model/game_state.dart';
+import 'package:counter_spell_new/game_model/player_state.dart';
+import 'package:counter_spell_new/game_model/types/counters.dart';
+import 'package:counter_spell_new/game_model/types/damage_type.dart';
 import 'package:flutter/material.dart';
 
 class GameHistoryData{

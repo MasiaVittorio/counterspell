@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:counter_spell_new/models/game/game_actions/ga_damage.dart';
+import 'package:counter_spell_new/game_model/game_actions/ga_damage.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:counter_spell_new/models/game/game_actions/ga_null.dart';
-import 'package:counter_spell_new/models/game/model.dart';
-import 'package:counter_spell_new/models/game/types/counters.dart';
+import 'package:counter_spell_new/game_model/game_actions/ga_null.dart';
+import 'package:counter_spell_new/game_model/model.dart';
+import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:sidereus/bloc/bloc.dart';
 

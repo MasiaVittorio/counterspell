@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:counter_spell_new/models/game/types/counters.dart';
+import 'package:counter_spell_new/game_model/types/counters.dart';
 
 import '../model.dart';
 

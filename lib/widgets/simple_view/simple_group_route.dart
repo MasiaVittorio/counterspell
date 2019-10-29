@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:counter_spell_new/logic/bloc.dart';
 import 'package:counter_spell_new/logic/sub_blocs/game/sub_game_blocs/game_action.dart';
-import 'package:counter_spell_new/models/game/game_state.dart';
+import 'package:counter_spell_new/game_model/game_state.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/material_community_icons.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_widget.dart';

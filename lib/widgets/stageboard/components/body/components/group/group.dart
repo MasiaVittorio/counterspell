@@ -1,5 +1,5 @@
-import 'package:counter_spell_new/models/game/model.dart';
-import 'package:counter_spell_new/models/game/types/counters.dart';
+import 'package:counter_spell_new/game_model/model.dart';
+import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:flutter/material.dart';
 

@@ -1,8 +1,8 @@
 import 'package:counter_spell_new/logic/sub_blocs/game/sub_game_blocs/game_action.dart';
 import 'package:counter_spell_new/logic/sub_blocs/game/sub_game_blocs/game_group.dart';
 import 'package:counter_spell_new/logic/sub_blocs/scroller/scroller_detector.dart';
-import 'package:counter_spell_new/models/game/model.dart';
-import 'package:counter_spell_new/models/game/types/damage_type.dart';
+import 'package:counter_spell_new/game_model/model.dart';
+import 'package:counter_spell_new/game_model/types/damage_type.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/my_durations.dart';
 import 'package:counter_spell_new/widgets/resources/chip.dart';

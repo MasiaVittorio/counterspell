@@ -1,5 +1,5 @@
-import 'package:counter_spell_new/models/game/history_model.dart';
-import 'package:counter_spell_new/models/game/types/counters.dart';
+import 'package:counter_spell_new/game_model/history_model.dart';
+import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/structure/pages.dart';
 import 'package:counter_spell_new/themes/cs_theme.dart';
 import 'package:counter_spell_new/widgets/constants.dart';

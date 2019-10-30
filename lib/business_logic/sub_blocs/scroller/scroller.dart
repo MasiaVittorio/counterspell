@@ -51,19 +51,24 @@ class CSScroller {
   //========================
   // Actions 
 
-  static const double _maxVel = 700;
+  static const double _maxVel = 750;
   void onDragUpdate(CSDragUpdateDetails details, double width){
     if(ignoringThisPan) return;
 
     this.delayerController.scrolling();
 
     final double vx = details.velocity.pixelsPerSecond.dx;
-    final double multiplierVel = (vx / _maxVel).abs().clamp(0.0, 1.0) * 0.7 + 0.3;
+
+    final double maxSpeedWeight = this.parent.settings.scrollDynamicSpeedValue.value.clamp(0.0, 1.0);
+    final double multiplierVel = this.parent.settings.scrollDynamicSpeed.value 
+      ? (vx / _maxVel).abs().clamp(0.0, 1.0) * maxSpeedWeight + (1-maxSpeedWeight)
+      : 1.0;
+
     final double multiplierPreBoost = (this.parent.settings.scrollPreBoost.value && this.value > -1.0 && this.value < 1.0)
-      ? 1.0 + this.parent.settings.scrollPreBoostValue.value.clamp(0.0, 1.0) * 0.6
+      ? this.parent.settings.scrollPreBoostValue.value.clamp(1.0, 4.0)
       : 1.0;
     final double multiplier1Static = (this.parent.settings.scroll1Static.value && this.value.abs() > 1.0 && this.value.abs() < 2.0)
-      ? 1.0 - this.parent.settings.scroll1StaticValue.value.clamp(0.0, 1.0) * 0.4
+      ? this.parent.settings.scroll1StaticValue.value.clamp(0.0, 1.0)
       : 1.0;
 
 

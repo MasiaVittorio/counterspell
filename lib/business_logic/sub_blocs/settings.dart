@@ -25,7 +25,6 @@ class CSSettings {
   // Values
   final CSBloc parent;
 
-  final PersistentVar<double> scrollSensitivity;
   final PersistentVar<bool> wantVibrate;
   bool canVibrate;
   final PersistentVar<int> startingLife;
@@ -35,11 +34,16 @@ class CSSettings {
   final PersistentVar<Duration> confirmDelay;
   final PersistentVar<bool> applyDamageToLife;
 
-  final PersistentVar<bool> scrollPreBoost;
-  final PersistentVar<bool> scroll1Static;
+  final PersistentVar<double> scrollSensitivity;
 
+  final PersistentVar<bool> scrollPreBoost;
   final PersistentVar<double> scrollPreBoostValue;
+
+  final PersistentVar<bool> scroll1Static;
   final PersistentVar<double> scroll1StaticValue;
+
+  final PersistentVar<bool> scrollDynamicSpeed;
+  final PersistentVar<double> scrollDynamicSpeedValue;
 
   //===================================
   // Constructor
@@ -58,7 +62,7 @@ class CSSettings {
     ),
     scroll1StaticValue = PersistentVar<double>(
       key: "bloc_settings_blocvar_scroll1StaticValue",
-      initVal: 0.8,
+      initVal: 0.3, // 0.1 to 0.8
       toJson: (d) => d,
       fromJson: (j) => j,
     ),
@@ -70,7 +74,19 @@ class CSSettings {
     ),
     scrollPreBoostValue = PersistentVar<double>(
       key: "bloc_settings_blocvar_scrollPreBoostValue",
-      initVal: 0.8,
+      initVal: 1.8, //1.1 to 3.5
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scrollDynamicSpeed = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_scrollDynamicSpeed",
+      initVal: true,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scrollDynamicSpeedValue = PersistentVar<double>(
+      key: "bloc_settings_blocvar_scrollDynamicSpeedValue",
+      initVal: 0.7, //0.1 to 0.9
       toJson: (d) => d,
       fromJson: (j) => j,
     ),

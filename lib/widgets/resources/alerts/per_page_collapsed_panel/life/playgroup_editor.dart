@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/blocs.dart';
 import 'package:counter_spell_new/ui_model/ui_model.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/alert_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
@@ -11,7 +12,7 @@ class PlayGroupEditor extends StatefulWidget {
   const PlayGroupEditor(this.bloc);
 
   static const double playerTileSize = 56.0;
-  static const double titleSize = 32;
+  static const double titleSize = AlertTitle.height;
   static const double hintSize = 40;
   static const double newPlayerSize = playerTileSize + hintSize;
   static double sizeCalc(int howMany) => (howMany.clamp(1, 5.5)) * playerTileSize + titleSize + newPlayerSize;
@@ -207,13 +208,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
           child: group.names.build((context, names) 
             => Column(
               children: <Widget>[
-                Material(
-                  child: Container(
-                    height: 32,
-                    alignment: Alignment.center,
-                    child: Text("Edit Playgroup"),
-                  ),
-                ),
+                const Material(child: const AlertTitle("Edit Playgroup"),),
                 Expanded(
                   child: Material(
                     elevation: 2,

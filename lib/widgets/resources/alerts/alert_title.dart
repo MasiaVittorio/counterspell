@@ -5,11 +5,10 @@ class AlertTitle extends StatelessWidget {
   final String title;
   const AlertTitle(this.title);
 
-  static const double _minHeight = 32.0;
-  static const double _dragHeight = 16.0;
-  static const double _padding = 8.0;
+  static const double _minHeight = 30.0;
+  static const double _dragHeight = 24.0;
   static const bool _drag = true;
-  static const double height = _drag ? _minHeight + _padding + _dragHeight : _minHeight;
+  static const double height = _drag ? _minHeight + _dragHeight : _minHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +46,10 @@ class AlertTitle extends StatelessWidget {
                   color: theme.colorScheme.onSurface.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(50),
                 ),
-                height: _dragHeight/2,
+                height: 8.0,
                 width: 34.0,
               ),
             ),
-            SizedBox(height: _padding,),
             title,
           ],
         )

@@ -22,6 +22,9 @@ class SettingsBehavior extends StatelessWidget {
           secondary: const Icon(Icons.vibration),
         ),
       ),
+      _divider,
+      
+      _divider,
       ListTile(
         title: const Text("Scroll Feeling"),
         leading: Icon(McIcons.gesture_swipe_horizontal),
@@ -32,4 +35,6 @@ class SettingsBehavior extends StatelessWidget {
       ),
     ]);
   }
+
+  static const _divider = Padding(padding: const EdgeInsets.symmetric(horizontal: 12.0), child:Divider(height: 8.0,));
 }

@@ -15,9 +15,9 @@ class CSPanelExtended extends StatelessWidget {
     final panelPages = stage.panelPagesController;
     final currentPage = panelPages.page;
 
-    return currentPage.build((_, currentPage) => Container(
+    return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      child: Stack(
+      child: currentPage.build((_, currentPage) => Stack(
         fit: StackFit.expand,
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -27,15 +27,17 @@ class CSPanelExtended extends StatelessWidget {
               presented: settingsPage == currentPage,
               curve: Curves.fastOutSlowIn.flipped,
               presentMode: PresentMode.slide,
-              child: const {
-                SettingsPage.game: const PanelGame(),
-                SettingsPage.info: const SizedBox(),
-                SettingsPage.settings: const PanelSettings(),
-                SettingsPage.theme: const PanelTheme(),
-              }[settingsPage],
+              child: _panels[settingsPage],
             ),)
         ],
       ),
     ));
   }
 }
+
+const _panels = const {
+  SettingsPage.game: const PanelGame(),
+  SettingsPage.info: const SizedBox(),
+  SettingsPage.settings: const PanelSettings(),
+  SettingsPage.theme: const PanelTheme(),
+};

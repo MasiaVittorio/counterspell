@@ -8,6 +8,8 @@ class CSSliderEnd extends StatefulWidget {
   final String Function(double) title;
   final void Function(double) onChangeEnd;
   final bool enabled;
+  final Widget icon;
+  final double restartTo;
 
   CSSliderEnd({
     @required this.value,
@@ -16,6 +18,8 @@ class CSSliderEnd extends StatefulWidget {
     this.max = 1.0,
     this.enabled = true,
     this.title,
+    this.icon,
+    this.restartTo,
   }): assert(min != null),
       assert(max != null),
       assert(enabled != null),
@@ -63,11 +67,22 @@ class _CSSliderEndState extends State<CSSliderEnd> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsetsDirectional.only(start: 24.0),
-            child: Text(
-              widget.title(this._value),
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if(widget.icon!=null)
+                widget.icon,
+              Padding(
+                padding: const EdgeInsetsDirectional.only(start: 24.0),
+                child: Text(
+                  widget.title(this._value),
+                ),
+              ),
+              if(widget.restartTo!=null)
+                IconButton(
+                  icon: Icon(Icons.settings_backup_restore),
+                ),
+            ],
           ),
           slider,
         ],

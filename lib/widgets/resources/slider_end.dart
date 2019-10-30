@@ -10,6 +10,7 @@ class CSSliderEnd extends StatefulWidget {
   final bool enabled;
   final Widget icon;
   final double restartTo;
+  final bool bigTitle;
 
   CSSliderEnd({
     @required this.value,
@@ -20,8 +21,10 @@ class CSSliderEnd extends StatefulWidget {
     this.title,
     this.icon,
     this.restartTo,
+    this.bigTitle = false,
   }): assert(min != null),
       assert(max != null),
+      assert(bigTitle != null),
       assert(enabled != null),
       assert(value != null),
       assert(onChangeEnd != null);
@@ -67,28 +70,36 @@ class _CSSliderEndState extends State<CSSliderEnd> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if(widget.icon!=null)
-                widget.icon,
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 24.0),
-                child: Text(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                if(widget.icon!=null)
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 24.0),
+                    child:widget.icon,
+                  ),
+                Text(
                   widget.title(this._value),
+                  style: widget.bigTitle 
+                    ? Theme.of(context).textTheme.body2
+                    : null,
                 ),
-              ),
-              if(widget.restartTo!=null)
-                IconButton(
-                  icon: Icon(Icons.settings_backup_restore),
-                  onPressed: (){
-                    this.setState((){
-                      this._value = widget.restartTo;
-                    });
-                    widget.onChangeEnd(this._value);
-                  },
-                ),
-            ],
+                
+                Spacer(),
+                if(widget.restartTo!=null)
+                  IconButton(
+                    icon: Icon(Icons.settings_backup_restore),
+                    onPressed: (){
+                      this.setState((){
+                        this._value = widget.restartTo;
+                      });
+                      widget.onChangeEnd(this._value);
+                    },
+                  ),
+              ],
+            ),
           ),
           slider,
         ],

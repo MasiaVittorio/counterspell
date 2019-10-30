@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/alert_title.dart';
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
 
@@ -21,6 +22,7 @@ class CounterSelector extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+                  const AlertTitle("Pick counter"),
                   for(final counter in counterSet.list)
                     RadioListTile<String>(
                       activeColor: color,

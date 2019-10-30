@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/ui_model/ui_model.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/alert_title.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/alerts.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
@@ -78,7 +79,7 @@ class CSPanelCollapsed extends StatelessWidget {
               counter.icon,
               () => stage.showAlert(
                 const CounterSelector(), 
-                alertSize: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)),
+                alertSize: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)) + AlertTitle.height,
               ),
               1.0, 
             ),

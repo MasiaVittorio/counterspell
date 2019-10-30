@@ -26,12 +26,14 @@ class SettingsBehavior extends StatelessWidget {
       ),
       _divider,
       settings.confirmDelay.build((_, dur) => CSSliderEnd(
+        icon: const Icon(Icons.timelapse),
         value: dur.inMilliseconds.toDouble(),
         min: 200,
-        max: 3000,
+        max: 2000,
         onChangeEnd: (val) => settings.confirmDelay.set(Duration(milliseconds: val.round())),
         title: (val) => "Confirm delay: ${_fromMilliseconds(val.round())}",
         restartTo: CSSettings.confirmDelayVal.inMilliseconds.toDouble(),
+        bigTitle: true,
       )),
       _divider,
       ListTile(

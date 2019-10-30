@@ -47,34 +47,15 @@ class CSSettings {
 
   //===================================
   // Constructor
+  static const double sensVal = 7.2;
+  static const double sensSpeedVal = 0.8;
+  static const double sensPreBoostVal= 3.2;
+  static const double sens1StaticVal= 0.4;
+  static const Duration confirmDelayVal = const Duration(milliseconds: 700);
   CSSettings(this.parent): 
     scrollSensitivity = PersistentVar<double>(
       key: "bloc_settings_blocvar_scrollsens",
-      initVal: 8.0,
-      toJson: (d) => d,
-      fromJson: (j) => j,
-    ),
-    scroll1Static = PersistentVar<bool>(
-      key: "bloc_settings_blocvar_scroll1Static",
-      initVal: true,
-      toJson: (d) => d,
-      fromJson: (j) => j,
-    ),
-    scroll1StaticValue = PersistentVar<double>(
-      key: "bloc_settings_blocvar_scroll1StaticValue",
-      initVal: 0.3, // 0.1 to 0.8
-      toJson: (d) => d,
-      fromJson: (j) => j,
-    ),
-    scrollPreBoost = PersistentVar<bool>(
-      key: "bloc_settings_blocvar_scrollPreBoost",
-      initVal: true,
-      toJson: (d) => d,
-      fromJson: (j) => j,
-    ),
-    scrollPreBoostValue = PersistentVar<double>(
-      key: "bloc_settings_blocvar_scrollPreBoostValue",
-      initVal: 1.8, //1.1 to 3.5
+      initVal: sensVal,
       toJson: (d) => d,
       fromJson: (j) => j,
     ),
@@ -86,7 +67,31 @@ class CSSettings {
     ),
     scrollDynamicSpeedValue = PersistentVar<double>(
       key: "bloc_settings_blocvar_scrollDynamicSpeedValue",
-      initVal: 0.7, //0.1 to 0.9
+      initVal: sensSpeedVal, //0.1 to 0.9
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scrollPreBoost = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_scrollPreBoost",
+      initVal: true,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scrollPreBoostValue = PersistentVar<double>(
+      key: "bloc_settings_blocvar_scrollPreBoostValue",
+      initVal: sensPreBoostVal, //1.1 to 3.5
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scroll1Static = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_scroll1Static",
+      initVal: true,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    scroll1StaticValue = PersistentVar<double>(
+      key: "bloc_settings_blocvar_scroll1StaticValue",
+      initVal: sens1StaticVal, // 0.1 to 0.8
       toJson: (d) => d,
       fromJson: (j) => j,
     ),
@@ -122,7 +127,7 @@ class CSSettings {
     ),
     confirmDelay = PersistentVar<Duration>(
       key: "bloc_settings_blocvar_confirmdelay",
-      initVal: const Duration(milliseconds: 700),
+      initVal: confirmDelayVal,
       toJson: (dur) => dur.inMilliseconds,
       fromJson: (json) => Duration(milliseconds: json),
     )

@@ -81,6 +81,12 @@ class _CSSliderEndState extends State<CSSliderEnd> {
               if(widget.restartTo!=null)
                 IconButton(
                   icon: Icon(Icons.settings_backup_restore),
+                  onPressed: (){
+                    this.setState((){
+                      this._value = widget.restartTo;
+                    });
+                    widget.onChangeEnd(this._value);
+                  },
                 ),
             ],
           ),

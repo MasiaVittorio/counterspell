@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/business_logic/bloc.dart';
+import 'package:counter_spell_new/business_logic/sub_blocs/settings.dart';
 import 'package:counter_spell_new/widgets/resources/slider_end.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
@@ -11,14 +12,15 @@ class ScrollSensitivity extends StatelessWidget {
           + _hSlider         
             + (_hDividers 
           + _hSwitch 
-          + _hBigSlider)*3;
-
+          + _hBigSlider)*3
+          + _hTile;
 
   static const double _hTitle = 32.0;
   static const double _hSlider = 64.0;
   static const double _hBigSlider = 72.0;
   static const double _hSwitch = 72.0;
   static const double _hDividers = 14.0;
+  static const double _hTile = 56.0;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +121,21 @@ class ScrollSensitivity extends StatelessWidget {
                   )),
                 ),
               ],),),
+
+              ListTile(
+                title: const Text("Restore default values"),
+                leading: const Icon(Icons.settings_backup_restore),
+                onTap: (){
+                  _sens.set(CSSettings.sensVal);
+                  _speed.set(true);
+                  _speedValue.set(CSSettings.sensSpeedVal);
+                  _preBoost.set(true);
+                  _preBoostValue.set(CSSettings.sensPreBoostVal);
+                  _oneStatic.set(true);
+                  _oneStaticValue.set(CSSettings.sens1StaticVal);
+                },
+              ),
+  
             ],
           ),
         ),

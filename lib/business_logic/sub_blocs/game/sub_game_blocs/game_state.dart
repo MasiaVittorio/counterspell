@@ -165,8 +165,8 @@ class CSGameState {
       name, 
       startingLife: this.parent.currentStartingLife,
     );
-    this.parent.gameGroup.newPlayer(name);
     this.gameState.refresh();
+    this.parent.gameGroup.newPlayer(name);
     this.parent.gameHistory.listController.rebuild();
   }
 

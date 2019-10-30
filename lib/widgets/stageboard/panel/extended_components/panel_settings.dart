@@ -1,7 +1,9 @@
 import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/panel_game.dart';
+import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/settings_components/behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/sidereus.dart';
 import 'package:stage/stage.dart';
+
 class PanelSettings extends StatelessWidget {
   const PanelSettings();
   @override
@@ -25,6 +27,7 @@ class PanelSettings extends StatelessWidget {
                 secondary: Icon(pageThemes[page].icon),
               ),
           ]),
+          const SettingsBehavior(),
         ],
       ),
     ));

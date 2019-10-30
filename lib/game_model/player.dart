@@ -137,5 +137,11 @@ class Player {
     }
   }
   
+  void addPlayerReferences(String newPlayerName){
+
+    for(final state in states){
+      state.addPlayerReferences(newPlayerName);
+    }
+  }
 }
 

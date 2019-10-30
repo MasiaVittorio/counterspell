@@ -30,25 +30,27 @@ class ScrollSensitivity extends StatelessWidget {
     final sens = settings.scrollSensitivity;
 
     
-    return BlocVar.build2(
+    return BlocVar.build3(
       settings.scroll1Static,
       settings.scrollPreBoost,
-      builder: (_, bool oneStatic, bool preBoost) => SizedBox(
+      sens,
+      builder: (_, bool oneStatic, bool preBoost, double sensitivity) => SizedBox(
         height: height,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const SizedBox(
+            SizedBox(
               height: _hTitle,
-              child: const Center(child: const Text("Scroll Sensitivity"),),
+              child: Center(child: Text("Scroll Sensitiviy: ${((sensitivity*10.round()) /10).toStringAsFixed(1)}"),),
             ),
             SizedBox(
               height: _hSlider,
-              child: sens.build((_, sensitivity) => Slider(
-                onChanged: (_){},
-                onChangeEnd: sens.set,
+              child: Slider(
+                min: 4.0,
+                max: 14.0,
+                onChanged: sens.set,
                 value: sensitivity,
-              )),
+              ),
             ),
             _divider,
             SizedBox(
@@ -63,8 +65,7 @@ class ScrollSensitivity extends StatelessWidget {
             SizedBox(
               height: _hPreSlider,
               child: settings.scrollPreBoostValue.build((_, preBoostValue) => Slider(
-                onChanged: preBoost ? (_){} : null,
-                onChangeEnd: settings.scrollPreBoostValue.set,
+                onChanged: preBoost ? settings.scrollPreBoostValue.set: null,
                 value: preBoostValue,
               )),
             ),
@@ -81,8 +82,7 @@ class ScrollSensitivity extends StatelessWidget {
             SizedBox(
               height: _h1StaticSlider,
               child: settings.scroll1StaticValue.build((_, oneStaticValue) => Slider(
-                onChanged: oneStatic ? (_){} : null,
-                onChangeEnd: settings.scroll1StaticValue.set,
+                onChanged: preBoost ? settings.scroll1StaticValue.set: null,
                 value: oneStaticValue,
               )),
             ),

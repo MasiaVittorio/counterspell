@@ -147,7 +147,7 @@ class GameState {
 
     final Player player = Player.start(
       name, 
-      this.names,
+      {...this.names, name},
       this.players.values.first.states.last.counters.keys.toSet(),
       startingLife: startingLife
     );
@@ -156,6 +156,11 @@ class GameState {
     while(player.states.length < catchUp){
       player.applyAction(PANull.instance);
     }
+
+    for(final player in players.values){
+      player.addPlayerReferences(name);
+    }
+
 
     this.players[player.name] = player;
   }

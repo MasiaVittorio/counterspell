@@ -243,5 +243,9 @@ class PlayerState {
     this.damages.remove(name);
   }
 
+
+  void addPlayerReferences(String newPlayerName){
+    this.damages[newPlayerName] = CommanderDamage(0);
+  }
   
 }

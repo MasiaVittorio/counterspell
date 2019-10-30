@@ -66,6 +66,7 @@ class CSScroller {
       ? 1.0 - this.parent.settings.scroll1StaticValue.value.clamp(0.0, 1.0) * 0.4
       : 1.0;
 
+
     // final double width = this.parent.scaffold.dimensions.value.globalWidth;
     final double max = this.parent.settings.scrollSensitivity.value;
     final double fraction = details.delta.dx / width;

@@ -59,12 +59,7 @@ class ConfirmStageAlert extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
 
-              Container(
-                height: 32,
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(this.warningText, maxLines: 1, overflow: TextOverflow.ellipsis,),
-              ),
+              AlertTitle(this.warningText),
 
               ListTile(
                 onTap: (){

@@ -18,7 +18,7 @@ class PanelGame extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Section([
-            const SectionTitle("Game Settings"),
+            const AlertTitle("Game Settings", centered: false),
             bloc.settings.applyDamageToLife.build((_,apply) => SwitchListTile(
               value: apply,
               onChanged: (value) => bloc.settings.applyDamageToLife.set(value),

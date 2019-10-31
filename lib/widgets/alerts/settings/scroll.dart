@@ -41,7 +41,10 @@ class ScrollSensitivity extends StatelessWidget {
             children: <Widget>[
 
               _sens.build((_,sens) => Section([
-                AlertTitle("Scroll Sensitivity: ${((sens*10.round()) /10).toStringAsFixed(1)}"),
+                AlertTitle(
+                  "Scroll Sensitivity: ${((sens*10.round()) /10).toStringAsFixed(1)}", 
+                  centered: false,
+                ),
                 Slider(
                   min: 4.0,
                   max: 14.0,

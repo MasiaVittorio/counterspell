@@ -13,7 +13,7 @@ const String _defender2 = "this will lower the defender's life unless you disabl
 
 class DamageInfo extends StatelessWidget {
   const DamageInfo();
-  static const double height = 3 * InfoTitle.height + 6 * PieceOfInfo.height + 2 * divider;
+  static const double height = 3 * InfoTitle.height + 6 * PieceOfInfo.height + 2 * divider + AlertDrag.height;
   static const double divider = 8.0;
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class DamageInfo extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            const AlertDrag(),
             const _AttackerSection(),
             const Divider(height: divider,),
             const InfoSection(

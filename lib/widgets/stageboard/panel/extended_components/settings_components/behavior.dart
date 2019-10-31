@@ -17,6 +17,20 @@ class SettingsBehavior extends StatelessWidget {
           secondary: const Icon(Icons.vibration),
         ),
       ),
+      ListTile(
+        title: const Text("Scroll Feeling"),
+        leading: Icon(McIcons.gesture_swipe_horizontal),
+        onTap: () => stage.showAlert(
+          const ScrollSensitivity(),
+          alertSize: ScrollSensitivity.height,
+        ),
+      ),
+      settings.alwaysOnDisplay.build((_, alwaysOn) => SwitchListTile(
+        value: alwaysOn,
+        onChanged: settings.alwaysOnDisplay.set,
+        title: const Text("Always on display"),
+        secondary: const Icon(Icons.settings_brightness),
+      ),),
       _divider,
       settings.confirmDelay.build((_, dur) => CSSliderEnd(
         icon: const Icon(Icons.timelapse),
@@ -28,15 +42,6 @@ class SettingsBehavior extends StatelessWidget {
         restartTo: CSSettings.confirmDelayVal.inMilliseconds.toDouble(),
         bigTitle: true,
       )),
-      _divider,
-      ListTile(
-        title: const Text("Scroll Feeling"),
-        leading: Icon(McIcons.gesture_swipe_horizontal),
-        onTap: () => stage.showAlert(
-          const ScrollSensitivity(),
-          alertSize: ScrollSensitivity.height,
-        ),
-      ),
     ]);
   }
 

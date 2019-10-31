@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
+import 'package:counter_spell_new/core.dart';
+
 
 class OverallTheme extends StatelessWidget {
   const OverallTheme();
@@ -16,7 +15,7 @@ class OverallTheme extends StatelessWidget {
       themeController.timeOfDay,
       builder: (_, autoDark, light, darkStyle, timeOfDay)
       => Section([
-        SectionTitle("Brightness"),
+        AlertTitle("Brightness", centered: false),
 
         RadioSlider(
           selectedIndex: autoDark ? 1 : light ? 0 : 2,

@@ -9,7 +9,7 @@ const String _partner2 = "tap again on the player to switch between partners A a
 
 class CastInfo extends StatelessWidget {
   const CastInfo();
-  static const height = 2 * InfoTitle.height + 3 * PieceOfInfo.height;
+  static const height = 2 * InfoTitle.height + 3 * PieceOfInfo.height + AlertDrag.height;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,6 +20,7 @@ class CastInfo extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            const AlertDrag(),
             const InfoSection(
               icon: const Icon(McIcons.gesture_swipe_horizontal),
               title: _multiTitle,

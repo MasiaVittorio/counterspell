@@ -2,7 +2,9 @@ import 'package:counter_spell_new/core.dart';
 
 class AlertTitle extends StatelessWidget {
   final String title;
-  const AlertTitle(this.title);
+  final bool centered;
+  const AlertTitle(this.title, {this.centered = true}):
+    assert(centered != null);
 
   static const double _minHeight = 30.0;
 
@@ -15,15 +17,22 @@ class AlertTitle extends StatelessWidget {
 
     final title = Container(
       height: _minHeight,
-      alignment: Alignment.center,
-      child:Text(
-        this.title,
-        style: style.copyWith(
-          color: RightContrast(
-            theme, 
-            fallbackOnTextTheme: true
-          ).onCanvas,
-          fontWeight: incrementFontWeight[style.fontWeight],
+      alignment: this.centered 
+        ? Alignment.center 
+        : AlignmentDirectional.centerStart,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Text(
+          this.title,
+          maxLines: 1, 
+          overflow: TextOverflow.ellipsis,
+          style: style.copyWith(
+            color: RightContrast(
+              theme, 
+              fallbackOnTextTheme: true
+            ).onCanvas,
+            fontWeight: incrementFontWeight[style.fontWeight],
+          ),
         ),
       ),
     );

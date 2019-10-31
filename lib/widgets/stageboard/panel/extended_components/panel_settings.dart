@@ -21,7 +21,7 @@ class PanelSettings extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Section([
-            const AlertTitle("Enabled Screens"),
+            const AlertTitle("Enabled Screens", centered: false),
             for(final page in disablablePages)
               SwitchListTile(
                 title: Text(pageThemes[page].longName),
@@ -31,7 +31,6 @@ class PanelSettings extends StatelessWidget {
               ),
           ]),
           const SettingsBehavior(),
-          const SettingsAppearance(),
         ],
       ),
     ));

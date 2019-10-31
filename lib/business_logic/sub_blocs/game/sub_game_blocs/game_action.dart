@@ -3,7 +3,7 @@ import 'package:counter_spell_new/game_model/game_actions/ga_damage.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:counter_spell_new/game_model/game_actions/ga_null.dart';
-import 'package:counter_spell_new/game_model/model.dart';
+import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:sidereus/bloc/bloc.dart';

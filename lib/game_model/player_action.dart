@@ -1,10 +1,7 @@
 import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:flutter/widgets.dart';
 
-import 'model.dart';
-import 'player_actions/actions.dart';
-
-export 'player_actions/actions.dart';
+import 'all.dart';
 
 abstract class PlayerAction{
 

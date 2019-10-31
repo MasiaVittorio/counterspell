@@ -1,6 +1,6 @@
 
 
-import 'package:counter_spell_new/game_model/model.dart';
+import '../all.dart';
 
 class CommanderDamage{
   //different partners

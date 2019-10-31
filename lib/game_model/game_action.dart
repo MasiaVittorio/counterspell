@@ -1,9 +1,6 @@
 import 'package:counter_spell_new/game_model/game_actions/ga_composite.dart';
 
-import 'model.dart';
-
-
-export 'game_actions/actions.dart';
+import 'all.dart';
 
 
 abstract class GameAction{

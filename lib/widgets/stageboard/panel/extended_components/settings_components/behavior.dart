@@ -2,7 +2,7 @@ import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/blocs.dart';
 import 'package:counter_spell_new/ui_model/icons/material_community_icons.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/settings/scroll.dart';
-import 'package:counter_spell_new/widgets/resources/slider_end.dart';
+import 'package:counter_spell_new/widgets/resources/ui_pieces/pieces.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/section.dart';
 import 'package:stage/stage.dart';

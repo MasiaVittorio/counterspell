@@ -1,4 +1,4 @@
-import '../model.dart';
+import '../all.dart';
 
 class PADamage extends PlayerAction {
   final int increment;

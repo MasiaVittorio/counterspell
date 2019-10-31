@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/ui_model/ui_model.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/confirm_alert_sheet.dart';
+import 'package:counter_spell_new/ui_model/all.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/templates/templates.dart';
 import 'package:flutter/material.dart';
 
 class RestarterAlert extends StatelessWidget {

@@ -1,5 +1,6 @@
 
-import 'package:counter_spell_new/game_model/model.dart';
+import '../all.dart';
+
 import 'package:counter_spell_new/game_model/player_actions/pa_counter.dart';
 import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:flutter/widgets.dart';

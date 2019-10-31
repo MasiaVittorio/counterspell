@@ -1,9 +1,8 @@
-import 'package:counter_spell_new/game_model/model.dart';
+import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/game_model/types/damage_type.dart';
 import 'package:counter_spell_new/app_structure/damage_types_to_pages.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:counter_spell_new/ui_model/ui_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:counter_spell_new/game_model/game_state.dart';

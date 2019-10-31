@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:counter_spell_new/ui_model/ui_model.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/alert_title.dart';
+import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/resources/alerts/components/title.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/alerts.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';

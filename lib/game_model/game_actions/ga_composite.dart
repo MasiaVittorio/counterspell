@@ -1,5 +1,5 @@
 
-import 'package:counter_spell_new/game_model/model.dart';
+import '../all.dart';
 
 class GAComposite extends GameAction{
   final Map<String,PlayerAction> actionList;

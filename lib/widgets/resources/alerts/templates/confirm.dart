@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/ui_model/ui_model.dart';
+import 'package:counter_spell_new/core.dart';
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
 

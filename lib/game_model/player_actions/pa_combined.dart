@@ -1,4 +1,4 @@
-import '../model.dart';
+import '../all.dart';
 
 class PACombined extends PlayerAction {
   final List<PlayerAction> actions;

@@ -1,4 +1,4 @@
-import '../model.dart';
+import '../all.dart';
 
 class PANull extends PlayerAction {
   const PANull();

@@ -4,7 +4,7 @@ import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/game_action.dart';
 import 'package:counter_spell_new/game_model/game_state.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:counter_spell_new/ui_model/ui_model.dart';
+import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

@@ -1,9 +1,4 @@
-import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:counter_spell_new/ui_model/ui_model.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
+import 'package:counter_spell_new/core.dart';
 
 
 //UI for changing the default starting life total
@@ -64,7 +59,9 @@ class StartingLifeTile extends StatelessWidget {
               leading: const Icon(McIcons.flag_outline),
               trailing: const Icon(McIcons.pencil_outline),
               title: AnimatedText(text:'Starting Life: ' + ( _lfnm[life] ?? 'Custom ($life)')),
-              onTap: (){}, //TODO: insert custom default life
+              onTap: () => stage.showAlert(
+                CustomStartingLife(),
+              )
             ),
 
             Row(

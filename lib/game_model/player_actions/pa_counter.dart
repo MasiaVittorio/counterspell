@@ -1,8 +1,6 @@
 import 'dart:math';
 
-import 'package:counter_spell_new/game_model/types/counters.dart';
-
-import '../model.dart';
+import '../all.dart';
 
 class PACounter extends PlayerAction {
   final int increment;

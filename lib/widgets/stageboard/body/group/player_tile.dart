@@ -1,9 +1,8 @@
 import 'package:counter_spell_new/business_logic/sub_blocs/blocs.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
-import 'package:counter_spell_new/game_model/model.dart';
+import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:counter_spell_new/ui_model/ui_model.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_utilities.dart';
 import 'package:flutter/material.dart';

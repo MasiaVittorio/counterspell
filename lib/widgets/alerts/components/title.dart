@@ -1,7 +1,4 @@
-import 'package:counter_spell_new/widgets/resources/alerts/components/components.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/components/drag.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/sidereus.dart';
+import 'package:counter_spell_new/core.dart';
 
 class AlertTitle extends StatelessWidget {
   final String title;

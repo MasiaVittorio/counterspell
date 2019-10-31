@@ -1,17 +1,9 @@
-import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/game_action.dart';
-import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/game_group.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/game_model/types/damage_type.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:counter_spell_new/widgets/resources/ui_pieces/pieces.dart';
 import 'package:counter_spell_new/widgets/simple_view/extra_info.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
 import 'package:division/division.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
+
 
 class SimplePlayerTile extends StatelessWidget {
   final CSGameGroup group;

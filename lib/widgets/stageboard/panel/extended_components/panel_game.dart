@@ -1,12 +1,6 @@
-import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/alerts.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/game_components/starting_life.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:stage/stage.dart';
 
 const Set<CSPage> disablablePages = const {
   CSPage.commanderDamage, 

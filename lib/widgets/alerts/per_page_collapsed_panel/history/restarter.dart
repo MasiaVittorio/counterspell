@@ -1,7 +1,4 @@
-import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/ui_model/all.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/templates/templates.dart';
-import 'package:flutter/material.dart';
+import 'package:counter_spell_new/core.dart';
 
 class RestarterAlert extends StatelessWidget {
   static const double height = 56*2+32.0;

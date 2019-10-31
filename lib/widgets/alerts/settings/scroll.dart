@@ -1,21 +1,15 @@
-import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/business_logic/sub_blocs/settings.dart';
-import 'package:counter_spell_new/widgets/resources/ui_pieces/pieces.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:stage/stage.dart';
+import 'package:counter_spell_new/core.dart';
 
 class ScrollSensitivity extends StatelessWidget {
   const ScrollSensitivity();
   static const double height 
-          = _hTitle 
+          = AlertTitle.height 
           + _hSlider         
             + (_hDividers 
           + _hSwitch 
-          + _hBigSlider)*3
+          + _hBigSlider)*2
           + _hTile;
 
-  static const double _hTitle = 32.0;
   static const double _hSlider = 64.0;
   static const double _hBigSlider = 72.0;
   static const double _hSwitch = 72.0;
@@ -47,10 +41,7 @@ class ScrollSensitivity extends StatelessWidget {
             children: <Widget>[
 
               _sens.build((_,sens) => Section([
-                SizedBox(
-                  height: _hTitle,
-                  child: Center(child: Text("Scroll Sensitivity: ${((sens*10.round()) /10).toStringAsFixed(1)}"),),
-                ),
+                AlertTitle("Scroll Sensitivity: ${((sens*10.round()) /10).toStringAsFixed(1)}"),
                 Slider(
                   min: 4.0,
                   max: 14.0,

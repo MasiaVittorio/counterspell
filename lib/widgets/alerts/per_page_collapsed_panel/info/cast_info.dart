@@ -1,7 +1,4 @@
-import 'package:counter_spell_new/ui_model/all.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/alerts.dart';
-import 'package:flutter/material.dart';
-import 'package:stage/stage.dart';
+import 'package:counter_spell_new/core.dart';
 
 const String _multiTitle = "No multi selection";
 const String _multi1 = "You'll just have to scroll on one player at a time";

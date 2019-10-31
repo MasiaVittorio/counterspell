@@ -4,7 +4,6 @@ import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/game_model/types/damage_type.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/resources/ui_pieces/pieces.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/utils/divide_list.dart';
 

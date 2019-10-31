@@ -1,2 +1,2 @@
-export 'alerts/alerts.dart';
-export 'ui_pieces/pieces.dart';
+export 'chip.dart';
+export 'slider_end.dart';

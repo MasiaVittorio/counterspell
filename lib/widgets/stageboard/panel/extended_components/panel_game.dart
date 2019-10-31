@@ -6,7 +6,6 @@ import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/game_components/starting_life.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:sidereus/utils/null_action.dart';
 import 'package:stage/stage.dart';
 
 const Set<CSPage> disablablePages = const {
@@ -51,8 +50,8 @@ class PanelGame extends StatelessWidget {
               title: const Text("Simple view"),
               leading: const Icon(simpleViewIcon),
             ),
-            const ListTile(
-              onTap: nullAction,
+            ListTile(
+              onTap: () => stage.showAlert(DiceThrower(), alertSize: DiceThrower.height),
               title: const Text("Dice & coins"),
               leading: Icon(McIcons.dice_multiple),
             ),

@@ -8,7 +8,6 @@ class CustomStartingLife extends StatelessWidget {
     final initial = bloc.settings.startingLife.value.toString();
     return InsertAlert(
       onConfirm: (string) => bloc.settings.startingLife.set(int.tryParse(string) ?? 40),
-      initialText: initial,
       inputType: TextInputType.number,
       checkErrors: (string){
         final int n = int.tryParse(string);

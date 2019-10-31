@@ -1,6 +1,5 @@
 import 'package:counter_spell_new/core.dart';
 
-
 //UI for changing the default starting life total
 class StartingLifeTile extends StatelessWidget {
 
@@ -61,6 +60,7 @@ class StartingLifeTile extends StatelessWidget {
               title: AnimatedText(text:'Starting Life: ' + ( _lfnm[life] ?? 'Custom ($life)')),
               onTap: () => stage.showAlert(
                 CustomStartingLife(),
+                alertSize: InsertAlert.height,
               )
             ),
 

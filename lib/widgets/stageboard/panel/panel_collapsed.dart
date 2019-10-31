@@ -1,13 +1,6 @@
-import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/components/title.dart';
-import 'package:counter_spell_new/widgets/resources/alerts/alerts.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
 
 class CSPanelCollapsed extends StatelessWidget {
   const CSPanelCollapsed({Key key}): super(key: key);

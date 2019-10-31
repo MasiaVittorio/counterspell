@@ -1,3 +1,4 @@
+import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/resources/alerts/components/title.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class InsertAlert extends StatefulWidget {
   final TextCapitalization textCapitalization;
 
   static const double height = AlertTitle.height + _insert + _buttons;
-  static const double _insert = 56.0;
+  static const double _insert = 72.0;
   static const double _buttons = 56.0;
 
   @override
@@ -62,7 +63,7 @@ class _InsertAlertState extends State<InsertAlert> {
       : this.widget.checkErrors(this._controller.text);
     
     final bool _valid = _errorString == "" || _errorString == null;
-    final navigator = Navigator.of(context);
+    final stage = Stage.of(context);
 
     return Material(
       child: Column(
@@ -72,8 +73,10 @@ class _InsertAlertState extends State<InsertAlert> {
 
           AlertTitle(widget.labelText),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          Container(
+            height: InsertAlert._insert,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextField(
               keyboardType: widget.inputType,
               autofocus: true,
@@ -82,11 +85,9 @@ class _InsertAlertState extends State<InsertAlert> {
               controller: this._controller,
               textCapitalization: widget.textCapitalization ?? TextCapitalization.words,
               style: const TextStyle(inherit:true, fontSize: 18.0),
-              onChanged: (String ts) {
-                if(!_started) this.setState((){
-                  _started = true;
-                });
-              },
+              onChanged: (String ts) => this.setState((){
+                _started = true;
+              }),
               decoration: InputDecoration(
                 errorText: !_valid ? _errorString : null,
                 hintText: this.widget.hintText,
@@ -94,24 +95,28 @@ class _InsertAlertState extends State<InsertAlert> {
             ),
           ),
 
-          Padding( //inserter
-            padding: const EdgeInsets.all(8.0),
+          Container(
+            height: InsertAlert._buttons,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: <Widget>[
                 Expanded(
                   child: FlatButton.icon(
                     icon: const Icon(Icons.close),
                     label: const Text("Cancel"),
-                    onPressed: navigator.pop,
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    onPressed: stage.panelController.closePanel,
                   ),
                 ),
                 Expanded(
-                  child: RaisedButton.icon(
+                  child: FlatButton.icon(
                     icon: const Icon(Icons.check),
                     label: const Text("Confirm"),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
                     onPressed: _valid ? () {
                         this.widget.onConfirm(this._controller.text);
-                        navigator.pop();
+                        stage.panelController.closePanel();
                     } : null,
                   ),
                 )

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class PlayerGestures{
 
   static void _returnToLife(CSBloc bloc){
-    final stage = bloc.stage.controller;
+    final stage = bloc.stageBloc.controller;
     if(stage.pagesController.page.setDistinct(CSPage.life)){
       bloc.scroller.ignoringThisPan = true;
     }

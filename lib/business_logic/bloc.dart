@@ -1,7 +1,9 @@
+import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sidereus/sidereus.dart';
+import 'package:stage/stage.dart';
 
 ///[B]usiness [LO]gic [C]omponent for [CounterSpell]
 class CSBloc extends BlocBase {
@@ -11,7 +13,7 @@ class CSBloc extends BlocBase {
   @override
   void dispose() {
     this.game.dispose();
-    this.stage.dispose();
+    this.stageBloc.dispose();
     this.scroller.dispose();
     this.settings.dispose();
     this.themer.dispose();
@@ -24,7 +26,7 @@ class CSBloc extends BlocBase {
 
 
   CSGame game;
-  CSStage stage;
+  CSStage stageBloc;
   CSScroller scroller;
   CSSettings settings;
   CSThemer themer;
@@ -38,9 +40,15 @@ class CSBloc extends BlocBase {
   CSBloc(){
     game = CSGame(this);
     settings = CSSettings(this);
-    stage = CSStage(this);
+    stageBloc = CSStage(this);
     scroller = CSScroller(this);
     themer = CSThemer(this);
   }
+
+
+  //=============================
+  // Getters 
+  StageData<CSPage,SettingsPage> get stage => this.stageBloc.controller;
+
 
 }

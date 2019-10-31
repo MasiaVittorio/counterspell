@@ -29,7 +29,7 @@ class _ScryWalkerState extends State<ScryWalker> {
     return BlocProvider<CSBloc>(
       bloc: bloc,
       child: StageProvider<CSPage,SettingsPage>(
-        data: bloc.stage.controller,
+        data: bloc.stageBloc.controller,
         child: const _MaterialApp(),
       ),
     );

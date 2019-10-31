@@ -20,7 +20,7 @@ class CSHomePage extends StatelessWidget {
       centeredOpenedAppBar: true,
       forceOpenedPanelOverNavBar: true,
 
-      controller: CSBloc.of(context).stage.controller,
+      controller: CSBloc.of(context).stageBloc.controller,
       collapsedPanelBuilder: (context, val, child) {
         return IgnorePointer(
           ignoring: val != 0.0,

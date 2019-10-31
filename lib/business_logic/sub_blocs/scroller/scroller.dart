@@ -39,7 +39,7 @@ class CSScroller {
   {
     isScrolling = BlocVar<bool>(false, onChanged: (b){
       if(b == false){
-        parent.game.gameAction.privateConfirm(parent.stage.controller.pagesController.page.value);
+        parent.game.gameAction.privateConfirm(parent.stageBloc.controller.pagesController.page.value);
       }
     });
   }

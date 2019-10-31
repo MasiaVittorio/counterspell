@@ -19,7 +19,8 @@ class SettingsBehavior extends StatelessWidget {
       ),
       ListTile(
         title: const Text("Scroll Feeling"),
-        leading: Icon(McIcons.gesture_swipe_horizontal),
+        leading: Icon(Icons.touch_app),
+        trailing: Icon(Icons.exit_to_app),
         onTap: () => stage.showAlert(
           const ScrollSensitivity(),
           alertSize: ScrollSensitivity.height,

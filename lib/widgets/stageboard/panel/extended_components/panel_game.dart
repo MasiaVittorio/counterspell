@@ -57,7 +57,7 @@ class PanelGame extends StatelessWidget {
             ListTile(
               onTap: () => stage.showAlert(
                 RestarterAlert(),
-                alertSize: RestarterAlert.height,
+                alertSize: ConfirmStageAlert.height,
               ),
               title: const Text("Restart the game"),
               leading: const Icon(McIcons.restart),

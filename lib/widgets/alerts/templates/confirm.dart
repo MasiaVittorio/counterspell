@@ -23,6 +23,8 @@ class ConfirmStageAlert extends StatelessWidget {
 
   final bool autoClose;
 
+  static const double height = 56*2+AlertTitle.height;
+
   ConfirmStageAlert({
     @required this.action,
     String warningText,

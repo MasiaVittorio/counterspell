@@ -37,7 +37,7 @@ class CSPanelCollapsed extends StatelessWidget {
             McIcons.restart,
             () => stage.showAlert(
               RestarterAlert(),
-              alertSize: RestarterAlert.height,
+              alertSize: ConfirmStageAlert.height,
             ),
             1.0,
             iconSize: 24,

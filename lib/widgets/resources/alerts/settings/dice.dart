@@ -11,7 +11,7 @@ class _Throw {
 
 class DiceThrower extends StatefulWidget {
 
-  static const double height = _DiceThrowerState._thrower + _DiceThrowerState._throws; 
+  static const double height = _DiceThrowerState._thrower + 360.0; 
 
   @override
   _DiceThrowerState createState() => _DiceThrowerState();
@@ -20,16 +20,17 @@ class DiceThrower extends StatefulWidget {
 class _DiceThrowerState extends State<DiceThrower> {
 
   Random generator;
+  SidAnimatedListController controller;
   final List<_Throw> throws = <_Throw>[];
 
   @override
   void initState() {
     super.initState();
+    this.controller = SidAnimatedListController();
     this.generator = Random(DateTime.now().millisecondsSinceEpoch);
   }
   
   static const double _thrower = 56.0;
-  static const double _throws = 360.0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,53 +39,76 @@ class _DiceThrowerState extends State<DiceThrower> {
     return Material(
       child: SizedBox(
         height: DiceThrower.height,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
-
-            Container(
-              height: _throws,
-              alignment: Alignment.bottomCenter,
-              child: SingleChildScrollView(
-                physics: stage.panelScrollPhysics(),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    for(final data in this.throws)
-                      _ThrowWidget(data),
-                  ],
-                ),
-              ),
-            ),
-
-            Container(
-              height: _thrower,
-              alignment: Alignment.center,
-              child: Row(
+            Positioned.fill(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  for(final max in [2,6,20])
-                    Expanded(child: FlatButton.icon(
-                      label: Text(predicates[max] ?? "?? error"),
-                      icon: Icon(_ThrowWidget.icons[max] ?? McIcons.dice_multiple),
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      onPressed: (){
-                        this.setState((){
-                          this.throws.add(_Throw(generator, max));
-                        });
-                      },
-                    )),
+
+                  Expanded(
+                    child: SidAnimatedList(
+                      physics: SidereusScrollPhysics(
+                        bottomBounce: true,
+                        bottomBounceCallback: stage.panelController.closePanel,
+                        alwaysScrollable: false,
+                        neverScrollable: false,
+                      ),
+                      itemBuilder: (_, index, animation) => SizeTransition(
+                        axisAlignment: -1.0,
+                        axis: Axis.vertical,
+                        sizeFactor: animation,
+                        child:_ThrowWidget(this.throws[index]),
+                      ),
+                      listController: controller,
+                      initialItemCount: 0,
+                      reverse: true,
+                      shrinkWrap: true,
+                      primary: false,
+                    ),
+                  ),
+
+                  UpShadower(child: Container(
+                    height: _thrower,
+                    alignment: Alignment.center,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        for(final max in [2,6,20])
+                          Expanded(child: FlatButton.icon(
+                            label: Text(predicates[max] ?? "?? error"),
+                            icon: Icon(_ThrowWidget.icons[max] ?? McIcons.dice_multiple),
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            onPressed: (){
+                              this.setState((){
+                                this.throws.insert(0, _Throw(generator, max));
+                                this.controller.insert(0, duration: duration);
+                              });
+                            },
+                          )),
+                      ],
+                    ),
+                  ),),
+
                 ],
               ),
             ),
-
+            if(AlertComponents.drag)
+              const Positioned(
+                left: 0.0,
+                right: 0.0,
+                top: 0.0,
+                child: const AlertDrag(),
+              ),
           ],
         ),
       ),
     );
   }
+  static const duration = const Duration(milliseconds: 300);
 
   static const Map<int, String> predicates = {
     2: "Flip",

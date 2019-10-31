@@ -1,3 +1,4 @@
+import 'package:screen/screen.dart';
 import 'package:sidereus/bloc/bloc_var_persistent.dart';
 import 'package:vibrate/vibrate.dart';
 
@@ -18,6 +19,8 @@ class CSSettings {
     this.scroll1StaticValue.dispose();
     this.scrollPreBoost.dispose();
     this.scrollPreBoostValue.dispose();
+
+    this.alwaysOnDisplay.dispose();
   }
 
 
@@ -44,6 +47,8 @@ class CSSettings {
 
   final PersistentVar<bool> scrollDynamicSpeed;
   final PersistentVar<double> scrollDynamicSpeedValue;
+
+  final PersistentVar<bool> alwaysOnDisplay;
 
   //===================================
   // Constructor
@@ -130,6 +135,13 @@ class CSSettings {
       initVal: confirmDelayVal,
       toJson: (dur) => dur.inMilliseconds,
       fromJson: (json) => Duration(milliseconds: json),
+    ),
+    alwaysOnDisplay = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_alwaysOnDisplay",
+      initVal: true,
+      toJson: (b) => b,
+      fromJson: (j) => j,
+      onChanged: (bool b) => Screen.keepOn(b),
     )
   {
     Vibrate.canVibrate.then(

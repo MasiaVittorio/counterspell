@@ -1,12 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/game_components/starting_life.dart';
-
-const Set<CSPage> disablablePages = const {
-  CSPage.commanderDamage, 
-  CSPage.commanderCast, 
-  CSPage.counters,
-};
+import 'game_components/starting_life.dart';
 
 class PanelGame extends StatelessWidget {
   const PanelGame();

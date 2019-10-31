@@ -1,8 +1,11 @@
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/panel_game.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/settings_components/behavior.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
+import 'package:counter_spell_new/core.dart';
+import 'settings_components/all.dart';
+
+const Set<CSPage> disablablePages = const {
+  CSPage.commanderDamage, 
+  CSPage.commanderCast, 
+  CSPage.counters,
+};
 
 class PanelSettings extends StatelessWidget {
   const PanelSettings();
@@ -18,7 +21,7 @@ class PanelSettings extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Section([
-            const SectionTitle("Enabled Screens"),
+            const AlertTitle("Enabled Screens"),
             for(final page in disablablePages)
               SwitchListTile(
                 title: Text(pageThemes[page].longName),
@@ -28,6 +31,7 @@ class PanelSettings extends StatelessWidget {
               ),
           ]),
           const SettingsBehavior(),
+          const SettingsAppearance(),
         ],
       ),
     ));

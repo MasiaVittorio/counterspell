@@ -41,7 +41,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                       CSTypesUI.castIconFilled, 
                       color: colors[CSPage.commanderCast],
                     ),
-                    onTap: () => DetailsUtils.insertCast(partners[name], false, stage, name, bloc, playerState, names),
+                    onTap: () => DetailsUtils.insertCast(partner, false, stage, name, bloc, playerState, names),
                   ),
 
                   if(partner)
@@ -52,7 +52,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                       CSTypesUI.castIconFilled, 
                       color: colors[CSPage.commanderCast],
                     ),
-                    onTap: () => DetailsUtils.insertCast(partners[name], true, stage, name, bloc, playerState, names),
+                    onTap: () => DetailsUtils.insertCast(partner, true, stage, name, bloc, playerState, names),
                   ),
                   for(final counter in counters)
                     ...(){

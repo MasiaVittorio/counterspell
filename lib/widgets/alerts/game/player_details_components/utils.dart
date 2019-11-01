@@ -48,7 +48,7 @@ class DetailsUtils {
   static void insertCast(bool havePartner, bool partnerB, StageData stage, String name, CSBloc bloc, PlayerState playerState, List<String> names) 
     => stage.showAlert(InsertAlert(
       inputType: TextInputType.number,
-      labelText: havePartner 
+      labelText: havePartner??false 
         ? partnerB
           ? "Times $name has cast their SECOND partner (B)"
           : "Times $name has cast their FIRST partner (A)"

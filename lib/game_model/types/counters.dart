@@ -136,6 +136,7 @@ const Map<String,IconData> _icons = <String,IconData>{
   'Energy Counters': MdiIcons.flash,
 };
 
+
 const List<Counter> DEFAULT_CUSTOM_COUNTERS = [
   POISON,
   EXPERIENCE,

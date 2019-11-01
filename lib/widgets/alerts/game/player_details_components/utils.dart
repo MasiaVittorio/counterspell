@@ -99,6 +99,7 @@ class DetailsUtils {
       confirmIcon: Icons.delete_forever,
       confirmText: "Yes, delete $name",
       action: () => bloc.game.gameState.deletePlayer(name),
+      completelyCloseAfterConfirm: true,
     ),size: ConfirmStageAlert.height);
 
 }

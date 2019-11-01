@@ -21,7 +21,9 @@ class ConfirmStageAlert extends StatelessWidget {
 
   final double bottomPadding;
 
-  final bool autoClose;
+  final bool autoCloseAfterConfirm;
+
+  final bool completelyCloseAfterConfirm;
 
   static const double height = 56*2+AlertTitle.height;
 
@@ -35,7 +37,8 @@ class ConfirmStageAlert extends StatelessWidget {
     IconData cancelIcon,
     this.cancelColor, //defaults to the text color provided by the context
     this.bottomPadding = 0,
-    this.autoClose = true,
+    this.autoCloseAfterConfirm = true,
+    this.completelyCloseAfterConfirm = false,
   }):
     this.cancelText = cancelText ?? "Cancel",
     this.confirmText = confirmText ?? "Confirm",
@@ -65,8 +68,12 @@ class ConfirmStageAlert extends StatelessWidget {
 
               ListTile(
                 onTap: (){
-                  if(this.autoClose)
-                    Stage.of(context).panelController.closePanel();
+                  final stage = Stage.of(context);
+                  if(this.completelyCloseAfterConfirm){
+                    stage.panelController.closePanelCompletely();
+                  } else if(this.autoCloseAfterConfirm){
+                    stage.panelController.closePanel();
+                  }
                   this.action();
                 },
                 leading: Icon(

@@ -16,8 +16,6 @@ class CSHomePage extends StatelessWidget {
     
     return Stage<CSPage,SettingsPage>(
       accentSelectedPage: false,
-      centeredClosedAppBar: true,
-      centeredOpenedAppBar: true,
       forceOpenedPanelOverNavBar: true,
 
       controller: CSBloc.of(context).stageBloc.controller,

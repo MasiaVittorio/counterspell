@@ -21,18 +21,9 @@ class CSHomePage extends StatelessWidget {
       forceOpenedPanelOverNavBar: true,
 
       controller: CSBloc.of(context).stageBloc.controller,
-      collapsedPanelBuilder: (context, val, child) {
-        return IgnorePointer(
-          ignoring: val != 0.0,
-          child: Opacity(
-            opacity: 1-val,
-            child: child,
-          ),
-        );
-      },
-      collapsedPanelChild: const CSPanelCollapsed(key: KEY_COLLAPSED,),
+      collapsedPanel: const CSPanelCollapsed(key: KEY_COLLAPSED,),
 
-      extendedPanelChild: const CSPanelExtended(),
+      extendedPanel: const CSPanelExtended(),
 
       body: const CSBody(),
 

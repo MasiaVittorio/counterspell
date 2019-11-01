@@ -143,5 +143,27 @@ class Player {
       state.addPlayerReferences(newPlayerName);
     }
   }
+
+
+
+  //================================================
+  // Info getters
+  int get totalLifeGained {
+    int gained = 0;
+    for(int i=this.states.length-1; i>0; --i){
+      final int delta = states[i].life - states[i-1].life;
+      if(delta > 0) gained += delta;
+    }
+    return gained;
+  }
+  int get totalLifeLost {
+    int lost = 0;
+    for(int i=this.states.length-1; i>0; --i){
+      final int delta = states[i].life - states[i-1].life;
+      if(delta < 0) lost -= delta;
+    }
+    return lost;
+  }
+
 }
 

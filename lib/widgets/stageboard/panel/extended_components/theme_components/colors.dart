@@ -69,7 +69,7 @@ class ThemeColors extends StatelessWidget {
           stage.panelController.closePanel();
         },
       ),
-      alertSize: 480.0,
+      size: 480.0,
     );
   }
 
@@ -86,7 +86,7 @@ class ThemeColors extends StatelessWidget {
           stage.panelController.closePanel();
         },
       ),
-      alertSize: 480.0,
+      size: 480.0,
     );
   }
 
@@ -100,7 +100,7 @@ class ThemeColors extends StatelessWidget {
           stage.panelController.closePanel();
         },
       ),
-      alertSize: 480.0,
+      size: 480.0,
     );
   }
 }

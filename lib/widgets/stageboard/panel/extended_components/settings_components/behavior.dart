@@ -23,7 +23,7 @@ class SettingsBehavior extends StatelessWidget {
         trailing: Icon(Icons.exit_to_app),
         onTap: () => stage.showAlert(
           const ScrollSensitivity(),
-          alertSize: ScrollSensitivity.height,
+          size: ScrollSensitivity.height,
         ),
       ),
       settings.alwaysOnDisplay.build((_, alwaysOn) => SwitchListTile(

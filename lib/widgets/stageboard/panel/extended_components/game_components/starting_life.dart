@@ -60,7 +60,7 @@ class StartingLifeTile extends StatelessWidget {
               title: AnimatedText(text:'Starting Life: ' + ( _lfnm[life] ?? 'Custom ($life)')),
               onTap: () => stage.showAlert(
                 CustomStartingLife(),
-                alertSize: InsertAlert.height,
+                size: InsertAlert.height,
               )
             ),
 

@@ -1,133 +1,92 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/alerts/game/player_details_components/info.dart';
 
-class PlayerDetails extends StatelessWidget {
+enum _DetailsPage {
+  info,
+  attack,
+  defence,
+}
+
+class PlayerDetails extends StatefulWidget {
   final int index;
   const PlayerDetails(this.index);
+
+  static const double height = 360.0 +56/2 +56.0;
+
+  @override
+  _PlayerDetailsState createState() => _PlayerDetailsState();
+}
+
+class _PlayerDetailsState extends State<PlayerDetails> {
+
+  _DetailsPage page;
+  @override
+  void initState() {
+    super.initState();
+    this.page = _DetailsPage.info;
+  }
 
   @override
   Widget build(BuildContext context) {
     // final bloc = CSBloc.of(context);
     // final stage = bloc.stage;
 
-    return Container(
-      
-    );
-  }
-}
+    final Map<_DetailsPage, Widget> pages = {
+      _DetailsPage.info: PlayerDetailsInfo(widget.index),
+    };
 
-class _Info extends StatelessWidget {
-  final int index;
-  const _Info(this.index);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final bloc = CSBloc.of(context);
-    final stage = bloc.stage;
-    final counters = bloc.game.gameAction.counterSet.list;
-
-    return BlocVar.build2(
-      stage.themeController.primaryColorsMap,
-      bloc.game.gameGroup.havingPartnerB,
-      builder: (_, colors, partners)
-        => _PlayerBuilder(index, (player){
-          final state = player.states.last;
-          final partner = partners[player.name];
-          return Column(
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        Positioned.fill(
+          bottom: CSConstants.barSize,
+          child: Stack(
+            fit: StackFit.expand,
             children: <Widget>[
-              Section([
-                AlertTitle(player.name),
-                for(final couple in partition(<Widget>[
-                  ListTile(
-                    dense: true,
-                    title: Text(CSPages.shortTitleOf(CSPage.life)),
-                    trailing: Text("${state.life}", style: theme.textTheme.body2,),
-                    leading: Icon(
-                      CSTypesUI.lifeIconFilled, 
-                      color: colors[CSPage.life],
-                    ),
-                    onTap: () => stage.showAlert(InsertAlert(
-                      inputType: TextInputType.number,
-                      onConfirm: (string){
-                        final int val = int.tryParse(string);
-                        if(val != null){
-
-                        }
-                      },
-                    ), alertSize: InsertAlert.height),
-                  ),
-                  ListTile(
-                    dense: true,
-                    title: Text("${CSPages.shortTitleOf(CSPage.commanderCast)}${partner?" (A)":""}"),
-                    trailing: Text("${state.cast.a}", style: theme.textTheme.body2,),
-                    leading: Icon(
-                      CSTypesUI.castIconFilled, 
-                      color: colors[CSPage.commanderCast],
-                    ),
-                  ),
-                  if(partner)
-                  ListTile(
-                    dense: true,
-                    title: Text("${CSPages.shortTitleOf(CSPage.commanderCast)} (B)"),
-                    trailing: Text("${state.cast.b}", style: theme.textTheme.body2,),
-                    leading: Icon(
-                      CSTypesUI.castIconFilled, 
-                      color: colors[CSPage.commanderCast],
-                    ),
-                  ),
-                  for(final counter in counters)
-                    ...(){
-                      final value = state.counters[counter.longName];
-                      if(value == 0) return []; 
-                      return [
-                        ListTile(
-                          dense: true,
-                          title: Text(counter.shortName),
-                          leading: Icon(counter.icon, color: colors[CSPage.counters],),
-                          trailing: Text("$value", style: theme.textTheme.body2,),
-                        ),
-                      ];
-                    }(),
-                ], 2))
-                  Row(children: <Widget>[
-                    for(final element in couple)
-                      Expanded(child: element,)
-                  ],)
-              ]),
+              for(final p in _DetailsPage.values)
+                Positioned.fill(child:AnimatedPresented(
+                  duration: const Duration(milliseconds: 215),
+                  presented: p == page,
+                  curve: Curves.fastOutSlowIn.flipped,
+                  presentMode: PresentMode.slide,
+                  child: pages[p] ?? Container(),
+                )),
             ],
-          );
-        },),
+          ),
+        ),
+        Positioned(
+          bottom: 0.0,
+          left: 0.0,
+          right: 0.0,
+          height: CSConstants.barSize,
+          child: UpShadower(
+            child: RadioNavBar(
+              selectedValue: page,
+              orderedValues: _DetailsPage.values,
+              onSelect: (p)=>this.setState((){
+                this.page = p;
+              }),
+              items: {
+                _DetailsPage.info : RadioNavBarItem(
+                  title: "Info",
+                  icon: Icons.info,
+                  unselectedIcon: Icons.info_outline,
+                ),
+                _DetailsPage.attack : RadioNavBarItem(
+                  title: "Attack",
+                  icon: CSTypesUI.attackIconTwo,
+                  unselectedIcon: CSTypesUI.attackIconOne,
+                ),
+                _DetailsPage.defence : RadioNavBarItem(
+                  title: "Defence",
+                  icon: CSTypesUI.defenceIconFilled,
+                  unselectedIcon: CSTypesUI.defenceIconOutline,
+                ),
+              },
+            ),
+          ),
+        ),
+      ],
     );
-  }
-}
-
-
-class _PlayerBuilder extends StatelessWidget {
-  final int index;
-  final Widget Function(Player) builder;
-  const _PlayerBuilder(this.index, this.builder);
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final stage = bloc.stage;
-    final gameBloc = bloc.game;
-    final groupBloc = gameBloc.gameGroup;
-    final stateBloc = gameBloc.gameState;
-    final theme = Theme.of(context);
-    return Material(
-      color: theme.scaffoldBackgroundColor,
-      child: SingleChildScrollView(
-        physics: stage.panelScrollPhysics(),
-        child: groupBloc.names.build((_, names){
-          final name = names[index];
-          return stateBloc.gameState.build((_, state){
-            final player = state.players[name];
-            return this.builder(player);
-          },);
-        },),
-      ),
-    );
-
   }
 }

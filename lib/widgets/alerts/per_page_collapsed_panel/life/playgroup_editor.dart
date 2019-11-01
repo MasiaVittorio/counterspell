@@ -43,7 +43,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   void _reCalcSize(){
     final int howMany = state.gameState.value.players.length;
     final stage = Stage.of(context);
-    stage.alertSize.setDistinct(PlayGroupEditor.sizeCalc(howMany));
+    stage.recalcAlertSize(PlayGroupEditor.sizeCalc(howMany));
   }
 
   void startEditing(String who){

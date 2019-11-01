@@ -37,7 +37,7 @@ class CSPanelCollapsed extends StatelessWidget {
             McIcons.restart,
             () => stage.showAlert(
               RestarterAlert(),
-              alertSize: ConfirmStageAlert.height,
+              size: ConfirmStageAlert.height,
             ),
             1.0,
             iconSize: 24,
@@ -48,7 +48,7 @@ class CSPanelCollapsed extends StatelessWidget {
               McIcons.account_multiple_outline, 
               () => stage.showAlert(
                 PlayGroupEditor(bloc),
-                alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
+                size: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
               ),
               1.0,
               iconSize: 25,
@@ -57,13 +57,13 @@ class CSPanelCollapsed extends StatelessWidget {
           CSPage.commanderCast: _PanelButton(
             true,
             Icons.info_outline,
-            () => stage.showAlert(const CastInfo(), alertSize: CastInfo.height),
+            () => stage.showAlert(const CastInfo(), size: CastInfo.height),
             1.0,
           ),
           CSPage.commanderDamage: _PanelButton(
             true,
             Icons.info_outline,
-            () => stage.showAlert(const DamageInfo(), alertSize: DamageInfo.height),
+            () => stage.showAlert(const DamageInfo(), size: DamageInfo.height),
             1.0,
           ),
           CSPage.counters: bloc.game.gameAction.counterSet.build((context, counter)
@@ -72,7 +72,7 @@ class CSPanelCollapsed extends StatelessWidget {
               counter.icon,
               () => stage.showAlert(
                 const CounterSelector(), 
-                alertSize: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)) + AlertTitle.height,
+                size: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)) + AlertTitle.height,
               ),
               1.0, 
             ),

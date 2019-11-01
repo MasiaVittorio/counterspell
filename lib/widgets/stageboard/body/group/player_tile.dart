@@ -3,6 +3,7 @@ import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_det
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/game_model/types/counters.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
+import 'package:counter_spell_new/widgets/alerts/game/player_details.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_utilities.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,10 @@ class PlayerTile extends StatelessWidget {
           isScrollingSomewhere: isScrollingSomewhere,
           hasPartnerB: havingPartnerB[name],
           usePartnerB: usingPartnerB[name],
+        ),
+        onLongPress: () => stage.showAlert(
+          PlayerDetails(bloc.game.gameGroup.names.value.indexOf(name)), 
+          size: PlayerDetails.height,
         ),
         child: VelocityPanDetector(
           onPanEnd: (_details) => scrollerBloc.onDragEnd(),

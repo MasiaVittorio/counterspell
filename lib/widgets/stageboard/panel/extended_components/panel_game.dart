@@ -39,7 +39,7 @@ class PanelGame extends StatelessWidget {
               leading: const Icon(simpleViewIcon),
             ),
             ListTile(
-              onTap: () => stage.showAlert(DiceThrower(), alertSize: DiceThrower.height),
+              onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
               title: const Text("Dice & coins"),
               leading: Icon(McIcons.dice_multiple),
             ),
@@ -49,7 +49,7 @@ class PanelGame extends StatelessWidget {
             ListTile(
               onTap: () => stage.showAlert(
                 PlayGroupEditor(bloc),
-                alertSize: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
+                size: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
               ),
               title: const Text("Manage playgroup"),
               leading: const Icon(McIcons.account_multiple_outline),
@@ -57,7 +57,7 @@ class PanelGame extends StatelessWidget {
             ListTile(
               onTap: () => stage.showAlert(
                 RestarterAlert(),
-                alertSize: ConfirmStageAlert.height,
+                size: ConfirmStageAlert.height,
               ),
               title: const Text("Restart the game"),
               leading: const Icon(McIcons.restart),

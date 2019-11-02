@@ -38,7 +38,7 @@ class CSTopBarTitle extends StatelessWidget {
           }
 
           return AnimatedText(
-            duration: MyDurations.fast,
+            duration: const Duration(milliseconds: 260),
             text: text,
             style: Theme.of(context).primaryTextTheme.title.copyWith(
               fontWeight: FontWeight.w600,

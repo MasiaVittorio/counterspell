@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
-  bubble_bottom_bar:
-    dependency: "direct main"
-    description:
-      name: bubble_bottom_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   cached_network_image:
     dependency: "direct main"
     description:
@@ -262,12 +255,12 @@ packages:
     source: hosted
     version: "0.5.0+2"
   sliding_up_panel:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sliding_up_panel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.5"
+    version: "0.3.6"
   source_span:
     dependency: transitive
     description:
@@ -281,7 +274,7 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.7+1"
+    version: "1.1.7+2"
   stack_trace:
     dependency: transitive
     description:

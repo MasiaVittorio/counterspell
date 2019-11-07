@@ -16,8 +16,6 @@ import 'package:stage/stage.dart';
 
 const Duration _kCarouselDuration = const Duration(milliseconds: 200);
 const Color _kBarrier = Colors.black12;
-const IconData simpleViewIcon = McIcons.view_dashboard;
-
 
 
 class _SimpleGroupRoute<T> extends PopupRoute<T> {

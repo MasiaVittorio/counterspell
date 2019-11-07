@@ -2,6 +2,7 @@ import 'package:counter_spell_new/business_logic/bloc.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/stageboard_bloc.dart';
 import 'package:counter_spell_new/app_structure/counterspell_widget_keys.dart';
 import 'package:counter_spell_new/app_structure/pages.dart';
+import 'package:counter_spell_new/ui_model/all.dart';
 import 'package:counter_spell_new/widgets/stageboard/stageboard_components.dart';
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
@@ -35,7 +36,9 @@ class CSHomePage extends StatelessWidget {
       backToPreviousPageOpened: false,
 
       pandaOpenedPanelBottomBar: true,
-      themedBackGround: false,
+      backgroundColor: (theme) => Colors.black,
+      splashScreenBackground: const Color(0xFFCCC2C0),
+      splashScreenIcon: const Icon(CsIcon.counter_spell, color: Colors.black, size: 40,),
     );
 
   }

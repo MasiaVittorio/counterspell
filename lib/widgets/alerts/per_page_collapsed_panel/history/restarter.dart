@@ -10,6 +10,7 @@ class RestarterAlert extends StatelessWidget {
       confirmText: "Restart the game",
       confirmIcon: McIcons.restart,
       cancelColor: DELETE_COLOR,
+      completelyCloseAfterConfirm: true,
     );
   }
 }

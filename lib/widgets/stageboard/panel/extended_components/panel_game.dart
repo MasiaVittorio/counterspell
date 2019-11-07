@@ -36,7 +36,7 @@ class PanelGame extends StatelessWidget {
             ListTile(
               onTap: () => showSimpleGroup(context: context, bloc: bloc),
               title: const Text("Simple view"),
-              leading: const Icon(simpleViewIcon),
+              leading: const Icon(CSTypesUI.simpleViewIcon, size: 20,),
             ),
             ListTile(
               onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),

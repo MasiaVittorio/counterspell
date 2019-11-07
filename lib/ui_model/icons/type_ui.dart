@@ -52,6 +52,6 @@ class CSTypesUI {
 
   static const IconData historyIconFilled = McIcons.timer_sand;
   static const IconData historyIconOutlined = McIcons.timer_sand_empty;
-
-
+  static const IconData simpleViewIcon = CsIcon.counter_spell;
+  // static const IconData simpleViewIcon = McIcons.view_dashboard;
 }

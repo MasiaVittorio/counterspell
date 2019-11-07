@@ -24,10 +24,10 @@ class CSPanelCollapsed extends StatelessWidget {
         final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
           => _PanelButton(
             [2,3,4].contains(state.players.length), 
-            simpleViewIcon,
+            CSTypesUI.simpleViewIcon,
             ()=> showSimpleGroup(context: context, bloc: bloc), 
             1.0,
-            iconSize: 23,
+            iconSize: 20,
           ),
         );
 

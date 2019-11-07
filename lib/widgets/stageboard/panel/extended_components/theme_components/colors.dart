@@ -15,6 +15,7 @@ class ThemeColors extends StatelessWidget {
     final themeController = stage.themeController;
     final closedPages = stage.pagesController;
     final bloc = CSBloc.of(context);
+    //TODO: theme -> reset
 
     return themeController.primaryColorsMap.build((_, map)
       => Section(<Widget>[

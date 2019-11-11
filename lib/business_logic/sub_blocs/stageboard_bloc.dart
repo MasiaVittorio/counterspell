@@ -1,9 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:flutter/material.dart';
-import 'package:stage/stage.dart';
 
-import '../bloc.dart';
 
 final _primary = const Color(0xFF263133);
 final _darkPrimaries = <DarkStyle,Color>{

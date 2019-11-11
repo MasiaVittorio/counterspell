@@ -1,4 +1,4 @@
-export 'app_structure/all.dart';
+export 'app_model/all.dart';
 export 'business_logic/all.dart';
 export 'data/all.dart';
 export 'game_model/all.dart';

@@ -1,7 +1,4 @@
-import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_recognizer.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:flutter/material.dart';
+import 'package:counter_spell_new/core.dart';
 
 
 class PlayerGestures{

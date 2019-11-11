@@ -1,10 +1,5 @@
-import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/material_color_picker/sheet_color_picker.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
 
 class ThemeColors extends StatelessWidget {
   const ThemeColors();

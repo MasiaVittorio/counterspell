@@ -1,9 +1,4 @@
-import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:counter_spell_new/business_logic/sub_blocs/blocs.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
+import 'package:counter_spell_new/core.dart';
 
 ///[B]usiness [LO]gic [C]omponent for [CounterSpell]
 class CSBloc extends BlocBase {

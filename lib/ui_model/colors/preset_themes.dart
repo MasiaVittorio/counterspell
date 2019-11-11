@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/app_structure/pages.dart';
+import 'package:counter_spell_new/core.dart';
 
 import 'cs_theme.dart';
 import 'package:flutter/material.dart';

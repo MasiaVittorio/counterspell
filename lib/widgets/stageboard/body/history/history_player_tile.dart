@@ -1,11 +1,4 @@
-import 'package:counter_spell_new/business_logic/sub_blocs/themer.dart';
-import 'package:counter_spell_new/game_model/history_model.dart';
-import 'package:counter_spell_new/game_model/types/counters.dart';
-import 'package:counter_spell_new/game_model/types/damage_type.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/utils/divide_list.dart';
 
 class HistoryPlayerTile extends StatelessWidget {
 

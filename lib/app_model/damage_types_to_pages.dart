@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/game_model/types/damage_type.dart';
-import 'package:counter_spell_new/app_structure/pages.dart';
+import 'pages.dart';
 
 const Map<DamageType, CSPage> damageToPage = {
   DamageType.counters : CSPage.counters,

@@ -1,10 +1,6 @@
-import 'package:counter_spell_new/app_structure/pages.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/panel_game.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/panel_settings.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/panel_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
-import 'package:stage/stage.dart';
+import 'package:counter_spell_new/core.dart';
+import 'extended_components/all.dart';
+
 
 class CSPanelExtended extends StatelessWidget {
   const CSPanelExtended({Key key}): super(key: key);
@@ -37,7 +33,7 @@ class CSPanelExtended extends StatelessWidget {
 
 const _panels = const {
   SettingsPage.game: const PanelGame(),
-  SettingsPage.info: const SizedBox(),
+  SettingsPage.info: const PanelInfo(),
   SettingsPage.settings: const PanelSettings(),
   SettingsPage.theme: const PanelTheme(),
 };

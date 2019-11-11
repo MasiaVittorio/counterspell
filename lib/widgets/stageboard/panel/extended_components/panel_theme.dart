@@ -1,7 +1,5 @@
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/theme_components/colors.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/theme_components/overall_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:stage/stage.dart';
+import 'package:counter_spell_new/core.dart';
+import 'theme_components/all.dart';
 
 
 class PanelTheme extends StatelessWidget {

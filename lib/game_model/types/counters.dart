@@ -49,7 +49,7 @@ class Counter{
       maxValue: json['maxValue'],
     );
   }
-  //TODO: persisti icon data per bene benino
+  //LOW PRIORITY: persisti icon data per bene benino
 
   Map<String,dynamic> toJson() => {
     'longName' : this.longName,

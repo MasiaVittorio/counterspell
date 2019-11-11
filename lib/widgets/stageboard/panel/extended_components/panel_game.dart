@@ -1,6 +1,7 @@
-import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
-import 'game_components/starting_life.dart';
+import 'package:counter_spell_new/core.dart';
+import 'game_components/all.dart';
+
 
 class PanelGame extends StatelessWidget {
   const PanelGame();
@@ -9,9 +10,6 @@ class PanelGame extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
     final stage = Stage.of(context);
-    // final pagesController = stage.pagesController;
-    // final pageThemes = pagesController.pagesData;
-    // final enabledPages = pagesController.enabledPages;
 
     return SingleChildScrollView(
       physics: stage.panelScrollPhysics(),

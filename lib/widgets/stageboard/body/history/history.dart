@@ -63,7 +63,7 @@ class BodyHistory extends StatelessWidget {
                   havePartnerB: havePartnerB,
                 ),
               ),
-            initialItemCount: 1,
+            initialItemCount: game.gameState.gameState.value.historyLenght,
             scrollDirection: Axis.horizontal,
             physics: SidereusScrollPhysics(
               topBounce: true,

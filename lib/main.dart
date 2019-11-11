@@ -15,6 +15,7 @@ class ScryWalker extends StatefulWidget {
   _ScryWalkerState createState() => _ScryWalkerState();
 }
 
+
 class _ScryWalkerState extends State<ScryWalker> {
   CSBloc bloc;
 
@@ -45,7 +46,7 @@ class _MaterialApp extends StatelessWidget {
     return stage.themeController.currentThemeData.build((_,theme)
       => MaterialApp(
         theme: theme,
-        title: 'ScryWalker',
+        title: 'CounterSpell',
         home: const CSHomePage(key: KEY_HOME_PAGE),
       ),
     );

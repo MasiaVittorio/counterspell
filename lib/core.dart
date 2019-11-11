@@ -1,5 +1,6 @@
 export 'app_structure/all.dart';
 export 'business_logic/all.dart';
+export 'data/all.dart';
 export 'game_model/all.dart';
 export 'ui_model/all.dart';
 export 'widgets/resources/all.dart';

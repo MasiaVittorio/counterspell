@@ -1,19 +1,12 @@
-import 'dart:io';
 
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/alerts/info/licenses.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PanelInfo extends StatelessWidget {
 
   const PanelInfo();
 
-  static const String androidUrl = 'https://play.google.com/store/apps/details?id=com.mvsidereusart.counterspell';
-  static const String iosUrl = "https://itunes.apple.com/us/app/counterspell/id1459235508?l=it&ls=1&mt=8";
-
   @override
   Widget build(BuildContext context) {
-    // final bloc = CSBloc.of(context);
     final stage = Stage.of(context);
 
     return SingleChildScrollView(
@@ -41,18 +34,40 @@ class PanelInfo extends StatelessWidget {
             ),
           ]),
           Section([
-            const AlertTitle("Contacts", centered: false,),
+            const SectionTitle("Contacts"),
             ListTile(
               title: const Text("Rate CounterSpell"),
+              leading: const Icon(Icons.star_border),
+              onTap: CSActions.review,
+            ),
+            ListTile(
+              title: const Text("Feedback"),
               leading: const Icon(Icons.favorite_border),
-              onTap: () async {
-                final String url = Platform.isAndroid ? androidUrl : iosUrl;
-                if (await canLaunch(url)) {
-                  await launch(url);
-                } else {
-                  print('Could not launch $url');
-                }
-              },
+              onTap: Review.forcePrompt,
+            ),
+            ListTile(
+              title: const Text("Contact me"),
+              leading: const Icon(Icons.mail_outline),
+              onTap: () => stage.showAlert(ConfirmStageAlert(
+                action: CSActions.mailMe,
+                confirmColor: DELETE_COLOR,
+                confirmIcon: Icons.mail_outline,
+                confirmText: "Ok, open the e-mail app",
+                cancelText: "Nope, go back",
+                warningText: "You will be redirected to your email app with a blank message screen and my email address already set. Ask me anything!",
+              ), size: ConfirmStageAlert.height),
+            ),
+            ListTile(
+              title: const Text("Chat with me"),
+              leading: const Icon(McIcons.telegram),
+              onTap: () => stage.showAlert(ConfirmStageAlert(
+                action: CSActions.chatWithMe,
+                confirmColor: Colors.blue,
+                confirmIcon: McIcons.telegram,
+                confirmText: "Ok, open the Telegram chat",
+                cancelText: "Nope, go back",
+                warningText: 'You will be redirected to a telegram group where users of CounterSpell can talk with the developer in real time. Your device will most likely open your local "Telegram" app (if you have one installed)',
+              ), size: ConfirmStageAlert.height),
             ),
           ]),
         ],

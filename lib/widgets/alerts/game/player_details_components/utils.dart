@@ -94,7 +94,7 @@ class DetailsUtils {
 
   static void deletePlayer(StageData stage, String name, CSBloc bloc, List<String> names) 
     => stage.showAlert(ConfirmStageAlert(
-      warningText: "This action cannot be undone, are you sure",
+      warningText: "This action cannot be undone, are you sure?",
       confirmColor: DELETE_COLOR,
       confirmIcon: Icons.delete_forever,
       confirmText: "Yes, delete $name",

@@ -50,8 +50,8 @@ flutter_icons:
   image_path_ios: "assets/images/ios_medium.png"
   android: true # can specify file name here e.g. "ic_launcher"
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
-  adaptive_icon_background: "assets/images/background_medium.png" # only available for Android 8.0 devices and above
-  adaptive_icon_foreground: "assets/images/foreground_medium.png" # only available for Android 8.0 devices and above
+  adaptive_icon_background: "assets/images/white_on_black.png" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "assets/images/fully_transparent.png" # only available for Android 8.0 devices and above
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

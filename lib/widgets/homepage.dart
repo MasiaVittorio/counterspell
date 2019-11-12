@@ -31,8 +31,8 @@ class CSHomePage extends StatelessWidget {
 
       pandaOpenedPanelBottomBar: true,
       backgroundColor: (theme) => Colors.black,
-      splashScreenBackground: const Color(0xFFCCC2C0),
-      splashScreenIcon: const Icon(CsIcon.counter_spell, color: Colors.black, size: 40,),
+      splashScreenBackground: const Color(0xFF263133),
+      splashScreenIcon: const Icon(CsIcon.counter_spell, color: Colors.white, size: 40,),
     );
 
   }

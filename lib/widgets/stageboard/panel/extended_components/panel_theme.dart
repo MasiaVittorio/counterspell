@@ -24,10 +24,16 @@ class PanelTheme extends StatelessWidget {
               action: () {
                 if(stage.themeController.light.value){
                   stage.themeController.lightPrimary.set(CSStage.primary);
-                  stage.themeController.lightPrimaryPerPage.set(defaultPageColorsLight);
+                  stage.themeController.lightPrimaryPerPage.set(<CSPage,Color>{
+                    for(final entry in defaultPageColorsLight.entries)
+                      entry.key: Color(entry.value.value),
+                  });
                 } else {
                   stage.themeController.darkPrimariesPerPage.value[stage.themeController.darkStyle.value]
-                    = defaultPageColorsDark;
+                    = <CSPage,Color>{
+                      for(final entry in defaultPageColorsDark.entries)
+                        entry.key: Color(entry.value.value),
+                    };
                   stage.themeController.darkPrimariesPerPage.refresh();
                   stage.themeController.darkPrimaries.value[stage.themeController.darkStyle.value]
                     = CSStage.primary;

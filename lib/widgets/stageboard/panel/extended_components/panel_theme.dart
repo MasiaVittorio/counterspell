@@ -17,19 +17,24 @@ class PanelTheme extends StatelessWidget {
           ListTile(
             title: const Text("Reset to default"),
             leading: const Icon(McIcons.restore),
-            onTap: (){
-              if(stage.themeController.light.value){
-                stage.themeController.lightPrimary.set(CSStage.primary);
-                stage.themeController.lightPrimaryPerPage.set(defaultPageColorsLight);
-              } else {
-                stage.themeController.darkPrimariesPerPage.value[stage.themeController.darkStyle.value]
-                  = defaultPageColorsDark;
-                stage.themeController.darkPrimariesPerPage.refresh();
-                stage.themeController.darkPrimaries.value[stage.themeController.darkStyle.value]
-                  = CSStage.primary;
-                stage.themeController.darkPrimaries.refresh();
-              }
-            },
+            onTap: () => stage.showAlert(ConfirmStageAlert(
+              warningText: "Are you sure? This action cannot be undone.",
+              confirmText: "Yes, reset to default colors",
+              cancelText: "No, keep the current theme",
+              action: () {
+                if(stage.themeController.light.value){
+                  stage.themeController.lightPrimary.set(CSStage.primary);
+                  stage.themeController.lightPrimaryPerPage.set(defaultPageColorsLight);
+                } else {
+                  stage.themeController.darkPrimariesPerPage.value[stage.themeController.darkStyle.value]
+                    = defaultPageColorsDark;
+                  stage.themeController.darkPrimariesPerPage.refresh();
+                  stage.themeController.darkPrimaries.value[stage.themeController.darkStyle.value]
+                    = CSStage.primary;
+                  stage.themeController.darkPrimaries.refresh();
+                }
+              },
+            ),size: ConfirmStageAlert.height),
           ),
         ],
       ),

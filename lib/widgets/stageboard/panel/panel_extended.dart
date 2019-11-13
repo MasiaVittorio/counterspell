@@ -11,7 +11,7 @@ class CSPanelExtended extends StatelessWidget {
     final panelPages = stage.panelPagesController;
     final currentPage = panelPages.page;
 
-    return Container(
+    return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: currentPage.build((_, currentPage) => Stack(
         fit: StackFit.expand,

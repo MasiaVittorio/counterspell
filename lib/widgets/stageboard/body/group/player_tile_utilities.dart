@@ -117,7 +117,7 @@ class PTileUtils {
             return "Attacking";
           }
         } else if (attacker != ""){
-          final string = "Dmg taken from ${subString(attacker, 3)}";
+          final string = "Dmg taken from $attacker";
           if(attackerHavingPartnerB){
             if(attackerUsingPartnerB){
               return string + " (B)";

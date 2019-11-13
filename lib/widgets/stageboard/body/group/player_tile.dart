@@ -320,12 +320,18 @@ class PlayerTile extends StatelessWidget {
               style: TextStyle(
                 fontSize: 19,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.clip,
             ),
             AnimatedListed(
               listed: annotation!="", 
               child: Padding(
                 padding: const EdgeInsets.only(top: 4.0),
-                child: AnimatedText(text:annotation),
+                child: AnimatedText(
+                  text:annotation,
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                ),
               ),
             ),
           ],

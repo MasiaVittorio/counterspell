@@ -1,13 +1,14 @@
 import 'package:counter_spell_new/core.dart';
 
 
-final _primary = const Color(0xFF263133);
-final _darkPrimaries = <DarkStyle,Color>{
-  for(final style in DarkStyle.values)
-    style: _primary,
-};
 
 class CSStage {
+
+  static const primary = const Color(0xFF263133);
+  static final darkPrimaries = <DarkStyle,Color>{
+    for(final style in DarkStyle.values)
+      style: primary,
+  };
 
   void dispose(){
     controller.dispose();
@@ -58,8 +59,8 @@ class CSStage {
     //themes
     light: true,
     darkStyle: DarkStyle.nightBlack,
-    lightPrimary: _primary,
-    darkPrimaries: _darkPrimaries,
+    lightPrimary: primary,
+    darkPrimaries: darkPrimaries,
     lightPrimaryPerPage: defaultPageColorsLight,
     darkPrimariesPerPage: {
       for(final style in DarkStyle.values)

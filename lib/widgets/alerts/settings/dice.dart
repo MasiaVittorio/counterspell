@@ -122,16 +122,29 @@ class _ThrowWidget extends StatelessWidget {
   final _Throw data;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text( (data.max == 2)
-        ? ({1: "head", 2: "tail"}[data.value] ?? "?? error")
-        : ("${data.value}")
-      ),
-      leading: Icon({
-        2: coinIcons[data.value],
-        6: d6icons[data.value],
-        20: McIcons.hexagon_outline,
-      }[data.max] ?? McIcons.dice_multiple),
+
+    return Row(
+      children: <Widget>[
+        if(data.max == 6)
+          Spacer(),
+        if(data.max == 20)
+          ...[Spacer(), Spacer()],
+        Expanded(child: ListTile(
+          title: Text( (data.max == 2)
+            ? ({1: "head", 2: "tail"}[data.value] ?? "?? error")
+            : ("${data.value}")
+          ),
+          leading: Icon({
+            2: coinIcons[data.value],
+            6: d6icons[data.value],
+            20: McIcons.hexagon_outline,
+          }[data.max] ?? McIcons.dice_multiple),
+        ),),
+        if(data.max == 2)
+          ...[Spacer(), Spacer()],
+        if(data.max == 6)
+          Spacer(),
+      ],
     );
   }
   static const Map<int,IconData> icons = {

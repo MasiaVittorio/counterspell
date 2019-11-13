@@ -25,7 +25,11 @@ class ConfirmStageAlert extends StatelessWidget {
 
   final bool completelyCloseAfterConfirm;
 
-  static const double height = 56*2+AlertTitle.height;
+  final bool twoLinesWarning;
+
+  static const double _base = 56.0*2.0;
+  static const double height = _base + AlertTitle.height;
+  static const double twoLinesheight = _base + AlertTitle.twoLinesHeight;
 
   ConfirmStageAlert({
     @required this.action,
@@ -39,12 +43,14 @@ class ConfirmStageAlert extends StatelessWidget {
     this.bottomPadding = 0,
     this.autoCloseAfterConfirm = true,
     this.completelyCloseAfterConfirm = false,
+    bool twoLinesWarning = false,
   }):
     this.cancelText = cancelText ?? "Cancel",
     this.confirmText = confirmText ?? "Confirm",
     this.confirmIcon = confirmIcon ??  _kConfirmIcon,
     this.cancelIcon = cancelIcon ??  _kCancelIcon,
-    this.warningText = warningText ?? "Are you sure? This action may not be reversible.";
+    this.warningText = warningText ?? "Are you sure? This action may not be reversible.",
+    this.twoLinesWarning = twoLinesWarning ?? false;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +70,7 @@ class ConfirmStageAlert extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
 
-              AlertTitle(this.warningText),
+              AlertTitle(this.warningText, twoLines: this.twoLinesWarning ?? false,),
 
               ListTile(
                 onTap: (){

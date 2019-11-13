@@ -16,7 +16,7 @@ class PanelTheme extends StatelessWidget {
           const ThemeColors(),
           ListTile(
             title: const Text("Reset to default"),
-            leading: const Icon(McIcons.restore),
+            leading: const Icon(McIcons.restart),
             onTap: () => stage.showAlert(ConfirmStageAlert(
               warningText: "Are you sure? This action cannot be undone.",
               confirmText: "Yes, reset to default colors",

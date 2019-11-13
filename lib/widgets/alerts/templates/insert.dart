@@ -60,8 +60,10 @@ class _InsertAlertState extends State<InsertAlert> {
     final String _errorString = _started == false 
       ? ""
       : this.widget.checkErrors(this._controller.text);
+    final String _seriousErrorString = this.widget.checkErrors(this._controller.text);
     
     final bool _valid = _errorString == "" || _errorString == null;
+    final bool _seriouslyValid = _seriousErrorString == "" || _seriousErrorString == null;
     final stage = Stage.of(context);
 
     return Material(
@@ -113,7 +115,7 @@ class _InsertAlertState extends State<InsertAlert> {
                     icon: const Icon(Icons.check),
                     label: const Text("Confirm"),
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    onPressed: _valid ? () {
+                    onPressed: _seriouslyValid ? () {
                         this.widget.onConfirm(this._controller.text);
                         stage.panelController.closePanel();
                     } : null,

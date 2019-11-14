@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
@@ -55,7 +56,8 @@ class PlayerTile extends StatelessWidget {
     final bloc = group.parent.parent;
     final scrollerBloc = bloc.scroller;
     final actionBloc = bloc.game.gameAction;
-    final stage = Stage.of<CSPage,SettingsPage>(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
+    final ThemeData theme = Theme.of(context);
 
     final bool attacking = whoIsAttacking == name;
     final bool defending = whoIsDefending == name;
@@ -85,60 +87,118 @@ class PlayerTile extends StatelessWidget {
     //we will abstract the player tile later to manage other pages
     //like commander damage / casts / counters
 
-    return Material(
-      child: InkWell(
-        onTap: () => PlayerGestures.tap(
+    final Widget tile = InkWell(
+      onTap: () => PlayerGestures.tap(
+        name,
+        page: page,
+        attacking: attacking,
+        rawSelected: rawSelected,
+        bloc: bloc,
+        isScrollingSomewhere: isScrollingSomewhere,
+        hasPartnerB: havingPartnerB[name],
+        usePartnerB: usingPartnerB[name],
+      ),
+      onLongPress: () => stage.showAlert(
+        PlayerDetails(bloc.game.gameGroup.names.value.indexOf(name)), 
+        size: PlayerDetails.height,
+      ),
+      child: VelocityPanDetector(
+        onPanEnd: (_details) => scrollerBloc.onDragEnd(),
+        onPanUpdate: (details) => PlayerGestures.pan(
+          details,
           name,
-          page: page,
-          attacking: attacking,
-          rawSelected: rawSelected,
+          maxWidth,
           bloc: bloc,
-          isScrollingSomewhere: isScrollingSomewhere,
-          hasPartnerB: havingPartnerB[name],
-          usePartnerB: usingPartnerB[name],
+          page: page,
         ),
-        onLongPress: () => stage.showAlert(
-          PlayerDetails(bloc.game.gameGroup.names.value.indexOf(name)), 
-          size: PlayerDetails.height,
-        ),
-        child: VelocityPanDetector(
-          onPanEnd: (_details) => scrollerBloc.onDragEnd(),
-          onPanUpdate: (details) => PlayerGestures.pan(
-            details,
-            name,
-            maxWidth,
-            bloc: bloc,
-            page: page,
-          ),
-          onPanCancel: scrollerBloc.onDragEnd,
-          child: Container(
-            //to make the pan callback working, the color cannot be just null
-            color: Colors.transparent,
-            height: tileSize,
-            alignment: Alignment.center,
-            child: Opacity(
-              opacity: playerState.isAlive ? 1.0 : 0.7,
-              child: SizedBox(
-                height: coreTileSize,
-                child: Row(children: <Widget>[
-                  buildLeading(
-                    rawSelected: rawSelected,
-                    scrolling: scrolling,
-                    attacking: attacking,
-                    playerState: playerState,
-                    defending: defending,
-                    stage: stage,
-                    someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
-                  ),
-                  Expanded(child: buildBody(rawSelected)),
-                  buildTrailing(rawSelected, actionBloc),
-                ]),
-              ),
+        onPanCancel: scrollerBloc.onDragEnd,
+        child: Container(
+          //to make the pan callback working, the color cannot be just null
+          color: Colors.transparent,
+          height: tileSize,
+          alignment: Alignment.center,
+          child: Opacity(
+            opacity: playerState.isAlive ? 1.0 : 0.7,
+            child: SizedBox(
+              height: coreTileSize,
+              child: Row(children: <Widget>[
+                buildLeading(
+                  rawSelected: rawSelected,
+                  scrolling: scrolling,
+                  attacking: attacking,
+                  playerState: playerState,
+                  defending: defending,
+                  stage: stage,
+                  someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
+                ),
+                Expanded(child: buildBody(rawSelected)),
+                buildTrailing(rawSelected, actionBloc),
+              ]),
             ),
           ),
         ),
       ),
     );
+
+    return group.images.build((_, images){
+      final String imageUrl = images[name];
+      if(imageUrl == null){
+        return Material(child: tile);
+      } else {
+
+        final Widget image = bloc.settings.imageAlignment.build((_,alignment) => Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(
+                imageUrl,
+                errorListener: (){},
+              ),
+              fit: BoxFit.cover,
+              alignment: Alignment(0,alignment),
+            ),
+          ),
+        ),);
+
+        final Widget gradient = BlocVar.build2(
+          bloc.settings.imageGradientStart,
+          bloc.settings.imageGradientEnd,
+          builder: (context, double startVal, double endVal) => Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  theme.canvasColor.withOpacity(startVal),
+                  theme.canvasColor.withOpacity(endVal),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        return SizedBox(
+          height: tileSize,
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Positioned.fill(
+                child: image,
+              ),
+              Positioned.fill(
+                child: gradient,
+              ),
+              Positioned.fill(
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: tile,
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    });
+
   }
 
   static const _circleFrac = 0.7;

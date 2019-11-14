@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/ui_model/all.dart';
+import 'package:counter_spell_new/models/ui_model/all.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 

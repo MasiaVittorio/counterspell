@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:counter_spell_new/game_model/game_state.dart';
-import 'package:sidereus/bloc/bloc.dart';
+import 'package:counter_spell_new/core.dart';
 
-import '../game.dart';
 
 const int maxNumberOfPlayers = 12; 
 
@@ -12,6 +10,13 @@ class CSGameGroup {
   void dispose(){
     this.names.dispose();
     newNamesSub.cancel();
+    this.alternativeLayoutNameOrder.dispose();
+    this.newNamesSub.cancel();
+    this.savedNames.dispose();
+    this.havingPartnerB.dispose();
+    this.usingPartnerB.dispose();
+    this.savedImages.dispose();
+    this.images.dispose();
   } 
 
   //========================
@@ -23,7 +28,8 @@ class CSGameGroup {
   final PersistentVar<Set<String>> savedNames;
   final PersistentVar<Map<String,bool>> havingPartnerB;
   final PersistentVar<Map<String,bool>> usingPartnerB;
-
+  final PersistentVar<Map<String,Set<String>>> savedImages;
+  final PersistentVar<Map<String,String>> images;
 
   ///========================
   /// Constructor
@@ -53,6 +59,40 @@ class CSGameGroup {
       fromJson: (json) => {
         for(final entry in (json as Map<String,dynamic>).entries)  
           entry.key: entry.value as bool,
+      },
+    ),
+    images = PersistentVar<Map<String,String>>(
+      initVal: <String,String>{},
+      key: "bloc_game_group_blocvar_images",
+      toJson: (map) => map,
+      fromJson: (json) => {
+        for(final entry in (json as Map<String,dynamic>).entries)  
+          entry.key: entry.value as String,
+      },
+    ),
+    savedImages = PersistentVar<Map<String,Set<String>>>(
+      initVal: <String,Set<String>>{},
+      key: "bloc_game_group_blocvar_savedImages",
+      toJson: (map) => <String,dynamic>{
+        for(final entry in map.entries)
+          entry.key: <String>[
+            for(final s in entry.value)
+              s,
+          ],
+      },
+      fromJson: (json) => {
+        for(final entry in (json as Map<String,dynamic>).entries)  
+          entry.key: <String>{
+            for(final s in (entry.value as List))
+              s as String,
+          },
+      },
+      copier: (map) => <String,Set<String>>{
+        for(final entry in map.entries)
+          entry.key: <String>{
+            for(final s in entry.value)
+              s,
+          },
       },
     )
   {

@@ -1,8 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/game_model/types/counters.dart';
-import 'package:sidereus/sidereus.dart';
 
-import '../game.dart';
 
 class CSGameState {
 

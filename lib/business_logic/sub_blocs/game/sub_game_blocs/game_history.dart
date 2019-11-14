@@ -1,14 +1,9 @@
 import 'dart:async';
 
-import 'package:counter_spell_new/game_model/history_model.dart';
-import 'package:counter_spell_new/game_model/types/damage_type.dart';
 import 'package:counter_spell_new/core.dart';
 
 import 'package:counter_spell_new/widgets/stageboard/body/history/history_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/animated_widgets/animated_list/sid_animated_list.dart';
-
-import '../game.dart';
 
 class CSGameHistory {
 

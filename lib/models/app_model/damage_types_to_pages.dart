@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/game_model/types/damage_type.dart';
+import 'package:counter_spell_new/models/game_model/types/damage_type.dart';
 import 'pages.dart';
 
 const Map<DamageType, CSPage> damageToPage = {

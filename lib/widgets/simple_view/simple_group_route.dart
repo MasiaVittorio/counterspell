@@ -1,17 +1,9 @@
 import 'dart:async';
 
-import 'package:counter_spell_new/business_logic/bloc.dart';
-import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/game_action.dart';
-import 'package:counter_spell_new/game_model/game_state.dart';
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/simple_view/simple_group_widget.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:sidereus/bloc/bloc_var.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
 
 const Duration _kCarouselDuration = const Duration(milliseconds: 200);
 const Color _kBarrier = Colors.black12;

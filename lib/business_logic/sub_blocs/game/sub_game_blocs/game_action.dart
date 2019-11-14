@@ -1,8 +1,8 @@
 import 'package:counter_spell_new/core.dart';
 import 'dart:async';
 
-import 'package:counter_spell_new/game_model/game_actions/ga_damage.dart';
-import 'package:counter_spell_new/game_model/game_actions/ga_null.dart';
+import 'package:counter_spell_new/models/game_model/game_actions/ga_damage.dart';
+
 
 class CSGameAction {
 

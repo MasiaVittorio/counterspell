@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:counter_spell_new/game_model/all.dart';
+import 'all.dart';
 
 import 'package:flutter/widgets.dart';
 

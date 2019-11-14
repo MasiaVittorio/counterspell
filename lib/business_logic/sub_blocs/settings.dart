@@ -7,20 +7,29 @@ import '../bloc.dart';
 class CSSettings {
 
   void dispose(){
-    this.scrollSensitivity.dispose();
     this.wantVibrate.dispose();
+
     this.startingLife.dispose();
     this.minValue.dispose();
     this.maxValue.dispose();
+
     this.confirmDelay.dispose();
     this.applyDamageToLife.dispose();
+
+    this.scrollSensitivity.dispose();
 
     this.scroll1Static.dispose();
     this.scroll1StaticValue.dispose();
     this.scrollPreBoost.dispose();
     this.scrollPreBoostValue.dispose();
+    this.scrollDynamicSpeed.dispose();
+    this.scrollDynamicSpeedValue.dispose();
 
     this.alwaysOnDisplay.dispose();
+
+    this.imageAlignment.dispose();
+    this.imageGradientStart.dispose();
+    this.imageGradientEnd.dispose();
   }
 
 
@@ -49,6 +58,10 @@ class CSSettings {
   final PersistentVar<double> scrollDynamicSpeedValue;
 
   final PersistentVar<bool> alwaysOnDisplay;
+
+  final PersistentVar<double> imageAlignment;
+  final PersistentVar<double> imageGradientStart;
+  final PersistentVar<double> imageGradientEnd;
 
   //===================================
   // Constructor
@@ -142,6 +155,24 @@ class CSSettings {
       toJson: (b) => b,
       fromJson: (j) => j,
       onChanged: (bool b) => Screen.keepOn(b),
+    ),
+    imageAlignment = PersistentVar<double>(
+      key: "bloc_settings_blocvar_imageAlignment",
+      initVal: -0.5,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    imageGradientStart = PersistentVar<double>(
+      key: "bloc_settings_blocvar_imageGradientStart",
+      initVal: 0.7,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    imageGradientEnd = PersistentVar<double>(
+      key: "bloc_settings_blocvar_imageGradientEnd",
+      initVal: 0.9,
+      toJson: (d) => d,
+      fromJson: (j) => j,
     )
   {
     Vibrate.canVibrate.then(

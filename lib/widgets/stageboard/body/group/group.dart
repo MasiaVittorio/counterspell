@@ -1,11 +1,4 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/game_model/types/counters.dart';
-import 'package:flutter/material.dart';
-
-import 'package:counter_spell_new/business_logic/sub_blocs/blocs.dart';
-import 'package:sidereus/bloc/bloc_var.dart';
-import 'package:sidereus/sidereus.dart';
-import 'package:stage/stage.dart';
 
 import 'player_tile.dart';
 

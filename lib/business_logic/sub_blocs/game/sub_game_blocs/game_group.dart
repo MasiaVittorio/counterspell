@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/core.dart' hide CachedVar;
+import 'package:sidereus/persistence_hive/cached_var.dart';
 
 
 const int maxNumberOfPlayers = 12; 
@@ -15,8 +16,9 @@ class CSGameGroup {
     this.savedNames.dispose();
     this.havingPartnerB.dispose();
     this.usingPartnerB.dispose();
-    this.savedImages.dispose();
-    this.images.dispose();
+    // this.savedCards.dispose();
+    this.cardsA.dispose();
+    this.cardsB.dispose();
   } 
 
   //========================
@@ -28,8 +30,10 @@ class CSGameGroup {
   final PersistentVar<Set<String>> savedNames;
   final PersistentVar<Map<String,bool>> havingPartnerB;
   final PersistentVar<Map<String,bool>> usingPartnerB;
-  final PersistentVar<Map<String,Set<String>>> savedImages;
-  final PersistentVar<Map<String,String>> images;
+  final CachedVar<Map<String,Set<MtgCard>>> savedCards;
+  final PersistentVar<Map<String,MtgCard>> cardsA;
+  final PersistentVar<Map<String,MtgCard>> cardsB;
+  BlocVar<Map<String,MtgCard>> cards(bool a) => a ? this.cardsA : this.cardsB;
 
   ///========================
   /// Constructor
@@ -61,37 +65,45 @@ class CSGameGroup {
           entry.key: entry.value as bool,
       },
     ),
-    images = PersistentVar<Map<String,String>>(
-      initVal: <String,String>{},
-      key: "bloc_game_group_blocvar_images",
-      toJson: (map) => map,
-      fromJson: (json) => {
-        for(final entry in (json as Map<String,dynamic>).entries)  
-          entry.key: entry.value as String,
-      },
-    ),
-    savedImages = PersistentVar<Map<String,Set<String>>>(
-      initVal: <String,Set<String>>{},
-      key: "bloc_game_group_blocvar_savedImages",
+    cardsA = PersistentVar<Map<String,MtgCard>>(
+      initVal: <String,MtgCard>{},
+      key: "bloc_game_group_blocvar_cardsA",
       toJson: (map) => <String,dynamic>{
         for(final entry in map.entries)
-          entry.key: <String>[
-            for(final s in entry.value)
-              s,
+          entry.key: entry.value.toJson(),
+      },
+      fromJson: (json) => {
+        for(final entry in (json as Map<String,dynamic>).entries)  
+          entry.key: MtgCard.fromJson(entry.value),
+      },
+    ),
+    cardsB = PersistentVar<Map<String,MtgCard>>(
+      initVal: <String,MtgCard>{},
+      key: "bloc_game_group_blocvar_cardsB",
+      toJson: (map) => <String,dynamic>{
+        for(final entry in map.entries)
+          entry.key: entry.value.toJson(),
+      },
+      fromJson: (json) => {
+        for(final entry in (json as Map<String,dynamic>).entries)  
+          entry.key: MtgCard.fromJson(entry.value),
+      },
+    ),
+    savedCards = CachedVar<Map<String,Set<MtgCard>>>(
+      "bloc_game_group_blocvar_savedCards",
+      <String,Set<MtgCard>>{},
+      toJson: (map) => <String,dynamic>{
+        for(final entry in map.entries)
+          entry.key: <dynamic>[
+            for(final card in entry.value)
+              card.toJson(),
           ],
       },
       fromJson: (json) => {
         for(final entry in (json as Map<String,dynamic>).entries)  
-          entry.key: <String>{
-            for(final s in (entry.value as List))
-              s as String,
-          },
-      },
-      copier: (map) => <String,Set<String>>{
-        for(final entry in map.entries)
-          entry.key: <String>{
-            for(final s in entry.value)
-              s,
+          entry.key: <MtgCard>{
+            for(final code in (entry.value as List))
+              MtgCard.fromJson(code),
           },
       },
     )

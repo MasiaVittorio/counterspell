@@ -1,7 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import 'utils.dart';
 
-
 class PlayerDetailsInfo extends StatelessWidget {
   final int index;
   const PlayerDetailsInfo(this.index);
@@ -19,7 +18,7 @@ class PlayerDetailsInfo extends StatelessWidget {
       builder: (_, colors, partners)
         => PlayerBuilder(index, (gameState, names, name, playerState, player){
 
-          final partner = partners[name] ?? false;
+          final bool partner = partners[name] ?? false;
           return Column(
             children: <Widget>[
               Section([
@@ -101,6 +100,9 @@ class PlayerDetailsInfo extends StatelessWidget {
                 leading: const Icon(McIcons.pencil_outline),
                 onTap: () => DetailsUtils.renamePlayer(stage, name, bloc, names),
               ),
+              if(partner)
+                ...[]
+              else _CommanderTile(this.index, a: true,),
               ListTile(
                 title: Text("Delete $name", style: TextStyle(color: DELETE_COLOR),),
                 leading: const Icon(McIcons.delete_forever, color: DELETE_COLOR,),
@@ -113,3 +115,58 @@ class PlayerDetailsInfo extends StatelessWidget {
   }
 }
 
+class _CommanderTile extends StatelessWidget {
+  final bool a;
+  final int index;
+
+  const _CommanderTile(this.index, {@required this.a});  
+
+  @override
+  Widget build(BuildContext context) {
+    final CSBloc bloc = CSBloc.of(context);
+    final group = bloc.game.gameGroup;
+
+
+    return PlayerBuilder(index, (gameState, names, name, playerState, player){
+
+      final VoidCallback callback = () => Stage.of(context).showAlert(ImageSearch((found){
+        group.cards(a).value[name] = found;
+        group.cards(a).refresh();
+        group.savedCards.privateValue[name].add(found);
+        group.savedCards.forceWrite();
+      }), size: ImageSearch.height);
+
+      return group.cards(a).build((_,cards) {
+        final card = cards[name];
+        if(card == null) {
+          return ListTile(
+            title: const Text("Select commander image"),
+            leading: const Icon(McIcons.cards_outline),
+            onTap: callback,
+          );
+        } else {
+          return CardTile(
+            card,
+            callback: (_) => callback,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                IconButton(
+                  onPressed: (){},
+                  icon: const Icon(Icons.vertical_align_center),
+                ),
+                IconButton(
+                  onPressed: () {
+                    group.cards(a).value.remove(name);
+                    group.cards(a).refresh();
+                  },
+                  icon: const Icon(Icons.delete_outline, color: DELETE_COLOR,),
+                ),
+              ],
+            ),
+          );
+        }
+      });
+    });
+  }
+}

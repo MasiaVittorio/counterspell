@@ -35,6 +35,16 @@ class MtgCard {
     // Getters =============
     //===================
 
+  @override
+  int get hashCode => this.id.hashCode;
+
+  @override
+  bool operator ==(dynamic other) {
+    if (runtimeType != other.runtimeType)
+      return false;
+    return other.id == this.id;
+  }
+
   String imageUrl({int faceIndex = 0, String uri: "artCrop"}) {
     ImageUris uris = this.imageUris ?? this.cardFaces[faceIndex].imageUris;
 

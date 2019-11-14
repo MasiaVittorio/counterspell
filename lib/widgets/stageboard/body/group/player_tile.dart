@@ -140,8 +140,8 @@ class PlayerTile extends StatelessWidget {
       ),
     );
 
-    return group.images.build((_, images){
-      final String imageUrl = images[name];
+    return group.cards(!usingPartnerB[name]).build((_, cards){
+      final String imageUrl = cards[name].imageUrl();
       if(imageUrl == null){
         return Material(child: tile);
       } else {

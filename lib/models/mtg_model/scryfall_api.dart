@@ -52,6 +52,9 @@ class ScryfallApi{
   static Future<List<MtgCard>> searchReprints(MtgCard card) async {
     return await search('!"${card.name}" unique:prints', uniqueName: false, force: true);
   }
+  static Future<List<MtgCard>> searchArts(String name) async {
+    return await search('$name unique:art', uniqueName: false, force: true);
+  }
 
 
 

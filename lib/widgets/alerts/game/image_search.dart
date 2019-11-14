@@ -37,7 +37,7 @@ class _ImageSearchState extends State<ImageSearch> {
     behavior = BehaviorSubject<String>();
     subscription = behavior.stream
         .distinct()
-        .debounce(const Duration(milliseconds: 600))
+        .debounce((_) => TimerStream(true, const Duration(milliseconds: 500)))
         .listen((name) async {
           this.results = await ScryfallApi.searchArts(name);
           this.setState((){});
@@ -179,6 +179,7 @@ class CardTile extends StatelessWidget {
       onTap: (){
         callback(card);
         Stage.of(context).panelController.closePanel();
+
       },
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,

@@ -222,12 +222,12 @@ packages:
     source: hosted
     version: "2.0.5"
   rxdart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.20.0"
+    version: "0.22.6"
   screen:
     dependency: "direct main"
     description:

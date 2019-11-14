@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:counter_spell_new/core.dart' hide CachedVar;
-import 'package:sidereus/persistence_hive/cached_var.dart';
+import 'package:counter_spell_new/core.dart';
 
 
 const int maxNumberOfPlayers = 12; 

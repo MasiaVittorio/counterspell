@@ -95,14 +95,20 @@ class PlayerDetailsInfo extends StatelessWidget {
                 ],),
               ]),
 
-              ListTile(
-                title: Text("Rename $name"),
-                leading: const Icon(McIcons.pencil_outline),
-                onTap: () => DetailsUtils.renamePlayer(stage, name, bloc, names),
-              ),
-              if(partner)
-                ...[]
-              else _CommanderTile(this.index, a: true,),
+              Section([
+                const SectionTitle("Edit"),
+                ListTile(
+                  title: Text("Rename $name"),
+                  leading: const Icon(McIcons.pencil_outline),
+                  onTap: () => DetailsUtils.renamePlayer(stage, name, bloc, names),
+                ),
+                if(partner)
+                  ...[
+                    _CommanderTile(this.index, a: true, havePartner: true,),
+                    _CommanderTile(this.index, a: false,havePartner: true,),
+                  ]
+                else _CommanderTile(this.index, a: true,),
+              ]),
               ListTile(
                 title: Text("Delete $name", style: TextStyle(color: DELETE_COLOR),),
                 leading: const Icon(McIcons.delete_forever, color: DELETE_COLOR,),
@@ -117,9 +123,10 @@ class PlayerDetailsInfo extends StatelessWidget {
 
 class _CommanderTile extends StatelessWidget {
   final bool a;
+  final bool havePartner;
   final int index;
 
-  const _CommanderTile(this.index, {@required this.a});  
+  const _CommanderTile(this.index, {@required this.a, this.havePartner = false});  
 
   @override
   Widget build(BuildContext context) {
@@ -127,12 +134,13 @@ class _CommanderTile extends StatelessWidget {
     final group = bloc.game.gameGroup;
 
 
-    return PlayerBuilder(index, (gameState, names, name, playerState, player){
-
+    return group.names.build((_, names){
+      final name = names[index];
+        
       final VoidCallback callback = () => Stage.of(context).showAlert(ImageSearch((found){
         group.cards(a).value[name] = found;
         group.cards(a).refresh();
-        group.savedCards.privateValue[name].add(found);
+        group.savedCards.privateValue[name] = (group.savedCards.privateValue[name] ?? <MtgCard>{})..add(found);
         group.savedCards.forceWrite();
       }), size: ImageSearch.height);
 
@@ -140,13 +148,17 @@ class _CommanderTile extends StatelessWidget {
         final card = cards[name];
         if(card == null) {
           return ListTile(
-            title: const Text("Select commander image"),
+            title: Text(havePartner
+              ? a ? "First partner image" : "Second Partner Image"
+              : "Commander image"),
             leading: const Icon(McIcons.cards_outline),
+            subtitle: const Text("None"),
             onTap: callback,
           );
         } else {
           return CardTile(
             card,
+            autoClose: false,
             callback: (_) => callback,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,

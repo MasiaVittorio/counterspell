@@ -140,11 +140,12 @@ class PlayerTile extends StatelessWidget {
       ),
     );
 
-    return group.cards(!usingPartnerB[name]).build((_, cards){
-      final String imageUrl = cards[name].imageUrl();
-      if(imageUrl == null){
+    return group.cards(!(usingPartnerB[name] ?? false)).build((_, cards){
+      final MtgCard card = cards[name];
+      if(card == null){
         return Material(child: tile);
       } else {
+        final String imageUrl = cards[name].imageUrl();
 
         final Widget image = bloc.settings.imageAlignment.build((_,alignment) => Container(
           decoration: BoxDecoration(

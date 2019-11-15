@@ -5,19 +5,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/core.dart';
 import 'package:rxdart/rxdart.dart';
 
-//TODO: provide cached set of cards for syncronous search
-//TODO: proide cached set of cards already loaded for the given player
-
 class ImageSearch extends StatefulWidget {
 
   final void Function(MtgCard) onSelect;
+  final Set<MtgCard> searchableCache;
+  final Set<MtgCard> readyCache;
 
-  const ImageSearch(this.onSelect);
+  const ImageSearch(this.onSelect, {
+    this.searchableCache = const <MtgCard>{},
+    this.readyCache = const <MtgCard>{},
+  });
 
   static const double height = _slider + _insert + _results;
 
-  static const double _insert = 72.0;
-  static const double _slider = 72.0 + 8 + 8;
+  static const double _insert = 46.0;
+  static const double _slider = 80.0;
   static const double _results = 250.0;
 
   @override
@@ -39,18 +41,23 @@ class _ImageSearchState extends State<ImageSearch> {
     super.initState();
     controller = TextEditingController();
     behavior = BehaviorSubject<String>();
+    resetResults();
     subscription = behavior.stream
         // .distinct()
         .debounce((_) => TimerStream(true, const Duration(milliseconds: 500)))
         // .debounce(const Duration(milliseconds: 500))
         .listen((name) async {
+          if(name == null || name ==  ""){
+            resetResults();
+            return;
+          }
           this.setState((){
             this.searching = true;
           });
           List<MtgCard> res = await ScryfallApi.searchArts(name, commander);
           if(res == null){
             res = <MtgCard>[];
-            print("results were null lol");
+            print("results were null lol, error that should not happen");
           } 
           res = res.sublist(0,min(20, res.length));
           this.results = res;
@@ -60,12 +67,39 @@ class _ImageSearchState extends State<ImageSearch> {
         });
   }
 
+  void resetResults(){
+    if(widget.readyCache != null && widget.readyCache.isNotEmpty){
+      results = widget.readyCache.toList();
+    } else {
+      results = <MtgCard>[];
+    }
+  }
+
   @override
   void dispose() {
     subscription.cancel();
     behavior.close();
     controller.dispose();
     super.dispose();
+  }
+
+  void syncronousSearch(){
+    if(widget.searchableCache == null) return;
+    if(widget.searchableCache.isEmpty) return;
+
+    final List<MtgCard> matches = <MtgCard>[];
+
+    for(final cached in widget.searchableCache){
+      if(cached.name.toLowerCase().contains(controller.text.toLowerCase())){
+        matches.add(cached);
+      }
+    }
+
+    if(matches.isNotEmpty){
+      this.setState((){
+        this.results = matches;
+      });
+    }
   }
   
   @override
@@ -144,10 +178,11 @@ class _ImageSearchState extends State<ImageSearch> {
         this.setState((){
           this.started = true;
         });
+        this.syncronousSearch();
         this.behavior.add(s);
       },
       decoration: InputDecoration(
-        hintText: "Card name",
+        labelText: "Card name",
       ),
     ),
   );
@@ -206,7 +241,10 @@ class CardTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(card.name),
+      title: Text(card.name,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       trailing: trailing,
       leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl(),),),
       onTap: (){
@@ -216,12 +254,8 @@ class CardTile extends StatelessWidget {
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          if( card.name != "")
-            Padding(
-              padding: EdgeInsets.only(right: 4.0),
-              child: const Icon(Icons.brush, size: 15.0),
-            ),
-          Text("By: " + card.artist),
+          const Icon(Icons.brush, size: 15.0),
+          Expanded(child: Text(card.artist, overflow: TextOverflow.ellipsis, maxLines: 1,),),
         ],
       ),
     );

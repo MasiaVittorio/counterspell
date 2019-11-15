@@ -137,12 +137,19 @@ class _CommanderTile extends StatelessWidget {
     return group.names.build((_, names){
       final name = names[index];
         
-      final VoidCallback callback = () => Stage.of(context).showAlert(ImageSearch((found){
-        group.cards(a).value[name] = found;
-        group.cards(a).refresh();
-        group.savedCards.privateValue[name] = (group.savedCards.privateValue[name] ?? <MtgCard>{})..add(found);
-        group.savedCards.forceWrite();
-      }), size: ImageSearch.height);
+      final VoidCallback callback = () => Stage.of(context).showAlert(ImageSearch(
+        (found){
+          group.cards(a).value[name] = found;
+          group.cards(a).refresh();
+          group.savedCards.privateValue[name] = (group.savedCards.privateValue[name] ?? <MtgCard>{})..add(found);
+          group.savedCards.forceWrite();
+        }, 
+        searchableCache: <MtgCard>{
+          for(final single in group.savedCards.value.values)
+            ...single,
+        },
+        readyCache: group.savedCards.value[name],
+      ), size: ImageSearch.height);
 
       return group.cards(a).build((_,cards) {
         final card = cards[name];
@@ -159,7 +166,7 @@ class _CommanderTile extends StatelessWidget {
           return CardTile(
             card,
             autoClose: false,
-            callback: (_) => callback,
+            callback: (_) => callback(),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

@@ -108,21 +108,21 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
   Widget buildButton(){
     final bloc = widget.group.parent.parent;
     VoidCallback centerTap;
-    bool close;
+    bool buttonCross;
 
     if(indexToName.values.any((v) => v == null)){
-      close = true;
+      buttonCross = true;
       centerTap = Navigator.of(context).pop;
     } else if(widget.isScrollingSomewhere){
-      close = true;
+      buttonCross = true;
       centerTap = bloc.scroller.cancel;
     } else {
-      close = !open;
+      buttonCross = open;
       centerTap = ()=> this.setState((){
         open = !open;
       });
     }
-    assert(close != null);
+    assert(buttonCross != null);
     assert(centerTap != null);
 
     return Opacity(
@@ -143,7 +143,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
               duration: MyDurations.fast,
               child: ImplicitlyAnimatedIcon(
                 key: ValueKey("simplegroup_button_animated_icon"),
-                state: !close,
+                state: buttonCross,
                 icon: AnimatedIcons.menu_close,
                 duration: MyDurations.fast,
               ),

@@ -84,8 +84,9 @@ class SimplePlayerTile extends StatelessWidget {
     final bool buttonToTheRight = (buttonAlignment?.x ?? 0) >= 0;
 
     //account for the button position and size to avoid it!!
-    final Widget tile = Center(child: SizedBox(
-      height: constraints.maxHeight - 2*_margin,
+    final Widget tile = SizedBox(
+      height: constraints.maxHeight,// - 2*_margin,
+      width: constraints.maxWidth,
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
@@ -133,7 +134,7 @@ class SimplePlayerTile extends StatelessWidget {
           ),
         ),
       ),
-    ),);
+    );
 
     return SizedBox(
       width: constraints.maxWidth,
@@ -172,7 +173,12 @@ class SimplePlayerTile extends StatelessWidget {
               child: group.cards(!(bloc.game.gameGroup.usingPartnerB.value[name] ?? false)).build((_, cards){
                 final MtgCard card = cards[name];
                 if(card == null){
-                  return tile;
+                  return Stack(
+                    fit: StackFit.expand,
+                    overflow: Overflow.clip,
+                    alignment: Alignment.center,
+                    children: <Widget>[tile],
+                  );
                 } else {
                   final String imageUrl = card.imageUrl();
 
@@ -208,6 +214,8 @@ class SimplePlayerTile extends StatelessWidget {
 
                   return Stack(
                     fit: StackFit.expand,
+                    alignment: Alignment.center,
+                    overflow: Overflow.clip,
                     children: <Widget>[
                       Positioned.fill(
                         child: image,
@@ -215,11 +223,9 @@ class SimplePlayerTile extends StatelessWidget {
                       Positioned.fill(
                         child: gradient,
                       ),
-                      Positioned.fill(
-                        child: Theme(
-                          data: themeData.copyWith(splashColor: Colors.white.withAlpha(0x66)),
-                          child: tile,
-                        ),
+                      Theme(
+                        data: themeData.copyWith(splashColor: Colors.white.withAlpha(0x66)),
+                        child: tile,
                       ),
                     ],
                   );

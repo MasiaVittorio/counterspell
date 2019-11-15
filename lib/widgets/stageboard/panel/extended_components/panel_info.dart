@@ -12,6 +12,7 @@ class PanelInfo extends StatelessWidget {
     return SingleChildScrollView(
       physics: stage.panelScrollPhysics(),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Section([
             const AlertTitle("About CounterSpell", centered: false,),
@@ -37,8 +38,7 @@ class PanelInfo extends StatelessWidget {
             ListTile(
               title: const Text("The developer"),
               leading: const Icon(Icons.person_outline),
-              //TODO: ABOUT ME
-              onTap: (){},
+              onTap: () => stage.showAlert(const Developer(), size: Developer.height),
             ),
             ListTile(
               title: const Text("Feedback"),
@@ -56,6 +56,14 @@ class PanelInfo extends StatelessWidget {
               onTap: () => stage.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
             ),
           ]),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:16.0, vertical: 8.0),
+            child: Text("Hatred outlives the hateful", style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            ),),
+          ),
         ],
       ),
     );

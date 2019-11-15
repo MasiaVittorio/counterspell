@@ -13,8 +13,7 @@ const String _defender2 = "this will lower the defender's life unless you disabl
 
 class DamageInfo extends StatelessWidget {
   const DamageInfo();
-  static const double height = 3 * (InfoTitle.height + 14.0) + 6 * PieceOfInfo.height + 2 * divider + AlertDrag.height;
-  static const double divider = 8.0;
+  static const double height = 3 * (InfoTitle.height + 14.0) + 6 * PieceOfInfo.height + AlertDrag.height - 14.0;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -28,9 +27,7 @@ class DamageInfo extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const AlertDrag(),
               const _AttackerSection(),
-              const Divider(height: divider,),
               const InfoSection(
                 icon: const Icon(McIcons.account_multiple_outline),
                 title: _partnerTitle,
@@ -39,7 +36,6 @@ class DamageInfo extends StatelessWidget {
                   _partner2,
                 ],
               ),
-              const Divider(height: divider,),
               const _DefenderSection(),
             ],
           ),
@@ -56,6 +52,7 @@ class _DefenderSection extends StatelessWidget {
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
       child: CSBloc.of(context).themer.theme.build((_,theme)=>InfoSection(
+        last: true,
         icon: Icon(
           CSTypesUI.defenceIconFilled,
           color: theme.commanderDefence,
@@ -80,6 +77,7 @@ class _AttackerSection extends StatelessWidget {
       data: IconThemeData(opacity: 1.0),
       child: stage.themeController.primaryColorsMap.build((_,map)
         => InfoSection(
+          first: true,
           icon: Icon(
             CSTypesUI.attackIconOne,
             color: map[CSPage.commanderDamage],

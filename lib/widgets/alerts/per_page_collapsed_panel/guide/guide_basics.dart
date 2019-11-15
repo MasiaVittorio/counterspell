@@ -38,12 +38,16 @@ class PieceOfInfo extends StatelessWidget {
 
 class InfoSection extends StatelessWidget {
   final Icon icon;
+  final bool first;
+  final bool last;
   final String title;
   final List<String> info;
   const InfoSection({
     @required this.icon,
     @required this.title,
     @required this.info,
+    this.first = false,
+    this.last = false,
   });
 
   static heightCalc(int infoNumber) => InfoTitle.height + infoNumber * PieceOfInfo.height + 14;
@@ -51,15 +55,16 @@ class InfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: height + (first ? AlertDrag.height : 0.0) - (last ? 14.0 : 0.0),
       child: Section([
         InfoTitle(
+          drag: first,
           icon: icon,
           title: title,
         ),
         for(final string in this.info)
           PieceOfInfo(string),
-      ],),
+      ], last: last ?? false),
     );
   }
 }
@@ -67,9 +72,11 @@ class InfoSection extends StatelessWidget {
 class InfoTitle extends StatelessWidget {
   final Icon icon;
   final String title;
+  final bool drag;
   const InfoTitle({
     @required this.icon,
     @required this.title,
+    @required this.drag,
   });
 
   static const double height = 42.0;
@@ -77,24 +84,30 @@ class InfoTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
+      height: height + (drag ? AlertDrag.height : 0.0),
       alignment: Alignment.center,
-      child: Row(children: <Widget>[
-        Container(
-          width: width,
-          height: height,
-          alignment: Alignment.center,
-          child: this.icon,
-        ),
-        Expanded(
-          child: Text(
-            this.title,
-            style: Theme.of(context).textTheme.body2, 
-            maxLines: 2, 
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if(drag) const AlertDrag(),
+          Row(children: <Widget>[
+            Container(
+              width: width,
+              height: height,
+              alignment: Alignment.center,
+              child: this.icon,
+            ),
+            Expanded(
+              child: Text(
+                this.title,
+                style: Theme.of(context).textTheme.body2, 
+                maxLines: 2, 
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],),
+        ],
+      ),
     );
   }
 }

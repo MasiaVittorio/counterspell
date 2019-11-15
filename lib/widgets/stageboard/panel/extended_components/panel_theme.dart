@@ -17,7 +17,7 @@ class PanelTheme extends StatelessWidget {
           ListTile(
             title: const Text("Reset to default"),
             leading: const Icon(McIcons.restart),
-            onTap: () => stage.showAlert(ConfirmStageAlert(
+            onTap: () => stage.showAlert(ConfirmAlert(
               warningText: "Are you sure? This action cannot be undone.",
               confirmText: "Yes, reset to default colors",
               cancelText: "No, keep the current theme",
@@ -40,7 +40,7 @@ class PanelTheme extends StatelessWidget {
                   stage.themeController.darkPrimaries.refresh();
                 }
               },
-            ),size: ConfirmStageAlert.height),
+            ),size: ConfirmAlert.height),
           ),
         ],
       ),

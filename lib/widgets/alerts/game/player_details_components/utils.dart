@@ -93,14 +93,14 @@ class DetailsUtils {
     ),size: InsertAlert.height);
 
   static void deletePlayer(StageData stage, String name, CSBloc bloc, List<String> names) 
-    => stage.showAlert(ConfirmStageAlert(
+    => stage.showAlert(ConfirmAlert(
       warningText: "This action cannot be undone, are you sure?",
       confirmColor: DELETE_COLOR,
       confirmIcon: Icons.delete_forever,
       confirmText: "Yes, delete $name",
       action: () => bloc.game.gameState.deletePlayer(name),
       completelyCloseAfterConfirm: true,
-    ),size: ConfirmStageAlert.height);
+    ),size: ConfirmAlert.height);
 
 }
 

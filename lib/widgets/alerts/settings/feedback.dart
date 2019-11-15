@@ -55,6 +55,7 @@ class PositiveFeedback extends StatelessWidget {
           title: "Support the development",
           icon: Icons.attach_money,
           action: (){},
+          autoClose: false
         ),
         Alternative(
           title: "Share your ideas",
@@ -86,6 +87,7 @@ class NegativeFeedback extends StatelessWidget {
           title: "Get in touch in real time",
           icon: McIcons.telegram,
           action: () => stage.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
+          autoClose: false,
         ),
       ],
     );

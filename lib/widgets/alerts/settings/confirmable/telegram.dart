@@ -16,6 +16,7 @@ class ConfirmTelegram extends StatelessWidget {
       cancelText: "Nope, go back",
       warningText: "You'll be redirected to a group chat with the dev and other users.",
       twoLinesWarning: true,
+      autoCloseAfterConfirm: false,
     );
   }
 }

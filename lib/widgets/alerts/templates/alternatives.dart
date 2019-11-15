@@ -48,7 +48,7 @@ class AlternativesAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final stage = Stage.of(context);
     return IconTheme(
       data: IconThemeData(opacity: 1.0, color: Theme.of(context).colorScheme.onSurface),
       child: Material(
@@ -62,11 +62,12 @@ class AlternativesAlert extends StatelessWidget {
             for(final alt in this.alternatives)
               ListTile(
                 onTap: (){
-                  final stage = Stage.of(context);
                   if(alt.completelyAutoClose){
                     stage.panelController.closePanelCompletely();
+                    print("completely closing");
                   } else if(alt.autoClose){
                     stage.panelController.closePanel();
+                    print("just closing");
                   }
                   alt.action();
                 },

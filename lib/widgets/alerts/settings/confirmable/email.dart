@@ -15,6 +15,7 @@ class ConfirmEmail extends StatelessWidget {
       confirmText: "Ok, open the e-mail app",
       cancelText: "Nope, go back",
       warningText: "You will be redirected to your email app.",
+      autoCloseAfterConfirm: false,
     );
   }
 }

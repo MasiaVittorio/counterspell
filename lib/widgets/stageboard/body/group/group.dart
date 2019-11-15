@@ -86,6 +86,10 @@ class BodyGroup extends StatelessWidget {
                   theme: theme,
                   group: group,
                   tileSize: tileSize,
+                  bottom: ([
+                    names.last,
+                    if(landScape) names[names.length-2],
+                  ].contains(name)) ? bottom : 0.0,
                   coreTileSize: coreTileSize,
                   page: page,
                   havingPartnerB: havingPartnerB,
@@ -95,7 +99,6 @@ class BodyGroup extends StatelessWidget {
                   whoIsDefending: defendingPlayer,
                   isScrollingSomewhere: isScrolling,
                   counter: counter,
-                  // casting: isCasting,
                   gameState: gameState,
                   normalizedPlayerActions: normalizedPlayerActions,
                 ),
@@ -103,19 +106,15 @@ class BodyGroup extends StatelessWidget {
 
             return Material(
               elevation: 8,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: bottom),
-                child: Column(children: !landScape 
-                  ? children
-                  : [
-                    for(final couple in partition(children,2))
-                      Row(children: <Widget>[
-                        Expanded(child: couple[0]),
-                        if(couple.length == 2)
-                          Expanded(child: couple[1],)
-                      ],),
-                  ],
-                ),
+              child: Column(children: landScape 
+                ? [
+                  for(final couple in partition(children,2))
+                    Row(children: <Widget>[
+                      Expanded(child: couple[0]),
+                      if(couple.length == 2)
+                        Expanded(child: couple[1],)
+                    ],),
+                ] : children,
               ),
             );
 

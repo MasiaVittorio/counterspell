@@ -6,15 +6,16 @@ import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_util
 
 class PlayerTile extends StatelessWidget {
   final String name;
+
   final CSGameGroup group;
   final double tileSize;
+  final double bottom;
   final double coreTileSize;
   final CSPage page;
   final Map<String, bool> selectedNames;
   final bool isScrollingSomewhere;
   final String whoIsAttacking;
   final String whoIsDefending;
-  // final bool casting;
   final Counter counter;
   final GameState gameState;
   final CSTheme theme;
@@ -31,6 +32,7 @@ class PlayerTile extends StatelessWidget {
     @required this.maxWidth,
     @required this.group,
     @required this.tileSize,
+    @required this.bottom,
     @required this.coreTileSize,
     @required this.page,
     @required this.pageColors,
@@ -178,7 +180,7 @@ class PlayerTile extends StatelessWidget {
         );
 
         return SizedBox(
-          height: tileSize,
+          height: tileSize + bottom,
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
@@ -189,9 +191,13 @@ class PlayerTile extends StatelessWidget {
                 child: gradient,
               ),
               Positioned.fill(
+                bottom: bottom,
                 child: Material(
                   type: MaterialType.transparency,
-                  child: tile,
+                  child: Theme(
+                    data: theme.copyWith(splashColor: Colors.white.withAlpha(0x66)),
+                    child: tile,
+                  ),
                 ),
               ),
             ],

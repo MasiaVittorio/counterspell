@@ -5,6 +5,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/core.dart';
 import 'package:rxdart/rxdart.dart';
 
+//TODO: provide cached set of cards for syncronous search
+//TODO: proide cached set of cards already loaded for the given player
+
 class ImageSearch extends StatefulWidget {
 
   final void Function(MtgCard) onSelect;

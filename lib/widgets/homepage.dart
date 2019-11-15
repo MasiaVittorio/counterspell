@@ -11,32 +11,35 @@ class CSHomePage extends StatelessWidget {
 
     final CSBloc bloc = CSBloc.of(context);
     
-    return Stage<CSPage,SettingsPage>(
-      accentSelectedPage: false,
-      forceOpenedPanelOverNavBar: true,
+    return WillPopScope(
+      onWillPop: bloc.scroller.decidePop,
+      child: Stage<CSPage,SettingsPage>(
+        accentSelectedPage: false,
+        forceOpenedPanelOverNavBar: true,
 
-      controller: CSBloc.of(context).stageBloc.controller,
-      collapsedPanel: const CSPanelCollapsed(key: KEY_COLLAPSED,),
+        controller: CSBloc.of(context).stageBloc.controller,
+        collapsedPanel: const CSPanelCollapsed(key: KEY_COLLAPSED,),
 
-      extendedPanel: const CSPanelExtended(),
+        extendedPanel: const CSPanelExtended(),
 
-      body: const CSBody(),
+        body: const CSBody(),
 
-      openedPanelSubtitle: (settingsPage)=>settingsThemes[settingsPage].longName,
-      appBarTitle: const CSTopBarTitle(),
+        openedPanelSubtitle: (settingsPage)=>settingsThemes[settingsPage].longName,
+        appBarTitle: const CSTopBarTitle(),
 
-      backToClosePanel: true,
-      backToDefaultPageClosed: true,
-      backToDefaultPageOpened: true,
-      backToPreviousPageClosed: false,
-      backToPreviousPageOpened: false,
+        backToClosePanel: true,
+        backToDefaultPageClosed: true,
+        backToDefaultPageOpened: true,
+        backToPreviousPageClosed: false,
+        backToPreviousPageOpened: false,
 
-      onPanelOpen: bloc.scroller.cancel,
+        onPanelOpen: bloc.scroller.cancel,
 
-      pandaOpenedPanelBottomBar: true,
-      backgroundColor: (theme) => Colors.black,
-      splashScreenBackground: const Color(0xFF263133),
-      splashScreenIcon: const Icon(CsIcon.counter_spell, color: Colors.white, size: 40,),
+        pandaOpenedPanelBottomBar: true,
+        backgroundColor: (theme) => Colors.black,
+        splashScreenBackground: const Color(0xFF263133),
+        splashScreenIcon: const Icon(CsIcon.counter_spell, color: Colors.white, size: 40,),
+      ),
     );
 
   }

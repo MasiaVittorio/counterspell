@@ -101,7 +101,22 @@ class CSScroller {
         Vibrate.feedback(FeedbackType.success);
   }
 
+  Future<bool> decidePop([bool alsoAttacker = false]) async {
+    bool cancel = false;
+    if(this.value != 0.0) cancel = true;
+    if(this.intValue.value != 0) cancel = true;
+    if(parent.game.gameAction.selected.value.values.any((b)=>b != false)) cancel = true;
+    if(alsoAttacker){
+      if(parent.game.gameAction.attackingPlayer.value != "") cancel = true;
+    }
 
+    if(cancel){
+      this.cancel(alsoAttacker);
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   void cancel([bool alsoAttacker = false]){
     this.value = 0.0;

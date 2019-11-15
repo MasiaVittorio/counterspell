@@ -4,7 +4,7 @@ class FeedbackAlert extends StatelessWidget {
 
   const FeedbackAlert();
   
-  static const double height = AlternativesAlert.tileSize * 2 + AlertTitle.height; 
+  static const double height = AlternativesAlert.tileSize * 2 + AlertTitle.twoLinesHeight; 
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class PositiveFeedback extends StatelessWidget {
     final StageData stage = Stage.of(context);
     return AlternativesAlert(
       label: "Glad to hear that! Maybe you can help me out :)",
-      twoLinesLabel: true,
+      twoLinesLabel: false,
       alternatives: [
         Alternative(
           title: "Rate CounterSpell",
@@ -75,7 +75,7 @@ class NegativeFeedback extends StatelessWidget {
     final StageData stage = Stage.of(context);
     return AlternativesAlert(
       label: "Let me know how I can improve!",
-      twoLinesLabel: true,
+      twoLinesLabel: false,
       alternatives: [
         Alternative(
           title: "Send feedback",

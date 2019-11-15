@@ -43,7 +43,7 @@ class PanelInfo extends StatelessWidget {
             ListTile(
               title: const Text("Feedback"),
               leading: const Icon(Icons.favorite_border),
-              onTap: () => stage.showAlert(const FeedbackAlert()),
+              onTap: () => stage.showAlert(const FeedbackAlert(), size: FeedbackAlert.height),
             ),
             ListTile(
               title: const Text("Contact me"),

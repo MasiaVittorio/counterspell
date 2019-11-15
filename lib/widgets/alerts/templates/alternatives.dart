@@ -13,7 +13,7 @@ class Alternative {
     @required this.title,
     @required this.icon,
     @required this.action,
-    this.autoClose = true,
+    this.autoClose = false,
     this.completelyAutoClose = false,
     this.color,
   }): assert(action!=null),

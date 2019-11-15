@@ -28,7 +28,7 @@ class PanelInfo extends StatelessWidget {
             ListTile(
               title: const Text("Support the development"),
               leading: const Icon(McIcons.thumb_up_outline),
-              //LOW PRIORITY: ABOUT ME
+              //TODO: IN APP PURCHASES
               onTap: (){},
             ),
           ]),
@@ -37,7 +37,7 @@ class PanelInfo extends StatelessWidget {
             ListTile(
               title: const Text("The developer"),
               leading: const Icon(Icons.person_outline),
-              //LOW PRIORITY: ABOUT ME
+              //TODO: ABOUT ME
               onTap: (){},
             ),
             ListTile(

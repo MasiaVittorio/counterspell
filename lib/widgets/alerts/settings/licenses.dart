@@ -25,7 +25,7 @@ class AlertLicenses extends StatelessWidget {
               child: const Text(CSLicenses.scryfallImagePolicy),
             ),
           ]),
-          //LOW PRIORITY: rivedi le licenze
+          //TODO: rivedi le licenze
           const Section([
             const SectionTitle("Flutter Packages"),
             ListTile(

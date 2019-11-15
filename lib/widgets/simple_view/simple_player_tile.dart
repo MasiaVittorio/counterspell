@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/simple_view/extra_info.dart';
@@ -42,7 +43,7 @@ class SimplePlayerTile extends StatelessWidget {
   }): assert(indexToName[index] != null || firstUnpositionedName != null);
 
   String get name => indexToName[index];
-  static const _margin = 6.0;
+  static const double _margin = 6.0;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +84,58 @@ class SimplePlayerTile extends StatelessWidget {
 
     final bool buttonToTheRight = (buttonAlignment?.x ?? 0) >= 0;
 
+    //account for the button position and size to avoid it!!
+    final Widget tile = Center(child: SizedBox(
+      height: constraints.maxHeight - 2*_margin,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => PlayerGestures.tap(
+            name,
+            page: CSPage.life,
+            attacking: false,
+            rawSelected: rawSelected,
+            bloc: bloc,
+            isScrollingSomewhere: isScrollingSomewhere,
+            hasPartnerB: false,
+            usePartnerB: false, // just life lol
+          ),
+          child: VelocityPanDetector(
+            onPanEnd: (_details) => scrollerBloc.onDragEnd(),
+            onPanUpdate: (details) => PlayerGestures.pan(
+              details,
+              name,
+              constraints.maxWidth,
+              bloc: bloc,
+              page: CSPage.life,
+            ),
+            onPanCancel: scrollerBloc.onDragEnd,
+            child: Container(
+              // width: constraints.maxWidth - _margin*2,
+              // height: constraints.maxHeight - _margin*2,
+              //to make the pan callback working, the color cannot be just null
+              color: Colors.transparent,
+              child: Row(
+                children: <Widget>[
+                  if(info != null && buttonToTheRight)
+                    info,
+                  Expanded(child: buildLifeAndName(
+                    annotationsToTheRight: !buttonToTheRight,
+                    rawSelected: rawSelected,
+                    scrolling: scrolling,
+                    playerState: playerState,
+                    actionBloc: bloc.game.gameAction,
+                  )),
+                  if(info != null && !buttonToTheRight)
+                    info,
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),);
+
     return SizedBox(
       width: constraints.maxWidth,
       height: constraints.maxHeight,
@@ -97,14 +150,9 @@ class SimplePlayerTile extends StatelessWidget {
             child: Division(
               style: StyleClass()
                 ..animate(250)
-                ..margin(all: _margin) 
+                ..margin(all: highlighted ? _margin : 0.0)
+                // ..margin(all: highlighted ? _margin : 0.0)
                 ..overflow.hidden()
-                // ..margin(all: highlighted 
-                //   ? 8
-                //   : 0)
-                // ..padding(all: highlighted 
-                //   ? 0
-                //   : 8)
                 ..background.color(highlighted 
                   ? themeData.canvasColor 
                   : themeData.scaffoldBackgroundColor
@@ -122,62 +170,62 @@ class SimplePlayerTile extends StatelessWidget {
                     : 0,
                   offset: [0,0]
                 ),
-              child: Material(
-                type: MaterialType.transparency,
-                child: InkWell(
-                  onTap: () => PlayerGestures.tap(
-                    name,
-                    page: CSPage.life,
-                    attacking: false,
-                    rawSelected: rawSelected,
-                    bloc: bloc,
-                    isScrollingSomewhere: isScrollingSomewhere,
-                    hasPartnerB: false,
-                    usePartnerB: false, // just life lol
-                  ),
-                  child: VelocityPanDetector(
-                    onPanEnd: (_details) => scrollerBloc.onDragEnd(),
-                    onPanUpdate: (details) => PlayerGestures.pan(
-                      details,
-                      name,
-                      constraints.maxWidth,
-                      bloc: bloc,
-                      page: CSPage.life,
-                    ),
-                    onPanCancel: scrollerBloc.onDragEnd,
-                    child: Container(
-                      width: constraints.maxWidth,
-                      height: constraints.maxHeight,
-                      //to make the pan callback working, the color cannot be just null
-                      color: Colors.transparent,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: <Widget>[
-                          //account for the button position and size to avoid it!!
-                          //name,
-                          Positioned.fill(
-                            child: Row(
-                              children: <Widget>[
-                                if(info != null && buttonToTheRight)
-                                  info,
-                                Expanded(child: buildLifeAndName(
-                                  annotationsToTheRight: !buttonToTheRight,
-                                  rawSelected: rawSelected,
-                                  scrolling: scrolling,
-                                  playerState: playerState,
-                                  actionBloc: bloc.game.gameAction,
-                                )),
-                                if(info != null && !buttonToTheRight)
-                                  info,
-                              ],
-                            ),
-                          ),
-                        ],
+              child: group.cards(!(bloc.game.gameGroup.usingPartnerB.value[name] ?? false)).build((_, cards){
+                final MtgCard card = cards[name];
+                if(card == null){
+                  return tile;
+                } else {
+                  final String imageUrl = card.imageUrl();
+
+                  final Widget image = bloc.settings.imageAlignment.build((_,alignment) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          imageUrl,
+                          errorListener: (){},
+                        ),
+                        fit: BoxFit.cover,
+                        alignment: Alignment(0,alignment),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                  ),);
+
+                  final Widget gradient = BlocVar.build2(
+                    bloc.settings.imageGradientStart,
+                    bloc.settings.imageGradientEnd,
+                    builder: (context, double startVal, double endVal) => Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            themeData.canvasColor.withOpacity(startVal),
+                            themeData.canvasColor.withOpacity(endVal),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+
+                  return Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: image,
+                      ),
+                      Positioned.fill(
+                        child: gradient,
+                      ),
+                      Positioned.fill(
+                        child: Theme(
+                          data: themeData.copyWith(splashColor: Colors.white.withAlpha(0x66)),
+                          child: tile,
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              }),
             ),
           ),
         ],

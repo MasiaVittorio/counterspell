@@ -147,7 +147,7 @@ class PlayerTile extends StatelessWidget {
       if(card == null){
         return Material(child: tile);
       } else {
-        final String imageUrl = cards[name].imageUrl();
+        final String imageUrl = card.imageUrl();
 
         final Widget image = bloc.settings.imageAlignment.build((_,alignment) => Container(
           decoration: BoxDecoration(

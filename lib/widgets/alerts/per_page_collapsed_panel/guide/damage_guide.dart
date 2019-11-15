@@ -13,33 +13,36 @@ const String _defender2 = "this will lower the defender's life unless you disabl
 
 class DamageInfo extends StatelessWidget {
   const DamageInfo();
-  static const double height = 3 * InfoTitle.height + 6 * PieceOfInfo.height + 2 * divider + AlertDrag.height;
+  static const double height = 3 * (InfoTitle.height + 14.0) + 6 * PieceOfInfo.height + 2 * divider + AlertDrag.height;
   static const double divider = 8.0;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: Stage.of(context).panelScrollPhysics(),
-      primary: true,
-      child: Container(
-        height: height,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const AlertDrag(),
-            const _AttackerSection(),
-            const Divider(height: divider,),
-            const InfoSection(
-              icon: const Icon(McIcons.account_multiple_outline),
-              title: _partnerTitle,
-              info: [
-                _partner1,
-                _partner2,
-              ],
-            ),
-            const Divider(height: divider,),
-            const _DefenderSection(),
-          ],
+    return Material(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: SingleChildScrollView(
+        physics: Stage.of(context).panelScrollPhysics(),
+        primary: true,
+        child: Container(
+          height: height,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const AlertDrag(),
+              const _AttackerSection(),
+              const Divider(height: divider,),
+              const InfoSection(
+                icon: const Icon(McIcons.account_multiple_outline),
+                title: _partnerTitle,
+                info: [
+                  _partner1,
+                  _partner2,
+                ],
+              ),
+              const Divider(height: divider,),
+              const _DefenderSection(),
+            ],
+          ),
         ),
       ),
     );

@@ -63,7 +63,7 @@ class PanelInfo extends StatelessWidget {
               FlavorTexts.random, 
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.45),
               ),
               textAlign: TextAlign.center,
             ),

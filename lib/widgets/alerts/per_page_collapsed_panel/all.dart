@@ -1,6 +1,4 @@
-export 'info/cast_info.dart';
-export 'info/damage_info.dart';
-export 'info/info_basics.dart';
+export 'guide/all.dart';
 
 export 'counter/counter_selection.dart';
 

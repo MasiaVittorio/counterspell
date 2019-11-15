@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:counter_spell_new/core.dart';
 
 class PieceOfInfo extends StatelessWidget {
   final String info;
@@ -46,24 +46,20 @@ class InfoSection extends StatelessWidget {
     @required this.info,
   });
 
-  static heightCalc(int infoNumber) => InfoTitle.height + infoNumber * PieceOfInfo.height;
+  static heightCalc(int infoNumber) => InfoTitle.height + infoNumber * PieceOfInfo.height + 14;
   double get height => heightCalc(this.info.length);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: height,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          InfoTitle(
-            icon: icon,
-            title: title,
-          ),
-          for(final string in this.info)
-            PieceOfInfo(string),
-        ],
-      ),
+      child: Section([
+        InfoTitle(
+          icon: icon,
+          title: title,
+        ),
+        for(final string in this.info)
+          PieceOfInfo(string),
+      ],),
     );
   }
 }

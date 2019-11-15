@@ -8,6 +8,8 @@ class CSHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final CSBloc bloc = CSBloc.of(context);
     
     return Stage<CSPage,SettingsPage>(
       accentSelectedPage: false,
@@ -28,6 +30,8 @@ class CSHomePage extends StatelessWidget {
       backToDefaultPageOpened: true,
       backToPreviousPageClosed: false,
       backToPreviousPageOpened: false,
+
+      onPanelOpen: bloc.scroller.cancel,
 
       pandaOpenedPanelBottomBar: true,
       backgroundColor: (theme) => Colors.black,

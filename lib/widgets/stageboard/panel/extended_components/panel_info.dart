@@ -58,11 +58,15 @@ class PanelInfo extends StatelessWidget {
           ]),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal:16.0, vertical: 8.0),
-            child: Text("Hatred outlives the hateful", style: TextStyle(
-              fontStyle: FontStyle.italic,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-            ),),
+            padding: const EdgeInsets.symmetric(horizontal:16.0, vertical: 2.0),
+            child: Text(
+              FlavorTexts.random, 
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),

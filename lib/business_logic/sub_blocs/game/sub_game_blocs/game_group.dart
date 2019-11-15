@@ -29,7 +29,10 @@ class CSGameGroup {
   final PersistentVar<Set<String>> savedNames;
   final PersistentVar<Map<String,bool>> havingPartnerB;
   final PersistentVar<Map<String,bool>> usingPartnerB;
+
   final CachedVar<Map<String,Set<MtgCard>>> savedCards;
+  //TODO: scopri perché cancellando la cache non si cancella questa variabile
+
   final PersistentVar<Map<String,MtgCard>> cardsA;
   final PersistentVar<Map<String,MtgCard>> cardsB;
   BlocVar<Map<String,MtgCard>> cards(bool a) => a ? this.cardsA : this.cardsB;

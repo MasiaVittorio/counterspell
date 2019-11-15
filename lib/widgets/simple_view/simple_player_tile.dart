@@ -22,6 +22,8 @@ class SimplePlayerTile extends StatelessWidget {
   final String firstUnpositionedName;
   final double routeAnimationValue;
 
+  //TODO: immagine anche sulla simple player tile
+
   SimplePlayerTile(this.index, {
     @required this.pageColors,
     @required this.indexToName,

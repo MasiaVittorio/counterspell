@@ -2,7 +2,6 @@ import 'package:counter_spell_new/models/ui_model/all.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 const int MAX_LIFE = 9999;
 const int MIN_LIFE = -999;
@@ -82,7 +81,7 @@ const Counter STORM = const Counter(
   longName: 'Storm Count',
   minValue: 0,
   maxValue: MAX_LIFE,
-  icon: MdiIcons.weatherLightning,
+  icon: McIcons.weather_lightning,
   uniquePlayer: false,
 );
 const Counter BLESSING = Counter(
@@ -90,7 +89,7 @@ const Counter BLESSING = Counter(
   longName: "City's Blessing",
   minValue: 0,
   maxValue: 1,
-  icon: MdiIcons.shipWheel,
+  icon: McIcons.ship_wheel,
   uniquePlayer: false,
 );
 const Counter MONARCH = Counter(
@@ -98,7 +97,7 @@ const Counter MONARCH = Counter(
   longName: 'Take the Crown',
   minValue: 0,
   maxValue: 1,
-  icon: MdiIcons.crown,
+  icon: McIcons.crown,
   uniquePlayer: true,
 );
 const Counter MANA = Counter(
@@ -106,7 +105,7 @@ const Counter MANA = Counter(
   longName: 'Total Mana',
   minValue: 0,
   maxValue: MAX_LIFE,
-  icon: MdiIcons.alphaXCircle,
+  icon: McIcons.alpha_x_circle,
   uniquePlayer: false,
 );
 const Counter CUSTOM = Counter(
@@ -114,7 +113,7 @@ const Counter CUSTOM = Counter(
   longName: 'Custom Counter',
   minValue: MIN_LIFE,
   maxValue: MAX_LIFE,
-  icon: MdiIcons.palette,
+  icon: Icons.palette,
   uniquePlayer: false,
 );
 const Counter ENERGY = Counter(
@@ -122,7 +121,7 @@ const Counter ENERGY = Counter(
   longName: 'Energy Counters',
   minValue: 0,
   maxValue: MAX_LIFE,
-  icon: MdiIcons.flash,
+  icon: McIcons.flash,
   uniquePlayer: false,
 );
 const Map<String,IconData> _icons = <String,IconData>{
@@ -133,7 +132,7 @@ const Map<String,IconData> _icons = <String,IconData>{
   'Take the Crown': McIcons.crown,
   'Total Mana': McIcons.alpha_x_circle,
   // 'Custom Counter': Icons.palette,
-  'Energy Counters': MdiIcons.flash,
+  'Energy Counters': McIcons.flash,
 };
 
 

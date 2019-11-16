@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 class Support extends StatefulWidget {
 
   const Support();
-  static const double height = 400.0;
+  static const double height = 450.0;
 
   @override
   _SupportState createState() => _SupportState();

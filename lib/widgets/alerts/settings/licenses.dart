@@ -25,7 +25,6 @@ class AlertLicenses extends StatelessWidget {
               child: const Text(CSLicenses.scryfallImagePolicy),
             ),
           ]),
-          //TODO: rivedi le licenze
           const Section([
             const SectionTitle("Flutter Packages"),
             ListTile(
@@ -33,40 +32,52 @@ class AlertLicenses extends StatelessWidget {
               subtitle: Text('Used under: MIT License'),
             ),
             ListTile(
-              title: Text('tinycolor'),
+              title: Text('division'),
               subtitle: Text('Used under: MIT License'),
-            ),
-            ListTile(
-              title: Text('bubble_bottom_bar'),
-              subtitle: Text('Used under: MIT License'),
-            ),
-            ListTile(
-              title: Text('path_provider'),
-              subtitle: Text('Used under: BSD License'),
-            ),
-            ListTile(
-              title: Text('Vibrate'),
-              subtitle: Text('Used under: MIT License'),
-            ),
-            ListTile(
-              title: Text('RxDart'),
-              subtitle: Text('Used under: Apache License 2.0'),
             ),
             ListTile(
               title: Text('flutter_reorderable_list'),
               subtitle: Text('Used under: BSD License'),
             ),
             ListTile(
-              title: Text('material_design_icons_flutter'),
+              title: Text('hive'),
+              subtitle: Text('Used under: Apache 2.0 License'),
+            ),
+            ListTile(
+              title: Text('http'),
+              subtitle: Text('Used under: BSD License'),
+            ),
+            ListTile(
+              title: Text('in_app_purchase'),
+              subtitle: Text('Used under: BSD License'),
+            ),
+            ListTile(
+              title: Text('path_provider'),
+              subtitle: Text('Used under: BSD License'),
+            ),
+            ListTile(
+              title: Text('rxdart'),
+              subtitle: Text('Used under: Apache 2.0 License'),
+            ),
+            ListTile(
+              title: Text('screen'),
               subtitle: Text('Used under: MIT License'),
             ),
             ListTile(
-              title: Text('flutter_inapp_purchase'),
+              title: Text('sqflite'),
+              subtitle: Text('Used under: MIT License'),
+            ),
+            ListTile(
+              title: Text('tinycolor'),
               subtitle: Text('Used under: MIT License'),
             ),
             ListTile(
               title: Text('url_launcher'),
               subtitle: Text('Used under: BSD License'),
+            ),
+            ListTile(
+              title: Text('vibrate'),
+              subtitle: Text('Used under: MIT License'),
             ),
           ]),
         ],),

@@ -1,12 +1,8 @@
+import 'package:counter_spell_new/core.dart';
+
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
-import 'package:flutter/material.dart';
-import 'package:sidereus/bloc/bloc_var.dart';
 import 'package:vibrate/vibrate.dart';
 
-import 'scroller_recognizer.dart';
-import '../../bloc.dart';
-
-export 'scroller_recognizer.dart';
 
 class CSScroller {
 

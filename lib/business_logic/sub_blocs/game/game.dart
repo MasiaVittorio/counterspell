@@ -1,10 +1,5 @@
-import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/game_group.dart';
-import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/game_history.dart';
-
-import 'sub_game_blocs/game_action.dart';
-import 'sub_game_blocs/game_state.dart';
-
-import '../../bloc.dart';
+import 'package:counter_spell_new/core.dart';
+import 'sub_game_blocs/all.dart';
 
 class CSGame {
 

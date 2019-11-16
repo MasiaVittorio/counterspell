@@ -10,43 +10,57 @@ class ThemeColors extends StatelessWidget {
     final themeController = stage.themeController;
     final closedPages = stage.pagesController;
     final bloc = CSBloc.of(context);
+    final theme = Theme.of(context);
 
-    return themeController.primaryColorsMap.build((_, map)
-      => Section(<Widget>[
-        SectionTitle("Colors"),
-        for(final page in closedPages.pagesData.keys)
-          ListTile(
-            title: Text(closedPages.pagesData[page].longName),
-            leading: Icon(
-              closedPages.pagesData[page].icon, 
-              color: map[page],
+    return BlocVar.build2(themeController.primaryColorsMap, bloc.payments.unlocked ,builder: (_, map, unlocked)
+      => Stack(
+        fit: StackFit.loose,
+        children: <Widget>[
+          Section(<Widget>[
+            SectionTitle("Colors"),
+            for(final page in closedPages.pagesData.keys)
+              ListTile(
+                title: Text(closedPages.pagesData[page].longName),
+                leading: Icon(
+                  closedPages.pagesData[page].icon, 
+                  color: map[page],
+                ),
+                trailing: ColorCircle(map[page]),
+                onTap: () => pickPageColor(stage, page, map),
+              ),
+            bloc.themer.theme.build((context, csTheme)
+              => ListTile(
+                title: Text("Commander Defence"),
+                leading: Icon(
+                  CSTypesUI.defenceIconFilled, 
+                  color: csTheme.commanderDefence,
+                ),
+                trailing: ColorCircle(csTheme.commanderDefence,),
+                onTap: () => pickDefenceColor(stage, csTheme),
+              ),
             ),
-            trailing: CircleAvatar(backgroundColor: map[page],),
-            onTap: () => pickPageColor(stage, page, map),
-          ),
-        bloc.themer.theme.build((context, csTheme)
-          => ListTile(
-            title: Text("Commander Defence"),
-            leading: Icon(
-              CSTypesUI.defenceIconFilled, 
-              color: csTheme.commanderDefence,
+            themeController.panelPrimaryColor.build((_, primary) 
+              =>ListTile(
+                title: Text("Primary Color"),
+                leading: Icon(
+                  Icons.palette,
+                  color: primary,
+                ),
+                trailing: ColorCircle(primary,),
+                onTap:() => pickPrimaryColor(stage, primary),
+              ),
             ),
-            trailing: CircleAvatar(backgroundColor: csTheme.commanderDefence,),
-            onTap: () => pickDefenceColor(stage, csTheme),
-          ),
-        ),
-        themeController.panelPrimaryColor.build((_, primary) 
-          =>ListTile(
-            title: Text("Primary Color"),
-            leading: Icon(
-              Icons.palette,
-              color: primary,
-            ),
-            trailing: CircleAvatar(backgroundColor: primary,),
-            onTap:() => pickPrimaryColor(stage, primary),
-          ),
-        ),
-      ],),
+          ],),
+          if(!unlocked)
+            Positioned.fill(child: GestureDetector(
+              onTap: () => stage.showAlert(const Support(), size: Support.height),
+              child: Container(
+                color: theme.scaffoldBackgroundColor
+                    .withOpacity(0.5),
+              ),
+            ),),
+        ],
+      ),
     );
   }
 
@@ -99,3 +113,54 @@ class ThemeColors extends StatelessWidget {
     );
   }
 }
+
+
+class ColorCircle extends StatelessWidget {
+  final Color color;
+  const ColorCircle(this.color);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Material(
+      color: color,
+      elevation: 4,
+      borderRadius: BorderRadius.circular(100),
+      child: Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          color: color,
+          border: ThemeData.estimateBrightnessForColor(color) == ThemeData.estimateBrightnessForColor(theme.canvasColor)
+            ? Border.all(color: theme.colorScheme.onSurface, width: 1)
+            : null,
+        ),
+      ),
+    );
+  }
+}
+
+// class ColorCircleIcon extends StatelessWidget {
+//   final Color color;
+//   final IconData icon;
+//   const ColorCircleIcon(this.icon, {@required this.color});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     final Color contrast = ThemeData.estimateBrightnessForColor(color) == ThemeData.estimateBrightnessForColor(theme.canvasColor) 
+//       ? theme.colorScheme.onSurface 
+//       : theme.canvasColor;
+//     return Material(
+//       color: color,
+//       elevation: 4,
+//       borderRadius: BorderRadius.circular(100),
+//       child: Container(
+//         height: 40,
+//         width: 40,
+//         child: Icon(icon, color: contrast,),
+//       ),
+//     );
+//   }
+// }

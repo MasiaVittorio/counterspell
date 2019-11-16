@@ -22,7 +22,7 @@ class CSPayments {
 
   final PersistentVar<bool> unlocked; 
   StreamSubscription<List<PurchaseDetails>> _subscription; //react to new purchase
-  final PersistentVar<List<String>> purchasedIds; //past done purchases
+  final PersistentVar<Set<String>> purchasedIds; //past done purchases
   final BlocVar<List<Donation>> donations; //all available (wrapper for UI)
 
 
@@ -35,11 +35,11 @@ class CSPayments {
       toJson: (b) => b,
       fromJson: (j) => j as bool,
     ),
-    purchasedIds = PersistentVar<List<String>>(
-      initVal: <String>[],
+    purchasedIds = PersistentVar<Set<String>>(
+      initVal: <String>{},
       key: 'counterspell_bloc_var_payments_purchaseIds',
-      fromJson: (json) => <String>[for(final s in json as List) s as String],
-      toJson: (list) => list,
+      fromJson: (json) => <String>{for(final s in json as List) s as String},
+      toJson: (sset) => [for(final s in sset) s],
     ),
     donations = BlocVar<List<Donation>>(<Donation>[])
   {
@@ -75,8 +75,10 @@ class CSPayments {
 
 
   Future<void> availableItems() async {
+    print("search available items");
 
     final bool available = await InAppPurchaseConnection.instance.isAvailable();
+    print("connection available: $available");
     if (!available) {
       // The store cannot be reached or accessed. Update the UI accordingly.
       return;
@@ -85,6 +87,7 @@ class CSPayments {
     final ProductDetailsResponse response = 
       await InAppPurchaseConnection.instance
         .queryProductDetails(products);
+    print("response: ${response.productDetails}");
 
     if (response.notFoundIDs.isNotEmpty) {
         // Handle the error.
@@ -104,7 +107,7 @@ class CSPayments {
                  char,
           ].join()) ?? 0.0,
         ),
-    ]);
+    ]..sort((d1,d2) => ((d1.amountNum - d2.amountNum)*100).round()));
   }
   String _titleCleaner(String s){
     String ret = '';
@@ -115,12 +118,52 @@ class CSPayments {
     return ret;
   }
 
-  void restore(){
+  Future<void> restore() async {
+    print("query past purchases");
+    final QueryPurchaseDetailsResponse response = await InAppPurchaseConnection.instance.queryPastPurchases();
+    if (response.error != null) {
+      print("error");
+      return;
+      // Handle the error.
+    }
+    print("purchases: ${response.pastPurchases}");
+
+    for (PurchaseDetails purchase in response.pastPurchases) {
+      print("purchase: $purchase");
+      // Verify the purchase following the best practices for each storefront.
+      // Deliver the purchase to the user in your app.
+      if (Platform.isIOS) {
+        // Mark that you've delivered the purchase. Only the App Store requires
+        // this final confirmation.
+        InAppPurchaseConnection.instance.completePurchase(purchase);
+      }
+    }
+
+    this.purchasedIds.set(<String>{
+      for(final it in response.pastPurchases)
+        it.productID,
+    });
+
+    if(response.pastPurchases.length > 0) 
+      this.unlocked.set(true);
+    else 
+      this.unlocked.set(false);
 
   }
 
   void reactToNewPurchases(List<PurchaseDetails> purchases){
+    bool found = false;
 
+    for(final detail in purchases){
+      if(!purchasedIds.value.contains(detail.productID)){
+        purchasedIds.value.add(detail.productID);
+        found = true;
+      }
+    }
+
+    if(found){
+      purchasedIds.refresh();
+    }
   }
 
 

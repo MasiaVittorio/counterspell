@@ -5,45 +5,30 @@ import 'theme_components/all.dart';
 class PanelTheme extends StatelessWidget {
   const PanelTheme();
 
+  static const Widget _overallTheme = const OverallTheme();
+  static const Widget _themeColors = const ThemeColors();
+  static const Widget _themeRestarter = const ThemeRestarter();
+
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
     return SingleChildScrollView(
       physics: stage.panelScrollPhysics(),
-      child: Column(
+      child: CSBloc.of(context).payments.unlocked.build((_,unlocked) => Column(
         children: <Widget>[
-          const OverallTheme(),
-          const ThemeColors(),
-          ListTile(
-            title: const Text("Reset to default"),
-            leading: const Icon(McIcons.restart),
-            onTap: () => stage.showAlert(ConfirmAlert(
-              warningText: "Are you sure? This action cannot be undone.",
-              confirmText: "Yes, reset to default colors",
-              cancelText: "No, keep the current theme",
-              action: () {
-                if(stage.themeController.light.value){
-                  stage.themeController.lightPrimary.set(CSStage.primary);
-                  stage.themeController.lightPrimaryPerPage.set(<CSPage,Color>{
-                    for(final entry in defaultPageColorsLight.entries)
-                      entry.key: Color(entry.value.value),
-                  });
-                } else {
-                  stage.themeController.darkPrimariesPerPage.value[stage.themeController.darkStyle.value]
-                    = <CSPage,Color>{
-                      for(final entry in defaultPageColorsDark.entries)
-                        entry.key: Color(entry.value.value),
-                    };
-                  stage.themeController.darkPrimariesPerPage.refresh();
-                  stage.themeController.darkPrimaries.value[stage.themeController.darkStyle.value]
-                    = CSStage.primary;
-                  stage.themeController.darkPrimaries.refresh();
-                }
-              },
-            ),size: ConfirmAlert.height),
+          _overallTheme,
+          if(!unlocked) ListTile(
+            title: const Text("Unlock theme engine"),
+            subtitle: const Text("Support the developer"),
+            leading: const Icon(McIcons.palette_outline),
+            onTap: () => stage.showAlert(const Support(), size: Support.height),
           ),
+          _themeColors,
+          if(unlocked) _themeRestarter,
         ],
-      ),
+      ),),
     );
   }
 }
+
+

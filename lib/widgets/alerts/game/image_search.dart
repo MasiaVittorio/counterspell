@@ -122,7 +122,7 @@ class _ImageSearchState extends State<ImageSearch> {
             left: 0.0,
             right: 0.0,
             child: Container(
-              color: theme.scaffoldBackgroundColor.withOpacity(0.6),
+              color: theme.scaffoldBackgroundColor.withOpacity(0.7),
               child: title
             ),
           ),

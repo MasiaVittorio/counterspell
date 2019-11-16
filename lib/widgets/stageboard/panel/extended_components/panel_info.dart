@@ -29,8 +29,7 @@ class PanelInfo extends StatelessWidget {
             ListTile(
               title: const Text("Support the development"),
               leading: const Icon(McIcons.thumb_up_outline),
-              //TODO: IN APP PURCHASES
-              onTap: (){},
+              onTap: () => stage.showAlert(const Support(), size: Support.height),
             ),
           ]),
           Section([
@@ -57,8 +56,10 @@ class PanelInfo extends StatelessWidget {
             ),
           ]),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal:16.0, vertical: 2.0),
+          Container(
+            height: 40,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal:16.0),
             child: Text(
               FlavorTexts.random, 
               style: TextStyle(

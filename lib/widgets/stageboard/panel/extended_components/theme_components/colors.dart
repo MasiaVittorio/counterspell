@@ -12,62 +12,36 @@ class ThemeColors extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final theme = Theme.of(context);
 
-    return BlocVar.build2(themeController.primaryColorsMap, bloc.payments.unlocked ,builder: (_, map, unlocked)
-      => Stack(
+
+    return BlocVar.build2(themeController.primaryColorsMap, bloc.payments.unlocked ,builder: (_, map, unlocked){
+      
+      final List<Widget> children = [
+        for(final page in closedPages.pagesData.keys)
+          ListTile(
+            title: Text(closedPages.pagesData[page].name),
+            leading: ColorCircle(map[page], icon: closedPages.pagesData[page].icon,),
+            onTap: () => pickPageColor(stage, page, map),
+          ),
+        bloc.themer.theme.build((context, csTheme)
+          => ListTile(
+            title: Text("Defence"),
+            leading: ColorCircle(csTheme.commanderDefence, icon: CSTypesUI.defenceIconFilled),
+            onTap: () => pickDefenceColor(stage, csTheme),
+          ),
+        ),    
+      ];
+
+      return Stack(
         fit: StackFit.loose,
         children: <Widget>[
           Section(<Widget>[
-            SectionTitle("Colors"),
-            for(final page in closedPages.pagesData.keys)
-              ListTile(
-                title: Text(closedPages.pagesData[page].longName),
-                leading: Icon(
-                  closedPages.pagesData[page].icon, 
-                  color: map[page],
-                ),
-                trailing: ColorCircle(map[page]),
-                onTap: () => pickPageColor(stage, page, map),
-              ),
-            bloc.themer.theme.build((context, csTheme)
-              => ListTile(
-                title: Text("Commander Defence"),
-                leading: Icon(
-                  CSTypesUI.defenceIconFilled, 
-                  color: csTheme.commanderDefence,
-                ),
-                trailing: ColorCircle(csTheme.commanderDefence,),
-                onTap: () => pickDefenceColor(stage, csTheme),
-              ),
-            ),
-            themeController.panelPrimaryColor.build((_, primary) 
-              =>ListTile(
-                title: Text("Primary Color"),
-                leading: Icon(
-                  McIcons.palette,
-                  color: primary,
-                ),
-                trailing: ColorCircle(primary,),
-                onTap:() => pickPrimaryColor(stage, primary),
-              ),
-            ),
-            BlocVar.build4(
-              themeController.lightAccent,
-              themeController.darkAccents,
-              themeController.light,
-              themeController.darkStyle,
-              builder:(_, Color lightAccent, Map<DarkStyle,Color> darkAccents, bool light, DarkStyle style) {
-                final accentColor = light ? lightAccent : darkAccents[style];
-                return ListTile(
-                  title: Text("Accent Color"),
-                  leading: Icon(
-                    McIcons.palette_outline,
-                    color: accentColor,
-                  ),
-                  trailing: ColorCircle(accentColor,),
-                  onTap:() => pickAccentColor(stage, accentColor),
-                );
-              },
-            ),
+            SectionTitle("CounterSpell Colors"),
+            for(final couple in partition(children,2))
+              if(couple.length == 1) couple[0]
+              else Row(children: <Widget>[
+                Expanded(child: couple[0]),
+                Expanded(child: couple[1],)
+              ],)
           ],),
           if(!unlocked)
             Positioned.fill(child: GestureDetector(
@@ -78,8 +52,9 @@ class ThemeColors extends StatelessWidget {
               ),
             ),),
         ],
-      ),
-    );
+      );
+
+    },);
   }
 
   static void pickPageColor(StageData stage, CSPage page, Map<CSPage,Color> map, ) {
@@ -117,38 +92,13 @@ class ThemeColors extends StatelessWidget {
     );
   }
 
-  static void pickPrimaryColor(StageData stage, Color primary) {
-    stage.showAlert(
-      SheetColorPicker(
-        underscrollCallback: stage.panelController.closePanel,
-        color: primary,
-        onSubmitted: (color){
-          stage.themeController.editPrimaryDefault(color);
-          stage.panelController.closePanel();
-        },
-      ),
-      size: 480.0,
-    );
-  }
-  static void pickAccentColor(StageData stage, Color accent) {
-    stage.showAlert(
-      SheetColorPicker(
-        underscrollCallback: stage.panelController.closePanel,
-        color: accent,
-        onSubmitted: (color){
-          stage.themeController.editAccent(color);
-          stage.panelController.closePanel();
-        },
-      ),
-      size: 480.0,
-    );
-  }
 }
 
 
 class ColorCircle extends StatelessWidget {
   final Color color;
-  const ColorCircle(this.color);
+  final IconData icon;
+  const ColorCircle(this.color, {this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -163,9 +113,16 @@ class ColorCircle extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           color: color,
-          border: ThemeData.estimateBrightnessForColor(color) == ThemeData.estimateBrightnessForColor(theme.canvasColor)
+          border: ThemeData.estimateBrightnessForColor(color)==ThemeData.estimateBrightnessForColor(theme.canvasColor) && theme.brightness==Brightness.dark
             ? Border.all(color: theme.colorScheme.onSurface, width: 1)
             : null,
+        ),
+        child: icon == null ? null : Icon(
+          icon, 
+          size: 22,
+          color: ThemeData.estimateBrightnessForColor(color) == Brightness.light 
+            ? Colors.black 
+            : Colors.white,
         ),
       ),
     );

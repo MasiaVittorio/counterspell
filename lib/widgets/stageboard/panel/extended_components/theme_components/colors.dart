@@ -50,6 +50,24 @@ class ThemeColors extends StatelessWidget {
                 onTap:() => pickPrimaryColor(stage, primary),
               ),
             ),
+            BlocVar.build4(
+              themeController.lightAccent,
+              themeController.darkAccents,
+              themeController.light,
+              themeController.darkStyle,
+              builder:(_, Color lightAccent, Map<DarkStyle,Color> darkAccents, bool light, DarkStyle style) {
+                final accentColor = light ? lightAccent : darkAccents[style];
+                return ListTile(
+                  title: Text("Primary Color"),
+                  leading: Icon(
+                    Icons.palette,
+                    color: accentColor,
+                  ),
+                  trailing: ColorCircle(accentColor,),
+                  onTap:() => pickAccentColor(stage, accentColor),
+                );
+              },
+            ),
           ],),
           if(!unlocked)
             Positioned.fill(child: GestureDetector(
@@ -106,6 +124,19 @@ class ThemeColors extends StatelessWidget {
         color: primary,
         onSubmitted: (color){
           stage.themeController.editPrimaryDefault(color);
+          stage.panelController.closePanel();
+        },
+      ),
+      size: 480.0,
+    );
+  }
+  static void pickAccentColor(StageData stage, Color accent) {
+    stage.showAlert(
+      SheetColorPicker(
+        underscrollCallback: stage.panelController.closePanel,
+        color: accent,
+        onSubmitted: (color){
+          stage.themeController.editAccent(color);
           stage.panelController.closePanel();
         },
       ),

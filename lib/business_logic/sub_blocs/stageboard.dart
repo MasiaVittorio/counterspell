@@ -75,6 +75,8 @@ class CSStage {
       for(final style in DarkStyle.values)
         style: defaultPageColorsDark,
     },
+    lightAccent: accent,
+    darkAccents: darkAccents,
 
     //back behavior
     lastClosedPage: CSPage.life,

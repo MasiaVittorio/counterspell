@@ -75,10 +75,8 @@ class CSPayments {
 
 
   Future<void> availableItems() async {
-    print("search available items");
 
     final bool available = await InAppPurchaseConnection.instance.isAvailable();
-    print("connection available: $available");
     if (!available) {
       // The store cannot be reached or accessed. Update the UI accordingly.
       return;
@@ -87,14 +85,12 @@ class CSPayments {
     final ProductDetailsResponse response = 
       await InAppPurchaseConnection.instance
         .queryProductDetails(products);
-    print("response: ${response.productDetails}");
 
     if (response.notFoundIDs.isNotEmpty) {
         // Handle the error.
     }
     this.items = response.productDetails;
     
-    // print('check items added: ${items.length}');
     this.donations.set(<Donation>[
       for(final item in this.items)
         Donation(
@@ -119,17 +115,14 @@ class CSPayments {
   }
 
   Future<void> restore() async {
-    print("query past purchases");
     final QueryPurchaseDetailsResponse response = await InAppPurchaseConnection.instance.queryPastPurchases();
     if (response.error != null) {
       print("error");
       return;
       // Handle the error.
     }
-    print("purchases: ${response.pastPurchases}");
 
     for (PurchaseDetails purchase in response.pastPurchases) {
-      print("purchase: $purchase");
       // Verify the purchase following the best practices for each storefront.
       // Deliver the purchase to the user in your app.
       if (Platform.isIOS) {

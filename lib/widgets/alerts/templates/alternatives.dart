@@ -64,10 +64,8 @@ class AlternativesAlert extends StatelessWidget {
                 onTap: (){
                   if(alt.completelyAutoClose){
                     stage.panelController.closePanelCompletely();
-                    print("completely closing");
                   } else if(alt.autoClose){
                     stage.panelController.closePanel();
-                    print("just closing");
                   }
                   alt.action();
                 },

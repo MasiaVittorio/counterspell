@@ -42,7 +42,6 @@ class CSBody extends StatelessWidget {
               SchedulerBinding.instance.addPostFrameCallback((_) {
                 //just (dont) build lol
                 stage.pagesController.enablePage(CSPage.history);
-                debugPrint("sto per refreshare la lista animata end frame");
                 bloc.game.gameHistory.listController.refresh(
                   bloc.game.gameState.gameState.value.historyLenght,
                 );

@@ -128,27 +128,3 @@ class ColorCircle extends StatelessWidget {
     );
   }
 }
-
-// class ColorCircleIcon extends StatelessWidget {
-//   final Color color;
-//   final IconData icon;
-//   const ColorCircleIcon(this.icon, {@required this.color});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final theme = Theme.of(context);
-//     final Color contrast = ThemeData.estimateBrightnessForColor(color) == ThemeData.estimateBrightnessForColor(theme.canvasColor) 
-//       ? theme.colorScheme.onSurface 
-//       : theme.canvasColor;
-//     return Material(
-//       color: color,
-//       elevation: 4,
-//       borderRadius: BorderRadius.circular(100),
-//       child: Container(
-//         height: 40,
-//         width: 40,
-//         child: Icon(icon, color: contrast,),
-//       ),
-//     );
-//   }
-// }

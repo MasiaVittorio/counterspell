@@ -62,13 +62,13 @@ class ScryfallApi{
 
   static DateTime _last;
   static Future<List<MtgCard>> search(String string, {bool force = false, bool uniqueName = true}) async {
-    print("api searching (force: $force)");
+    // print("api searching (force: $force)");
     final _now = DateTime.now();
 
     if(force == false){
       if(_last != null){
         final secs = _last.difference(_now).inSeconds.abs();
-        print("api searching -> (secs: $secs)");
+        // print("api searching -> (secs: $secs)");
         if( secs < 10)
           return null;
       }
@@ -79,7 +79,7 @@ class ScryfallApi{
     if(string == null) return null;
     if(string == "") return null;
     final _ss = ScryfallApi._searchString(string, uniqueName: uniqueName ?? true);
-    print("searching: $_ss");
+    // print("searching: $_ss");
     final response = await http.get(_ss);
 
     Map<String,dynamic> map;

@@ -20,7 +20,7 @@ const defaultPageColorsDark = const {
 const Map<String, CSTheme> csDefaultThemesLight = {
   "Light Default" : const CSTheme(
     commanderDefence: MyColors.blue,
-    accent: const Color(0xFF64FFDA), 
+    accent: const Color(0xFFDDDDDD), 
   ),
 };
 
@@ -28,7 +28,7 @@ const Map<String, CSTheme> csDefaultThemesLight = {
 const Map<String, CSTheme> csDefaultThemesDark = {
   "Night Blue Default" : const CSTheme(
     commanderDefence: MyColors.blue,
-    accent: const Color(0xFF64FFDA), 
+    accent: const Color(0xFFDDDDDD), 
   ),
   "Night Black Default" : const CSTheme(
     commanderDefence: MyColors.blue,

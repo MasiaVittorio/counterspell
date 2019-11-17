@@ -4,10 +4,19 @@ import 'package:counter_spell_new/core.dart';
 
 class CSStage {
 
-  static const primary = const Color(0xFF263133);
-  static final darkPrimaries = <DarkStyle,Color>{
-    for(final style in DarkStyle.values)
-      style: primary,
+  static const Color primary = const Color(0xFF263133);
+  static const Color accent = const Color(0xFF00BFA5);
+  static const Map<DarkStyle,Color> darkPrimaries = <DarkStyle,Color>{
+    DarkStyle.nightBlue: const Color(0xFF222E3C), 
+    DarkStyle.dark: const Color(0xFF1E1E1E),
+    DarkStyle.nightBlack: const Color(0xFF191919),
+    DarkStyle.amoled: const Color(0xFF151515),
+  };
+  static const Map<DarkStyle,Color> darkAccents = const <DarkStyle,Color>{
+    DarkStyle.nightBlue: const Color(0xFF64FFDA), 
+    DarkStyle.dark: const Color(0xFFECEFF1),
+    DarkStyle.nightBlack: const Color(0xFFCFD8DC),
+    DarkStyle.amoled: const Color(0xFFCFD8DC),
   };
 
   void dispose(){

@@ -7,7 +7,7 @@ class PanelTheme extends StatelessWidget {
 
   static const Widget _overallTheme = const OverallTheme();
   static const Widget _themeColors = const ThemeColors();
-  static const Widget _themeRestarter = const ThemeRestarter();
+  static const Widget _themeRestarter = const ThemeResetter();
 
   @override
   Widget build(BuildContext context) {

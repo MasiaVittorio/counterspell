@@ -1,8 +1,8 @@
 import 'package:counter_spell_new/core.dart';
 
-class ThemeRestarter extends StatelessWidget {
+class ThemeResetter extends StatelessWidget {
 
-  const ThemeRestarter();
+  const ThemeResetter();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,7 @@ class ThemeRestarter extends StatelessWidget {
               for(final entry in defaultPageColorsLight.entries)
                 entry.key: Color(entry.value.value),
             });
+            stage.themeController.lightAccent.set(CSStage.accent);
           } else {
             stage.themeController.darkPrimariesPerPage.value[stage.themeController.darkStyle.value]
               = <CSPage,Color>{
@@ -32,6 +33,10 @@ class ThemeRestarter extends StatelessWidget {
             stage.themeController.darkPrimaries.value[stage.themeController.darkStyle.value]
               = CSStage.primary;
             stage.themeController.darkPrimaries.refresh();
+            stage.themeController.darkAccents.value[stage.themeController.darkStyle.value]
+              = CSStage.darkAccents[stage.themeController.darkStyle.value];
+            stage.themeController.darkAccents.refresh();
+
           }
         },
       ),size: ConfirmAlert.height),

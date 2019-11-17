@@ -43,7 +43,7 @@ class ThemeColors extends StatelessWidget {
               =>ListTile(
                 title: Text("Primary Color"),
                 leading: Icon(
-                  Icons.palette,
+                  McIcons.palette,
                   color: primary,
                 ),
                 trailing: ColorCircle(primary,),
@@ -58,9 +58,9 @@ class ThemeColors extends StatelessWidget {
               builder:(_, Color lightAccent, Map<DarkStyle,Color> darkAccents, bool light, DarkStyle style) {
                 final accentColor = light ? lightAccent : darkAccents[style];
                 return ListTile(
-                  title: Text("Primary Color"),
+                  title: Text("Accent Color"),
                   leading: Icon(
-                    Icons.palette,
+                    McIcons.palette_outline,
                     color: accentColor,
                   ),
                   trailing: ColorCircle(accentColor,),

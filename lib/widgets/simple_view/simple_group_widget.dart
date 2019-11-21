@@ -10,7 +10,7 @@ class SimpleGroupWidget extends StatefulWidget {
   final bool isScrollingSomewhere;
   final int increment;
   final CSGameGroup group;
-  // final CSTheme theme;
+  // final Color defenceColor;
   final Map<CSPage,Color> pageColors;
   final Map<String,PlayerAction> normalizedPlayerActions;
 

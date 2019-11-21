@@ -8,7 +8,7 @@ class BodyGroup extends StatelessWidget {
   final double tileSize;
   final double coreTileSize;
   final CSGameGroup group;
-  final CSTheme theme;
+  final Color defenceColor;
   final bool landScape;
   final double maxWidth;
   final double bottom;
@@ -16,7 +16,7 @@ class BodyGroup extends StatelessWidget {
   const BodyGroup(this.names,{
     @required this.bottom,
     @required this.maxWidth,
-    @required this.theme,
+    @required this.defenceColor,
     @required this.count,
     @required this.group,
     @required this.tileSize,
@@ -80,10 +80,10 @@ class BodyGroup extends StatelessWidget {
               for(final name in names)
                 PlayerTile(
                   name, 
-                  pageColors: pageColors,
+                  pageColor: pageColors[page],
                   maxWidth: maxWidth,
                   increment: increment,
-                  theme: theme,
+                  defenceColor: defenceColor,
                   group: group,
                   tileSize: tileSize,
                   bottom: ([
@@ -92,15 +92,17 @@ class BodyGroup extends StatelessWidget {
                   ].contains(name)) ? bottom : 0.0,
                   coreTileSize: coreTileSize,
                   page: page,
-                  havingPartnerB: havingPartnerB,
-                  usingPartnerB: usingPartnerB,
-                  selectedNames: selected,
+                  usingPartnerB: usingPartnerB[name],
+                  isAttackerUsingPartnerB: usingPartnerB[attackingPlayer],
+                  havingPartnerB: havingPartnerB[name],
+                  isAttackerHavingPartnerB: havingPartnerB[attackingPlayer],
+                  selected: selected[name],
                   whoIsAttacking: attackingPlayer,
                   whoIsDefending: defendingPlayer,
                   isScrollingSomewhere: isScrolling,
                   counter: counter,
                   gameState: gameState,
-                  normalizedPlayerActions: normalizedPlayerActions,
+                  normalizedPlayerAction: normalizedPlayerActions[name],
                 ),
             ];
 

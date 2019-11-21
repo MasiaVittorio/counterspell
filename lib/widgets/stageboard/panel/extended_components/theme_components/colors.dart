@@ -22,11 +22,11 @@ class ThemeColors extends StatelessWidget {
             leading: ColorCircle(map[page], icon: closedPages.pagesData[page].icon,),
             onTap: () => pickPageColor(stage, page, map),
           ),
-        bloc.themer.theme.build((context, csTheme)
+        bloc.themer.defenceColor.build((context, defenceColor)
           => ListTile(
             title: Text("Defence"),
-            leading: ColorCircle(csTheme.commanderDefence, icon: CSTypesUI.defenceIconFilled),
-            onTap: () => pickDefenceColor(stage, csTheme),
+            leading: ColorCircle(defenceColor, icon: CSTypesUI.defenceIconFilled),
+            onTap: () => pickDefenceColor(stage, defenceColor),
           ),
         ),    
       ];
@@ -75,14 +75,14 @@ class ThemeColors extends StatelessWidget {
     );
   }
 
-  static void pickDefenceColor(StageData stage, CSTheme csTheme, ) {
+  static void pickDefenceColor(StageData stage, Color defenceColor, ) {
     stage.showAlert(
       SheetColorPicker(
         underscrollCallback: stage.panelController.closePanel,
-        color: csTheme.commanderDefence ?? Colors.green.shade700,
+        color: defenceColor ?? Colors.green.shade700,
         onSubmitted: (color){
           stage.themeController.editPrimaryPerPage(
-            csTheme.commanderDefence, 
+            defenceColor, 
             color,
           );
           stage.panelController.closePanel();

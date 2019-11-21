@@ -51,11 +51,11 @@ class _DefenderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
-      child: CSBloc.of(context).themer.theme.build((_,theme)=>InfoSection(
+      child: CSBloc.of(context).themer.defenceColor.build((_,defenceColor)=>InfoSection(
         last: true,
         icon: Icon(
           CSTypesUI.defenceIconFilled,
-          color: theme.commanderDefence,
+          color: defenceColor,
         ),
         title: _defenderTitle,
         info: [

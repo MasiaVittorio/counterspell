@@ -8,7 +8,7 @@ class BodyHistory extends StatelessWidget {
   final CSGameGroup group;
   final double tileSize;
   final double coreTileSize;
-  final CSTheme theme;
+  final Color defenceColor;
   final double bottom;
   final Map<CSPage,Color> pageColors;
 
@@ -19,7 +19,7 @@ class BodyHistory extends StatelessWidget {
     @required this.group,
     @required this.tileSize,
     @required this.coreTileSize,
-    @required this.theme,
+    @required this.defenceColor,
     @required this.pageColors,
   });
   
@@ -50,7 +50,7 @@ class BodyHistory extends StatelessWidget {
                   tileSize: tileSize,
                   coreTileSize: coreTileSize,
                   avoidInteraction: false,
-                  theme: theme,
+                  defenceColor: defenceColor,
                   pageColors: pageColors,
                   counters: counters,
                   names: names,

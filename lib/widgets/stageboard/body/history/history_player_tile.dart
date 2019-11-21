@@ -11,7 +11,7 @@ class HistoryPlayerTile extends StatelessWidget {
   // UI resources
   final double tileSize;
   final double coreTileSize;
-  final CSTheme theme;
+  final Color defenceColor;
   final Map<String, Counter> counters;
   final Map<CSPage,Color> pageColors;
 
@@ -24,7 +24,7 @@ class HistoryPlayerTile extends StatelessWidget {
     @required this.tileSize,
     @required this.coreTileSize,
     @required this.counters,
-    @required this.theme,
+    @required this.defenceColor,
   });
 
 
@@ -41,7 +41,7 @@ class HistoryPlayerTile extends StatelessWidget {
           change, 
           // counters: counters,
           pageColors: pageColors,
-          theme: theme,
+          defenceColor: defenceColor,
           partnerB: this.partnerB ?? false,
         ),
     ];
@@ -80,13 +80,13 @@ class _Change extends StatelessWidget {
   final PlayerHistoryChange change;
   final bool partnerB;
 
-  final CSTheme theme;
+  final Color defenceColor;
   final Map<CSPage,Color> pageColors;
   // final Map<String, Counter> counters;
   
   const _Change(this.change, {
     @required this.partnerB,
-    @required this.theme,
+    @required this.defenceColor,
     @required this.pageColors,
     // @required this.counters,
   });
@@ -111,7 +111,7 @@ class _Change extends StatelessWidget {
 
     final Color color = CSThemer.getHistoryChipColor(
       attack: change.attack,
-      theme: theme,
+      defenceColor: defenceColor,
       type: change.type,
       pageColors: pageColors,
     );
@@ -119,7 +119,7 @@ class _Change extends StatelessWidget {
     final IconData icon = CSThemer.getHistoryChangeIcon(
       attack: change.attack,
       type: change.type,
-      theme: theme,
+      defenceColor: defenceColor,
       counter: change.counter,
     );
 

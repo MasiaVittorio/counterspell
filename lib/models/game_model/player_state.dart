@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'all.dart';
@@ -172,7 +173,20 @@ class PlayerState {
     },
   );
 
+  @override
+  bool operator ==(Object other){
+    if(other is PlayerState){
+      if(jsonEncode(other.toJson()) == jsonEncode(this.toJson())){
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
+  @override int get hashCode => jsonEncode(this.toJson()).hashCode;
 
 
   //====================================

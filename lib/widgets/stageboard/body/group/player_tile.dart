@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/core.dart';
@@ -12,39 +14,64 @@ class PlayerTile extends StatelessWidget {
   final double bottom;
   final double coreTileSize;
   final CSPage page;
-  final Map<String, bool> selectedNames;
+  final bool selected;
   final bool isScrollingSomewhere;
   final String whoIsAttacking;
   final String whoIsDefending;
   final Counter counter;
   final GameState gameState;
-  final CSTheme theme;
+  final Color defenceColor;
   final int increment;
-  final Map<String,PlayerAction> normalizedPlayerActions;
+  final PlayerAction normalizedPlayerAction;
   final double maxWidth;
-  final Map<CSPage,Color> pageColors;
-  final Map<String,bool> usingPartnerB;
-  final Map<String,bool> havingPartnerB;
+  final Color pageColor;
+  final bool usingPartnerB;
+  final bool isAttackerUsingPartnerB;
+  final bool havingPartnerB;
+  final bool isAttackerHavingPartnerB;
+
+  String get encoded => jsonEncode(<String,dynamic>{
+    "name": name,
+    "tileSize": tileSize,
+    "bottom": bottom,
+    "coreTileSize": coreTileSize,
+    "page": CSPages.nameOf(page),
+    "selected": selected,
+    "isScrollingSomewhere": isScrollingSomewhere,
+    "whoIsAttacking": whoIsAttacking,
+    "whoIsDefending": whoIsDefending,
+    "counter": counter.longName,
+    "playerState": gameState.players[name].states.last.toJson(),
+    "defenceColor": defenceColor.value,
+    "increment": increment,
+    "nextState": normalizedPlayerAction.apply(gameState.players[name].states.last).toJson(),
+    "maxWidth": maxWidth,
+    "pageColor": pageColor.value,
+    "usingPartnerB": usingPartnerB,
+    "havingPartnerB": havingPartnerB,
+  });
 
   const PlayerTile(this.name, {
     @required this.usingPartnerB,
+    @required this.isAttackerUsingPartnerB,
     @required this.havingPartnerB,
+    @required this.isAttackerHavingPartnerB,
     @required this.maxWidth,
     @required this.group,
     @required this.tileSize,
     @required this.bottom,
     @required this.coreTileSize,
     @required this.page,
-    @required this.pageColors,
-    @required this.selectedNames,
+    @required this.pageColor,
+    @required this.selected,
     @required this.isScrollingSomewhere,
     @required this.whoIsAttacking,
     @required this.whoIsDefending,
     @required this.counter,
     @required this.gameState,
-    @required this.theme,
+    @required this.defenceColor,
     @required this.increment,
-    @required this.normalizedPlayerActions,
+    @required this.normalizedPlayerAction,
   }): 
     assert(!(
       page == CSPage.counters
@@ -63,8 +90,7 @@ class PlayerTile extends StatelessWidget {
 
     final bool attacking = whoIsAttacking == name;
     final bool defending = whoIsDefending == name;
-    final bool rawSelected = selectedNames[name];
-    final bool highlighted = selectedNames[name] != false;
+    final bool highlighted = selected != false;
 
     bool scrolling;
     switch (page) {
@@ -94,11 +120,11 @@ class PlayerTile extends StatelessWidget {
         name,
         page: page,
         attacking: attacking,
-        rawSelected: rawSelected,
+        rawSelected: selected,
         bloc: bloc,
         isScrollingSomewhere: isScrollingSomewhere,
-        hasPartnerB: havingPartnerB[name],
-        usePartnerB: usingPartnerB[name],
+        hasPartnerB: havingPartnerB,
+        usePartnerB: usingPartnerB,
       ),
       onLongPress: () => stage.showAlert(
         PlayerDetails(bloc.game.gameGroup.names.value.indexOf(name)), 
@@ -125,7 +151,7 @@ class PlayerTile extends StatelessWidget {
               height: coreTileSize,
               child: Row(children: <Widget>[
                 buildLeading(
-                  rawSelected: rawSelected,
+                  rawSelected: selected,
                   scrolling: scrolling,
                   attacking: attacking,
                   playerState: playerState,
@@ -133,8 +159,8 @@ class PlayerTile extends StatelessWidget {
                   stage: stage,
                   someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
                 ),
-                Expanded(child: buildBody(rawSelected)),
-                buildTrailing(rawSelected, actionBloc),
+                Expanded(child: buildBody(selected)),
+                buildTrailing(selected, actionBloc),
               ]),
             ),
           ),
@@ -142,7 +168,7 @@ class PlayerTile extends StatelessWidget {
       ),
     );
 
-    return group.cards(!(usingPartnerB[name] ?? false)).build((_, cards){
+    return group.cards(!(usingPartnerB ?? false)).build((_, cards){
       final MtgCard card = cards[name];
       if(card == null){
         return Material(child: tile);
@@ -220,7 +246,7 @@ class PlayerTile extends StatelessWidget {
   }){
     Widget child;
 
-    final Color color = PTileUtils.cnColor(page, attacking, defending, pageColors, theme, someoneAttacking);
+    final Color color = PTileUtils.cnColor(page, attacking, defending, pageColor, defenceColor, someoneAttacking);
 
     final colorBright = ThemeData.estimateBrightnessForColor(color);
     final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;
@@ -245,7 +271,6 @@ class PlayerTile extends StatelessWidget {
 
     } else {
 
-      final normalizedPlayerAction = normalizedPlayerActions[name];
       final int _increment = PTileUtils.cnIncrement(normalizedPlayerAction);
 
       child = CircleNumber(
@@ -256,9 +281,9 @@ class PlayerTile extends StatelessWidget {
           page, 
           whoIsAttacking, 
           whoIsDefending,
-          usingPartnerB[name] ?? false,
+          usingPartnerB ?? false,
           playerState,
-          usingPartnerB[whoIsAttacking] ?? false,
+          isAttackerUsingPartnerB ?? false,
           counter,
         ),
         numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
@@ -301,7 +326,7 @@ class PlayerTile extends StatelessWidget {
                 height: coreTileSize,
                 child: Checkbox(
                   value: rawSelected,
-                  activeColor: pageColors[page],
+                  activeColor: pageColor,
                   tristate: true,
                   onChanged: (b) {
                     actionBloc.selected.value[name] = rawSelected == false ? true : false;
@@ -321,7 +346,7 @@ class PlayerTile extends StatelessWidget {
                 width: coreTileSize,
                 height: coreTileSize,
                 child: Icon(
-                  havingPartnerB[name]==true
+                  havingPartnerB==true
                     ? McIcons.account_multiple_outline
                     : McIcons.account_outline,
                 ),
@@ -338,7 +363,7 @@ class PlayerTile extends StatelessWidget {
                 width: coreTileSize,
                 height: coreTileSize,
                 child: Icon(
-                  havingPartnerB[name]==true
+                  havingPartnerB==true
                     ? CSTypesUI.attackIconTwo
                     : CSTypesUI.attackIconOne,
                 ),
@@ -371,8 +396,8 @@ class PlayerTile extends StatelessWidget {
   Widget buildBody(bool rawSelected){
     final annotation = PTileUtils.tileAnnotation(
       name,    page,    rawSelected,    whoIsAttacking,
-      havingPartnerB[name]??false,    usingPartnerB[name]??false, 
-      havingPartnerB[whoIsAttacking]??false,    usingPartnerB[whoIsAttacking]??false,
+      havingPartnerB??false,    usingPartnerB ??false, 
+      isAttackerHavingPartnerB??false,    isAttackerUsingPartnerB??false,
     ) ?? "";
     return Align(
       alignment: Alignment.centerLeft,

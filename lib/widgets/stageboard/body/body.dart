@@ -75,7 +75,7 @@ class CSBody extends StatelessWidget {
               child: SizedBox(
                 width: constraints.maxWidth,
                 height: totalSize,
-                child: themer.theme.build((_, theme) 
+                child: themer.defenceColor.build((_, defenceColor) 
                   => Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
@@ -84,7 +84,7 @@ class CSBody extends StatelessWidget {
                           right: CSConstants.minTileSize,
                           child: BodyHistory(
                             bottom: bottom,
-                            theme: theme,
+                            defenceColor: defenceColor,
                             pageColors: pageColors,
                             count: count,
                             tileSize: tileSize,
@@ -111,7 +111,7 @@ class CSBody extends StatelessWidget {
                             count: count,
                             tileSize: tileSize,
                             coreTileSize: _coreTileSize,
-                            theme: theme,
+                            defenceColor: defenceColor,
                             group: group,
                             landScape: landScape,
                           ),

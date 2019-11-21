@@ -7,14 +7,14 @@ class CurrentStateTile extends StatelessWidget {
   final Map<String, Counter> counters;
   final int stateIndex;
   final GameState gameState;
-  final CSTheme theme;
+  final Color defenceColor;
   final Map<CSPage,Color> pagesColor;
 
   const CurrentStateTile(this.gameState, this.stateIndex,{
     @required this.names,
     @required this.tileSize,
     @required this.coreTileSize,
-    @required this.theme,
+    @required this.defenceColor,
     @required this.counters,
     @required this.pagesColor,
   });
@@ -36,7 +36,7 @@ class CurrentStateTile extends StatelessWidget {
               tileSize: tileSize,  
               coreTileSize: coreTileSize,
               counters: counters,
-              theme: theme,
+              defenceColor: defenceColor,
             ),
         ]),
       ),
@@ -51,7 +51,7 @@ class CurrentStatePlayerTile extends StatelessWidget {
   final GameState gameState;
   final double tileSize;
   final double coreTileSize;
-  final CSTheme theme;
+  final Color defenceColor;
   final Map<String, Counter> counters;
   final Map<CSPage,Color> pagesColor;
 
@@ -59,7 +59,7 @@ class CurrentStatePlayerTile extends StatelessWidget {
     @required this.name,
     @required this.tileSize,
     @required this.coreTileSize,
-    @required this.theme,
+    @required this.defenceColor,
     @required this.pagesColor,
     @required this.counters,
   });
@@ -85,7 +85,7 @@ class CurrentStatePlayerTile extends StatelessWidget {
               damageType: DamageType.life,
               value: playerState.life,
               pagesColor: pagesColor,
-              theme: theme,
+              defenceColor: defenceColor,
             ),
           ),
           // for other counters, just sum up to the counters that are present in the map,
@@ -100,14 +100,14 @@ class PieceOfInformation extends StatelessWidget {
   final DamageType damageType;
   final bool attacking;
   final int value;
-  final CSTheme theme;
+  final Color defenceColor;
   final Map<CSPage,Color> pagesColor;
 
   PieceOfInformation({
     @required this.pagesColor,
     @required this.damageType,
     @required this.value,
-    @required this.theme,
+    @required this.defenceColor,
     this.attacking,
   }): assert(!(
     damageType == DamageType.commanderDamage 
@@ -122,7 +122,7 @@ class PieceOfInformation extends StatelessWidget {
     IconData icon;
 
     if(damageType == DamageType.commanderDamage){
-      color = attacking ? pagesColor[CSPage.commanderDamage]: theme.commanderDefence;
+      color = attacking ? pagesColor[CSPage.commanderDamage]: defenceColor;
       icon = attacking ? CSTypesUI.attackIconOne : CSTypesUI.defenceIconFilled;
     } else {
       color = pagesColor[damageToPage[damageType]];

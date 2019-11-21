@@ -1,7 +1,8 @@
 import 'package:counter_spell_new/core.dart';
 
-import 'cs_theme.dart';
-import 'package:flutter/material.dart';
+
+const Color DELETE_COLOR = const Color(0xFFE45356);
+
 const defaultPageColorsLight = const {
   CSPage.history: Color(0xFF424242),
   CSPage.counters: Color(0xFF263133), 
@@ -17,24 +18,8 @@ const defaultPageColorsDark = const {
   CSPage.commanderDamage: Color(0xFF792738),
 };
 
-const Map<String, CSTheme> csDefaultThemesLight = {
-  "Light Default" : const CSTheme(
-    commanderDefence: MyColors.blue,
-    accent: const Color(0xFFDDDDDD), 
-  ),
-};
+const Color csDefaultDefenceColor = MyColors.blue;
 
-
-const Map<String, CSTheme> csDefaultThemesDark = {
-  "Night Blue Default" : const CSTheme(
-    commanderDefence: MyColors.blue,
-    accent: const Color(0xFFDDDDDD), 
-  ),
-  "Night Black Default" : const CSTheme(
-    commanderDefence: MyColors.blue,
-    accent: const Color(0xFF212121),
-  ),
-};
 
 
 class MyColors {

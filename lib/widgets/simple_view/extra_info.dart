@@ -17,7 +17,7 @@ class ExtraInfo {
     @required Map<DamageType, bool> types,
     @required Map<String, bool> havingPartnerB,
     @required Map<CSPage,Color> pageColors,
-    @required CSTheme theme,
+    @required Color defenceColor,
     @required Map<String,Counter> counterMap,
   }){
     final state = ofGroup[name];
@@ -45,7 +45,7 @@ class ExtraInfo {
         ...[
           if(entry.value.a!=0)
             ExtraInfo(
-              color: theme.commanderDefence,
+              color: defenceColor,
               icon: CSTypesUI.defenceIconFilled,
               value: entry.value.a,
               note: "${PTileUtils.subString(entry.key,3)}"+ (havingPartnerB[entry.key] == true 
@@ -56,7 +56,7 @@ class ExtraInfo {
           if(havingPartnerB[entry.key] == true)
           if(entry.value.b!=0)
             ExtraInfo(
-              color: theme.commanderDefence,
+              color: defenceColor,
               icon: CSTypesUI.defenceIconFilled,
               value: entry.value.a,
               note: "${PTileUtils.subString(entry.key,3)} (B)",

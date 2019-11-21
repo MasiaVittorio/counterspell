@@ -13,8 +13,8 @@ class CSPanelCollapsed extends StatelessWidget {
 
     return BlocVar.build2(
       stage.pagesController.page, 
-      bloc.themer.theme, 
-      builder: (context, currentPage, csTheme){
+      bloc.themer.defenceColor, 
+      builder: (context, currentPage, defenceColor){
         final Widget backButton = gameStateBloc.gameState.build( (context, state)
           => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3, iconSize: 20,),
         );
@@ -107,7 +107,7 @@ class CSPanelCollapsed extends StatelessWidget {
                 top: 0.0,
                 right: 0.0,
                 height: CSConstants.barSize,
-                child: _DelayerPanel(theme: csTheme, bloc: bloc,),
+                child: _DelayerPanel(defenceColor: defenceColor, bloc: bloc,),
               ),
             ]
           )
@@ -122,11 +122,11 @@ class CSPanelCollapsed extends StatelessWidget {
 
 class _DelayerPanel extends StatelessWidget {
   _DelayerPanel({
-    @required this.theme,
+    @required this.defenceColor,
     @required this.bloc,
   });
   final CSBloc bloc;
-  final CSTheme theme;
+  final Color defenceColor;
 
   @override
   Widget build(BuildContext context) {

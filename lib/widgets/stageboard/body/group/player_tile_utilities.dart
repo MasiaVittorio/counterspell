@@ -6,25 +6,25 @@ class PTileUtils {
     CSPage page,
     bool attacking,
     bool defending,
-    Map<CSPage,Color> pageColors,
-    CSTheme theme,
+    Color pageColor,
+    Color defenceColor,
     bool someoneAttacking,
   ){
     if(page == CSPage.commanderDamage){
       if(attacking){
-        return pageColors[CSPage.commanderDamage];
+        return pageColor;
       } else if(defending){
-        return theme.commanderDefence;
+        return defenceColor;
       } else {
         if(someoneAttacking){
-          return theme.commanderDefence.withOpacity(0.8);
+          return defenceColor.withOpacity(0.8);
         } else {
-          return pageColors[CSPage.commanderDamage]
+          return pageColor
               .withOpacity(0.5);
         }
       }
     } else {
-      return pageColors[page];
+      return pageColor;
     }
   }
 

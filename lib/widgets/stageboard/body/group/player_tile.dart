@@ -9,7 +9,6 @@ import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_util
 class PlayerTile extends StatelessWidget {
   final String name;
 
-  final CSGameGroup group;
   final double tileSize;
   final double bottom;
   final double coreTileSize;
@@ -19,7 +18,7 @@ class PlayerTile extends StatelessWidget {
   final String whoIsAttacking;
   final String whoIsDefending;
   final Counter counter;
-  final GameState gameState;
+  final PlayerState playerState;
   final Color defenceColor;
   final int increment;
   final PlayerAction normalizedPlayerAction;
@@ -41,15 +40,54 @@ class PlayerTile extends StatelessWidget {
     "whoIsAttacking": whoIsAttacking,
     "whoIsDefending": whoIsDefending,
     "counter": counter.longName,
-    "playerState": gameState.players[name].states.last.toJson(),
+    "playerState": playerState.toJson(),
     "defenceColor": defenceColor.value,
     "increment": increment,
-    "nextState": normalizedPlayerAction.apply(gameState.players[name].states.last).toJson(),
+    "nextState": normalizedPlayerAction.apply(playerState).toJson(),
     "maxWidth": maxWidth,
     "pageColor": pageColor.value,
     "usingPartnerB": usingPartnerB,
     "havingPartnerB": havingPartnerB,
+    "isAttackerHavingPartnerB": isAttackerHavingPartnerB,
+    "isAttackerUsingPartnerB": isAttackerUsingPartnerB,
   });
+
+  @override
+  int get hashCode => this.encoded.hashCode;
+
+  @override 
+  bool operator ==(Object other){
+    if(identical(other, this)) return true;
+    if(other.runtimeType != this.runtimeType) return false;
+    if(other is PlayerTile){
+      if(other.name != this.name) return false;
+      if(other.increment != this.increment) return false;
+      if(other.selected != this.selected) return false;
+      if(other.isScrollingSomewhere != this.isScrollingSomewhere) return false;
+      if(other.whoIsAttacking != this.whoIsAttacking) return false;
+      if(other.whoIsDefending != this.whoIsDefending) return false;
+      if(other.playerState != this.playerState) return false;
+
+      if(other.pageColor != this.pageColor) return false;
+      if(other.usingPartnerB != this.usingPartnerB) return false;
+      if(other.havingPartnerB != this.havingPartnerB) return false;
+      if(other.isAttackerHavingPartnerB != this.isAttackerHavingPartnerB) return false;
+      if(other.isAttackerUsingPartnerB != this.isAttackerUsingPartnerB) return false;
+
+      if(other.normalizedPlayerAction.apply(other.playerState).toJson() 
+      != this.normalizedPlayerAction.apply(this.playerState).toJson()) return false;
+
+      if(other.counter.longName != this.counter.longName) return false;
+
+      if(other.maxWidth != this.maxWidth) return false;
+      if(other.defenceColor != this.defenceColor) return false;
+      if(other.tileSize != this.tileSize) return false;
+      if(other.bottom != this.bottom) return false;
+      if(other.coreTileSize != this.coreTileSize) return false;
+
+      return true;
+    } else return false;
+  }
 
   const PlayerTile(this.name, {
     @required this.usingPartnerB,
@@ -57,7 +95,6 @@ class PlayerTile extends StatelessWidget {
     @required this.havingPartnerB,
     @required this.isAttackerHavingPartnerB,
     @required this.maxWidth,
-    @required this.group,
     @required this.tileSize,
     @required this.bottom,
     @required this.coreTileSize,
@@ -68,7 +105,7 @@ class PlayerTile extends StatelessWidget {
     @required this.whoIsAttacking,
     @required this.whoIsDefending,
     @required this.counter,
-    @required this.gameState,
+    @required this.playerState,
     @required this.defenceColor,
     @required this.increment,
     @required this.normalizedPlayerAction,
@@ -82,7 +119,8 @@ class PlayerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = group.parent.parent;
+    final bloc = CSBloc.of(context);
+    final group = bloc.game.gameGroup;
     final scrollerBloc = bloc.scroller;
     final actionBloc = bloc.game.gameAction;
     final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
@@ -109,7 +147,6 @@ class PlayerTile extends StatelessWidget {
     }
     assert(scrolling != null);
 
-    final playerState = gameState.players[name].states.last;
  
     //from now on we will act like the page will always be life,
     //we will abstract the player tile later to manage other pages
@@ -158,9 +195,10 @@ class PlayerTile extends StatelessWidget {
                   defending: defending,
                   stage: stage,
                   someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
+                  group: group,
                 ),
                 Expanded(child: buildBody(selected)),
-                buildTrailing(selected, actionBloc),
+                buildTrailing(selected, actionBloc, group),
               ]),
             ),
           ),
@@ -243,6 +281,7 @@ class PlayerTile extends StatelessWidget {
     @required bool defending,
     @required StageData<CSPage,SettingsPage> stage,
     @required bool someoneAttacking,
+    @required CSGameGroup group,
   }){
     Widget child;
 
@@ -305,7 +344,7 @@ class PlayerTile extends StatelessWidget {
     );
   }
   
-  Widget buildTrailing(bool rawSelected, CSGameAction actionBloc){
+  Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, CSGameGroup group){
     return SizedBox(
       width: coreTileSize,
       height: coreTileSize,

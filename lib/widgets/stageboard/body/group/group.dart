@@ -84,7 +84,6 @@ class BodyGroup extends StatelessWidget {
                   maxWidth: maxWidth,
                   increment: increment,
                   defenceColor: defenceColor,
-                  group: group,
                   tileSize: tileSize,
                   bottom: ([
                     names.last,
@@ -101,7 +100,7 @@ class BodyGroup extends StatelessWidget {
                   whoIsDefending: defendingPlayer,
                   isScrollingSomewhere: isScrolling,
                   counter: counter,
-                  gameState: gameState,
+                  playerState: gameState.players[name].states.last,
                   normalizedPlayerAction: normalizedPlayerActions[name],
                 ),
             ];

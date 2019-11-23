@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import '../all.dart';
 
 class PACounter extends PlayerAction {

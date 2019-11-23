@@ -1,5 +1,5 @@
-
-import 'package:counter_spell_new/core.dart';
+import '../all.dart';
+import 'package:flutter/widgets.dart';
 
 class GACounter extends GameAction{
   final Map<String,bool> selected;

@@ -1,4 +1,3 @@
-
 import '../all.dart';
 
 class GANull extends GameAction{

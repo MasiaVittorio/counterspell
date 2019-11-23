@@ -1,5 +1,4 @@
-
-import 'package:counter_spell_new/core.dart';
+import '../all.dart';
 import 'package:flutter/widgets.dart';
 
 class GALife extends GameAction{

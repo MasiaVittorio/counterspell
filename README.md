@@ -13,25 +13,25 @@ I play Magic since I was a kid and especially Commander for the past five years.
 
 **Scrolling:** You won't find any +1/-1, +5/-5 button in CounterSpell. Every edit on a life total or any other quantity is made by scrolling on it to set a positive or negative increment. The starting life, the increment and the result are showed until you let go the scroll and wait a customizable delay time (so you can scroll multiple times to set a specific increment) or manually confirm the edit.
 
-screenshot
+<img src="assets/images/screenshots/scroll_life.png" height="300">
 
 **History:** A detailed screen dedicated to show you every past edit, and an "undo" / "redo" functionality.
 
-screenshot
+<img src="assets/images/screenshots/history.png" height="300">
 
 **Multi selection:** You can tap on a player to select it for a given edit and then scroll on a different player (or on one of the already selected ones) to make a group-edit all at once. This is especially useful when you need to ping all of your opponents for few damages without wasting time making 3 different edits. Also, those edits are all grouped in one action so the history doesn't get cluttered.
 
-screenshot  screenshot
+<img src="assets/images/screenshots/multi_selection.png" height="300">  <img src="assets/images/screenshots/multi_history.png" height="300">
 
 **Commander Damage:** You can tap on one player to set it as the attacker and then scroll on another player (or the same one, if your game is getting crazy enough) to edit the amount of commander damage that his commanded dealt to that player.
 
-<img src="assets/images/screenshots/commander_damage.png" height="300">
+<img src="assets/images/screenshots/commander_damage.png" height="300"> <img src="assets/images/screenshots/self_damage.png" height="300">
 
 >You can also split the commander of a player into two partners and separately track their damages and their casts.
 
 **Any kind of counter:** You can track poison counters, experience counters, and a lot of other stuff separately in the "Counter" section.
 
-screenshot screenshot
+<img src="assets/images/screenshots/poison.png" height="300"> <img src="assets/images/screenshots/counters.png" height="300">
 
 **A lot of other stuff:** Really, this readme is getting too long.
 

@@ -6,7 +6,8 @@ A life tracker app build with [Flutter](https://flutter.dev/) for Magic players,
 
 
 ### Who made it
-I play Magic since I was a kid and especially Commander for the past five years. I never found a life counter app that suited all my needs and especially none that were made with Material Design in mind. I decided to learn mobile development and make what I wanted myself, and Flutter was the most obvious choice since it is multiplatform and easy to learn for someone that know a bit of object oriented programming but never dived into mobile development.
+I play Magic since I was a kid and especially Commander for the past five years. I never found a life counter app that suited all my needs and especially none that were made with Material Design in mind. I decided to learn mobile development and build what I wanted myself, and Flutter was the most obvious choice since it is multiplatform and easy to learn for someone who knows a bit of object oriented programming but never dived into mobile development.
+
 
 
 # What makes CounterSpell different
@@ -15,28 +16,39 @@ I play Magic since I was a kid and especially Commander for the past five years.
 
 <img src="assets/images/screenshots/scroll_life.png" height="300">
 
+
+
 **History:** A detailed screen dedicated to show you every past edit, and an "undo" / "redo" functionality.
 
 <img src="assets/images/screenshots/history.png" height="300">
+
+
 
 **Multi selection:** You can tap on a player to select it for a given edit and then scroll on a different player (or on one of the already selected ones) to make a group-edit all at once. This is especially useful when you need to ping all of your opponents for few damages without wasting time making 3 different edits. Also, those edits are all grouped in one action so the history doesn't get cluttered.
 
 <img src="assets/images/screenshots/multi_selection.png" height="300">  <img src="assets/images/screenshots/multi_history.png" height="300">
 
-**Commander Damage:** You can tap on one player to set it as the attacker and then scroll on another player (or the same one, if your game is getting crazy enough) to edit the amount of commander damage that his commanded dealt to that player.
+>This app is intended to be used by one person at a time, that tracks all the relevant information on his phone and hands it around the table when needed. Naturally, that's not the way everyone likes to use such an app, it's just the way I'm used and comfortable to with my playgroup. This isn't intended to be the perfect app for everyone and forever, improvement and competition are key to make the better producs for all kinds of users.
+
+
+
+**Commander Damage:** You can tap on one player to set it as the attacker and then scroll on another player (or the same one, if your game is getting crazy enough) to edit the amount of commander damage that his commander dealt to that player.
 
 <img src="assets/images/screenshots/commander_damage.png" height="300"> <img src="assets/images/screenshots/self_damage.png" height="300">
 
 >You can also split the commander of a player into two partners and separately track their damages and their casts.
 
-**Any kind of counter:** You can track poison counters, experience counters, and a lot of other stuff separately in the "Counter" section.
+
+
+**Any kind of counter:** You can track poison counters, experience counters, and a lot of other stuff separately in the "Counters" section.
 
 <img src="assets/images/screenshots/poison.png" height="300"> <img src="assets/images/screenshots/counters.png" height="300">
+
+
 
 **A lot of other stuff:** Really, this readme is getting too long.
 
 
->This app is intended to be used by one person at a time, that tracks all the relevant information on his phone and hands it around the table when needed. It's not the way everyone likes to use such an app and that's unserstandable, it's just the way I'm used and comfortable to with my playgroup. This isn't intended to be the perfect app for everyone and forever, improvement and competition are key to make the better producs for anyone.
 
 
 >**Note:** This app is OpenSource and basically free.<br>

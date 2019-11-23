@@ -25,8 +25,7 @@ screenshot  screenshot
 
 **Commander Damage:** You can tap on one player to set it as the attacker and then scroll on another player (or the same one, if your game is getting crazy enough) to edit the amount of commander damage that his commanded dealt to that player.
 
-<img src="assets/images/screenshots/commander_damage.png" width="100" height="100">
-![Commander Damage](assets/images/screenshots/commander_damage.png | height=200)
+![Commander Damage](assets/images/screenshots/commander_damage.png | width=200)
 
 >You can also split the commander of a player into two partners and separately track their damages and their casts.
 

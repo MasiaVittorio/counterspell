@@ -15,7 +15,7 @@ I play Magic since I was a kid and especially Commander for the past five years.
 
 screenshot
 
-**History:** A detailed screen dedicated to show you every past edit.
+**History:** A detailed screen dedicated to show you every past edit, and an "undo" / "redo" functionality.
 
 screenshot
 
@@ -25,9 +25,13 @@ screenshot  screenshot
 
 **Commander Damage:** You can tap on one player to set it as the attacker and then scroll on another player (or the same one, if your game is getting crazy enough) to edit the amount of commander damage that his commanded dealt to that player.
 
-screenshot
+![Commander Damage][assets/images/screenshots/commander_damage.jpg]
 
 >You can also split the commander of a player into two partners and separately track their damages and their casts.
+
+**Any kind of counter:** You can track poison counters, experience counters, and a lot of other stuff separately in the "Counter" section.
+
+screenshot screenshot
 
 **A lot of other stuff:** Really, this readme is getting too long.
 

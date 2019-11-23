@@ -3,6 +3,8 @@ class CSLicenses {
 
   static const String scryfallImagePolicy =  r"All the M:TG-related information, icons, and card images found within CounterSpell are copyrighted by Wizards of the Coast.";
 
+  static const String openSourceDisclaimer = r"The source code of CounterSpell is available on GitHub under the GNU GPLv3 License.";
+
   static const String mit = r"""
 MIT License
 
@@ -54,7 +56,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.""";
 
-  static const String apache2 = r""""
+  static const String apache2 = r"""
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/

@@ -3,8 +3,16 @@ import 'package:counter_spell_new/core.dart';
 class AlertLicenses extends StatelessWidget {
   const AlertLicenses();
 
+  static showText(StageData stage, String text)=> stage.showAlert(TextAlert(text), size: 400.0);
+
+  static showBSD(StageData stage) => showText(stage, CSLicenses.bsd);
+  static showApache2(StageData stage) => showText(stage, CSLicenses.apache2);
+  static showMIT(StageData stage) => showText(stage, CSLicenses.mit);
+
   @override
   Widget build(BuildContext context) {
+
+    final stage = Stage.of(context);
 
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
@@ -25,59 +33,72 @@ class AlertLicenses extends StatelessWidget {
               child: const Text(CSLicenses.scryfallImagePolicy),
             ),
           ]),
-          const Section([
+          Section([
             const SectionTitle("Flutter Packages"),
             ListTile(
-              title: Text('cached_network_image'),
-              subtitle: Text('Used under: MIT License'),
+              title: const Text('cached_network_image'),
+              subtitle: const Text('Used under: MIT License'),
+              onTap: () => showMIT(stage),
             ),
             ListTile(
-              title: Text('division'),
-              subtitle: Text('Used under: MIT License'),
+              title: const Text('division'),
+              subtitle: const Text('Used under: MIT License'),
+              onTap: () => showMIT(stage),
             ),
             ListTile(
-              title: Text('flutter_reorderable_list'),
-              subtitle: Text('Used under: BSD License'),
+              title: const Text('flutter_reorderable_list'),
+              subtitle: const Text('Used under: BSD License'),
+              onTap: () => showBSD(stage),
             ),
             ListTile(
-              title: Text('hive'),
-              subtitle: Text('Used under: Apache 2.0 License'),
+              title: const Text('hive'),
+              subtitle: const Text('Used under: Apache 2.0 License'),
+              onTap: () => showApache2(stage),
             ),
             ListTile(
-              title: Text('http'),
-              subtitle: Text('Used under: BSD License'),
+              title: const Text('http'),
+              subtitle: const Text('Used under: BSD License'),
+              onTap: () => showBSD(stage),
             ),
             ListTile(
-              title: Text('in_app_purchase'),
-              subtitle: Text('Used under: BSD License'),
+              title: const Text('in_app_purchase'),
+              subtitle: const Text('Used under: BSD License'),
+              onTap: () => showBSD(stage),
             ),
             ListTile(
-              title: Text('path_provider'),
-              subtitle: Text('Used under: BSD License'),
+              title: const Text('path_provider'),
+              subtitle: const Text('Used under: BSD License'),
+              onTap: () => showBSD(stage),
             ),
             ListTile(
-              title: Text('rxdart'),
-              subtitle: Text('Used under: Apache 2.0 License'),
+              title: const Text('rxdart'),
+              subtitle: const Text('Used under: Apache 2.0 License'),
+              onTap: () => showApache2(stage),
             ),
             ListTile(
-              title: Text('screen'),
-              subtitle: Text('Used under: MIT License'),
+              title: const Text('screen'),
+              subtitle: const Text('Used under: MIT License'),
+              onTap: () => showMIT(stage),
             ),
             ListTile(
-              title: Text('sqflite'),
-              subtitle: Text('Used under: MIT License'),
+              title: const Text('sqflite'),
+              subtitle: const Text('Used under: MIT License'),
+              onTap: () => showMIT(stage),
             ),
             ListTile(
-              title: Text('tinycolor'),
-              subtitle: Text('Used under: MIT License'),
+              title: const Text('tinycolor'),
+              subtitle: const Text('Used under: MIT License'),
+              onTap: () => showMIT(stage),
             ),
             ListTile(
-              title: Text('url_launcher'),
-              subtitle: Text('Used under: BSD License'),
+              title: const Text('url_launcher'),
+              subtitle: const Text('Used under: BSD License'),
+              onTap: () => showBSD(stage),
             ),
             ListTile(
-              title: Text('vibrate'),
-              subtitle: Text('Used under: MIT License'),
+              title: const Text('vibrate'),
+              subtitle: const Text('Used under: MIT License'),
+              onTap: () => showMIT(stage),
             ),
           ]),
         ],),

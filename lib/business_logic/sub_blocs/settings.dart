@@ -66,9 +66,9 @@ class CSSettings {
   //===================================
   // Constructor
   static const double sensVal = 7.2;
-  static const double sensSpeedVal = 0.8;
-  static const double sensPreBoostVal= 3.2;
-  static const double sens1StaticVal= 0.4;
+  static const double sensSpeedVal = 0.4;
+  static const double sensPreBoostVal= 2.0;
+  static const double sens1StaticVal= 0.8;
   static const Duration confirmDelayVal = const Duration(milliseconds: 700);
   CSSettings(this.parent): 
     scrollSensitivity = PersistentVar<double>(

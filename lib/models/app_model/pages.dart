@@ -40,7 +40,7 @@ class CSPages{
 
   static const Map<CSPage, String> _pageToShortTitle = {
     CSPage.history: "History",
-    CSPage.counters: "Others",
+    CSPage.counters: "Counters",
     CSPage.life: "Life",
     CSPage.commanderDamage: "Damage",
     CSPage.commanderCast: "Cast",

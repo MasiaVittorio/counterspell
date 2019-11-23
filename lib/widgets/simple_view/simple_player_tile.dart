@@ -288,7 +288,7 @@ class SimplePlayerTile extends StatelessWidget {
         ];
         if(list.isEmpty) return SizedBox();
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal:4.0),
+          padding: const EdgeInsets.all(16.0),
           child: Container(
             decoration: BoxDecoration(
               color: themeData.colorScheme.onSurface.withOpacity(0.05),

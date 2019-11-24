@@ -147,11 +147,6 @@ class PlayerTile extends StatelessWidget {
     }
     assert(scrolling != null);
 
- 
-    //from now on we will act like the page will always be life,
-    //we will abstract the player tile later to manage other pages
-    //like commander damage / casts / counters
-
     final Widget tile = InkWell(
       onTap: () => PlayerGestures.tap(
         name,
@@ -164,7 +159,7 @@ class PlayerTile extends StatelessWidget {
         usePartnerB: usingPartnerB,
       ),
       onLongPress: () => stage.showAlert(
-        PlayerDetails(bloc.game.gameGroup.names.value.indexOf(name)), 
+        PlayerDetails(bloc.game.gameGroup.names.value.indexOf(name), this.maxWidth/(this.tileSize + this.bottom)), 
         size: PlayerDetails.height,
       ),
       child: VelocityPanDetector(
@@ -213,7 +208,7 @@ class PlayerTile extends StatelessWidget {
       } else {
         final String imageUrl = card.imageUrl();
 
-        final Widget image = bloc.settings.imageAlignment.build((_,alignment) => Container(
+        final Widget image = bloc.settings.imageAlignments.build((_,alignments) => Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: CachedNetworkImageProvider(
@@ -221,7 +216,7 @@ class PlayerTile extends StatelessWidget {
                 errorListener: (){},
               ),
               fit: BoxFit.cover,
-              alignment: Alignment(0,alignment),
+              alignment: Alignment(0,alignments[imageUrl] ?? -0.5),
             ),
           ),
         ),);
@@ -272,7 +267,7 @@ class PlayerTile extends StatelessWidget {
 
   }
 
-  static const _circleFrac = 0.7;
+  static const circleFrac = 0.7;
   Widget buildLeading({
     @required PlayerState playerState,
     @required bool rawSelected,
@@ -295,8 +290,8 @@ class PlayerTile extends StatelessWidget {
 
       child = Container(
         key: ValueKey("circle name"),
-        width: coreTileSize*_circleFrac,
-        height: coreTileSize*_circleFrac,
+        width: coreTileSize*circleFrac,
+        height: coreTileSize*circleFrac,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(coreTileSize),
@@ -312,26 +307,34 @@ class PlayerTile extends StatelessWidget {
 
       final int _increment = PTileUtils.cnIncrement(normalizedPlayerAction);
 
-      child = CircleNumber(
-        key: ValueKey("circle number"),
-        size: coreTileSize * _circleFrac,
-        value: PTileUtils.cnValue(
-          name, 
-          page, 
-          whoIsAttacking, 
-          whoIsDefending,
-          usingPartnerB ?? false,
-          playerState,
-          isAttackerUsingPartnerB ?? false,
-          counter,
+      child = InkWell(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        onTap: () => stage.showAlert(
+          PlayerDetails(group.names.value.indexOf(name), this.maxWidth/(this.tileSize + this.bottom)), 
+          size: PlayerDetails.height,
         ),
-        numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
-        open: scrolling,
-        style: textStyle,
-        duration: MyDurations.fast,
-        color: color,
-        increment: _increment,
-        borderRadiusFraction: attacking ? 0.1 : 1.0,
+        child: CircleNumber(
+          key: ValueKey("circle number"),
+          size: coreTileSize * circleFrac,
+          value: PTileUtils.cnValue(
+            name, 
+            page, 
+            whoIsAttacking, 
+            whoIsDefending,
+            usingPartnerB ?? false,
+            playerState,
+            isAttackerUsingPartnerB ?? false,
+            counter,
+          ),
+          numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
+          open: scrolling,
+          style: textStyle,
+          duration: MyDurations.fast,
+          color: color,
+          increment: _increment,
+          borderRadiusFraction: attacking ? 0.1 : 1.0,
+        ),
       );
 
     }
@@ -339,7 +342,7 @@ class PlayerTile extends StatelessWidget {
     assert(child != null);
 
     return Padding(
-      padding: EdgeInsets.all(coreTileSize * (1 - _circleFrac)/2),
+      padding: EdgeInsets.all(coreTileSize * (1 - circleFrac)/2),
       child: child
     );
   }

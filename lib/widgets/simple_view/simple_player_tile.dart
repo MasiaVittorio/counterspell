@@ -182,7 +182,7 @@ class SimplePlayerTile extends StatelessWidget {
                 } else {
                   final String imageUrl = card.imageUrl();
 
-                  final Widget image = bloc.settings.imageAlignment.build((_,alignment) => Container(
+                  final Widget image = bloc.settings.imageAlignments.build((_,alignments) => Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: CachedNetworkImageProvider(
@@ -190,7 +190,7 @@ class SimplePlayerTile extends StatelessWidget {
                           errorListener: (){},
                         ),
                         fit: BoxFit.cover,
-                        alignment: Alignment(0,alignment),
+                        alignment: Alignment(0,alignments[imageUrl] ?? -0.5),
                       ),
                     ),
                   ),);

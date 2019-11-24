@@ -5,5 +5,6 @@ export 'developer.dart';
 export 'dice.dart';
 export 'feedback.dart';
 export 'licenses.dart';
+export 'opacity.dart';
 export 'scroll.dart';
 export 'support.dart';

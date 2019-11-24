@@ -4,9 +4,10 @@ class SettingsBehavior extends StatelessWidget {
   const SettingsBehavior();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
-    final stage = Stage.of(context);
+    final CSBloc bloc = CSBloc.of(context);
+    final CSSettings settings = bloc.settings;
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+
     return Section([
       const SectionTitle("Behavior"),
       settings.wantVibrate.build((_, vibrate)
@@ -26,14 +27,8 @@ class SettingsBehavior extends StatelessWidget {
           size: ScrollSensitivity.height,
         ),
       ),
-      settings.alwaysOnDisplay.build((_, alwaysOn) => SwitchListTile(
-        value: alwaysOn,
-        onChanged: settings.alwaysOnDisplay.set,
-        title: const Text("Always on display"),
-        secondary: const Icon(Icons.settings_brightness),
-      ),),
       _divider,
-      settings.confirmDelay.build((_, dur) => CSSliderEnd(
+      settings.confirmDelay.build((_, dur) => CSSlider(
         icon: const Icon(Icons.timelapse),
         value: dur.inMilliseconds.toDouble(),
         min: 200,

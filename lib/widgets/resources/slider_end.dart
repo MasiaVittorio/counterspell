@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
 
-class CSSliderEnd extends StatefulWidget {
+class CSSlider extends StatefulWidget {
   final double min;
   final double max;
   final double value;
   final String Function(double) title;
   final void Function(double) onChangeEnd;
+  final void Function(double) onChanged;
   final bool enabled;
   final Widget icon;
   final double restartTo;
   final bool bigTitle;
 
-  CSSliderEnd({
+  CSSlider({
     @required this.value,
-    @required this.onChangeEnd,
+    this.onChangeEnd,
+    this.onChanged,
     this.min = 0.0,
     this.max = 1.0,
     this.enabled = true,
@@ -26,14 +28,13 @@ class CSSliderEnd extends StatefulWidget {
       assert(max != null),
       assert(bigTitle != null),
       assert(enabled != null),
-      assert(value != null),
-      assert(onChangeEnd != null);
-
+      assert(value != null);
+      
   @override
-  _CSSliderEndState createState() => _CSSliderEndState();
+  _CSSliderState createState() => _CSSliderState();
 }
 
-class _CSSliderEndState extends State<CSSliderEnd> {
+class _CSSliderState extends State<CSSlider> {
 
   double _value;
 
@@ -44,7 +45,7 @@ class _CSSliderEndState extends State<CSSliderEnd> {
   }
 
   @override
-  void didUpdateWidget(CSSliderEnd oldWidget) {
+  void didUpdateWidget(CSSlider oldWidget) {
     super.didUpdateWidget(oldWidget);
     if(oldWidget.value != widget.value){
       this._value = widget.value;
@@ -55,11 +56,14 @@ class _CSSliderEndState extends State<CSSliderEnd> {
   Widget build(BuildContext context) {
     final slider = Slider(
       onChanged: widget.enabled
-        ? (val)=> this.setState((){
-          this._value = val;
-        })
+        ? (val){
+          widget.onChanged?.call(val);
+          this.setState((){
+            this._value = val;
+          });
+        }
         : null,
-      onChangeEnd: (val) => this.widget.onChangeEnd(val),
+      onChangeEnd: (val) => this.widget.onChangeEnd?.call(val),
       value: this._value,
       min: widget.min,
       max: widget.max,

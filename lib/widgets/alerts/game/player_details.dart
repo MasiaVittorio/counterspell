@@ -8,7 +8,8 @@ enum _DetailsPage {
 
 class PlayerDetails extends StatefulWidget {
   final int index;
-  const PlayerDetails(this.index);
+  final double aspectRatio;
+  const PlayerDetails(this.index, this.aspectRatio);
 
   static const double height = 360.0 +56/2 +56.0;
 
@@ -29,7 +30,7 @@ class _PlayerDetailsState extends State<PlayerDetails> {
   Widget build(BuildContext context) {
 
     final Map<_DetailsPage, Widget> pages = {
-      _DetailsPage.info: PlayerDetailsInfo(widget.index),
+      _DetailsPage.info: PlayerDetailsInfo(widget.index, aspectRatio: widget.aspectRatio),
       _DetailsPage.commander: PlayerDetailsDamage(widget.index),
     };
 

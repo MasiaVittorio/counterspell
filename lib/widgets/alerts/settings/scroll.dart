@@ -63,7 +63,7 @@ class ScrollSensitivity extends StatelessWidget {
                 Container(
                   alignment: Alignment.center,
                   height: _hBigSlider,
-                  child: _speedValue.build((_, speedValue) =>  CSSliderEnd(
+                  child: _speedValue.build((_, speedValue) =>  CSSlider(
                     onChangeEnd: _speedValue.set,
                     enabled: speed,
                     value: speedValue,
@@ -84,7 +84,7 @@ class ScrollSensitivity extends StatelessWidget {
                 Container(
                   alignment: Alignment.center,
                   height: _hBigSlider,
-                  child: _preBoostValue.build((_, preBoostValue) =>  CSSliderEnd(
+                  child: _preBoostValue.build((_, preBoostValue) =>  CSSlider(
                     onChangeEnd: _preBoostValue.set,
                     enabled: preBoost,
                     value: preBoostValue,
@@ -105,7 +105,7 @@ class ScrollSensitivity extends StatelessWidget {
                 Container(
                   alignment: Alignment.center,
                   height: _hBigSlider,
-                  child: _oneStaticValue.build((_, oneStaticValue) =>  CSSliderEnd(
+                  child: _oneStaticValue.build((_, oneStaticValue) =>  CSSlider(
                     onChangeEnd: _oneStaticValue.set,
                     enabled: oneStatic,
                     value: oneStaticValue,

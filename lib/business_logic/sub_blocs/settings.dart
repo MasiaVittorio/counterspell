@@ -27,7 +27,7 @@ class CSSettings {
 
     this.alwaysOnDisplay.dispose();
 
-    this.imageAlignment.dispose();
+    this.imageAlignments.dispose();
     this.imageGradientStart.dispose();
     this.imageGradientEnd.dispose();
   }
@@ -59,7 +59,7 @@ class CSSettings {
 
   final PersistentVar<bool> alwaysOnDisplay;
 
-  final PersistentVar<double> imageAlignment;
+  final PersistentVar<Map<String,double>> imageAlignments;
   final PersistentVar<double> imageGradientStart;
   final PersistentVar<double> imageGradientEnd;
 
@@ -156,11 +156,14 @@ class CSSettings {
       fromJson: (j) => j,
       onChanged: (bool b) => Screen.keepOn(b),
     ),
-    imageAlignment = PersistentVar<double>(
-      key: "bloc_settings_blocvar_imageAlignment",
-      initVal: -0.5,
-      toJson: (d) => d,
-      fromJson: (j) => j,
+    imageAlignments = PersistentVar<Map<String,double>>(
+      key: "bloc_settings_blocvar_imageAlignments",
+      initVal: <String,double>{},
+      toJson: (map) => map,
+      fromJson: (json) => <String,double>{
+        for(final entry in (json as Map<String, dynamic>).entries)
+          entry.key: entry.value as double,          
+      },
     ),
     imageGradientStart = PersistentVar<double>(
       key: "bloc_settings_blocvar_imageGradientStart",

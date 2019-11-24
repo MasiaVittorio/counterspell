@@ -31,6 +31,7 @@ class PanelSettings extends StatelessWidget {
               ),
           ]),
           const SettingsBehavior(),
+          const SettingsAppearance(),
         ],
       ),
     ));

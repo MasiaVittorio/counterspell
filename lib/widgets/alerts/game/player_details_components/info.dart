@@ -3,7 +3,8 @@ import 'utils.dart';
 
 class PlayerDetailsInfo extends StatelessWidget {
   final int index;
-  const PlayerDetailsInfo(this.index);
+  final double aspectRatio;
+  const PlayerDetailsInfo(this.index, {@required this.aspectRatio});
 
   @override
   Widget build(BuildContext context) {
@@ -110,10 +111,10 @@ class PlayerDetailsInfo extends StatelessWidget {
                 const SectionTitle("Edit"),
                 if(partner)
                   ...[
-                    _CommanderTile(this.index, a: true, havePartner: true,),
-                    _CommanderTile(this.index, a: false,havePartner: true,),
+                    _CommanderTile(this.index, a: true, havePartner: true, aspectRatio: aspectRatio,),
+                    _CommanderTile(this.index, a: false,havePartner: true, aspectRatio: aspectRatio,),
                   ]
-                else _CommanderTile(this.index, a: true,),
+                else _CommanderTile(this.index, a: true, aspectRatio: aspectRatio,),
                 ListTile(
                   title: Text("Rename $name"),
                   leading: const Icon(McIcons.pencil_outline),
@@ -136,8 +137,9 @@ class _CommanderTile extends StatelessWidget {
   final bool a;
   final bool havePartner;
   final int index;
+  final double aspectRatio;
 
-  const _CommanderTile(this.index, {@required this.a, this.havePartner = false});  
+  const _CommanderTile(this.index, {@required this.a, this.havePartner = false, @required this.aspectRatio}); 
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +184,10 @@ class _CommanderTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 IconButton(
-                  onPressed: (){},
+                  onPressed: ()=>Stage.of(context).showAlert(
+                    ImageAlign(card.imageUrl(), aspectRatio: aspectRatio,),
+                    size: ImageAlign.height,
+                  ),
                   icon: const Icon(Icons.vertical_align_center),
                 ),
                 IconButton(

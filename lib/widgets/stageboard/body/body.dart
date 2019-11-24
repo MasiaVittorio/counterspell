@@ -10,7 +10,7 @@ class CSBody extends StatelessWidget {
     Key key,
   }): super(key: key);
 
-  static const double _coreTileSize = CSConstants.minTileSize;
+  static const double coreTileSize = CSConstants.minTileSize;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class CSBody extends StatelessWidget {
           );
           final double tileSize = CSConstants.computeTileSize(
             _sureConstraints, 
-            _coreTileSize, 
+            coreTileSize, 
             rowCount,
           );
 
@@ -90,7 +90,7 @@ class CSBody extends StatelessWidget {
                             tileSize: tileSize,
                             group: group,
                             names: names,
-                            coreTileSize: _coreTileSize,
+                            coreTileSize: coreTileSize,
                           ),
                         ),
 
@@ -110,7 +110,7 @@ class CSBody extends StatelessWidget {
                             maxWidth: constraints.maxWidth,
                             count: count,
                             tileSize: tileSize,
-                            coreTileSize: _coreTileSize,
+                            coreTileSize: coreTileSize,
                             defenceColor: defenceColor,
                             group: group,
                             landScape: landScape,

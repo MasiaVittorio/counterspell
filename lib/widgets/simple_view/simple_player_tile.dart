@@ -195,22 +195,9 @@ class SimplePlayerTile extends StatelessWidget {
                     ),
                   ),);
 
-                  final Widget gradient = BlocVar.build2(
-                    bloc.settings.imageGradientStart,
-                    bloc.settings.imageGradientEnd,
-                    builder: (context, double startVal, double endVal) => Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            themeData.canvasColor.withOpacity(startVal),
-                            themeData.canvasColor.withOpacity(endVal),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  final Widget gradient = bloc.settings.simpleImageOpacity.build((context, double opacity) => Container(
+                    color: themeData.canvasColor.withOpacity(opacity),
+                  ));
 
                   return Stack(
                     fit: StackFit.expand,

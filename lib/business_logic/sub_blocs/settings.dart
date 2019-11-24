@@ -62,6 +62,7 @@ class CSSettings {
   final PersistentVar<Map<String,double>> imageAlignments;
   final PersistentVar<double> imageGradientStart;
   final PersistentVar<double> imageGradientEnd;
+  final PersistentVar<double> simpleImageOpacity;
 
   //====================================
   // Default values
@@ -72,6 +73,7 @@ class CSSettings {
   static const Duration confirmDelayVal = const Duration(milliseconds: 700);
   static const double defaultImageGradientEnd = 0.3;
   static const double defaultImageGradientStart = 0.65;
+  static const double defaultSimpleImageOpacity = 0.65;
 
 
   //===================================
@@ -180,6 +182,12 @@ class CSSettings {
     imageGradientEnd = PersistentVar<double>(
       key: "bloc_settings_blocvar_imageGradientEnd",
       initVal: defaultImageGradientEnd,
+      toJson: (d) => d,
+      fromJson: (j) => j,
+    ),
+    simpleImageOpacity = PersistentVar<double>(
+      key: "bloc_settings_blocvar_simpleImageOpacity",
+      initVal: defaultSimpleImageOpacity,
       toJson: (d) => d,
       fromJson: (j) => j,
     )

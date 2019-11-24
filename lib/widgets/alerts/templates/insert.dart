@@ -16,11 +16,13 @@ class InsertAlert extends StatefulWidget {
     this.maxLenght = 50,
     this.initialText,
     this.textCapitalization = TextCapitalization.words,
-  });
+    this.twoLinesLabel = false,
+  }) : assert(twoLinesLabel != null);
 
   final String initialText;
   final String hintText;
   final String labelText;
+  final bool twoLinesLabel;
   final void Function(String) onConfirm;
   final TextInputType inputType;
   final String Function(String) checkErrors;
@@ -28,6 +30,7 @@ class InsertAlert extends StatefulWidget {
   final TextCapitalization textCapitalization;
 
   static const double height = AlertTitle.height + _insert + _buttons;
+  static const double twoLinesHeight = AlertTitle.twoLinesHeight + _insert + _buttons;
   static const double _insert = 72.0;
   static const double _buttons = 56.0;
 
@@ -72,7 +75,7 @@ class _InsertAlertState extends State<InsertAlert> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
 
-          AlertTitle(widget.labelText),
+          AlertTitle(widget.labelText, twoLines: widget.twoLinesLabel,),
 
           Container(
             height: InsertAlert._insert,

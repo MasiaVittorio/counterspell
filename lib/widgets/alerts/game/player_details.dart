@@ -1,10 +1,9 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/alerts/game/player_details_components/info.dart';
+import 'player_details_components/all.dart';
 
 enum _DetailsPage {
   info,
-  attack,
-  defence,
+  commander,
 }
 
 class PlayerDetails extends StatefulWidget {
@@ -28,11 +27,10 @@ class _PlayerDetailsState extends State<PlayerDetails> {
 
   @override
   Widget build(BuildContext context) {
-    // final bloc = CSBloc.of(context);
-    // final stage = bloc.stage;
 
     final Map<_DetailsPage, Widget> pages = {
       _DetailsPage.info: PlayerDetailsInfo(widget.index),
+      _DetailsPage.commander: PlayerDetailsDamage(widget.index),
     };
 
     return Stack(
@@ -72,16 +70,16 @@ class _PlayerDetailsState extends State<PlayerDetails> {
                   icon: Icons.info,
                   unselectedIcon: Icons.info_outline,
                 ),
-                _DetailsPage.attack : RadioNavBarItem(
-                  title: "Attack",
-                  icon: CSTypesUI.attackIconTwo,
-                  unselectedIcon: CSTypesUI.attackIconOne,
+                _DetailsPage.commander : RadioNavBarItem(
+                  title: "Commander",
+                  icon: CSTypesUI.damageIconFilled,
+                  unselectedIcon: CSTypesUI.damageIconOutlined,
                 ),
-                _DetailsPage.defence : RadioNavBarItem(
-                  title: "Defence",
-                  icon: CSTypesUI.defenceIconFilled,
-                  unselectedIcon: CSTypesUI.defenceIconOutline,
-                ),
+                // _DetailsPage.attack : RadioNavBarItem(
+                //   title: "Attack",
+                //   icon: CSTypesUI.attackIconTwo,
+                //   unselectedIcon: CSTypesUI.attackIconOne,
+                // ),
               },
             ),
           ),

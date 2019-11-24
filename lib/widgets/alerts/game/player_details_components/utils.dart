@@ -74,6 +74,63 @@ class DetailsUtils {
       }
     ),size: InsertAlert.height);
 
+  static void insertDamage(
+    bool havePartner, bool partnerB, 
+    StageData stage, 
+    String attacker, String defender, 
+    CSBloc bloc, 
+    PlayerState defenderState,
+    {bool replace = false}
+  ) 
+    => stage.showAlert(InsertAlert(
+      inputType: TextInputType.number,
+      twoLinesLabel: true,
+      labelText: havePartner??false 
+        ? partnerB
+          ? "Damage dealt to $defender by $attacker's SECOND partner (B)"
+          : "Damage dealt to $defender by $attacker's FIRST partner (A)"
+        : "Damage dealt to $defender by $attacker's commander",
+      onConfirm: (string){
+        final int val = int.tryParse(string);
+        if(val != null){
+          bloc.game.gameState.applyAction(GADamage(
+            val - defenderState.damages[attacker].fromPartner(!partnerB),
+            defender: defender,
+            attacker: attacker,
+            usingPartnerB: partnerB,
+            maxVal: bloc.settings.maxValue.value,
+            minLife: bloc.settings.minValue.value,
+            applyToLife: bloc.settings.applyDamageToLife.value,
+          ));
+        }
+      }
+    ),size: InsertAlert.twoLinesHeight, replace: replace ?? false);
+
+  static void partnerDamage(StageData stage, String attacker, String defender, CSBloc bloc, PlayerState defenderState) 
+    => stage.showAlert(
+      AlternativesAlert(
+        label: "Which one of the two $attacker's partners is attacking?",
+        alternatives: <Alternative>[
+          Alternative(
+            title: "First partner (A)",
+            icon: CSTypesUI.attackIconOne,
+            action: () {
+              insertDamage(true, false, stage, attacker, defender, bloc, defenderState, replace: true);
+            }
+          ),
+          Alternative(
+            title: "Second partner (B)",
+            icon: CSTypesUI.attackIconTwo,
+            action: () {
+              insertDamage(true, true, stage, attacker, defender, bloc, defenderState, replace: true);
+            }
+          ),
+        ],
+      ),
+      size: AlternativesAlert.heightCalc(2),
+    );
+
+
   static void renamePlayer(StageData stage, String name, CSBloc bloc, List<String> names) 
     => stage.showAlert(InsertAlert(
       inputType: TextInputType.text,

@@ -25,7 +25,6 @@ class PlayerDetailsInfo extends StatelessWidget {
                 AlertTitle("$name's details", centered: false,),
                 for(final couple in partition(<Widget>[
 
-
                   ListTile(
                     title: Text(CSPages.shortTitleOf(CSPage.life)),
                     trailing: Text("${playerState.life}", style: body2,),
@@ -74,7 +73,6 @@ class PlayerDetailsInfo extends StatelessWidget {
                       Expanded(child: element,)
                   ],)
               ]),
-
               Section([
                 const SectionTitle("Total life"),
                 Row(children: <Widget>[
@@ -93,21 +91,34 @@ class PlayerDetailsInfo extends StatelessWidget {
                     ),
                   ),
                 ],),
-              ]),
+              ], last: true,),
+
+              ListTile(
+                title: Text(partner ? "Two partners" : "One commander"),
+                leading: Icon(partner ? McIcons.account_multiple_outline :McIcons.account_outline),
+                trailing: FlatButton.icon(
+                  label: Text(partner ? "Merge" : "Split"),
+                  icon: Icon(Icons.exit_to_app),
+                  onPressed: (){
+                    bloc.game.gameGroup.havingPartnerB.value[name] = !partner;
+                    bloc.game.gameGroup.havingPartnerB.refresh();
+                  },
+                ),
+              ),
 
               Section([
                 const SectionTitle("Edit"),
-                ListTile(
-                  title: Text("Rename $name"),
-                  leading: const Icon(McIcons.pencil_outline),
-                  onTap: () => DetailsUtils.renamePlayer(stage, name, bloc, names),
-                ),
                 if(partner)
                   ...[
                     _CommanderTile(this.index, a: true, havePartner: true,),
                     _CommanderTile(this.index, a: false,havePartner: true,),
                   ]
                 else _CommanderTile(this.index, a: true,),
+                ListTile(
+                  title: Text("Rename $name"),
+                  leading: const Icon(McIcons.pencil_outline),
+                  onTap: () => DetailsUtils.renamePlayer(stage, name, bloc, names),
+                ),
               ]),
               ListTile(
                 title: Text("Delete $name", style: TextStyle(color: DELETE_COLOR),),

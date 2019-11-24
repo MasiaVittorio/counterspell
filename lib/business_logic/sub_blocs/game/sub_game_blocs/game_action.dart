@@ -120,7 +120,7 @@ class CSGameAction {
             attacker: attacker,
             defender: defender,
             applyToLife: applyDamageToLife,
-            usingPartnerB: usingPartnerB,
+            usingPartnerB: usingPartnerB[attacker],
             minLife: minValue,
             maxVal: maxValue,
           );

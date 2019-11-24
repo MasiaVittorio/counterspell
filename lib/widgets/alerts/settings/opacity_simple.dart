@@ -136,8 +136,7 @@ class ImageOpacitySimple extends StatelessWidget {
                   title: const Text("Reset"),
                   leading: const Icon(McIcons.restart),
                   onTap: (){
-                    settings.imageGradientEnd.set(CSSettings.defaultImageGradientEnd);
-                    settings.imageGradientStart.set(CSSettings.defaultImageGradientStart);
+                    settings.simpleImageOpacity.set(CSSettings.defaultSimpleImageOpacity);
                   },
                 ),
               ),

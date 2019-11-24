@@ -10,9 +10,11 @@ class ImageOpacity extends StatelessWidget {
           + _hTile
           + _hDividers 
           + _hSectionTitle 
-          + _hBigSlider*2;
+          + _hBigSlider*2
+          + _hReset;
 
   static const double _hBigSlider = 72.0;
+  static const double _hReset = 56.0;
   static const double _hDividers = 14.0;
   static const double _hSectionTitle = 30.0;
   static const double _hTile = 100.0;
@@ -147,23 +149,40 @@ class ImageOpacity extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Section([
-                const AlertTitle("Commander image opacity"),
-                playerTile,
-              ]),
-              Section([
-                const SectionTitle("Opacity values"),
-                start.build((_,value)=>CSSlider(
-                  value: value,
-                  onChanged: start.set,
-                  title: (val) => "Start: ${val.toStringAsFixed(2)}",
-                )),
-                end.build((_,value)=>CSSlider(
-                  value: value,
-                  onChanged: end.set,
-                  title: (val) => "End: ${val.toStringAsFixed(2)}",
-                )),
-              ], last: true),
+              SizedBox(
+                height: AlertTitle.height + _hTile + _hDividers,
+                child: Section([
+                  const AlertTitle("Commander image opacity"),
+                  playerTile,
+                ]),
+              ),
+              SizedBox(
+                height: _hBigSlider*2 + _hSectionTitle,
+                child: Section([
+                  const SectionTitle("Opacity values"),
+                  start.build((_,value)=>CSSlider(
+                    value: value,
+                    onChanged: start.set,
+                    title: (val) => "Start: ${val.toStringAsFixed(2)}",
+                  )),
+                  end.build((_,value)=>CSSlider(
+                    value: value,
+                    onChanged: end.set,
+                    title: (val) => "End: ${val.toStringAsFixed(2)}",
+                  )),
+                ], last: true),
+              ),
+              SizedBox(
+                height: _hReset,
+                child: ListTile(
+                  title: const Text("Reset"),
+                  leading: const Icon(McIcons.restart),
+                  onTap: (){
+                    settings.imageGradientEnd.set(CSSettings.defaultImageGradientEnd);
+                    settings.imageGradientStart.set(CSSettings.defaultImageGradientStart);
+                  },
+                ),
+              ),
             ],
           ),
         ),

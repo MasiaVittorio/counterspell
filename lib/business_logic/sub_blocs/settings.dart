@@ -63,13 +63,19 @@ class CSSettings {
   final PersistentVar<double> imageGradientStart;
   final PersistentVar<double> imageGradientEnd;
 
-  //===================================
-  // Constructor
+  //====================================
+  // Default values
   static const double sensVal = 7.2;
   static const double sensSpeedVal = 0.4;
   static const double sensPreBoostVal= 2.0;
   static const double sens1StaticVal= 0.8;
   static const Duration confirmDelayVal = const Duration(milliseconds: 700);
+  static const double defaultImageGradientEnd = 0.3;
+  static const double defaultImageGradientStart = 0.65;
+
+
+  //===================================
+  // Constructor
   CSSettings(this.parent): 
     scrollSensitivity = PersistentVar<double>(
       key: "bloc_settings_blocvar_scrollsens",
@@ -167,13 +173,13 @@ class CSSettings {
     ),
     imageGradientStart = PersistentVar<double>(
       key: "bloc_settings_blocvar_imageGradientStart",
-      initVal: 0.7,
+      initVal: defaultImageGradientStart,
       toJson: (d) => d,
       fromJson: (j) => j,
     ),
     imageGradientEnd = PersistentVar<double>(
       key: "bloc_settings_blocvar_imageGradientEnd",
-      initVal: 0.9,
+      initVal: defaultImageGradientEnd,
       toJson: (d) => d,
       fromJson: (j) => j,
     )

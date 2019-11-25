@@ -46,7 +46,6 @@ class CSPayments {
     _subscription = InAppPurchaseConnection
         .instance
         .purchaseUpdatedStream
-        //LOW PRIORITY: ANDREBBE ASCOLTATA ANCOR PRIMA DEL PRIMO WIDGET DELLA MAIN LOLLOLOL
         .listen((List<PurchaseDetails> purchases) {
           reactToNewPurchases(purchases);
         });
@@ -159,6 +158,23 @@ class CSPayments {
     }
   }
 
+  ProductDetails getItemFromID(String id){
+    for(final item in this.items){
+      if(item.id == id) return item;
+    }
+    return null;
+  }
+  void purchase(String productID) async {
+    if (this.purchasedIds.value.contains(productID)) return;
+
+    ProductDetails productDetails = this.getItemFromID(productID);
+
+    if(productDetails == null) return;
+
+    await InAppPurchaseConnection.instance.buyNonConsumable(
+      purchaseParam: PurchaseParam(productDetails: productDetails)
+    );
+  }
 
 
   static const Set<String> androidProducts = <String>{

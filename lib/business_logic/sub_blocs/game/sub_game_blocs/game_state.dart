@@ -48,7 +48,6 @@ class CSGameState {
   //====================================
   // Actions
   void applyAction(GameAction action, {bool clearFutures = true}){
-    //LOW PRIORITY: porcadyo, devo mettere questa azione in un isolate?
     //the action should be provided as already normalized by the action bloc!
     if(action is GANull) return;
 

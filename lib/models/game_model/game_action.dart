@@ -40,8 +40,6 @@ abstract class GameAction{
   // Actions
 
   void applyTo(GameState state){
-    //LOW PRIORITY: aggiungi minval e maxval anche qui?? boh va pensata bene
-
     final Map<String, PlayerAction> _actions = this.actions(
       state.names
     );

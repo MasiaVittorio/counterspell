@@ -121,6 +121,7 @@ class _Donation extends StatelessWidget {
       title: Text(donation.title),
       leading: Icon(purchased ? Icons.favorite : Icons.favorite_border),
       trailing: Text(donation.amount),
+      onTap: () => CSBloc.of(context).payments.purchase(donation.productID),
     );
   }
 }

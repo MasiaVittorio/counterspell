@@ -158,17 +158,14 @@ class CSPayments {
     }
   }
 
-  ProductDetails getItemFromID(String id){
-    for(final item in this.items){
-      if(item.id == id) return item;
-    }
-    return null;
-  }
+
   void purchase(String productID) async {
     if (this.purchasedIds.value.contains(productID)) return;
 
-    ProductDetails productDetails = this.getItemFromID(productID);
-
+    ProductDetails productDetails;
+    for(final item in this.items){
+      if(item.id == productID) productDetails = item;
+    }
     if(productDetails == null) return;
 
     await InAppPurchaseConnection.instance.buyNonConsumable(

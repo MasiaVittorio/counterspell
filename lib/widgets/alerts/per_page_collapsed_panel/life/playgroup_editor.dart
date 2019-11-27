@@ -152,36 +152,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final backgroundColor = themeData.scaffoldBackgroundColor;
-    final Widget textField = TextField(
-      key: const ValueKey("counterspell_key_widget_textfield_groupeditor"),
-      onChanged: (_){
-        if(this.mounted){
-          this.setState((){});
-        }
-      },
-      controller: this.controller,
-      keyboardType: newGrouping
-        ? TextInputType.number 
-        : TextInputType.text,
-      textCapitalization: TextCapitalization.words,
-      maxLines: 1,
-      // maxLength: 20,
-      // autofocus: true,
-      focusNode: this.focusNode,
-      decoration: InputDecoration(
-        isDense: true,
-        hintText: edited == ""
-          ? "Player's name"
-          : edited != null 
-            ? "Rename $edited"
-            : newGrouping 
-              ? "How many players"
-              : null,
-        errorText: (newGrouping && validateNumber() == null) 
-          ? "Insert a number between 2 and $maxNumberOfPlayers" 
-          : null,
-      ),
-    );
+
 
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
@@ -199,8 +170,42 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
         },
         child: Material(
           color: backgroundColor,
-          child: group.names.build((context, names) 
-            => Column(
+          child: group.names.build((context, names) {
+
+            final Widget textField = TextField(
+              key: const ValueKey("counterspell_key_widget_textfield_groupeditor"),
+              onChanged: (_){
+                if(this.mounted){
+                  this.setState((){});
+                }
+              },
+              controller: this.controller,
+              keyboardType: newGrouping
+                ? TextInputType.number 
+                : TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              maxLines: 1,
+              // maxLength: 20,
+              // autofocus: true,
+              focusNode: this.focusNode,
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: edited == ""
+                  ? "Player's name"
+                  : edited != null 
+                    ? "Rename $edited"
+                    : newGrouping 
+                      ? "How many players"
+                      : null,
+                errorText: (newGrouping && validateNumber() == null) 
+                  ? "Insert a number between 2 and $maxNumberOfPlayers" 
+                  : (edited == "" && names.contains(this.controller.text))
+                    ? "Name a different player"
+                    : null,
+              ),
+            );
+
+            return Column(
               children: <Widget>[
                 const Material(child: const AlertTitle("Edit Playgroup"),),
                 Expanded(
@@ -229,7 +234,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                                     opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
                                     child: IgnorePointer(
                                       ignoring: state == ReorderableItemState.placeholder,
-                                      child: currentPlayer(name, textField, themeData),
+                                      child: currentPlayer(name, textField, themeData, names.length == 1),
                                     ),
                                   ),
                                 ),
@@ -243,7 +248,8 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                 hints(themeData,names),
                 newPlayer(textField),
               ],
-            ),
+            );
+          },
           ),
         ),
       ),
@@ -309,7 +315,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   Widget promptNewPlayer(){
     return ListTile(
       onTap: () => this.start(""),
-      leading: IconButton(onPressed: (){}, icon: Icon(Icons.add)),
+      leading: IconButton(onPressed: () => this.start(""), icon: Icon(Icons.add)),
       title: Text("New Player"),
       trailing: IconButton(
         onPressed: () => this.start(null),
@@ -331,19 +337,19 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     );
   }
 
-  Widget currentPlayer(String name, Widget textField, ThemeData themeData){
+  Widget currentPlayer(String name, Widget textField, ThemeData themeData, bool last){
     Widget result;
     if(name == edited) result = editCurrentPlayer(name, textField);    
-    else result = promptCurrentPlayer(name, themeData);
+    else result = promptCurrentPlayer(name, themeData, last);
     return SizedBox(
       height: PlayGroupEditor.playerTileSize,
       child: result,
     );
   }
-  Widget promptCurrentPlayer(String name, ThemeData themeData){
+  Widget promptCurrentPlayer(String name, ThemeData themeData, bool last){
     return ListTile(
       onTap: () => this.start(name),
-      leading: ReorderableListener(
+      trailing: ReorderableListener(
         child: IconButton(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           icon: Icon(Icons.unfold_more, color: themeData.colorScheme.onSurface,),
@@ -351,12 +357,12 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
           tooltip: 'Move Player',
         ),
       ),
-      trailing: IconButton(
+      leading: IconButton(
         icon: Icon(
           Icons.delete_forever, 
           color: DELETE_COLOR,
         ),
-        onPressed: () {
+        onPressed: last ? null : () {
           widget.bloc.game.gameState.deletePlayer(name);
           this._reCalcSize();
         },

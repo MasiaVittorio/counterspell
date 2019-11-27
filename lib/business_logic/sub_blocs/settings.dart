@@ -162,7 +162,14 @@ class CSSettings {
       initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j,
-      onChanged: (bool b) => Screen.keepOn(b),
+      onChanged: (bool b) {
+        print("keeping on? $b");
+        return Screen.keepOn(b);
+      },
+      readCallback: (bool b) {
+        print("keeping on? $b (read callback)");
+        return Screen.keepOn(b);
+      }, 
     ),
     imageAlignments = PersistentVar<Map<String,double>>(
       key: "bloc_settings_blocvar_imageAlignments",

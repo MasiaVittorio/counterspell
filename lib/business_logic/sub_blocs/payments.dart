@@ -74,8 +74,14 @@ class CSPayments {
 
 
   Future<void> availableItems() async {
+    bool available = false;
+    try {
+      available = await InAppPurchaseConnection.instance.isAvailable();      
+    } catch (e) {
+      //strange that this .isAvailable() method can throw, lol?
+      return;
+    }
 
-    final bool available = await InAppPurchaseConnection.instance.isAvailable();
     if (!available) {
       // The store cannot be reached or accessed. Update the UI accordingly.
       return;

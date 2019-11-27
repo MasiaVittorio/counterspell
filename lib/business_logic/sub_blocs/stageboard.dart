@@ -71,9 +71,11 @@ class CSStage {
     lightPrimary: primary,
     darkPrimaries: darkPrimaries,
     lightPrimaryPerPage: defaultPageColorsLight,
-    darkPrimariesPerPage: {
-      for(final style in DarkStyle.values)
-        style: defaultPageColorsDark,
+    darkPrimariesPerPage: <DarkStyle,Map<CSPage,Color>>{
+      DarkStyle.amoled: defaultPageColorsDark,
+      DarkStyle.dark: defaultPageColorsDark, 
+      DarkStyle.nightBlack: defaultPageColorsDark,
+      DarkStyle.nightBlue: defaultPageColorsDarkBlue, 
     },
     lightAccent: accent,
     darkAccents: darkAccents,

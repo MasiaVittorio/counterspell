@@ -2,16 +2,16 @@ import 'package:counter_spell_new/widgets/homepage.dart';
 
 import 'core.dart';
 
-void main() => runApp(ScryWalker());
+void main() => runApp(CounterSpell());
 
-class ScryWalker extends StatefulWidget {
+class CounterSpell extends StatefulWidget {
   // This widget is the root of your application.
   @override
-  _ScryWalkerState createState() => _ScryWalkerState();
+  _CounterSpellState createState() => _CounterSpellState();
 }
 
 
-class _ScryWalkerState extends State<ScryWalker> {
+class _CounterSpellState extends State<CounterSpell> {
   CSBloc bloc;
 
   @override

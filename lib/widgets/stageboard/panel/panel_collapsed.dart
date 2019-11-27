@@ -132,7 +132,7 @@ class _DelayerPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final scroller = bloc.scroller;
     final themeData = Theme.of(context);
-    final canvas = themeData.colorScheme.surface;
+    final canvas = themeData.canvasColor;
     final canvasContrast = themeData.colorScheme.onSurface;
     final stage = Stage.of(context);
     

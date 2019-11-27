@@ -7,9 +7,10 @@ class CounterSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
     final counterSet = bloc.game.gameAction.counterSet;
-    return Stage.of(context).themeController.primaryColorsMap.build((_,map){
-      final color = map[CSPage.counters];
-      return Material(
+    final theme = Theme.of(context);
+
+    return Stage.of(context).themeController.primaryColorsMap.build((_,map)
+      => Material(
         child: SingleChildScrollView(
           physics: Stage.of(context).panelScrollPhysics(),
           child: counterSet.build((context, current)
@@ -21,21 +22,25 @@ class CounterSelector extends StatelessWidget {
                   const AlertTitle("Pick counter"),
                   for(final counter in counterSet.list)
                     RadioListTile<String>(
-                      activeColor: color,
+                      activeColor: theme.accentColor,
                       groupValue: current.longName,
                       value: counter.longName,
                       onChanged: (name) => counterSet.choose(
                         counterSet.list.indexWhere((c) => c.longName == name),
                       ),
                       title: Text(counter.longName),
-                      secondary: Icon(counter.icon, color: color,),
+                      secondary: Icon(
+                        counter.icon, 
+                        color: counter.longName == current.longName 
+                          ? theme.accentColor
+                          : null,
+                      ),
                     ),
                 ],
               ),
             ),
           ),
         ),
-      );
-    });
+      ));
   }
 }

@@ -27,7 +27,8 @@ class SettingsAppearance extends StatelessWidget {
       ),
       ListTile(
         leading: const Icon(Icons.invert_colors),
-        title: const Text("Image opacity (Simple view)"),
+        title: const Text("Commander image's opacity"),
+        subtitle: const Text("(Simple view)"),
         trailing: const Icon(Icons.exit_to_app),
         onTap: () => stage.showAlert(
           const ImageOpacitySimple(),

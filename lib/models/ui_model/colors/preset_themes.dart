@@ -17,6 +17,13 @@ const defaultPageColorsDark = const {
   CSPage.commanderCast: Color(0xFF006064),
   CSPage.commanderDamage: Color(0xFF792738),
 };
+const defaultPageColorsDarkBlue = const {
+  CSPage.history: Color(0xFF303030),
+  CSPage.counters: MyColors.dark, 
+  CSPage.life: Color(0xFF222E3C), 
+  CSPage.commanderCast: Color(0xFF006064),
+  CSPage.commanderDamage: Color(0xFF792738),
+};
 
 const Color csDefaultDefenceColor = MyColors.blue;
 

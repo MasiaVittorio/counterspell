@@ -28,7 +28,7 @@ class FeedbackAlert extends StatelessWidget {
             NegativeFeedback(), 
             size: NegativeFeedback.height,
           ),
-          color: DELETE_COLOR,
+          color: CSColors.delete,
         ),
       ],
     );

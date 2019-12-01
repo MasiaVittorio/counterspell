@@ -17,24 +17,21 @@ class ThemeResetter extends StatelessWidget {
         cancelText: "No, keep the current theme",
         action: () {
           if(stage.themeController.light.value){
-            stage.themeController.lightPrimary.set(CSStage.primary);
+            stage.themeController.lightPrimary.set(CSColors.primary);
             stage.themeController.lightPrimaryPerPage.set(<CSPage,Color>{
-              for(final entry in defaultPageColorsLight.entries)
+              for(final entry in CSColors.perPageLight.entries)
                 entry.key: Color(entry.value.value),
             });
-            stage.themeController.lightAccent.set(CSStage.accent);
+            stage.themeController.lightAccent.set(CSColors.accent);
           } else {
             stage.themeController.darkPrimariesPerPage.value[stage.themeController.darkStyle.value]
-              = <CSPage,Color>{
-                for(final entry in defaultPageColorsDark.entries)
-                  entry.key: Color(entry.value.value),
-              };
+              = CSColors.perPageDarkMaps[stage.themeController.darkStyle.value];
             stage.themeController.darkPrimariesPerPage.refresh();
             stage.themeController.darkPrimaries.value[stage.themeController.darkStyle.value]
-              = CSStage.primary;
+              = CSColors.primary;
             stage.themeController.darkPrimaries.refresh();
             stage.themeController.darkAccents.value[stage.themeController.darkStyle.value]
-              = CSStage.darkAccents[stage.themeController.darkStyle.value];
+              = CSColors.darkAccents[stage.themeController.darkStyle.value];
             stage.themeController.darkAccents.refresh();
 
           }

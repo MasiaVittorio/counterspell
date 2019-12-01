@@ -360,7 +360,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
       leading: IconButton(
         icon: Icon(
           Icons.delete_forever, 
-          color: DELETE_COLOR,
+          color: CSColors.delete,
         ),
         onPressed: last ? null : () {
           widget.bloc.game.gameState.deletePlayer(name);

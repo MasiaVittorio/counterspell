@@ -1,3 +1,5 @@
+import 'package:counter_spell_new/core.dart';
+
 enum CSPage{
   history,
   counters,
@@ -46,6 +48,13 @@ class CSPages{
     CSPage.commanderCast: "Cast",
   };
 
+  static const Map<DamageType, CSPage> damageToPage = {
+    DamageType.counters : CSPage.counters,
+    DamageType.life : CSPage.life,
+    DamageType.commanderCast : CSPage.commanderCast,
+    DamageType.commanderDamage: CSPage.commanderDamage,
+  };
+  static CSPage fromDamage(DamageType type) => damageToPage[type];
 
 }
 

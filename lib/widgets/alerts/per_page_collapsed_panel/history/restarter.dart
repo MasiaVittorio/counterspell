@@ -9,7 +9,7 @@ class RestarterAlert extends StatelessWidget {
       warningText: "This action cannot be undone.",
       confirmText: "Restart the game",
       confirmIcon: McIcons.restart,
-      cancelColor: DELETE_COLOR,
+      cancelColor: CSColors.delete,
       completelyCloseAfterConfirm: true,
     );
   }

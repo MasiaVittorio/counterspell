@@ -122,8 +122,8 @@ class PlayerDetailsInfo extends StatelessWidget {
                 ),
               ]),
               ListTile(
-                title: Text("Delete $name", style: TextStyle(color: DELETE_COLOR),),
-                leading: const Icon(McIcons.delete_forever, color: DELETE_COLOR,),
+                title: Text("Delete $name", style: TextStyle(color: CSColors.delete),),
+                leading: const Icon(McIcons.delete_forever, color: CSColors.delete,),
                 onTap: () => DetailsUtils.deletePlayer(stage, name, bloc, names),
               ),
             ],
@@ -195,7 +195,7 @@ class _CommanderTile extends StatelessWidget {
                     group.cards(a).value.remove(name);
                     group.cards(a).refresh();
                   },
-                  icon: const Icon(Icons.delete_outline, color: DELETE_COLOR,),
+                  icon: const Icon(Icons.delete_outline, color: CSColors.delete,),
                 ),
               ],
             ),

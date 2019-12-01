@@ -10,7 +10,7 @@ class ConfirmEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConfirmAlert(
       action: CSActions.mailMe,
-      confirmColor: DELETE_COLOR,
+      confirmColor: CSColors.delete,
       confirmIcon: Icons.mail_outline,
       confirmText: "Ok, open the e-mail app",
       cancelText: "Nope, go back",

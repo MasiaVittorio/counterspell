@@ -125,7 +125,7 @@ class PieceOfInformation extends StatelessWidget {
       color = attacking ? pagesColor[CSPage.commanderDamage]: defenceColor;
       icon = attacking ? CSTypesUI.attackIconOne : CSTypesUI.defenceIconFilled;
     } else {
-      color = pagesColor[damageToPage[damageType]];
+      color = pagesColor[CSPages.fromDamage(damageType)];
       icon = CSTypesUI.typeIconsFilled[damageType];
     }
 

@@ -17,7 +17,7 @@ class CSThemer {
   CSThemer(this.parent): 
     defenceColor = PersistentVar<Color>(
       key: "bloc_themer_blocvar_defenceColor",
-      initVal: csDefaultDefenceColor,
+      initVal: CSColors.blue,
       toJson: (color) => color.value,
       fromJson: (json) => Color(json),
     );
@@ -32,7 +32,7 @@ class CSThemer {
     if(type == DamageType.commanderDamage){
       return attack ? pageColors[CSPage.commanderDamage] : defenceColor;
     } else {
-      return pageColors[damageToPage[type]];
+      return pageColors[CSPages.fromDamage(type)];
     }
   }
 

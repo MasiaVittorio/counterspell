@@ -288,18 +288,19 @@ class PlayerTile extends StatelessWidget {
 
     if(page == CSPage.history){
 
-      child = Container(
+      child = Material(
         key: ValueKey("circle name"),
-        width: coreTileSize*circleFrac,
-        height: coreTileSize*circleFrac,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(coreTileSize),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          name.length > 2 ? name.substring(0,2) : name,
-          style: textStyle,
+        color: color,
+        elevation: playerState.isAlive ? 2.0 : 0.0,
+        borderRadius: BorderRadius.circular(coreTileSize),
+        child: Container(
+          width: coreTileSize*circleFrac,
+          height: coreTileSize*circleFrac,
+          alignment: Alignment.center,
+          child: Text(
+            name.length > 2 ? name.substring(0,2) : name,
+            style: textStyle,
+          ),
         ),
       );
 
@@ -308,32 +309,37 @@ class PlayerTile extends StatelessWidget {
       final int _increment = PTileUtils.cnIncrement(normalizedPlayerAction);
 
       child = InkWell(
+        key: ValueKey("circle number"),
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         onTap: () => stage.showAlert(
           PlayerDetails(group.names.value.indexOf(name), this.maxWidth/(this.tileSize + this.bottom)), 
           size: PlayerDetails.height,
         ),
-        child: CircleNumber(
-          key: ValueKey("circle number"),
-          size: coreTileSize * circleFrac,
-          value: PTileUtils.cnValue(
-            name, 
-            page, 
-            whoIsAttacking, 
-            whoIsDefending,
-            usingPartnerB ?? false,
-            playerState,
-            isAttackerUsingPartnerB ?? false,
-            counter,
-          ),
-          numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
-          open: scrolling,
-          style: textStyle,
-          duration: MyDurations.fast,
+        child: Material(
           color: color,
-          increment: _increment,
-          borderRadiusFraction: attacking ? 0.1 : 1.0,
+          elevation: playerState.isAlive ? 2.0 : 0.0,
+          borderRadius: BorderRadius.circular(coreTileSize),
+          child: CircleNumber(
+            size: coreTileSize * circleFrac,
+            value: PTileUtils.cnValue(
+              name, 
+              page, 
+              whoIsAttacking, 
+              whoIsDefending,
+              usingPartnerB ?? false,
+              playerState,
+              isAttackerUsingPartnerB ?? false,
+              counter,
+            ),
+            numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
+            open: scrolling,
+            style: textStyle,
+            duration: MyDurations.fast,
+            color: color,
+            increment: _increment,
+            borderRadiusFraction: attacking ? 0.1 : 1.0,
+          ),
         ),
       );
 

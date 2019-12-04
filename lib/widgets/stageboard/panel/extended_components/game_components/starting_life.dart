@@ -57,7 +57,7 @@ class StartingLifeTile extends StatelessWidget {
             ListTile(
               leading: const Icon(McIcons.flag_outline),
               trailing: const Icon(McIcons.pencil_outline),
-              title: AnimatedText(text:'Starting Life: ' + ( _lfnm[life] ?? 'Custom ($life)')),
+              title: AnimatedText(text:'Starting Life: ' + ( _lfnm[life] ?? '$life')),
               onTap: () => stage.showAlert(
                 CustomStartingLife(),
                 size: InsertAlert.height,

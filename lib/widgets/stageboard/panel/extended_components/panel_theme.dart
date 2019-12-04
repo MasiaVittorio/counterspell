@@ -7,7 +7,7 @@ class PanelTheme extends StatelessWidget {
 
   static const Widget _overallTheme = const OverallTheme();
   static const Widget _themeColors = const ThemeColors();
-  static const Widget _themeRestarter = const ThemeResetter();
+  static const Widget _presets = const ThemePResetter();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class PanelTheme extends StatelessWidget {
             onTap: () => stage.showAlert(const Support(), size: Support.height),
           ),
           _themeColors,
-          if(unlocked) _themeRestarter,
+          if(unlocked) _presets,
         ],
       ),),
     );

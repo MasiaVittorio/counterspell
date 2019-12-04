@@ -4,12 +4,14 @@ class CSThemer {
 
   void dispose(){
     defenceColor.dispose();
+    savedSchemes.dispose();
   }
 
   //================================
   // Values
   final CSBloc parent;
   final PersistentVar<Color> defenceColor;
+  final PersistentVar<Map<String,CSColorScheme>> savedSchemes;
 
 
   //================================
@@ -20,6 +22,19 @@ class CSThemer {
       initVal: CSColors.blue,
       toJson: (color) => color.value,
       fromJson: (json) => Color(json),
+    ),
+    savedSchemes = PersistentVar<Map<String,CSColorScheme>>(
+      key: "bloc_themer_blocvar_savedSchemes",
+      initVal: <String,CSColorScheme>{
+        // for(final e in CSColorScheme.defaults.entries)
+        //   e.key: e.value,
+      },
+      toJson: (map) => <String,dynamic>{for(final e in map.entries)
+        e.key : e.value.toJson,
+      },
+      fromJson: (json) => <String,CSColorScheme>{for(final e in (json as Map).entries)
+        e.key as String : CSColorScheme.fromJson(e.value),
+      },
     );
 
 
@@ -51,9 +66,4 @@ class CSThemer {
     }
   }
 
-
-
-
 }
-
-// TODO: animated theme  dalla stageboard

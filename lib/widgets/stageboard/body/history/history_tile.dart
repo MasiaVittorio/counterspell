@@ -78,12 +78,11 @@ class HistoryTile extends StatelessWidget {
         onLongPress: index > 0 
           ? () => stage.showAlert(ConfirmAlert(
             confirmColor: CSColors.delete,
-            warningText: "Action happened at ${timeString(data.time)}. Do you want to delete this action? This cannot be undone",
+            warningText: "Delete action happened at ${timeString(data.time)}? This cannot be undone",
             confirmText: "Yes, Delete action",
             confirmIcon: Icons.delete_forever,
-            twoLinesWarning: true,
             action: () => bloc.game.gameState.forgetPast(index-1),
-          ), size: ConfirmAlert.twoLinesheight) 
+          ), size: ConfirmAlert.height) 
           : null,
         child: Container(
           height: knownTileSize * data.changes.length,

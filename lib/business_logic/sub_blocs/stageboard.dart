@@ -54,12 +54,12 @@ class CSStage {
     //themes
     light: true,
     darkStyle: DarkStyle.nightBlack,
-    lightPrimary: CSColors.primary,
-    darkPrimaries: CSColors.darkPrimaries,
-    lightPrimaryPerPage: CSColors.perPageLight,
-    darkPrimariesPerPage: CSColors.perPageDarkMaps,
-    lightAccent: CSColors.accent,
-    darkAccents: CSColors.darkAccents,
+    lightPrimary: CSColorScheme.defaultLight.primary,
+    lightPrimaryPerPage: CSColorScheme.defaultLight.perPage,
+    lightAccent: CSColorScheme.defaultLight.accent,
+    darkPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.primary},
+    darkPrimariesPerPage: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.perPage},
+    darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},
 
     //back behavior
     lastClosedPage: CSPage.life,

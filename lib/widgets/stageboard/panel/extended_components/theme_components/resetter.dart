@@ -16,24 +16,28 @@ class ThemeResetter extends StatelessWidget {
         confirmText: "Yes, reset to default colors",
         cancelText: "No, keep the current theme",
         action: () {
-          if(stage.themeController.light.value){
-            stage.themeController.lightPrimary.set(CSColors.primary);
-            stage.themeController.lightPrimaryPerPage.set(<CSPage,Color>{
-              for(final entry in CSColors.perPageLight.entries)
-                entry.key: Color(entry.value.value),
-            });
-            stage.themeController.lightAccent.set(CSColors.accent);
-          } else {
-            stage.themeController.darkPrimariesPerPage.value[stage.themeController.darkStyle.value]
-              = CSColors.perPageDarkMaps[stage.themeController.darkStyle.value];
-            stage.themeController.darkPrimariesPerPage.refresh();
-            stage.themeController.darkPrimaries.value[stage.themeController.darkStyle.value]
-              = CSColors.primary;
-            stage.themeController.darkPrimaries.refresh();
-            stage.themeController.darkAccents.value[stage.themeController.darkStyle.value]
-              = CSColors.darkAccents[stage.themeController.darkStyle.value];
-            stage.themeController.darkAccents.refresh();
+          final themeController = stage.themeController;
+          final style = themeController.darkStyle.value;
+          final light = themeController.light.value;
+          final defaultScheme = CSColorScheme.defaultScheme(light, style); 
+          Map<CSPage,Color> perPage = <CSPage,Color>{
+            for(final entry in defaultScheme.perPage.entries)
+              entry.key: Color(entry.value.value),
+          };
 
+          if(light){
+            themeController.lightPrimary.set(defaultScheme.primary);
+            themeController.lightPrimaryPerPage.set(perPage);
+            themeController.lightAccent.set(defaultScheme.accent);
+          } else {
+            themeController.darkPrimariesPerPage.value[style] = perPage;
+            themeController.darkPrimariesPerPage.refresh();
+
+            themeController.darkPrimaries.value[style] = defaultScheme.primary;
+            themeController.darkPrimaries.refresh();
+
+            themeController.darkAccents.value[style] = defaultScheme.accent;
+            themeController.darkAccents.refresh();
           }
         },
       ),size: ConfirmAlert.height),

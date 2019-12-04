@@ -23,7 +23,8 @@ class InsertAlert extends StatefulWidget {
   final String hintText;
   final String labelText;
   final bool twoLinesLabel;
-  final void Function(String) onConfirm;
+  //if confirm returns false, the panel is not closed
+  final Function(String) onConfirm;
   final TextInputType inputType;
   final String Function(String) checkErrors;
   final int maxLenght;
@@ -119,8 +120,10 @@ class _InsertAlertState extends State<InsertAlert> {
                     label: const Text("Confirm"),
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     onPressed: _seriouslyValid ? () {
-                        this.widget.onConfirm(this._controller.text);
+                      final result = this.widget.onConfirm(this._controller.text);
+                      if(result != false){
                         stage.panelController.closePanel();
+                      }
                     } : null,
                   ),
                 )

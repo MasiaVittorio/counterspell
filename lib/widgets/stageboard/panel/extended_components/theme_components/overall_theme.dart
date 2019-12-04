@@ -34,19 +34,12 @@ class OverallTheme extends StatelessWidget {
                       onTap:() => pickPrimaryColor(stage, primary),
                     ),
                   ),),
-                  Expanded(child: BlocVar.build4(
-                    themeController.lightAccent,
-                    themeController.darkAccents,
-                    themeController.light,
-                    themeController.darkStyle,
-                    builder:(_, Color lightAccent, Map<DarkStyle,Color> darkAccents, bool light, DarkStyle style) {
-                      final accentColor = light ? lightAccent : darkAccents[style];
-                      return ListTile(
-                        title: Text("Accent"),
-                        leading: ColorCircle(accentColor,),
-                        onTap:() => pickAccentColor(stage, accentColor),
-                      );
-                    },
+                  Expanded(child: themeController.accentColor.build((_, accentColor) 
+                    => ListTile(
+                      title: Text("Accent"),
+                      leading: ColorCircle(accentColor,),
+                      onTap:() => pickAccentColor(stage, accentColor),
+                    ),
                   ),),
                 ],),
               ]),

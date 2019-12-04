@@ -9,3 +9,4 @@ export 'opacity.dart';
 export 'opacity_simple.dart';
 export 'scroll.dart';
 export 'support.dart';
+export 'theme_presets.dart';

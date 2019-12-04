@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/stageboard/body/history/history_tile.dart';
 
 class HistoryPlayerTile extends StatelessWidget {
 
@@ -139,13 +140,10 @@ class _Time extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hours = time.hour.toString().padLeft(2, "0");
-    final minutes = time.minute.toString().padLeft(2, "0");
-    
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: Text(
-        "$hours: $minutes", 
+        HistoryTile.timeString(time), 
         style: TextStyle(fontSize: 10),
       ),
     );

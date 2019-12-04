@@ -22,7 +22,9 @@ class CSGameState {
   // Getters
 
   bool get forwardable => futureActions.value.isNotEmpty;
-  bool get backable => gameState.value.historyLenght > 1;
+  bool get backable => pastLenght > 1;
+  bool forgettable(int index) => pastLenght > index + 1;
+  int get pastLenght => gameState.value.historyLenght;
 
 
   //====================================
@@ -48,18 +50,22 @@ class CSGameState {
   //====================================
   // Actions
   void applyAction(GameAction action, {bool clearFutures = true}){
+    if(_applyAction(action, clearFutures: clearFutures ?? true)){
+      //this reversed index is due to the list UI: it goes from right to 
+      //left so it needs to be reversed. also, since the last data is always a null data
+      //(the current state without changes), we start at 1 instead of 0
+      this.parent.gameHistory.forward();
+    }
+  }
+  bool _applyAction(GameAction action, {bool clearFutures = true}){
     //the action should be provided as already normalized by the action bloc!
-    if(action is GANull) return;
+    if(action is GANull) return false;
 
     this.gameState.value.applyAction(action);
     this.gameState.refresh();
-
-    //this reversed index is due to the list UI: it goes from right to 
-    //left so it needs to be reversed. also, since the last data is always a null data
-    //(the current state without changes), we start at 1 instead of 0
-    this.parent.gameHistory.forward(1);
-
     if(clearFutures) this.futureActions.set(<GameAction>[]);
+
+    return true;
   }
 
   void back(){
@@ -70,7 +76,7 @@ class CSGameState {
       //(the current state without changes), we start at 1 instead of 0
       final outgoingData = dataList[dataList.length - 2];
       this._back();
-      this.parent.gameHistory.back(1, outgoingData);
+      this.parent.gameHistory.back(outgoingData);
     }
   }
   void _back(){
@@ -84,11 +90,12 @@ class CSGameState {
   void forward(){
     if(forwardable){
       this._forward();
+      this.parent.gameHistory.forward();
     }
   }
   void _forward(){
     assert(forwardable);
-    this.applyAction(
+    this._applyAction(
       futureActions.value
         .removeLast(),
         // .normalizeOnLast(gameState.value),
@@ -97,6 +104,35 @@ class CSGameState {
       clearFutures: false,
     );
     this.futureActions.refresh();
+  }
+
+  void forgetPast(int index){
+    //index = 0 -> as if was back
+    if(forgettable(index)){
+      final dataList = this.parent.gameHistory.data;
+      //this reversed index is due to the list UI: it goes from right to 
+      //left so it needs to be reversed. also, since the last data is always a null data
+      //(the current state without changes), we start at 1 instead of 0
+      final outgoingData = dataList[dataList.length - 2 - index];
+      _forgetPast(index);
+      this.parent.gameHistory.forget(index+1, outgoingData);
+    }
+  }
+
+  void _forgetPast(int index){
+    assert(forgettable(index));
+
+    for(int i=0; i<=index; ++i){
+      //"<=" important
+      this._back();
+    }
+    this.futureActions.value.removeLast();
+    for(int i=0; i< index; ++i){
+      //"< " important
+      this._forward();
+    }
+    this.futureActions.refresh();
+
   }
 
   void restart()

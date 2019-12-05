@@ -33,11 +33,11 @@ class PresetsAlert extends StatelessWidget {
           };
 
           return Column(children: <Widget>[
-            Section([
+            lights.first.applyBaseTheme(child: Section([
               const AlertTitle("Light themes", centered: false,),
               for(final s in lights)
                 PresetTile(s),
-            ]),
+            ]),),
             for(final style in DarkStyle.values)
               darks[style].first.applyBaseTheme(child: Section([
                 SectionTitle("${DarkStyles.nameOf(style)} themes"),

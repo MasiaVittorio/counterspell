@@ -51,9 +51,6 @@ class CSGameState {
   // Actions
   void applyAction(GameAction action, {bool clearFutures = true}){
     if(_applyAction(action, clearFutures: clearFutures ?? true)){
-      //this reversed index is due to the list UI: it goes from right to 
-      //left so it needs to be reversed. also, since the last data is always a null data
-      //(the current state without changes), we start at 1 instead of 0
       this.parent.gameHistory.forward();
     }
   }

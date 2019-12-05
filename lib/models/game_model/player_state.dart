@@ -52,6 +52,12 @@ class PlayerState {
   // Modifiers
   static const kMinValue = -99999999999999;
   static const kMaxValue = 999999999999999;
+  PlayerState updateTime() => PlayerState.now(
+    life: this.life,
+    cast: this.cast,
+    damages: this.damages,
+    counters: this.counters,
+  );
   PlayerState withLife(
     int life, {
       int minVal = kMinValue, 
@@ -207,7 +213,7 @@ class PlayerState {
     @required Map<String,int> counters,
    }) => PlayerState(
     life: life,
-    time: DateTime.now(),
+    time: (){final now = DateTime.now(); print(now); return now;}(),
     cast: cast,
     damages: damages,
     counters: counters,

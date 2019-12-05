@@ -46,6 +46,8 @@ class HistoryTile extends StatelessWidget {
     return "$hours:$minutes";
   }
   static String distanceString(DateTime last, DateTime first){
+    print("last: $last");
+    print("first: $first");
     final duration = last.difference(first).abs();
     final time = DateTime(0).add(duration);
     final hours = time.hour.toString().padLeft(2, "0");
@@ -105,11 +107,12 @@ class HistoryTile extends StatelessWidget {
             final bool inGame = realMode == TimeMode.inGame;
             stage.showAlert(ConfirmAlert(
               confirmColor: CSColors.delete,
+              twoLinesWarning: true,
               warningText: "Delete action happened at ${timeString(data.time, firstTime, realMode)}${inGame?" (in game)":""}? This cannot be undone",
               confirmText: "Yes, Delete action",
               confirmIcon: Icons.delete_forever,
               action: () => bloc.game.gameState.forgetPast(index-1),
-            ), size: ConfirmAlert.height);
+            ), size: ConfirmAlert.twoLinesheight);
           } 
           : null,
         child: Container(

@@ -26,7 +26,7 @@ class ThemeColors extends StatelessWidget {
           => ListTile(
             title: Text("Defence"),
             leading: ColorCircle(defenceColor, icon: CSTypesUI.defenceIconFilled),
-            onTap: () => pickDefenceColor(stage, defenceColor),
+            onTap: () => pickDefenceColor(stage, defenceColor, bloc),
           ),
         ),    
       ];
@@ -75,16 +75,13 @@ class ThemeColors extends StatelessWidget {
     );
   }
 
-  static void pickDefenceColor(StageData stage, Color defenceColor, ) {
+  static void pickDefenceColor(StageData stage, Color defenceColor, CSBloc bloc) {
     stage.showAlert(
       SheetColorPicker(
         underscrollCallback: stage.panelController.closePanel,
         color: defenceColor ?? Colors.green.shade700,
         onSubmitted: (color){
-          stage.themeController.editPrimaryPerPage(
-            defenceColor, 
-            color,
-          );
+          bloc.themer.defenceColor.set(color);
           stage.panelController.closePanel();
         },
       ),

@@ -11,17 +11,29 @@ class ThemePResetter extends StatelessWidget {
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
     final themeController = stage.themeController;
 
-    return BlocVar.build4(
+    return BlocVar.build6(
       themer.savedSchemes,
       themeController.primaryColor,
       themeController.accentColor,
       themeController.primaryColorsMap,
-      builder: (_, Map<String,CSColorScheme> savedSchemes, Color primary,Color accent, Map<CSPage,Color> perPage){
+      themeController.light,
+      themeController.darkStyle,
+      builder: (
+        _, 
+        Map<String,CSColorScheme> savedSchemes, 
+        Color primary,
+        Color accent, 
+        Map<CSPage,Color> perPage,
+        bool light,
+        DarkStyle darkStyle,
+      ){
         
         final derivedScheme = CSColorScheme("",
           primary: primary,
           accent: accent,
           perPage: perPage,
+          light: light,
+          darkStyle: darkStyle,
         );
         
         final bool saved = [

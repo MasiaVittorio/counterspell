@@ -8,11 +8,15 @@ class CSColorScheme{
   final Color primary;
   final Color accent;
   final Map<CSPage,Color> perPage;
+  final bool light;
+  final DarkStyle darkStyle;
 
   const CSColorScheme(this.name,{
     @required this.primary,
     @required this.accent,
     @required this.perPage,
+    @required this.light,
+    @required this.darkStyle,
   }): assert(primary != null),
       assert(accent != null),
       assert(perPage != null);
@@ -22,16 +26,28 @@ class CSColorScheme{
     primary: this.primary,
     accent: this.accent,
     perPage: this.perPage,
+    light: this.light,
+    darkStyle: this.darkStyle,
+  );
+
+  Widget applyBaseTheme({@required Widget child}) => Stage.apllyTheme(
+    child: child,
+    light: this.light,
+    darkStyle: this.darkStyle,
+    primary: this.primary,
+    accent: this.accent,
   );
 
   Map<String,dynamic> get toJson => {
-    "name": name,
-    "primary": primary.value,
-    "accent": accent.value,
+    "name": this.name,
+    "primary": this.primary.value,
+    "accent": this.accent.value,
     "perPage": <String,int>{
-      for(final entry in perPage.entries) 
+      for(final entry in this.perPage.entries) 
         CSPages.nameOf(entry.key) : entry.value.value,
     },
+    "light": this.light,
+    "darkStyle": DarkStyles.nameOf(this.darkStyle),
   };
 
   static CSColorScheme fromJson(dynamic json) => CSColorScheme(
@@ -42,6 +58,8 @@ class CSColorScheme{
       for(final entry in (json["perPage"] as Map).entries) 
         CSPages.fromName(entry.key as String): Color(entry.value as int),
     },
+    light: json["light"],
+    darkStyle: DarkStyles.fromName(json["darkStyle"]),
   );
 
   @override
@@ -65,7 +83,9 @@ class CSColorScheme{
     && (<CSPage>{
       ...other.perPage.keys,
       ...this.perPage.keys,
-    }.every((key) => this.perPage[key] == other.perPage[key]));
+    }.every((key) => this.perPage[key] == other.perPage[key]))
+    && other.light == this.light
+    && (this.light || other.darkStyle == this.darkStyle);
 
   static const String _defaultLightName = "Light default";
   static const CSColorScheme defaultLight = CSColorScheme(
@@ -73,6 +93,8 @@ class CSColorScheme{
     primary: CSColors.primary,
     accent: CSColors.accent, 
     perPage: CSColors.perPageLight,
+    light: true,
+    darkStyle: null,
   );
   static const String _defaultDarkName = "Dark default";
   static const CSColorScheme defaultDark = CSColorScheme(
@@ -80,6 +102,8 @@ class CSColorScheme{
     primary: CSColors.darkPrimary,
     accent: CSColors.darkAccent, 
     perPage: CSColors.perPageDark,
+    light: false,
+    darkStyle: DarkStyle.dark,
   );
   static const String _defaultNightBlackName = "Night Black default";
   static const CSColorScheme defaultNightBlack = CSColorScheme(
@@ -87,6 +111,8 @@ class CSColorScheme{
     primary: CSColors.nightBlackPrimary,
     accent: CSColors.nightBlackAccent, 
     perPage: CSColors.perPageDark,
+    light: false,
+    darkStyle: DarkStyle.nightBlack,
   );
   static const String _defaultAmoledName = "Amoled default";
   static const CSColorScheme defaultAmoled = CSColorScheme(
@@ -94,6 +120,8 @@ class CSColorScheme{
     primary: CSColors.amoledPrimary,
     accent: CSColors.amoledAccent,
     perPage: CSColors.perPageDark,
+    light: false,
+    darkStyle: DarkStyle.amoled,
   );
   static const String _defaultNightBlueName = "Night Blue default";
   static const CSColorScheme defaultNightBlue = CSColorScheme(
@@ -101,6 +129,8 @@ class CSColorScheme{
     primary: CSColors.nightBluePrimary,
     accent: CSColors.nightBlueAccent,
     perPage: CSColors.perPageDarkBlue,
+    light: false,
+    darkStyle: DarkStyle.nightBlue,
   );
 
   static CSColorScheme defaultScheme(bool light, DarkStyle style) => light
@@ -125,6 +155,9 @@ class CSColorScheme{
 
 
 class CSColors {
+
+  static Color contrastWith(Color color) => ThemeData.estimateBrightnessForColor(color) == Brightness.dark ? Colors.white : Colors.black;
+
   static const Color dark = const Color(0xFF263133);
   static const Color blue = const Color(0xFF0A4968); //defence
   static const Color delete = const Color(0xFFE45356);

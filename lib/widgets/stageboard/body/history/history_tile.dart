@@ -6,6 +6,7 @@ class HistoryTile extends StatelessWidget {
   final double tileSize;
   final double coreTileSize;
   final GameHistoryData data;
+  final DateTime firstTime;
   final bool avoidInteraction;
   final Color defenceColor;
   final Map<CSPage,Color> pageColors;
@@ -15,6 +16,7 @@ class HistoryTile extends StatelessWidget {
   final int index;
 
   const HistoryTile(this.data, {
+    @required this.firstTime,
     @required this.index,
     @required this.havePartnerB,
     @required this.tileSize,
@@ -26,10 +28,30 @@ class HistoryTile extends StatelessWidget {
     @required this.names,
   });
 
-  static String timeString(DateTime time){
+  static String timeString(DateTime time, DateTime first, TimeMode mode){
+    switch (mode) {
+      case TimeMode.clock:
+        return clockString(time);
+        break;
+      case TimeMode.inGame:
+        return distanceString(time, first);
+        break;
+      default:
+        return "";
+    }
+  }
+  static String clockString(DateTime time){
     final hours = time.hour.toString().padLeft(2, "0");
     final minutes = time.minute.toString().padLeft(2, "0");
-    return "$hours: $minutes";
+    return "$hours:$minutes";
+  }
+  static String distanceString(DateTime last, DateTime first){
+    final duration = last.difference(first).abs();
+    final time = DateTime(0).add(duration);
+    final hours = time.hour.toString().padLeft(2, "0");
+    final minutes = time.minute.toString().padLeft(2, "0");
+    final seconds = time.second.toString().padLeft(2, "0");
+    return "$hours:$minutes:$seconds";
   }
 
   @override
@@ -76,13 +98,19 @@ class HistoryTile extends StatelessWidget {
       type: MaterialType.transparency,
       child: InkWell(
         onLongPress: index > 0 
-          ? () => stage.showAlert(ConfirmAlert(
-            confirmColor: CSColors.delete,
-            warningText: "Delete action happened at ${timeString(data.time)}? This cannot be undone",
-            confirmText: "Yes, Delete action",
-            confirmIcon: Icons.delete_forever,
-            action: () => bloc.game.gameState.forgetPast(index-1),
-          ), size: ConfirmAlert.height) 
+          ? () {
+            final timeMode = bloc.settings.timeMode.value;
+            final bool none = timeMode == TimeMode.none;
+            final realMode = none ? TimeMode.clock : timeMode;
+            final bool inGame = realMode == TimeMode.inGame;
+            stage.showAlert(ConfirmAlert(
+              confirmColor: CSColors.delete,
+              warningText: "Delete action happened at ${timeString(data.time, firstTime, realMode)}${inGame?" (in game)":""}? This cannot be undone",
+              confirmText: "Yes, Delete action",
+              confirmIcon: Icons.delete_forever,
+              action: () => bloc.game.gameState.forgetPast(index-1),
+            ), size: ConfirmAlert.height);
+          } 
           : null,
         child: Container(
           height: knownTileSize * data.changes.length,
@@ -95,6 +123,7 @@ class HistoryTile extends StatelessWidget {
                 HistoryPlayerTile(
                   data.changes[name],
                   time: data.time,
+                  firstTime: firstTime,
                   pageColors: pageColors,
                   defenceColor: defenceColor,
                   counters: counters,

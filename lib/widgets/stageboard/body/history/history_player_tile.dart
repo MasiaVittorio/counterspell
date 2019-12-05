@@ -6,6 +6,7 @@ class HistoryPlayerTile extends StatelessWidget {
   //===================================
   // Data
   final DateTime time;
+  final DateTime firstTime;
   final List<PlayerHistoryChange> changes;
   final bool partnerB;
   //===================================
@@ -21,6 +22,7 @@ class HistoryPlayerTile extends StatelessWidget {
   const HistoryPlayerTile(this.changes, {
     @required this.partnerB,
     @required this.time,
+    @required this.firstTime,
     @required this.pageColors,
     @required this.tileSize,
     @required this.coreTileSize,
@@ -56,7 +58,7 @@ class HistoryPlayerTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _Time(time),
+          _Time(time, first: firstTime,),
           Padding(
             padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 4.0, bottom: 6.0),
             child: Container(
@@ -136,17 +138,20 @@ class _Change extends StatelessWidget {
 
 class _Time extends StatelessWidget {
   final DateTime time;
-  const _Time(this.time);
+  final DateTime first;
+  const _Time(this.time, {@required this.first});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final bloc = CSBloc.of(context);
+
+    return bloc.settings.timeMode.build((_, mode) => Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: Text(
-        HistoryTile.timeString(time), 
+        HistoryTile.timeString(time, first, mode), 
         style: TextStyle(fontSize: 10),
       ),
-    );
+    ));
   }
 }
 

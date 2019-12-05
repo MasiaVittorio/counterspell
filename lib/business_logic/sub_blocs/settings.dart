@@ -1,8 +1,8 @@
+import 'package:counter_spell_new/core.dart';
+
 import 'package:screen/screen.dart';
-import 'package:sidereus/bloc/bloc_var_persistent.dart';
 import 'package:vibrate/vibrate.dart';
 
-import '../bloc.dart';
 
 class CSSettings {
 
@@ -30,6 +30,9 @@ class CSSettings {
     this.imageAlignments.dispose();
     this.imageGradientStart.dispose();
     this.imageGradientEnd.dispose();
+    this.simpleImageOpacity.dispose();
+
+    this.timeMode.dispose();
   }
 
 
@@ -64,6 +67,7 @@ class CSSettings {
   final PersistentVar<double> imageGradientEnd;
   final PersistentVar<double> simpleImageOpacity;
 
+  final PersistentVar<TimeMode> timeMode;
   //====================================
   // Default values
   static const double sensVal = 7.2;
@@ -162,22 +166,16 @@ class CSSettings {
       initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j,
-      onChanged: (bool b) {
-        print("keeping on? $b");
-        return Screen.keepOn(b);
-      },
-      readCallback: (bool b) {
-        print("keeping on? $b (read callback)");
-        return Screen.keepOn(b);
-      }, 
+      onChanged: (bool b) => Screen.keepOn(b),
+      readCallback: (bool b) => Screen.keepOn(b), 
     ),
     imageAlignments = PersistentVar<Map<String,double>>(
       key: "bloc_settings_blocvar_imageAlignments",
       initVal: <String,double>{},
       toJson: (map) => map,
       fromJson: (json) => <String,double>{
-        for(final entry in (json as Map<String, dynamic>).entries)
-          entry.key: entry.value as double,          
+        for(final entry in (json as Map).entries)
+          entry.key: entry.value,          
       },
     ),
     imageGradientStart = PersistentVar<double>(
@@ -197,6 +195,12 @@ class CSSettings {
       initVal: defaultSimpleImageOpacity,
       toJson: (d) => d,
       fromJson: (j) => j,
+    ),
+    timeMode = PersistentVar<TimeMode>(
+      key: "bloc_settings_blocvar_timeMode",
+      initVal: TimeMode.clock,
+      toJson: (mode) => TimeModes.nameOf(mode),
+      fromJson: (name) => TimeModes.fromName(name),
     )
   {
     Vibrate.canVibrate.then(

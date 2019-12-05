@@ -76,7 +76,7 @@ class CSGameState {
       //(the current state without changes), we start at 1 instead of 0
       final outgoingData = dataList[dataList.length - 2];
       this._back();
-      this.parent.gameHistory.back(outgoingData);
+      this.parent.gameHistory.back(outgoingData, dataList.first.time);
     }
   }
   void _back(){
@@ -115,7 +115,7 @@ class CSGameState {
       //(the current state without changes), we start at 1 instead of 0
       final outgoingData = dataList[dataList.length - 2 - index];
       _forgetPast(index);
-      this.parent.gameHistory.forget(index+1, outgoingData);
+      this.parent.gameHistory.forget(index+1, outgoingData, dataList.first.time);
     }
   }
 

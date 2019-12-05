@@ -56,8 +56,8 @@ class CSGameHistory {
     duration: MyDurations.fast,
   );
 
-  void back(GameHistoryData outgoingData) => this.forget(1, outgoingData);
-  void forget(int index, GameHistoryData outgoingData) => listController.remove(
+  void back(GameHistoryData outgoingData, DateTime firstTime) => this.forget(1, outgoingData, firstTime);
+  void forget(int index, GameHistoryData outgoingData, DateTime firstTime) => listController.remove(
     //0 = nonsense (the first column on the right is the current state)
     //1 = latest game action
     //history data lenght = first game action
@@ -72,6 +72,7 @@ class CSGameHistory {
       sizeFactor: animation,
       child: HistoryTile(
         outgoingData,
+        firstTime: firstTime,
         index: index-1,
         counters: parent.gameAction.currentCounterMap,
         tileSize: null,

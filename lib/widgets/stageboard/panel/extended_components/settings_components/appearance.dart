@@ -35,6 +35,17 @@ class SettingsAppearance extends StatelessWidget {
           size: ImageOpacitySimple.height,
         ),
       ),
+      const SectionTitle("History time"),
+      bloc.settings.timeMode.build((_,mode)=> RadioSlider(
+        onTap: (i) => settings.timeMode.set(TimeMode.values[i]),
+        selectedIndex: TimeMode.values.indexOf(mode),
+        items: [for(final timeMode in TimeMode.values)
+          RadioSliderItem(
+            icon: Icon(TimeModes.icons[timeMode]),
+            title: Text(TimeModes.nameOf(timeMode)),
+          ),
+        ],
+      )),
 
     ]);
   }

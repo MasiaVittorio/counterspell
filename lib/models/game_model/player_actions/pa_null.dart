@@ -5,7 +5,7 @@ class PANull extends PlayerAction {
 
   @override
   PlayerState apply(PlayerState state) {
-    return state;
+    return state.updateTime();
   }
 
   @override

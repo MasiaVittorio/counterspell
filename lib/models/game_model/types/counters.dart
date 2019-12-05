@@ -48,7 +48,6 @@ class Counter{
       maxValue: json['maxValue'],
     );
   }
-  //LOW PRIORITY: persisti icon data?
 
   Map<String,dynamic> toJson() => {
     'longName' : this.longName,

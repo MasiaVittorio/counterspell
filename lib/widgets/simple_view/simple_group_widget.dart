@@ -82,7 +82,6 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
   Size get buttonSize {
     return Size(_buttonSize,_buttonSize);
   }
-  //LOW PRIORITY: delayer sincronizzato
 
   String get firstUnpositionedName {
     for(final name in widget.gameState.names){

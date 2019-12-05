@@ -47,6 +47,7 @@ class BodyHistory extends StatelessWidget {
                 child: HistoryTile(
                   //but you must reverse the list to keep the last state on its "top"
                   history.data[history.data.length -1 - index],
+                  firstTime: history.data.first.time,
                   index: index,
                   tileSize: tileSize,
                   coreTileSize: coreTileSize,

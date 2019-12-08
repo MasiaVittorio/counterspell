@@ -45,33 +45,25 @@ class _PlayerDetailsState extends State<PlayerDetails> {
   }
 
   Widget get body => Stack(
-    fit: StackFit.passthrough,
+    fit: StackFit.expand,
     children: <Widget>[
-      Positioned.fill(
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            for(final p in _DetailsPage.values)
-              Positioned.fill(child:AnimatedPresented(
-                duration: const Duration(milliseconds: 215),
-                presented: p == page,
-                curve: Curves.fastOutSlowIn.flipped,
-                presentMode: PresentMode.slide,
-                child: SingleChildScrollView(
-                  physics: Stage.of(context).panelScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: AlertTitle.height),
-                    child: <_DetailsPage,Widget>{
-                      _DetailsPage.info: PlayerDetailsInfo(widget.index, aspectRatio: widget.aspectRatio),
-                      _DetailsPage.commander: PlayerDetailsDamage(widget.index),
-                    }[p],
-                  ),
-                ),
-              ),),
-          ],
-        ),
-      ),
-      
+      for(final p in _DetailsPage.values)
+        Positioned.fill(child:AnimatedPresented(
+          duration: const Duration(milliseconds: 215),
+          presented: p == page,
+          curve: Curves.fastOutSlowIn.flipped,
+          presentMode: PresentMode.slide,
+          child: SingleChildScrollView(
+            physics: Stage.of(context).panelScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.only(top: AlertTitle.height),
+              child: <_DetailsPage,Widget>{
+                _DetailsPage.info: PlayerDetailsInfo(widget.index, aspectRatio: widget.aspectRatio),
+                _DetailsPage.commander: PlayerDetailsDamage(widget.index),
+              }[p],
+            ),
+          ),
+        ),),
     ],
   );
 

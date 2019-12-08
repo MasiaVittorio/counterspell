@@ -26,35 +26,17 @@ class _SupportState extends State<Support> {
   @override
   Widget build(BuildContext context) {
     final pBloc = CSBloc.of(context).payments;
-    final theme = Theme.of(context);
-    return Material(
-      color: theme.scaffoldBackgroundColor,
-      child: SizedBox(
-        height: Support.height,
-        child: Column(children: <Widget>[
-          Expanded(child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Positioned.fill(
-                child: list(pBloc),
-              ),
-              Positioned(
-                top: 0.0,
-                left: 0.0,
-                right: 0.0,
-                height: AlertTitle.height,
-                child: title(pBloc, theme),
-              ),
-            ],
-          )),
-  	    disclaimer(pBloc),
-        ],),
+    return pBloc.unlocked.build((_,unlocked) 
+      =>HeaderedAlert(
+        refreshing ? "Refreshing data..." : unlocked ? "You are a pro!" : "Support the development",
+        child: list(pBloc),
+        bottom: disclaimer(pBloc),
       ),
     );
   }
 
   Widget disclaimer(CSPayments pBloc){
-    return UpShadower(child: Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
@@ -75,34 +57,18 @@ class _SupportState extends State<Support> {
           )),
         ],),
       ],
-    ),);
-  }
-
-  Widget title(CSPayments pBloc, ThemeData theme){
-    return Container(
-      color: theme.scaffoldBackgroundColor.withOpacity(0.7),
-      child: pBloc.unlocked.build((_,unlocked) 
-        => AlertTitle(refreshing
-          ? "Refreshing data..."
-          : unlocked ? "You are a pro!" : "Support the development",
-        ),
-      ),
     );
   }
 
   Widget list(CSPayments pBloc){
     return BlocVar.build2(pBloc.donations, pBloc.purchasedIds, 
       builder: (_, List<Donation> donations, Set<String> purchasedIds) 
-        => SingleChildScrollView(
-          physics: Stage.of(context).panelScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const SizedBox(height: AlertTitle.height,),
-              for(final donation in donations)
-                _Donation(donation, purchased: purchasedIds.contains(donation.productID))
-            ],
-          ),
+        => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            for(final donation in donations)
+              _Donation(donation, purchased: purchasedIds.contains(donation.productID))
+          ],
         ),
     );
   }

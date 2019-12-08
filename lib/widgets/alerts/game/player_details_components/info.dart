@@ -21,9 +21,23 @@ class PlayerDetailsInfo extends StatelessWidget {
 
           final bool partner = partners[name] ?? false;
           return Column(
+            mainAxisSize: MainAxisSize.min, 
             children: <Widget>[
+              ListTile(
+                title: Text(partner ? "Two partners" : "One commander"),
+                leading: Icon(partner ? McIcons.account_multiple_outline :McIcons.account_outline),
+                trailing: FlatButton.icon(
+                  label: Text(partner ? "Merge" : "Split"),
+                  icon: Icon(Icons.exit_to_app),
+                  onPressed: (){
+                    bloc.game.gameGroup.havingPartnerB.value[name] = !partner;
+                    bloc.game.gameGroup.havingPartnerB.refresh();
+                  },
+                ),
+              ),
+
               Section([
-                AlertTitle("$name's details", centered: false,),
+                SectionTitle("Values"),
                 for(final couple in partition(<Widget>[
 
                   ListTile(
@@ -92,20 +106,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                     ),
                   ),
                 ],),
-              ], last: true,),
-
-              ListTile(
-                title: Text(partner ? "Two partners" : "One commander"),
-                leading: Icon(partner ? McIcons.account_multiple_outline :McIcons.account_outline),
-                trailing: FlatButton.icon(
-                  label: Text(partner ? "Merge" : "Split"),
-                  icon: Icon(Icons.exit_to_app),
-                  onPressed: (){
-                    bloc.game.gameGroup.havingPartnerB.value[name] = !partner;
-                    bloc.game.gameGroup.havingPartnerB.refresh();
-                  },
-                ),
-              ),
+              ]),
 
               Section([
                 const SectionTitle("Edit"),

@@ -104,44 +104,20 @@ class _ImageSearchState extends State<ImageSearch> {
   
   @override
   Widget build(BuildContext context){
-    final ThemeData theme = Theme.of(context);
-    return Material(
-      color: theme.scaffoldBackgroundColor,
-      child: SizedBox(
-        height: ImageSearch.height,
-        child: Stack(children: <Widget>[
-          Positioned(
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            bottom: ImageSearch._insert + ImageSearch._slider,
-            child: list,
-          ),
-          Positioned(
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              color: theme.scaffoldBackgroundColor.withOpacity(0.7),
-              child: title
-            ),
-          ),
-          Positioned(
-            bottom: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: UpShadower(child: SizedBox(
-              height: ImageSearch._insert + ImageSearch._slider,
-              child: Column(children: <Widget>[
-                insert,
-                slider,
-              ],),
-            )),
-          ),
-        ],),
-      ),
+    return HeaderedAlert(title,
+      child: list,
+      bottom: bottom,
+      alreadyScrollableChild: true,
     );
   }
+
+  Widget get bottom => SizedBox(
+    height: ImageSearch._insert + ImageSearch._slider,
+    child: Column(children: <Widget>[
+      insert,
+      slider,
+    ],),
+  );
 
   Widget get list {
     if (results.isNotEmpty) {
@@ -187,16 +163,14 @@ class _ImageSearchState extends State<ImageSearch> {
     ),
   );
 
-  Widget get title => AlertTitle(
-    !this.started 
-      ? this.commander ? "Commander Search" : "Card Search"
-      : this.searching 
-        ? "Searching..."
-        : <int,String>{
-          0:"No match found",
-          1:"Perfect match"
-        }[this.results.length] ?? "${this.results.length} results"
-  );
+  String get title => !this.started 
+    ? this.commander ? "Commander Search" : "Card Search"
+    : this.searching 
+      ? "Searching..."
+      : <int,String>{
+        0:"No match found",
+        1:"Perfect match"
+      }[this.results.length] ?? "${this.results.length} results";
 
   Widget get slider => Container(
     height: ImageSearch._slider,

@@ -33,6 +33,8 @@ class CSSettings {
     this.simpleImageOpacity.dispose();
 
     this.timeMode.dispose();
+
+    this.lastPageBeforeSimpleScreen.dispose();
   }
 
 
@@ -68,6 +70,8 @@ class CSSettings {
   final PersistentVar<double> simpleImageOpacity;
 
   final PersistentVar<TimeMode> timeMode;
+
+  final BlocVar<CSPage> lastPageBeforeSimpleScreen;
   //====================================
   // Default values
   static const double sensVal = 7.2;
@@ -201,6 +205,12 @@ class CSSettings {
       initVal: TimeMode.clock,
       toJson: (mode) => TimeModes.nameOf(mode),
       fromJson: (name) => TimeModes.fromName(name),
+    ),
+    lastPageBeforeSimpleScreen = PersistentVar<CSPage>(
+      key: "bloc_settings_blocvar_lastPageBeforeSimpleScreen",
+      initVal: CSPage.life,
+      toJson: (page) => CSPages.nameOf(page),
+      fromJson: (name) => CSPages.fromName(name),
     )
   {
     Vibrate.canVibrate.then(

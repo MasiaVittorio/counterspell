@@ -45,9 +45,7 @@ class _SimpleGroupRoute<T> extends PopupRoute<T> {
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-    Widget page =_SimpleGroup(
-      routeAnimationController: _animationController,
-    );
+    Widget page = _SimpleGroup(routeAnimationController: _animationController);
     if (theme != null)
       page = Theme(data: theme, child: page);
     return page;
@@ -61,6 +59,7 @@ Future<T> showSimpleGroup<T>({
   assert(context != null);
   
   final stage = Stage.of(context);
+  bloc.settings.lastPageBeforeSimpleScreen.set(stage.pagesController.page.value);
   stage.pagesController.pageSet(CSPage.life);
   bloc.game.gameAction.clearSelection();
 

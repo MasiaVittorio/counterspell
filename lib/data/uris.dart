@@ -6,7 +6,7 @@ class CSUris{
   static const String devMail = 'mvsidereus@gmail.com';
   static const String telegramGroup = 'https://t.me/joinchat/CWQ9yhZgKHf0lPgJaeGkwQ';
 
-  //TODO:better link
-  // static const String featherArt = "https://img.scryfall.com/cards/art_crop/front/e/4/e4a2d2c6-8eaa-4760-b620-921b807baa2e.jpg?1557577142";
   static const String featherArt = "https://i.imgur.com/N4Dyd0u.jpg";
+
+  static const String githubPage = "https://github.com/MasiaVittorio/counterspell"; 
 }

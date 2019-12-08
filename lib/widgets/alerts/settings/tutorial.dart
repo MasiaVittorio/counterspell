@@ -1,19 +1,22 @@
 import 'package:counter_spell_new/core.dart';
 
 class TutorialAlert extends StatefulWidget {
+  const TutorialAlert();
+  static const double height = 400.0;
   @override
   _TutorialAlertState createState() => _TutorialAlertState();
 }
 
 class _TutorialAlertState extends State<TutorialAlert> {
   int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return HeaderedAlert(
       TutorialSection.sections[index].longTitle,
       child: Stack(fit: StackFit.expand, children: <Widget>[
         for(final section in TutorialSection.sections)
-          Positioned.fill(child:AnimatedPresented(
+          Positioned.fill(child: AnimatedPresented(
             duration: const Duration(milliseconds: 215),
             presented: section.longTitle == TutorialSection.sections[index].longTitle,
             curve: Curves.fastOutSlowIn.flipped,
@@ -22,16 +25,19 @@ class _TutorialAlertState extends State<TutorialAlert> {
               physics: Stage.of(context).panelScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.only(top: AlertTitle.height),
-                child: Column(children: <Widget>[
-                  for(final piece in section.pieces)
-                    Section([
-                      SectionTitle(piece.title),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                        child: Text(piece.body, style: TextStyle(fontSize: 15),),
-                      ),
-                    ])
-                ],),
+                child: DefaultTextStyle.merge(
+                  style: const TextStyle(fontSize: 15),
+                  child: Column(children: <Widget>[
+                    for(final piece in section.pieces)
+                      Section([
+                        SectionTitle(piece.title),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                          child: Text(piece.body, style: const TextStyle(fontSize: 15),),
+                        ),
+                      ])
+                  ],),
+                ),
               ),
             ),
           ),),
@@ -110,7 +116,7 @@ class TutorialSection {
   static const TutorialSection _history = TutorialSection(
     title: "History",
     longTitle: "History features",
-    icon: McIcons.access_point,
+    icon: CSIcons.historyIconFilled,
     pieces: <TutorialPiece>[
       TutorialPiece(
         title: "History screen",

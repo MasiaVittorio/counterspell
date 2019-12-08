@@ -35,6 +35,7 @@ class CSSettings {
     this.timeMode.dispose();
 
     this.lastPageBeforeSimpleScreen.dispose();
+    this.tutored.dispose();
   }
 
 
@@ -72,6 +73,8 @@ class CSSettings {
   final PersistentVar<TimeMode> timeMode;
 
   final BlocVar<CSPage> lastPageBeforeSimpleScreen;
+  final PersistentVar<bool> tutored;
+
   //====================================
   // Default values
   static const double sensVal = 7.2;
@@ -205,6 +208,20 @@ class CSSettings {
       initVal: TimeMode.clock,
       toJson: (mode) => TimeModes.nameOf(mode),
       fromJson: (name) => TimeModes.fromName(name),
+    ),
+    tutored= PersistentVar<bool>(
+      key: "bloc_settings_blocvar_tutored",
+      initVal: false,
+      toJson: (b) => b,
+      fromJson: (j) => j,
+      readCallback: (already){
+        if(!already){
+          Future.delayed(const Duration(seconds: 1)).then((_){
+            parent.stage.showAlert(const TutorialAlert(), size: TutorialAlert.height);
+            parent.settings.tutored.setDistinct(true);
+          });
+        }
+      } 
     ),
     lastPageBeforeSimpleScreen = PersistentVar<CSPage>(
       key: "bloc_settings_blocvar_lastPageBeforeSimpleScreen",

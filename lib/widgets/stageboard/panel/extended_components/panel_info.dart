@@ -24,12 +24,12 @@ class PanelInfo extends StatelessWidget {
             ListTile(
               title: const Text("Licenses & source code"),
               leading: const Icon(Icons.info_outline),
-              onTap: () => stage.showAlert(AlertLicenses(), size: DamageInfo.height),
+              onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
             ),
             ListTile(
               title: const Text("Tutorial"),
               leading: const Icon(Icons.help_outline),
-              onTap: () => stage.showAlert(TutorialAlert(), size: 400.0),
+              onTap: () => stage.showAlert(const TutorialAlert(), size: TutorialAlert.height),
             ),
           ]),
           Section([

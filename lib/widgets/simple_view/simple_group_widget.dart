@@ -65,6 +65,16 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     };
     this.open = false;
   }
+
+  void preExit(){
+    Stage.of(context).pagesController.pageSet(
+      CSBloc.of(context).settings.lastPageBeforeSimpleScreen.value,
+    );
+  }
+  void exit(){
+    preExit();
+    Navigator.of(context).pop();
+  }
   
   @override
   void didUpdateWidget(SimpleGroupWidget oldWidget){
@@ -111,7 +121,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
 
     if(indexToName.values.any((v) => v == null)){
       buttonCross = true;
-      centerTap = Navigator.of(context).pop;
+      centerTap = exit;
     } else if(widget.isScrollingSomewhere){
       buttonCross = true;
       centerTap = bloc.scroller.cancel;
@@ -132,7 +142,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
         borderRadius: BorderRadius.circular(_buttonSize/2),
         child: InkWell(
           onTap: centerTap,
-          onLongPress: Navigator.of(context).pop,
+          onLongPress: exit,
           borderRadius: BorderRadius.circular(_buttonSize/2),
           child: Container(
             alignment: Alignment.center,
@@ -191,7 +201,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
               ListTile(
                 leading: Icon(Icons.arrow_back),
                 title: Text("Back to full power"),
-                onTap: Navigator.of(context).pop,
+                onTap: exit,
               ),
               ListTile(
                 leading: Icon(McIcons.account_group_outline),
@@ -513,6 +523,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
               return false;
             }
 
+            preExit();
             return true;
           },
           child: LayoutBuilder(builder: (context, constraints){

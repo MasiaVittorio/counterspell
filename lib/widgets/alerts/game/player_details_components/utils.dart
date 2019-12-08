@@ -171,24 +171,16 @@ class PlayerBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final stage = bloc.stage;
     final gameBloc = bloc.game;
     final groupBloc = gameBloc.gameGroup;
     final stateBloc = gameBloc.gameState;
-    final theme = Theme.of(context);
-    return Material(
-      color: theme.scaffoldBackgroundColor,
-      child: SingleChildScrollView(
-        physics: stage.panelScrollPhysics(),
-        child: groupBloc.names.build((_, names){
-          final name = names[index];
-          return stateBloc.gameState.build((_, state){
-            final player = state.players[name];
-            return this.builder(state, names, name, player.states.last, player);
-          },);
-        },),
-      ),
-    );
+    return groupBloc.names.build((_, names){
+      final name = names[index];
+      return stateBloc.gameState.build((_, state){
+        final player = state.players[name];
+        return this.builder(state, names, name, player.states.last, player);
+      },);
+    },);
 
   }
 

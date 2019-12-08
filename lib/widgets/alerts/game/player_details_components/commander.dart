@@ -30,7 +30,7 @@ class PlayerDetailsDamage extends StatelessWidget {
           final Player player = gameState.players[name];
           final PlayerState playerState = player.states.last;
 
-          final List<Widget> children = [
+          return Column(mainAxisSize: MainAxisSize.min, children:<Widget>[
             for(final otherName in names)
               Section([
                 SectionTitle(otherName == name ? "$otherName (yourself)": otherName),
@@ -81,32 +81,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                     ),
                 ]
               ]),
-          ];
-
-          return Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Positioned.fill(
-                child: SingleChildScrollView(
-                  physics: stage.panelScrollPhysics(),
-                  child: Column(children: <Widget>[
-                    SizedBox(height: AlertTitle.height,),
-                    ...children,
-                  ],),
-                ),
-              ),
-              Positioned(
-                top: 0.0,
-                left: 0.0,
-                right: 0.0,
-                height: AlertTitle.height,
-                child: Container(
-                  color: theme.canvasColor.withOpacity(0.7),
-                  child: AlertTitle("Damage taken & dealt by $name"),
-                ),
-              ),
-            ],
-          );
+          ]);
         },
       ),
     );

@@ -28,64 +28,70 @@ class _PlayerDetailsState extends State<PlayerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = CSBloc.of(context);
+    final groupBloc = bloc.game.gameGroup;
 
-    final Map<_DetailsPage, Widget> pages = {
-      _DetailsPage.info: PlayerDetailsInfo(widget.index, aspectRatio: widget.aspectRatio),
-      _DetailsPage.commander: PlayerDetailsDamage(widget.index),
-    };
-
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Positioned.fill(
-          bottom: CSSizes.barSize,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              for(final p in _DetailsPage.values)
-                Positioned.fill(child:AnimatedPresented(
-                  duration: const Duration(milliseconds: 215),
-                  presented: p == page,
-                  curve: Curves.fastOutSlowIn.flipped,
-                  presentMode: PresentMode.slide,
-                  child: pages[p] ?? Container(),
-                )),
-            ],
-          ),
-        ),
-        Positioned(
-          bottom: 0.0,
-          left: 0.0,
-          right: 0.0,
-          height: CSSizes.barSize,
-          child: UpShadower(
-            child: RadioNavBar(
-              selectedValue: page,
-              orderedValues: _DetailsPage.values,
-              onSelect: (p)=>this.setState((){
-                this.page = p;
-              }),
-              items: {
-                _DetailsPage.info : RadioNavBarItem(
-                  title: "Info",
-                  icon: Icons.info,
-                  unselectedIcon: Icons.info_outline,
-                ),
-                _DetailsPage.commander : RadioNavBarItem(
-                  title: "Commander",
-                  icon: CSIcons.damageIconFilled,
-                  unselectedIcon: CSIcons.damageIconOutlined,
-                ),
-                // _DetailsPage.attack : RadioNavBarItem(
-                //   title: "Attack",
-                //   icon: CSTypesUI.attackIconTwo,
-                //   unselectedIcon: CSTypesUI.attackIconOne,
-                // ),
-              },
-            ),
-          ),
-        ),
-      ],
+    return groupBloc.names.build((_, names) 
+      => HeaderedAlert(
+        <_DetailsPage,String>{
+          _DetailsPage.info: "${names[widget.index]}'s details",
+          _DetailsPage.commander: "Damage taken & dealt by ${names[widget.index]}",
+        }[page],
+        child: body,
+        bottom: bottom,
+        alreadyScrollableChild: true,
+      ),
     );
   }
+
+  Widget get body => Stack(
+    fit: StackFit.passthrough,
+    children: <Widget>[
+      Positioned.fill(
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            for(final p in _DetailsPage.values)
+              Positioned.fill(child:AnimatedPresented(
+                duration: const Duration(milliseconds: 215),
+                presented: p == page,
+                curve: Curves.fastOutSlowIn.flipped,
+                presentMode: PresentMode.slide,
+                child: SingleChildScrollView(
+                  physics: Stage.of(context).panelScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: AlertTitle.height),
+                    child: <_DetailsPage,Widget>{
+                      _DetailsPage.info: PlayerDetailsInfo(widget.index, aspectRatio: widget.aspectRatio),
+                      _DetailsPage.commander: PlayerDetailsDamage(widget.index),
+                    }[p],
+                  ),
+                ),
+              ),),
+          ],
+        ),
+      ),
+      
+    ],
+  );
+
+  Widget get bottom => RadioNavBar(
+    selectedValue: page,
+    orderedValues: _DetailsPage.values,
+    onSelect: (p)=>this.setState((){
+      this.page = p;
+    }),
+    items: {
+      _DetailsPage.info : RadioNavBarItem(
+        title: "Info",
+        icon: Icons.info,
+        unselectedIcon: Icons.info_outline,
+      ),
+      _DetailsPage.commander : RadioNavBarItem(
+        title: "Commander",
+        icon: CSIcons.damageIconFilled,
+        unselectedIcon: CSIcons.damageIconOutlined,
+      ),
+    },
+  );
 }

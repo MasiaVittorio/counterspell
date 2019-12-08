@@ -318,8 +318,8 @@ class PlayerTile extends StatelessWidget {
         ),
         child: Material(
           color: color,
-          elevation: playerState.isAlive ? 2.0 : 0.0,
-          borderRadius: BorderRadius.circular(coreTileSize),
+          elevation: playerState.isAlive ? (2.0) : 0.0,
+          borderRadius: BorderRadius.circular(coreTileSize * circleFrac * (attacking ? 0.1 : 1.0)),
           child: CircleNumber(
             size: coreTileSize * circleFrac,
             value: PTileUtils.cnValue(

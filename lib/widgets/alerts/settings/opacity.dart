@@ -31,11 +31,7 @@ class ImageOpacity extends StatelessWidget {
     final Widget image = Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: CachedNetworkImageProvider(
-            "https://img.scryfall.com/cards/art_crop/front/e/4/e4a2d2c6-8eaa-4760-b620-921b807baa2e.jpg?1557577142",
-            //Feather
-            //TODO:better link
-          ),
+          image: CachedNetworkImageProvider(CSUris.featherArt),
           fit: BoxFit.cover,
           alignment: Alignment(0.0,0.0),
         ),

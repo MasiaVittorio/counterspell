@@ -46,8 +46,6 @@ class HistoryTile extends StatelessWidget {
     return "$hours:$minutes";
   }
   static String distanceString(DateTime last, DateTime first){
-    print("last: $last");
-    print("first: $first");
     final duration = last.difference(first).abs();
     final time = DateTime(0).add(duration);
     final hours = time.hour.toString().padLeft(2, "0");

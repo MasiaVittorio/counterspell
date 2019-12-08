@@ -213,7 +213,7 @@ class PlayerState {
     @required Map<String,int> counters,
    }) => PlayerState(
     life: life,
-    time: (){final now = DateTime.now(); print(now); return now;}(),
+    time: DateTime.now(),
     cast: cast,
     damages: damages,
     counters: counters,

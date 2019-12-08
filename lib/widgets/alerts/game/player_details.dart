@@ -38,7 +38,7 @@ class _PlayerDetailsState extends State<PlayerDetails> {
       fit: StackFit.expand,
       children: <Widget>[
         Positioned.fill(
-          bottom: CSConstants.barSize,
+          bottom: CSSizes.barSize,
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
@@ -57,7 +57,7 @@ class _PlayerDetailsState extends State<PlayerDetails> {
           bottom: 0.0,
           left: 0.0,
           right: 0.0,
-          height: CSConstants.barSize,
+          height: CSSizes.barSize,
           child: UpShadower(
             child: RadioNavBar(
               selectedValue: page,
@@ -73,8 +73,8 @@ class _PlayerDetailsState extends State<PlayerDetails> {
                 ),
                 _DetailsPage.commander : RadioNavBarItem(
                   title: "Commander",
-                  icon: CSTypesUI.damageIconFilled,
-                  unselectedIcon: CSTypesUI.damageIconOutlined,
+                  icon: CSIcons.damageIconFilled,
+                  unselectedIcon: CSIcons.damageIconOutlined,
                 ),
                 // _DetailsPage.attack : RadioNavBarItem(
                 //   title: "Attack",

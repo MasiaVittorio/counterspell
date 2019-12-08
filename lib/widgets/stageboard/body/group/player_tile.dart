@@ -335,7 +335,7 @@ class PlayerTile extends StatelessWidget {
             numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
             open: scrolling,
             style: textStyle,
-            duration: MyDurations.fast,
+            duration: CSAnimations.fast,
             color: color,
             increment: _increment,
             borderRadiusFraction: attacking ? 0.1 : 1.0,
@@ -362,7 +362,7 @@ class PlayerTile extends StatelessWidget {
         children: <Widget>[
           //normal selector (+anti selector) for life screen
           Positioned.fill(child: AnimatedPresented(
-            duration: MyDurations.fast,
+            duration: CSAnimations.fast,
             presented: page == CSPage.life || page == CSPage.counters,
             child: InkWell(
               onLongPress: (){
@@ -386,7 +386,7 @@ class PlayerTile extends StatelessWidget {
           ),),
           //double partner // single partner for cast screen
           Positioned.fill(child: AnimatedPresented(
-            duration: MyDurations.fast,
+            duration: CSAnimations.fast,
             presented: page == CSPage.commanderCast,
             child: InkWell(
               onTap: () => group.toggleHavePartner(name),
@@ -403,7 +403,7 @@ class PlayerTile extends StatelessWidget {
           ),),
           //attacking icon for commander damage screen
           Positioned.fill(child: AnimatedPresented(
-            duration: MyDurations.fast,
+            duration: CSAnimations.fast,
             presented: page == CSPage.commanderDamage && whoIsAttacking==name,
             child: InkWell(
               onTap: () => group.toggleHavePartner(name),
@@ -412,15 +412,15 @@ class PlayerTile extends StatelessWidget {
                 height: coreTileSize,
                 child: Icon(
                   havingPartnerB==true
-                    ? CSTypesUI.attackIconTwo
-                    : CSTypesUI.attackIconOne,
+                    ? CSIcons.attackIconTwo
+                    : CSIcons.attackIconOne,
                 ),
               ),
             ),
           ),),
           //defending icon for commander damage screen
           Positioned.fill(child: AnimatedPresented(
-            duration: MyDurations.fast,
+            duration: CSAnimations.fast,
             presented: 
               page == CSPage.commanderDamage && 
               whoIsAttacking!=name && 
@@ -431,8 +431,8 @@ class PlayerTile extends StatelessWidget {
               height: coreTileSize,
               child: Icon(
                 whoIsDefending == name
-                  ? CSTypesUI.defenceIconFilled
-                  : CSTypesUI.defenceIconOutline,
+                  ? CSIcons.defenceIconFilled
+                  : CSIcons.defenceIconOutline,
               ),
             ),
           ),),

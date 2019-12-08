@@ -1,3 +1,6 @@
-export 'licenses.dart';
-export 'flavor_texts.dart';
-export 'uris.dart';
+export 'double/all.dart';
+export 'duration/all.dart';
+export 'function/all.dart';
+export 'icon/all.dart';
+export 'key/all.dart';
+export 'string/all.dart';

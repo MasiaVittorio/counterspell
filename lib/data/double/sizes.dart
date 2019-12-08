@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class CSConstants {
+class CSSizes {
   static const double barSize = kBottomNavigationBarHeight;
   static const double minTileSize = 75.0;
 

@@ -10,7 +10,7 @@ class CSBody extends StatelessWidget {
     Key key,
   }): super(key: key);
 
-  static const double coreTileSize = CSConstants.minTileSize;
+  static const double coreTileSize = CSSizes.minTileSize;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class CSBody extends StatelessWidget {
             maxHeight: constraints.maxHeight - bottom,
             minHeight: constraints.maxHeight - bottom,
           );
-          final double tileSize = CSConstants.computeTileSize(
+          final double tileSize = CSSizes.computeTileSize(
             _sureConstraints, 
             coreTileSize, 
             rowCount,
@@ -81,7 +81,7 @@ class CSBody extends StatelessWidget {
                     children: <Widget>[
                       if(!landScape)
                         Positioned.fill(
-                          right: CSConstants.minTileSize,
+                          right: CSSizes.minTileSize,
                           child: BodyHistory(
                             bottom: bottom,
                             defenceColor: defenceColor,
@@ -95,12 +95,12 @@ class CSBody extends StatelessWidget {
                         ),
 
                       AnimatedPositioned(
-                        duration: MyDurations.fast,
+                        duration: CSAnimations.fast,
                         top: 0.0,
                         bottom: 0.0,
                         width: constraints.maxWidth,
                         left: currentPage == CSPage.history 
-                          ? constraints.maxWidth - CSConstants.minTileSize
+                          ? constraints.maxWidth - CSSizes.minTileSize
                           : 0.0,
 
                         child: Material(

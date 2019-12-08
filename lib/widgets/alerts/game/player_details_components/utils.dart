@@ -113,14 +113,14 @@ class DetailsUtils {
         alternatives: <Alternative>[
           Alternative(
             title: "First partner (A)",
-            icon: CSTypesUI.attackIconOne,
+            icon: CSIcons.attackIconOne,
             action: () {
               insertDamage(true, false, stage, attacker, defender, bloc, defenderState, replace: true);
             }
           ),
           Alternative(
             title: "Second partner (B)",
-            icon: CSTypesUI.attackIconTwo,
+            icon: CSIcons.attackIconTwo,
             action: () {
               insertDamage(true, true, stage, attacker, defender, bloc, defenderState, replace: true);
             }

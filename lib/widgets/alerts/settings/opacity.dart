@@ -63,23 +63,23 @@ class ImageOpacity extends StatelessWidget {
         height: _hTile,
         alignment: Alignment.center,
         child: SizedBox(
-          height: CSConstants.minTileSize,
+          height: CSSizes.minTileSize,
           child: Row(children: <Widget>[
             Container(
               alignment: Alignment.center,
-              width: CSConstants.minTileSize,
-              height: CSConstants.minTileSize,
+              width: CSSizes.minTileSize,
+              height: CSSizes.minTileSize,
               child: Container(
-                width: CSConstants.minTileSize*PlayerTile.circleFrac,
-                height: CSConstants.minTileSize*PlayerTile.circleFrac,
+                width: CSSizes.minTileSize*PlayerTile.circleFrac,
+                height: CSSizes.minTileSize*PlayerTile.circleFrac,
                 decoration: BoxDecoration(
                   color: theme.primaryColor,
-                  borderRadius: BorderRadius.circular(CSConstants.minTileSize),
+                  borderRadius: BorderRadius.circular(CSSizes.minTileSize),
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   "40",
-                  style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 0.26 * CSConstants.minTileSize),
+                  style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 0.26 * CSSizes.minTileSize),
                 ),
               ),
             ),
@@ -99,8 +99,8 @@ class ImageOpacity extends StatelessWidget {
             ),),
             Container(
               alignment: Alignment.center,
-              width: CSConstants.minTileSize,
-              height: CSConstants.minTileSize,
+              width: CSSizes.minTileSize,
+              height: CSSizes.minTileSize,
               child: Checkbox(
                 onChanged: (_){},
                 value: true,

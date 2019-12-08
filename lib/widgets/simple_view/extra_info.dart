@@ -27,7 +27,7 @@ class ExtraInfo {
       if(state.cast.a != 0)
         ExtraInfo(
           color: pageColors[CSPage.commanderCast],
-          icon: CSTypesUI.castIconFilled,
+          icon: CSIcons.castIconFilled,
           value: state.cast.a,
           note: iHaveB ? "first" : null,
         ),
@@ -36,7 +36,7 @@ class ExtraInfo {
       if(state.cast.b != 0)
         ExtraInfo(
           color: pageColors[CSPage.commanderCast],
-          icon: CSTypesUI.castIconFilled,
+          icon: CSIcons.castIconFilled,
           value: state.cast.a,
           note: "second",
         ),
@@ -46,7 +46,7 @@ class ExtraInfo {
           if(entry.value.a!=0)
             ExtraInfo(
               color: defenceColor,
-              icon: CSTypesUI.defenceIconFilled,
+              icon: CSIcons.defenceIconFilled,
               value: entry.value.a,
               note: havingPartnerB[entry.key] == true
                 ? "${PTileUtils.subString(entry.key,4)} (A)"
@@ -56,7 +56,7 @@ class ExtraInfo {
           if(entry.value.b!=0)
             ExtraInfo(
               color: defenceColor,
-              icon: CSTypesUI.defenceIconFilled,
+              icon: CSIcons.defenceIconFilled,
               value: entry.value.a,
               note: "${PTileUtils.subString(entry.key,4)} (B)",
             ),
@@ -67,7 +67,7 @@ class ExtraInfo {
           if((otherEntry.value.damages[name]?.a ?? 0) != 0)
             ExtraInfo(
               color: pageColors[CSPage.commanderDamage],
-              icon: iHaveB ? CSTypesUI.attackIconTwo : CSTypesUI.attackIconOne,
+              icon: iHaveB ? CSIcons.attackIconTwo : CSIcons.attackIconOne,
               value: otherEntry.value.damages[name].a,
               note: iHaveB 
                 ? "${PTileUtils.subString(otherEntry.key,4)} (A)" 
@@ -77,7 +77,7 @@ class ExtraInfo {
           if((otherEntry.value.damages[name]?.b ?? 0) != 0)
             ExtraInfo(
               color: pageColors[CSPage.commanderDamage],
-              icon: CSTypesUI.attackIconTwo,
+              icon: CSIcons.attackIconTwo,
               value: otherEntry.value.damages[name].b,
               note: "${PTileUtils.subString(otherEntry.key,4)} (B)",
             ),

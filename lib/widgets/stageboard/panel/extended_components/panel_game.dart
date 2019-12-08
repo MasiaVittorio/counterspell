@@ -20,7 +20,7 @@ class PanelGame extends StatelessWidget {
             bloc.settings.applyDamageToLife.build((_,apply) => SwitchListTile(
               value: apply,
               onChanged: (value) => bloc.settings.applyDamageToLife.set(value),
-              secondary: const Icon(CSTypesUI.attackIconOne),
+              secondary: const Icon(CSIcons.attackIconOne),
               title: const Text("Commander damage to life"),
             ),),
             Padding(
@@ -34,7 +34,7 @@ class PanelGame extends StatelessWidget {
             ListTile(
               onTap: () => showSimpleGroup(context: context, bloc: bloc),
               title: const Text("Simple view"),
-              leading: const Icon(CSTypesUI.simpleViewIcon, size: 20,),
+              leading: const Icon(CSIcons.simpleViewIcon, size: 20,),
             ),
             ListTile(
               onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),

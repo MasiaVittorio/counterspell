@@ -39,7 +39,7 @@ class PlayerState {
       if(damage.a >= 21) return false;
       if(damage.b >= 21) return false;
     }
-    if(counters[POISON.longName] >= 10){
+    if(counters[Counter.poison.longName] >= 10){
       return false;
     }
 

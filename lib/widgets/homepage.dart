@@ -18,14 +18,14 @@ class CSHomePage extends StatelessWidget {
         forceOpenedPanelOverNavBar: true,
 
         controller: CSBloc.of(context).stageBloc.controller,
-        collapsedPanel: const CSPanelCollapsed(key: KEY_COLLAPSED,),
+        collapsedPanel: const CSPanelCollapsed(key: CSWidgetKeys.homePage,),
 
-        extendedPanel: const CSPanelExtended(),
+        extendedPanel: const CSPanelExtended(key: CSWidgetKeys.extendedPanel,),
 
-        body: const CSBody(),
+        body: const CSBody(key: CSWidgetKeys.body,),
 
         openedPanelSubtitle: (settingsPage)=>settingsThemes[settingsPage].longName,
-        appBarTitle: const CSTopBarTitle(),
+        appBarTitle: const CSTopBarTitle(key: CSWidgetKeys.animatedAppTitle,),
 
         backToClosePanel: true,
         backToDefaultPageClosed: true,
@@ -38,7 +38,7 @@ class CSHomePage extends StatelessWidget {
         pandaOpenedPanelBottomBar: true,
         backgroundColor: (theme) => Colors.black,
         splashScreenBackground: const Color(0xFF263133),
-        splashScreenIcon: const Icon(CsIcon.counter_spell, color: Colors.white, size: 40,),
+        splashScreenIcon: const Icon(CSIcons.counterSpell, color: Colors.white, size: 40,),
       ),
     );
 

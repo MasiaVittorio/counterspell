@@ -123,10 +123,10 @@ class PieceOfInformation extends StatelessWidget {
 
     if(damageType == DamageType.commanderDamage){
       color = attacking ? pagesColor[CSPage.commanderDamage]: defenceColor;
-      icon = attacking ? CSTypesUI.attackIconOne : CSTypesUI.defenceIconFilled;
+      icon = attacking ? CSIcons.attackIconOne : CSIcons.defenceIconFilled;
     } else {
       color = pagesColor[CSPages.fromDamage(damageType)];
-      icon = CSTypesUI.typeIconsFilled[damageType];
+      icon = CSIcons.typeIconsFilled[damageType];
     }
 
     final littleDarker = themeData.colorScheme.onSurface.withOpacity(0.1); 

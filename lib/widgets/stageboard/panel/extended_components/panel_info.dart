@@ -22,20 +22,14 @@ class PanelInfo extends StatelessWidget {
               onTap: () => stage.showAlert(const Developer(), size: Developer.height),
             ),
             ListTile(
-              title: const Text("Licenses"),
+              title: const Text("Licenses & source code"),
               leading: const Icon(Icons.info_outline),
               onTap: () => stage.showAlert(AlertLicenses(), size: DamageInfo.height),
             ),
             ListTile(
-              title: const Text("Source code"),
-              leading: const Icon(McIcons.github_circle),
-              onTap: () => stage.showAlert(ConfirmAlert(
-                warningText: "You'll be redirected to your browser on CounterSpell's  github page",
-                twoLinesWarning: true,
-                action: CSActions.githubPage,
-                confirmIcon: Icons.exit_to_app,
-                cancelColor: CSColors.delete,
-              ), size: ConfirmAlert.twoLinesheight),
+              title: const Text("Tutorial"),
+              leading: const Icon(Icons.help_outline),
+              onTap: () => stage.showAlert(TutorialAlert(), size: 400.0),
             ),
           ]),
           Section([

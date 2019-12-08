@@ -40,7 +40,7 @@ class CSGameAction {
     selected = BlocVar(<String,bool>{}),
     counterSet = PersistentSet<Counter>(
       key: "bloc_game_action_blocvar_counterset",
-      initList: DEFAULT_CUSTOM_COUNTERS,
+      initList: Counter.defaultList,
       toJson: (list) => [
         for(final counter in list)
           counter.toJson(),

@@ -370,9 +370,9 @@ class SimplePlayerTile extends StatelessWidget {
         AnimatedScale(
           alsoAlign: true,
           scale: scrolling ? scale : 1.0,
-          duration: MyDurations.fast,
+          duration: CSAnimations.fast,
           child: AnimatedCount(
-            duration: MyDurations.medium,
+            duration: CSAnimations.medium,
             count: playerState.life,
             style: TextStyle(
               fontSize: fontSize,
@@ -381,7 +381,7 @@ class SimplePlayerTile extends StatelessWidget {
         ),
         AnimatedListed(
           listed: scrolling ? true : false,
-          duration: MyDurations.fast,
+          duration: CSAnimations.fast,
           axis: Axis.horizontal,
           child: Text(
             "$incrementString = ${playerState.life + increment}",

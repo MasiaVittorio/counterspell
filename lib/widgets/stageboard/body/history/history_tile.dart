@@ -65,7 +65,7 @@ class HistoryTile extends StatelessWidget {
         : data.changes.length;
       return LayoutBuilder(builder: (context, constraints)
         => buildKnowingSize(
-          CSConstants.computeTileSize(
+          CSSizes.computeTileSize(
             constraints, 
             coreTileSize, 
             howManyPlayers,

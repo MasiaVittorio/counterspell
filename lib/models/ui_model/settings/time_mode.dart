@@ -23,7 +23,6 @@ class TimeModes{
   };
 
 
-
   static const Map<TimeMode,IconData> icons = <TimeMode,IconData>{
     TimeMode.inGame: Icons.timelapse,
     TimeMode.clock: Icons.access_time,

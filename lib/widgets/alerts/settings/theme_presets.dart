@@ -112,7 +112,7 @@ class PresetTile extends StatelessWidget {
                   child: Container(
                     width: _medalSize,
                     child: Icon(
-                      CSTypesUI.defenceIconFilled, 
+                      CSIcons.defenceIconFilled, 
                       color: CSColors.contrastWith(defence),
                     ),
                   ),

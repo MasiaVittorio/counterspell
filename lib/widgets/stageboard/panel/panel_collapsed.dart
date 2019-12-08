@@ -24,7 +24,7 @@ class CSPanelCollapsed extends StatelessWidget {
         final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
           => _PanelButton(
             [2,3,4].contains(state.players.length), 
-            CSTypesUI.simpleViewIcon,
+            CSIcons.simpleViewIcon,
             ()=> showSimpleGroup(context: context, bloc: bloc), 
             1.0,
             iconSize: 20,
@@ -77,7 +77,7 @@ class CSPanelCollapsed extends StatelessWidget {
               1.0, 
             ),
           ),
-        }[currentPage] ?? SizedBox(width: CSConstants.barSize,);
+        }[currentPage] ?? SizedBox(width: CSSizes.barSize,);
 
         final Widget row = Row(children: <Widget>[
           simpleDisplayer,
@@ -99,14 +99,14 @@ class CSPanelCollapsed extends StatelessWidget {
                 left: 0.0,
                 top: 0.0,
                 right: 0.0,
-                height: CSConstants.barSize,
+                height: CSSizes.barSize,
                 child: row
               ),
               Positioned(
                 left: 0.0,
                 top: 0.0,
                 right: 0.0,
-                height: CSConstants.barSize,
+                height: CSSizes.barSize,
                 child: _DelayerPanel(defenceColor: defenceColor, bloc: bloc,),
               ),
             ]
@@ -154,7 +154,7 @@ class _DelayerPanel extends StatelessWidget {
           canvas,
         );
         return AnimatedOpacity(
-          duration: MyDurations.veryFast,
+          duration: CSAnimations.veryFast,
           curve: Curves.decelerate,
           opacity: scrolling ? 1.0 : 0.0,
           child: IgnorePointer(
@@ -174,7 +174,7 @@ class _DelayerPanel extends StatelessWidget {
               onAccentColor: themeData.colorScheme.onPrimary,
               style: themeData.primaryTextTheme.body1,
 
-              height: CSConstants.barSize,
+              height: CSSizes.barSize,
               duration: confirmDelay,
               circleOffset: 44, //Floating Action Button
             ),
@@ -200,12 +200,12 @@ class _PanelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      duration: MyDurations.fast,
+      duration: CSAnimations.fast,
       opacity: active ? 1.0 : 0.35,
       child: InkResponse(
         child: Container(
-          height: CSConstants.barSize,
-          width: CSConstants.barSize * factor,
+          height: CSSizes.barSize,
+          width: CSSizes.barSize * factor,
           child: Icon(
             icon,
             size: iconSize ?? 24,

@@ -53,7 +53,7 @@ class CSGameHistory {
   void forward() => this.remember(1);
   void remember(int index) => this.listController.insert(
     index, 
-    duration: MyDurations.fast,
+    duration: CSAnimations.fast,
   );
 
   void back(GameHistoryData outgoingData, DateTime firstTime) => this.forget(1, outgoingData, firstTime);
@@ -79,12 +79,12 @@ class CSGameHistory {
         defenceColor: parent.parent.themer.defenceColor.value,
         pageColors: parent.parent.stageBloc.controller.themeController.primaryColorsMap.value,
         avoidInteraction: true,
-        coreTileSize: CSConstants.minTileSize,
+        coreTileSize: CSSizes.minTileSize,
         names: parent.gameGroup.names.value,
         havePartnerB: parent.gameGroup.havingPartnerB.value,
       )
     ),
-    duration: MyDurations.fast,
+    duration: CSAnimations.fast,
   );
 
 

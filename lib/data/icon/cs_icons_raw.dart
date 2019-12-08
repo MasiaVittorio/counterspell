@@ -15,23 +15,17 @@
 ///
 import 'package:flutter/widgets.dart';
 
-const Map<int,IconData> mapDiceIconData = {
-  1 : CounterIcons.dice_1,
-  2 : CounterIcons.dice_2,
-  3 : CounterIcons.dice_3,
-  4 : CounterIcons.dice_4,
-  5 : CounterIcons.dice_5,
-  6 : CounterIcons.dice_6,
-};
 
-class CounterIcons {
-  CounterIcons._();
+class CSIconsRaw {
 
   static const _kFontFam1 = 'MagicIcons';
   static const _kFontFam2 = 'MaterialDesignIcons';
   static const _kFontFam3 = 'ShieldIcons';
   static const _kFontFam4 = 'Dices';
   static const _kFontFam5 = 'CastNew';
+  static const _kFontFam6 = 'CsIcon';
+
+  static const IconData counter_spell = const IconData(0xe800, fontFamily: _kFontFam6);
 
   static const IconData dice_1 = const IconData(0xf1ca, fontFamily: _kFontFam4);
   static const IconData dice_2 = const IconData(0xf1cb, fontFamily: _kFontFam4);
@@ -46,8 +40,7 @@ class CounterIcons {
   static const IconData experience_filled = const IconData(0xe802, fontFamily: _kFontFam1);
   static const IconData experience_outlined = const IconData(0xe803, fontFamily: _kFontFam1);
   static const IconData phyrexia = const IconData(0xe804, fontFamily: _kFontFam1);
-  // static const IconData command_cast_filled = const IconData(0xe805, fontFamily: _kFontFam1);
-  // static const IconData command_cast_outlined = const IconData(0xe806, fontFamily: _kFontFam1);
+
   static const IconData commander_damage_filled = const IconData(0xe807, fontFamily: _kFontFam1);
 
   static const IconData command_cast_filled = const IconData(0xe800, fontFamily: _kFontFam5);
@@ -73,7 +66,6 @@ class CounterIcons {
   static const IconData shield_check = const IconData(0xf565, fontFamily: _kFontFam3);
   static const IconData shield_half_full = const IconData(0xf77f, fontFamily: _kFontFam3);
   static const IconData shield_account = const IconData(0xf88e, fontFamily: _kFontFam3);
-
 
 }
 

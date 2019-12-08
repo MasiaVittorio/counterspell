@@ -58,11 +58,11 @@ class CSThemer {
     @required Counter counter,
   }){
     if(type == DamageType.commanderDamage){
-      return attack ? CSTypesUI.attackIconOne : CSTypesUI.defenceIconFilled;
+      return attack ? CSIcons.attackIconOne : CSIcons.defenceIconFilled;
     } else if (type == DamageType.counters){
       return counter.icon;
     } else {
-      return CSTypesUI.typeIconsFilled[type];
+      return CSIcons.typeIconsFilled[type];
     }
   }
 

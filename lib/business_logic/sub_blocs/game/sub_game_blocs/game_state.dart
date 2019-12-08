@@ -33,7 +33,7 @@ class CSGameState {
     gameState = PersistentVar<GameState>(
       key: "bloc_game_state_blocvar_gamestate",
       initVal: GameState.start(_kNames, {
-        for(final counter in DEFAULT_CUSTOM_COUNTERS)
+        for(final counter in Counter.defaultList)
           counter.longName,
       }, startingLife: 40),
       toJson: (s) => s.toJson(),

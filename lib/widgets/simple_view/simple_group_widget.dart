@@ -137,7 +137,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     return Opacity(
       opacity: widget.routeAnimationValue,
       child: Material(
-        animationDuration: MyDurations.fast,
+        animationDuration: CSAnimations.fast,
         elevation: open ? 10 : 4,
         borderRadius: BorderRadius.circular(_buttonSize/2),
         child: InkWell(
@@ -149,12 +149,12 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
             width: _buttonSize,
             height: _buttonSize,
             child: AnimatedSwitcher(
-              duration: MyDurations.fast,
+              duration: CSAnimations.fast,
               child: ImplicitlyAnimatedIcon(
                 key: ValueKey("simplegroup_button_animated_icon"),
                 state: buttonCross,
                 icon: AnimatedIcons.menu_close,
-                duration: MyDurations.fast,
+                duration: CSAnimations.fast,
               ),
             ),
           ),
@@ -171,7 +171,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
           this.open = false;
         }),
         child: AnimatedContainer(
-          duration: MyDurations.fast,
+          duration: CSAnimations.fast,
           color: Theme.of(context).scaffoldBackgroundColor
             .withOpacity(open ? 0.7 : 0.0),
         ),
@@ -181,7 +181,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
 
   Widget buildButtons(){
     return AnimatedPositioned(
-      duration: MyDurations.fast,
+      duration: CSAnimations.fast,
       bottom: (open ? 0.0 : - 120) - 120 * (1 -widget.routeAnimationValue),
       left: 0.0,
       right: 0.0,

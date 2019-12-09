@@ -88,12 +88,11 @@ class _SimpleGroup extends StatelessWidget {
     final settings = bloc.settings;
     final stage = Stage.of<CSPage,SettingsPage>(context);
 
-    return BlocVar.build6(
+    return BlocVar.build5(
       bloc.scroller.isScrolling,
       bloc.scroller.intValue,
       actionBloc.selected,
       bloc.game.gameState.gameState,
-      bloc.game.gameGroup.usingPartnerB,
       stage.themeController.primaryColorsMap,
       builder: (
         BuildContext context, 
@@ -101,7 +100,6 @@ class _SimpleGroup extends StatelessWidget {
         int increment,
         Map<String,bool> selected, 
         GameState gameState,
-        Map<String,bool> usingPartnerB,
         pageColors,
       ) {
 
@@ -115,7 +113,6 @@ class _SimpleGroup extends StatelessWidget {
           attacker: null,         //
           counter: null,          //
 
-          usingPartnerB: usingPartnerB,
           //these two values are so rarely updated that all the actual
           //reactive variables make this rebuild so often that min and max
           //will basically always be correct. no need to add 2 streambuilders

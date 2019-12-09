@@ -18,13 +18,13 @@ class PlayerDetailsDamage extends StatelessWidget {
 
     return Material(
       color: theme.scaffoldBackgroundColor,
-      child: BlocVar.build5(
+      child: BlocVar.build4(
         bloc.themer.defenceColor,
         stage.themeController.primaryColorsMap,
-        bloc.game.gameGroup.havingPartnerB,
         groupBloc.names,
         stateBloc.gameState,
-        builder: (_, Color defenceColor, Map<CSPage,Color> colors, Map<String,bool> partners, List<String> names, GameState gameState){
+        builder: (_, Color defenceColor, Map<CSPage,Color> colors, List<String> names, GameState gameState){
+
           final String name = names[index];
           final Color attackColor = colors[CSPage.commanderDamage];
           final Player player = gameState.players[name];
@@ -34,7 +34,7 @@ class PlayerDetailsDamage extends StatelessWidget {
             for(final otherName in names)
               Section([
                 SectionTitle(otherName == name ? "$otherName (yourself)": otherName),
-                if(partners[name] ?? false)
+                if(player.havePartnerB ?? false)
                   ListTile(
                     title: Text("Dealt to ${otherName == name ? "yourself" : otherName}"),
                     subtitle: const Text("Partners"),
@@ -58,7 +58,7 @@ class PlayerDetailsDamage extends StatelessWidget {
 
                 if(otherName != name)...[
 
-                  if(partners[otherName] ?? false)
+                  if(gameState.players[otherName].havePartnerB)
                       ListTile(
                         title: Text("Taken from ${otherName == name ? "yourself" : otherName}"),
                         subtitle: const Text("partners"),

@@ -30,7 +30,7 @@ class BodyHistory extends StatelessWidget {
     final history = game.gameHistory;
     final stage = Stage.of(context);
 
-    return group.havingPartnerB.build((context, havePartnerB){
+    return game.gameState.gameState.build((context, gameState){
 
         final Map<String, Counter> counters = game.gameAction.currentCounterMap;
 
@@ -56,7 +56,10 @@ class BodyHistory extends StatelessWidget {
                   pageColors: pageColors,
                   counters: counters,
                   names: names,
-                  havePartnerB: havePartnerB,
+                  havePartnerB: <String,bool>{
+                    for(final entry in gameState.players.entries)
+                      entry.key: entry.value.havePartnerB,
+                  },
                 ),
               ),
             initialItemCount: game.gameState.gameState.value.historyLenght,

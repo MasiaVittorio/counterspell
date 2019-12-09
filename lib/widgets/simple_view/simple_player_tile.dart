@@ -170,7 +170,7 @@ class SimplePlayerTile extends StatelessWidget {
                     : 0,
                   offset: [0,0]
                 ),
-              child: group.cards(!(bloc.game.gameGroup.usingPartnerB.value[name] ?? false)).build((_, cards){
+              child: group.cards(!this.gameState.players[this.name].usePartnerB).build((_, cards){
                 final MtgCard card = cards[name];
                 if(card == null){
                   return Stack(
@@ -250,16 +250,18 @@ class SimplePlayerTile extends StatelessWidget {
 
   Widget buildExtraInfo(BuildContext context, ThemeData themeData){
     final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
-    return BlocVar.build4(
-      group.havingPartnerB,
+    return BlocVar.build3(
       group.parent.parent.themer.defenceColor,
       group.parent.gameAction.counterSet.variable,
       stage.pagesController.enabledPages,
-      builder: (context, havingPartnerB, defenceColor, _, enabledPages){
+      builder: (context, defenceColor, _, enabledPages){
         final list = ExtraInfo.fromPlayer(name,
           ofGroup: gameState.lastPlayerStates,
           pageColors: pageColors,
-          havingPartnerB: havingPartnerB,
+          havingPartnerB: <String,bool>{
+            for(final entry in this.gameState.players.entries)
+              entry.key: entry.value.havePartnerB,
+          },
           defenceColor: defenceColor,
           types: DamageTypes.fromPages(enabledPages),
           counterMap: group.parent.gameAction.currentCounterMap,

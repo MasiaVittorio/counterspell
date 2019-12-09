@@ -9,6 +9,8 @@ class Player {
   String name;
   CommanderSettings commanderSettingsA;
   CommanderSettings commanderSettingsB;
+  bool havePartnerB;
+  bool usePartnerB;
   
   List<PlayerState> states = [];
 
@@ -20,6 +22,8 @@ class Player {
 
   Map<String, dynamic> toJson() => {
     "name": name,
+    "havePartnerB": havePartnerB,
+    "usePartnerB": usePartnerB,
     "commanderSettingsA": this.commanderSettingsA.toJson,
     "commanderSettingsB": this.commanderSettingsB.toJson,
     "states": [
@@ -30,6 +34,8 @@ class Player {
 
   factory Player.fromJson(Map<String, dynamic> json) => Player(
     json["name"],
+    havePartnerB: json["havePartnerB"],
+    usePartnerB: json["usePartnerB"],
     commanderSettingsA: CommanderSettings.fromJson(json["commanderSettingsA"]),
     commanderSettingsB: CommanderSettings.fromJson(json["commanderSettingsB"]),
     states: [
@@ -47,6 +53,8 @@ class Player {
     @required this.states, 
     @required this.commanderSettingsA, 
     @required this.commanderSettingsB, 
+    @required this.havePartnerB,
+    @required this.usePartnerB,
   }): 
     assert(name != null),
     assert(states != null),
@@ -65,6 +73,8 @@ class Player {
       name, 
       commanderSettingsA: CommanderSettings.defaultSettings,
       commanderSettingsB: CommanderSettings.defaultSettings,
+      havePartnerB: false,
+      usePartnerB: false,
       states: [
         PlayerState.start(
           life: startingLife, 

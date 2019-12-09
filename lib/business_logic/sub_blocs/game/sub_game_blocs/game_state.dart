@@ -200,6 +200,14 @@ class CSGameState {
     this.parent.gameHistory.listController.rebuild();
   }
 
+  void toggleHavePartner(String name){
+    assert(gameState.value.players.containsKey(name));
+
+    this.gameState.value.players[name].havePartnerB = !this.gameState.value.players[name].havePartnerB;
+    this.gameState.value.players[name].usePartnerB = false;
+    this.gameState.refresh();
+  }
+
 
 }
 

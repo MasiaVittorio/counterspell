@@ -121,6 +121,7 @@ class PlayerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
+    final stateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
     final actionBloc = bloc.game.gameAction;
     final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
@@ -193,7 +194,7 @@ class PlayerTile extends StatelessWidget {
                   group: group,
                 ),
                 Expanded(child: buildBody(selected)),
-                buildTrailing(selected, actionBloc, group),
+                buildTrailing(selected, actionBloc, stateBloc),
               ]),
             ),
           ),
@@ -353,7 +354,7 @@ class PlayerTile extends StatelessWidget {
     );
   }
   
-  Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, CSGameGroup group){
+  Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, CSGameState stateBloc){
     return SizedBox(
       width: coreTileSize,
       height: coreTileSize,
@@ -389,7 +390,7 @@ class PlayerTile extends StatelessWidget {
             duration: CSAnimations.fast,
             presented: page == CSPage.commanderCast,
             child: InkWell(
-              onTap: () => group.toggleHavePartner(name),
+              onTap: () => stateBloc.toggleHavePartner(name),
               child: Container(
                 width: coreTileSize,
                 height: coreTileSize,
@@ -406,7 +407,7 @@ class PlayerTile extends StatelessWidget {
             duration: CSAnimations.fast,
             presented: page == CSPage.commanderDamage && whoIsAttacking==name,
             child: InkWell(
-              onTap: () => group.toggleHavePartner(name),
+              onTap: () => stateBloc.toggleHavePartner(name),
               child: Container(
                 width: coreTileSize,
                 height: coreTileSize,

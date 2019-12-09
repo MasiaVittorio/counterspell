@@ -32,7 +32,6 @@ class CSGameHistory {
           for(int i = 1; i < newLen; ++i)
             GameHistoryData.fromStates(state, i-1 , i,
               types: DamageTypes.fromPages(parent.parent.stageBloc.controller.pagesController.enabledPages.value),
-              havePartnerB: parent.gameGroup.havingPartnerB.value,
               counterMap: parent.gameAction.currentCounterMap,
             ),
           GameHistoryNull(state, newLen - 1),
@@ -81,7 +80,9 @@ class CSGameHistory {
         avoidInteraction: true,
         coreTileSize: CSSizes.minTileSize,
         names: parent.gameGroup.names.value,
-        havePartnerB: parent.gameGroup.havingPartnerB.value,
+        havePartnerB: <String,bool>{for(final entry in parent.gameState.gameState.value.players.entries)
+          entry.key: entry.value.havePartnerB,
+        },
       )
     ),
     duration: CSAnimations.fast,

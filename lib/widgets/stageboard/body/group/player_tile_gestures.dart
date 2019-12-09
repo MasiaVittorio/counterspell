@@ -55,7 +55,7 @@ class PlayerGestures{
     @required bool usePartnerB,
   }){
     final actionBloc = bloc.game.gameAction;
-    final gameGroup = actionBloc.parent.gameGroup;
+    final gameStateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
     switch (page) {
       case CSPage.history:
@@ -75,9 +75,8 @@ class PlayerGestures{
       case CSPage.commanderCast:
         if(hasPartnerB==true){
           //toggling used partners
-          gameGroup.usingPartnerB.value[name] = 
-              !(gameGroup.usingPartnerB.value[name] ?? false);
-          gameGroup.usingPartnerB.refresh();
+          gameStateBloc.gameState.value.players[name].usePartnerB = !usePartnerB;
+          gameStateBloc.gameState.refresh();
         }
         if(isScrollingSomewhere){
           scrollerBloc.delayerController.scrolling();
@@ -88,8 +87,8 @@ class PlayerGestures{
       case CSPage.commanderDamage:
         if(attacking){
           if(hasPartnerB==true){
-            actionBloc.parent.gameGroup.usingPartnerB.value[name] = !(usePartnerB??false);
-            actionBloc.parent.gameGroup.usingPartnerB.refresh();
+            gameStateBloc.gameState.value.players[name].usePartnerB = !usePartnerB;
+            gameStateBloc.gameState.refresh();
           }
         } else {
           actionBloc.attackingPlayer.set(name);

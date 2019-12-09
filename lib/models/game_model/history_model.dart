@@ -14,7 +14,6 @@ class GameHistoryData{
     int previous,
     int next, { 
       @required Map<DamageType, bool> types,
-      @required Map<String,bool> havePartnerB,
       @required Map<String,Counter> counterMap,
     }
   ) {
@@ -37,7 +36,10 @@ class GameHistoryData{
             previous: entry.value.states[previous],
             next: entry.value.states[next],
             types: types,
-            havingPartnerB: havePartnerB,
+            havingPartnerB: <String,bool>{
+              for(final entry in gameState.players.entries)
+                entry.key: entry.value.havePartnerB,
+            },
             counterMap: counterMap,
           ),
       }

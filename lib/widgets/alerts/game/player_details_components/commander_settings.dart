@@ -9,56 +9,46 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final stage = bloc.stage;
 
-    return BlocVar.build2(
-      stage.themeController.primaryColorsMap,
-      bloc.game.gameGroup.havingPartnerB,
-      builder: (_, colors, partners)
-        => PlayerBuilder(index, (gameState, names, name, playerState, player){
+    return PlayerBuilder(index, (gameState, names, name, playerState, player){
 
-          final bool partner = partners[name] ?? false;
-          return Column(
-            mainAxisSize: MainAxisSize.min, 
-            children: <Widget>[
-              ListTile(
-                title: Text(partner ? "Two partners" : "One commander"),
-                leading: Icon(partner ? McIcons.account_multiple_outline :McIcons.account_outline),
-                trailing: FlatButton.icon(
-                  label: Text(partner ? "Merge" : "Split"),
-                  icon: Icon(Icons.exit_to_app),
-                  onPressed: (){
-                    bloc.game.gameGroup.havingPartnerB.value[name] = !partner;
-                    bloc.game.gameGroup.havingPartnerB.refresh();
-                    bloc.game.gameGroup.usingPartnerB.value[name] = false;
-                    bloc.game.gameGroup.usingPartnerB.refresh();
-                  },
-                ),
-              ),
+      final bool partner = player.havePartnerB ?? false;
+
+      return Column(
+        mainAxisSize: MainAxisSize.min, 
+        children: <Widget>[
+          ListTile(
+            title: Text(partner ? "Two partners" : "One commander"),
+            leading: Icon(partner ? McIcons.account_multiple_outline :McIcons.account_outline),
+            trailing: FlatButton.icon(
+              label: Text(partner ? "Merge" : "Split"),
+              icon: Icon(Icons.exit_to_app),
+              onPressed: ()=> bloc.game.gameState.toggleHavePartner(name),
+            ),
+          ),
 
 
 
-              if(partner)
-                ...[
-                  _Section(this.index, partnerA: true, havePartner: true, aspectRatio: aspectRatio),
-                  _Section(this.index, partnerA: false, havePartner: true, aspectRatio: aspectRatio),
-                ]
-              else 
-                _Section(this.index, partnerA: true, havePartner: false, aspectRatio: aspectRatio),
+          if(partner)
+            ...[
+              _Section(this.index, partnerA: true, havePartner: true, aspectRatio: aspectRatio),
+              _Section(this.index, partnerA: false, havePartner: true, aspectRatio: aspectRatio),
+            ]
+          else 
+            _Section(this.index, partnerA: true, havePartner: false, aspectRatio: aspectRatio),
 
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 16.0,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-                child: Text("WARNING: Lifelink and infect get disabled every time you start a new game"),
-              ),
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 16.0,
+              left: 16.0,
+              right: 16.0,
+            ),
+            child: Text("WARNING: Lifelink and infect get disabled every time you start a new game"),
+          ),
 
-            ],
-          );
-        },),
-    );
+        ],
+      );
+    },);
   }
 }
 
@@ -73,55 +63,48 @@ class _Section extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final stage = bloc.stage;
 
-    return BlocVar.build2(
-      stage.themeController.primaryColorsMap,
-      bloc.game.gameGroup.havingPartnerB,
-      builder: (_, colors, partners)
-        => PlayerBuilder(index, (gameState, names, name, playerState, player){
-          return Section([
-            if(havePartner) SectionTitle(partnerA ? "First partner" : "Second partner"),
-            _CommanderTile(this.index, 
-              partnerA: partnerA, 
-              havePartner: havePartner, 
-              aspectRatio: aspectRatio,
-            ),
-            const Padding(
-              padding: const EdgeInsets.only(left: 56+8.0),
-              child: const Divider(height: 2,),
-            ),
-            SwitchListTile(
-              value: player.damageDefendersLife(partnerA), 
-              onChanged: (lifelink){
-                bloc.game.gameState.gameState.value.players[name].toggleDamageDefendersLife(partnerA);
-                bloc.game.gameState.gameState.refresh();
-              },
-              title: const Text("Damage to life"),
-              secondary: const Icon(Icons.favorite_border),
-            ),
-            SwitchListTile(
-              value: player.infect(partnerA), 
-              onChanged: (lifelink){
-                bloc.game.gameState.gameState.value.players[name].toggleInfect(partnerA);
-                bloc.game.gameState.gameState.refresh();
-              },
-              title: const Text("Infect"),
-              secondary: Icon(Counter.poison.icon),
-            ),
-            SwitchListTile(
-              value: player.lifelink(partnerA), 
-              onChanged: (lifelink){
-                bloc.game.gameState.gameState.value.players[name].toggleLifelink(partnerA);
-                bloc.game.gameState.gameState.refresh();
-              },
-              title: const Text("Lifelink"),
-              secondary: const Icon(McIcons.needle),
-            ),
-          ]);
-        },
-      ),
-    );
+    return PlayerBuilder(index, (gameState, names, name, playerState, player){
+      return Section([
+        if(havePartner) SectionTitle(partnerA ? "First partner" : "Second partner"),
+        _CommanderTile(this.index, 
+          partnerA: partnerA, 
+          havePartner: havePartner, 
+          aspectRatio: aspectRatio,
+        ),
+        const Padding(
+          padding: const EdgeInsets.only(left: 56+8.0),
+          child: const Divider(height: 2,),
+        ),
+        SwitchListTile(
+          value: player.damageDefendersLife(partnerA), 
+          onChanged: (lifelink){
+            bloc.game.gameState.gameState.value.players[name].toggleDamageDefendersLife(partnerA);
+            bloc.game.gameState.gameState.refresh();
+          },
+          title: const Text("Damage to life"),
+          secondary: const Icon(Icons.favorite_border),
+        ),
+        SwitchListTile(
+          value: player.infect(partnerA), 
+          onChanged: (lifelink){
+            bloc.game.gameState.gameState.value.players[name].toggleInfect(partnerA);
+            bloc.game.gameState.gameState.refresh();
+          },
+          title: const Text("Infect"),
+          secondary: Icon(Counter.poison.icon),
+        ),
+        SwitchListTile(
+          value: player.lifelink(partnerA), 
+          onChanged: (lifelink){
+            bloc.game.gameState.gameState.value.players[name].toggleLifelink(partnerA);
+            bloc.game.gameState.gameState.refresh();
+          },
+          title: const Text("Lifelink"),
+          secondary: const Icon(McIcons.needle),
+        ),
+      ]);
+    },);
   }
 }
 

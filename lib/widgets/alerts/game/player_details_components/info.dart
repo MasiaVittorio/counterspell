@@ -12,13 +12,11 @@ class PlayerDetailsInfo extends StatelessWidget {
     final stage = bloc.stage;
     final counters = bloc.game.gameAction.counterSet.list;
     final body2 = theme.textTheme.body2;
-    return BlocVar.build2(
-      stage.themeController.primaryColorsMap,
-      bloc.game.gameGroup.havingPartnerB,
-      builder: (_, colors, partners)
+    return stage.themeController.primaryColorsMap.build((_, colors)
         => PlayerBuilder(index, (gameState, names, name, playerState, player){
 
-          final bool partner = partners[name] ?? false;
+          final bool partner = player.havePartnerB;
+
           return Column(
             mainAxisSize: MainAxisSize.min, 
             children: <Widget>[
@@ -28,12 +26,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                 trailing: FlatButton.icon(
                   label: Text(partner ? "Merge" : "Split"),
                   icon: Icon(Icons.exit_to_app),
-                  onPressed: (){
-                    bloc.game.gameGroup.havingPartnerB.value[name] = !partner;
-                    bloc.game.gameGroup.havingPartnerB.refresh();
-                    bloc.game.gameGroup.usingPartnerB.value[name] = false;
-                    bloc.game.gameGroup.usingPartnerB.refresh();
-                  },
+                  onPressed: () => bloc.game.gameState.toggleHavePartner(name),
                 ),
               ),
 

@@ -30,33 +30,33 @@ class BodyGroup extends StatelessWidget {
     final bloc = group.parent.parent;
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
-    final stage = Stage.of(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
 
     return BlocVar.build2(
       stage.themeController.primaryColorsMap, 
       stage.pagesController.page,
       builder: (_, pageColors, page)
         =>BlocVar.build9(
+          stage.themeController.primaryColorsMap, 
+          stage.pagesController.page,
           bloc.scroller.isScrolling,
           bloc.scroller.intValue,
           actionBloc.selected,
           actionBloc.attackingPlayer,
           actionBloc.defendingPlayer,
           actionBloc.counterSet.variable,
-          group.havingPartnerB,
           bloc.game.gameState.gameState,
-          group.usingPartnerB,
           builder: (
             BuildContext context, 
+            Map<CSPage,Color> pageColors, 
+            CSPage page,
             bool isScrolling, 
             int increment,
             Map<String,bool> selected, 
             String attackingPlayer, 
             String defendingPlayer,
             Counter counter,
-            Map<String,bool> havingPartnerB,
             GameState gameState,
-            Map<String,bool> usingPartnerB,
           ) {
 
             final normalizedPlayerActions = CSGameAction.normalizedAction(
@@ -64,7 +64,6 @@ class BodyGroup extends StatelessWidget {
               selectedValue: selected,
               gameState: gameState,
               scrollerValue: increment,
-              usingPartnerB: usingPartnerB,
               attacker: attackingPlayer,
               defender: defendingPlayer,
               //these three values are so rarely updated that all the actual
@@ -90,10 +89,10 @@ class BodyGroup extends StatelessWidget {
                   ].contains(name)) ? bottom : 0.0,
                   coreTileSize: coreTileSize,
                   page: page,
-                  usingPartnerB: usingPartnerB[name],
-                  isAttackerUsingPartnerB: usingPartnerB[attackingPlayer],
-                  havingPartnerB: havingPartnerB[name],
-                  isAttackerHavingPartnerB: havingPartnerB[attackingPlayer],
+                  usingPartnerB: gameState.players[name].usePartnerB,
+                  isAttackerUsingPartnerB: gameState.players[attackingPlayer]?.usePartnerB??false,
+                  havingPartnerB: gameState.players[name].havePartnerB,
+                  isAttackerHavingPartnerB: gameState.players[attackingPlayer]?.havePartnerB??false,
                   selected: selected[name],
                   whoIsAttacking: attackingPlayer,
                   whoIsDefending: defendingPlayer,

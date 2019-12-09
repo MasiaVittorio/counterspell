@@ -13,8 +13,8 @@ class CSGameGroup {
     this.alternativeLayoutNameOrder.dispose();
     this.newNamesSub.cancel();
     this.savedNames.dispose();
-    this.havingPartnerB.dispose();
-    this.usingPartnerB.dispose();
+    // this.havingPartnerB.dispose();
+    // this.usingPartnerB.dispose();
     // this.savedCards.dispose();
     this.cardsA.dispose();
     this.cardsB.dispose();
@@ -27,8 +27,8 @@ class CSGameGroup {
   PersistentVar<Map<int,String>> alternativeLayoutNameOrder;
   StreamSubscription newNamesSub;
   final PersistentVar<Set<String>> savedNames;
-  final PersistentVar<Map<String,bool>> havingPartnerB;
-  final PersistentVar<Map<String,bool>> usingPartnerB;
+  // final PersistentVar<Map<String,bool>> havingPartnerB;
+  // final PersistentVar<Map<String,bool>> usingPartnerB;
   //TODO: move this info inside game state -> player
 
   final CachedVar<Map<String,Set<MtgCard>>> savedCards;
@@ -48,24 +48,6 @@ class CSGameGroup {
       fromJson: (json) => {
         for(final s in json)  
           s as String,
-      },
-    ),
-    havingPartnerB = PersistentVar<Map<String,bool>>(
-      initVal: <String,bool>{},
-      key: "bloc_game_group_blocvar_have_partner_b",
-      toJson: (map) => map,
-      fromJson: (json) => {
-        for(final entry in (json as Map<String,dynamic>).entries)  
-          entry.key: entry.value as bool,
-      },
-    ),
-    usingPartnerB = PersistentVar<Map<String,bool>>(
-      initVal: <String,bool>{},
-      key: "bloc_game_group_blocvar_use_partner_b",
-      toJson: (map) => map,
-      fromJson: (json) => {
-        for(final entry in (json as Map<String,dynamic>).entries)  
-          entry.key: entry.value as bool,
       },
     ),
     cardsA = PersistentVar<Map<String,MtgCard>>(
@@ -183,39 +165,39 @@ class CSGameGroup {
     });
     names.refresh();
   }
-  void updatePartners(GameState state){
-    bool refreshHave = false;
-    bool refreshUse = false;
-    for(final name in state.names){
-      if(!this.havingPartnerB.value.containsKey(name)){
-        this.havingPartnerB.value[name] = false;
-        refreshHave = true;
-      }
-      if(!this.usingPartnerB.value.containsKey(name)){
-        this.usingPartnerB.value[name] = false;
-        refreshUse = true;
-      }
-    }
-    if(refreshHave) this.havingPartnerB.refresh();
-    if(refreshUse) this.usingPartnerB.refresh();
-  }
+  // void updatePartners(GameState state){
+  //   bool refreshHave = false;
+  //   bool refreshUse = false;
+  //   for(final name in state.names){
+  //     if(!this.havePartnerB.value.containsKey(name)){
+  //       this.havePartnerB.value[name] = false;
+  //       refreshHave = true;
+  //     }
+  //     if(!this.usePartnerB.value.containsKey(name)){
+  //       this.usePartnerB.value[name] = false;
+  //       refreshUse = true;
+  //     }
+  //   }
+  //   if(refreshHave) this.havePartnerB.refresh();
+  //   if(refreshUse) this.usePartnerB.refresh();
+  // }
 
 
   //========================
   // Actions
 
-  void toggleHavePartner(String name){
-    final has = this.havingPartnerB.value[name] ?? false;
-    if(has){
-      this.usingPartnerB.value[name] = false;
-      this.havingPartnerB.value[name] = false;
-      this.usingPartnerB.refresh();
-      this.havingPartnerB.refresh();
-    } else {
-      this.havingPartnerB.value[name] = true;
-      this.havingPartnerB.refresh();
-    }
-  }
+  // void toggleHavePartner(String name){
+  //   final has = this.havePartnerB.value[name] ?? false;
+  //   if(has){
+  //     this.usePartnerB.value[name] = false;
+  //     this.havePartnerB.value[name] = false;
+  //     this.usePartnerB.refresh();
+  //     this.havePartnerB.refresh();
+  //   } else {
+  //     this.havePartnerB.value[name] = true;
+  //     this.havePartnerB.refresh();
+  //   }
+  // }
 
   void moveIndex(int oldIndex, int newIndex){
     this.names.value.insert(

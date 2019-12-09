@@ -81,7 +81,6 @@ class CSGameAction {
     @required String attacker,
     @required GameState gameState,
     @required String defender,
-    @required Map<String,bool> usingPartnerB,
     @required Counter counter,
   }) {
     if(scrollerValue == 0)
@@ -108,7 +107,10 @@ class CSGameAction {
         scrollerValue,
         selected: selectedValue,
         maxVal: maxValue,
-        usingPartnerB: usingPartnerB,
+        usingPartnerB: <String,bool>{
+          for(final entry in gameState.players.entries)
+            entry.key: entry.value.usePartnerB,
+        },
       );
     }
 
@@ -119,10 +121,12 @@ class CSGameAction {
             scrollerValue,
             attacker: attacker,
             defender: defender,
-            usingPartnerB: usingPartnerB[attacker],
+            usingPartnerB: gameState.players[attacker].usePartnerB,
             minLife: minValue,
             maxVal: maxValue,
-            settings: gameState.players[attacker].commanderSettings(!(usingPartnerB[attacker] ?? false)),
+            settings: gameState.players[attacker].commanderSettings(
+              !gameState.players[attacker].usePartnerB
+            ),
           );
         }
       }
@@ -150,7 +154,6 @@ class CSGameAction {
     @required int maxValue,
     @required String attacker,
     @required String defender,
-    @required Map<String,bool> usingPartnerB,
     @required Counter counter,
   }) => action(
     pageValue: pageValue,
@@ -161,7 +164,6 @@ class CSGameAction {
     attacker: attacker,
     gameState: gameState,
     defender: defender,
-    usingPartnerB: usingPartnerB,
     counter: counter,
   ).normalizeOnLast(gameState);
 
@@ -174,7 +176,6 @@ class CSGameAction {
     maxValue: parent.parent.settings.maxValue.value,
     attacker: this.attackingPlayer.value,
     defender: this.defendingPlayer.value,
-    usingPartnerB: this.parent.gameGroup.usingPartnerB.value,
     counter: this.counterSet.variable.value,
   );
 

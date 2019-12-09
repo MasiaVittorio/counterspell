@@ -59,7 +59,7 @@ class CommanderSettings {
 
   //==============================
   // Persistence
-  Map<String,dynamic> get toJson => <String,dynamic>{
+  Map<String,dynamic> toJson() => <String,dynamic>{
     "lifelink": this.lifelink,
     "damageDefendersLife": this.damageDefendersLife,
     "infect": this.infect,

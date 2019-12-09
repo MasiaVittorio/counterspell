@@ -20,24 +20,8 @@ class PanelGame extends StatelessWidget {
             const PagePie(),
           ]),
           Section([
-            const SectionTitle("Game State"),
+            const SectionTitle("Game Settings"),
             const StartingLifeTile(),
-            ListTile(
-              onTap: () => stage.showAlert(
-                PlayGroupEditor(bloc),
-                size: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
-              ),
-              title: const Text("Manage playgroup"),
-              leading: const Icon(McIcons.account_multiple_outline),
-            ),
-            ListTile(
-              onTap: () => stage.showAlert(
-                RestarterAlert(),
-                size: ConfirmAlert.height,
-              ),
-              title: const Text("Restart the game"),
-              leading: const Icon(McIcons.restart),
-            ),
           ]),
           Section([
             const SectionTitle("Extras"),

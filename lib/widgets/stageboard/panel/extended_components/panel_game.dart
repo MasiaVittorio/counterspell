@@ -16,34 +16,12 @@ class PanelGame extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Section([
-            const AlertTitle("Game Settings", centered: false),
-            // bloc.settings.applyDamageToLife.build((_,apply) => SwitchListTile(
-            //   value: apply,
-            //   onChanged: (value) => bloc.settings.applyDamageToLife.set(value),
-            //   secondary: const Icon(CSIcons.attackIconOne),
-            //   title: const Text("Commander damage to life"),
-            // ),),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: const Divider(height: 8.0,),
-            ),
-            const StartingLifeTile(),
-          ]),
-          Section([
-            const SectionTitle("Extras"),
-            ListTile(
-              onTap: () => showSimpleGroup(context: context, bloc: bloc),
-              title: const Text("Simple view"),
-              leading: const Icon(CSIcons.simpleViewIcon, size: 20,),
-            ),
-            ListTile(
-              onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
-              title: const Text("Dice & coins"),
-              leading: Icon(McIcons.dice_multiple),
-            ),
+            const AlertTitle("Enabled Screens", centered: false),
+            const PagePie(),
           ]),
           Section([
             const SectionTitle("Game State"),
+            const StartingLifeTile(),
             ListTile(
               onTap: () => stage.showAlert(
                 PlayGroupEditor(bloc),
@@ -59,6 +37,19 @@ class PanelGame extends StatelessWidget {
               ),
               title: const Text("Restart the game"),
               leading: const Icon(McIcons.restart),
+            ),
+          ]),
+          Section([
+            const SectionTitle("Extras"),
+            ListTile(
+              onTap: () => showSimpleGroup(context: context, bloc: bloc),
+              title: const Text("Simple view"),
+              leading: const Icon(CSIcons.simpleViewIcon, size: 20,),
+            ),
+            ListTile(
+              onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
+              title: const Text("Dice & coins"),
+              leading: Icon(McIcons.dice_multiple),
             ),
           ]),
         ],

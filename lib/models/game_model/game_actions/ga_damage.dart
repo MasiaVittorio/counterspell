@@ -6,6 +6,7 @@ class GADamage extends GameAction{
   final int maxVal;
   final int minLife;
   final bool applyToLife;
+  final bool lifelink;
   final String attacker;
   final String defender;
   final bool usingPartnerB;
@@ -18,14 +19,15 @@ class GADamage extends GameAction{
       this.maxVal,
       this.minLife,
       this.applyToLife = true,
+      this.lifelink = false,
     }
   );
 
   @override
   Map<String, PlayerAction> actions(names) => {
     for(final name in names)
-      name: defender == name 
-        ? PADamage(
+      if(defender == name)
+        name: PADamage(
           attacker,
           increment,
           partnerA: !(usingPartnerB ?? false),
@@ -33,7 +35,13 @@ class GADamage extends GameAction{
           minLife: this.minLife,
           maxVal: this.maxVal,
         )
-        : PANull.instance,
+      else if(attacker == name)
+        name: PALife(increment,
+          minVal: this.minLife,
+          maxVal: this.maxVal,
+        )
+      else 
+        name: PANull.instance,
   };
 
 

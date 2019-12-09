@@ -79,6 +79,7 @@ class CSGameAction {
     @required int minValue,
     @required int maxValue,
     @required String attacker,
+    @required bool attackerCommanderLifelink,
     @required String defender,
     @required bool applyDamageToLife,
     @required Map<String,bool> usingPartnerB,
@@ -123,6 +124,7 @@ class CSGameAction {
             usingPartnerB: usingPartnerB[attacker],
             minLife: minValue,
             maxVal: maxValue,
+            lifelink: attackerCommanderLifelink,
           );
         }
       }
@@ -160,6 +162,7 @@ class CSGameAction {
     minValue: minValue,
     maxValue: maxValue,
     attacker: attacker,
+    attackerCommanderLifelink: gameState.players[attacker].lifelinkCommander,
     defender: defender,
     usingPartnerB: usingPartnerB,
     applyDamageToLife: applyDamageToLife,

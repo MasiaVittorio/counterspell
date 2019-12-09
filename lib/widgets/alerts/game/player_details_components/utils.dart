@@ -79,7 +79,7 @@ class DetailsUtils {
     StageData stage, 
     String attacker, String defender, 
     CSBloc bloc, 
-    PlayerState defenderState,
+    GameState gameState,
     {bool replace = false}
   ) 
     => stage.showAlert(InsertAlert(
@@ -94,19 +94,20 @@ class DetailsUtils {
         final int val = int.tryParse(string);
         if(val != null){
           bloc.game.gameState.applyAction(GADamage(
-            val - defenderState.damages[attacker].fromPartner(!partnerB),
+            val - gameState.players[defender].states.last.damages[attacker].fromPartner(!partnerB),
             defender: defender,
             attacker: attacker,
             usingPartnerB: partnerB,
             maxVal: bloc.settings.maxValue.value,
             minLife: bloc.settings.minValue.value,
             applyToLife: bloc.settings.applyDamageToLife.value,
+            lifelink: gameState.players[attacker].lifelinkCommander,
           ));
         }
       }
     ),size: InsertAlert.twoLinesHeight, replace: replace ?? false);
 
-  static void partnerDamage(StageData stage, String attacker, String defender, CSBloc bloc, PlayerState defenderState) 
+  static void partnerDamage(StageData stage, String attacker, String defender, CSBloc bloc, GameState gameState) 
     => stage.showAlert(
       AlternativesAlert(
         label: "Which one of the two $attacker's partners is attacking?",
@@ -115,14 +116,14 @@ class DetailsUtils {
             title: "First partner (A)",
             icon: CSIcons.attackIconOne,
             action: () {
-              insertDamage(true, false, stage, attacker, defender, bloc, defenderState, replace: true);
+              insertDamage(true, false, stage, attacker, defender, bloc, gameState, replace: true);
             }
           ),
           Alternative(
             title: "Second partner (B)",
             icon: CSIcons.attackIconTwo,
             action: () {
-              insertDamage(true, true, stage, attacker, defender, bloc, defenderState, replace: true);
+              insertDamage(true, true, stage, attacker, defender, bloc, gameState, replace: true);
             }
           ),
         ],

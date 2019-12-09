@@ -163,6 +163,8 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     );
   }
 
+  //TODO: manually toggle layout
+
   Widget buildBarrier(){
     return Positioned.fill(child: IgnorePointer(
       ignoring: open ? false : true,

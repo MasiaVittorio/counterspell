@@ -43,7 +43,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                       "A: ${gameState.players[otherName].states.last.damages[name].a} // B: ${gameState.players[otherName].states.last.damages[name].b}", 
                       style: textTheme.body2.copyWith(color: attackColor),
                     ),
-                    onTap:() => DetailsUtils.partnerDamage(stage, name, otherName, bloc, gameState.players[otherName].states.last),
+                    onTap:() => DetailsUtils.partnerDamage(stage, name, otherName, bloc, gameState),
                   )
                 else 
                   ListTile(
@@ -53,7 +53,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                       "${gameState.players[otherName].states.last.damages[name].a}", 
                       style: textTheme.body2.copyWith(color: attackColor),
                     ),
-                    onTap:() => DetailsUtils.insertDamage(false, false, stage, name, otherName, bloc, gameState.players[otherName].states.last),
+                    onTap:() => DetailsUtils.insertDamage(false, false, stage, name, otherName, bloc, gameState),
                   ),
 
                 if(otherName != name)...[
@@ -67,7 +67,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                           "A: ${playerState.damages[otherName].a} // B: ${playerState.damages[otherName].b}", 
                           style: textTheme.body2.copyWith(color: defenceColor),
                         ),
-                        onTap:() => DetailsUtils.partnerDamage(stage, otherName, name, bloc, playerState),
+                        onTap:() => DetailsUtils.partnerDamage(stage, otherName, name, bloc, gameState),
                       )
                   else 
                     ListTile(
@@ -77,7 +77,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                         "${playerState.damages[otherName].a}", 
                         style: textTheme.body2.copyWith(color: defenceColor),
                       ),
-                      onTap:() => DetailsUtils.insertDamage(false, false, stage, otherName, name, bloc, playerState),
+                      onTap:() => DetailsUtils.insertDamage(false, false, stage, otherName, name, bloc, gameState),
                     ),
                 ]
               ]),

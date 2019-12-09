@@ -7,6 +7,7 @@ class Player {
   // Values
 
   String name;
+  bool lifelinkCommander;
 
   List<PlayerState> states = [];
 
@@ -37,9 +38,10 @@ class Player {
   //===================================
   // Constructors
 
-  Player(this.name, {@required this.states}): 
+  Player(this.name, {@required this.states, this.lifelinkCommander = false}): 
     assert(name != null),
     assert(states != null),
+    assert(lifelinkCommander != null),
     assert(states.isNotEmpty);
 
   factory Player.start(

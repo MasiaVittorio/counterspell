@@ -91,8 +91,8 @@ class PlayerState {
     },
   );
   PlayerState getDamage(String from, int howMuch, {
+    @required CommanderSettings settings,
     bool partnerA = true, 
-    bool applyToLife = true,
     int maxDamage = kMaxValue,
     int minLife = kMinValue,
   }){
@@ -102,11 +102,13 @@ class PlayerState {
       partnerA: partnerA,
       maxDamage: maxDamage,
     );
-    if(applyToLife){
-      return result.incrementLife(-howMuch, 
+    if(settings.damageDefendersLife){
+      result = result.incrementLife(-howMuch, 
         minVal: minLife ?? kMinValue, 
         maxVal: maxDamage ?? kMaxValue,
       );
+    } else if(settings.infect){
+      result = result.incrementCounter(Counter.poison, howMuch);
     }
     return result;
   }

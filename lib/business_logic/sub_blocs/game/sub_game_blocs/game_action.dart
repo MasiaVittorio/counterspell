@@ -79,9 +79,8 @@ class CSGameAction {
     @required int minValue,
     @required int maxValue,
     @required String attacker,
-    @required bool attackerCommanderLifelink,
+    @required GameState gameState,
     @required String defender,
-    @required bool applyDamageToLife,
     @required Map<String,bool> usingPartnerB,
     @required Counter counter,
   }) {
@@ -120,11 +119,10 @@ class CSGameAction {
             scrollerValue,
             attacker: attacker,
             defender: defender,
-            applyToLife: applyDamageToLife,
             usingPartnerB: usingPartnerB[attacker],
             minLife: minValue,
             maxVal: maxValue,
-            lifelink: attackerCommanderLifelink,
+            settings: gameState.players[attacker].commanderSettings(!(usingPartnerB[attacker] ?? false)),
           );
         }
       }
@@ -153,7 +151,6 @@ class CSGameAction {
     @required String attacker,
     @required String defender,
     @required Map<String,bool> usingPartnerB,
-    @required bool applyDamageToLife,
     @required Counter counter,
   }) => action(
     pageValue: pageValue,
@@ -162,10 +159,9 @@ class CSGameAction {
     minValue: minValue,
     maxValue: maxValue,
     attacker: attacker,
-    attackerCommanderLifelink: gameState.players[attacker].lifelinkCommander,
+    gameState: gameState,
     defender: defender,
     usingPartnerB: usingPartnerB,
-    applyDamageToLife: applyDamageToLife,
     counter: counter,
   ).normalizeOnLast(gameState);
 
@@ -178,7 +174,6 @@ class CSGameAction {
     maxValue: parent.parent.settings.maxValue.value,
     attacker: this.attackingPlayer.value,
     defender: this.defendingPlayer.value,
-    applyDamageToLife: this.parent.parent.settings.applyDamageToLife.value,
     usingPartnerB: this.parent.gameGroup.usingPartnerB.value,
     counter: this.counterSet.variable.value,
   );

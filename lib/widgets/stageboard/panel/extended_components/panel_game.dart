@@ -17,12 +17,12 @@ class PanelGame extends StatelessWidget {
         children: <Widget>[
           Section([
             const AlertTitle("Game Settings", centered: false),
-            bloc.settings.applyDamageToLife.build((_,apply) => SwitchListTile(
-              value: apply,
-              onChanged: (value) => bloc.settings.applyDamageToLife.set(value),
-              secondary: const Icon(CSIcons.attackIconOne),
-              title: const Text("Commander damage to life"),
-            ),),
+            // bloc.settings.applyDamageToLife.build((_,apply) => SwitchListTile(
+            //   value: apply,
+            //   onChanged: (value) => bloc.settings.applyDamageToLife.set(value),
+            //   secondary: const Icon(CSIcons.attackIconOne),
+            //   title: const Text("Commander damage to life"),
+            // ),),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: const Divider(height: 8.0,),

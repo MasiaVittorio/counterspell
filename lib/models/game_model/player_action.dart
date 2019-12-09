@@ -37,7 +37,7 @@ abstract class PlayerAction{
       final deltaA = next.damages[name].a - previous.damages[name].a;
       if(deltaA != 0)
         detectedAcions.add(PADamage( name, deltaA,
-          applyToLife: false,
+          settings: CommanderSettings.off,
           partnerA: true,
           maxVal: maxVal,
           minLife: minVal,
@@ -45,7 +45,7 @@ abstract class PlayerAction{
       final deltaB = next.damages[name].b - previous.damages[name].b;
       if(deltaB != 0)
         detectedAcions.add(PADamage(name, deltaB,
-          applyToLife: false,
+          settings: CommanderSettings.off,
           partnerA: false,
           maxVal: maxVal,
           minLife: minVal,

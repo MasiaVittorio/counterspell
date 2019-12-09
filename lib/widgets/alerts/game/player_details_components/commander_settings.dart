@@ -40,11 +40,11 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
 
               if(partner)
                 ...[
-                  _Section(this.index, partnerA: true, havePartner: true, aspectRatio: null),
-                  _Section(this.index, partnerA: false, havePartner: true, aspectRatio: null),
+                  _Section(this.index, partnerA: true, havePartner: true, aspectRatio: aspectRatio),
+                  _Section(this.index, partnerA: false, havePartner: true, aspectRatio: aspectRatio),
                 ]
               else 
-                _Section(this.index, partnerA: true, havePartner: false, aspectRatio: null),
+                _Section(this.index, partnerA: true, havePartner: false, aspectRatio: aspectRatio),
 
               Padding(
                 padding: const EdgeInsets.only(

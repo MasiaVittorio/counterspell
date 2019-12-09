@@ -31,7 +31,7 @@ class CSGameState {
   // Constructor
   CSGameState(this.parent): 
     gameState = PersistentVar<GameState>(
-      key: "bloc_game_state_blocvar_gamestate",
+      key: "counterspell_bloc_game_state_blocvar_gameState",
       initVal: GameState.start(_kNames, {
         for(final counter in Counter.defaultList)
           counter.longName,

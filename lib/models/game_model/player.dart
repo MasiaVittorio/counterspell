@@ -24,8 +24,8 @@ class Player {
     "name": name,
     "havePartnerB": havePartnerB,
     "usePartnerB": usePartnerB,
-    "commanderSettingsA": this.commanderSettingsA.toJson,
-    "commanderSettingsB": this.commanderSettingsB.toJson,
+    "commanderSettingsA": this.commanderSettingsA.toJson(),
+    "commanderSettingsB": this.commanderSettingsB.toJson(),
     "states": [
       for(final state in states)
         state.toJson(),

@@ -15,7 +15,8 @@ class AlertLicenses extends StatelessWidget {
       bottom: ListTile(
         title: const Text("View source code"),
         leading: const Icon(McIcons.github_circle),
-        trailing: const Icon(Icons.exit_to_app),
+        trailing: const FlutterLogo(size: 30),
+        // trailing: const Icon(Icons.exit_to_app),
         onTap: () => stage.showAlert(ConfirmAlert(
           warningText: "You'll be redirected to your browser on CounterSpell's  github page",
           twoLinesWarning: true,
@@ -25,17 +26,21 @@ class AlertLicenses extends StatelessWidget {
         ), size: ConfirmAlert.twoLinesheight),
       ),
       child: Column(children: <Widget>[
+        // const Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+        //   child: const Text(CSLicenses.flutter),
+        // ),
         const Section([
           const SectionTitle("Disclaimer"),
           const Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
             child: const Text(CSLicenses.wizardFanContentPolicy),
           ),
         ]),
         const Section([
           const SectionTitle("Images"),
           const Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
             child: const Text(CSLicenses.scryfallImagePolicy),
           ),
         ]),

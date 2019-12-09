@@ -89,8 +89,8 @@ class TutorialSection {
         body: "There's not much you can do that cannot be undone, and when it can't there is always an alert that asks for your confirmation, so go ahead and mess with CounterSpell.",
       ),
       TutorialPiece(
-        title: "CounterSpell intention",
-        body: "This app is intended to be used by one person at a time, that can handle their phone around the table when needed.\nThis may not be your cup of tea, so there's a simplified screen for when you need to leave the phone at the center of the table to be visible from all angles, that allows you to handle just life points.",
+        title: "CounterSpell's purpose",
+        body: "This app is developed to be used by one person at a time, passing their phone around the table when needed.\nThis may not be your cup of tea, so there's a simplified screen you can use to leave the phone in the center of the table to be visible from all angles, that allows you to handle only life points.",
       ),
     ],
   );
@@ -101,11 +101,11 @@ class TutorialSection {
     pieces: <TutorialPiece>[
       TutorialPiece(
         title: "Scroll gestures",
-        body: "You won't find any +1/-1 button in CounterSpell. Any value can be increased/decreased by scrolling on a player.\nSince there is a (customizable) delay, you can scroll multiple times before a gesture is confirmed as a game action.\nYou can see the previous value, the increment, and the result of your action before confirming.",
+        body: "You won't find any +1/-1 button in CounterSpell. Any value can be increased/decreased by scrolling on a player.\nThere is a (customizable) delay, so you can scroll multiple times before a gesture is confirmed.\nYou can see the previous value, the increment, and the result of your action before confirming.",
       ),
       TutorialPiece(
         title: "Multi selection",
-        body: "You can tap on multiple players before scrolling on one of them. That way, you will be able to deal damage to all the selected players at once.\nPestilence players will love this feature.",
+        body: "You can tap on multiple players before scrolling, being able to deal damage to all the selected ones at once.\nPestilence players will love this feature.",
       ),
       TutorialPiece(
         title: "Anti-selection",
@@ -120,7 +120,7 @@ class TutorialSection {
     pieces: <TutorialPiece>[
       TutorialPiece(
         title: "History screen",
-        body: "In this screen you will find an horizontal list of columns, each one containing informations about what changed from the previous gamestate.\nYou can long press a column to undo that specific action.",
+        body: "In this screen you will find an horizontal list of columns, each one containing information about what changed from the previous gamestate.\nYou can long-press a column to undo that specific action.",
       ),
       TutorialPiece(
         title: "Undo and re-do",

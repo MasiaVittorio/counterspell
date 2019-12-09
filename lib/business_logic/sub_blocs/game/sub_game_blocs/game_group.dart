@@ -29,6 +29,7 @@ class CSGameGroup {
   final PersistentVar<Set<String>> savedNames;
   final PersistentVar<Map<String,bool>> havingPartnerB;
   final PersistentVar<Map<String,bool>> usingPartnerB;
+  //TODO: move this info inside game state -> player
 
   final CachedVar<Map<String,Set<MtgCard>>> savedCards;
   //TODO: scopri perché cancellando la cache non si cancella questa variabile

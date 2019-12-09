@@ -100,8 +100,7 @@ class DetailsUtils {
             usingPartnerB: partnerB,
             maxVal: bloc.settings.maxValue.value,
             minLife: bloc.settings.minValue.value,
-            applyToLife: bloc.settings.applyDamageToLife.value,
-            lifelink: gameState.players[attacker].lifelinkCommander,
+            settings: gameState.players[attacker].commanderSettings(!partnerB),
           ));
         }
       }

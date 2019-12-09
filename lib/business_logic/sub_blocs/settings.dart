@@ -14,7 +14,6 @@ class CSSettings {
     this.maxValue.dispose();
 
     this.confirmDelay.dispose();
-    this.applyDamageToLife.dispose();
 
     this.scrollSensitivity.dispose();
 
@@ -50,7 +49,6 @@ class CSSettings {
   final PersistentVar<int> maxValue;
 
   final PersistentVar<Duration> confirmDelay;
-  final PersistentVar<bool> applyDamageToLife;
 
   final PersistentVar<double> scrollSensitivity;
 
@@ -134,12 +132,6 @@ class CSSettings {
     ),
     wantVibrate = PersistentVar<bool>(
       key: "bloc_settings_blocvar_wantvibrate",
-      initVal: true,
-      toJson: (b) => b,
-      fromJson: (j) => j,
-    ),
-    applyDamageToLife= PersistentVar<bool>(
-      key: "bloc_settings_blocvar_applyDamageToLife",
       initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j,

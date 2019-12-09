@@ -70,7 +70,6 @@ class BodyGroup extends StatelessWidget {
               //these three values are so rarely updated that all the actual
               //reactive variables make this rebuild so often that min and max
               //will basically always be correct. no need to add 2 streambuilders
-              applyDamageToLife: bloc.settings.applyDamageToLife.value,
               minValue: settings.minValue.value,
               maxValue: settings.maxValue.value,
               counter: counter,

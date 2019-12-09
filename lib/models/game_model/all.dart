@@ -1,3 +1,4 @@
+export 'commander_settings.dart';
 export 'game_state.dart';
 export 'game_action.dart';
 export 'history_model.dart';

@@ -5,11 +5,10 @@ class GADamage extends GameAction{
   final int increment;
   final int maxVal;
   final int minLife;
-  final bool applyToLife;
-  final bool lifelink;
   final String attacker;
   final String defender;
   final bool usingPartnerB;
+  final CommanderSettings settings;
 
   const GADamage(
     this.increment, {
@@ -18,8 +17,7 @@ class GADamage extends GameAction{
       @required this.usingPartnerB,
       this.maxVal,
       this.minLife,
-      this.applyToLife = true,
-      this.lifelink = false,
+      @required this.settings,
     }
   );
 
@@ -31,11 +29,11 @@ class GADamage extends GameAction{
           attacker,
           increment,
           partnerA: !(usingPartnerB ?? false),
-          applyToLife: this.applyToLife,
+          settings: this.settings,
           minLife: this.minLife,
           maxVal: this.maxVal,
         )
-      else if(attacker == name)
+      else if(attacker == name && settings.lifelink)
         name: PALife(increment,
           minVal: this.minLife,
           maxVal: this.maxVal,

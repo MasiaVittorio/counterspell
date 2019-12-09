@@ -7,8 +7,9 @@ class Player {
   // Values
 
   String name;
-  bool lifelinkCommander;
-
+  CommanderSettings commanderSettingsA;
+  CommanderSettings commanderSettingsB;
+  
   List<PlayerState> states = [];
 
 
@@ -19,14 +20,18 @@ class Player {
 
   Map<String, dynamic> toJson() => {
     "name": name,
+    "commanderSettingsA": this.commanderSettingsA.toJson,
+    "commanderSettingsB": this.commanderSettingsB.toJson,
     "states": [
       for(final state in states)
         state.toJson(),
-    ]
+    ],
   };
 
   factory Player.fromJson(Map<String, dynamic> json) => Player(
     json["name"],
+    commanderSettingsA: CommanderSettings.fromJson(json["commanderSettingsA"]),
+    commanderSettingsB: CommanderSettings.fromJson(json["commanderSettingsB"]),
     states: [
       for(final stateJson in json["states"])
         PlayerState.fromJson(stateJson),
@@ -38,10 +43,15 @@ class Player {
   //===================================
   // Constructors
 
-  Player(this.name, {@required this.states, this.lifelinkCommander = false}): 
+  Player(this.name, {
+    @required this.states, 
+    @required this.commanderSettingsA, 
+    @required this.commanderSettingsB, 
+  }): 
     assert(name != null),
     assert(states != null),
-    assert(lifelinkCommander != null),
+    assert(commanderSettingsA != null),
+    assert(commanderSettingsB != null),
     assert(states.isNotEmpty);
 
   factory Player.start(
@@ -53,6 +63,8 @@ class Player {
     }
   ) => Player(
       name, 
+      commanderSettingsA: CommanderSettings.defaultSettings,
+      commanderSettingsB: CommanderSettings.defaultSettings,
       states: [
         PlayerState.start(
           life: startingLife, 
@@ -146,6 +158,31 @@ class Player {
   }
 
 
+  //================================================
+  // Settings action
+  void toggleLifelink(bool partnerA){
+    if(partnerA){
+      this.commanderSettingsA = this.commanderSettingsA.toggleLifelink();
+    } else {
+      this.commanderSettingsB = this.commanderSettingsB.toggleLifelink();
+    }
+  }
+  void toggleDamageDefendersLife(bool partnerA){
+    if(partnerA){
+      this.commanderSettingsA = this.commanderSettingsA.toggleDamageDefendersLife();
+    } else {
+      this.commanderSettingsB = this.commanderSettingsB.toggleDamageDefendersLife();
+    }
+  }
+  void toggleInfect(bool partnerA){
+    if(partnerA){
+      this.commanderSettingsA = this.commanderSettingsA.toggleInfect();
+    } else {
+      this.commanderSettingsB = this.commanderSettingsB.toggleInfect();
+    }
+  }
+
+
 
   //================================================
   // Info getters
@@ -165,6 +202,14 @@ class Player {
     }
     return lost;
   }
+
+  CommanderSettings commanderSettings(bool partnerA) 
+    => partnerA ? this.commanderSettingsA : this.commanderSettingsB; 
+
+  bool lifelink(bool partnerA) => this.commanderSettings(partnerA).lifelink;
+  bool infect(bool partnerA) => this.commanderSettings(partnerA).infect;
+  bool damageDefendersLife(bool partnerA) => this.commanderSettings(partnerA).damageDefendersLife;
+
 
 }
 

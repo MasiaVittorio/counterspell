@@ -2,8 +2,9 @@ import 'package:counter_spell_new/core.dart';
 import 'player_details_components/all.dart';
 
 enum _DetailsPage {
+  commanderSettings,
   info,
-  commander,
+  commanderDamage,
 }
 
 class PlayerDetails extends StatefulWidget {
@@ -35,7 +36,8 @@ class _PlayerDetailsState extends State<PlayerDetails> {
       => HeaderedAlert(
         <_DetailsPage,String>{
           _DetailsPage.info: "${names[widget.index]}'s details",
-          _DetailsPage.commander: "Damage taken & dealt by ${names[widget.index]}",
+          _DetailsPage.commanderDamage: "Damage taken & dealt by ${names[widget.index]}",
+          _DetailsPage.commanderSettings: "${names[widget.index]}'s commander settings",
         }[page],
         child: body,
         bottom: bottom,
@@ -58,8 +60,9 @@ class _PlayerDetailsState extends State<PlayerDetails> {
             child: Padding(
               padding: const EdgeInsets.only(top: AlertTitle.height),
               child: <_DetailsPage,Widget>{
-                _DetailsPage.info: PlayerDetailsInfo(widget.index, aspectRatio: widget.aspectRatio),
-                _DetailsPage.commander: PlayerDetailsDamage(widget.index),
+                _DetailsPage.info: PlayerDetailsInfo(widget.index),
+                _DetailsPage.commanderDamage: PlayerDetailsDamage(widget.index),
+                _DetailsPage.commanderSettings: PlayerDetailsCommanderSettings(widget.index, aspectRatio: widget.aspectRatio,),
               }[p],
             ),
           ),
@@ -79,8 +82,12 @@ class _PlayerDetailsState extends State<PlayerDetails> {
         icon: Icons.info,
         unselectedIcon: Icons.info_outline,
       ),
-      _DetailsPage.commander : RadioNavBarItem(
-        title: "Commander",
+      _DetailsPage.commanderDamage : RadioNavBarItem(
+        title: "Damage",
+        icon: CSIcons.attackIconOne,
+      ),
+      _DetailsPage.commanderSettings : RadioNavBarItem(
+        title: "Settings",
         icon: CSIcons.damageIconFilled,
         unselectedIcon: CSIcons.damageIconOutlined,
       ),

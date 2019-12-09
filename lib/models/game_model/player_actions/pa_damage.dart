@@ -1,4 +1,5 @@
 import '../all.dart';
+import 'package:flutter/widgets.dart';
 
 class PADamage extends PlayerAction {
   final int increment;
@@ -6,14 +7,14 @@ class PADamage extends PlayerAction {
   final int minLife;
   final String from;
   final bool partnerA;
-  final bool applyToLife;
+  final CommanderSettings settings;
 
   static const int minVal = 0;
   const PADamage(
     this.from,
     this.increment, 
     { 
-      this.applyToLife = true,
+      @required this.settings,
       this.partnerA = true,
       int maxVal = PlayerState.kMaxValue,
       int minLife = PlayerState.kMinValue,
@@ -25,7 +26,7 @@ class PADamage extends PlayerAction {
   PlayerState apply(PlayerState state) 
     => state.getDamage(from, this.increment, 
       partnerA: partnerA, 
-      applyToLife: this.applyToLife,
+      settings: settings,
       maxDamage: this.maxVal,
       minLife: this.minLife,
     );
@@ -37,6 +38,7 @@ class PADamage extends PlayerAction {
       0 - alreadyThere,
       this.maxVal - alreadyThere,
     );
+    //TODO: clamp on life and poison also? lol
 
     if(clamped == 0) 
       return PANull.instance;
@@ -44,7 +46,7 @@ class PADamage extends PlayerAction {
     return PADamage(
       this.from,
       clamped,
-      applyToLife: this.applyToLife,
+      settings: this.settings,
       partnerA: this.partnerA,
       maxVal: this.maxVal,
       minLife: this.minLife,

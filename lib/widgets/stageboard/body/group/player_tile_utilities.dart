@@ -41,6 +41,14 @@ class PTileUtils {
       return action.increment;
     } else if(action is PACounter){
       return action.increment;
+    } else if(action is PACombined){
+      //this should occur when we have a commander damage with lifelink
+      //from the attacker to himself
+      final PADamage damage = action.actions.firstWhere((pa)=> pa is PADamage, orElse: ()=>null);
+      if(damage != null){
+        return damage.increment;
+      }
+      //if we ever make other strange automatically combined actions, we will need to add other logic to detect them here
     }
     return 0;
   }

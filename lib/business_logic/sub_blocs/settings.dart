@@ -35,6 +35,8 @@ class CSSettings {
 
     this.lastPageBeforeSimpleScreen.dispose();
     this.tutored.dispose();
+
+    this.simpleSquadLayout.dispose();
   }
 
 
@@ -72,6 +74,8 @@ class CSSettings {
 
   final BlocVar<CSPage> lastPageBeforeSimpleScreen;
   final PersistentVar<bool> tutored;
+
+  final PersistentVar<bool> simpleSquadLayout;
 
   //====================================
   // Default values
@@ -220,6 +224,12 @@ class CSSettings {
       initVal: CSPage.life,
       toJson: (page) => CSPages.nameOf(page),
       fromJson: (name) => CSPages.fromName(name),
+    ),
+    simpleSquadLayout= PersistentVar<bool>(
+      key: "bloc_settings_blocvar_simpleSquadLayout",
+      initVal: true,
+      toJson: (b) => b,
+      fromJson: (j) => j,
     )
   {
     Vibrate.canVibrate.then(

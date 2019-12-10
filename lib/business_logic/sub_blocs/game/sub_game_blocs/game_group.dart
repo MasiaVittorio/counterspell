@@ -13,9 +13,6 @@ class CSGameGroup {
     this.alternativeLayoutNameOrder.dispose();
     this.newNamesSub.cancel();
     this.savedNames.dispose();
-    // this.havingPartnerB.dispose();
-    // this.usingPartnerB.dispose();
-    // this.savedCards.dispose();
     this.cardsA.dispose();
     this.cardsB.dispose();
   } 
@@ -27,9 +24,6 @@ class CSGameGroup {
   PersistentVar<Map<int,String>> alternativeLayoutNameOrder;
   StreamSubscription newNamesSub;
   final PersistentVar<Set<String>> savedNames;
-  // final PersistentVar<Map<String,bool>> havingPartnerB;
-  // final PersistentVar<Map<String,bool>> usingPartnerB;
-  //TODO: move this info inside game state -> player
 
   final CachedVar<Map<String,Set<MtgCard>>> savedCards;
   //TODO: scopri perché cancellando la cache non si cancella questa variabile
@@ -165,39 +159,10 @@ class CSGameGroup {
     });
     names.refresh();
   }
-  // void updatePartners(GameState state){
-  //   bool refreshHave = false;
-  //   bool refreshUse = false;
-  //   for(final name in state.names){
-  //     if(!this.havePartnerB.value.containsKey(name)){
-  //       this.havePartnerB.value[name] = false;
-  //       refreshHave = true;
-  //     }
-  //     if(!this.usePartnerB.value.containsKey(name)){
-  //       this.usePartnerB.value[name] = false;
-  //       refreshUse = true;
-  //     }
-  //   }
-  //   if(refreshHave) this.havePartnerB.refresh();
-  //   if(refreshUse) this.usePartnerB.refresh();
-  // }
 
 
   //========================
   // Actions
-
-  // void toggleHavePartner(String name){
-  //   final has = this.havePartnerB.value[name] ?? false;
-  //   if(has){
-  //     this.usePartnerB.value[name] = false;
-  //     this.havePartnerB.value[name] = false;
-  //     this.usePartnerB.refresh();
-  //     this.havePartnerB.refresh();
-  //   } else {
-  //     this.havePartnerB.value[name] = true;
-  //     this.havePartnerB.refresh();
-  //   }
-  // }
 
   void moveIndex(int oldIndex, int newIndex){
     this.names.value.insert(

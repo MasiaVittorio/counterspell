@@ -10,7 +10,6 @@ class SimpleGroupWidget extends StatefulWidget {
   final bool isScrollingSomewhere;
   final int increment;
   final CSGameGroup group;
-  // final Color defenceColor;
   final Map<CSPage,Color> pageColors;
   final Map<String,PlayerAction> normalizedPlayerActions;
 
@@ -22,7 +21,6 @@ class SimpleGroupWidget extends StatefulWidget {
 
   const SimpleGroupWidget({
     @required this.pageColors,
-    // @required this.theme,
     @required this.gameState,
     @required this.selectedNames,
     @required this.isScrollingSomewhere,
@@ -181,65 +179,109 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     ),);
   }
 
-  Widget buildButtons(){
-    return AnimatedPositioned(
-      duration: CSAnimations.fast,
-      bottom: (open ? 0.0 : - 120) - 120 * (1 -widget.routeAnimationValue),
+  Widget buildButtons(bool squadLayout, CSSettings settings, bool landscape){
+    return Positioned(
+      // duration: CSAnimations.fast,
+      bottom: 0.0,
       left: 0.0,
       right: 0.0,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor,
-          boxShadow: [BoxShadow(
-            color: const Color(0x59000000), 
-            blurRadius: 12,
-          )],
-        ),
-        child: Material(
-          type: MaterialType.transparency,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.arrow_back),
-                title: Text("Back to full power"),
-                onTap: exit,
+      child: AnimatedListed(
+        overlapSizeAndOpacity: 1.0,
+        listed: open,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16.0),//to show shadows
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              boxShadow: [BoxShadow(
+                color: const Color(0x59000000), 
+                blurRadius: 12,
+              )],
+            ),
+            child: Material(
+              type: MaterialType.transparency,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  if(widget.gameState.players.length != 2)
+                    RadioSlider(
+                      selectedIndex: squadLayout ? 0 : 1,
+                      onTap: (i) => settings.simpleSquadLayout.set(i==0),
+                      title: Text("Layout"),
+                      items: [
+                        RadioSliderItem(
+                          icon: Icon(McIcons.account_multiple_outline),
+                          title: Text("Squad"),
+                        ),
+                        RadioSliderItem(
+                          icon: Icon(McIcons.account_outline),
+                          title: Text("Free for all"),
+                        ),
+                      ],
+                    ),
+                  ...(){
+                    final list = [
+                      ListTile(
+                        leading: Icon(Icons.arrow_back),
+                        title: Text("Back to full power"),
+                        onTap: exit,
+                      ),
+                      ListTile(
+                        leading: Icon(McIcons.account_group_outline),
+                        title: Text("Reorder players"),
+                        onTap: () => this.setState((){
+                          this.resetNames();
+                          this.widget.onPositionNames(this.indexToName);
+                        }),
+                      ),
+                    ];
+                    if(landscape) return [Row(children: <Widget>[for(final child in list) Expanded(child: child,)],)];
+                    else return list;
+                  }(),
+                ],
               ),
-              ListTile(
-                leading: Icon(McIcons.account_group_outline),
-                title: Text("Reorder players"),
-                onTap: () => this.setState((){
-                  this.resetNames();
-                  this.widget.onPositionNames(this.indexToName);
-                }),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget finishLayout(Widget players, Widget positionedButton){
+  Widget finishLayout(Widget players, Widget positionedButton, bool rotate, bool squadLayout, bool landscape){
     assert(positionedButton != null);
     assert(players != null);
     return Stack(children: <Widget>[
-      Positioned.fill(child: players,),
+      Positioned.fill(child: rotate 
+        ? RotatedBox(child:players, quarterTurns: 1,)
+        : players
+      ),
       buildBarrier(),
       positionedButton,
-      buildButtons(),
+      buildButtons(squadLayout, this.widget.group.parent.parent.settings, landscape),
     ]);
   }
 
   Widget layout4Players(BuildContext context,{
     @required BoxConstraints constraints, 
+    @required bool squadLayout,
   }) {
-    final w = constraints.maxWidth;
-    final h = constraints.maxHeight;
-    final landscape = w >= h;
+    final wid = constraints.maxWidth;
+    final hei = constraints.maxHeight;
+    final landscape = wid >= hei;
+    final rotate = landscape != squadLayout;
+    double w;
+    double h;
+    if(rotate){
+      w = hei;
+      h = wid;
+    } else {
+      w = wid;
+      h = hei;
+    }
+
     Widget players;
     Widget positionedButton;
-    if(landscape){
+    if(squadLayout){
       final box = BoxConstraints(
         maxHeight: h/2,
         maxWidth: w/2,
@@ -335,18 +377,29 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
       ]);
     }
 
-    return finishLayout(players, positionedButton);
+    return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
   }
 
   Widget layout3Players(BuildContext context,{
     @required BoxConstraints constraints, 
+    @required bool squadLayout,
   }) {
-    final w = constraints.maxWidth;
-    final h = constraints.maxHeight;
-    final landscape = w >= h;
+    final wid = constraints.maxWidth;
+    final hei = constraints.maxHeight;
+    final landscape = wid >= hei;
+    final rotate = landscape != squadLayout;
+    double w;
+    double h;
+    if(rotate){
+      w = hei;
+      h = wid;
+    } else {
+      w = wid;
+      h = hei;
+    }
     Widget players;
     Widget positionedButton;
-    if(landscape){
+    if(squadLayout){
       final topBox = BoxConstraints(
         maxHeight: h/2,
         maxWidth: w,
@@ -395,13 +448,23 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
         maxHeight: w/2,
         maxWidth: h - y,
       );
-      positionedButton = Positioned(
-        top: 0.0,
-        right: 0.0,
-        left: 0.0,
-        height: y*2,
-        child: Center(child: buildButton()),
-      );
+      if(rotate){
+        positionedButton = Positioned(
+          top: 0.0,
+          bottom: 0.0,
+          right: 0.0,
+          width: y*2,
+          child: Center(child: buildButton()),
+        );
+      } else {
+        positionedButton = Positioned(
+          top: 0.0,
+          right: 0.0,
+          left: 0.0,
+          height: y*2,
+          child: Center(child: buildButton()),
+        );
+      }
       players = ConstrainedBox(
         constraints: constraints,
         child: Column(children: <Widget>[
@@ -441,14 +504,16 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
       );
     }
 
-    return finishLayout(players, positionedButton);
+    return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
   }
 
   Widget layout2Players(BuildContext context,{
     @required BoxConstraints constraints, 
+    @required bool squadLayout,
   }) {
     final w = constraints.maxWidth;
     final h = constraints.maxHeight;
+    final bool landscape = w > h;
     final box = BoxConstraints(
       maxWidth: w,
       maxHeight: h/2,
@@ -474,7 +539,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     );
     final Widget positionedButton = Center(child: buildButton());
 
-    return finishLayout(players, positionedButton);
+    return finishLayout(players, positionedButton, false, squadLayout, landscape);
   }
 
   Widget buildPlayer(int index, {
@@ -528,27 +593,32 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
             preExit();
             return true;
           },
-          child: LayoutBuilder(builder: (context, constraints){
-            switch (widget.gameState.players.length) {
-              case 2:
-                return layout2Players(context,
-                  constraints: constraints,
-                );
-                break;
-              case 3:
-                return layout3Players(context,
-                  constraints: constraints,
-                );
-                break;
-              case 4:
-                return layout4Players(context,
-                  constraints: constraints,
-                );
-                break;
-              default:
-                return Container();
-            }
-          }),
+          child: bloc.settings.simpleSquadLayout.build((_, squadLayout)
+            => LayoutBuilder(builder: (context, constraints){
+              switch (widget.gameState.players.length) {
+                case 2:
+                  return layout2Players(context,
+                    constraints: constraints,
+                    squadLayout:squadLayout,
+                  );
+                  break;
+                case 3:
+                  return layout3Players(context,
+                    constraints: constraints,
+                    squadLayout: squadLayout,
+                  );
+                  break;
+                case 4:
+                  return layout4Players(context,
+                    constraints: constraints,
+                    squadLayout: squadLayout,
+                  );
+                  break;
+                default:
+                  return Container();
+              }
+            }),
+          ),
         ),
       ),
     );

@@ -12,51 +12,33 @@ class _TutorialAlertState extends State<TutorialAlert> {
 
   @override
   Widget build(BuildContext context) {
-    return HeaderedAlert(
-      TutorialSection.sections[index].longTitle,
-      child: Stack(fit: StackFit.expand, children: <Widget>[
-        for(final section in TutorialSection.sections)
-          Positioned.fill(child: AnimatedPresented(
-            duration: const Duration(milliseconds: 215),
-            presented: section.longTitle == TutorialSection.sections[index].longTitle,
-            curve: Curves.fastOutSlowIn.flipped,
-            presentMode: PresentMode.slide,
-            child: SingleChildScrollView(
-              physics: Stage.of(context).panelScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.only(top: AlertTitle.height),
-                child: DefaultTextStyle.merge(
-                  style: const TextStyle(fontSize: 15),
-                  child: Column(children: <Widget>[
-                    for(final piece in section.pieces)
-                      Section([
-                        SectionTitle(piece.title),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                          child: Text(piece.body, style: const TextStyle(fontSize: 15),),
-                        ),
-                      ])
-                  ],),
-                ),
-              ),
-            ),
-          ),),
-      ],),
-      alreadyScrollableChild: true,
-      bottom: RadioNavBar<int>(
-        selectedValue: index,
-        orderedValues: [for(int i=0; i<TutorialSection.sections.length; ++i) i],
-        items: {for(int i=0; i<TutorialSection.sections.length; ++i) 
-          i : RadioNavBarItem(
-            title: TutorialSection.sections[i].title,
-            icon: TutorialSection.sections[i].icon,
+    return RadioHeaderedAlert<String>(
+      selectedValue: TutorialSection.sections[index].title,
+      orderedValues: [for(final section in TutorialSection.sections) section.title],
+      onSelect: (newTitle)=>this.setState((){
+        this.index = TutorialSection.sections.indexWhere((s)=>s.title == newTitle);
+      }),
+      accentSelected: true,
+      items: <String,RadioHeaderedItem>{for(final section in TutorialSection.sections)
+        section.title: RadioHeaderedItem(
+          longTitle: section.longTitle,
+          title: section.title,
+          icon: section.icon,
+          child: DefaultTextStyle.merge(
+            style: const TextStyle(fontSize: 15),
+            child: Column(children: <Widget>[
+              for(final piece in section.pieces)
+                Section([
+                  SectionTitle(piece.title),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                    child: Text(piece.body, style: const TextStyle(fontSize: 15),),
+                  ),
+                ])
+            ],),
           ),
-        },
-        onSelect: (i)=>this.setState((){
-          this.index = i;
-        }),
-        accentTextColor: Theme.of(context).accentColor,
-      ),
+        ),
+      },
     );
   }
 }

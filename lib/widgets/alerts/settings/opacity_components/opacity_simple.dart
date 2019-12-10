@@ -4,17 +4,7 @@ import 'package:counter_spell_new/core.dart';
 class ImageOpacitySimple extends StatelessWidget {
   const ImageOpacitySimple();
 
-  static const double height 
-          = AlertTitle.height 
-          + _hTile
-          + _hDividers 
-          + _hSlider
-          + _hReset;
-
-  static const double _hSlider = 66.0;
-  static const double _hReset = 56.0;
-  static const double _hDividers = 14.0;
-  static const double _hTile = 100.0;
+  static const double _hTile = 140.0;
 
   @override
   Widget build(BuildContext context) {
@@ -99,47 +89,26 @@ class ImageOpacitySimple extends StatelessWidget {
       ),
     );
 
-    return Material(
-      color: theme.scaffoldBackgroundColor,
-      child: SizedBox(
-        height: height,
-        child: SingleChildScrollView(
-          physics: Stage.of(context).panelScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: AlertTitle.height + _hTile + _hDividers,
-                child: Section([
-                  const AlertTitle("Commander image opacity"),
-                  playerTile,
-                ]),
-              ),
-              SizedBox(
-                height: _hSlider,
-                child: Section([
-                  opacity.build((_,value)=>CSSlider(
-                    value: value,
-                    onChanged: opacity.set,
-                    title: (val) => "Opacity: ${val.toStringAsFixed(2)}",
-                  )),
-                ], last: true),
-              ),
-              SizedBox(
-                height: _hReset,
-                child: ListTile(
-                  title: const Text("Reset"),
-                  leading: const Icon(McIcons.restart),
-                  onTap: (){
-                    settings.simpleImageOpacity.set(CSSettings.defaultSimpleImageOpacity);
-                  },
-                ),
-              ),
-            ],
-          ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Section([playerTile]),
+        Section([
+          opacity.build((_,value)=>CSSlider(
+            value: value,
+            onChanged: opacity.set,
+            title: (val) => "Opacity: ${val.toStringAsFixed(2)}",
+          )),
+        ], last: true),
+        ListTile(
+          title: const Text("Reset"),
+          leading: const Icon(McIcons.restart),
+          onTap: (){
+            settings.simpleImageOpacity.set(CSSettings.defaultSimpleImageOpacity);
+          },
         ),
-      ),
+      ],
     );
   }
 

@@ -39,7 +39,7 @@ class HeaderedAlert extends StatelessWidget {
           right: 0.0,
           child: Container(
             color: theme.scaffoldBackgroundColor.withOpacity(0.7),
-            child: AlertTitle(title),
+            child: AlertTitle(title, animated: true),
           ),
         ),
 

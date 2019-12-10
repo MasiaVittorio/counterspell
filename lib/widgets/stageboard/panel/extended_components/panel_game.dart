@@ -26,14 +26,14 @@ class PanelGame extends StatelessWidget {
           Section([
             const SectionTitle("Extras"),
             ListTile(
-              onTap: () => showSimpleGroup(context: context, bloc: bloc),
-              title: const Text("Simple view"),
-              leading: const Icon(CSIcons.simpleViewIcon, size: 20,),
-            ),
-            ListTile(
               onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
               title: const Text("Dice & coins"),
               leading: Icon(McIcons.dice_multiple),
+            ),
+            ListTile(
+              onTap: () => showSimpleGroup(context: context, bloc: bloc),
+              title: const Text("Simple view"),
+              leading: const Icon(CSIcons.simpleViewIcon, size: 20,),
             ),
           ]),
         ],

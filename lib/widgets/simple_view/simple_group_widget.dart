@@ -161,8 +161,6 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
     );
   }
 
-  //TODO: manually toggle layout
-
   Widget buildBarrier(){
     return Positioned.fill(child: IgnorePointer(
       ignoring: open ? false : true,
@@ -186,6 +184,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
       left: 0.0,
       right: 0.0,
       child: AnimatedListed(
+        duration: const Duration(milliseconds: 200),
         overlapSizeAndOpacity: 1.0,
         listed: open,
         child: Padding(

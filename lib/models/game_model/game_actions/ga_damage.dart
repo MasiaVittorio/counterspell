@@ -22,25 +22,33 @@ class GADamage extends GameAction{
   );
 
   @override
-  Map<String, PlayerAction> actions(names) => {
-    for(final name in names)
-      if(defender == name)
-        name: PADamage(
-          attacker,
-          increment,
-          partnerA: !(usingPartnerB ?? false),
-          settings: this.settings,
-          minLife: this.minLife,
-          maxVal: this.maxVal,
-        )
-      else if(attacker == name && settings.lifelink)
-        name: PALife(increment,
-          minVal: this.minLife,
-          maxVal: this.maxVal,
-        )
-      else 
-        name: PANull.instance,
-  };
+  Map<String, PlayerAction> actions(names) {
+    final defenderAction = PADamage(
+      attacker,
+      increment,
+      partnerA: !(usingPartnerB ?? false),
+      settings: this.settings,
+      minLife: this.minLife,
+      maxVal: this.maxVal,
+    );
+    final attackerAction = settings.lifelink 
+      ? PALife(increment,
+        minVal: this.minLife,
+        maxVal: this.maxVal,
+      )
+      : PANull.instance;
+    return {
+      for(final name in names)
+        if(defender == name && (attacker == name && settings.lifelink))
+          name: PACombined([defenderAction, attackerAction])
+        else if(defender == name)
+          name: defenderAction
+        else if(attacker == name && settings.lifelink)
+          name: attackerAction
+        else 
+          name: PANull.instance,
+    };
+  }
 
 
 }

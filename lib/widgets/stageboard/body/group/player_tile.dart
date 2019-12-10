@@ -308,7 +308,6 @@ class PlayerTile extends StatelessWidget {
     } else {
 
       final int _increment = PTileUtils.cnIncrement(normalizedPlayerAction);
-
       child = InkWell(
         key: ValueKey("circle number"),
         highlightColor: Colors.transparent,

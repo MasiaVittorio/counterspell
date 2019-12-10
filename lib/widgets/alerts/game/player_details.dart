@@ -12,7 +12,7 @@ class PlayerDetails extends StatefulWidget {
   final double aspectRatio;
   const PlayerDetails(this.index, this.aspectRatio);
 
-  static const double height = 360.0 +56/2 +56.0;
+  static const double height = 500.0;
 
   @override
   _PlayerDetailsState createState() => _PlayerDetailsState();

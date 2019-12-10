@@ -4,10 +4,12 @@ class AlertTitle extends StatelessWidget {
   final String title;
   final bool twoLines;
   final bool centered;
+  final bool animated;
 
   const AlertTitle(this.title, {
     this.centered = true, 
     this.twoLines = false,
+    this.animated = false,
   }): assert(centered != null);
 
   static const double _minHeight = 30.0;
@@ -35,19 +37,33 @@ class AlertTitle extends StatelessWidget {
         : AlignmentDirectional.centerStart,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Text(
-          this.title,
-          textAlign: this.centered ? TextAlign.center : TextAlign.start,
-          maxLines: this.twoLines ? 2: 1, 
-          overflow: TextOverflow.ellipsis,
-          style: style.copyWith(
-            color: RightContrast(
-              theme, 
-              fallbackOnTextTheme: true
-            ).onCanvas,
-            fontWeight: incrementFontWeight[style.fontWeight],
+        child: animated 
+          ? AnimatedText(
+            text: this.title,
+            textAlign: this.centered ? TextAlign.center : TextAlign.start,
+            maxLines: this.twoLines ? 2: 1, 
+            overflow: TextOverflow.ellipsis,
+            style: style.copyWith(
+              color: RightContrast(
+                theme, 
+                fallbackOnTextTheme: true
+              ).onCanvas,
+              fontWeight: incrementFontWeight[style.fontWeight],
+            ),
+          )
+          : Text(
+            this.title,
+            textAlign: this.centered ? TextAlign.center : TextAlign.start,
+            maxLines: this.twoLines ? 2: 1, 
+            overflow: TextOverflow.ellipsis,
+            style: style.copyWith(
+              color: RightContrast(
+                theme, 
+                fallbackOnTextTheme: true
+              ).onCanvas,
+              fontWeight: incrementFontWeight[style.fontWeight],
+            ),
           ),
-        ),
       ),
     );
 

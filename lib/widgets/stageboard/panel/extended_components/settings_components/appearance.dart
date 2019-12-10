@@ -25,16 +25,6 @@ class SettingsAppearance extends StatelessWidget {
           size: ImageOpacity.height,
         ),
       ),
-      ListTile(
-        leading: const Icon(Icons.invert_colors),
-        title: const Text("Commander image's opacity"),
-        subtitle: const Text("(Simple view)"),
-        trailing: const Icon(Icons.exit_to_app),
-        onTap: () => stage.showAlert(
-          const ImageOpacitySimple(),
-          size: ImageOpacitySimple.height,
-        ),
-      ),
       const SectionTitle("History time"),
       bloc.settings.timeMode.build((_,mode)=> RadioSlider(
         onTap: (i) => settings.timeMode.set(TimeMode.values[i]),

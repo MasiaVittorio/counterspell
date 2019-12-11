@@ -9,7 +9,7 @@ class SettingsBehavior extends StatelessWidget {
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     return Section([
-      const SectionTitle("Behavior"),
+      const AlertTitle("Behavior", centered: false,),
       settings.wantVibrate.build((_, vibrate)
         => SwitchListTile(
           value: vibrate,

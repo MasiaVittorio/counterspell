@@ -44,27 +44,29 @@ class _ImageSearchState extends State<ImageSearch> {
     resetResults();
     subscription = behavior.stream
         // .distinct()
-        .debounce((_) => TimerStream(true, const Duration(milliseconds: 500)))
+        .debounce((_) => TimerStream(true, const Duration(milliseconds: 700)))
         // .debounce(const Duration(milliseconds: 500))
-        .listen((name) async {
-          if(name == null || name ==  ""){
-            resetResults();
-            return;
-          }
-          this.setState((){
-            this.searching = true;
-          });
-          List<MtgCard> res = await ScryfallApi.searchArts(name, commander);
-          if(res == null){
-            res = <MtgCard>[];
-            print("results were null lol, error that should not happen");
-          } 
-          res = res.sublist(0,min(20, res.length));
-          this.results = res;
-          this.setState((){
-            this.searching = false;
-          });
-        });
+        .listen(startSearching);
+  }
+
+  void startSearching(name) async {
+    if(name == null || name ==  ""){
+      resetResults();
+      return;
+    }
+    this.setState((){
+      this.searching = true;
+    });
+    List<MtgCard> res = await ScryfallApi.searchArts(name, commander);
+    if(res == null){
+      res = <MtgCard>[];
+      print("results were null lol, error that should not happen");
+    } 
+    res = res.sublist(0,min(20, res.length));
+    this.results = res;
+    this.setState((){
+      this.searching = false;
+    });
   }
 
   void resetResults(){
@@ -145,8 +147,8 @@ class _ImageSearchState extends State<ImageSearch> {
     child: TextField(
       keyboardType: TextInputType.text,
       autofocus: true,
+      onSubmitted: startSearching,
       textAlign: TextAlign.center,
-      // maxLength: 30,
       controller: controller,
       textCapitalization: TextCapitalization.words,
       style: const TextStyle(inherit:true, fontSize: 18.0),

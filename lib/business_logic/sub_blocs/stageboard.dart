@@ -53,7 +53,7 @@ class CSStage {
 
     //themes
     light: true,
-    darkStyle: DarkStyle.nightBlack,
+    darkStyle: DarkStyle.nightBlue,
     lightPrimary: CSColorScheme.defaultLight.primary,
     lightPrimaryPerPage: CSColorScheme.defaultLight.perPage,
     lightAccent: CSColorScheme.defaultLight.accent,

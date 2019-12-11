@@ -9,7 +9,7 @@ class SettingsAppearance extends StatelessWidget {
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     return Section([
-      const AlertTitle("Appearance", centered: false,),
+      const SectionTitle("Appearance"),
       settings.alwaysOnDisplay.build((_, alwaysOn) => SwitchListTile(
         value: alwaysOn,
         onChanged: settings.alwaysOnDisplay.set,

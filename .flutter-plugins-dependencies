@@ -1,0 +1,1 @@
+{"_info":"// This is a generated file; do not edit or check into version control.","dependencyGraph":[{"name":"in_app_purchase","dependencies":[]},{"name":"path_provider","dependencies":[]},{"name":"screen","dependencies":[]},{"name":"sqflite","dependencies":[]},{"name":"url_launcher","dependencies":[]},{"name":"vibrate","dependencies":[]}]}

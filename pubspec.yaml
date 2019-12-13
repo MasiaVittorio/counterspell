@@ -21,7 +21,7 @@ dependencies:
     path: ../sidereus 
   stage:
     path: ../stage
-  cached_network_image: ^1.1.2+1
+  cached_network_image: ^2.0.0-rc
   division: ^0.7.0
   equatable: ^1.0.0
   flutter_reorderable_list: ^0.1.1

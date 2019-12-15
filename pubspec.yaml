@@ -27,7 +27,7 @@ dependencies:
   flutter_reorderable_list: ^0.1.1
   flutter_vector_icons: ^0.2.0
   http: ^0.12.0+2
-  in_app_purchase: ^0.2.2+2
+  in_app_purchase: ^0.2.2+1
   rxdart: ^0.22.6
   screen: ^0.0.4
   url_launcher: ^5.2.5
@@ -48,7 +48,7 @@ dev_dependencies:
 flutter_icons:
   image_path: "assets/images/android_legacy.png"
   image_path_android: "assets/images/android_legacy.png"
-  image_path_ios: "assets/images/ios_medium.png"
+  image_path_ios: "assets/images/white_on_black.png"
   android: true # can specify file name here e.g. "ic_launcher"
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
   adaptive_icon_background: "assets/images/white_on_black.png" # only available for Android 8.0 devices and above

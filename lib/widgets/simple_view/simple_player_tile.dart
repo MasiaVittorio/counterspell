@@ -231,14 +231,20 @@ class SimplePlayerTile extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Checkbox(
-            activeColor: pageColors[CSPage.life],
-            value: rawSelected,
-            tristate: true,
-            onChanged: (b) {
-              actionBloc.selected.value[name] = rawSelected == false ? true : false;
+          InkWell(
+            onLongPress: (){
+              actionBloc.selected.value[name]= rawSelected == null ? true : null;
               actionBloc.selected.refresh();
             },
+            child: Checkbox(
+              activeColor: pageColors[CSPage.life],
+              value: rawSelected,
+              tristate: true,
+              onChanged: (b) {
+                actionBloc.selected.value[name] = rawSelected == false ? true : false;
+                actionBloc.selected.refresh();
+              },
+            ),
           ),
           Text("$name", style: TextStyle(
             fontSize: 16,
@@ -363,6 +369,7 @@ class SimplePlayerTile extends StatelessWidget {
   }){
     final fontSize = constraints.maxHeight * 0.4;
     final scale = 0.45;
+    final int increment = rawSelected == null ? - this.increment : this.increment;
     final incrementString = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

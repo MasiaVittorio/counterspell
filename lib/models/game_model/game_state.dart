@@ -78,6 +78,19 @@ class GameState {
     return players.values.first.states.length;
   }
 
+  String get winner {
+    final List<String> alives = [
+      for(final player in this.players.values)
+        if(player.states.last.isAlive) 
+          player.name,
+    ];
+    if(alives.length == 1){
+      return alives.first;
+    } else {
+      return null;
+    }
+  }
+
   Map<String,PlayerState> get lastPlayerStates => {
     for(final entry in this.players.entries)
       entry.key: entry.value.states.last,

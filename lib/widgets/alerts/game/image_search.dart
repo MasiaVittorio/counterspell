@@ -63,7 +63,13 @@ class _ImageSearchState extends State<ImageSearch> {
       print("results were null lol, error that should not happen");
     } 
     res = res.sublist(0,min(20, res.length));
-    this.results = res;
+
+    if(name == controller.text){
+      //you may have changed the text since the search was launched, we do not want these results to overwrite
+      // other results that may have been found quicker
+      this.results = res;
+    }
+
     this.setState((){
       this.searching = false;
     });

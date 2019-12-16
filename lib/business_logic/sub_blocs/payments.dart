@@ -169,7 +169,7 @@ class CSPayments {
 
     this.purchasedIds.set(<String>{
       for(final details in response.pastPurchases)
-        if(details.status == PurchaseStatus.purchased)
+        // if(details.status == PurchaseStatus.purchased)
           details.productID,
     });
     logAdd("inside method: restore() -> detected purchased ids: ${purchasedIds.value}");
@@ -194,7 +194,7 @@ class CSPayments {
     bool found = false;
 
     for(final detail in purchases){
-      if(!purchasedIds.value.contains(detail.productID)){
+      if(detail.productID != null && !purchasedIds.value.contains(detail.productID)){
         purchasedIds.value.add(detail.productID);
         found = true;
         logAdd("inside method: reactToNewPurchases() -> this purchase ${detail.productID} was not previously saved!");

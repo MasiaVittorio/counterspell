@@ -2,7 +2,7 @@ export 'confirmable/all.dart';
 
 export 'custom_life.dart';
 export 'developer.dart';
-export 'dice.dart';
+export 'dice_and_names.dart';
 export 'feedback.dart';
 export 'licenses.dart';
 export 'opacity.dart';

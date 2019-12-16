@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:flutter/services.dart';
 
 class Support extends StatefulWidget {
 
@@ -27,7 +28,7 @@ class _SupportState extends State<Support> {
   Widget build(BuildContext context) {
     final pBloc = CSBloc.of(context).payments;
     return pBloc.unlocked.build((_,unlocked) 
-      =>HeaderedAlert(
+      => HeaderedAlert(
         refreshing ? "Refreshing data..." : unlocked ? "You are a pro!" : "Support the development",
         child: list(pBloc),
         bottom: disclaimer(pBloc),
@@ -98,43 +99,47 @@ class SupportInfo extends StatelessWidget {
   static const double height = 500.0;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: SingleChildScrollView(
-        physics: Stage.of(context).panelScrollPhysics(),
-        child: Column(children: <Widget>[
-          const Section([
-            AlertTitle('How to unlock "pro" features', centered: false,),
-            ListTile(title: Text("The amount of the money you donate doesn't matter to the app. You can donate just a buck and you'll get every pro feature unlocked. You can make bigger or multiple donations and you'll unlock the same stuff."),),
-          ]),
-          const Section([
-            SectionTitle('What are those features'),
-            ListTile(title: Text("Currently, the only pro feature is the theme engine. If you already made a donation and unlocked it, you will get any future \"pro\" feature if I ever add any"),),
-          ]),
-          const Section([
-            SectionTitle("My reasons"),
-            ListTile(title: Text("I don't want to put a lot of different features behind different paywalls, I made this app because I felt I needed it to play my commander games more easily and I feel like its core features should always stay free."),),
-            ListTile(
-              title: Text("If you want to donate more than just the lowest amount you should do that because you appreciate my work, not to unlock the latest skin or stuff like that."),
-              subtitle: Text(
-                "(Also, linking different features to different purchases is annoying to code. Right now the app considers you a pro user simply if the list of past purchases is not empty, lol)",
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ),
-          ]),
-          Padding(
-            padding: const EdgeInsets.only(right:16.0, left: 16.0, bottom: 14.0),
-            child: Text(
-              FlavorTexts.rancor, 
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.45),
-              ),
-              textAlign: TextAlign.center,
+    return HeaderedAlert(
+      "Donations info",
+      bottom: ListTile(
+        title: const Text("Copy payments log"),
+        subtitle: const Text("For debugging purposes"),
+        leading: const Icon(McIcons.bug_check),
+        trailing: const Icon(Icons.content_copy),
+        onTap: () => Clipboard.setData(ClipboardData(text: CSBloc.of(context).payments.log)),
+      ),
+      child: Column(children: <Widget>[
+        const Section([
+          SectionTitle('How to unlock "pro" features'),
+          ListTile(title: Text("The amount of the money you donate doesn't matter to the app. You can donate just a buck and you'll get every pro feature unlocked. You can make bigger or multiple donations and you'll unlock the same stuff."),),
+        ]),
+        const Section([
+          SectionTitle('What are those features'),
+          ListTile(title: Text("Currently, the only pro feature is the theme engine. If you already made a donation and unlocked it, you will get any future \"pro\" feature if I ever add any"),),
+        ]),
+        const Section([
+          SectionTitle("My reasons"),
+          ListTile(title: Text("I don't want to put a lot of different features behind different paywalls, I made this app because I felt I needed it to play my commander games more easily and I feel like its core features should always stay free."),),
+          ListTile(
+            title: Text("If you want to donate more than just the lowest amount you should do that because you appreciate my work, not to unlock the latest skin or stuff like that."),
+            subtitle: Text(
+              "(Also, linking different features to different purchases is annoying to code. Right now the app considers you a pro user simply if the list of past purchases is not empty, lol)",
+              style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
-        ],),
-      ),
+        ]),
+        Padding(
+          padding: const EdgeInsets.only(right:16.0, left: 16.0, bottom: 14.0),
+          child: Text(
+            FlavorTexts.rancor, 
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.45),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],),
     );
   }
 }

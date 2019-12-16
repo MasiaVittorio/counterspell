@@ -24,7 +24,7 @@ class CSPayments {
   StreamSubscription<List<PurchaseDetails>> _subscription; //react to new purchase
   final PersistentVar<Set<String>> purchasedIds; //past done purchases
   final BlocVar<List<Donation>> donations; //all available (wrapper for UI)
-
+  String log = "";
 
   //===========================================
   // Constructor
@@ -56,45 +56,66 @@ class CSPayments {
 
   //===========================================
   // Methods
+  void logAdd(String newLine){
+    log += "\n$newLine";
+    print(newLine);
+  }
+
   void check() async {
+    logAdd("enter method: check()");
     await availableItems();
 
+    logAdd("inside method: check() -> available items retrieved");
+
     if(this.unlocked.reading){
+      logAdd("inside method: check() -> unlocked var is still reading, adding restore to read callback");
       this.unlocked.readCallback = (result){
+        logAdd("inside method: check() -> calling read callback, unlocked: $result");
         if(result == false){
+          logAdd("inside method: check() -> unlocked var after read is false, try to restore");
           this.restore();
         }
       };
     } else {
+      logAdd("inside method: check() -> unlocked var is ready");
       if(this.unlocked.value == false){
+        logAdd("inside method: check() -> unlocked var is false, try to restore");
         this.restore();
+      } else {
+        logAdd("inside method: check() -> pro features already unlocked tho (not launching restore)");
       }
     }
   }
 
 
   Future<void> availableItems() async {
+    logAdd("enter method: availableItems()");
     bool available = false;
     try {
       available = await InAppPurchaseConnection.instance.isAvailable();      
     } catch (e) {
+      logAdd("inside method: availableItems() ->InAppPurchaseConnection.instance.isAvailable() thrown error $e");
       //strange that this .isAvailable() method can throw, lol?
       return;
     }
 
     if (!available) {
+      logAdd("inside method: availableItems() ->InAppPurchaseConnection.instance.isAvailable() returned false");
       // The store cannot be reached or accessed. Update the UI accordingly.
       return;
     }
 
+    logAdd("inside method: availableItems() ->connection available, now waiting for queryProductDetails from list $products");
     final ProductDetailsResponse response = 
       await InAppPurchaseConnection.instance
         .queryProductDetails(products);
 
     if (response.notFoundIDs.isNotEmpty) {
-        // Handle the error.
+      logAdd("inside method: availableItems() ->some ids were NOT found: ${response.notFoundIDs}");
     }
+
     this.items = response.productDetails;
+    logAdd("inside method: availableItems() ->items retrieved: ${this.items.length}");
     
     this.donations.set(<Donation>[
       for(final item in this.items)
@@ -120,43 +141,65 @@ class CSPayments {
   }
 
   Future<void> restore() async {
+    logAdd("enter method: restore() -> waiting for queryPastPurchases()");
     final QueryPurchaseDetailsResponse response = await InAppPurchaseConnection.instance.queryPastPurchases();
     if (response.error != null) {
-      print("error");
+      logAdd("inside method: restore() -> pastPurchases() had an error: ${response.error}");
       return;
       // Handle the error.
     }
 
+    logAdd("inside method: restore() -> pastPurchases() found: ${response.pastPurchases.length} past purchases");
     for (PurchaseDetails purchase in response.pastPurchases) {
-      // Verify the purchase following the best practices for each storefront.
-      // Deliver the purchase to the user in your app.
+      if(purchase.status != PurchaseStatus.purchased){
+        logAdd("inside method: restore() -> purchase: ${purchase.productID} // ${purchase.purchaseID}: status: ${purchase.status}");
+      }
       if (Platform.isIOS) {
+        logAdd("inside method: restore() -> platform is iOS, have to call InAppPurchaseConnection.instance.completePurchase(${purchase.productID})");
         // Mark that you've delivered the purchase. Only the App Store requires
         // this final confirmation.
-        InAppPurchaseConnection.instance.completePurchase(purchase);
+        if([
+          PurchaseStatus.purchased, 
+          PurchaseStatus.error,
+        ].contains(purchase.status) ) {
+          InAppPurchaseConnection.instance.completePurchase(purchase);
+        }
       }
     }
 
     this.purchasedIds.set(<String>{
-      for(final it in response.pastPurchases)
-        it.productID,
+      for(final details in response.pastPurchases)
+        if(details.status == PurchaseStatus.purchased)
+          details.productID,
     });
+    logAdd("inside method: restore() -> detected purchased ids: ${purchasedIds.value}");
 
-    if(response.pastPurchases.length > 0) 
-      this.unlocked.set(true);
-    else 
+    if(purchasedIds.value.isNotEmpty) {
+      logAdd("inside method: restore() -> unlocking since past purchases is not empty");
+      this.unlocked.setDistinct(true);
+    }
+    else {
+      logAdd("inside method: restore() -> LOCKING since past purchases is empty");
       this.unlocked.set(false);
+    }
 
   }
 
   void reactToNewPurchases(List<PurchaseDetails> purchases){
+    logAdd("enter method: reactToNewPurchases()with parameter: ");
+    for(final p in purchases){
+      logAdd("inside method: reactToNewPurchases() -> param: ${p.productID}");
+    }
+
     bool found = false;
 
     for(final detail in purchases){
       if(!purchasedIds.value.contains(detail.productID)){
         purchasedIds.value.add(detail.productID);
         found = true;
+        logAdd("inside method: reactToNewPurchases() -> this purchase ${detail.productID} was not previously saved!");
       }
+      // this.unlocked.setDistinct(true);
     }
 
     if(found){
@@ -166,14 +209,17 @@ class CSPayments {
 
 
   void purchase(String productID) async {
+    logAdd("enter method: purchase(id: $productID)");
     if (this.purchasedIds.value.contains(productID)) return;
 
     ProductDetails productDetails;
     for(final item in this.items){
       if(item.id == productID) productDetails = item;
     }
+    logAdd("inside method: purchase() -> product details found? ${productDetails != null}");
     if(productDetails == null) return;
 
+    logAdd("inside method: purchase() -> calling InAppPurchaseConnection.instance.buyNonConsumable()");
     await InAppPurchaseConnection.instance.buyNonConsumable(
       purchaseParam: PurchaseParam(productDetails: productDetails)
     );

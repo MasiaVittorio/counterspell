@@ -58,7 +58,7 @@ class CSPayments {
   // Methods
   void logAdd(String newLine){
     log += "\n$newLine";
-    print(newLine);
+    // print(newLine);
   }
 
   void check() async {

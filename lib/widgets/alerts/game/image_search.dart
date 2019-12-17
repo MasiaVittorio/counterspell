@@ -69,10 +69,11 @@ class _ImageSearchState extends State<ImageSearch> {
       // other results that may have been found quicker
       this.results = res;
     }
-
-    this.setState((){
-      this.searching = false;
-    });
+    if(mounted){
+      this.setState((){
+        this.searching = false;
+      });
+    }
   }
 
   void resetResults(){

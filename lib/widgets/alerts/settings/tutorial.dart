@@ -1,23 +1,15 @@
 import 'package:counter_spell_new/core.dart';
 
-class TutorialAlert extends StatefulWidget {
+class TutorialAlert extends StatelessWidget {
   const TutorialAlert();
-  static const double height = 400.0;
-  @override
-  _TutorialAlertState createState() => _TutorialAlertState();
-}
 
-class _TutorialAlertState extends State<TutorialAlert> {
-  int index = 0;
+  static const double height = 400.0;
 
   @override
   Widget build(BuildContext context) {
     return RadioHeaderedAlert<String>(
-      selectedValue: TutorialSection.sections[index].title,
+      initialValue: TutorialSection.sections.first.title,
       orderedValues: [for(final section in TutorialSection.sections) section.title],
-      onSelect: (newTitle)=>this.setState((){
-        this.index = TutorialSection.sections.indexWhere((s)=>s.title == newTitle);
-      }),
       accentSelected: true,
       items: <String,RadioHeaderedItem>{for(final section in TutorialSection.sections)
         section.title: RadioHeaderedItem(

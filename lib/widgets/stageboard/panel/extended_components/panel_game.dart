@@ -35,6 +35,18 @@ class PanelGame extends StatelessWidget {
               title: const Text("Simple view"),
               leading: const Icon(CSIcons.simpleViewIcon, size: 20,),
             ),
+            bloc.payments.unlocked.build((_, unlocked) => ListTile(
+              onTap: () {
+                if(unlocked){
+                  stage.showAlert(const Leaderboards(), size: Leaderboards.height);
+                } else {
+                  stage.showAlert(const Support(), size: Support.height);
+                }
+              },
+              title: const Text("Leaderboards"),
+              leading: const Icon(McIcons.trophy),
+              trailing: unlocked ? null : const Icon(McIcons.alert_decagram_outline),
+            )),
           ]),
           ListTile(
             title: const Text("New game"),

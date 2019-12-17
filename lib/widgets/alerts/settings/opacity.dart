@@ -6,27 +6,16 @@ enum _OpacityPage{
   simple,
 }
 
-class ImageOpacity extends StatefulWidget {
+class ImageOpacity extends StatelessWidget {
   const ImageOpacity();
 
   static const double height = 440;
 
   @override
-  _ImageOpacityState createState() => _ImageOpacityState();
-}
-
-class _ImageOpacityState extends State<ImageOpacity> {
-
-  _OpacityPage page = _OpacityPage.regular;
-
-  @override
   Widget build(BuildContext context) {
     return RadioHeaderedAlert<_OpacityPage>(
       orderedValues: _OpacityPage.values, 
-      selectedValue: page, 
-      onSelect: (newPage) => this.setState((){
-        this.page = newPage;
-      }),
+      initialValue: _OpacityPage.regular, 
       accentSelected: true,
       items: const <_OpacityPage,RadioHeaderedItem>{
         _OpacityPage.regular: const RadioHeaderedItem(

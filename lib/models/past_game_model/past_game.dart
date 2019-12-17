@@ -80,12 +80,21 @@ class PastGame{
   // Getters
   bool commanderPlayed(MtgCard card){
     for(final commander in this.commandersA.values){
-      if(commander.oracleId == card.oracleId) return true;
+      if(commander?.oracleId == card.oracleId) return true;
     }
     for(final commander in this.commandersB.values){
-      if(commander.oracleId == card.oracleId) return true;
+      if(commander?.oracleId == card.oracleId) return true;
     }
     return false;
+  }
+  String whoPlayedCommander(MtgCard card){
+    for(final entry in this.commandersA.entries){
+      if(entry.value?.oracleId == card.oracleId) return entry.key;
+    }
+    for(final entry in this.commandersB.entries){
+      if(entry.value?.oracleId == card.oracleId) return entry.key;
+    }
+    return null;
   }
   bool commanderPlayedBy(MtgCard card, String name){
     if(this.commandersA[name]?.oracleId == card.oracleId) return true;

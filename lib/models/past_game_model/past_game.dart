@@ -76,5 +76,22 @@ class PastGame{
     },
   );
 
+  //=========================================
+  // Getters
+  bool commanderPlayed(MtgCard card){
+    for(final commander in this.commandersA.values){
+      if(commander.oracleId == card.oracleId) return true;
+    }
+    for(final commander in this.commandersB.values){
+      if(commander.oracleId == card.oracleId) return true;
+    }
+    return false;
+  }
+  bool commanderPlayedBy(MtgCard card, String name){
+    if(this.commandersA[name]?.oracleId == card.oracleId) return true;
+    if(this.commandersB[name]?.oracleId == card.oracleId) return true;
+    return false;
+  }
+
 
 }

@@ -4,3 +4,4 @@ export 'function/all.dart';
 export 'icon/all.dart';
 export 'key/all.dart';
 export 'string/all.dart';
+export 'widgets/all.dart';

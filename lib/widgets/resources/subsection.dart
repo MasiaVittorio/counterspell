@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class SubSection extends StatelessWidget {
   final List<Widget> children;
-  const SubSection(this.children);
+  final bool stretch;
+  const SubSection(this.children, {this.stretch = false,});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,9 @@ class SubSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: stretch 
+          ? CrossAxisAlignment.stretch
+          : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: this.children,
       ),

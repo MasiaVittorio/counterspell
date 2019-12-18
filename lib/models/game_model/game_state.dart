@@ -91,6 +91,14 @@ class GameState {
     }
   }
 
+  int totalDamageDealtFrom(String attacker, {bool partnerA = true}){
+    int total = 0;
+    for(final defender in players.values){
+      total += defender.states.last.damages[attacker].fromPartner(partnerA);
+    }
+    return total;
+  }
+
   Map<String,PlayerState> get lastPlayerStates => {
     for(final entry in this.players.entries)
       entry.key: entry.value.states.last,

@@ -27,6 +27,7 @@ class PlayerStatTile extends StatelessWidget {
         ),
         trailing: Text("(${stat.games} games)"),
       ),
+      if(stat.commandersUsed.isNotEmpty)
       SubSection([
         const SectionTitle("Per commander"),
         ConstrainedBox(

@@ -1,4 +1,4 @@
-import 'model.dart';
+import 'model_simple.dart';
 import 'package:counter_spell_new/core.dart';
 import 'list_element.dart';
 
@@ -23,7 +23,7 @@ class CommandersLeaderboards extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           for(final stat in stats)
-            StatWidget(stat),
+            StatWidget(stat, pastGames: pastGames,),
         ],
       );
 

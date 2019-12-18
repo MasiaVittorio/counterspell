@@ -21,8 +21,10 @@ class Leaderboards extends StatelessWidget {
       items: items,
     );
   }
+  
 
   static const Map<_LeadType,RadioHeaderedItem> items = const <_LeadType,RadioHeaderedItem>{
+
     _LeadType.commanders: RadioHeaderedItem(
       longTitle: "Commanders' stats",
       title: "Commanders",
@@ -30,19 +32,22 @@ class Leaderboards extends StatelessWidget {
       unselectedIcon: CSIcons.damageIconOutlined,
       child: CommandersLeaderboards(),
     ),
+
     _LeadType.games: RadioHeaderedItem(
       longTitle: "Past games",
       title: "Games",
       icon: Icons.history,
-      child: GamesLeaderboards(),
+      child: PastGamesList(),
     ),
+
     _LeadType.players: RadioHeaderedItem(
       longTitle: "Players' stats",
       title: "Players",
       icon: Icons.person,
       unselectedIcon: Icons.person_outline,
-      child: PlayersLeaderboards(),
+      child: PlayerStatsList(),
     ),
+
   };
 
 }

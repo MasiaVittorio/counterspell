@@ -1,3 +1,3 @@
-export 'commanders.dart';
-export 'games.dart';
-export 'players.dart';
+export 'commanders/all.dart';
+export 'games/all.dart';
+export 'players/all.dart';

@@ -38,14 +38,17 @@ class SidRadioListTile<T> extends StatelessWidget {
         color: value == groupValue ? selectedBkg : canvas,
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: RadioListTile<T>(
-        value: value,
-        groupValue: groupValue,
-        onChanged: this.onChanged,
-        title: title,
-        subtitle: subtitle,
-        secondary: secondary,
-        activeColor: activeColor,
+      child: Material(
+        type: MaterialType.transparency,
+        child: RadioListTile<T>(
+          value: value,
+          groupValue: groupValue,
+          onChanged: this.onChanged,
+          title: title,
+          subtitle: subtitle,
+          secondary: secondary,
+          activeColor: activeColor,
+        ),
       ),
     );
   }

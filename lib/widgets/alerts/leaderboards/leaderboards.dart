@@ -5,6 +5,7 @@ enum _LeadType {
   games,
   players,
   commanders,
+  settings,
 }
 
 class Leaderboards extends StatelessWidget {
@@ -17,7 +18,7 @@ class Leaderboards extends StatelessWidget {
   Widget build(BuildContext context) {
     return RadioHeaderedAlert<_LeadType>(
       initialValue: _LeadType.games,
-      orderedValues: [_LeadType.commanders, _LeadType.games, _LeadType.players],
+      orderedValues: [_LeadType.commanders, _LeadType.games, _LeadType.players, _LeadType.settings],
       items: items,
     );
   }
@@ -48,6 +49,13 @@ class Leaderboards extends StatelessWidget {
       child: PlayerStatsList(),
     ),
 
+    _LeadType.settings: RadioHeaderedItem(
+      longTitle: "Leaderboards info",
+      title: "Info",
+      icon: Icons.info,
+      unselectedIcon: Icons.info_outline,
+      child: LeaderboardsSettings(),
+    ),
   };
 
 }

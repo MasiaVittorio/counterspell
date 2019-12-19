@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/alerts/leaderboards/components/commanders/model_simple.dart';
+import 'package:counter_spell_new/widgets/alerts/leaderboards/components/games/winner_selector.dart';
 import 'package:counter_spell_new/widgets/alerts/leaderboards/components/players/model_simple.dart';
 
 class CSPastGames {
@@ -29,6 +30,7 @@ class CSPastGames {
       for(final encoded in (json as List))
         PastGame.fromJson(encoded),
     ],
+    copier: (list) => [for(final e in list) e],
   ){
     this.commanderStats = BlocVar.fromCorrelate(
       pastGames, 
@@ -49,13 +51,25 @@ class CSPastGames {
   void saveGame(GameState state, {
     @required Map<String,MtgCard> commandersA,
     @required Map<String,MtgCard> commandersB,
-  }){
-    this.pastGames.value.add(PastGame.fromState(state.frozen, 
+  }) async {
+    final pastGame = PastGame.fromState(state.frozen, 
       commandersA: commandersA,
       commandersB: commandersB,
-    ));
+    );
+    this.pastGames.value.add(pastGame);
     this.pastGames.value.sort((one, two) => one.dateTime.difference(two.dateTime).inMilliseconds);
     this.pastGames.refresh();
+
+    if(parent.payments.unlocked.value && pastGame.winner == null){
+      parent.stage.showAlert(
+        WinnerSelector(
+          pastGame.state.names,
+          onConfirm: (winner) => pastGame.winner = winner,
+        ),
+        size: WinnerSelector.heightCalc(pastGame.state.players.length),
+        replace: true,
+      );
+    }
   }
 
   void removeGameAt(int index){

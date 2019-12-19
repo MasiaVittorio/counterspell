@@ -4,8 +4,9 @@ import 'package:counter_spell_new/core.dart';
 class PastGameTile extends StatelessWidget {
 
   final PastGame game;
+  final int index;
 
-  PastGameTile(this.game);
+  PastGameTile(this.game, this.index);
 
   static const double subsectionHeight = 140.0;
 
@@ -23,6 +24,10 @@ class PastGameTile extends StatelessWidget {
       ListTile(
         leading: const Icon(McIcons.trophy),
         title: Text("Winner: ${game.winner}"),
+        trailing: IconButton(
+          icon: Icon(Icons.delete_forever),
+          onPressed: () => CSBloc.of(context).pastGames.removeGameAt(index),
+        ),
       ),
       SubSection([
         const SectionTitle("Commanders"),

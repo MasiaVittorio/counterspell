@@ -11,12 +11,13 @@ class PastGamesList extends StatelessWidget {
     final bloc = CSBloc.of(context);
 
     return bloc.pastGames.pastGames.build((_, pastGames){
+      if(pastGames.isEmpty) return Container();
 
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          for(final game in pastGames)
-            PastGameTile(game),
+          for(int i = 0; i < pastGames.length; ++i)
+            PastGameTile(pastGames[i], i),
         ],
       );
 

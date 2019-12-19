@@ -176,7 +176,7 @@ class CSPayments {
     final List<PurchaseDetails> undealts = await InAppPurchaseConnection.instance.getUndealPurchases();
 
     logAdd("inside method: restore() -> getUndealPurchases() found: ${undealts.length} non completed purchases");
-    for (PurchaseDetails purchase in pastResponse.pastPurchases) {
+    for (PurchaseDetails purchase in undealts) {
       logAdd("inside method: restore() -> non completed purchase: ${purchase.productID} // ${purchase.purchaseID}: status: ${purchase.status}");
 
       if (Platform.isIOS) {
@@ -216,6 +216,10 @@ class CSPayments {
     bool found = false;
 
     for(final detail in purchases){
+      if(detail == null){
+        logAdd("inside method: reactToNewPurchases() -> NULL purchase, skipping");
+        continue;
+      }
       logAdd("inside method: reactToNewPurchases() -> purchase: ${detail.productID}");
       if(detail.productID != null && !purchasedIds.value.contains(detail.productID)){
         purchasedIds.value.add(detail.productID);

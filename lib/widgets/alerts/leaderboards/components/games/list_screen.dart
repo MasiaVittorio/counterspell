@@ -16,7 +16,7 @@ class PastGamesList extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          for(int i = 0; i < pastGames.length; ++i)
+          for(int i = pastGames.length - 1; i >= 0; --i)
             PastGameTile(pastGames[i], i),
         ],
       );

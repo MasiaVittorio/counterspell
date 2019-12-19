@@ -102,6 +102,10 @@ class PastGame{
     if(this.commandersB[name]?.oracleId == card.oracleId) return true;
     return false;
   }
+  List<MtgCard> commandersPlayedBy(String name) => <MtgCard>[
+    if(this.commandersA[name] != null) this.commandersA[name],
+    if(this.commandersB[name] != null) this.commandersB[name],
+  ];
 
 
 }

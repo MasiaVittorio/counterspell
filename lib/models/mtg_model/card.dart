@@ -121,7 +121,7 @@ class MtgCard {
   }
 
   List<Color> bkgColors([int face = 0]) {
-    final List<MtgColor> _clrs = colors;
+    final List<MtgColor> _clrs = colorIdentity;
     final int len = _clrs.length;
 
     switch (len) {
@@ -146,7 +146,7 @@ class MtgCard {
   Color singleBkgColor([int face = 0]){
      final cc = bkgColors(face);
      
-     if(cc.length == 2) return GOLD_MULTICOLOR;
+     if(cc.length > 1) return GOLD_MULTICOLOR;
      
      return cc[0];
   }

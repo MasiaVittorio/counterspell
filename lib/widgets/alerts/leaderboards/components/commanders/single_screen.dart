@@ -36,7 +36,7 @@ class CommanderStatsScreen extends StatelessWidget {
                         Text("${entry.key}: ${(entry.value * 100).toStringAsFixed(0)}%"),
                         Text("(${stat.perPlayerGames[entry.key]} games)"),
                       ],),
-                    )
+                    ),
                 ]),
               ),
             ),

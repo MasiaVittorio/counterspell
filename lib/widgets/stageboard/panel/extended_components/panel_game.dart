@@ -30,11 +30,6 @@ class PanelGame extends StatelessWidget {
               title: const Text("Dice / coins & random names"),
               leading: Icon(McIcons.dice_multiple),
             ),
-            ListTile(
-              onTap: () => showSimpleGroup(context: context, bloc: bloc),
-              title: const Text("Simple view"),
-              leading: const Icon(CSIcons.simpleViewIcon, size: 20,),
-            ),
             bloc.payments.unlocked.build((_, unlocked) => ListTile(
               onTap: () {
                 if(unlocked){
@@ -47,6 +42,11 @@ class PanelGame extends StatelessWidget {
               leading: const Icon(McIcons.trophy),
               trailing: unlocked ? null : const Icon(McIcons.alert_decagram_outline),
             )),
+            ListTile(
+              onTap: () => showSimpleGroup(context: context, bloc: bloc),
+              title: const Text("Simple view"),
+              leading: const Icon(CSIcons.simpleViewIcon, size: 20,),
+            ),
           ]),
           ListTile(
             title: const Text("New game"),

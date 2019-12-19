@@ -5,17 +5,25 @@ class HeaderedAlert extends StatelessWidget {
   final Widget child;
   final Widget bottom;
   final bool alreadyScrollableChild;
+  final bool canvasBackground;
+
   const HeaderedAlert(this.title, {
     @required this.child,
     this.bottom,
     this.alreadyScrollableChild = false,
-  }): assert(alreadyScrollableChild != null);
+    this.canvasBackground = false,
+  }): assert(alreadyScrollableChild != null), 
+      assert(canvasBackground != null);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final background = canvasBackground
+      ? theme.canvasColor
+      : theme.scaffoldBackgroundColor;
+
     return Material(
-      color: theme.scaffoldBackgroundColor,
+      color: background,
       child: Stack(children: <Widget>[
         Positioned.fill(child: Column(children: <Widget>[
 
@@ -38,7 +46,7 @@ class HeaderedAlert extends StatelessWidget {
           left: 0.0,
           right: 0.0,
           child: Container(
-            color: theme.scaffoldBackgroundColor.withOpacity(0.7),
+            color: background.withOpacity(0.7),
             child: AlertTitle(title, animated: true),
           ),
         ),

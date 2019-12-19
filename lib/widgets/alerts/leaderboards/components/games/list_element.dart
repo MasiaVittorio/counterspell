@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/core.dart';
-
+import 'single_screen.dart';
+import 'winner_selector.dart';
 
 class PastGameTile extends StatelessWidget {
 
@@ -18,43 +19,72 @@ class PastGameTile extends StatelessWidget {
     final month = monthsShort[game.dateTime.month];
     final hour = game.dateTime.hour.toString().padLeft(2, '0');
     final minute = game.dateTime.minute.toString().padLeft(2, '0');
+    final stage = Stage.of(context);
+    final bloc = CSBloc.of(context);
 
     return Section([
-      SectionTitle("$month $day, $hour:$minute (lasted ${duration.inMinutes} minutes)"),
+      ListTile(
+        onTap: () => showInfo(stage),
+        // leading: const Icon(Icons.timelapse),
+        title: Text("$month $day, $hour:$minute"),
+        subtitle: Text("lasted ${duration.inMinutes} minutes"),
+        trailing: IconButton(
+          icon: Icon(Icons.delete_forever),
+          onPressed: () => stage.showAlert(
+            ConfirmAlert(
+              action: () => CSBloc.of(context).pastGames.removeGameAt(index),
+              warningText: "Delete game played $month $day, $hour:$minute?",
+              confirmColor: CSColors.delete,
+              confirmText: "Yes, delete",
+              confirmIcon: Icons.delete_forever,
+            ),
+            size: ConfirmAlert.height,
+          ),
+        ),
+      ),
+      CSWidgets.divider,
       ListTile(
         leading: const Icon(McIcons.trophy),
         title: Text("Winner: ${game.winner}"),
-        trailing: IconButton(
-          icon: Icon(Icons.delete_forever),
-          onPressed: () => CSBloc.of(context).pastGames.removeGameAt(index),
+        onTap: () => stage.showAlert(
+          WinnerSelector(
+            game.state.names, 
+            initialSelected: game.winner, 
+            onConfirm: (selected){
+              bloc.pastGames.pastGames.value[this.index].winner = selected;
+              bloc.pastGames.pastGames.refresh();
+            },
+          ),
+          size: WinnerSelector.heightCalc(game.state.players.length),
         ),
       ),
       SubSection([
-        const SectionTitle("Commanders"),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: subsectionHeight),
-          child: SingleChildScrollView(child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              for(final entry in game.commandersA.entries)
-                if(entry.value != null)
-                  CardTile(
-                    entry.value, 
-                    callback: (_){}, 
-                    autoClose: false,
-                    trailing: Text(entry.key),
-                  )
-                else 
-                  ListTile(
-                    title: Text("${entry.key}"),
-                    subtitle: const Text("null"),
-                  ),
-            ],
-          ),),
-        ),
-      ]),
-    ]);
+        SectionTitle("${game.state.players.length} players"),
+        SingleChildScrollView(scrollDirection: Axis.horizontal, child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            for(final player in game.state.players.values)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Text("${player.name}"),
+                  Text("(${player.states.last.life})"),
+                ],),
+              ),
+          ]),
+        ),),
+      ], onTap: () => showInfo(stage),),
+      BottomExtra(
+        const Text("Commanders"), 
+        onTap: () => showInfo(stage),
+      ),
+    ], stretch: true,);
   }
+
+  void showInfo(StageData stage) => stage.showAlert(
+    PastGameScreen(),
+    size: PastGameScreen.height
+  );
 
   static const Map<int,String> months = <int,String>{
     1: "January",

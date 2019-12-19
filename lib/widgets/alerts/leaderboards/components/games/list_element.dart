@@ -14,7 +14,7 @@ class PastGameTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final states = game.state.players.values.first.states;
-    final duration = states.first.time.difference(states.last.time).abs();
+    final duration = game.state.startingTime.difference(states.last.time).abs();
     final day = game.dateTime.day;
     final month = monthsShort[game.dateTime.month];
     final hour = game.dateTime.hour.toString().padLeft(2, '0');
@@ -29,10 +29,10 @@ class PastGameTile extends StatelessWidget {
         title: Text("$month $day, $hour:$minute"),
         subtitle: Text("Lasted ${duration.inMinutes} minutes"),
         trailing: IconButton(
-          icon: Icon(Icons.delete_forever),
+          icon: const Icon(Icons.delete_forever, color: CSColors.delete),
           onPressed: () => stage.showAlert(
             ConfirmAlert(
-              action: () => CSBloc.of(context).pastGames.removeGameAt(index),
+              action: () => bloc.pastGames.removeGameAt(index),
               warningText: "Delete game played $month $day, $hour:$minute?",
               confirmColor: CSColors.delete,
               confirmText: "Yes, delete",
@@ -45,7 +45,7 @@ class PastGameTile extends StatelessWidget {
       CSWidgets.divider,
       ListTile(
         leading: const Icon(McIcons.trophy),
-        title: Text("Winner: ${game.winner}"),
+        title: Text("Winner: ${game.winner ?? "not detected"}"),
         onTap: () => stage.showAlert(
           WinnerSelector(
             game.state.names, 

@@ -106,7 +106,7 @@ class GameState {
 
   GameState get frozen {
     return GameState(
-      startingTime: this.startingTime,
+      startingTime: this.players.values.last.states.first.time,
       players: {for(final player in this.players.values)
         player.name: player.frozen,
       },

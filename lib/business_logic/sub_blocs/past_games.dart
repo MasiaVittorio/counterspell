@@ -35,7 +35,7 @@ class CSPastGames {
       (List<PastGame> pastGames) => <CommanderStats>[
         for(final card in cards(pastGames))
           CommanderStats.fromPastGames(card, pastGames),
-      ],
+      ]..sort((one,two) => two.games.compareTo(one.games)),
     );
     this.playerStats = BlocVar.fromCorrelate(
       pastGames, 
@@ -50,7 +50,7 @@ class CSPastGames {
     @required Map<String,MtgCard> commandersA,
     @required Map<String,MtgCard> commandersB,
   }){
-    this.pastGames.value.add(PastGame.fromState(state, 
+    this.pastGames.value.add(PastGame.fromState(state.frozen, 
       commandersA: commandersA,
       commandersB: commandersB,
     ));

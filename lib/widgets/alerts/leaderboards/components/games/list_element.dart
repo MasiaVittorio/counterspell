@@ -27,7 +27,7 @@ class PastGameTile extends StatelessWidget {
         onTap: () => showInfo(stage),
         // leading: const Icon(Icons.timelapse),
         title: Text("$month $day, $hour:$minute"),
-        subtitle: Text("lasted ${duration.inMinutes} minutes"),
+        subtitle: Text("Lasted ${duration.inMinutes} minutes"),
         trailing: IconButton(
           icon: Icon(Icons.delete_forever),
           onPressed: () => stage.showAlert(

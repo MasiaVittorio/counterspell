@@ -104,6 +104,15 @@ class GameState {
       entry.key: entry.value.states.last,
   };
 
+  GameState get frozen {
+    return GameState(
+      startingTime: this.startingTime,
+      players: {for(final player in this.players.values)
+        player.name: player.frozen,
+      },
+    );
+  }
+
   
 
 

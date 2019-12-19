@@ -1,57 +1,43 @@
 import 'package:counter_spell_new/core.dart';
-import 'model.dart';
+import 'package:counter_spell_new/widgets/alerts/leaderboards/components/all.dart';
+import 'model_advanced.dart';
+import 'model_simple.dart';
 
 
 class PlayerStatTile extends StatelessWidget {
 
   final PlayerStats stat;
+  final List<PastGame> pastGames;
 
-  PlayerStatTile(this.stat);
+  PlayerStatTile(this.stat, {@required this.pastGames});
 
   static const double subsectionHeight = 140.0;
 
   @override
   Widget build(BuildContext context) {
+    final VoidCallback onTap = () => Stage.of(context).showAlert(
+      PlayerStatScreen(PlayerStatsAdvanced.fromPastGames(stat, pastGames)),
+      size: PlayerStatScreen.height,
+    );
 
     return Section([
       ListTile(
+        leading: const Icon(Icons.person_outline),
         title: Text("${stat.name}"),
-        subtitle: Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 4.0),
-              child: Icon(McIcons.trophy, size: 16),
-            ),
-            Text("Win rate: ${(stat.winRate * 100).toStringAsFixed(1)}%"),
-          ],
-        ),
-        trailing: Text("(${stat.games} games)"),
+        trailing: Text("${stat.games} games"),
+        onTap: onTap,
       ),
-      if(stat.commandersUsed.isNotEmpty)
       SubSection([
-        const SectionTitle("Per commander"),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: subsectionHeight),
-          child: SingleChildScrollView(child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              for(final entry in stat.perCommanderWinRates.entries)
-                CardTile(
-                  stat.commandersUsed[entry.key], 
-                  callback: (_){}, 
-                  autoClose: false,
-                  trailing: SidChip(
-                    color: stat.commandersUsed[entry.key].singleBkgColor(),
-                    // color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                    text: "${(entry.value * 100).toStringAsFixed(0)}%",
-                    icon: McIcons.trophy,
-                    subText: "${stat.perCommanderGames[entry.key]} games",
-                  ),
-                ),
-            ],
-          ),),
+        ListTile(
+          leading: const Icon(McIcons.trophy),
+          title: Text("Wins: ${stat.wins}"),
+          trailing: Text("${(stat.winRate * 100).toStringAsFixed(1)}%"),
         ),
-      ]),
+      ], onTap: onTap,),
+      BottomExtra(
+        const Text("Per commander details"), 
+        onTap: onTap,
+      ),
     ]);
   }
 }

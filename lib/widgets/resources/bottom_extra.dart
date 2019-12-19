@@ -14,10 +14,10 @@ class BottomExtra extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         // const Divider(),
-        Padding(
-          padding: const EdgeInsets.only(left: 6.0, right: 6.0, bottom: 6.0),
-          child: InkWell(
-            onTap: this.onTap,
+        InkWell(
+          onTap: this.onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3.0),
             child: Align(
               alignment: Alignment.centerRight,
               child: Padding(

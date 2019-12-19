@@ -13,12 +13,19 @@ class StatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final VoidCallback onTap = () => Stage.of(context).showAlert(
+      CommanderStatsScreen(CommanderStatsAdvanced.fromPastGames(
+        stat, 
+        pastGames,
+      )),
+      size: CommanderStatsScreen.height
+    );
 
     return Section([
       CardTile(
         stat.card, 
         trailing: Text("(${stat.games} games)"),
-        callback: (_){}, 
+        callback: (_) => onTap(), 
         autoClose: false,
       ),
       SubSection([
@@ -28,20 +35,14 @@ class StatWidget extends StatelessWidget {
           leading: const Icon(McIcons.trophy),
         ),
         ListTile(
-          title: const Text("Damage"),
+          title: const Text("Average damage"),
           trailing: Text("${(stat.damage).toStringAsFixed(1)}"),
           leading: const Icon(CSIcons.attackIconTwo),
         ),
-      ]),
+      ], onTap: onTap,),
       BottomExtra(
         const Text("Per player details"), 
-        onTap: () => Stage.of(context).showAlert(
-          CommanderStatsScreen(CommanderStatsAdvanced.fromPastGames(
-            stat, 
-            pastGames,
-          )),
-          size: CommanderStatsScreen.height
-        ),
+        onTap: onTap,
       ),
     ]);
   }

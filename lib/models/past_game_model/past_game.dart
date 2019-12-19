@@ -6,7 +6,6 @@ class PastGame{
   //=======================================
   // Values
   final GameState state;
-  final DateTime dateTime;
   String winner;
   final Map<String,MtgCard> commandersA;
   final Map<String,MtgCard> commandersB;
@@ -15,7 +14,6 @@ class PastGame{
   // Constructor(s)
   PastGame(this.winner, {
     @required this.state,
-    @required this.dateTime,
     Map<String,MtgCard> commandersA,
     Map<String,MtgCard> commandersB,
   }): 
@@ -39,7 +37,6 @@ class PastGame{
   }){
     return PastGame(state.winner, 
       state: state,
-      dateTime: state.players.values.first.states.last.time,
       commandersA: commandersA,
       commandersB: commandersB,
     );
@@ -65,7 +62,6 @@ class PastGame{
   factory PastGame.fromJson(dynamic json) => PastGame(
     json["winner"],
     state: GameState.fromJson(json["state"]),
-    dateTime: DateTime.fromMillisecondsSinceEpoch(json["dateTime"]),
     commandersA: <String,MtgCard>{
       for(final entry in (json["commandersA"] as Map).entries)
         entry.key as String : entry.value == null ? null : MtgCard.fromJson(entry.value),
@@ -78,6 +74,8 @@ class PastGame{
 
   //=========================================
   // Getters
+  DateTime get dateTime => state.startingTime;
+
   bool commanderPlayed(MtgCard card){
     for(final commander in this.commandersA.values){
       if(commander?.oracleId == card.oracleId) return true;

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class SubSection extends StatelessWidget {
   final List<Widget> children;
   final bool stretch;
-  final double margin;
+  final EdgeInsets margin;
   final VoidCallback onTap;
   const SubSection(this.children, {
     this.stretch = false, 
-    this.margin = 10,
+    this.margin = const EdgeInsets.symmetric(horizontal:10),
     this.onTap,
   }): assert(stretch != null),
       assert(margin != null);
@@ -18,7 +18,7 @@ class SubSection extends StatelessWidget {
     final background = theme.scaffoldBackgroundColor.withOpacity(0.6);
 
     return Container(
-      margin: EdgeInsets.all(margin),
+      margin: margin,
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(8.0),

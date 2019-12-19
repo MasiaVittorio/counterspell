@@ -105,8 +105,14 @@ class GameState {
   };
 
   GameState get frozen {
+    final states = this.players.values.last.states;
     return GameState(
-      startingTime: this.players.values.last.states.first.time,
+      startingTime: states.length >= 2 
+        ? states[1].time 
+        : states.first.time, 
+            //this is because the first time you edit something is more indicative 
+            // of when the game started (you could have the app with a new game 
+            // restarted days ago and then start to use that game object)
       players: {for(final player in this.players.values)
         player.name: player.frozen,
       },

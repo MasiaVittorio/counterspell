@@ -264,7 +264,7 @@ packages:
   sidereus:
     dependency: "direct main"
     description:
-      path: "..\\sidereus"
+      path: "../sidereus"
       relative: true
     source: path
     version: "0.0.1"
@@ -297,7 +297,7 @@ packages:
   stage:
     dependency: "direct main"
     description:
-      path: "..\\stage"
+      path: "../stage"
       relative: true
     source: path
     version: "0.0.1"

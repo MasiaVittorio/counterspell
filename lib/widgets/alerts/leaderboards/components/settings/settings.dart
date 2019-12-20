@@ -13,7 +13,7 @@ class LeaderboardsSettings extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.history),
             title: const Text("Past games"),
-            subtitle: const Text("Counterspell automatically saves information about the games you play."),
+            subtitle: const Text("CounterSpell automatically saves information about the games you play."),
           ),
         ]),
         const SubSection([

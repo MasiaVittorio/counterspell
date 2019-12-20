@@ -11,14 +11,18 @@ class PlayerStatsList extends StatelessWidget {
     final bloc = CSBloc.of(context);
 
     return bloc.pastGames.playerStats.build((_, stats)
-      => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for(final stat in stats)
-            PlayerStatTile(stat, 
-              pastGames: bloc.pastGames.pastGames.value,
-            ),
-        ],
+      => ListView.builder(
+        physics: Stage.of(context).panelScrollPhysics(),
+        itemBuilder: (_, index){
+          if(index == 0) return Container();
+          return PlayerStatTile(stats[index - 1], 
+            pastGames: bloc.pastGames.pastGames.value,
+            //commanderStats is updated whenever pastGames is updated
+            //so it is safe to access that value brutally
+          );
+        },
+        itemCount: stats.length + 1,
+        itemExtent: PlayerStatTile.height,
       ),
     );
   }

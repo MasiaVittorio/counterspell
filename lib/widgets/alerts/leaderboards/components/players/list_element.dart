@@ -11,7 +11,8 @@ class PlayerStatTile extends StatelessWidget {
 
   PlayerStatTile(this.stat, {@required this.pastGames});
 
-  static const double subsectionHeight = 140.0;
+  static const double height = 166.0;
+  // static const double subsectionHeight = 140.0;
 
   @override
   Widget build(BuildContext context) {

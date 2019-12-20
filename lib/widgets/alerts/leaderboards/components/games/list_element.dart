@@ -9,7 +9,9 @@ class PastGameTile extends StatelessWidget {
 
   PastGameTile(this.game, this.index);
 
-  static const double subsectionHeight = 140.0;
+  static const double height = 262.0;
+
+  // static const double _subsectionHeight = 140.0;
 
   @override
   Widget build(BuildContext context) {

@@ -132,10 +132,16 @@ class CSGameState {
 
   }
 
-  void restart()
-    => _resetGame(this.gameState.value.newGame(
+  void restart() {
+    this.parent.parent.pastGames.saveGame(
+      this.gameState.value, 
+      commandersA: this.parent.gameGroup.cardsA.value, 
+      commandersB: this.parent.gameGroup.cardsB.value,
+    );
+    _resetGame(this.gameState.value.newGame(
       startingLife: this.parent.currentStartingLife,
     ));
+  }
   void startNew(Set<String> names){
     this.parent.gameGroup.newGroup(names.toList());
     _resetGame(GameState.start(

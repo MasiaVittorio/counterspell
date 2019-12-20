@@ -3,7 +3,15 @@ import 'package:counter_spell_new/core.dart';
 class AlertLicenses extends StatelessWidget {
   const AlertLicenses();
 
-  static showText(StageData stage, String text, String title)=> stage.showAlert(TextAlert(text, title: '"$title" Package'), size: 400.0);
+  static showText(StageData stage, String text, String title)=> stage.showAlert(
+    HeaderedAlert('"$title" Package', 
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(text),
+      ), 
+    ), 
+    size: 400.0
+  );
 
   @override
   Widget build(BuildContext context) {

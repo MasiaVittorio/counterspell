@@ -21,7 +21,53 @@ class RadioHeaderedItem extends RadioNavBarItem {
   );
 }
 
-class RadioHeaderedAlert<T> extends StatelessWidget {
+class RadioHeaderedAlert<T> extends StatefulWidget {
+
+  final Map<T,RadioHeaderedItem> items;
+  final T initialValue;
+  final List<T> orderedValues;
+  final Color bottomAccentColor;
+  final bool accentSelected;
+
+  const RadioHeaderedAlert({
+    @required this.initialValue,
+    @required this.orderedValues,
+    this.bottomAccentColor,
+    bool accentSelected = false,
+    @required this.items,
+  }): this.accentSelected = (bottomAccentColor != null) || accentSelected;
+
+  @override
+  _RadioHeaderedAlertState<T> createState() => _RadioHeaderedAlertState<T>();
+}
+
+class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
+
+  T value;
+
+  @override
+  void initState() {
+    super.initState();
+    value = widget.initialValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _RadioHeaderedAlertWidget(
+      selectedValue: this.value, 
+      orderedValues: widget.orderedValues, 
+      onSelect: (v) => this.setState((){
+        this.value = v;
+      }), 
+      items: widget.items,
+      bottomAccentColor: widget.bottomAccentColor,
+      accentSelected: widget.accentSelected ?? false,
+    );
+  }
+}
+
+
+class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
   final Map<T,RadioHeaderedItem> items;
   final T selectedValue;
   final List<T> orderedValues;
@@ -29,7 +75,7 @@ class RadioHeaderedAlert<T> extends StatelessWidget {
   final Color bottomAccentColor;
   final bool accentSelected;
 
-  const RadioHeaderedAlert({
+  const _RadioHeaderedAlertWidget({
     @required this.selectedValue,
     @required this.orderedValues,
     @required this.onSelect,

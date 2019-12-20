@@ -1,6 +1,7 @@
 export 'game/all.dart';
 export 'scroller/all.dart';
 
+export 'past_games.dart';
 export 'payments.dart';
 export 'stageboard.dart';
 export 'settings.dart';

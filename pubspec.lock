@@ -159,17 +159,17 @@ packages:
   in_app_purchase:
     dependency: "direct main"
     description:
-      name: in_app_purchase
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.2+4"
+      path: "..\\in_app_purchase"
+      relative: true
+    source: path
+    version: "0.2.2+6"
   json_annotation:
     dependency: transitive
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "3.0.0"
   matcher:
     dependency: transitive
     description:

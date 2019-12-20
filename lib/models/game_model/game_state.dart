@@ -78,10 +78,46 @@ class GameState {
     return players.values.first.states.length;
   }
 
+  String get winner {
+    final List<String> alives = [
+      for(final player in this.players.values)
+        if(player.states.last.isAlive) 
+          player.name,
+    ];
+    if(alives.length == 1){
+      return alives.first;
+    } else {
+      return null;
+    }
+  }
+
+  int totalDamageDealtFrom(String attacker, {bool partnerA = true}){
+    int total = 0;
+    for(final defender in players.values){
+      total += defender.states.last.damages[attacker].fromPartner(partnerA);
+    }
+    return total;
+  }
+
   Map<String,PlayerState> get lastPlayerStates => {
     for(final entry in this.players.entries)
       entry.key: entry.value.states.last,
   };
+
+  GameState get frozen {
+    final states = this.players.values.last.states;
+    return GameState(
+      startingTime: states.length >= 2 
+        ? states[1].time 
+        : states.first.time, 
+            //this is because the first time you edit something is more indicative 
+            // of when the game started (you could have the app with a new game 
+            // restarted days ago and then start to use that game object)
+      players: {for(final player in this.players.values)
+        player.name: player.frozen,
+      },
+    );
+  }
 
   
 

@@ -1,6 +1,8 @@
 import 'package:counter_spell_new/core.dart';
 
 class RestarterAlert extends StatelessWidget {
+  const RestarterAlert();
+
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);

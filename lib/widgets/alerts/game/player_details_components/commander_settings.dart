@@ -72,37 +72,39 @@ class _Section extends StatelessWidget {
           havePartner: havePartner, 
           aspectRatio: aspectRatio,
         ),
-        const Padding(
-          padding: const EdgeInsets.only(left: 56+8.0),
-          child: const Divider(height: 2,),
-        ),
-        SwitchListTile(
-          value: player.damageDefendersLife(partnerA), 
-          onChanged: (lifelink){
-            bloc.game.gameState.gameState.value.players[name].toggleDamageDefendersLife(partnerA);
-            bloc.game.gameState.gameState.refresh();
-          },
-          title: const Text("Damage to life"),
-          secondary: const Icon(Icons.favorite_border),
-        ),
-        SwitchListTile(
-          value: player.infect(partnerA), 
-          onChanged: (lifelink){
-            bloc.game.gameState.gameState.value.players[name].toggleInfect(partnerA);
-            bloc.game.gameState.gameState.refresh();
-          },
-          title: const Text("Infect"),
-          secondary: Icon(Counter.poison.icon),
-        ),
-        SwitchListTile(
-          value: player.lifelink(partnerA), 
-          onChanged: (lifelink){
-            bloc.game.gameState.gameState.value.players[name].toggleLifelink(partnerA);
-            bloc.game.gameState.gameState.refresh();
-          },
-          title: const Text("Lifelink"),
-          secondary: const Icon(McIcons.needle),
-        ),
+        // const Padding(
+        //   padding: const EdgeInsets.only(left: 56+8.0),
+        //   child: const Divider(height: 2,),
+        // ),
+        SubSection([
+          SwitchListTile(
+            value: player.damageDefendersLife(partnerA), 
+            onChanged: (lifelink){
+              bloc.game.gameState.gameState.value.players[name].toggleDamageDefendersLife(partnerA);
+              bloc.game.gameState.gameState.refresh();
+            },
+            title: const Text("Damage to life"),
+            secondary: const Icon(Icons.favorite_border),
+          ),
+          SwitchListTile(
+            value: player.infect(partnerA), 
+            onChanged: (lifelink){
+              bloc.game.gameState.gameState.value.players[name].toggleInfect(partnerA);
+              bloc.game.gameState.gameState.refresh();
+            },
+            title: const Text("Infect"),
+            secondary: Icon(Counter.poison.icon),
+          ),
+          SwitchListTile(
+            value: player.lifelink(partnerA), 
+            onChanged: (lifelink){
+              bloc.game.gameState.gameState.value.players[name].toggleLifelink(partnerA);
+              bloc.game.gameState.gameState.refresh();
+            },
+            title: const Text("Lifelink"),
+            secondary: const Icon(McIcons.needle),
+          ),
+        ]),
       ]);
     },);
   }

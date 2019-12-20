@@ -8,6 +8,7 @@ class CSBloc extends BlocBase {
   @override
   void dispose() {
     this.game.dispose();
+    this.pastGames.dispose();
     this.payments.dispose();
     this.stageBloc.dispose();
     this.scroller.dispose();
@@ -22,6 +23,7 @@ class CSBloc extends BlocBase {
 
 
   CSGame game;
+  CSPastGames pastGames;
   CSPayments payments;
   CSStage stageBloc;
   CSScroller scroller;
@@ -34,6 +36,7 @@ class CSBloc extends BlocBase {
 
   CSBloc(){
     game = CSGame(this);
+    pastGames = CSPastGames(this);
     payments = CSPayments(this);
     settings = CSSettings(this);
     stageBloc = CSStage(this);

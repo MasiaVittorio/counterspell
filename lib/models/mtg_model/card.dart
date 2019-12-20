@@ -21,9 +21,9 @@
 //     return json.encode(dyn);
 // }
 
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 // import 'package:scrywalker/models/boolean_stuff/boolean_model.dart';
-// import 'color_data.dart';
+import 'color_data.dart';
 // import 'package:scrywalker/themes/keyrune.dart';
 // import 'package:scrywalker/themes/mana_icons.dart';
 // import 'package:scrywalker/themes/material_community_icons.dart';
@@ -120,36 +120,36 @@ class MtgCard {
     return false;
   }
 
-  // List<Color> bkgColors([int face = 0]) {
-  //   final List<MtgColor> _clrs = colors;
-  //   final int len = _clrs.length;
+  List<Color> bkgColors([int face = 0]) {
+    final List<MtgColor> _clrs = colorIdentity;
+    final int len = _clrs.length;
 
-  //   switch (len) {
-  //     case 0:
-  //       return [Colors.grey];
-  //       break;
-  //     case 1:
-  //       return [MTG_TO_COLORS_BKG[_clrs[0]]];
-  //       break;
-  //     case 2:
-  //       if(isHybrid(face)) return [
-  //         MTG_TO_COLORS_BKG[_clrs[0]],
-  //         MTG_TO_COLORS_BKG[_clrs[1]],
-  //       ];
-  //       break;
-  //    default:
-  //   }
+    switch (len) {
+      case 0:
+        return [Colors.grey];
+        break;
+      case 1:
+        return [MTG_TO_COLORS_BKG[_clrs[0]]];
+        break;
+      case 2:
+        if(isHybrid(face)) return [
+          MTG_TO_COLORS_BKG[_clrs[0]],
+          MTG_TO_COLORS_BKG[_clrs[1]],
+        ];
+        break;
+     default:
+    }
 
-  //   return [GOLD_MULTICOLOR];
-  // } 
+    return [GOLD_MULTICOLOR];
+  } 
 
-  // Color singleBkgColor([int face = 0]){
-  //    final cc = bkgColors(face);
+  Color singleBkgColor([int face = 0]){
+     final cc = bkgColors(face);
      
-  //    if(cc.length == 2) return GOLD_MULTICOLOR;
+     if(cc.length > 1) return GOLD_MULTICOLOR;
      
-  //    return cc[0];
-  // }
+     return cc[0];
+  }
 
   // List<Color> bkgColorsMana([int face = 0]) {
   //   final List<MtgColor> _clrs = colors;

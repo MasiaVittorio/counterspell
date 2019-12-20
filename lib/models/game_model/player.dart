@@ -213,6 +213,16 @@ class Player {
     return lost;
   }
 
+  Player get frozen {
+    return Player(this.name,
+      havePartnerB: this.havePartnerB,
+      usePartnerB: this.usePartnerB,
+      commanderSettingsA: this.commanderSettingsA,
+      commanderSettingsB: this.commanderSettingsB,
+      states: [this.states.last],
+    );
+  }
+
   CommanderSettings commanderSettings(bool partnerA) 
     => partnerA ? this.commanderSettingsA : this.commanderSettingsB; 
 

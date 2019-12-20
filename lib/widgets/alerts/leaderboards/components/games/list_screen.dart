@@ -13,14 +13,16 @@ class PastGamesList extends StatelessWidget {
     return bloc.pastGames.pastGames.build((_, pastGames){
       if(pastGames.isEmpty) return Container();
 
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          for(int i = pastGames.length - 1; i >= 0; --i)
-            PastGameTile(pastGames[i], i),
-        ],
+      return ListView.builder(
+        physics: Stage.of(context).panelScrollPhysics(),
+        itemBuilder: (_, index){
+          if(index == 0) return Container();
+          final int gameIndex = pastGames.length - index;
+          return PastGameTile(pastGames[gameIndex], gameIndex);
+        },
+        itemCount: pastGames.length + 1,
+        itemExtent: PastGameTile.height,
       );
-
     });
   }
 

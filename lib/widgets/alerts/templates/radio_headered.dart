@@ -3,6 +3,8 @@ import 'package:counter_spell_new/core.dart';
 class RadioHeaderedItem extends RadioNavBarItem {
   final Widget child;
   final String longTitle;
+  final bool alreadyScrollableChild;
+  final double extraOffset;
 
   const RadioHeaderedItem({
     @required this.longTitle,
@@ -12,6 +14,8 @@ class RadioHeaderedItem extends RadioNavBarItem {
     IconData unselectedIcon,
     Color color,
     double iconSize,
+    this.extraOffset = 0.0,
+    this.alreadyScrollableChild = false,
   }): super(
     title: title ?? longTitle,
     icon: icon,
@@ -91,12 +95,12 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
       this.items[selectedValue].longTitle,
       child: Stack(fit: StackFit.expand, children: <Widget>[
         for(final T item in this.orderedValues)
-          Positioned.fill(child: AnimatedPresented(
+          Positioned.fill(top: -items[item].extraOffset, child: AnimatedPresented(
             duration: const Duration(milliseconds: 215),
             presented: item == selectedValue,
             curve: Curves.fastOutSlowIn.flipped,
             presentMode: PresentMode.slide,
-            child: SingleChildScrollView(
+            child: items[item].alreadyScrollableChild ? items[item].child : SingleChildScrollView(
               physics: Stage.of(context).panelScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.only(top: AlertTitle.height),

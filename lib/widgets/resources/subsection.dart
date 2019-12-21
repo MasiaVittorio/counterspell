@@ -5,12 +5,17 @@ class SubSection extends StatelessWidget {
   final bool stretch;
   final EdgeInsets margin;
   final VoidCallback onTap;
+  final BorderRadius borderRadius;
+
   const SubSection(this.children, {
     this.stretch = false, 
     this.margin = const EdgeInsets.symmetric(horizontal:10),
     this.onTap,
+    this.borderRadius = borderRadiusDefault,
   }): assert(stretch != null),
       assert(margin != null);
+
+  static const borderRadiusDefault = BorderRadius.all(Radius.circular(10.0));
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +26,11 @@ class SubSection extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: borderRadius,
       ),
       child: InkWell(
         onTap: onTap,
-        radius: 8.0,
+        borderRadius: borderRadius,
         child: Column(
           crossAxisAlignment: stretch 
             ? CrossAxisAlignment.stretch

@@ -32,6 +32,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
   final List<T> orderedValues;
   final Color bottomAccentColor;
   final bool accentSelected;
+  final bool animatedSwitch;
 
   const RadioHeaderedAlert({
     @required this.initialValue,
@@ -39,6 +40,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
     this.bottomAccentColor,
     bool accentSelected = false,
     @required this.items,
+    this.animatedSwitch = true,
   }): this.accentSelected = (bottomAccentColor != null) || accentSelected;
 
   @override
@@ -64,6 +66,7 @@ class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
         this.value = v;
       }), 
       items: widget.items,
+      animatedSwitch: widget.animatedSwitch,
       bottomAccentColor: widget.bottomAccentColor,
       accentSelected: widget.accentSelected ?? false,
     );
@@ -78,11 +81,13 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
   final void Function(T) onSelect;
   final Color bottomAccentColor;
   final bool accentSelected;
+  final animatedSwitch;
 
   const _RadioHeaderedAlertWidget({
     @required this.selectedValue,
     @required this.orderedValues,
     @required this.onSelect,
+    @required this.animatedSwitch,
     this.bottomAccentColor,
     bool accentSelected = false,
     @required this.items,
@@ -91,24 +96,37 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Widget Function(T) itemChild = (T item) => items[item].alreadyScrollableChild 
+      ? items[item].child 
+      : SingleChildScrollView(
+        physics: Stage.of(context).panelScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.only(top: AlertTitle.height),
+          child: items[item].child,
+        ),
+      );
+
     return HeaderedAlert(
       this.items[selectedValue].longTitle,
       child: Stack(fit: StackFit.expand, children: <Widget>[
-        for(final T item in this.orderedValues)
-          Positioned.fill(top: -items[item].extraOffset, child: AnimatedPresented(
-            duration: const Duration(milliseconds: 215),
-            presented: item == selectedValue,
-            curve: Curves.fastOutSlowIn.flipped,
-            presentMode: PresentMode.slide,
-            child: items[item].alreadyScrollableChild ? items[item].child : SingleChildScrollView(
-              physics: Stage.of(context).panelScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.only(top: AlertTitle.height),
-                child: items[item].child,
-              ),
+        if(this.animatedSwitch) for(final T item in this.orderedValues)
+          Positioned.fill(
+            top: -items[item].extraOffset, 
+            child: AnimatedPresented(
+              duration: const Duration(milliseconds: 215),
+              presented: item == selectedValue,
+              curve: Curves.fastOutSlowIn.flipped,
+              presentMode: PresentMode.slide,
+              child: itemChild(item),
             ),
-          ),),
-      ],),
+          )
+        else 
+          Positioned.fill(
+            top: -items[selectedValue].extraOffset, 
+            child: itemChild(selectedValue),
+          ),
+      ],), 
       alreadyScrollableChild: true,
       bottom: RadioNavBar<T>(
         selectedValue: selectedValue,

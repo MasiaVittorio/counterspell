@@ -33,14 +33,14 @@ class PastGameScreen extends StatelessWidget {
               ], 
               onTap: () => selectWinner(game, stage, bloc)
             ),
-            const SizedBox(height: 10.0,),
+            CSWidgets.heigth10,
           ]),
           Section([
             const SectionTitle("Commanders"),
             for(final player in game.state.players.keys)
               ...[
                 CommanderSubSection(game, player, index: index,),
-                const SizedBox(height: 10.0,),
+                CSWidgets.heigth10,
               ],
           ]),
         ],),

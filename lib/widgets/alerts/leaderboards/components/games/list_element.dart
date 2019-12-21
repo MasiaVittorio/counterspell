@@ -91,7 +91,7 @@ class GameTimeTile extends StatelessWidget {
         PastGameScreen(index: index,),
         size: PastGameScreen.height
       ),
-      // leading: const Icon(Icons.timelapse),
+      leading: const Icon(Icons.timelapse),
       title: Text("$month $day, $hour:$minute"),
       subtitle: Text("Lasted ${duration.inMinutes} minutes"),
       trailing: delete ? IconButton(

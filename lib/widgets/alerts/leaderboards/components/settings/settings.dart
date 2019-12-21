@@ -8,7 +8,7 @@ class LeaderboardsSettings extends StatelessWidget {
     return Column(children: <Widget>[
       const Section([
         const SectionTitle("Information"),
-        const SizedBox(height: 10.0,),
+        CSWidgets.heigth10,
         const SubSection([
           ListTile(
             leading: const Icon(Icons.history),
@@ -30,7 +30,7 @@ class LeaderboardsSettings extends StatelessWidget {
             subtitle: const Text("All the statistics are derived from the information saved in the list of past games."),
           ),
         ]),
-        const SizedBox(height: 10.0,),
+        CSWidgets.heigth10,
       ]),
       ListTile(
         leading: const Icon(Icons.delete_forever, color: CSColors.delete,),

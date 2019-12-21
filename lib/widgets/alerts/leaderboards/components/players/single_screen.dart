@@ -28,11 +28,6 @@ class PlayerStatScreen extends StatelessWidget {
           ),
           SubSection([
             SectionTitle("Per commander"),
-            // ConstrainedBox(
-            //   constraints: BoxConstraints(maxHeight: 120),
-            //   child: SingleChildScrollView(child: Column(
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: <Widget>[
             for(final entry in stat.perCommanderWinRates.entries)
               CardTile(stat.commandersUsed[entry.key], 
                 callback: (_){},
@@ -42,11 +37,8 @@ class PlayerStatScreen extends StatelessWidget {
                   Text("(${stat.perCommanderGames[entry.key]} games)"),
                 ],),
               ),
-          //       ],
-          //     )),
-          //   ),
           ]),
-          const SizedBox(height: 10.0,)
+          CSWidgets.heigth10
         ]),
       ],),
     );

@@ -40,7 +40,7 @@ class HeaderedAlertCustom extends StatelessWidget {
           left: 0.0,
           right: 0.0,
           child: Container(
-            color: theme.colorScheme.surface.withOpacity(0.8),
+            color: theme.canvasColor.withOpacity(0.8),
             child: AlertTitleCustom(title),
           ),
         ),

@@ -9,7 +9,7 @@ class CommanderStatsScreen extends StatelessWidget {
 
   const CommanderStatsScreen(this.stat);
 
-  static const double height = 478.0;
+  static const double height = 426.0;
 
   @override
   Widget build(BuildContext context) {

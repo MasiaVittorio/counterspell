@@ -1,3 +1,4 @@
+import 'package:counter_spell_new/core.dart';
 import 'package:flutter/material.dart';
 
 class CSWidgets{
@@ -5,4 +6,5 @@ class CSWidgets{
     padding: const EdgeInsets.symmetric(horizontal:16.0),
     child: const Divider(height: 2.0,),
   );
+  static const Widget deleteIcon = Icon(Icons.delete_forever, color: CSColors.delete,);
 }

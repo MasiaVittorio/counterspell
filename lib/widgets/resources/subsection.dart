@@ -25,6 +25,7 @@ class SubSection extends StatelessWidget {
       ),
       child: InkWell(
         onTap: onTap,
+        radius: 8.0,
         child: Column(
           crossAxisAlignment: stretch 
             ? CrossAxisAlignment.stretch

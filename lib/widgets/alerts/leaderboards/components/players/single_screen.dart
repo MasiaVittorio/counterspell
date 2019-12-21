@@ -8,7 +8,7 @@ class PlayerStatScreen extends StatelessWidget {
 
   const PlayerStatScreen(this.stat);
 
-  static const height = 450.0; 
+  static const height = 500.0; 
 
   @override
   Widget build(BuildContext context) {

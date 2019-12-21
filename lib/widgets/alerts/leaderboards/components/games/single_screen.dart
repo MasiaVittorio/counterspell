@@ -9,7 +9,7 @@ class PastGameScreen extends StatelessWidget {
 
   const PastGameScreen({@required this.index});
 
-  static const double height = 450;
+  static const double height = 500.0;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +86,7 @@ class CommanderSubSection extends StatelessWidget {
       if(first != null) CardTile(
         first, 
         callback: (_) => pick(true, bloc, stage),
+        autoClose: false,
         trailing: IconButton(
           icon: CSWidgets.deleteIcon,
           onPressed: (){
@@ -98,9 +99,10 @@ class CommanderSubSection extends StatelessWidget {
         title: Text(partner ? "Select first partner": "Select commander") ,
         onTap: () => pick(true, bloc, stage),
       ),
-      if(partner)...[
-        if(second != null) CardTile(
+      AnimatedListed(listed: partner, child: second != null 
+        ? CardTile(
           second, 
+          autoClose: false,
           callback: (_) => pick(false, bloc, stage),
           trailing: IconButton(
             icon: CSWidgets.deleteIcon,
@@ -109,12 +111,13 @@ class CommanderSubSection extends StatelessWidget {
               bloc.pastGames.pastGames.refresh();
             }
           ),
-        ) else ListTile(
+        ) 
+        : ListTile(
           leading: const Icon(McIcons.cards_outline),
           title: const Text("Select second partner") ,
           onTap: () => pick(false, bloc, stage),
         ),
-      ],
+      ),
       BottomExtra(
         Text(partner ? "Merge into one commander" : "Split into two partners"), 
         onTap: (){

@@ -67,7 +67,13 @@ class _DiceThrowerState extends State<DiceThrower> {
             axisAlignment: -1.0,
             axis: Axis.vertical,
             sizeFactor: animation,
-            child: _ThrowWidget(this.throws[index], names),
+            child: Padding(
+              padding: EdgeInsets.only(top: index == this.throws.length - 1
+                ? AlertTitle.height
+                : 0,
+              ),
+              child: _ThrowWidget(this.throws[index], names),
+            ),
           ),
           listController: controller,
           initialItemCount: 0,

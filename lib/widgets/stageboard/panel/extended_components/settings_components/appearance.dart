@@ -19,7 +19,7 @@ class SettingsAppearance extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.invert_colors),
         title: const Text("Commander image's opacity"),
-        trailing: const Icon(Icons.exit_to_app),
+        trailing: const Icon(Icons.keyboard_arrow_right),
         onTap: () => stage.showAlert(
           const ImageOpacity(),
           size: ImageOpacity.height,

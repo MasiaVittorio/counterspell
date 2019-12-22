@@ -52,37 +52,11 @@ class PanelInfo extends StatelessWidget {
             ListTile(
               title: const Text("Contacts"),
               leading: const Icon(McIcons.message_text_outline),
-              onTap: () => stage.showAlert(AlternativesAlert(
-                label: "Contact me the way you want",
-                alternatives: <Alternative>[
-                  Alternative(
-                    title: "Telegram",
-                    icon: McIcons.telegram,
-                    action: () => stage.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
-                  ),
-                  Alternative(
-                    title: "E-mail",
-                    icon: Icons.mail_outline,
-                    action: () => stage.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
-                  ),
-                ],
-              ), size: AlternativesAlert.heightCalc(2)),
+              onTap: () => stage.showAlert(const ContactsAlert(), size: AlternativesAlert.heightCalc(2)),
             ),
-          ]),
+          ], last: true,),
 
-          Container(
-            height: 40,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal:16.0),
-            child: Text(
-              FlavorTexts.random, 
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.45),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
+          const QuoteTile(),
         ],
       ),
     );

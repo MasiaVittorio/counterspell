@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 class TutorialAlert extends StatelessWidget {
   const TutorialAlert();
 
-  static const double height = 400.0;
+  static const double height = 450.0;
 
   @override
   Widget build(BuildContext context) {

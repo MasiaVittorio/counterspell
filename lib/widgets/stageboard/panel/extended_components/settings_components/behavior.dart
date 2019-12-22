@@ -21,7 +21,7 @@ class SettingsBehavior extends StatelessWidget {
       ListTile(
         title: const Text("Scroll Feeling"),
         leading: Icon(Icons.touch_app),
-        trailing: Icon(Icons.exit_to_app),
+        trailing: Icon(Icons.keyboard_arrow_right),
         onTap: () => stage.showAlert(
           const ScrollSensitivity(),
           size: ScrollSensitivity.height,

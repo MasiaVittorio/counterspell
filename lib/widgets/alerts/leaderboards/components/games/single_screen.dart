@@ -24,6 +24,7 @@ class PastGameScreen extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           Section([
             const SectionTitle("Winner"),
+            CSWidgets.heigth5,
             SubSection(
               <Widget>[
                 ListTile(
@@ -37,6 +38,7 @@ class PastGameScreen extends StatelessWidget {
           ]),
           Section([
             const SectionTitle("Commanders"),
+            CSWidgets.heigth5,
             for(final player in game.state.players.keys)
               ...[
                 CommanderSubSection(game, player, index: index,),

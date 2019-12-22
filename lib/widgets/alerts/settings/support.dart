@@ -111,22 +111,26 @@ class SupportInfo extends StatelessWidget {
       child: Column(children: <Widget>[
         const Section([
           SectionTitle('How to unlock "pro" features'),
-          ListTile(title: Text("The amount of the money you donate doesn't matter to the app. You can donate just a buck and you'll get every pro feature unlocked. You can make bigger or multiple donations and you'll unlock the same stuff."),),
+          ListTile(title: Text("The amount of the money you donate doesn't matter. You can donate just the lowest possible amount and you'll get every pro feature unlocked. You can make bigger or multiple donations and you'll unlock the same stuff."),),
         ]),
         const Section([
           SectionTitle('What are those features'),
-          ListTile(title: Text("Currently, the only pro feature is the theme engine. If you already made a donation and unlocked it, you will get any future \"pro\" feature if I ever add any"),),
+          ListTile(title: Text("At this moment, the pro features include the theme engine and the leaderboards. If you already made a donation and unlocked those, you will get any future \"pro\" feature if I ever add any"),),
+          SubSection([ListTile(subtitle: Text(
+            "CounterSpell already saves stats of your past games even while the leaderboards are locked.",
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),),],),
+          CSWidgets.heigth10,
         ]),
         const Section([
           SectionTitle("My reasons"),
-          ListTile(title: Text("I don't want to put a lot of different features behind different paywalls, I made this app because I felt I needed it to play my commander games more easily and I feel like its core features should always stay free."),),
-          ListTile(
-            title: Text("If you want to donate more than just the lowest amount you should do that because you appreciate my work, not to unlock the latest skin or stuff like that."),
-            subtitle: Text(
-              "(Also, linking different features to different purchases is annoying to code. Right now the app considers you a pro user simply if the list of past purchases is not empty, lol)",
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
+          ListTile(title: Text("I made this app because I wanted to use it myself, and I feel like its core features should always stay free to anyone else who apprecieate it like I do."),),
+          ListTile(title: Text("If you want to donate more than just the lowest amount you should do that because you appreciate my work, not to unlock the latest skin or stuff like that."),),
+          SubSection([ListTile(subtitle: Text(
+            "(Also, linking different features to different purchases is annoying to code. Right now the app considers you a pro user simply if the list of past purchases is not empty, lol)",
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),),],),
+          CSWidgets.heigth10,
         ]),
         Padding(
           padding: const EdgeInsets.only(right:16.0, left: 16.0, bottom: 14.0),

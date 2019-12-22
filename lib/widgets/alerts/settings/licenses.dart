@@ -24,7 +24,6 @@ class AlertLicenses extends StatelessWidget {
         title: const Text("View source code"),
         leading: const Icon(McIcons.github_circle),
         trailing: const FlutterLogo(size: 30),
-        // trailing: const Icon(Icons.exit_to_app),
         onTap: () => stage.showAlert(ConfirmAlert(
           warningText: "You'll be redirected to your browser on CounterSpell's  github page",
           twoLinesWarning: true,

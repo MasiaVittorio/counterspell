@@ -83,7 +83,7 @@ class CSSettings {
   static const double sensSpeedVal = 0.4;
   static const double sensPreBoostVal= 2.0;
   static const double sens1StaticVal= 0.8;
-  static const Duration confirmDelayVal = const Duration(milliseconds: 700);
+  static const Duration confirmDelayVal = const Duration(milliseconds: 950);
   static const double defaultImageGradientEnd = 0.3;
   static const double defaultImageGradientStart = 0.65;
   static const double defaultSimpleImageOpacity = 0.65;

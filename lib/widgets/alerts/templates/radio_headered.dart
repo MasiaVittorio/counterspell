@@ -107,6 +107,24 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
         ),
       );
 
+    final Widget navBar = RadioNavBar<T>(
+      selectedValue: selectedValue,
+      orderedValues: orderedValues,
+      items: {for(final entry in items.entries) 
+        entry.key : RadioNavBarItem(
+          title: entry.value.title,
+          icon: entry.value.icon,
+          unselectedIcon: entry.value.unselectedIcon,
+          color: entry.value.color,
+          iconSize: entry.value.iconSize,
+        ),
+      },
+      onSelect: this.onSelect,
+      accentTextColor: this.accentSelected 
+        ? this.bottomAccentColor ?? Theme.of(context).accentColor
+        : null,
+    );
+
     return HeaderedAlert(
       this.items[selectedValue].longTitle,
       child: Stack(fit: StackFit.expand, children: <Widget>[
@@ -128,23 +146,7 @@ class _RadioHeaderedAlertWidget<T> extends StatelessWidget {
           ),
       ],), 
       alreadyScrollableChild: true,
-      bottom: RadioNavBar<T>(
-        selectedValue: selectedValue,
-        orderedValues: orderedValues,
-        items: {for(final entry in items.entries) 
-          entry.key : RadioNavBarItem(
-            title: entry.value.title,
-            icon: entry.value.icon,
-            unselectedIcon: entry.value.unselectedIcon,
-            color: entry.value.color,
-            iconSize: entry.value.iconSize,
-          ),
-        },
-        onSelect: this.onSelect,
-        accentTextColor: this.accentSelected 
-          ? this.bottomAccentColor ?? Theme.of(context).accentColor
-          : null,
-      ),
+      bottom: navBar,
     );
   }
 }

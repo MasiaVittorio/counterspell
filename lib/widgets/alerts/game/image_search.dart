@@ -214,15 +214,18 @@ class CardTile extends StatelessWidget {
   final void Function(MtgCard) callback;
   final Widget trailing;
   final bool autoClose;
+  final bool longPressOpenCard;
 
   const CardTile(this.card,{
     @required this.callback,
     this.trailing,
     this.autoClose=true,
+    this.longPressOpenCard = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final stage = Stage.of(context);
     return ListTile(
       title: Text(card.name,
         maxLines: 1,
@@ -232,7 +235,17 @@ class CardTile extends StatelessWidget {
       leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl(),),),
       onTap: (){
         callback(card);
-        if(this.autoClose??true) Stage.of(context).panelController.closePanel();
+        if(this.autoClose??true) stage.panelController.closePanel();
+      },
+      onLongPress: (){
+        if(!longPressOpenCard) return;
+        final dimensions = stage.dimensions.value;
+        final width = MediaQuery.of(context).size.width;
+        final cardWidth = width - dimensions.panelHorizontalPaddingOpened * 2;
+        stage.showAlert(
+          CardAlert(this.card),
+          size: cardWidth / MtgCard.cardAspectRatio,
+        );
       },
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,

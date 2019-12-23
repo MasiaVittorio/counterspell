@@ -1,69 +1,93 @@
 import 'package:counter_spell_new/core.dart';
 
-class Developer extends StatelessWidget {
+class Developer extends StatefulWidget {
 
   const Developer();
 
   static const double height = 400;
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: SingleChildScrollView(
-        physics: Stage.of(context).panelScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Section([
-              const AlertTitle("Who I am", centered: false),
-              const ListTile(
-                leading: Icon(Icons.school),
-                title: Text("A Student attending a master's degree in physics"),
-              ),
-              const ListTile(
-                leading: Icon(McIcons.visual_studio_code),
-                title: Text("A guy who learned mobile development to make his own life counter"),
-              ),
-              const ListTile(
-                leading: Icon(McIcons.xbox_controller),
-                title: Text("A gamer with little time for his beloved Halo"),
-              ),
-              const ListTile(
-                leading: Icon(McIcons.cards_outline),
-                title: Text("A Magic player since time spiral, with little budget and too many commander decks"),
-              ),
-            ]),
-            const Section([
-              const SectionTitle("Who I want to be"),
-              const ListTile(
-                leading: Icon(Icons.school),
-                title: Text("A teacher capable of making maths and physics look awesome"),
-              ),
-              const ListTile(
-                leading: Icon(McIcons.visual_studio_code),
-                title: Text("A freelance Flutter developer making tons of cross-platform apps"),
-              ),
-              const ListTile(
-                leading: Icon(McIcons.xbox_controller),
-                title: Text("A gamer with plenty of time for his split-screen sessions with the boys"),
-              ),
-              const ListTile(
-                leading: Icon(McIcons.cards_outline),
-                title: Text("A Magic player with a reasonable amount of decks"),
-                subtitle: Text("(Ok that's not going to happen)", style: TextStyle(
-                  fontStyle: FontStyle.italic
-                )),
-              ),
-            ]),
+  _DeveloperState createState() => _DeveloperState();
+}
 
-            ListTile(
-              title: Text("Contact me via e-mail"),
-              leading: Icon(Icons.mail_outline),
-              onTap: () => Stage.of(context).showAlert(ConfirmEmail(), size: ConfirmEmail.height),
+class _DeveloperState extends State<Developer> {
+  bool am = false;
+
+  @override
+  Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+
+    return HeaderedAlert(
+      am ? "Who I am" : "Who I want to be",
+      bottom: Padding(
+        padding: const EdgeInsets.only(right: 8.0, top: 8.0, bottom: 8.0),
+        child: Row(children: <Widget>[
+          Expanded(child: RadioNavBar<bool>(
+            selectedValue: am,
+            orderedValues: [true,false],
+            onSelect: (b)=>this.setState((){
+              this.am = b;
+            }),
+            items: {
+              true: RadioNavBarItem(
+                title: "Present",
+                icon: Icons.access_time,
+              ),
+              false: RadioNavBarItem(
+                title: "Future",
+                icon: Icons.timelapse,
+              ),
+            },
+          )),
+          FloatingActionButton(
+            backgroundColor: theme.primaryColor,
+            child: Icon(Icons.mail_outline, color: theme.primaryIconTheme.color),
+            onPressed: () => Stage.of(context).showAlert(ConfirmEmail(), size: ConfirmEmail.height),
+          ),
+        ],),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+            leading: const Icon(Icons.school),
+            title: AnimatedText(text: am 
+              ? "A Student attending a master's degree in physics"
+              : "A teacher capable of making maths and physics look awesome",  
             ),
-          ],
-        ),
+          ),
+          ListTile(
+            leading: Icon(McIcons.visual_studio_code),
+            title: AnimatedText(text: am
+              ? "A guy who learned mobile development to make his own life counter"
+              : "A freelance Flutter developer making tons of cross-platform apps",
+            ),
+          ),
+          ListTile(
+            leading: Icon(McIcons.xbox_controller),
+            title: AnimatedText(text: am
+              ? "A gamer with little time for his beloved Halo"
+              : "A gamer with plenty of time for his split-screen sessions with the boys",  
+            ),
+          ),
+          ListTile(
+            leading: Icon(McIcons.cards_outline),
+            title: AnimatedText(text: am
+              ? "A Magic player since time spiral, with little budget and too many commander decks"
+              : "A Magic player with a reasonable amount of decks"  
+            ),
+          ),
+          AnimatedListed(
+            duration: CSAnimations.fast,
+            listed: !am,
+            child: const SubSection([
+              Text("(Ok that's not going to happen)", style: TextStyle(
+                fontStyle: FontStyle.italic
+              ),),
+            ]),
+          ),
+        ],
       ),
     );
   }

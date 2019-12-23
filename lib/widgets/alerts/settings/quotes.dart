@@ -9,9 +9,11 @@ class QuotesAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> cards = <String>[for(final name in FlavorTexts.map.keys) name];
+    final stage = Stage.of(context);
 
-    return HeaderedAlert("MtG Quotes", 
+    return HeaderedAlert("MtG quotes", 
       child: ListView.builder(
+        physics: stage.panelScrollPhysics(),
         itemBuilder: (_, i){
           if(i == 0) return const SizedBox(height: AlertTitle.height);
 
@@ -20,7 +22,7 @@ class QuotesAlert extends StatelessWidget {
 
           return Section([
             SectionTitle(card),
-            ListTile(title: Text(quote)),
+            ListTile(title: Text(quote, style: TextStyle(fontStyle: FontStyle.italic),),),
           ]);
         },
         itemCount: FlavorTexts.map.length+1,
@@ -29,7 +31,7 @@ class QuotesAlert extends StatelessWidget {
       bottom: ListTile(
         title: const Text("Submit your favorite quote"),
         leading: const Icon(Icons.mail_outline),
-        onTap: () => Stage.of(context).showAlert(
+        onTap: () => stage.showAlert(
           const ContactsAlert(),
           size: AlternativesAlert.heightCalc(2),
         ),

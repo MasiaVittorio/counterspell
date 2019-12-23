@@ -31,6 +31,9 @@ import 'color_data.dart';
 
 class MtgCard {
 
+  static const cardAspectRatio = 63/88;
+  //width / height
+
     //=========================
     // Getters =============
     //===================

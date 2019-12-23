@@ -52,6 +52,9 @@ class CSPastGames {
     @required Map<String,MtgCard> commandersA,
     @required Map<String,MtgCard> commandersB,
   }) async {
+
+    if(state.historyLenght <= 1) return;
+
     final pastGame = PastGame.fromState(state.frozen, 
       commandersA: commandersA,
       commandersB: commandersB,
@@ -65,8 +68,12 @@ class CSPastGames {
         WinnerSelector(
           pastGame.state.names,
           onConfirm: (winner) => pastGame.winner = winner,
+          onDontSave: (){
+            this.pastGames.value.removeLast();
+            this.pastGames.refresh();
+          },
         ),
-        size: WinnerSelector.heightCalc(pastGame.state.players.length),
+        size: WinnerSelector.heightCalc(pastGame.state.players.length, true),
         replace: true,
       );
     }

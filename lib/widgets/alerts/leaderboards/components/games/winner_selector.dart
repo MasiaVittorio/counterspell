@@ -5,10 +5,15 @@ class WinnerSelector extends StatefulWidget {
   final Set<String> names;
   final String initialSelected;
   final void Function(String) onConfirm;
+  final VoidCallback onDontSave;
 
-  const WinnerSelector(this.names, {this.initialSelected, @required this.onConfirm,});
+  const WinnerSelector(this.names, {
+    this.initialSelected, 
+    @required this.onConfirm, 
+    this.onDontSave,
+  });
 
-  static double heightCalc(int lenght) => AlertTitle.height + 56.0 * (lenght + 1);
+  static double heightCalc(int lenght, [bool promptDontSave = false]) => AlertTitle.height + 56.0 * (lenght + 1 + ((promptDontSave ?? false) ? 1 : 0));
 
   @override
   _WinnerSelectorState createState() => _WinnerSelectorState();
@@ -27,6 +32,27 @@ class _WinnerSelectorState extends State<WinnerSelector> {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
+    final bool autoSavingPrompt = widget.onDontSave != null;
+
+    final Widget row = Row(children: <Widget>[
+      Expanded(child: ListTile(
+        title: Text(autoSavingPrompt ? "Don't choose" : "Cancel"),
+        leading: const Icon(Icons.close),
+        onTap: (){
+          stage.panelController.closePanel();
+        }
+      )),
+      Expanded(child: ListTile(
+        title: const Text("Confirm"),
+        leading: const Icon(Icons.check),
+        onTap: selected != null 
+          ? (){
+            widget.onConfirm(selected);
+            stage.panelController.closePanel();
+          }
+          : null,
+      )),
+    ],);
 
     return HeaderedAlert(
       "Who won this game?",
@@ -46,23 +72,22 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         ),
       ),
       canvasBackground: true,
-      bottom: Row(children: <Widget>[
-        Expanded(child: ListTile(
-          title: const Text("Cancel"),
-          leading: const Icon(Icons.close),
-          onTap: (){
-            stage.panelController.closePanel();
-          }
-        )),
-        Expanded(child: ListTile(
-          title: const Text("Confirm"),
-          leading: const Icon(Icons.check),
-          onTap: (){
-            widget.onConfirm(selected);
-            stage.panelController.closePanel();
-          }
-        )),
-      ],),
+      bottom: autoSavingPrompt 
+        ? Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            row,
+            ListTile(
+              leading: CSWidgets.deleteIcon,
+              title: const Text("Don't save"),
+              onTap: (){
+                widget.onDontSave();
+                stage.panelController.closePanel();
+              },
+            ),
+          ],
+        )
+        : row,
     );
   }
 }

@@ -85,7 +85,7 @@ class BodyGroup extends StatelessWidget {
                   tileSize: tileSize,
                   bottom: ([
                     names.last,
-                    if(landScape) names[names.length-2],
+                    if(landScape && names.length.isEven) names[names.length-2],
                   ].contains(name)) ? bottom : 0.0,
                   coreTileSize: coreTileSize,
                   page: page,

@@ -17,7 +17,7 @@ class CSHomePage extends StatelessWidget {
         accentSelectedPage: false,
         forceOpenedPanelOverNavBar: true,
 
-        controller: CSBloc.of(context).stageBloc.controller,
+        controller: bloc.stageBloc.controller,
         collapsedPanel: const CSPanelCollapsed(key: CSWidgetKeys.homePage,),
 
         extendedPanel: const CSPanelExtended(key: CSWidgetKeys.extendedPanel,),

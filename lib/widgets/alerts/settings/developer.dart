@@ -11,7 +11,7 @@ class Developer extends StatefulWidget {
 }
 
 class _DeveloperState extends State<Developer> {
-  bool am = false;
+  bool am = true;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,10 @@ class _DeveloperState extends State<Developer> {
     return HeaderedAlert(
       am ? "Who I am" : "Who I want to be",
       bottom: Padding(
-        padding: const EdgeInsets.only(right: 8.0, top: 8.0, bottom: 8.0),
-        child: Row(children: <Widget>[
+        padding: const EdgeInsets.only(right: 8.0),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
           Expanded(child: RadioNavBar<bool>(
+            tileSize: RadioNavBar.defaultTileSize + 16.0,
             selectedValue: am,
             orderedValues: [true,false],
             onSelect: (b)=>this.setState((){
@@ -52,28 +53,28 @@ class _DeveloperState extends State<Developer> {
         children: <Widget>[
           ListTile(
             leading: const Icon(Icons.school),
-            title: AnimatedText(text: am 
+            title: Text( am 
               ? "A Student attending a master's degree in physics"
               : "A teacher capable of making maths and physics look awesome",  
             ),
           ),
           ListTile(
             leading: Icon(McIcons.visual_studio_code),
-            title: AnimatedText(text: am
+            title: Text( am
               ? "A guy who learned mobile development to make his own life counter"
               : "A freelance Flutter developer making tons of cross-platform apps",
             ),
           ),
           ListTile(
             leading: Icon(McIcons.xbox_controller),
-            title: AnimatedText(text: am
+            title: Text( am
               ? "A gamer with little time for his beloved Halo"
               : "A gamer with plenty of time for his split-screen sessions with the boys",  
             ),
           ),
           ListTile(
             leading: Icon(McIcons.cards_outline),
-            title: AnimatedText(text: am
+            title: Text( am
               ? "A Magic player since time spiral, with little budget and too many commander decks"
               : "A Magic player with a reasonable amount of decks"  
             ),

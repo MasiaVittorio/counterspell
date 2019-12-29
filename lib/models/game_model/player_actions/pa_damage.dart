@@ -38,7 +38,6 @@ class PADamage extends PlayerAction {
       0 - alreadyThere,
       this.maxVal - alreadyThere,
     );
-    //TODO: clamp on life and poison also? lol
 
     if(clamped == 0) 
       return PANull.instance;

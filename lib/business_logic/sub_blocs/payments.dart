@@ -9,7 +9,7 @@ class CSPayments {
 
   void dispose(){
     this.unlocked.dispose();
-    _subscription.cancel();
+    // _subscription.cancel();
     this.purchasedIds.dispose();
     this.donations.dispose();
   }
@@ -21,7 +21,7 @@ class CSPayments {
   List<ProductDetails> items = <ProductDetails>[]; //all available
 
   final PersistentVar<bool> unlocked; 
-  StreamSubscription<List<PurchaseDetails>> _subscription; //react to new purchase
+  // StreamSubscription<List<PurchaseDetails>> _subscription; //react to new purchase
   final PersistentVar<Set<String>> purchasedIds; //past done purchases
   final BlocVar<List<Donation>> donations; //all available (wrapper for UI)
   String log = "";
@@ -43,12 +43,15 @@ class CSPayments {
     ),
     donations = BlocVar<List<Donation>>(<Donation>[])
   {
-    _subscription = InAppPurchaseConnection
-        .instance
-        .purchaseUpdatedStream
-        .listen((List<PurchaseDetails> purchases) {
-          reactToNewPurchases(purchases);
-        });
+    //IMPORTANT: moved all the subscription handling in the main stateful witget's initState, so it will intercept any past purchase before.
+    // (strange to think that is needed, since the whole BLoC constructor is syncronous, but we will still try this way)
+
+    // _subscription = InAppPurchaseConnection
+    //     .instance
+    //     .purchaseUpdatedStream
+    //     .listen((List<PurchaseDetails> purchases) {
+    //       reactToNewPurchases(purchases);
+    //     });
 
     check();
   }
@@ -222,47 +225,6 @@ class CSPayments {
 
 
 
-  void reactToNewPurchases(List<PurchaseDetails> purchases){
-    logAdd("react: 0 -> entered with list of lenght: ${purchases.length}");
-
-    bool found = false;
-    int i = 0;
-    for(final detail in purchases){
-      ++i;
-      if(detail == null){
-        logAdd("react: 1.iteration$i.null -> NULL purchase, skipping");
-        continue;
-      }
-      logAdd("react: 1.iteration$i -> product: ${detail.productID}, purchase: ${detail.purchaseID}, status: ${detail.status}");
-
-      if(detail.status == PurchaseStatus.pending){
-        logAdd("react: 1.iteration$i.pending -> this product status was still pending, so we skip it and continue the for cycle");
-        continue;
-      }
-
-      if(detail.productID != null && !purchasedIds.value.contains(detail.productID)){
-        purchasedIds.value.add(detail.productID);
-        found = true;
-        logAdd("react: 1.iteration$i.notFound -> this purchase was not previously saved! (we should unlock later)");
-      }
-      if (Platform.isIOS) {
-        logAdd("react: 1.iteration$i.iOS -> platform is iOS, we call completePurchase(detail)");
-        // Mark that you've delivered the purchase. Only the App Store requires
-        // this final confirmation.
-        InAppPurchaseConnection.instance.completePurchase(detail);
-      }
-    }
-
-    logAdd("react: 2 -> for cycle ended, found a new (non pending) purchase? $found");
-    if(found){
-      logAdd("react: 2.true -> refresh purchasedIds and unlock");
-      purchasedIds.refresh();
-      unlocked.set(true);
-    }
-  }
-
-
-
 
   void purchase(String productID) async {
     logAdd("purchase: 0 -> entered with productID: $productID");
@@ -297,6 +259,8 @@ class CSPayments {
 
 
 
+
+
   static const Set<String> androidProducts = <String>{
     'com.mvsidereusart.counterspell.cultivate',
     'com.mvsidereusart.counterspell.unstable',
@@ -321,17 +285,15 @@ class CSPayments {
     return <String>{};
   }
 
-
-
 }
 
 
 
 class Donation{
-  String title;
-  String amount;
-  String productID;
-  double amountNum;
+  final String title;
+  final String amount;
+  final String productID;
+  final double amountNum;
 
   Donation({
     @required this.productID, 

@@ -21,8 +21,9 @@ dependencies:
     path: ../sidereus
   stage:
     path: ../stage
-  in_app_purchase: 
-    path: ../in_app_purchase
+  # in_app_purchase: 
+    # path: ../in_app_purchase
+  in_app_purchase: ^0.2.2+4
   cached_network_image: ^2.0.0-rc
   division: ^0.7.0
   equatable: ^1.0.0

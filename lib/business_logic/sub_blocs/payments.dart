@@ -61,7 +61,7 @@ class CSPayments {
   // Methods
   void logAdd(String newLine){
     final now = DateTime.now();
-    log += "\n(${now.hour.toString().padLeft(2, "0")}:${now.hour.toString().padLeft(2, "0")}):${now.second.toString().padLeft(2, "0")}) $newLine";
+    log += "\n(${now.hour.toString().padLeft(2, "0")}:${now.hour.toString().padLeft(2, "0")}:${now.second.toString().padLeft(2, "0")}) $newLine";
   }
 
 
@@ -183,44 +183,47 @@ class CSPayments {
       }
     }
 
-    logAdd("restore: 2 -> waiting for getUndealPurchases");
-    final List<PurchaseDetails> undealts = await InAppPurchaseConnection.instance.getUndealPurchases();
-    if(undealts == null){
-      logAdd("restore: 2.null -> undealPurchases() returned a null list");
-    }
+    //apparently, the getUndealPurchases was not really a fix, since that was the moment the method stopped working.
+    //but this time past purchases method actually returned a list, and the status of that purchases was .purchased
+    //so we should be fine by removing this part and just go with the --now working lol-- queryPastPurchases. mmmmh.
+    // logAdd("restore: 2 -> waiting for getUndealPurchases");
+    // final List<PurchaseDetails> undealts = await InAppPurchaseConnection.instance.getUndealPurchases();
+    // if(undealts == null){
+    //   logAdd("restore: 2.null -> undealPurchases() returned a null list");
+    // }
 
-    logAdd("restore: 3 -> getUndealPurchases() found: ${undealts.length} non completed purchases");
-    i = 0;
-    for (PurchaseDetails un in undealts ?? []) {
-      ++i;
-      logAdd("restore: 3.iteration_$i -> un-product: ${un.productID} // purchase: ${un.purchaseID} ==> status: ${un.status}");
+    // logAdd("restore: 3 -> getUndealPurchases() found: ${undealts.length} non completed purchases");
+    // i = 0;
+    // for (PurchaseDetails un in undealts ?? []) {
+    //   ++i;
+    //   logAdd("restore: 3.iteration_$i -> un-product: ${un.productID} // purchase: ${un.purchaseID} ==> status: ${un.status}");
 
-      if (Platform.isIOS) {
-        logAdd("restore: 3.iteration_$i.iOS -> platform is iOS, should call completePurchase(details) (only if it is not still pending)");
-        if(un.status != PurchaseStatus.pending) {
-          logAdd("restore: 3.iteration_$i.iOS -> indeed not pending, calling completePurchase(details)");
-          InAppPurchaseConnection.instance.completePurchase(un);
-        }
-      }
-    }
+    //   if (Platform.isIOS) {
+    //     logAdd("restore: 3.iteration_$i.iOS -> platform is iOS, should call completePurchase(details) (only if it is not still pending)");
+    //     if(un.status != PurchaseStatus.pending) {
+    //       logAdd("restore: 3.iteration_$i.iOS -> indeed not pending, calling completePurchase(details)");
+    //       InAppPurchaseConnection.instance.completePurchase(un);
+    //     }
+    //   }
+    // }
 
     this.purchasedIds.set(<String>{
-      for(final details in [...pastResponse.pastPurchases, ...undealts])
+      for(final details in pastResponse.pastPurchases)
         if(details.status != PurchaseStatus.pending)
           details.productID,
     });
-    logAdd("restore: 4 -> purchased ids are set (only not pending). number: ${purchasedIds.value.length}");
+    logAdd("restore: 2 -> purchased ids are set (only not pending). number: ${purchasedIds.value.length}");
 
     if(purchasedIds.value.isNotEmpty) {
-      logAdd("restore: 4.a -> unlocking since purchasedIds is not empty");
+      logAdd("restore: 2.a -> unlocking since purchasedIds is not empty");
       this.unlocked.setDistinct(true);
     }
     else {
-      logAdd("restore: 4.a -> locking since purchasedIds is empty indeed");
+      logAdd("restore: 2.a -> locking since purchasedIds is empty indeed");
       this.unlocked.set(false);
     }
 
-    logAdd("restore: 5 -> returning null without errors");
+    logAdd("restore: 4 -> returning null without errors");
   }
 
 

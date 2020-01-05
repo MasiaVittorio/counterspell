@@ -159,17 +159,17 @@ packages:
   in_app_purchase:
     dependency: "direct main"
     description:
-      path: "..\\in_app_purchase"
-      relative: true
-    source: path
-    version: "0.2.2+6"
+      name: in_app_purchase
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2+4"
   json_annotation:
     dependency: transitive
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "2.4.0"
   matcher:
     dependency: transitive
     description:
@@ -264,7 +264,7 @@ packages:
   sidereus:
     dependency: "direct main"
     description:
-      path: "../sidereus"
+      path: "..\\sidereus"
       relative: true
     source: path
     version: "0.0.1"
@@ -297,7 +297,7 @@ packages:
   stage:
     dependency: "direct main"
     description:
-      path: "../stage"
+      path: "..\\stage"
       relative: true
     source: path
     version: "0.0.1"

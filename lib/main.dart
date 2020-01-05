@@ -37,11 +37,7 @@ class _CounterSpellState extends State<CounterSpell> {
     super.dispose();
   }
 
-  void logAdd(String newLine){
-    final now = DateTime.now();
-    bloc.payments.log += "\n(${now.hour.toString().padLeft(2, "0")}:${now.hour.toString().padLeft(2, "0")}):${now.second.toString().padLeft(2, "0")}) $newLine";
-  }
-
+  void logAdd(String newLine) => this.bloc.payments.logAdd(newLine);
 
   void reactToNewPurchases(List<PurchaseDetails> purchases){
     logAdd("react: 0 -> entered with list of lenght: ${purchases.length}");

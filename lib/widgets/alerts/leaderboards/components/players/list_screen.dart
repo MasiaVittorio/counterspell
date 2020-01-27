@@ -17,7 +17,7 @@ class PlayerStatsList extends StatelessWidget {
           if(index == 0) return Container();
           return PlayerStatTile(stats[index - 1], 
             pastGames: bloc.pastGames.pastGames.value,
-            //commanderStats is updated whenever pastGames is updated
+            //playerStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
           );
         },

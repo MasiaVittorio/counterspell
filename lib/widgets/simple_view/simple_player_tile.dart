@@ -293,7 +293,7 @@ class SimplePlayerTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: divideList(children, SizedBox(height: 4,)),
+                children: children.separateWith(SizedBox(height: 4,)),
               ),
             ),
           ),

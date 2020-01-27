@@ -9,11 +9,13 @@ class PastGame{
   String winner;
   final Map<String,MtgCard> commandersA;
   final Map<String,MtgCard> commandersB;
+  String notes;
 
   //=======================================
   // Constructor(s)
   PastGame(this.winner, {
     @required this.state,
+    this.notes = "",
     Map<String,MtgCard> commandersA,
     Map<String,MtgCard> commandersB,
   }): 
@@ -34,11 +36,13 @@ class PastGame{
   factory PastGame.fromState(GameState state, {
     Map<String,MtgCard> commandersA,
     Map<String,MtgCard> commandersB,
+    String notes,
   }){
     return PastGame(state.winner, 
       state: state,
       commandersA: commandersA,
       commandersB: commandersB,
+      notes: notes,
     );
   }
 
@@ -47,6 +51,7 @@ class PastGame{
   // Serialize
   Map<String,dynamic> get toJson => <String,dynamic>{
     "winner": this.winner,
+    "notes": this.notes,
     "state": this.state.toJson(),
     "dateTime": this.dateTime.millisecondsSinceEpoch,
     "commandersA": <String,Map<String,dynamic>>{
@@ -61,6 +66,7 @@ class PastGame{
 
   factory PastGame.fromJson(dynamic json) => PastGame(
     json["winner"],
+    notes: json["notes"] ?? "",
     state: GameState.fromJson(json["state"]),
     commandersA: <String,MtgCard>{
       for(final entry in (json["commandersA"] as Map).entries)

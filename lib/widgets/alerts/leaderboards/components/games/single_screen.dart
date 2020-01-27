@@ -19,9 +19,20 @@ class PastGameScreen extends StatelessWidget {
     return bloc.pastGames.pastGames.build((_,pastGames) {
       final PastGame game = pastGames[this.index];
       return HeaderedAlertCustom(
-        GameTimeTile(game, index: index, delete: false,),
+        GameTimeTile(game, index: index, delete: false, openable: false,),
         titleSize: 96,
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          Section([
+            const SectionTitle("Notes"),
+            CSWidgets.heigth5,
+            SubSection(<Widget>[
+              ListTile(
+                leading: const Icon(McIcons.fountain_pen_tip),
+                title: Text(game.notes ?? "", style: TextStyle(fontStyle: FontStyle.italic),),
+              ),
+            ], onTap: () => insertNotes(game, stage, bloc)),
+            CSWidgets.heigth10,
+          ]),
           Section([
             const SectionTitle("Winner"),
             CSWidgets.heigth5,
@@ -50,6 +61,24 @@ class PastGameScreen extends StatelessWidget {
     },);
   }
 
+
+  void insertNotes(PastGame game, StageData stage, CSBloc bloc){
+    stage.showAlert(
+      InsertAlert(
+        hintText: "This game I comboed off...",
+        labelText: "Insert notes",
+        initialText: game.notes ?? "",
+        textCapitalization: TextCapitalization.sentences,
+        maxLenght: null,
+        onConfirm: (notes){
+          bloc.pastGames.pastGames.value[this.index].notes = notes;
+          // TODO: Crea una BlocVarList che può scrivere soltanto l'indice selezionato al refresh
+          bloc.pastGames.pastGames.refresh();
+        },
+      ),
+      size: InsertAlert.height,
+    );    
+  }
 
   void selectWinner(PastGame game, StageData stage, CSBloc bloc){
     stage.showAlert(

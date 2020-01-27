@@ -44,7 +44,7 @@ class CSPastGames {
       (List<PastGame> pastGames) => <PlayerStats>[
         for(final name in names(pastGames))
           PlayerStats.fromPastGames(name, pastGames),
-      ]..sort((one,two) => ((two.winRate - one.winRate)*1000).toInt()),
+      ]..sort((one,two) => ((two.games - one.games)*1000).toInt()),
     );
   }
 

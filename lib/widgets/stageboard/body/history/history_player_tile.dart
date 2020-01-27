@@ -69,7 +69,7 @@ class HistoryPlayerTile extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: divideList(children, SizedBox(width: 4.0,)),
+                children: children.separateWith(SizedBox(width: 4.0,)),
               ),
             ),
           ),

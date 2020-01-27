@@ -50,6 +50,7 @@ class CSScroller {
   static const double _maxVel = 750;
   void onDragUpdate(CSDragUpdateDetails details, double width){
     if(ignoringThisPan) return;
+    // TODO: rendi possibile lo scroll verticale as well
 
     this.delayerController.scrolling();
 

@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'player_details_components/all.dart';
+import 'components/all.dart';
 
 enum _DetailsPage {
   commanderSettings,

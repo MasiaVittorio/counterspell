@@ -1,6 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/alerts/leaderboards/components/all.dart';
-import 'package:counter_spell_new/widgets/alerts/leaderboards/components/games/winner_selector.dart';
+import '../all.dart';
 
 
 class PastGameScreen extends StatelessWidget {
@@ -72,7 +71,6 @@ class PastGameScreen extends StatelessWidget {
         maxLenght: null,
         onConfirm: (notes){
           bloc.pastGames.pastGames.value[this.index].notes = notes;
-          // TODO: Crea una BlocVarList che può scrivere soltanto l'indice selezionato al refresh
           bloc.pastGames.pastGames.refresh();
         },
       ),

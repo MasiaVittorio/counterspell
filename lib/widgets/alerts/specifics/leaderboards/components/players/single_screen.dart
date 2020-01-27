@@ -34,7 +34,7 @@ class PlayerStatScreen extends StatelessWidget {
                 autoClose: false,
                 trailing: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   Text("${(entry.value * 100).toStringAsFixed(0)}%"),
-                  Text("(${stat.perCommanderGames[entry.key]} games)"),
+                  Text("(${stat.perCommanderWins[entry.key]} over ${stat.perCommanderGames[entry.key]})"),
                 ],),
               ),
           ]),

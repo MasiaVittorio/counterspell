@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/widgets/alerts/leaderboards/components/commanders/model_advanced.dart';
+import 'model_advanced.dart';
 
 import 'model_simple.dart';
 import 'package:counter_spell_new/core.dart';

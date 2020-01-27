@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 class SubSection extends StatelessWidget {
   final List<Widget> children;
-  final bool stretch;
+  final CrossAxisAlignment crossAxisAlignment;
   final EdgeInsets margin;
   final VoidCallback onTap;
   final BorderRadius borderRadius;
 
   const SubSection(this.children, {
-    this.stretch = false, 
+    this.crossAxisAlignment = CrossAxisAlignment.start, 
     this.margin = const EdgeInsets.symmetric(horizontal:10),
     this.onTap,
     this.borderRadius = borderRadiusDefault,
-  }): assert(stretch != null),
+  }): assert(crossAxisAlignment != null),
       assert(margin != null);
 
   static const borderRadiusDefault = BorderRadius.all(Radius.circular(10.0));
@@ -32,9 +32,7 @@ class SubSection extends StatelessWidget {
         onTap: onTap,
         borderRadius: borderRadius,
         child: Column(
-          crossAxisAlignment: stretch 
-            ? CrossAxisAlignment.stretch
-            : CrossAxisAlignment.start,
+          crossAxisAlignment: this.crossAxisAlignment,
           mainAxisSize: MainAxisSize.min,
           children: this.children,
         ),

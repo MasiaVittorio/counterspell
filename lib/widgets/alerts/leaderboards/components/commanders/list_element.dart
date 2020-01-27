@@ -35,7 +35,7 @@ class CommanderStatWidget extends StatelessWidget {
         ),
         SubSection([
           ListTile(
-            title: const Text("Win rate"),
+            title: Text("Wins: ${stat.wins}"),
             trailing: Text("${(stat.winRate * 100).toStringAsFixed(1)}%"),
             leading: const Icon(McIcons.trophy),
           ),

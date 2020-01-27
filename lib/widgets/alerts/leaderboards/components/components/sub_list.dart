@@ -24,6 +24,6 @@ class SubList extends StatelessWidget {
           ]),
         ),
       ),
-    ], stretch: true,);
+    ], crossAxisAlignment: CrossAxisAlignment.stretch,);
   }
 }

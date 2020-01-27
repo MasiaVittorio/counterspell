@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/game_group.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/simple_view/simple_player_tile.dart';
+import 'package:counter_spell_new/widgets/simple_view/components/all.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 

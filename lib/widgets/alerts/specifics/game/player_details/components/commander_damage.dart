@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/core.dart';
 import 'utils.dart';
 
@@ -18,12 +19,21 @@ class PlayerDetailsDamage extends StatelessWidget {
 
     return Material(
       color: theme.scaffoldBackgroundColor,
-      child: BlocVar.build4(
+      child: BlocVar.build6(
         bloc.themer.defenceColor,
         stage.themeController.primaryColorsMap,
         groupBloc.names,
         stateBloc.gameState,
-        builder: (_, Color defenceColor, Map<CSPage,Color> colors, List<String> names, GameState gameState){
+        groupBloc.cardsA,
+        groupBloc.cardsB,
+        builder: (_, 
+          Color defenceColor, 
+          Map<CSPage,Color> colors, 
+          List<String> names, 
+          GameState gameState, 
+          Map<String,MtgCard> cardsA,
+          Map<String,MtgCard> cardsB,
+        ){
 
           final String name = names[index];
           final Color attackColor = colors[CSPage.commanderDamage];
@@ -33,7 +43,26 @@ class PlayerDetailsDamage extends StatelessWidget {
           return Column(mainAxisSize: MainAxisSize.min, children:<Widget>[
             for(final otherName in names)
               Section([
-                SectionTitle(otherName == name ? "$otherName (yourself)": otherName),
+                Row(
+                  children: <Widget>[
+                    ...(){
+
+                      final otherPlayer = gameState.players[otherName];
+                      final card = otherPlayer.usePartnerB
+                        ? cardsB[otherName]
+                        : cardsA[otherName];
+                      if(card == null) return [];
+                      return [Padding(
+                        padding: const EdgeInsets.fromLTRB(4.0, 4.0, 0.0, 0.0),
+                        child: CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(card.imageUrl()),
+                          radius: 12,
+                        ),
+                      )];
+                    }(),
+                    Expanded(child: SectionTitle(otherName == name ? "$otherName (yourself)": otherName)),
+                  ],
+                ),
                 if(player.havePartnerB ?? false)
                   ListTile(
                     title: Text("Dealt to ${otherName == name ? "yourself" : otherName}"),

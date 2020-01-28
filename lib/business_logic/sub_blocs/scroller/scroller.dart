@@ -48,13 +48,15 @@ class CSScroller {
   // Actions 
 
   static const double _maxVel = 750;
-  void onDragUpdate(CSDragUpdateDetails details, double width){
+  void onDragUpdate(CSDragUpdateDetails details, double width, {bool vertical = false}){
     if(ignoringThisPan) return;
     // TODO: rendi possibile lo scroll verticale as well
 
     this.delayerController.scrolling();
 
-    final double vx = details.velocity.pixelsPerSecond.dx;
+    final double vx = vertical 
+      ? details.velocity.pixelsPerSecond.dy 
+      : details.velocity.pixelsPerSecond.dx;
 
     final double maxSpeedWeight = this.parent.settings.scrollDynamicSpeedValue.value.clamp(0.0, 1.0);
     final double multiplierVel = this.parent.settings.scrollDynamicSpeed.value 
@@ -71,7 +73,7 @@ class CSScroller {
 
     // final double width = this.parent.scaffold.dimensions.value.globalWidth;
     final double max = this.parent.settings.scrollSensitivity.value;
-    final double fraction = details.delta.dx / width;
+    final double fraction = (vertical ? details.delta.dy : details.delta.dx) / width;
 
     this.value += fraction * max * multiplierVel * multiplier1Static * multiplierPreBoost;
 

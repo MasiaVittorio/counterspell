@@ -8,6 +8,7 @@ class PanelGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
+    final bloc = CSBloc.of(context);
 
     return SingleChildScrollView(
       physics: stage.panelScrollPhysics(),
@@ -17,16 +18,44 @@ class PanelGame extends StatelessWidget {
             AlertTitle("Enabled Screens", centered: false),
             PagePie(),
           ]),
-          // const Section([
-          //   SectionTitle("Game Settings"),
           StartingLifeTile(),
-          // ]),
           const Section([
             SectionTitle("Extras"),
             PanelGameExtras(),
           ]),
-          const RestartTile(),
-          const EditPlaygroupTile(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(children: <Widget>[
+              Expanded(child: ExtraButton(
+                icon: McIcons.restart,
+                text: "New Game",
+                onTap: () => stage.showAlert(const RestarterAlert(), size: ConfirmAlert.height),
+              ),),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Container(
+                  width: 1.0,
+                  height: 44.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.15),
+                  ),
+                ),
+              ),
+              Expanded(child: ExtraButton(
+                icon: McIcons.account_multiple_outline,
+                text: "Edit playgroup",
+                onTap: () => stage.showAlert(
+                  PlayGroupEditor(bloc), 
+                  size: PlayGroupEditor.sizeCalc(
+                    bloc.game.gameState.gameState.value.players.length,
+                  ),
+                ),
+              ),),
+            ],),
+          ),
+          // const RestartTile(),
+          // const EditPlaygroupTile(),
         ],
       )
     );

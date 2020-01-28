@@ -17,10 +17,10 @@ class PanelGame extends StatelessWidget {
             AlertTitle("Enabled Screens", centered: false),
             PagePie(),
           ]),
-          const Section([
-            SectionTitle("Game Settings"),
-            StartingLifeTile(),
-          ]),
+          // const Section([
+          //   SectionTitle("Game Settings"),
+          StartingLifeTile(),
+          // ]),
           const Section([
             SectionTitle("Extras"),
             PanelGameExtras(),

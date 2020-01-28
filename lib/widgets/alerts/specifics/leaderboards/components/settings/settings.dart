@@ -6,7 +6,7 @@ class LeaderboardsSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      Section([
+      Section(<Widget>[
         const SectionTitle("Information"),
         const SubSection([
           ListTile(
@@ -35,7 +35,7 @@ class LeaderboardsSettings extends StatelessWidget {
             title: const Text("Select a winner!"),
             subtitle: const Text("Every game where a winner cannot be automatically detected and it's not specified will not count for any statistics."),
           ),
-        ]),
+        ], margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),),
       ].separateWith(CSWidgets.heigth10)),
 
       ListTile(

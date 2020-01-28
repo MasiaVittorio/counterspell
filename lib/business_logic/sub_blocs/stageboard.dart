@@ -1,7 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 
 
-
 class CSStage {
 
 
@@ -36,7 +35,9 @@ class CSStage {
     decodePageClosed: (json) => CSPages.fromName(json as String),
     encodePageClosed: (page) => CSPages.nameOf(page),
     initialClosedPagesList: CSPage.values,
-    onClosedPageChanged: (_) => parent.scroller.cancel(true),
+    onClosedPageChanged: (newPage) {
+      parent.scroller.cancel(true);
+    },
 
     // opened pages
     initialOpenedPage: SettingsPage.game,
@@ -63,6 +64,7 @@ class CSStage {
 
     //back behavior
     lastClosedPage: CSPage.life,
+    forceSystemNavBarStyle: true,
   );
 }
 

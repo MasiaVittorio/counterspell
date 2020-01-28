@@ -29,7 +29,7 @@ class CSColorScheme{
     darkStyle: this.darkStyle,
   );
 
-  Widget applyBaseTheme({@required Widget child}) => Stage.apllyTheme(
+  Widget applyBaseTheme({@required Widget child}) => Stage.applyTheme(
     child: child,
     light: this.light,
     darkStyle: this.darkStyle,

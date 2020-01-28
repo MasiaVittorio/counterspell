@@ -1,5 +1,6 @@
 
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/alerts/specifics/menu/info/changelog.dart';
 
 class PanelInfo extends StatelessWidget {
 
@@ -30,6 +31,11 @@ class PanelInfo extends StatelessWidget {
               title: const Text("Tutorial"),
               leading: const Icon(Icons.help_outline),
               onTap: () => stage.showAlert(const TutorialAlert(), size: TutorialAlert.height),
+            ),
+            ListTile(
+              title: const Text("Changelog"),
+              leading: const Icon(Icons.change_history),
+              onTap: () => stage.showAlert(const Changelog(), size: Changelog.height),
             ),
           ]),
           Section([

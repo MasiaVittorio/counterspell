@@ -175,6 +175,12 @@ class ChangeLogData {
         "Changelog", 
         "Well apparently you found it! I'll try to register here any kind of change made to the app during its development to guide you (the user) to discover every new feature :D",
       ),
+      Change(
+        ChangeType.change, 
+        "Full screen in simple view", 
+        null,
+        // "Well apparently you found it! I'll try to register here any kind of change made to the app during its development to guide you (the user) to discover every new feature :D",
+      ),
      ]),
   ];
 }

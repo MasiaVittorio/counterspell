@@ -92,7 +92,7 @@ class _ChangelogState extends State<Changelog> {
             ),
           ),
         ),
-        Positioned(
+        if(change != null) Positioned(
           bottom: 0.0,
           left: 0.0,
           right: 0.0,
@@ -101,7 +101,10 @@ class _ChangelogState extends State<Changelog> {
             child: AnimatedListed(
               duration: CSAnimations.fast,
               listed: showing,
-              child: _Description(change),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: _Description(change),
+              ),
               overlapSizeAndOpacity: 1.0,
             ),
           ),

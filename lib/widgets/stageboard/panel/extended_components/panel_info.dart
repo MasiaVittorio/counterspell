@@ -17,25 +17,31 @@ class PanelInfo extends StatelessWidget {
         children: <Widget>[
           Section([
             const AlertTitle("About CounterSpell", centered: false,),
-            ListTile(
-              title: const Text("The developer"),
-              leading: const Icon(Icons.person_outline),
-              onTap: () => stage.showAlert(const Developer(), size: Developer.height),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+              child: Row(children: <Widget>[
+                Expanded(child: ExtraButton(
+                  icon: Icons.person_outline,
+                  text: "The developer",
+                  onTap: () => stage.showAlert(const Developer(), size: Developer.height),
+                )),
+                Expanded(child: ExtraButton(
+                  icon: McIcons.file_document_box_check_outline,
+                  text: "Licenses",
+                  onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
+                )),
+                Expanded(child: ExtraButton(
+                  icon: McIcons.file_document_outline,
+                  text: "Changelog",
+                  onTap: () => stage.showAlert(const Changelog(), size: Changelog.height),
+                )),
+              ].separateWith(SizedBox(width: 10.0,))),
             ),
-            ListTile(
-              title: const Text("Licenses & source code"),
-              leading: const Icon(Icons.info_outline),
-              onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
-            ),
+            CSWidgets.divider,
             ListTile(
               title: const Text("Tutorial"),
               leading: const Icon(Icons.help_outline),
               onTap: () => stage.showAlert(const TutorialAlert(), size: TutorialAlert.height),
-            ),
-            ListTile(
-              title: const Text("Changelog"),
-              leading: const Icon(Icons.change_history),
-              onTap: () => stage.showAlert(const Changelog(), size: Changelog.height),
             ),
           ]),
           Section([

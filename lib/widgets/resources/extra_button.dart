@@ -1,3 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
+
 import 'subsection.dart';
 import 'package:flutter/material.dart';
 
@@ -6,29 +8,58 @@ class ExtraButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final double iconSize;
+  final EdgeInsets iconPadding;
+  // if the button should not be large as its text but bound to its context, we will use autosize text
+  final bool forceExternalSize;
 
   ExtraButton({
     @required this.icon,
     @required this.text,
     @required this.onTap,
+    this.forceExternalSize = false,
+    this.iconPadding = EdgeInsets.zero,
     this.iconSize,
   });
 
+  static const double _icon = 38.0;
+
   @override
   Widget build(BuildContext context) {
+    final defaultSize = DefaultTextStyle.of(context).style.fontSize;
+
     return SubSection(
       [
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
-          height: 32,
-          child: Icon(icon, size: iconSize,),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
+          child: Container(
+            alignment: Alignment.center,
+            height: _icon,
+            width: _icon,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              // border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.051)),
+              // color: Theme.of(context).canvasColor.withOpacity(0.5),
+            ),
+            child: Padding(
+              padding: this.iconPadding,
+              child: Icon(icon, size: iconSize),
+            ),
+          ),
         ),
-        Container(
-          alignment: Alignment.center,
-          height: 24,
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(text),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 3.0),
+          child: Container(
+            alignment: Alignment.center,
+            height: 24,
+            child: this.forceExternalSize 
+              ? AutoSizeText(
+                text,
+                maxLines: 1,
+                maxFontSize: defaultSize,
+                minFontSize: defaultSize / 2,
+              )
+              : Text(text),
+          ),
         ),
       ], 
       crossAxisAlignment: CrossAxisAlignment.center,

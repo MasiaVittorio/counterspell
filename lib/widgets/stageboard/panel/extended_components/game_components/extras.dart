@@ -20,23 +20,27 @@ class PanelGameExtras extends StatelessWidget {
             icon: McIcons.dice_multiple,
             text: "Random",
             onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
+            forceExternalSize: true,
           ),),
           Expanded(child: bloc.payments.unlocked.build((_, unlocked) => ExtraButton(
-            icon: McIcons.trophy,
+            icon: McIcons.license,
             text: "Leaderboards",
             onTap: () {
-                if(unlocked){
-                  stage.showAlert(const Leaderboards(), size: Leaderboards.height);
-                } else {
-                  stage.showAlert(const Support(), size: Support.height);
-                }
-              },
+              if(unlocked){
+                stage.showAlert(const Leaderboards(), size: Leaderboards.height);
+              } else {
+                stage.showAlert(const Support(), size: Support.height);
+              }
+            },
+            forceExternalSize: true,
           ),),),
           Expanded(child: ExtraButton(
             icon: CSIcons.simpleViewIcon,
-            iconSize: 20,
+            iconSize: CSIcons.ideal_counterspell_size,
+            iconPadding: CSIcons.ideal_counterspell_padding,
             text: "Simple screen",
             onTap: () => showSimpleGroup(context: context, bloc: bloc),
+            forceExternalSize: true,
           ),),
         ].separateWith(SizedBox(width: 10,)),
       ),

@@ -25,7 +25,12 @@ class CSIcons {
 
   static const IconData poison = CSIconsRaw.phyrexia;
   static const IconData experienceFilled = CSIconsRaw.experience_filled;
+
   static const IconData counterSpell = CSIconsRaw.counter_spell;
+  static const double ideal_counterspell_size = 20;
+  static const double ideal_counterspell_bottom_padding_ratio = 0.09549150281;
+  static const double ideal_counterspell_bottom_padding = ideal_counterspell_size * ideal_counterspell_bottom_padding_ratio;
+  static const EdgeInsets ideal_counterspell_padding = EdgeInsets.only(bottom: ideal_counterspell_bottom_padding);
 
   static const Map<CSPage, IconData> pageIconsOutlined = {
     CSPage.history: historyIconOutlined,

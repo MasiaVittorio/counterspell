@@ -48,7 +48,14 @@ class _SimpleGroupRoute<T> extends PopupRoute<T> {
     Widget page = _SimpleGroup(routeAnimationController: _animationController);
     if (theme != null)
       page = Theme(data: theme, child: page);
-    return page;
+    return MediaQuery.removePadding(
+      context: context, 
+      removeTop: true, 
+      removeBottom: true, 
+      removeLeft: true,
+      removeRight: true,
+      child: page,
+    );
   }
 }
 
@@ -63,12 +70,14 @@ Future<T> showSimpleGroup<T>({
   stage.pagesController.pageSet(CSPage.life);
   bloc.game.gameAction.clearSelection();
 
+  SystemChrome.setEnabledSystemUIOverlays([]);
+
   return Navigator.push(context, _SimpleGroupRoute<T>(
     theme: Theme.of(context, shadowThemeOnly: true),
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-  )).then<void>((_) => SystemChrome.setPreferredOrientations(
-    DeviceOrientation.values.toList()
-  ));
+  )).then<void>((_) {
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top, SystemUiOverlay.bottom]);
+  });
   
 }
 

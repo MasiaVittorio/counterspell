@@ -46,6 +46,7 @@ class ScrollSensitivity extends StatelessWidget {
               subtitle: const Text("Adjust sens to the speed of your finger"),
             ),
             SubSection(<Widget>[
+              CSWidgets.heigth5,
               _speedValue.build((_, speedValue) =>  CSSlider(
                 onChangeEnd: _speedValue.set,
                 enabled: speed,
@@ -66,6 +67,7 @@ class ScrollSensitivity extends StatelessWidget {
               subtitle: const Text("Avoid being stuck around 0"),
             ),
             SubSection(<Widget>[
+              CSWidgets.heigth5,
               _preBoostValue.build((_, preBoostValue) =>  CSSlider(
                 onChangeEnd: _preBoostValue.set,
                 enabled: preBoost,
@@ -86,6 +88,7 @@ class ScrollSensitivity extends StatelessWidget {
               subtitle: const Text("Slow down in the range [1,2]"),
             ),
             SubSection(<Widget>[
+              CSWidgets.heigth5,
               _oneStaticValue.build((_, oneStaticValue) =>  CSSlider(
                 onChangeEnd: _oneStaticValue.set,
                 enabled: oneStatic,

@@ -13,7 +13,8 @@ class WinnerSelector extends StatefulWidget {
     this.onDontSave,
   });
 
-  static double heightCalc(int lenght, [bool promptDontSave = false]) => AlertTitle.height + 56.0 * (lenght + 1 + ((promptDontSave ?? false) ? 1 : 0));
+  static const double _bottomPadding = 10.0;
+  static double heightCalc(int lenght, [bool promptDontSave = false]) => AlertTitle.height + 56.0 * (lenght + 1 + ((promptDontSave ?? false) ? 1 : 0)) + _bottomPadding;
 
   @override
   _WinnerSelectorState createState() => _WinnerSelectorState();
@@ -68,6 +69,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
                 onChanged: (name) => this.setState((){this.selected = name;}),
                 title: Text(name),
               ),
+            const SizedBox(height: WinnerSelector._bottomPadding,)
           ],
         ),
       ),

@@ -149,12 +149,13 @@ class _VersionWidget extends StatelessWidget {
     return Section([
       SectionTitle(version.name),
       for(final change in version.changes)
-        ListTile(
-          dense: true,
-          title: Text("${ChangeTypes.nameOf(change.changeType)}: ${change.title}"),
-          trailing: change.description != null ? Icon(Icons.keyboard_arrow_right) : null,
-          onTap: change.description != null ? () => showChange(change) : null,
-        ),
+        if(change.important)
+          ListTile(
+            dense: true,
+            title: Text("${ChangeTypes.nameOf(change.changeType)}: ${change.title}"),
+            trailing: change.description != null ? Icon(Icons.keyboard_arrow_right) : null,
+            onTap: change.description != null ? () => showChange(change) : null,
+          ),
     ]);
   }
 }
@@ -179,7 +180,11 @@ class ChangeLogData {
         ChangeType.change, 
         "Full screen in simple view", 
         null,
-        // "Well apparently you found it! I'll try to register here any kind of change made to the app during its development to guide you (the user) to discover every new feature :D",
+      ),
+      Change(
+        ChangeType.change, 
+        "Adaptive System Nav Bar color", 
+        null,
       ),
      ]),
   ];

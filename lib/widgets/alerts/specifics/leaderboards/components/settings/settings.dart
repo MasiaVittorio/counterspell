@@ -6,9 +6,8 @@ class LeaderboardsSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      const Section([
+      Section([
         const SectionTitle("Information"),
-        CSWidgets.heigth10,
         const SubSection([
           ListTile(
             leading: const Icon(Icons.history),
@@ -22,7 +21,7 @@ class LeaderboardsSettings extends StatelessWidget {
             title: const Text("Edit past games"),
             subtitle: const Text("You can delete a single game at any time or manually set its winner and commanders used."),
           ),
-        ], margin: const EdgeInsets.all(10.0),),
+        ]),
         const SubSection([
           ListTile(
             leading: const Icon(Icons.timeline),
@@ -30,8 +29,15 @@ class LeaderboardsSettings extends StatelessWidget {
             subtitle: const Text("All the statistics are derived from the information saved in the list of past games."),
           ),
         ]),
-        CSWidgets.heigth10,
-      ]),
+        const SubSection([
+          ListTile(
+            leading: const Icon(McIcons.trophy),
+            title: const Text("Select a winner!"),
+            subtitle: const Text("Every game where a winner cannot be automatically detected and it's not specified will not count for any statistics."),
+          ),
+        ]),
+      ].separateWith(CSWidgets.heigth10)),
+
       ListTile(
         leading: const Icon(Icons.delete_forever, color: CSColors.delete,),
         title: const Text("Delete ALL history",),

@@ -186,6 +186,11 @@ class ChangeLogData {
         "Adaptive System Nav Bar color", 
         null,
       ),
+      Change(
+        ChangeType.change, 
+        "Tons of little UI changes to save vertical space in lists", 
+        null,
+      ),
      ]),
   ];
 }

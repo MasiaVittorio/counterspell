@@ -205,7 +205,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
                   if(widget.gameState.players.length != 2)
                     RadioSlider(
                       selectedIndex: squadLayout ? 0 : 1,
-                      onTap: (i) => settings.simpleSquadLayout.set(i==0),
+                      onTap: (i) => settings.arenaSquadLayout.set(i==0),
                       title: Text("Layout"),
                       items: [
                         RadioSliderItem(
@@ -592,7 +592,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
             preExit();
             return true;
           },
-          child: bloc.settings.simpleSquadLayout.build((_, squadLayout)
+          child: bloc.settings.arenaSquadLayout.build((_, squadLayout)
             => LayoutBuilder(builder: (context, constraints){
               switch (widget.gameState.players.length) {
                 case 2:

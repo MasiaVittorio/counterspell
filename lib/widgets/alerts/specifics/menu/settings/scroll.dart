@@ -29,7 +29,7 @@ class ScrollSensitivity extends StatelessWidget {
             onChanged: _sens.set,
             value: sens,
           ),
-          CSWidgets.heigth10,
+          CSWidgets.height10,
         ],
       ),),
       titleSize: 108.0, 
@@ -46,7 +46,7 @@ class ScrollSensitivity extends StatelessWidget {
               subtitle: const Text("Adjust sens to the speed of your finger"),
             ),
             SubSection(<Widget>[
-              CSWidgets.heigth5,
+              CSWidgets.height5,
               _speedValue.build((_, speedValue) =>  CSSlider(
                 onChangeEnd: _speedValue.set,
                 enabled: speed,
@@ -56,7 +56,7 @@ class ScrollSensitivity extends StatelessWidget {
                 title: (val)=>"Speed Weight: ${val.toStringAsFixed(1)}",
               )),
             ],),
-            CSWidgets.heigth10,
+            CSWidgets.height10,
           ],),),
 
           _preBoost.build((_,preBoost) => Section([
@@ -67,7 +67,7 @@ class ScrollSensitivity extends StatelessWidget {
               subtitle: const Text("Avoid being stuck around 0"),
             ),
             SubSection(<Widget>[
-              CSWidgets.heigth5,
+              CSWidgets.height5,
               _preBoostValue.build((_, preBoostValue) =>  CSSlider(
                 onChangeEnd: _preBoostValue.set,
                 enabled: preBoost,
@@ -77,7 +77,7 @@ class ScrollSensitivity extends StatelessWidget {
                 title: (val)=>"Boost multiplier: ${val.toStringAsFixed(1)}",
               )),
             ],),
-            CSWidgets.heigth10,
+            CSWidgets.height10,
           ],),),
 
           _oneStatic.build((_,oneStatic) => Section([
@@ -88,7 +88,7 @@ class ScrollSensitivity extends StatelessWidget {
               subtitle: const Text("Slow down in the range [1,2]"),
             ),
             SubSection(<Widget>[
-              CSWidgets.heigth5,
+              CSWidgets.height5,
               _oneStaticValue.build((_, oneStaticValue) =>  CSSlider(
                 onChangeEnd: _oneStaticValue.set,
                 enabled: oneStatic,
@@ -98,9 +98,18 @@ class ScrollSensitivity extends StatelessWidget {
                 title: (val)=>"Dampening multiplier: ${val.toStringAsFixed(1)}",
               )),
             ],),
-            CSWidgets.heigth10,
+            CSWidgets.height10,
           ],),),
 
+          settings.arenaScreenVerticalScroll.build((_, vertical)
+            => SwitchListTile(
+              value: vertical,
+              onChanged: settings.arenaScreenVerticalScroll.set,
+              title: const Text("Vertical Scroll on Arena Mode"),
+              secondary: const Icon(McIcons.gesture_swipe_down),
+            ),
+          ),
+          CSWidgets.divider,
           ListTile(
             title: const Text("Restore default values"),
             leading: const Icon(Icons.settings_backup_restore),

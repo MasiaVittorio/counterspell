@@ -35,7 +35,7 @@ class PanelInfo extends StatelessWidget {
                   text: "Changelog",
                   onTap: () => stage.showAlert(const Changelog(), size: Changelog.height),
                 )),
-              ].separateWith(SizedBox(width: 10.0,))),
+              ].separateWith(CSWidgets.extraButtonsDivider),),
             ),
             CSWidgets.divider,
             ListTile(

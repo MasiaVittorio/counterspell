@@ -23,18 +23,18 @@ class PastGameScreen extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           Section([
             const SectionTitle("Notes"),
-            CSWidgets.heigth5,
+            CSWidgets.height5,
             SubSection(<Widget>[
               ListTile(
                 leading: const Icon(McIcons.fountain_pen_tip),
                 title: Text(game.notes ?? "", style: TextStyle(fontStyle: FontStyle.italic),),
               ),
             ], onTap: () => insertNotes(game, stage, bloc)),
-            CSWidgets.heigth10,
+            CSWidgets.height10,
           ]),
           Section([
             const SectionTitle("Winner"),
-            CSWidgets.heigth5,
+            CSWidgets.height5,
             SubSection(
               <Widget>[
                 ListTile(
@@ -44,15 +44,15 @@ class PastGameScreen extends StatelessWidget {
               ], 
               onTap: () => selectWinner(game, stage, bloc)
             ),
-            CSWidgets.heigth10,
+            CSWidgets.height10,
           ]),
           Section([
             const SectionTitle("Commanders"),
-            CSWidgets.heigth5,
+            CSWidgets.height5,
             for(final player in game.state.players.keys)
               ...[
                 CommanderSubSection(game, player, index: index,),
-                CSWidgets.heigth10,
+                CSWidgets.height10,
               ],
           ]),
         ],),

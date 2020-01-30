@@ -36,9 +36,11 @@ class CSSettings {
     this.lastPageBeforeSimpleScreen.dispose();
     this.tutored.dispose();
 
-    this.simpleSquadLayout.dispose();
+    this.arenaSquadLayout.dispose();
 
-    this.simpleScreenVerticalScroll.dispose();
+    this.arenaScreenVerticalScroll.dispose();
+
+    this.arenaHideNameWhenImages.dispose();
   }
 
 
@@ -77,9 +79,11 @@ class CSSettings {
   final BlocVar<CSPage> lastPageBeforeSimpleScreen;
   final PersistentVar<bool> tutored;
 
-  final PersistentVar<bool> simpleSquadLayout;
+  final PersistentVar<bool> arenaSquadLayout;
 
-  final PersistentVar<bool> simpleScreenVerticalScroll;
+  final PersistentVar<bool> arenaScreenVerticalScroll;
+
+  final PersistentVar<bool> arenaHideNameWhenImages;
 
   //====================================
   // Default values
@@ -229,17 +233,19 @@ class CSSettings {
       toJson: (page) => CSPages.nameOf(page),
       fromJson: (name) => CSPages.fromName(name),
     ),
-    simpleSquadLayout= PersistentVar<bool>(
+    arenaSquadLayout= PersistentVar<bool>(
       key: "bloc_settings_blocvar_simpleSquadLayout",
       initVal: true,
       // toJson: (b) => b,
       // fromJson: (j) => j,
     ),
-    simpleScreenVerticalScroll = PersistentVar<bool>(
+    arenaScreenVerticalScroll = PersistentVar<bool>(
       key: "bloc_settings_blocvar_simpleScreenVerticalScroll",
       initVal: false,
-      // toJson: (b) => b,
-      // fromJson: (j) => j,
+    ),
+    arenaHideNameWhenImages = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_arenaHideNameWhenImages",
+      initVal: false,
     )
   {
     Vibrate.canVibrate.then(

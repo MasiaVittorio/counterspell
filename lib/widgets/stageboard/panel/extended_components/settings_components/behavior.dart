@@ -10,32 +10,44 @@ class SettingsBehavior extends StatelessWidget {
 
     return Section([
       const AlertTitle("Behavior", centered: false,),
-      settings.wantVibrate.build((_, vibrate)
-        => SwitchListTile(
-          value: vibrate,
-          onChanged: settings.wantVibrate.set,
-          title: const Text("Vibration"),
-          secondary: const Icon(Icons.vibration),
-        ),
+      Padding(
+      padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 8.0),
+        child: Row(children: <Widget>[
+          Expanded(child: settings.wantVibrate.build((_, vibrate)
+            => ExtraButton(
+              text: "Vibration",
+              icon: vibrate ? McIcons.vibrate : McIcons.vibrate_off,
+              onTap: () => settings.wantVibrate.set(!vibrate),
+            ),
+          ),),
+          Expanded(child: ExtraButton(
+            text: "Scroll Settings",
+            icon: Icons.gesture,
+            onTap: () => stage.showAlert(
+              const ScrollSensitivity(),
+              size: ScrollSensitivity.height,
+            ),
+          ),),
+        ].separateWith(CSWidgets.extraButtonsDivider),),
       ),
-      ListTile(
-        title: const Text("Scroll Feeling"),
-        leading: Icon(Icons.touch_app),
-        trailing: Icon(Icons.keyboard_arrow_right),
-        onTap: () => stage.showAlert(
-          const ScrollSensitivity(),
-          size: ScrollSensitivity.height,
-        ),
-      ),
-      settings.simpleScreenVerticalScroll.build((_, vertical)
-        => SwitchListTile(
-          value: vertical,
-          onChanged: settings.simpleScreenVerticalScroll.set,
-          title: const Text("Vertical Scroll on Simple View"),
-          secondary: const Icon(McIcons.gesture_swipe_down),
-        ),
-      ),
-      _divider,
+      // settings.wantVibrate.build((_, vibrate)
+      //   => SwitchListTile(
+      //     value: vibrate,
+      //     onChanged: settings.wantVibrate.set,
+      //     title: const Text("Vibration"),
+      //     secondary: const Icon(Icons.vibration),
+      //   ),
+      // ),
+      // ListTile(
+      //   title: const Text("Scroll Feeling"),
+      //   leading: Icon(Icons.touch_app),
+      //   trailing: Icon(Icons.keyboard_arrow_right),
+      //   onTap: () => stage.showAlert(
+      //     const ScrollSensitivity(),
+      //     size: ScrollSensitivity.height,
+      //   ),
+      // ),
+      CSWidgets.divider,
       settings.confirmDelay.build((_, dur) => CSSlider(
         icon: const Icon(Icons.timelapse),
         value: dur.inMilliseconds.toDouble(),
@@ -49,7 +61,6 @@ class SettingsBehavior extends StatelessWidget {
     ]);
   }
 
-  static const _divider = Padding(padding: const EdgeInsets.symmetric(horizontal: 12.0), child:Divider(height: 8.0,));
 }
 
 String _fromMilliseconds(int mil){

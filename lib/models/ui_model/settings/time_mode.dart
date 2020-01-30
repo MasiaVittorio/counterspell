@@ -12,14 +12,14 @@ class TimeModes{
   static TimeMode fromName(String name) => reversed[name];
 
   static const Map<TimeMode,String> map = <TimeMode,String>{
-    TimeMode.inGame: "in game",
-    TimeMode.clock: "clock",
-    TimeMode.none: "none",
+    TimeMode.inGame: "In game",
+    TimeMode.clock: "Clock",
+    TimeMode.none: "None",
   };
   static const Map<String,TimeMode> reversed = <String,TimeMode>{
-    "in game": TimeMode.inGame,
-    "clock": TimeMode.clock,
-    "none": TimeMode.none,
+    "In game": TimeMode.inGame,
+    "Clock": TimeMode.clock,
+    "None": TimeMode.none,
   };
 
 

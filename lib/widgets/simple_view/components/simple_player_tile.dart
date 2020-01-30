@@ -108,7 +108,7 @@ class SimplePlayerTile extends StatelessWidget {
               constraints.maxWidth,
               bloc: bloc,
               page: CSPage.life,
-              vertical: bloc.settings.simpleScreenVerticalScroll.value,
+              vertical: bloc.settings.arenaScreenVerticalScroll.value,
             ),
             onPanCancel: scrollerBloc.onDragEnd,
             child: Container(

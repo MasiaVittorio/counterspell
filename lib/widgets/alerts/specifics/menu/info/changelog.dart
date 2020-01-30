@@ -177,8 +177,18 @@ class ChangeLogData {
         "Well apparently you found it! I'll try to register here any kind of change made to the app during its development to guide you (the user) to discover every new feature :D",
       ),
       Change(
+        ChangeType.change,
+        "Simple view renamed to arena mode",
+        null,
+      ),
+      Change(
+        ChangeType.newFeature, 
+        "Option for vertical scroll on Arena Mode", 
+        null,
+      ),
+      Change(
         ChangeType.change, 
-        "Full screen in simple view", 
+        "Full screen in Arena Mode", 
         null,
       ),
       Change(
@@ -186,12 +196,7 @@ class ChangeLogData {
         "Adaptive System Nav Bar color", 
         null,
       ),
-      Change(
-        ChangeType.change, 
-        "Tons of little UI changes to save vertical space in lists", 
-        null,
-      ),
-     ]),
+    ]),
   ];
 }
 

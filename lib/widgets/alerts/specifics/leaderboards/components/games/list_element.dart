@@ -53,7 +53,7 @@ class PastGameTile extends StatelessWidget {
           ]),
         ),),
       ], onTap: show,),
-      CSWidgets.heigth10,
+      CSWidgets.height10,
       // BottomExtra(
       //   const Text("Commanders"), 
       //   onTap: show,

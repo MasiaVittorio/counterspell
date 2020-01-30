@@ -105,7 +105,7 @@ class _Section extends StatelessWidget {
             secondary: const Icon(McIcons.needle),
           ),
         ]),
-        CSWidgets.heigth10,
+        CSWidgets.height10,
       ]);
     },);
   }

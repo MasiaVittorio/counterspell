@@ -120,7 +120,7 @@ class SupportInfo extends StatelessWidget {
             "CounterSpell already saves stats of your past games even while the leaderboards are locked.",
             style: TextStyle(fontStyle: FontStyle.italic),
           ),),],),
-          CSWidgets.heigth10,
+          CSWidgets.height10,
         ]),
         const Section([
           SectionTitle("My reasons"),
@@ -130,7 +130,7 @@ class SupportInfo extends StatelessWidget {
             "(Also, linking different features to different purchases is annoying to code. Right now the app considers you a pro user simply if the list of past purchases is not empty, lol)",
             style: TextStyle(fontStyle: FontStyle.italic),
           ),),],),
-          CSWidgets.heigth10,
+          CSWidgets.height10,
         ]),
         Padding(
           padding: const EdgeInsets.only(right:16.0, left: 16.0, bottom: 14.0),

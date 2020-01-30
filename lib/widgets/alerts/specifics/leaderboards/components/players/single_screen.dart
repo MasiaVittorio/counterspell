@@ -38,7 +38,7 @@ class PlayerStatScreen extends StatelessWidget {
                 ],),
               ),
           ]),
-          CSWidgets.heigth10
+          CSWidgets.height10
         ]),
       ],),
     );

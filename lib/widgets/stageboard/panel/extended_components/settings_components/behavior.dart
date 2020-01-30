@@ -27,6 +27,14 @@ class SettingsBehavior extends StatelessWidget {
           size: ScrollSensitivity.height,
         ),
       ),
+      settings.simpleScreenVerticalScroll.build((_, vertical)
+        => SwitchListTile(
+          value: vertical,
+          onChanged: settings.simpleScreenVerticalScroll.set,
+          title: const Text("Vertical Scroll on Simple View"),
+          secondary: const Icon(McIcons.gesture_swipe_down),
+        ),
+      ),
       _divider,
       settings.confirmDelay.build((_, dur) => CSSlider(
         icon: const Icon(Icons.timelapse),

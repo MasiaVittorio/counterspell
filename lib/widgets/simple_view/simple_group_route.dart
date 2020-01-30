@@ -70,7 +70,9 @@ Future<T> showSimpleGroup<T>({
   stage.pagesController.pageSet(CSPage.life);
   bloc.game.gameAction.clearSelection();
 
-  SystemChrome.setEnabledSystemUIOverlays([]);
+  if(bloc.settings.arenaFullScreen.value){
+    SystemChrome.setEnabledSystemUIOverlays([]);
+  }
 
   return Navigator.push(context, _SimpleGroupRoute<T>(
     theme: Theme.of(context, shadowThemeOnly: true),

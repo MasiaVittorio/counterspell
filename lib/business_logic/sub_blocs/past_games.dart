@@ -15,22 +15,15 @@ class CSPastGames {
   //================================
   // Values 
   final CSBloc parent; 
-  final PersistentVar<List<PastGame>> pastGames;
+  final BlocBox<PastGame> pastGames;
   BlocVar<List<CommanderStats>> commanderStats;
   BlocVar<List<PlayerStats>> playerStats;
 
-  CSPastGames(this.parent): pastGames = PersistentVar<List<PastGame>>(
+  CSPastGames(this.parent): pastGames = BlocBox<PastGame>(
+    <PastGame>[],
     key: "counterspell_bloc_var_pastGames_pastGames",
-    initVal: <PastGame>[],
-    toJson: (list) => <Map<String,dynamic>>[
-      for(final pastGame in list)
-        pastGame.toJson,
-    ],
-    fromJson: (json) => <PastGame>[
-      for(final encoded in (json as List))
-        PastGame.fromJson(encoded),
-    ],
-    copier: (list) => [for(final e in list) e],
+    itemToJson: (item) => item.toJson,
+    jsonToItem: (json) => PastGame.fromJson(json),
   ){
     this.commanderStats = BlocVar.fromCorrelate(
       pastGames, 
@@ -69,8 +62,7 @@ class CSPastGames {
           pastGame.state.names,
           onConfirm: (winner) => pastGame.winner = winner,
           onDontSave: (){
-            this.pastGames.value.removeLast();
-            this.pastGames.refresh();
+            this.pastGames.removeLast();
           },
         ),
         size: WinnerSelector.heightCalc(pastGame.state.players.length, true),
@@ -79,10 +71,7 @@ class CSPastGames {
     }
   }
 
-  void removeGameAt(int index){
-    this.pastGames.value.removeAt(index);
-    this.pastGames.refresh();
-  }
+
 
   
   static Iterable<MtgCard> cards(List<PastGame> pastGames){

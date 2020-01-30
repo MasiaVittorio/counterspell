@@ -82,7 +82,6 @@ class SimplePlayerTile extends StatelessWidget {
     final Widget info = buildExtraInfo(context, themeData);
 
     final bool buttonToTheRight = (buttonAlignment?.x ?? 0) >= 0;
-
     //account for the button position and size to avoid it!!
     final Widget tile = SizedBox(
       height: constraints.maxHeight,// - 2*_margin,
@@ -126,6 +125,7 @@ class SimplePlayerTile extends StatelessWidget {
                     scrolling: scrolling,
                     playerState: playerState,
                     actionBloc: bloc.game.gameAction,
+                    showNameWithImage: !bloc.settings.arenaHideNameWhenImages.value,
                   )),
                   if(info != null && !buttonToTheRight)
                     info,
@@ -226,7 +226,14 @@ class SimplePlayerTile extends StatelessWidget {
     );
   }
 
-  Widget buildName(CSGameAction actionBloc, bool rawSelected){
+  Widget buildName(CSGameAction actionBloc, bool rawSelected, bool showNameWithImage){
+
+    bool showName = true;
+    if(!showNameWithImage){
+      final bool cardThere = group.cards(!this.gameState.players[this.name].usePartnerB).value[name] != null;
+      showName = !cardThere;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -247,7 +254,7 @@ class SimplePlayerTile extends StatelessWidget {
               },
             ),
           ),
-          Text("$name", style: TextStyle(
+          Text("${showName ? name : ""}", style: TextStyle(
             fontSize: 16,
           ),),
         ],
@@ -309,6 +316,7 @@ class SimplePlayerTile extends StatelessWidget {
     @required bool scrolling,
     @required bool annotationsToTheRight,
     @required CSGameAction actionBloc,
+    @required bool showNameWithImage,
   }){
     return LayoutBuilder(builder: (context, intConstraints){
       double offset;
@@ -347,7 +355,7 @@ class SimplePlayerTile extends StatelessWidget {
           Row(children: <Widget>[
             if(betterRightSide)
               SizedBox(width: offset),
-            Expanded(child: Center(child: buildName(actionBloc, rawSelected))),
+            Expanded(child: Center(child: buildName(actionBloc, rawSelected, showNameWithImage))),
             if(!betterRightSide)
               SizedBox(width: offset),
           ],),

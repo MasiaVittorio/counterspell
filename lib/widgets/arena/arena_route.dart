@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/simple_view/simple_group_widget.dart';
+import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
@@ -9,8 +9,8 @@ const Duration _kCarouselDuration = const Duration(milliseconds: 200);
 const Color _kBarrier = Colors.black12;
 
 
-class _SimpleGroupRoute<T> extends PopupRoute<T> {
-  _SimpleGroupRoute({
+class _ArenaRoute<T> extends PopupRoute<T> {
+  _ArenaRoute({
     @required this.theme,
     @required this.barrierLabel,
     RouteSettings settings,
@@ -63,11 +63,25 @@ class _SimpleGroupRoute<T> extends PopupRoute<T> {
   }
 }
 
-Future<T> showSimpleGroup<T>({
+Future<T> showArena<T>({
   @required BuildContext context,
   @required CSBloc bloc,
 }) {
   assert(context != null);
+
+  if(!ArenaWidget.okNumbers.contains(bloc.game.gameState.gameState.value.players.length)){
+    final stage = Stage.of(context);
+    stage.showAlert(AlternativesAlert(
+      twoLinesLabel: true,
+      label: "You need to have a smaller playgroup to open Arena Mode",
+      alternatives: [Alternative(
+        title: "Got it",
+        icon: Icons.check,
+        action: () => stage.panelController.closePanel(), 
+      )],
+    ), size: AlternativesAlert.twoLinesheightCalc(1));
+    return null;
+  }
   
   final stage = Stage.of(context);
   bloc.settings.lastPageBeforeSimpleScreen.set(stage.pagesController.page.value);
@@ -78,7 +92,7 @@ Future<T> showSimpleGroup<T>({
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
-  return Navigator.push(context, _SimpleGroupRoute<T>(
+  return Navigator.push(context, _ArenaRoute<T>(
     theme: Theme.of(context, shadowThemeOnly: true),
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
   )).then<void>((_) {
@@ -138,7 +152,7 @@ class _SimpleGroup extends StatelessWidget {
         return AnimatedBuilder(
           animation: routeAnimationController,
           builder: (context, _){
-            return SimpleGroupWidget(
+            return ArenaWidget(
               pageColors: pageColors,
               gameState: gameState,
               increment: increment,

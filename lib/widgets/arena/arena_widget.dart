@@ -1,10 +1,12 @@
 import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/game_group.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/simple_view/components/all.dart';
+import 'package:counter_spell_new/widgets/arena/components/all.dart';
 import 'package:flutter/material.dart';
 import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 
-class SimpleGroupWidget extends StatefulWidget {
+class ArenaWidget extends StatefulWidget {
+
+  static const Set<int> okNumbers = <int>{2,3,4,5};
   final GameState gameState;
   final Map<String,bool> selectedNames;
   final bool isScrollingSomewhere;
@@ -19,7 +21,7 @@ class SimpleGroupWidget extends StatefulWidget {
 
   final void Function(Map<int,String>) onPositionNames;
 
-  const SimpleGroupWidget({
+  const ArenaWidget({
     @required this.pageColors,
     @required this.gameState,
     @required this.selectedNames,
@@ -33,10 +35,10 @@ class SimpleGroupWidget extends StatefulWidget {
   });
 
   @override
-  _SimpleGroupWidgetState createState() => _SimpleGroupWidgetState();
+  _ArenaWidgetState createState() => _ArenaWidgetState();
 }
 
-class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
+class _ArenaWidgetState extends State<ArenaWidget> {
 
   Map<int, String> indexToName;
   bool open = false;
@@ -75,7 +77,7 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
   }
   
   @override
-  void didUpdateWidget(SimpleGroupWidget oldWidget){
+  void didUpdateWidget(ArenaWidget oldWidget){
     super.didUpdateWidget(oldWidget);
     if(indexToName.values.any((name)
       => !widget.gameState.names.contains(name)
@@ -258,6 +260,191 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
       positionedButton,
       buildButtons(squadLayout, this.widget.group.parent.parent.settings, landscape),
     ]);
+  }
+
+  Widget layout6Players(BuildContext context,{
+    @required BoxConstraints constraints, 
+    @required bool squadLayout,
+  }) {
+    // final wid = constraints.maxWidth;
+    // final hei = constraints.maxHeight;
+    // final landscape = wid >= hei;
+    // final rotate = !landscape;
+    // double w;
+    // double h;
+    // if(rotate){
+    //   w = hei;
+    //   h = wid;
+    // } else {
+    //   w = wid;
+    //   h = hei;
+    // }
+
+    //    (  x  ) (        y        ) (  x  )   
+    //   =====================================
+    //   ||      ||   4    ||   5   ||      || 
+    //   ||      ||        ||       ||      || h/2
+    // h ||   3  ||=================||  0   || +
+    //   ||      ||   2    ||   1   ||      || h/2
+    //   ||      ||        ||       ||      ||
+    //   =====================================
+    // return Row(children: <Widget>[
+    //   // 3 rotated
+    //   Column(children: <Widget>[
+    //     Row(children: <Widget>[ //rotated
+    //       // 5
+    //       // 4
+    //     ],),
+    //     Row(children: <Widget>[
+    //       // 2
+    //       // 1
+    //     ],),
+    //   ],)
+    //   // 0 rotated
+    // ],);
+
+    //   =============================
+    //   ||   3   ||   4   ||   5   ||
+    //   ||       ||       ||       ||
+    // h ||=========================||
+    //   ||   2   ||   1   ||   0   ||
+    //   ||       ||       ||       ||
+    //   =============================
+    // return Column(children: <Widget>[
+    //   Row(children: <Widget>[ // rotated
+    //     // 5
+    //     // 4
+    //     // 3      
+    //   ]),
+    //   Row(children: <Widget>[
+    //     // 2
+    //     // 1
+    //     // 0
+    //   ]),
+    // ],);
+    
+    return null;
+  }
+
+  Widget layout5Players(BuildContext context,{
+    @required BoxConstraints constraints, 
+    @required bool squadLayout,
+  }) {
+    final wid = constraints.maxWidth;
+    final hei = constraints.maxHeight;
+    final landscape = wid >= hei;
+    final rotate = !landscape;
+    double w;
+    double h;
+    if(rotate){
+      w = hei;
+      h = wid;
+    } else {
+      w = wid;
+      h = hei;
+    }
+    // TODO: squad layout diverso con 3 v 2
+
+    //    (  x  ) (        y        )   
+    //   =============================
+    //   ||      ||   3    ||   4   ||  h/2
+    //   ||      ||        ||       ||
+    // h ||   2  ||========()=======||
+    //   ||      ||   1    ||   0   ||  h/2
+    //   ||      ||        ||       ||
+    //   =============================
+    
+    // same areas
+    // x * h = (y / 2) * (h / 2)
+    // x = y / 4
+    // x + y = w
+    //   =>
+    final double x = w / 5;
+    final double y = w - x;
+
+    final box0134 = BoxConstraints(
+      maxHeight: h/2,
+      maxWidth: y/2,
+    );
+    final box2 = BoxConstraints(
+      maxHeight: x,
+      maxWidth: h,
+    );
+
+    final Widget positionedButton = Padding(
+      padding: rotate ? EdgeInsets.only(top: x) : EdgeInsets.only(left: x),
+      child: Center(child: buildButton(),),
+    );
+
+    final Widget players = Row(children: <Widget>[
+      RotatedBox(
+        quarterTurns: 1,
+        child: SizedBox(
+          width: h,
+          height: x,
+          child: buildPlayer(2,
+            constraints: box2,
+            buttonAlignment: Alignment.topRight,
+            buttonSize: buttonSize,
+          ),
+        ),
+      ),
+      Column(children: <Widget>[
+        RotatedBox(
+          quarterTurns: 2,
+          child: SizedBox(
+            width: y,
+            height: h/2,
+            child: Row(children: <Widget>[
+              SizedBox(
+                width: y/2,
+                height: y/2,
+                child: buildPlayer(4, 
+                  constraints: box0134, 
+                  buttonSize: buttonSize, 
+                  buttonAlignment: Alignment.topRight,
+                ),
+              ),
+              SizedBox(
+                width: y/2,
+                height: h/2,
+                child: buildPlayer(3, 
+                  constraints: box0134, 
+                  buttonSize: buttonSize, 
+                  buttonAlignment: Alignment.topLeft,
+                ),
+              ),
+            ]),
+          ),
+        ),
+        SizedBox(
+          width: y,
+          height: h / 2,
+          child: Row(children: <Widget>[
+            SizedBox(
+              width: y/2,
+              height: h/2,
+              child: buildPlayer(1, 
+                constraints: box0134, 
+                buttonSize: buttonSize, 
+                buttonAlignment: Alignment.topRight,
+              ),
+            ),
+            SizedBox(
+              width: y/2,
+              height: h/2,
+              child: buildPlayer(0, 
+                constraints: box0134, 
+                buttonSize: buttonSize, 
+                buttonAlignment: Alignment.topLeft,
+              ),
+            ),
+          ]),
+        ),
+      ]),
+    ]);
+
+    return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
   }
 
   Widget layout4Players(BuildContext context,{
@@ -609,6 +796,12 @@ class _SimpleGroupWidgetState extends State<SimpleGroupWidget> {
                   break;
                 case 4:
                   return layout4Players(context,
+                    constraints: constraints,
+                    squadLayout: squadLayout,
+                  );
+                  break;
+                case 5:
+                  return layout5Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
                   );

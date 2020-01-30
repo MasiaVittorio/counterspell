@@ -3,11 +3,12 @@ import 'opacity_components/all.dart';
 
 enum _OpacityPage{
   regular,
-  simple,
+  arena,
 }
 
 class ImageOpacity extends StatelessWidget {
-  const ImageOpacity();
+  const ImageOpacity([this.initialArena]);
+  final bool initialArena;
 
   static const double height = 440;
 
@@ -15,7 +16,7 @@ class ImageOpacity extends StatelessWidget {
   Widget build(BuildContext context) {
     return RadioHeaderedAlert<_OpacityPage>(
       orderedValues: _OpacityPage.values, 
-      initialValue: _OpacityPage.regular, 
+      initialValue: (initialArena ?? false) ? _OpacityPage.arena : _OpacityPage.regular, 
       accentSelected: true,
       items: const <_OpacityPage,RadioHeaderedItem>{
         _OpacityPage.regular: const RadioHeaderedItem(
@@ -24,11 +25,11 @@ class ImageOpacity extends StatelessWidget {
           longTitle: "Commander image opacity",
           title: "Regular",
         ),
-        _OpacityPage.simple: RadioHeaderedItem(
+        _OpacityPage.arena: RadioHeaderedItem(
           child: const ImageOpacitySimple(),
           icon: CSIcons.counterSpell,
           longTitle: "Commander image opacity",
-          title: "Simple",
+          title: "Arena",
           iconSize: 21,
         ),
       },

@@ -38,11 +38,11 @@ class PanelGameExtras extends StatelessWidget {
             icon: CSIcons.simpleViewIcon,
             iconSize: CSIcons.ideal_counterspell_size,
             iconPadding: CSIcons.ideal_counterspell_padding,
-            text: "Simple screen",
+            text: "Arena Mode",
             onTap: () => showSimpleGroup(context: context, bloc: bloc),
             forceExternalSize: true,
           ),),
-        ].separateWith(SizedBox(width: 10,)),
+        ].separateWith(CSWidgets.extraButtonsDivider),
       ),
     );
 

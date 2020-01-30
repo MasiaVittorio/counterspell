@@ -6,12 +6,14 @@ class SubSection extends StatelessWidget {
   final EdgeInsets margin;
   final VoidCallback onTap;
   final BorderRadius borderRadius;
+  final bool color;
 
   const SubSection(this.children, {
     this.crossAxisAlignment = CrossAxisAlignment.start, 
     this.margin = const EdgeInsets.symmetric(horizontal:10),
     this.onTap,
     this.borderRadius = borderRadiusDefault,
+    this.color = true,
   }): assert(crossAxisAlignment != null),
       assert(margin != null);
 
@@ -25,7 +27,7 @@ class SubSection extends StatelessWidget {
     return Container(
       margin: margin,
       decoration: BoxDecoration(
-        color: background,
+        color: color ? background : null,
         borderRadius: borderRadius,
       ),
       child: InkWell(

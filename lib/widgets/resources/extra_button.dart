@@ -11,6 +11,7 @@ class ExtraButton extends StatelessWidget {
   final EdgeInsets iconPadding;
   // if the button should not be large as its text but bound to its context, we will use autosize text
   final bool forceExternalSize;
+  final bool filled;
 
   ExtraButton({
     @required this.icon,
@@ -19,6 +20,7 @@ class ExtraButton extends StatelessWidget {
     this.forceExternalSize = false,
     this.iconPadding = EdgeInsets.zero,
     this.iconSize,
+    this.filled = false,
   });
 
   static const double _icon = 38.0;
@@ -37,6 +39,7 @@ class ExtraButton extends StatelessWidget {
             width: _icon,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
+              color: (filled ?? false) ? null : Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
               // border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.051)),
               // color: Theme.of(context).canvasColor.withOpacity(0.5),
             ),
@@ -65,6 +68,7 @@ class ExtraButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       onTap: onTap,
       margin: EdgeInsets.zero,
+      color: filled,
     );
   }
 }

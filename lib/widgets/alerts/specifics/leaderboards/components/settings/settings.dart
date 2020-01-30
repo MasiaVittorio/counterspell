@@ -36,7 +36,7 @@ class LeaderboardsSettings extends StatelessWidget {
             subtitle: const Text("Every game where a winner cannot be automatically detected and it's not specified will not count for any statistics."),
           ),
         ], margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),),
-      ].separateWith(CSWidgets.heigth10)),
+      ].separateWith(CSWidgets.height10)),
 
       ListTile(
         leading: const Icon(Icons.delete_forever, color: CSColors.delete,),

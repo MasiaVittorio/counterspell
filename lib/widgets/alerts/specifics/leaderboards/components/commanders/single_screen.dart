@@ -34,7 +34,7 @@ class CommanderStatsScreen extends StatelessWidget {
                 Text("(${stat.perPlayerGames[entry.key]} games)"),
               ],),
           ]),
-          CSWidgets.heigth10,
+          CSWidgets.height10,
         ]),
 
         Section(<Widget>[
@@ -50,7 +50,7 @@ class CommanderStatsScreen extends StatelessWidget {
                 Text("(${stat.perPlayerGames[entry.key]} games)"),
               ],)
           ]),
-          CSWidgets.heigth10,
+          CSWidgets.height10,
         ]),
 
       ],),

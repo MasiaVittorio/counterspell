@@ -37,6 +37,8 @@ class CSSettings {
     this.tutored.dispose();
 
     this.simpleSquadLayout.dispose();
+
+    this.simpleScreenVerticalScroll.dispose();
   }
 
 
@@ -76,6 +78,8 @@ class CSSettings {
   final PersistentVar<bool> tutored;
 
   final PersistentVar<bool> simpleSquadLayout;
+
+  final PersistentVar<bool> simpleScreenVerticalScroll;
 
   //====================================
   // Default values
@@ -228,8 +232,14 @@ class CSSettings {
     simpleSquadLayout= PersistentVar<bool>(
       key: "bloc_settings_blocvar_simpleSquadLayout",
       initVal: true,
-      toJson: (b) => b,
-      fromJson: (j) => j,
+      // toJson: (b) => b,
+      // fromJson: (j) => j,
+    ),
+    simpleScreenVerticalScroll = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_simpleScreenVerticalScroll",
+      initVal: false,
+      // toJson: (b) => b,
+      // fromJson: (j) => j,
     )
   {
     Vibrate.canVibrate.then(

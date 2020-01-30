@@ -13,6 +13,7 @@ class PlayerGestures{
   static void pan(CSDragUpdateDetails details, String name, double width, {
     @required CSPage page,
     @required CSBloc bloc,
+    bool vertical = false,
   }){
 
     final actionBloc = bloc.game.gameAction;
@@ -31,13 +32,13 @@ class PlayerGestures{
           actionBloc.selected.value[name] = true;
           actionBloc.selected.refresh();
         }
-        scrollerBloc.onDragUpdate(details, width);
+        scrollerBloc.onDragUpdate(details, width, vertical: vertical ?? false);
         return;
         break;
       case CSPage.commanderDamage:
         if(actionBloc.isSomeoneAttacking){
           actionBloc.defendingPlayer.set(name);
-          scrollerBloc.onDragUpdate(details, width);
+          scrollerBloc.onDragUpdate(details, width, vertical: vertical ?? false);
         }
         return;
         break;

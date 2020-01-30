@@ -50,7 +50,6 @@ class CSScroller {
   static const double _maxVel = 750;
   void onDragUpdate(CSDragUpdateDetails details, double width, {bool vertical = false}){
     if(ignoringThisPan) return;
-    // TODO: rendi possibile lo scroll verticale as well
 
     this.delayerController.scrolling();
 
@@ -73,7 +72,7 @@ class CSScroller {
 
     // final double width = this.parent.scaffold.dimensions.value.globalWidth;
     final double max = this.parent.settings.scrollSensitivity.value;
-    final double fraction = (vertical ? details.delta.dy : details.delta.dx) / width;
+    final double fraction = (vertical ? - details.delta.dy : details.delta.dx) / width;
 
     this.value += fraction * max * multiplierVel * multiplier1Static * multiplierPreBoost;
 

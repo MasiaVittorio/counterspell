@@ -43,6 +43,12 @@ class ArenaSettings extends StatelessWidget {
             title: Text("Hide names with images"),
             secondary: Icon(McIcons.account_minus_outline),
           ),),
+          settings.arenaFullScreen.build((_, fullScreen) => SwitchListTile(
+            onChanged: settings.arenaFullScreen.set,
+            value: fullScreen,
+            title: Text("Full screen"),
+            secondary: Icon(McIcons.fullscreen),
+          ),),
         ]),
       ],),
     );

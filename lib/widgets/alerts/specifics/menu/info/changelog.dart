@@ -178,17 +178,12 @@ class ChangeLogData {
       ),
       Change(
         ChangeType.change,
-        "Simple view renamed to arena mode",
+        "Simple view renamed to Arena Mode",
         null,
       ),
       Change(
         ChangeType.newFeature, 
-        "Option for vertical scroll on Arena Mode", 
-        null,
-      ),
-      Change(
-        ChangeType.change, 
-        "Full screen in Arena Mode", 
+        "Arena Mode settings", 
         null,
       ),
       Change(

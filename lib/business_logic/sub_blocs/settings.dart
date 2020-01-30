@@ -85,6 +85,8 @@ class CSSettings {
 
   final PersistentVar<bool> arenaHideNameWhenImages;
 
+  final PersistentVar<bool> arenaFullScreen;
+
   //====================================
   // Default values
   static const double sensVal = 7.2;
@@ -246,6 +248,10 @@ class CSSettings {
     arenaHideNameWhenImages = PersistentVar<bool>(
       key: "bloc_settings_blocvar_arenaHideNameWhenImages",
       initVal: false,
+    ),
+    arenaFullScreen = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_arenaFullScreen",
+      initVal: true,
     )
   {
     Vibrate.canVibrate.then(

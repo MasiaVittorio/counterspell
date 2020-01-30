@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
+import 'package:counter_spell_new/widgets/arena/arena_route.dart';
 
 
 class PanelGameExtras extends StatelessWidget {
@@ -39,7 +39,7 @@ class PanelGameExtras extends StatelessWidget {
             iconSize: CSIcons.ideal_counterspell_size,
             iconPadding: CSIcons.ideal_counterspell_padding,
             text: "Arena Mode",
-            onTap: () => showSimpleGroup(context: context, bloc: bloc),
+            onTap: () => showArena(context: context, bloc: bloc),
             forceExternalSize: true,
           ),),
         ].separateWith(CSWidgets.extraButtonsDivider),

@@ -187,6 +187,11 @@ class ChangeLogData {
         null,
       ),
       Change(
+        ChangeType.newFeature, 
+        "Arena Mode 5 players layout", 
+        null,
+      ),
+      Change(
         ChangeType.change, 
         "Adaptive System Nav Bar color", 
         null,

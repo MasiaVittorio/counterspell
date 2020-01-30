@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
-import 'package:counter_spell_new/widgets/simple_view/simple_group_route.dart';
+import 'package:counter_spell_new/widgets/arena/arena_route.dart';
 
 class CSPanelCollapsed extends StatelessWidget {
   const CSPanelCollapsed({Key key}): super(key: key);
@@ -21,11 +22,11 @@ class CSPanelCollapsed extends StatelessWidget {
         final Widget forwardButton = gameStateBloc.futureActions.build( (context, futures)
           => _PanelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward, 1.3, iconSize: 20,),
         );
-        final simpleDisplayer = gameStateBloc.gameState.build( (context, state)
+        final arenaDisplayer = gameStateBloc.gameState.build( (context, state)
           => _PanelButton(
-            [2,3,4].contains(state.players.length), 
+            ArenaWidget.okNumbers.contains(state.players.length), 
             CSIcons.simpleViewIcon,
-            ()=> showSimpleGroup(context: context, bloc: bloc), 
+            ()=> showArena(context: context, bloc: bloc), 
             1.0,
             iconSize: 20,
           ),
@@ -80,7 +81,7 @@ class CSPanelCollapsed extends StatelessWidget {
         }[currentPage] ?? SizedBox(width: CSSizes.barSize,);
 
         final Widget row = Row(children: <Widget>[
-          simpleDisplayer,
+          arenaDisplayer,
           const Spacer(),
           backButton, 
           forwardButton,

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/simple_view/components/all.dart';
+import 'package:counter_spell_new/widgets/arena/components/all.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
 import 'package:division/division.dart';
 

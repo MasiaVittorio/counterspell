@@ -71,8 +71,7 @@ class PastGameTile extends StatelessWidget {
         maxLenght: null,
         onConfirm: (notes){
           bloc.pastGames.pastGames.value[this.index].notes = notes;
-          // TODO: Crea una BlocVarList che può scrivere soltanto l'indice selezionato al refresh
-          bloc.pastGames.pastGames.refresh();
+          bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
       size: InsertAlert.height,
@@ -86,7 +85,7 @@ class PastGameTile extends StatelessWidget {
         initialSelected: game.winner, 
         onConfirm: (selected){
           bloc.pastGames.pastGames.value[this.index].winner = selected;
-          bloc.pastGames.pastGames.refresh();
+          bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
       size: WinnerSelector.heightCalc(game.state.players.length),
@@ -127,7 +126,7 @@ class GameTimeTile extends StatelessWidget {
         icon: const Icon(Icons.delete_forever, color: CSColors.delete),
         onPressed: () => stage.showAlert(
           ConfirmAlert(
-            action: () => bloc.pastGames.removeGameAt(index),
+            action: () => bloc.pastGames.pastGames.removeAt(index),
             warningText: "Delete game played $month $day, $hour:$minute?",
             confirmColor: CSColors.delete,
             confirmText: "Yes, delete",

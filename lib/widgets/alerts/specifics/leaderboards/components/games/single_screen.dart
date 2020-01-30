@@ -71,7 +71,7 @@ class PastGameScreen extends StatelessWidget {
         maxLenght: null,
         onConfirm: (notes){
           bloc.pastGames.pastGames.value[this.index].notes = notes;
-          bloc.pastGames.pastGames.refresh();
+          bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
       size: InsertAlert.height,
@@ -85,7 +85,7 @@ class PastGameScreen extends StatelessWidget {
         initialSelected: game.winner, 
         onConfirm: (selected){
           bloc.pastGames.pastGames.value[this.index].winner = selected;
-          bloc.pastGames.pastGames.refresh();
+          bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
       size: WinnerSelector.heightCalc(game.state.players.length),
@@ -120,7 +120,7 @@ class CommanderSubSection extends StatelessWidget {
           icon: CSWidgets.deleteIcon,
           onPressed: (){
             bloc.pastGames.pastGames.value[this.index].commandersA[this.player] = null;
-            bloc.pastGames.pastGames.refresh();
+            bloc.pastGames.pastGames.refresh(index: this.index);
           }
         ),
       ) else ListTile(
@@ -137,7 +137,7 @@ class CommanderSubSection extends StatelessWidget {
             icon: CSWidgets.deleteIcon,
             onPressed: (){
               bloc.pastGames.pastGames.value[this.index].commandersB[this.player] = null;
-              bloc.pastGames.pastGames.refresh();
+              bloc.pastGames.pastGames.refresh(index: this.index);
             }
           ),
         ) 
@@ -151,7 +151,7 @@ class CommanderSubSection extends StatelessWidget {
         Text(partner ? "Merge into one commander" : "Split into two partners"), 
         onTap: (){
           bloc.pastGames.pastGames.value[this.index].state.players[this.player].havePartnerB = !partner;
-          bloc.pastGames.pastGames.refresh();
+          bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
     ]);
@@ -165,7 +165,7 @@ class CommanderSubSection extends StatelessWidget {
         } else {
           bloc.pastGames.pastGames.value[this.index].commandersB[this.player] = card;
         }
-        bloc.pastGames.pastGames.refresh();
+        bloc.pastGames.pastGames.refresh(index: this.index);
       }),
       size: ImageSearch.height,
     );

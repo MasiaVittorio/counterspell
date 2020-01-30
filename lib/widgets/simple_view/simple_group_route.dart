@@ -46,16 +46,20 @@ class _SimpleGroupRoute<T> extends PopupRoute<T> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     Widget page = _SimpleGroup(routeAnimationController: _animationController);
-    if (theme != null)
+    if (theme != null){
       page = Theme(data: theme, child: page);
-    return MediaQuery.removePadding(
-      context: context, 
-      removeTop: true, 
-      removeBottom: true, 
-      removeLeft: true,
-      removeRight: true,
-      child: page,
-    );
+    }
+    if (CSBloc.of(context).settings.arenaFullScreen.value){
+      page = MediaQuery.removePadding(
+        context: context, 
+        removeTop: true, 
+        removeBottom: true, 
+        removeLeft: true,
+        removeRight: true,
+        child: page,
+      );
+    }
+    return page;
   }
 }
 

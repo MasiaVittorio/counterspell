@@ -196,6 +196,11 @@ class ChangeLogData {
         "Adaptive System Nav Bar color", 
         null,
       ),
+      Change(
+        ChangeType.newFeature, 
+        "Cache Manager", 
+        'Go into the "info" section of the menu and find a way to delete cached images or saved card search suggestions!',
+      ),
     ]),
   ];
 }

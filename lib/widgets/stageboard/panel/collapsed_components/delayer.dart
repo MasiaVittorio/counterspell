@@ -279,6 +279,9 @@ class _ContentTappable extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    final buttonWidth = (this.height*2).clamp(0, width/2);
+    final buttonHeight = this.height/(half?2:1); 
+
     return Material(
       type: MaterialType.transparency,
       child: Container(
@@ -293,15 +296,15 @@ class _ContentTappable extends StatelessWidget{
               InkResponse(
                 onTap: this.onCancel,
                 child: Container(
-                  width: this.height,
-                  height: this.height/(half?2:1),
+                  width: buttonWidth,
+                  height: buttonHeight,
                 ),
               ),
               InkResponse(
                 onTap: this.onConfirm,
                 child: Container(
-                  width: this.height,
-                  height: this.height/(half?2:1),
+                  width: buttonWidth,
+                  height: buttonHeight,
                 ),
               ),
             ],

@@ -100,7 +100,7 @@ class _MaterialApp extends StatelessWidget {
       => MaterialApp(
         theme: theme,
         title: 'CounterSpell',
-        home: const CSHomePage(key: CSWidgetKeys.homePage),
+        home: const CSHomePage(key: WidgetsKeys.homePage),
       ),
     );
       

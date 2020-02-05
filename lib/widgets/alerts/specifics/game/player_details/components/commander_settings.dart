@@ -123,23 +123,27 @@ class _CommanderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
+    final stage = Stage.of(context);
 
 
     return group.names.build((_, names){
       final name = names[index];
         
-      final VoidCallback callback = () => Stage.of(context).showAlert(ImageSearch(
+      final VoidCallback callback = () => stage.showAlert(ImageSearch(
         (found){
           group.cards(partnerA).value[name] = found;
           group.cards(partnerA).refresh();
-          group.savedCards.privateValue[name] = (group.savedCards.privateValue[name] ?? <MtgCard>{})..add(found);
-          group.savedCards.forceWrite();
+          group.savedCards.setKey(name, (group.savedCards.value[name] ?? <MtgCard>{})..add(found));
         }, 
         searchableCache: <MtgCard>{
           for(final single in group.savedCards.value.values)
             ...single,
         },
         readyCache: group.savedCards.value[name],
+        readyCacheDeleter: (cardToDelete){
+          group.savedCards.value[name].removeWhere((c) => c.id == cardToDelete.id);
+          group.savedCards.refresh(key: name);
+        },
       ), size: ImageSearch.height);
 
       return group.cards(partnerA).build((_,cards) {
@@ -160,7 +164,7 @@ class _CommanderTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 IconButton(
-                  onPressed: ()=>Stage.of(context).showAlert(
+                  onPressed: ()=>stage.showAlert(
                     ImageAlign(card.imageUrl(), aspectRatio: aspectRatio,),
                     size: ImageAlign.height,
                   ),

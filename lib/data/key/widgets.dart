@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class CSWidgetKeys{
+class WidgetsKeys{
   static const Key homePage = Key("widget_key_counterspell_my_homepage");
 
   static const Key collapsed = Key("widget_key_counterspell_scaffold_collapsed"); 

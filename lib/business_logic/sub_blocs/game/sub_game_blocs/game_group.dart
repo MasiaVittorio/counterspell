@@ -13,6 +13,7 @@ class CSGameGroup {
     this.alternativeLayoutNameOrder.dispose();
     this.newNamesSub.cancel();
     this.savedNames.dispose();
+    this.savedCards.dispose();
     this.cardsA.dispose();
     this.cardsB.dispose();
   } 
@@ -25,7 +26,7 @@ class CSGameGroup {
   StreamSubscription newNamesSub;
   final PersistentVar<Set<String>> savedNames;
 
-  final CachedVar<Map<String,Set<MtgCard>>> savedCards;
+  final BlocMap<String,Set<MtgCard>> savedCards;
   //TODO: scopri perché cancellando la cache non si cancella questa variabile
 
   final PersistentVar<Map<String,MtgCard>> cardsA;
@@ -68,22 +69,16 @@ class CSGameGroup {
           entry.key: MtgCard.fromJson(entry.value),
       },
     ),
-    savedCards = CachedVar<Map<String,Set<MtgCard>>>(
-      "bloc_game_group_blocvar_savedCards",
+    savedCards = BlocMap<String,Set<MtgCard>>(
       <String,Set<MtgCard>>{},
-      toJson: (map) => <String,dynamic>{
-        for(final entry in map.entries)
-          entry.key: <dynamic>[
-            for(final card in entry.value)
-              card.toJson(),
-          ],
-      },
-      fromJson: (json) => {
-        for(final entry in (json as Map<String,dynamic>).entries)  
-          entry.key: <MtgCard>{
-            for(final code in (entry.value as List))
-              MtgCard.fromJson(code),
-          },
+      key: "bloc_game_group_blocvar_savedCards",
+      itemToJson: (setOfCards) => <dynamic>[
+        for(final card in setOfCards)
+          card.toJson(),
+      ],
+      jsonToItem: (json) => <MtgCard>{
+        for(final code in (json as List))
+          MtgCard.fromJson(code),
       },
     )
   {

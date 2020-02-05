@@ -1,4 +1,6 @@
+export 'cache/all.dart';
 export 'contacts.dart';
+export 'changelog.dart';
 export 'developer.dart';
 export 'email.dart';
 export 'feedback.dart';

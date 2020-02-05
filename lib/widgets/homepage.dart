@@ -18,14 +18,14 @@ class CSHomePage extends StatelessWidget {
         forceOpenedPanelOverNavBar: true,
 
         controller: bloc.stageBloc.controller,
-        collapsedPanel: const CSPanelCollapsed(key: CSWidgetKeys.homePage,),
+        collapsedPanel: const CSPanelCollapsed(key: WidgetsKeys.homePage,),
 
-        extendedPanel: const CSPanelExtended(key: CSWidgetKeys.extendedPanel,),
+        extendedPanel: const CSPanelExtended(key: WidgetsKeys.extendedPanel,),
 
-        body: const CSBody(key: CSWidgetKeys.body,),
+        body: const CSBody(key: WidgetsKeys.body,),
 
         openedPanelSubtitle: (settingsPage)=>settingsThemes[settingsPage].longName,
-        appBarTitle: const CSTopBarTitle(key: CSWidgetKeys.animatedAppTitle,),
+        appBarTitle: const CSTopBarTitle(key: WidgetsKeys.animatedAppTitle,),
 
         backToClosePanel: true,
         backToDefaultPageClosed: true,

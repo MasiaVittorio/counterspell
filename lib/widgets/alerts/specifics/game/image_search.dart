@@ -10,10 +10,12 @@ class ImageSearch extends StatefulWidget {
   final void Function(MtgCard) onSelect;
   final Set<MtgCard> searchableCache;
   final Set<MtgCard> readyCache;
+  final void Function(MtgCard) readyCacheDeleter;
 
   const ImageSearch(this.onSelect, {
     this.searchableCache = const <MtgCard>{},
     this.readyCache = const <MtgCard>{},
+    this.readyCacheDeleter,
   });
 
   static const double height = _slider + _insert + _results;
@@ -35,10 +37,12 @@ class _ImageSearchState extends State<ImageSearch> {
   bool searching = false;
   bool started = false;
   bool commander = true;
+  Set<MtgCard> _readyCache = <MtgCard>{};
 
   @override
   void initState() {
     super.initState();
+    _readyCache = widget.readyCache ?? <MtgCard>{};
     controller = TextEditingController();
     behavior = BehaviorSubject<String>();
     resetResults();
@@ -47,6 +51,7 @@ class _ImageSearchState extends State<ImageSearch> {
         .debounce((_) => TimerStream(true, const Duration(milliseconds: 700)))
         // .debounce(const Duration(milliseconds: 500))
         .listen(startSearching);
+    
   }
 
   void startSearching(name) async {
@@ -77,8 +82,8 @@ class _ImageSearchState extends State<ImageSearch> {
   }
 
   void resetResults(){
-    if(widget.readyCache != null && widget.readyCache.isNotEmpty){
-      results = widget.readyCache.toList();
+    if(_readyCache != null && _readyCache.isNotEmpty){
+      results = <MtgCard>[...widget.readyCache];
     } else {
       results = <MtgCard>[];
     }
@@ -137,7 +142,21 @@ class _ImageSearchState extends State<ImageSearch> {
           children: <Widget>[
             const SizedBox(height: AlertTitle.height,),
             for(final result in results)
-              CardTile(result, callback: widget.onSelect),
+              CardTile(
+                result, 
+                callback: widget.onSelect, 
+                trailing: (widget.readyCacheDeleter != null && isCached(result))
+                  ? IconButton(
+                    icon: Icon(Icons.clear_all, color: CSColors.delete),
+                    onPressed: (){
+                      widget.readyCacheDeleter(result);
+                      this.setState((){
+                        this._readyCache.removeWhere((c) => c.id == result.id);
+                      });
+                    },
+                  )
+                  : null,
+              ),
           ],
         ),
       );
@@ -146,6 +165,8 @@ class _ImageSearchState extends State<ImageSearch> {
       return Center(child: Icon(McIcons.cards_outline, size: 80,),);
     }
   }
+
+  bool isCached(MtgCard c) => _readyCache.any((_rc) => _rc.id == c.id);
 
   Widget get insert => Container(
     height: ImageSearch._insert,

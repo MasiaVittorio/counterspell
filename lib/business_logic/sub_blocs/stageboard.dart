@@ -9,7 +9,9 @@ class CSStage {
   }
 
   final StageData<CSPage,SettingsPage> controller;
+  PlayerDetailsPage playerDetailsPage;
   final CSBloc parent;
+
   CSStage(this.parent): controller = StageData<CSPage,SettingsPage>(
     dimensions: StageDimensions(
       barSize: Stage.kBarSize,

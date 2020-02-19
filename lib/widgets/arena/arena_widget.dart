@@ -343,63 +343,151 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       w = wid;
       h = hei;
     }
-    // TODO: squad layout diverso con 3 v 2
 
-    //    (  x  ) (        y        )   
-    //   =============================
-    //   ||      ||   3    ||   4   ||  h/2
-    //   ||      ||        ||       ||
-    // h ||   2  ||========()=======||
-    //   ||      ||   1    ||   0   ||  h/2
-    //   ||      ||        ||       ||
-    //   =============================
-    
-    // same areas
-    // x * h = (y / 2) * (h / 2)
-    // x = y / 4
-    // x + y = w
-    //   =>
-    final double x = w / 5;
-    final double y = w - x;
-
-    final box0134 = BoxConstraints(
-      maxHeight: h/2,
-      maxWidth: y/2,
-    );
-    final box2 = BoxConstraints(
-      maxHeight: x,
-      maxWidth: h,
-    );
-
-    final Widget positionedButton = Padding(
-      padding: rotate ? EdgeInsets.only(top: x) : EdgeInsets.only(left: x),
-      child: Center(child: buildButton(),),
-    );
-
-    final Widget players = Row(children: <Widget>[
-      RotatedBox(
-        quarterTurns: 1,
-        child: SizedBox(
-          width: h,
-          height: x,
-          child: buildPlayer(2,
-            constraints: box2,
-            buttonAlignment: Alignment.topRight,
-            buttonSize: buttonSize,
+    if(squadLayout){
+      //   (     w/2     )(     w/2     )   
+      //   ==============================
+      //   ||     3      ||     4      ||  h/2
+      //   ||            ||            ||
+      // h ||============()============||
+      //   ||   2   ||   01   ||   0   ||  h/2
+      //   ||       ||        ||       ||
+      //   ==============================
+      //    (  w/3  )(   --   )(  w/3  )
+      final boxTop = BoxConstraints(
+        maxHeight: h/2,
+        maxWidth: w/2,
+      );
+      final boxBottom = BoxConstraints(
+        maxHeight: h/2,
+        maxWidth: w/3,
+      );
+      final Widget players = Column(children: <Widget>[
+        SizedBox(
+          width: w,
+          height: h/2,
+          child: RotatedBox(
+            quarterTurns: 2,
+            child: Row(children: <Widget>[
+              for(final i in [4,3])
+                SizedBox(
+                  width: boxTop.maxWidth,
+                  height: boxTop.maxHeight,
+                  child: buildPlayer(i, 
+                    constraints: boxTop, 
+                    buttonSize: buttonSize, 
+                    buttonAlignment: <int,Alignment>{
+                      4: Alignment.topRight,
+                      3: Alignment.topLeft,
+                    }[i],
+                  ),
+                ),
+            ],),
           ),
         ),
-      ),
-      Column(children: <Widget>[
+        SizedBox(
+          width: w,
+          height: h/2,
+          child: Row(children: <Widget>[
+            for(final i in [2,1,0])
+              SizedBox(
+                width: boxBottom.maxWidth,
+                height: boxBottom.maxHeight,
+                child: buildPlayer(i, 
+                  constraints: boxBottom, 
+                  buttonSize: buttonSize, 
+                  buttonAlignment: i == 1 ? Alignment.topCenter : null,
+                ),
+              ),
+          ],),
+        ),
+      ],);
+
+      final Widget positionedButton = Center(child: buildButton(),);
+
+      return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+
+    } else {
+      //    (  x  ) (        y        )   
+      //   =============================
+      //   ||      ||   3    ||   4   ||  h/2
+      //   ||      ||        ||       ||
+      // h ||   2  ||========()=======||
+      //   ||      ||   1    ||   0   ||  h/2
+      //   ||      ||        ||       ||
+      //   =============================
+      
+      // same areas
+      // x * h = (y / 2) * (h / 2)
+      // x = y / 4
+      // x + y = w
+      //   =>
+      final double x = w / 5;
+      final double y = w - x;
+
+      final box0134 = BoxConstraints(
+        maxHeight: h/2,
+        maxWidth: y/2,
+      );
+      final box2 = BoxConstraints(
+        maxHeight: x,
+        maxWidth: h,
+      );
+
+      final Widget positionedButton = Padding(
+        padding: rotate ? EdgeInsets.only(top: x) : EdgeInsets.only(left: x),
+        child: Center(child: buildButton(),),
+      );
+
+      final Widget players = Row(children: <Widget>[
         RotatedBox(
-          quarterTurns: 2,
+          quarterTurns: 1,
           child: SizedBox(
+            width: h,
+            height: x,
+            child: buildPlayer(2,
+              constraints: box2,
+              buttonAlignment: Alignment.topRight,
+              buttonSize: buttonSize,
+            ),
+          ),
+        ),
+        Column(children: <Widget>[
+          RotatedBox(
+            quarterTurns: 2,
+            child: SizedBox(
+              width: y,
+              height: h/2,
+              child: Row(children: <Widget>[
+                SizedBox(
+                  width: y/2,
+                  height: y/2,
+                  child: buildPlayer(4, 
+                    constraints: box0134, 
+                    buttonSize: buttonSize, 
+                    buttonAlignment: Alignment.topRight,
+                  ),
+                ),
+                SizedBox(
+                  width: y/2,
+                  height: h/2,
+                  child: buildPlayer(3, 
+                    constraints: box0134, 
+                    buttonSize: buttonSize, 
+                    buttonAlignment: Alignment.topLeft,
+                  ),
+                ),
+              ]),
+            ),
+          ),
+          SizedBox(
             width: y,
-            height: h/2,
+            height: h / 2,
             child: Row(children: <Widget>[
               SizedBox(
                 width: y/2,
-                height: y/2,
-                child: buildPlayer(4, 
+                height: h/2,
+                child: buildPlayer(1, 
                   constraints: box0134, 
                   buttonSize: buttonSize, 
                   buttonAlignment: Alignment.topRight,
@@ -408,7 +496,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               SizedBox(
                 width: y/2,
                 height: h/2,
-                child: buildPlayer(3, 
+                child: buildPlayer(0, 
                   constraints: box0134, 
                   buttonSize: buttonSize, 
                   buttonAlignment: Alignment.topLeft,
@@ -416,35 +504,12 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               ),
             ]),
           ),
-        ),
-        SizedBox(
-          width: y,
-          height: h / 2,
-          child: Row(children: <Widget>[
-            SizedBox(
-              width: y/2,
-              height: h/2,
-              child: buildPlayer(1, 
-                constraints: box0134, 
-                buttonSize: buttonSize, 
-                buttonAlignment: Alignment.topRight,
-              ),
-            ),
-            SizedBox(
-              width: y/2,
-              height: h/2,
-              child: buildPlayer(0, 
-                constraints: box0134, 
-                buttonSize: buttonSize, 
-                buttonAlignment: Alignment.topLeft,
-              ),
-            ),
-          ]),
-        ),
-      ]),
-    ]);
+        ]),
+      ]);
 
-    return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+      return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+    }
+
   }
 
   Widget layout4Players(BuildContext context,{

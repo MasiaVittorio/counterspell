@@ -27,7 +27,6 @@ class CSGameGroup {
   final PersistentVar<Set<String>> savedNames;
 
   final BlocMap<String,Set<MtgCard>> savedCards;
-  //TODO: scopri perché cancellando la cache non si cancella questa variabile
 
   final PersistentVar<Map<String,MtgCard>> cardsA;
   final PersistentVar<Map<String,MtgCard>> cardsB;

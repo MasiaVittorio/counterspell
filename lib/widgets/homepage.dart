@@ -34,6 +34,9 @@ class CSHomePage extends StatelessWidget {
         backToPreviousPageOpened: false,
 
         onPanelOpen: bloc.scroller.cancel,
+        onPanelClose: () {
+          bloc.stageBloc.playerDetailsPage = null;
+        },
 
         pandaOpenedPanelBottomBar: true,
         backgroundColor: (theme) => Colors.black,

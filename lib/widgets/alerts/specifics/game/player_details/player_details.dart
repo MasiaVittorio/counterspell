@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/core.dart';
 import 'components/all.dart';
 
-enum _DetailsPage {
+enum PlayerDetailsPage {
   commanderSettings,
   info,
   commanderDamage,
@@ -21,24 +21,25 @@ class PlayerDetails extends StatelessWidget {
     final groupBloc = bloc.game.gameGroup;
 
     return groupBloc.names.build((_, names) 
-      => RadioHeaderedAlert<_DetailsPage>(
-        initialValue: _DetailsPage.info,
-        orderedValues: _DetailsPage.values,
-        items: <_DetailsPage,RadioHeaderedItem>{
-          _DetailsPage.info: RadioHeaderedItem(
+      => RadioHeaderedAlert<PlayerDetailsPage>(
+        initialValue: bloc.stageBloc.playerDetailsPage ?? PlayerDetailsPage.info,
+        onPageChanged: (p) => bloc.stageBloc.playerDetailsPage = p,
+        orderedValues: PlayerDetailsPage.values,
+        items: <PlayerDetailsPage,RadioHeaderedItem>{
+          PlayerDetailsPage.info: RadioHeaderedItem(
             longTitle: "${names[index]}'s details",
             child: PlayerDetailsInfo(index),
             title: "Details",
             icon: Icons.person,
             unselectedIcon: Icons.person_outline,
           ),
-          _DetailsPage.commanderDamage: RadioHeaderedItem(
+          PlayerDetailsPage.commanderDamage: RadioHeaderedItem(
             longTitle: "Damage taken & dealt by ${names[index]}",
             child: PlayerDetailsDamage(index),
             title: "Damage",
             icon: CSIcons.attackIconOne,
           ),
-          _DetailsPage.commanderSettings: RadioHeaderedItem(
+          PlayerDetailsPage.commanderSettings: RadioHeaderedItem(
             longTitle: "${names[index]}'s commander settings",
             child: PlayerDetailsCommanderSettings(index, aspectRatio: aspectRatio,),
             title: "Settings",

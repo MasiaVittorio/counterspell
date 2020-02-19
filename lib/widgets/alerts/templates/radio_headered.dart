@@ -33,6 +33,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
   final Color bottomAccentColor;
   final bool accentSelected;
   final bool animatedSwitch;
+  final void Function(T) onPageChanged;
 
   const RadioHeaderedAlert({
     @required this.initialValue,
@@ -41,6 +42,7 @@ class RadioHeaderedAlert<T> extends StatefulWidget {
     bool accentSelected = false,
     @required this.items,
     this.animatedSwitch = true,
+    this.onPageChanged,
   }): this.accentSelected = (bottomAccentColor != null) || accentSelected;
 
   @override
@@ -64,6 +66,7 @@ class _RadioHeaderedAlertState<T> extends State<RadioHeaderedAlert<T>> {
       orderedValues: widget.orderedValues, 
       onSelect: (v) => this.setState((){
         this.value = v;
+        this.widget.onPageChanged?.call(v);
       }), 
       items: widget.items,
       animatedSwitch: widget.animatedSwitch,

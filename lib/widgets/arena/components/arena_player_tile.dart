@@ -414,71 +414,37 @@ class SimplePlayerTile extends StatelessWidget {
 
 
   
-  // Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, StageData stage){
-  //   return SizedBox(
-  //     // width: coreTileSize,
-  //     // height: coreTileSize,
-  //     child: Stack(
-  //       fit: StackFit.expand,
-  //       children: <Widget>[
-  //         //normal selector (+anti selector) for life screen
-  //         Positioned.fill(child: AnimatedPresented(
-  //           duration: MyDurations.fast,
-  //           presented: true, 
-  //           child: InkWell(
-  //             onLongPress: (){
-  //               actionBloc.selected.value[name]= rawSelected == null ? true : null;
-  //               actionBloc.selected.refresh();
-  //             },
-  //             child: Container(
-  //               // width: coreTileSize,
-  //               // height: coreTileSize,
-  //               child: Checkbox(
-  //                 value: rawSelected,
-  //                 activeColor: pageColors[CSPage.life],
-  //                 tristate: true,
-  //                 onChanged: (b) {
-  //                   actionBloc.selected.value[name] = rawSelected == false ? true : false;
-  //                   actionBloc.selected.refresh();
-  //                 },
+
+
+  // Widget buildBody(){
+  //   return Align(
+  //     alignment: Alignment.centerLeft,
+  //     child: Padding(
+  //       padding: const EdgeInsets.only(left: 16.0),
+  //       child: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: <Widget>[
+  //           Padding(
+  //             padding: const EdgeInsets.symmetric(vertical: 4.0),
+  //             child: Text(
+  //               name,
+  //               style: TextStyle(
+  //                 fontSize: 19,
   //               ),
   //             ),
   //           ),
-  //         ),),
-  //       ],
+  //           AnimatedListed(
+  //             listed: false,
+  //             child: Padding(
+  //               padding: const EdgeInsets.symmetric(vertical: 4.0),
+  //               child: Text("annotations to be defined"),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
   //     ),
   //   );
   // }
-
-  Widget buildBody(){
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(
-                name,
-                style: TextStyle(
-                  fontSize: 19,
-                ),
-              ),
-            ),
-            AnimatedListed(
-              listed: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Text("annotations to be defined"),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
 }

@@ -84,7 +84,7 @@ Future<T> showArena<T>({
   }
   
   final stage = Stage.of(context);
-  bloc.settings.lastPageBeforeSimpleScreen.set(stage.pagesController.page.value);
+  bloc.settings.lastPageBeforeArena.set(stage.pagesController.page.value);
   stage.pagesController.pageSet(CSPage.life);
   bloc.game.gameAction.clearSelection();
 

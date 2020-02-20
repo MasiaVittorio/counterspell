@@ -2,24 +2,8 @@ import 'package:counter_spell_new/business_logic/sub_blocs/game/sub_game_blocs/g
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/arena/components/all.dart';
 import 'package:flutter/material.dart';
-import 'package:sidereus/reusable_widgets/reusable_widgets.dart';
 
 class ArenaWidget extends StatefulWidget {
-
-  static const Set<int> okNumbers = <int>{2,3,4,5,6};
-  final GameState gameState;
-  final Map<String,bool> selectedNames;
-  final bool isScrollingSomewhere;
-  final int increment;
-  final CSGameGroup group;
-  final Map<CSPage,Color> pageColors;
-  final Map<String,PlayerAction> normalizedPlayerActions;
-
-  final double routeAnimationValue;
-
-  final Map<int, String> initialNameOrder;
-
-  final void Function(Map<int,String>) onPositionNames;
 
   const ArenaWidget({
     @required this.pageColors,
@@ -34,6 +18,19 @@ class ArenaWidget extends StatefulWidget {
     this.onPositionNames,
   });
 
+  static const Set<int> okNumbers = <int>{2,3,4,5,6};
+
+  final GameState gameState;
+  final Map<String,bool> selectedNames;
+  final bool isScrollingSomewhere;
+  final int increment;
+  final CSGameGroup group;
+  final Map<CSPage,Color> pageColors;
+  final Map<String,PlayerAction> normalizedPlayerActions;
+  final double routeAnimationValue;
+  final Map<int, String> initialNameOrder;
+  final void Function(Map<int,String>) onPositionNames;
+
   @override
   _ArenaWidgetState createState() => _ArenaWidgetState();
 }
@@ -46,29 +43,20 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   @override
   void initState() {
     super.initState();
-    initNames();
+    initNames(widget.initialNameOrder);
   }
 
-  void initNames(){
-    final len = widget.gameState.names.length;
-    this.indexToName = widget.initialNameOrder ?? {
+  void initNames(Map<int,String> initialNameOrder){
+    final int len = widget.gameState.names.length;
+    this.indexToName = initialNameOrder ?? {
       for(int i=0; i<len; ++i)
         i: null,
     };
-  }
-
-  void resetNames(){
-    final len = widget.gameState.names.length;
-    this.indexToName = {
-      for(int i=0; i<len; ++i)
-        i: null,
-    };
-    this.open = false;
   }
 
   void preExit(){
     Stage.of(context).pagesController.pageSet(
-      CSBloc.of(context).settings.lastPageBeforeSimpleScreen.value,
+      CSBloc.of(context).settings.lastPageBeforeArena.value,
     );
   }
   void exit(){
@@ -84,14 +72,13 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     ) || widget.gameState.names.any((name)
       => !indexToName.values.contains(name)
     )){
-      initNames();
+      initNames(null);
+      this.open = false;
     }
   }
 
   static const double _buttonSize = 56.0;
-  Size get buttonSize {
-    return Size(_buttonSize,_buttonSize);
-  }
+  static const Size buttonSize = Size(_buttonSize,_buttonSize);
 
   String get firstUnpositionedName {
     for(final name in widget.gameState.names){
@@ -114,54 +101,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     this.positionName(firstUnpositionedName, index);
   };
 
-  Widget buildButton(){
-    final bloc = widget.group.parent.parent;
-    VoidCallback centerTap;
-    bool buttonCross;
-
-    if(indexToName.values.any((v) => v == null)){
-      buttonCross = true;
-      centerTap = exit;
-    } else if(widget.isScrollingSomewhere){
-      buttonCross = true;
-      centerTap = bloc.scroller.cancel;
-    } else {
-      buttonCross = open;
-      centerTap = ()=> this.setState((){
-        open = !open;
-      });
-    }
-    assert(buttonCross != null);
-    assert(centerTap != null);
-
-    return Opacity(
-      opacity: widget.routeAnimationValue,
-      child: Material(
-        animationDuration: CSAnimations.fast,
-        elevation: open ? 10 : 4,
-        borderRadius: BorderRadius.circular(_buttonSize/2),
-        child: InkWell(
-          onTap: centerTap,
-          onLongPress: exit,
-          borderRadius: BorderRadius.circular(_buttonSize/2),
-          child: Container(
-            alignment: Alignment.center,
-            width: _buttonSize,
-            height: _buttonSize,
-            child: AnimatedSwitcher(
-              duration: CSAnimations.fast,
-              child: ImplicitlyAnimatedIcon(
-                key: ValueKey("simplegroup_button_animated_icon"),
-                state: buttonCross,
-                icon: AnimatedIcons.menu_close,
-                duration: CSAnimations.fast,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget buildBarrier(){
     return Positioned.fill(child: IgnorePointer(
@@ -179,77 +118,14 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     ),);
   }
 
-  Widget buildButtons(bool squadLayout, CSSettings settings, bool landscape){
-    return Positioned(
-      // duration: CSAnimations.fast,
-      bottom: 0.0,
-      left: 0.0,
-      right: 0.0,
-      child: AnimatedListed(
-        duration: const Duration(milliseconds: 200),
-        overlapSizeAndOpacity: 1.0,
-        listed: open,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),//to show shadows
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
-              boxShadow: [BoxShadow(
-                color: const Color(0x59000000), 
-                blurRadius: 12,
-              )],
-            ),
-            child: Material(
-              type: MaterialType.transparency,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  if(widget.gameState.players.length != 2)
-                    RadioSlider(
-                      selectedIndex: squadLayout ? 0 : 1,
-                      onTap: (i) => settings.arenaSquadLayout.set(i==0),
-                      title: Text("Layout"),
-                      items: [
-                        RadioSliderItem(
-                          icon: Icon(McIcons.account_multiple_outline),
-                          title: Text("Squad"),
-                        ),
-                        RadioSliderItem(
-                          icon: Icon(McIcons.account_outline),
-                          title: Text("Free for all"),
-                        ),
-                      ],
-                    ),
-                  ...(){
-                    final list = [
-                      ListTile(
-                        leading: Icon(Icons.arrow_back),
-                        title: Text("Back to full power"),
-                        onTap: exit,
-                      ),
-                      ListTile(
-                        leading: Icon(McIcons.account_group_outline),
-                        title: Text("Reorder players"),
-                        onTap: () => this.setState((){
-                          this.resetNames();
-                          this.widget.onPositionNames(this.indexToName);
-                        }),
-                      ),
-                    ];
-                    if(landscape) return [Row(children: <Widget>[for(final child in list) Expanded(child: child,)],)];
-                    else return list;
-                  }(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget finishLayout(Widget players, Widget positionedButton, bool rotate, bool squadLayout, bool landscape){
-    assert(positionedButton != null);
+
+  Widget finishLayout({
+    @required Widget players, 
+    EdgeInsets buttonPadding = EdgeInsets.zero, 
+    @required bool rotate, 
+    @required Widget menuButton,
+  }){
     assert(players != null);
     return Stack(children: <Widget>[
       Positioned.fill(child: rotate 
@@ -257,14 +133,18 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         : players
       ),
       buildBarrier(),
-      positionedButton,
-      buildButtons(squadLayout, this.widget.group.parent.parent.settings, landscape),
+      Positioned.fill(child: AnimatedPadding(
+        duration: CSAnimations.fast,
+        padding: open ? EdgeInsets.zero : buttonPadding ?? EdgeInsets.zero,
+        child: Center(child: menuButton),
+      )),
     ]);
   }
 
   Widget layout6Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
+    @required Widget menuButton,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -304,7 +184,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   height: box.maxHeight,
                   child: buildPlayer(i, 
                     constraints: box, 
-                    buttonSize: buttonSize, 
                     buttonAlignment: i == 4 ? Alignment.topCenter : null,
                   ),
                 ),
@@ -321,7 +200,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 height: box.maxHeight,
                 child: buildPlayer(i, 
                   constraints: box, 
-                  buttonSize: buttonSize, 
                   buttonAlignment: i == 1 ? Alignment.topCenter : null,
                 ),
               ),
@@ -329,9 +207,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         ),
       ],);
 
-      final Widget positionedButton = Center(child: buildButton(),);
-
-      return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+      return finishLayout(
+        players:players, 
+        rotate: rotate, 
+        menuButton: menuButton,
+      );
 
     } else{
       //    (  x  ) (        2y       ) (  x  )   
@@ -366,7 +246,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             quarterTurns: 1,
             child: buildPlayer(3, 
               constraints: sideBox, 
-              buttonSize: buttonSize, 
               buttonAlignment: null,
             ),
           ),
@@ -384,7 +263,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   for(final i in [5,4])
                     buildPlayer(i, 
                       constraints: middleBox, 
-                      buttonSize: buttonSize, 
                       buttonAlignment: {5: Alignment.topRight, 4: Alignment.topLeft}[i],
                     ),
                 ],),
@@ -397,7 +275,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 for(final i in [2,1])
                   buildPlayer(i, 
                     constraints: middleBox, 
-                    buttonSize: buttonSize, 
                     buttonAlignment: {2: Alignment.topRight, 1: Alignment.topLeft}[i],
                   ),
               ],),
@@ -411,16 +288,18 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             quarterTurns: 3,
             child: buildPlayer(0, 
               constraints: sideBox, 
-              buttonSize: buttonSize, 
               buttonAlignment: null,
             ),
           ),
         ),
       ],);
 
-      final Widget positionedButton = Center(child: buildButton(),);
 
-      return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+      return finishLayout(
+        players:players, 
+        rotate: rotate, 
+        menuButton: menuButton,
+      );
     }
 
   }
@@ -428,6 +307,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout5Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
+    @required Widget menuButton,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -474,7 +354,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   height: boxTop.maxHeight,
                   child: buildPlayer(i, 
                     constraints: boxTop, 
-                    buttonSize: buttonSize, 
                     buttonAlignment: <int,Alignment>{
                       4: Alignment.topRight,
                       3: Alignment.topLeft,
@@ -494,7 +373,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 height: boxBottom.maxHeight,
                 child: buildPlayer(i, 
                   constraints: boxBottom, 
-                  buttonSize: buttonSize, 
                   buttonAlignment: i == 1 ? Alignment.topCenter : null,
                 ),
               ),
@@ -502,9 +380,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         ),
       ],);
 
-      final Widget positionedButton = Center(child: buildButton(),);
-
-      return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+      return finishLayout(
+        players:players, 
+        rotate: rotate, 
+        menuButton: menuButton,
+      );
 
     } else {
       //    (  x  ) (        y        )   
@@ -533,10 +413,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         maxWidth: h,
       );
 
-      final Widget positionedButton = Padding(
-        padding: rotate ? EdgeInsets.only(top: x) : EdgeInsets.only(left: x),
-        child: Center(child: buildButton(),),
-      );
+      final EdgeInsets buttonPadding = rotate 
+        ? EdgeInsets.only(top: x) 
+        : EdgeInsets.only(left: x);
 
       final Widget players = Row(children: <Widget>[
         RotatedBox(
@@ -547,7 +426,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             child: buildPlayer(2,
               constraints: box2,
               buttonAlignment: Alignment.topRight,
-              buttonSize: buttonSize,
             ),
           ),
         ),
@@ -563,7 +441,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   height: y/2,
                   child: buildPlayer(4, 
                     constraints: box0134, 
-                    buttonSize: buttonSize, 
                     buttonAlignment: Alignment.topRight,
                   ),
                 ),
@@ -572,7 +449,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   height: h/2,
                   child: buildPlayer(3, 
                     constraints: box0134, 
-                    buttonSize: buttonSize, 
                     buttonAlignment: Alignment.topLeft,
                   ),
                 ),
@@ -588,7 +464,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 height: h/2,
                 child: buildPlayer(1, 
                   constraints: box0134, 
-                  buttonSize: buttonSize, 
                   buttonAlignment: Alignment.topRight,
                 ),
               ),
@@ -597,7 +472,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 height: h/2,
                 child: buildPlayer(0, 
                   constraints: box0134, 
-                  buttonSize: buttonSize, 
                   buttonAlignment: Alignment.topLeft,
                 ),
               ),
@@ -606,7 +480,12 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         ]),
       ]);
 
-      return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+      return finishLayout(
+        players:players, 
+        buttonPadding: buttonPadding, 
+        rotate: rotate, 
+        menuButton: menuButton,
+      );
     }
 
   }
@@ -614,6 +493,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout4Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
+    @required Widget menuButton,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -630,14 +510,12 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     }
 
     Widget players;
-    Widget positionedButton;
+
     if(squadLayout){
       final box = BoxConstraints(
         maxHeight: h/2,
         maxWidth: w/2,
       );
-
-      positionedButton = Center(child: buildButton());
 
       players = Column(children: <Widget>[
         RotatedBox(
@@ -649,12 +527,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               buildPlayer(3,
                 constraints: box,
                 buttonAlignment: Alignment.topRight,
-                buttonSize: buttonSize,
               ),
               buildPlayer(2,
                 constraints: box,
                 buttonAlignment: Alignment.topLeft,
-                buttonSize: buttonSize,
               ),
             ])
           ),
@@ -666,19 +542,16 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             buildPlayer(1,
               constraints: box,
               buttonAlignment: Alignment.topRight,
-              buttonSize: buttonSize,
             ),
             buildPlayer(0,
               constraints: box,
               buttonAlignment: Alignment.topLeft,
-              buttonSize: buttonSize,
             ),
           ]),
         ),
       ]);
 
     } else {
-      positionedButton = Center(child: buildButton(),);
 
       final extBox = BoxConstraints(
         maxHeight: h/4,
@@ -694,7 +567,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           child: buildPlayer(2,
             constraints: extBox,
             buttonAlignment: null,
-            buttonSize: buttonSize,
           ),
         ),
         SizedBox(
@@ -706,7 +578,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               child: buildPlayer(1,
                 constraints: intBox,
                 buttonAlignment: Alignment.topCenter,
-                buttonSize: buttonSize,
               ),
             ),
             RotatedBox(
@@ -714,7 +585,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               child: buildPlayer(3,
                 constraints: intBox,
                 buttonAlignment: Alignment.topCenter,
-                buttonSize: buttonSize,
               ),
             ),
           ]),
@@ -722,17 +592,21 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         buildPlayer(0,
           constraints: extBox,
           buttonAlignment: null,
-          buttonSize: buttonSize,
         ),
       ]);
     }
 
-    return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+      return finishLayout(
+        players:players, 
+        rotate: rotate,
+        menuButton: menuButton,
+      );
   }
 
   Widget layout3Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
+    @required Widget menuButton,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -748,7 +622,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       h = hei;
     }
     Widget players;
-    Widget positionedButton;
+    EdgeInsets buttonPadding;
     if(squadLayout){
       final topBox = BoxConstraints(
         maxHeight: h/2,
@@ -758,31 +632,28 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         maxHeight: h/2,
         maxWidth: w/2,
       );
-      positionedButton = Center(child: buildButton());
+      buttonPadding = EdgeInsets.zero;
+
       players = Column(children: <Widget>[
         RotatedBox(
           quarterTurns: 2,
           child: buildPlayer(2,
             constraints: topBox,
             buttonAlignment: Alignment.topCenter,
-            buttonSize: buttonSize,
           ),
         ),
         Row(children: <Widget>[
           buildPlayer(1,
             constraints: bottomBox,
             buttonAlignment: Alignment.topRight,
-            buttonSize: buttonSize,
           ),
           buildPlayer(0,
             constraints: bottomBox,
             buttonAlignment: Alignment.topLeft,
-            buttonSize: buttonSize,
           ),
         ]),
       ]);
-    }
-    else {
+    } else {
       //area top = w * y
       //area bottom  half = (w / 2) * (h - y)
       //area top == area bottom
@@ -799,21 +670,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         maxWidth: h - y,
       );
       if(rotate){
-        positionedButton = Positioned(
-          top: 0.0,
-          bottom: 0.0,
-          right: 0.0,
-          width: y*2,
-          child: Center(child: buildButton()),
-        );
+        buttonPadding = EdgeInsets.only(left: h - y * 2);
       } else {
-        positionedButton = Positioned(
-          top: 0.0,
-          right: 0.0,
-          left: 0.0,
-          height: y*2,
-          child: Center(child: buildButton()),
-        );
+        buttonPadding = EdgeInsets.only(bottom: h - y * 2);
       }
       players = ConstrainedBox(
         constraints: constraints,
@@ -823,7 +682,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             child: buildPlayer(2,
               constraints: topBox,
               buttonAlignment: Alignment.topCenter,
-              buttonSize: buttonSize,
             ),
           ),
           ConstrainedBox(
@@ -837,7 +695,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 child: buildPlayer(1,
                   constraints: bottomBox,
                   buttonAlignment: Alignment.topLeft,
-                  buttonSize: buttonSize,
                 ),
               ),
               RotatedBox(
@@ -845,7 +702,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 child: buildPlayer(0,
                   constraints: bottomBox,
                   buttonAlignment: Alignment.topRight,
-                  buttonSize: buttonSize,
                 ),
               ),
             ],),
@@ -854,16 +710,21 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       );
     }
 
-    return finishLayout(players, positionedButton, rotate, squadLayout, landscape);
+    return finishLayout(
+      players:players, 
+      rotate: rotate, 
+      menuButton: menuButton,
+      buttonPadding: buttonPadding,
+    );
   }
 
   Widget layout2Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
+    @required Widget menuButton,
   }) {
     final w = constraints.maxWidth;
     final h = constraints.maxHeight;
-    final bool landscape = w > h;
     final box = BoxConstraints(
       maxWidth: w,
       maxHeight: h/2,
@@ -877,24 +738,24 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           child: buildPlayer(1,
             constraints: box,
             buttonAlignment: Alignment.topCenter,
-            buttonSize: buttonSize,
           ),
         ),
         buildPlayer(0,
           constraints: box,
           buttonAlignment: Alignment.topCenter,
-          buttonSize: buttonSize,
         ),
       ]),
     );
-    final Widget positionedButton = Center(child: buildButton());
 
-    return finishLayout(players, positionedButton, false, squadLayout, landscape);
+    return finishLayout(
+      players:players, 
+      rotate: false, 
+      menuButton: menuButton,
+    );
   }
 
   Widget buildPlayer(int index, {
     @required BoxConstraints constraints,
-    @required Size buttonSize,
     @required Alignment buttonAlignment,
   }) => SimplePlayerTile(
     index,
@@ -945,35 +806,42 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           },
           child: bloc.settings.arenaSquadLayout.build((_, squadLayout)
             => LayoutBuilder(builder: (context, constraints){
+              final Widget menuButton = buildButton(squadLayout, constraints);
+
               switch (widget.gameState.players.length) {
                 case 2:
                   return layout2Players(context,
                     constraints: constraints,
                     squadLayout:squadLayout,
+                    menuButton: menuButton,
                   );
                   break;
                 case 3:
                   return layout3Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
+                    menuButton: menuButton,
                   );
                   break;
                 case 4:
                   return layout4Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
+                    menuButton: menuButton,
                   );
                   break;
                 case 5:
                   return layout5Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
+                    menuButton: menuButton,
                   );
                   break;
                 case 6:
                   return layout6Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
+                    menuButton: menuButton,
                   );
                   break;
                 default:
@@ -985,4 +853,29 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ),
     );
   }
+
+  Widget buildButton(bool squadLayout, BoxConstraints screenConstraints){
+    return ArenaMenuButton(
+      bloc: widget.group.parent.parent, 
+      indexToName: this.indexToName, 
+      isScrollingSomewhere: widget.isScrollingSomewhere,
+      open: open, 
+      toggleOpen: ()=> this.setState((){
+        open = !open;
+      }), 
+      routeAnimationValue: widget.routeAnimationValue, 
+      buttonSize: _buttonSize, 
+      exit: exit,
+      squadLayout: squadLayout,
+      gameState: widget.gameState,
+      reorderPlayers:   () => this.setState((){
+        this.initNames(null);
+        open = false;
+        this.widget.onPositionNames(this.indexToName);
+      }),
+      screenConstraints: screenConstraints,
+    );
+  }
+
+
 }

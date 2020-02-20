@@ -33,7 +33,7 @@ class CSSettings {
 
     this.timeMode.dispose();
 
-    this.lastPageBeforeSimpleScreen.dispose();
+    this.lastPageBeforeArena.dispose();
     this.tutored.dispose();
 
     this.arenaSquadLayout.dispose();
@@ -76,7 +76,7 @@ class CSSettings {
 
   final PersistentVar<TimeMode> timeMode;
 
-  final BlocVar<CSPage> lastPageBeforeSimpleScreen;
+  final BlocVar<CSPage> lastPageBeforeArena;
   final PersistentVar<bool> tutored;
 
   final PersistentVar<bool> arenaSquadLayout;
@@ -229,7 +229,7 @@ class CSSettings {
         }
       } 
     ),
-    lastPageBeforeSimpleScreen = PersistentVar<CSPage>(
+    lastPageBeforeArena = PersistentVar<CSPage>(
       key: "bloc_settings_blocvar_lastPageBeforeSimpleScreen",
       initVal: CSPage.life,
       toJson: (page) => CSPages.nameOf(page),

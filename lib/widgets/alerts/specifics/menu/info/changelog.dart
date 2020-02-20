@@ -183,12 +183,12 @@ class ChangeLogData {
       ),
       Change(
         ChangeType.newFeature, 
-        "Arena Mode settings", 
+        "Arena Mode advanced settings", 
         null,
       ),
       Change(
         ChangeType.newFeature, 
-        "Arena Mode 5 and 6 players layout", 
+        "Arena Mode 5 and 6 players layout, + new menu", 
         null,
       ),
       Change(

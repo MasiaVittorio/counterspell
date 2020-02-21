@@ -38,6 +38,8 @@ class ArenaMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final ThemeData theme = Theme.of(context);
+
     final horizontalView = screenConstraints.maxHeight < screenConstraints.maxWidth;
 
     final double menuWidth = screenConstraints.maxWidth * (horizontalView ? 0.5 : 0.85);
@@ -45,12 +47,15 @@ class ArenaMenuButton extends StatelessWidget {
     final Widget menu = SizedBox(
       width: menuWidth,
       height: menuHeight,
-      child:_ArenaMenu(
-        gameState: gameState, 
-        squadLayout: squadLayout, 
-        reorderPlayers: reorderPlayers, 
-        exit: exit, 
-        close: toggleOpen,
+      child: Container(
+        color: theme.scaffoldBackgroundColor,
+        child: _ArenaMenu(
+          gameState: gameState, 
+          squadLayout: squadLayout, 
+          reorderPlayers: reorderPlayers, 
+          exit: exit, 
+          close: toggleOpen,
+        ),
       ),
     );
 
@@ -64,56 +69,51 @@ class ArenaMenuButton extends StatelessWidget {
       open: open,
     );
 
-    final ThemeData theme = Theme.of(context);
 
 
     return Opacity(
       opacity: this.routeAnimationValue,
       child: Material(
+        clipBehavior: Clip.antiAlias,
         animationDuration: CSAnimations.medium,
         elevation: open ? 10 : 4,
-        color: open ? theme.scaffoldBackgroundColor : theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(open ? 16 : this.buttonSize/2),
         child: AnimatedContainer(
           duration: CSAnimations.medium,
           width: open ? menuWidth : buttonSize,
           height: open ? menuHeight : buttonSize,
           curve: Curves.fastOutSlowIn,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(open ? 16 : this.buttonSize/2),
-            child: Stack(
-              alignment: Alignment.center, 
-              children: <Widget>[
-                AnimatedDouble(
+          child: Stack(
+            alignment: Alignment.center, 
+            children: <Widget>[
+              AnimatedDouble(
+                duration: CSAnimations.medium,
+                value: !open ? 1.0 : -1.0,
+                builder:(_, val)=> Opacity(
+                  opacity: val.clamp(0.0, 1.0),
+                  child: IgnorePointer(
+                    ignoring: open,
+                    child: button,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0.0,
+                width: menuWidth,
+                height: menuHeight,
+                child: AnimatedDouble(
                   duration: CSAnimations.medium,
-                  value: !open ? 1.0 : -1.0,
+                  value: open ? 1.0 : -1.0,
                   builder:(_, val)=> Opacity(
                     opacity: val.clamp(0.0, 1.0),
                     child: IgnorePointer(
-                      ignoring: open,
-                      child: button,
+                      ignoring: !open,
+                      child: menu,
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 0.0,
-                  // left: 0.0,
-                  width: menuWidth,
-                  height: menuHeight,
-                  child: AnimatedDouble(
-                    duration: CSAnimations.medium,
-                    value: open ? 1.0 : -1.0,
-                    builder:(_, val)=> Opacity(
-                      opacity: val.clamp(0.0, 1.0),
-                      child: IgnorePointer(
-                        ignoring: !open,
-                        child: menu,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

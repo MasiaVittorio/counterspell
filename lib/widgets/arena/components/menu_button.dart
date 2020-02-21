@@ -70,25 +70,29 @@ class ArenaMenuButton extends StatelessWidget {
     return Opacity(
       opacity: this.routeAnimationValue,
       child: Material(
-        animationDuration: CSAnimations.fast,
+        animationDuration: CSAnimations.medium,
         elevation: open ? 10 : 4,
         color: open ? theme.scaffoldBackgroundColor : theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(open ? 16 : this.buttonSize/2),
         child: AnimatedContainer(
-          duration: CSAnimations.fast,
+          duration: CSAnimations.medium,
           width: open ? menuWidth : buttonSize,
           height: open ? menuHeight : buttonSize,
+          curve: Curves.fastOutSlowIn,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(open ? 16 : this.buttonSize/2),
             child: Stack(
               alignment: Alignment.center, 
               children: <Widget>[
-                AnimatedOpacity(
-                  duration: CSAnimations.fast,
-                  opacity: !open ? 1.0 : 0.0,
-                  child: IgnorePointer(
-                    ignoring: open,
-                    child: button,
+                AnimatedDouble(
+                  duration: CSAnimations.medium,
+                  value: !open ? 1.0 : -1.0,
+                  builder:(_, val)=> Opacity(
+                    opacity: val.clamp(0.0, 1.0),
+                    child: IgnorePointer(
+                      ignoring: open,
+                      child: button,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -96,12 +100,15 @@ class ArenaMenuButton extends StatelessWidget {
                   // left: 0.0,
                   width: menuWidth,
                   height: menuHeight,
-                  child: AnimatedOpacity(
-                    duration: CSAnimations.fast,
-                    opacity: open ? 1.0 : 0.0,
-                    child: IgnorePointer(
-                      ignoring: !open,
-                      child: menu,
+                  child: AnimatedDouble(
+                    duration: CSAnimations.medium,
+                    value: open ? 1.0 : -1.0,
+                    builder:(_, val)=> Opacity(
+                      opacity: val.clamp(0.0, 1.0),
+                      child: IgnorePointer(
+                        ignoring: !open,
+                        child: menu,
+                      ),
                     ),
                   ),
                 ),
@@ -167,7 +174,7 @@ class _ArenaButton extends StatelessWidget {
           key: ValueKey("simplegroup_button_animated_icon"),
           state: buttonCross,
           icon: AnimatedIcons.menu_close,
-          duration: CSAnimations.fast,
+          duration: CSAnimations.medium,
         ),
       ),
     );

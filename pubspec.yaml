@@ -27,6 +27,7 @@ dependencies:
   cached_network_image: ^2.0.0-rc
   division: ^0.7.0
   equatable: ^1.0.0
+  fl_chart: ^0.8.1
   flutter_reorderable_list: ^0.1.1
   flutter_vector_icons: ^0.2.1
   http: ^0.12.0+2

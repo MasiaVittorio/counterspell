@@ -110,7 +110,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           this.open = false;
         }),
         child: AnimatedContainer(
-          duration: CSAnimations.fast,
+          duration: CSAnimations.medium,
           color: Theme.of(context).scaffoldBackgroundColor
             .withOpacity(open ? 0.7 : 0.0),
         ),
@@ -134,7 +134,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ),
       buildBarrier(),
       Positioned.fill(child: AnimatedPadding(
-        duration: CSAnimations.fast,
+        duration: CSAnimations.medium,
         padding: open ? EdgeInsets.zero : buttonPadding ?? EdgeInsets.zero,
         child: Center(child: menuButton),
       )),

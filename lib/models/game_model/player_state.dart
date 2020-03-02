@@ -52,12 +52,29 @@ class PlayerState {
   // Modifiers
   static const kMinValue = -99999999999999;
   static const kMaxValue = 999999999999999;
-  PlayerState updateTime() => PlayerState.now(
-    life: this.life,
-    cast: this.cast,
-    damages: this.damages,
-    counters: this.counters,
+  PlayerState hardCopy() => PlayerState(
+    life: this.life + 0, 
+    time: DateTime.fromMillisecondsSinceEpoch(this.time.millisecondsSinceEpoch + 0), 
+    damages: <String,CommanderDamage>{for(final entry in this.damages.entries) entry.key + "": entry.value.copy(),}, 
+    cast: this.cast.copy(), 
+    counters: <String,int>{for(final entry in this.counters.entries) entry.key + "": entry.value + 0,},
   );
+
+  PlayerState updateTime([DateTime newTime]) => newTime == null
+    ? PlayerState.now(
+      life: this.life,
+      cast: this.cast,
+      damages: this.damages,
+      counters: this.counters,
+    )
+    : PlayerState(
+      time: newTime,
+      life: this.life,
+      cast: this.cast,
+      damages: this.damages,
+      counters: this.counters,
+    );
+
   PlayerState withLife(
     int life, {
       int minVal = kMinValue, 

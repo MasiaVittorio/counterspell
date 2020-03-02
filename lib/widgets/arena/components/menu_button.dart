@@ -167,12 +167,12 @@ class _ArenaButton extends StatelessWidget {
       onLongPress: exit,
       borderRadius: BorderRadius.circular(this.buttonSize/2),
       child: Container(
+        key: ValueKey("simplegroup_button_animated_icon"),
         alignment: Alignment.center,
         width: this.buttonSize,
         height: this.buttonSize,
         child: ImplicitlyAnimatedIcon(
-          key: ValueKey("simplegroup_button_animated_icon"),
-          state: buttonCross,
+          progress: buttonCross ? 1.0 : 0.0,
           icon: AnimatedIcons.menu_close,
           duration: CSAnimations.medium,
         ),

@@ -51,9 +51,10 @@ class CSPastGames {
     final pastGame = PastGame.fromState(state.frozen, 
       commandersA: commandersA,
       commandersB: commandersB,
+      dateTime: state.firstTime,
     );
     this.pastGames.value.add(pastGame);
-    this.pastGames.value.sort((one, two) => one.dateTime.difference(two.dateTime).inMilliseconds);
+    this.pastGames.value.sort((one, two) => one.startingDateTime.difference(two.startingDateTime).inMilliseconds);
     this.pastGames.refresh();
 
     if(parent.payments.unlocked.value && pastGame.winner == null){

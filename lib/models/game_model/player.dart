@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'all.dart';
+import 'package:time/time.dart';
 
 class Player {
 
@@ -91,9 +92,22 @@ class Player {
   // History Actions
 
   void applyAction(PlayerAction action){
+    checkFirstStateTime();
     states.add(
       states.last.applyAction(action)
     );
+  }
+
+  void checkFirstStateTime(){
+    ///the first state is often very very in the frikking past because you restart the game 
+    /// after you finish it, and then you use that restarted game waaay later (even days)
+    if(states.length == 1){
+      final DateTime fiveSecondsAgo = 5.seconds.ago;
+      if(states.first.time.isBefore(fiveSecondsAgo)){
+        final PlayerState firstState = states.first.hardCopy();
+        states[0] = firstState.updateTime(fiveSecondsAgo);
+      }
+    }
   }
 
   PlayerAction back(Map<String,Counter> counterMap){

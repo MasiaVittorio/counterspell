@@ -7,9 +7,9 @@ class CSWidgets{
     child: const Divider(height: 2.0,),
   );
   static const Icon deleteIcon = Icon(Icons.delete_forever, color: CSColors.delete,);
-  static const Widget height10 = SizedBox(height: 10.0,);
-  static const Widget width10 = SizedBox(width: 10.0,);
-  static const Widget height5 = SizedBox(height: 5.0,);
+  static const Widget height10 = SizedBox(height: 10.0, width: 0.0,);
+  static const Widget width10 = SizedBox(width: 10.0, height: 0.0,);
+  static const Widget height5 = SizedBox(height: 5.0, width: 0.0,);
   static const Widget extraButtonsDivider = _ExtraButtonDivider();
 }
 

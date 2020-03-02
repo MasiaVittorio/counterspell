@@ -172,11 +172,6 @@ class ChangeLogData {
         "You can now note some text along with each past game to record interesting stuff about that game. Just open a game from the list of past games in the leaderboards screen and you'll find a dedicated field to fill with your annotations.",
       ),
       Change(
-        ChangeType.newFeature, 
-        "Changelog", 
-        "Well apparently you found it! I'll try to register here any kind of change made to the app during its development to guide you (the user) to discover every new feature :D",
-      ),
-      Change(
         ChangeType.change,
         "Simple view renamed to Arena Mode",
         null,
@@ -188,18 +183,23 @@ class ChangeLogData {
       ),
       Change(
         ChangeType.newFeature, 
-        "Arena Mode 5 and 6 players layout, + new menu", 
+        "Arena Mode up to 6 players, plus a new menu", 
         null,
       ),
       Change(
         ChangeType.change, 
-        "Adaptive System Nav Bar color", 
+        "Adaptive system nav bar color", 
         null,
       ),
       Change(
         ChangeType.newFeature, 
-        "Cache Manager", 
+        "Cache manager", 
         'Go into the "info" section of the menu and find a way to delete cached images or saved card search suggestions!',
+      ),
+      Change(
+        ChangeType.newFeature,
+        "History life chart",
+        "On the bottom left on the screen, when you're on the history screen, you'll now find a button to bring up a chart with the life of each player plotted over time.",
       ),
     ]),
   ];

@@ -1,5 +1,6 @@
 export 'business_logic/all.dart';
 export 'data/all.dart';
+export 'utils/all.dart';
 export 'widgets/resources/all.dart';
 export 'widgets/alerts/all.dart';
 export 'models/all.dart';

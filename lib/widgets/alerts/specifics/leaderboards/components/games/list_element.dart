@@ -105,12 +105,11 @@ class GameTimeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final states = game.state.players.values.first.states;
-    final duration = game.state.startingTime.difference(states.last.time).abs();
-    final day = game.dateTime.day;
-    final month = monthsShort[game.dateTime.month];
-    final hour = game.dateTime.hour.toString().padLeft(2, '0');
-    final minute = game.dateTime.minute.toString().padLeft(2, '0');
+    final duration = game.duration;
+    final day = game.startingDateTime.day;
+    final month = monthsShort[game.startingDateTime.month];
+    final hour = game.startingDateTime.hour.toString().padLeft(2, '0');
+    final minute = game.startingDateTime.minute.toString().padLeft(2, '0');
     final stage = Stage.of(context);
     final bloc = CSBloc.of(context);
 

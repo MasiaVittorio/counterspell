@@ -86,8 +86,8 @@ class CSPanelCollapsed extends StatelessWidget {
               true,
               Icons.timeline,
               () => stage.showAlert(
-                const LifeChart(), 
-                size: LifeChart.height,
+                const AnimatedLifeChart(), 
+                size: AnimatedLifeChart.height,
               ),
               1.0, 
             )

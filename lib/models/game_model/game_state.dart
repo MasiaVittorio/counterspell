@@ -6,8 +6,6 @@ class GameState {
   //===================================
   // Values
 
-  final DateTime startingTime; 
-
   Map<String,Player> players;
 
 
@@ -17,7 +15,6 @@ class GameState {
   // Persistence
 
   Map<String, dynamic> toJson() => {
-    "starting_time": startingTime.toString(),
     "players": {
       for(final entry in players.entries)
         entry.key : entry.value.toJson(),
@@ -25,7 +22,6 @@ class GameState {
   };
 
   factory GameState.fromJson(Map<String, dynamic> json) => GameState(
-    startingTime: DateTime.parse(json["starting_time"]), 
     players: {
       for(final entry in (json["players"] as Map<String, dynamic>).entries)
         entry.key: Player.fromJson(entry.value as Map<String, dynamic>),
@@ -39,12 +35,10 @@ class GameState {
   // Constructors
 
   GameState({
-    @required this.startingTime, 
     @required this.players
   });
 
   factory GameState.start(Set<String> names, Set<String> counters, {int startingLife = 20}) => GameState(
-    startingTime: DateTime.now(),
     players: {
       for(final name in names)
         name: Player.start(name, names, counters, startingLife: startingLife)
@@ -58,7 +52,8 @@ class GameState {
   // Getters
 
   Set<String> get names => players.keys.toSet();
-  int historyLenghtSafe(){
+  
+  int get historyLenghtSafe {
     assert(players.isNotEmpty);
 
     final ls = [
@@ -73,6 +68,7 @@ class GameState {
 
     return result;
   }
+  
   int get historyLenght{
     assert(players.isNotEmpty);
     return players.values.first.states.length;
@@ -105,19 +101,16 @@ class GameState {
   };
 
   GameState get frozen {
-    final states = this.players.values.last.states;
     return GameState(
-      startingTime: states.length >= 2 
-        ? states[1].time 
-        : states.first.time, 
-            //this is because the first time you edit something is more indicative 
-            // of when the game started (you could have the app with a new game 
-            // restarted days ago and then start to use that game object)
       players: {for(final player in this.players.values)
         player.name: player.frozen,
       },
     );
   }
+
+  // Duration get duration => firstTime.difference(lastTime).abs();
+  DateTime get firstTime => this.players.values.first.states.first.time;
+  DateTime get lastTime => this.players.values.first.states.last.time;
 
   
 

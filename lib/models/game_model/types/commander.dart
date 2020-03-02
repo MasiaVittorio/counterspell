@@ -26,7 +26,11 @@ class CommanderDamage{
     (partnerA ? damage : a).clamp(0, maxValue ?? PlayerState.kMaxValue),
     (!partnerA ? damage : b).clamp(0, maxValue ?? PlayerState.kMaxValue),
   );
+
+  CommanderDamage copy() => CommanderDamage(this.a + 0, this.b + 0);
 }
+
+
 class CommanderCast extends CommanderDamage{
   const CommanderCast(int a, [int b = 0]): super(a,b);
   static CommanderCast fromDamage(CommanderDamage damage)=> CommanderCast(damage.a ?? 0, damage.b ?? 0);
@@ -38,4 +42,6 @@ class CommanderCast extends CommanderDamage{
     (partnerA ? cast : a).clamp(0, maxValue ?? PlayerState.kMaxValue),
     (!partnerA ? cast : b).clamp(0, maxValue ?? PlayerState.kMaxValue),
   );
+
+  CommanderCast copy() => CommanderCast(this.a + 0, this.b + 0);
 }

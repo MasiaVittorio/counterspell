@@ -1,6 +1,5 @@
 import 'package:counter_spell_new/core.dart';
 
-
 class PastGame{
 
   //=======================================
@@ -10,6 +9,8 @@ class PastGame{
   final Map<String,MtgCard> commandersA;
   final Map<String,MtgCard> commandersB;
   String notes;
+  final DateTime startingDateTime;
+
 
   //=======================================
   // Constructor(s)
@@ -18,6 +19,7 @@ class PastGame{
     this.notes = "",
     Map<String,MtgCard> commandersA,
     Map<String,MtgCard> commandersB,
+    @required this.startingDateTime,
   }): 
     this.commandersA = <String,MtgCard>{
       for(final player in state.players.keys)
@@ -37,12 +39,14 @@ class PastGame{
     Map<String,MtgCard> commandersA,
     Map<String,MtgCard> commandersB,
     String notes,
+    @required DateTime dateTime,
   }){
     return PastGame(state.winner, 
       state: state,
       commandersA: commandersA,
       commandersB: commandersB,
       notes: notes,
+      startingDateTime: dateTime ?? state.players.values.first.states.first.time,
     );
   }
 
@@ -53,7 +57,7 @@ class PastGame{
     "winner": this.winner,
     "notes": this.notes,
     "state": this.state.toJson(),
-    "dateTime": this.dateTime.millisecondsSinceEpoch,
+    "dateTime": this.startingDateTime.millisecondsSinceEpoch,
     "commandersA": <String,Map<String,dynamic>>{
       for(final entry in this.commandersA.entries)
         entry.key: entry.value?.toJson() ?? null,
@@ -62,6 +66,7 @@ class PastGame{
       for(final entry in this.commandersB.entries)
         entry.key: entry.value?.toJson() ?? null,
     },
+    "dateTime": this.startingDateTime.millisecondsSinceEpoch,
   };
 
   factory PastGame.fromJson(dynamic json) => PastGame(
@@ -76,11 +81,15 @@ class PastGame{
       for(final entry in (json["commandersB"] as Map).entries)
         entry.key as String : entry.value == null ? null : MtgCard.fromJson(entry.value),
     },
+    startingDateTime: json["dateTime"] != null 
+      ? DateTime.fromMillisecondsSinceEpoch(json["dateTime"])
+      : GameState.fromJson(json["state"]).firstTime,
   );
 
   //=========================================
   // Getters
-  DateTime get dateTime => state.startingTime;
+
+  Duration get duration => this.state.lastTime.difference(this.startingDateTime).abs();
 
   bool commanderPlayed(MtgCard card){
     for(final commander in this.commandersA.values){

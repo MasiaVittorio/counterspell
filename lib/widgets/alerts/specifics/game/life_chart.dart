@@ -30,7 +30,7 @@ class LifeChart extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
                 color: bkgColor,
               ),
-              padding: const EdgeInsets.fromLTRB(8.0, 12.0, 12.0, 4.0),
+              padding: const EdgeInsets.fromLTRB(8.0, 12.0, 20.0, 4.0),
               child: _Chart(gameState),
             ),),
           ],),
@@ -107,7 +107,7 @@ class _Chart extends StatelessWidget {
     );
 
     final int maxSeconds = players.first.states.last.time
-        .difference(gameState.startingTime)
+        .difference(gameState.players.values.first.states.first.time)
         .inSeconds;
     
     final Map<String,double> maxTimeAndInterval = _maxTimeAndInterval(maxSeconds);
@@ -147,7 +147,7 @@ class _Chart extends StatelessWidget {
           LineChartBarData(
             spots: <FlSpot>[for(final playerState in players[i].states)
               FlSpot(
-                playerState.time.difference(gameState.startingTime)
+                playerState.time.difference(gameState.firstTime)
                   .inSeconds
                   .abs()
                   .toDouble(), 
@@ -316,53 +316,6 @@ class _Chart extends StatelessWidget {
   static const int _nTimes = 3;
   
 }
-
-
-
-
-
-
-
-
-extension on num {
-  double closestMultipleOf(
-    double _, 
-    {
-      bool upper = false,
-      bool lower = false,
-      bool closerToZero = false, 
-      bool fartherFromZero = false,
-      bool overshoot = false, //if the number is already a multiple, go to the next
-    }
-  ){
-    final double of = _.abs();
-
-    final double divided = this/of;
-
-    int integer;
-    if(upper ?? false) integer = divided.ceil();
-    else if(lower ?? false) integer = divided.floor();
-    else if(closerToZero ?? false) {
-      if(divided >= 0) integer = divided.floor();
-      else integer = divided.ceil();
-    } 
-    else if(fartherFromZero ?? false){
-      if(divided >= 0) integer = divided.ceil();
-      else integer = divided.floor();
-    } 
-    else integer = divided.round();
-
-    final double result = integer * of;
-
-    if(overshoot && result == this.toDouble()){
-      return result + (upper ? 1.0*of : -1.0*of);
-    } 
-
-    return result;
-  }
-}
-
-
 
 extension on Color {
   Color get contrast {

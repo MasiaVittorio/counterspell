@@ -6,12 +6,14 @@ class ExtraInfo {
   final int value;
   final String note;
   final IconData icon;
+
   const ExtraInfo({
     @required this.icon,
     @required this.color,
     @required this.value,
     this.note,
   });
+
   static List<ExtraInfo> fromPlayer(String name, {
     @required Map<String, PlayerState> ofGroup,
     @required Map<DamageType, bool> types,

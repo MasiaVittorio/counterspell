@@ -83,7 +83,7 @@ class PastGame{
     },
     startingDateTime: json["dateTime"] != null 
       ? DateTime.fromMillisecondsSinceEpoch(json["dateTime"])
-      : GameState.fromJson(json["state"]).firstTime,
+      : json["state"]["startingTime"] ?? GameState.fromJson(json["state"]).firstTime,
   );
 
   //=========================================

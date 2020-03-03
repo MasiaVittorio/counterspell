@@ -416,7 +416,6 @@ class _LegendaItem extends StatelessWidget {
 
   @override 
   Widget build(BuildContext context) {
-    final Color lineColor = theme.colorScheme.onSurface.withOpacity(0.5);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),

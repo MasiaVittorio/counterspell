@@ -1,3 +1,2 @@
-export 'extra_info.dart';
-export 'arena_player_tile.dart';
-export 'menu_button.dart';
+export 'player_tile/all.dart';
+export 'menu_button/all.dart';

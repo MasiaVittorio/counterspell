@@ -1,28 +1,41 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/arena/components/all.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
 import 'package:division/division.dart';
+import 'extra_info.dart';
 
 
 class SimplePlayerTile extends StatelessWidget {
+
+  //Business Logic
   final CSGameGroup group;
+
+  //Actual Game State
+  final GameState gameState;
+
+  //Interaction information
   final Map<String, bool> selectedNames;
   final bool isScrollingSomewhere;
-  final GameState gameState;
-  final Map<CSPage,Color> pageColors;
   final int increment;
   final Map<String,PlayerAction> normalizedPlayerActions;
+
+  //Theming
+  final Map<CSPage,Color> pageColors;
+
+  //Layout information
   final BoxConstraints constraints;
   final Alignment buttonAlignment;
   final Size buttonSize;
+
+  //Reordering stuff
   final Map<int,String> indexToName;
   final int index;
   final VoidCallback onPosition;
   final String firstUnpositionedName;
-  final double routeAnimationValue;
 
+  //Route enter / exit animation
+  final double routeAnimationValue;
 
   SimplePlayerTile(this.index, {
     @required this.pageColors,
@@ -38,10 +51,9 @@ class SimplePlayerTile extends StatelessWidget {
     @required this.increment,
     @required this.normalizedPlayerActions,
     @required this.routeAnimationValue,
-    this.firstUnpositionedName,
+    @required this.firstUnpositionedName,
   }): assert(indexToName[index] != null || firstUnpositionedName != null);
 
-  String get name => indexToName[index];
   static const double _margin = 6.0;
 
   @override
@@ -50,26 +62,8 @@ class SimplePlayerTile extends StatelessWidget {
     final scrollerBloc = bloc.scroller;
     final themeData = Theme.of(context);
 
-    if(name == null){
-      return Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: onPosition,
-          child: Container(
-            color: Colors.transparent,
-            width: constraints.maxWidth,
-            height: constraints.maxHeight,
-            child: Center(child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Text(
-                "Tap to put $firstUnpositionedName here",
-                style: themeData.textTheme.button,
-              ),
-            ),),
-          ),
-        ),
-      );
-    }
+    final String name = indexToName[index];
+    if(name == null) return buildPositioner(themeData);
 
     final bool rawSelected = selectedNames[name];
     final bool highlighted = selectedNames[name] != false;
@@ -171,7 +165,7 @@ class SimplePlayerTile extends StatelessWidget {
                     : 0,
                   offset: [0,0]
                 ),
-              child: group.cards(!this.gameState.players[this.name].usePartnerB).build((_, cards){
+              child: group.cards(!this.gameState.players[name].usePartnerB).build((_, cards){
                 final MtgCard card = cards[name];
                 if(card == null){
                   return Stack(
@@ -228,9 +222,10 @@ class SimplePlayerTile extends StatelessWidget {
 
   Widget buildName(CSGameAction actionBloc, bool rawSelected, bool showNameWithImage){
 
+    final String name = indexToName[index];
     bool showName = true;
     if(!showNameWithImage){
-      final bool cardThere = group.cards(!this.gameState.players[this.name].usePartnerB).value[name] != null;
+      final bool cardThere = group.cards(!this.gameState.players[name].usePartnerB).value[name] != null;
       showName = !cardThere;
     }
 
@@ -263,7 +258,10 @@ class SimplePlayerTile extends StatelessWidget {
   }
 
   Widget buildExtraInfo(BuildContext context, ThemeData themeData){
+
+    final String name = indexToName[index];
     final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
+
     return BlocVar.build3(
       group.parent.parent.themer.defenceColor,
       group.parent.gameAction.counterSet.variable,
@@ -413,38 +411,23 @@ class SimplePlayerTile extends StatelessWidget {
   }
 
 
-  
-
-
-  // Widget buildBody(){
-  //   return Align(
-  //     alignment: Alignment.centerLeft,
-  //     child: Padding(
-  //       padding: const EdgeInsets.only(left: 16.0),
-  //       child: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: <Widget>[
-  //           Padding(
-  //             padding: const EdgeInsets.symmetric(vertical: 4.0),
-  //             child: Text(
-  //               name,
-  //               style: TextStyle(
-  //                 fontSize: 19,
-  //               ),
-  //             ),
-  //           ),
-  //           AnimatedListed(
-  //             listed: false,
-  //             child: Padding(
-  //               padding: const EdgeInsets.symmetric(vertical: 4.0),
-  //               child: Text("annotations to be defined"),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget buildPositioner(ThemeData themeData) => Material(
+    type: MaterialType.transparency,
+    child: InkWell(
+      onTap: onPosition,
+      child: Container(
+        color: Colors.transparent,
+        width: constraints.maxWidth,
+        height: constraints.maxHeight,
+        child: Center(child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Text(
+            "Tap to put $firstUnpositionedName here",
+            style: themeData.textTheme.button,
+          ),
+        ),),
+      ),
+    ),
+  );
 
 }

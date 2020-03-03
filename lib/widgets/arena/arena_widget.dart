@@ -33,6 +33,10 @@ class ArenaWidget extends StatefulWidget {
 
   @override
   _ArenaWidgetState createState() => _ArenaWidgetState();
+
+  static const double _buttonSize = 56.0;
+  static const Size buttonSize = Size(_buttonSize,_buttonSize);
+
 }
 
 class _ArenaWidgetState extends State<ArenaWidget> {
@@ -77,8 +81,8 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     }
   }
 
-  static const double _buttonSize = 56.0;
-  static const Size buttonSize = Size(_buttonSize,_buttonSize);
+  double get _buttonSize => ArenaWidget._buttonSize;
+  Size get buttonSize => ArenaWidget.buttonSize;
 
   String get firstUnpositionedName {
     for(final name in widget.gameState.names){
@@ -761,7 +765,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     index,
     onPosition: playerCallback(index),
     buttonAlignment: buttonAlignment,
-    buttonSize: buttonSize,
     constraints: constraints,
     routeAnimationValue: widget.routeAnimationValue,
 

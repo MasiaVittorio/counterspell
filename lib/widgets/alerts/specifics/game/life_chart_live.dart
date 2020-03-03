@@ -6,20 +6,19 @@ class AnimatedLifeChart extends StatelessWidget {
 
   const AnimatedLifeChart();
 
-  static const double height = 400.0;
+  static const double height = 550.0;
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context);
-    // final ThemeData theme = Theme.of(context);
-    // final Color bkgColor = theme.scaffoldBackgroundColor;
-    // final TextStyle textStyle = theme.textTheme.body1; 
-
-    return Material(child: bloc.game.gameState.gameState.build((_, gameState){
-      return _LifeChartLive(gameState);
-    },),);
+    return Material(child: CSBloc.of(context)
+      .game.gameState.gameState.build((_, gameState)
+        => _LifeChartLive(gameState),
+      ),
+    );
   }
 }
+
+
 
 class _LifeChartLive extends StatefulWidget {
   
@@ -27,10 +26,10 @@ class _LifeChartLive extends StatefulWidget {
     assert(gameState != null),
     gameDuration = gameState.lastTime.difference(gameState.firstTime).abs(),
     gameLenght = gameState.historyLenght,
+    names = gameState.names.toList()..sort(),
     times = <Duration>[for(final state in gameState.players.values.first.states) 
       state.time.difference(gameState.players.values.first.states.first.time),
     ],
-    names = gameState.names.toList()..sort(),
     maxValue = ((){
       int max = gameState?.players?.values?.first?.states?.first?.life ?? 0;
       for(final player in gameState.players.values){
@@ -40,17 +39,23 @@ class _LifeChartLive extends StatefulWidget {
           final int taken = state.totalDamageTaken;
           if(max < taken)
             max = taken;
+          final int casts = state.totalCasts;
+          if(max < casts)
+            max = casts;
         }
       }
       return max.toDouble();
     })(),
-    showDamage = ((){
-      for(final player in gameState.players.values)
-        for(final state in player.states)
-          if(state.totalDamageTaken != 0) 
-            return true;
-      return false;
-    })();
+    showDamage = gameState.players.values.any(
+      (player) => player.states.any(
+        (state) => state.totalDamageTaken != 0,
+      ),
+    ),
+    showCasts = gameState.players.values.any(
+      (player) => player.states.any(
+        (state) => state.totalCasts != 0,
+      ),
+    );
 
 
   //real variable  
@@ -64,10 +69,12 @@ class _LifeChartLive extends StatefulWidget {
   final List<String> names;
   final double maxValue;
   final bool showDamage;
+  final bool showCasts;
 
   @override
   _LifeChartLiveState createState() => _LifeChartLiveState();
 }
+
 
 class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderStateMixin {
 
@@ -170,49 +177,85 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
         Expanded(child: layoutChart()),
         buildControls(),
         CSWidgets.height5,
+        CSWidgets.divider,
+        CSWidgets.height15,
         Center(child: buildDurationSelector()),
-        CSWidgets.height10,
+        CSWidgets.height15,
       ],
     ),);
   } 
 
   Widget layoutChart(){
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final CSBloc bloc = CSBloc.of(context);
+    final ThemeData theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 2.0,
         vertical: 8.0,
       ),
-      child: SubSection(<Widget>[
-        Expanded(child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 16.0,
-          ),
-          child: buildChart()
-        ),),
-      ],),
+      child: BlocVar.build2(
+        stage.themeController.primaryColorsMap,
+        bloc.themer.defenceColor,
+        builder:(_, colors, defenceColor) 
+          =>SubSection(<Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 10.0),
+              child: buildLegenda(colors, defenceColor, theme),
+            ),
+            Expanded(child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 16.0,
+              ),
+              child: buildChart(colors, defenceColor, theme)
+            ),),
+          ],),
+      ),
     );
   }
 
-  Widget buildChart(){
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
-    final CSBloc bloc = CSBloc.of(context);
+  Widget buildLegenda(
+    Map<CSPage,Color> colors, 
+    Color defenceColor, 
+    ThemeData theme,
+  ){
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if(widget.showCasts)
+            _LegendaItem(colors[CSPage.commanderCast], "Casts", theme: theme),
 
-    final ThemeData theme = Theme.of(context);
+          _LegendaItem(colors[CSPage.life], "Life", theme: theme),
+          if(widget.showDamage)
+            _LegendaItem(defenceColor, "Damage", theme: theme),
+        ],
+      ),
+    );
+  }
+
+  Widget buildChart(
+    Map<CSPage,Color> colors, 
+    Color defenceColor, 
+    ThemeData theme,
+  ){
+
     final TextStyle style = theme.textTheme.body1.copyWith(
       color: theme.colorScheme.onSurface.withOpacity(0.5),
     );
 
     final double maxTitle = widget.maxValue.closestMultipleOf(10, lower: true);
 
-    return BlocVar.build2(
-      stage.themeController.primaryColorsMap,
-      bloc.themer.defenceColor,
-      builder:(_, colors, defenceColor) => BarChart(BarChartData(
+    return  BarChart(
+      BarChartData(
         barGroups: _barGroupsData(
           this.states,
           lifeColor: colors[CSPage.life],
           defenceColor: defenceColor,
+          castColor: colors[CSPage.commanderCast],
         ),
         // groupsSpace: 16.0,
         maxY: widget.maxValue,
@@ -232,17 +275,18 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
             textStyle: style,
             margin: 34,
             reservedSize: style.fontSize,
-            interval: 1.0,
+            interval: maxTitle/2,
             getTitles: (double value){
-              if([0.0, maxTitle/2, maxTitle].contains(value)) return "${value.toInt()}";
-              return "";
+              return "${value.toInt()}";
+              // return "";
             }
           )
         ),
         axisTitleData: FlAxisTitleData(show: false),
         borderData: FlBorderData(show: false),
         barTouchData: BarTouchData(enabled: false),
-      ), swapAnimationDuration: swapAnimationDuration,),
+      ), 
+      swapAnimationDuration: swapAnimationDuration,
     );
   }
 
@@ -270,7 +314,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
             Container(
               alignment: Alignment.center,
               width: 50,
-              child: Text("${(widget.gameDuration * this.controller.value).textFormat}"),
+              child: Text("-${(widget.gameDuration * (1.0 - this.controller.value)).textFormat}"),
             ),
             Expanded(child: Slider(
               onChanged: (val) => this.setState((){
@@ -325,18 +369,27 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
   //====================================================
   // Chart data =====================================
 
-  static const double _barWidth = 7.0;
+  static const double _barWidth = 10.0;
   List<BarChartGroupData> _barGroupsData(List<PlayerState> states,{
     @required Color lifeColor,
     @required Color defenceColor,
+    @required Color castColor,
   }) => <BarChartGroupData>[
     for(int i=0; i<states.length; i++)
-      BarChartGroupData(barsSpace: 4, x: i, barRods: [
+      BarChartGroupData(barsSpace: 5, x: i, barRods: [
+        if(widget.showCasts)
+          BarChartRodData(
+            y: states[i].totalCasts.toDouble(),
+            color: castColor,
+            width: _barWidth,
+          ),
+
         BarChartRodData(
           y: states[i].life.toDouble().clamp(0.0, double.infinity),
           color: lifeColor,
           width: _barWidth,
         ),
+
         if(widget.showDamage)
           BarChartRodData(
             y: states[i].totalDamageTaken.toDouble(),
@@ -350,3 +403,44 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
 
 
+class _LegendaItem extends StatelessWidget {
+  final Color color;
+  final String text;
+  final ThemeData theme;
+
+  const _LegendaItem(this.color, this.text, {
+    @required this.theme,
+  });
+  
+  static const double height = _LifeChartLiveState._barWidth * 2;
+
+  @override 
+  Widget build(BuildContext context) {
+    final Color lineColor = theme.colorScheme.onSurface.withOpacity(0.5);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Container(
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(height),
+          // border: Border.all(color: lineColor),
+        ),
+        child: Row(children: <Widget>[
+          Container(
+            height: height,
+            width: height,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(height),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(text),
+          ),
+        ],),
+      ),
+    );
+  }
+}

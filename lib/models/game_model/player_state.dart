@@ -24,6 +24,7 @@ class PlayerState {
 
   //===================================
   // Getters
+  int get totalCasts => this.cast.a + this.cast.b;
   int get totalDamageTaken {
     int sum = 0;
     for(final value in this.damages.values){

@@ -468,7 +468,7 @@ class PlayerTile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 4.0),
                 child: AnimatedText(
-                  text:annotation,
+                  annotation,
                   maxLines: 1,
                   overflow: TextOverflow.clip,
                 ),

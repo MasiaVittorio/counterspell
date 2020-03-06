@@ -187,6 +187,16 @@ class ChangeLogData {
         null,
       ),
       Change(
+        ChangeType.newFeature, 
+        "Arena Mode now features commander damage", 
+        null,
+      ),
+      Change(
+        ChangeType.newFeature,
+        "History life chart",
+        "On the bottom left on the screen, when you're on the history screen, you'll now find a button to bring up a chart with the life of each player plotted over time.",
+      ),
+      Change(
         ChangeType.change, 
         "Adaptive system nav bar color", 
         null,
@@ -195,11 +205,6 @@ class ChangeLogData {
         ChangeType.newFeature, 
         "Cache manager", 
         'Go into the "info" section of the menu and find a way to delete cached images or saved card search suggestions!',
-      ),
-      Change(
-        ChangeType.newFeature,
-        "History life chart",
-        "On the bottom left on the screen, when you're on the history screen, you'll now find a button to bring up a chart with the life of each player plotted over time.",
       ),
     ]),
   ];

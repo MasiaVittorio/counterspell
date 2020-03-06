@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_utilities.dart';
 
 class APTNumber extends StatelessWidget {
 
@@ -8,15 +9,30 @@ class APTNumber extends StatelessWidget {
     @required this.playerState,
     @required this.rawSelected,
     @required this.scrolling,
+    @required this.name,
+    @required this.page,
+    @required this.counter,
+    @required this.isAttackerUsingPartnerB,
+    @required this.usingPartnerB,
+    @required this.whoIsAttacking,
+    @required this.whoIsDefending,
   });
 
   //Player information
   final PlayerState playerState;
+  final String name;
+  // TODO: attacca / difendi
 
   //Interaction information
   final bool rawSelected;
   final int increment;
   final bool scrolling;
+  final CSPage page;
+  final String whoIsAttacking;
+  final String whoIsDefending;
+  final bool usingPartnerB;
+  final bool isAttackerUsingPartnerB;
+  final Counter counter;
 
   //Layout information
   final BoxConstraints constraints;
@@ -24,11 +40,23 @@ class APTNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final fontSize = constraints.maxHeight * 0.4;
-    final scale = 0.45;
+    final double fontSize = constraints.maxHeight * 0.4;
+    const double scale = 0.45;
     final int increment = rawSelected == null ? - this.increment : this.increment;
-    final incrementString = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
+    final String incrementString = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
     
+    final int count = PTileUtils.cnValue(
+      name, 
+      page, 
+      whoIsAttacking, 
+      whoIsDefending,
+      usingPartnerB ?? false,
+      playerState,
+      isAttackerUsingPartnerB ?? false,
+      counter,
+    );
+
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +68,7 @@ class APTNumber extends StatelessWidget {
           duration: CSAnimations.fast,
           child: AnimatedCount(
             duration: CSAnimations.medium,
-            count: playerState.life,
+            count: count,
             style: TextStyle(
               fontSize: fontSize,
             ),
@@ -51,7 +79,7 @@ class APTNumber extends StatelessWidget {
           duration: CSAnimations.fast,
           axis: Axis.horizontal,
           child: Text(
-            "$incrementString = ${playerState.life + increment}",
+            "$incrementString = ${count + increment}",
             style: TextStyle(
               fontSize: fontSize * scale,
             ),

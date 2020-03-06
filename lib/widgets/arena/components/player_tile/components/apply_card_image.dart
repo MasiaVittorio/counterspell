@@ -7,13 +7,13 @@ class AptCardImage extends StatelessWidget {
     @required this.bloc,
     @required this.name,
     @required this.gameState,
-    @required this.gestures,
+    @required this.gesturesApplied,
   });
 
   final GameState gameState;
   final String name;
   final CSBloc bloc;
-  final Widget gestures;
+  final Widget gesturesApplied;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class AptCardImage extends StatelessWidget {
       if(card == null){
 
         return SizedBox.expand(
-          child: gestures,
+          child: gesturesApplied,
         );
 
       } else {
@@ -61,7 +61,7 @@ class AptCardImage extends StatelessWidget {
             ),
             Theme(
               data: themeData.copyWith(splashColor: Colors.white.withAlpha(0x66)),
-              child: gestures,
+              child: gesturesApplied,
             ),
           ],
         );

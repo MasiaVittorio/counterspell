@@ -8,10 +8,12 @@ class AptInfo extends StatelessWidget {
     @required this.name,
     @required this.bloc,
     @required this.gameState,
+    @required this.defenceColor,
   });
 
   //Theming
   final Map<CSPage,Color> pageColors;
+  final Color defenceColor;
 
   //Business Logic
   final CSBloc bloc;
@@ -27,11 +29,10 @@ class AptInfo extends StatelessWidget {
 
     final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
 
-    return BlocVar.build3(
-      bloc.themer.defenceColor,
+    return BlocVar.build2<Counter,Map<CSPage,bool>>(
       bloc.game.gameAction.counterSet.variable,
       stage.pagesController.enabledPages,
-      builder: (context, defenceColor, _, enabledPages){
+      builder: (context, _, enabledPages){
 
         final List<ExtraInfo> list = ExtraInfo.fromPlayer(name,
           ofGroup: gameState.lastPlayerStates,

@@ -4,12 +4,22 @@ import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gest
 class AptGestures extends StatelessWidget {
 
   AptGestures({
+    @required this.content,
     @required this.bloc,
     @required this.name,
     @required this.isScrollingSomewhere,
     @required this.rawSelected,
     @required this.constraints,
+    @required this.page,
+    @required this.whoIsAttacking,
+    @required this.whoIsDefending,
+    @required this.havingPartnerB,
+    @required this.usingPartnerB,
+    @required this.defenceColor,
   });
+
+  //child
+  final Widget content;
 
   //Business Logic
   final CSBloc bloc;
@@ -20,6 +30,12 @@ class AptGestures extends StatelessWidget {
   //Interaction information
   final bool isScrollingSomewhere;
   final bool rawSelected;
+  final CSPage page;
+  final String whoIsAttacking;
+  final String whoIsDefending;
+  final Color defenceColor;
+  final bool havingPartnerB;
+  final bool usingPartnerB;
   //TODO: attacca / difendi
 
   //Layout information
@@ -30,20 +46,37 @@ class AptGestures extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final CSScroller scrollerBloc = bloc.scroller;
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
-        onTap: () => PlayerGestures.tap(
-          name,
-          page: CSPage.life,
-          attacking: false,
-          rawSelected: rawSelected,
-          bloc: bloc,
-          isScrollingSomewhere: isScrollingSomewhere,
-          hasPartnerB: false,
-          usePartnerB: false, // just life lol
-        ),
+        onTap: () {
+          if(page == CSPage.commanderDamage){
+            bloc.game.gameAction.clearSelection();
+            stage.pagesController.pageSet(CSPage.life);
+          } else {
+            PlayerGestures.tap(
+              name,
+              page: page,
+              attacking: whoIsAttacking == name,
+              rawSelected: rawSelected,
+              bloc: bloc,
+              isScrollingSomewhere: isScrollingSomewhere,
+              hasPartnerB: havingPartnerB,
+              usePartnerB: usingPartnerB,
+            );
+          }
+        },
+        onLongPress: (){
+          if(page == CSPage.commanderDamage && this.whoIsAttacking == this.name){
+            stage.pagesController.pageSet(CSPage.life);
+          } else {
+            stage.pagesController.pageSet(CSPage.commanderDamage);
+            bloc.game.gameAction.attackingPlayer.set(this.name);
+            bloc.game.gameAction.defendingPlayer.set("");
+          } 
+        },
         child: VelocityPanDetector(
           onPanEnd: (_details) => scrollerBloc.onDragEnd(),
           onPanUpdate: (details) => PlayerGestures.pan(
@@ -51,7 +84,7 @@ class AptGestures extends StatelessWidget {
             name,
             constraints.maxWidth,
             bloc: bloc,
-            page: CSPage.life,
+            page: page,
             vertical: bloc.settings.arenaScreenVerticalScroll.value,
           ),
           onPanCancel: scrollerBloc.onDragEnd,
@@ -60,7 +93,7 @@ class AptGestures extends StatelessWidget {
             // height: constraints.maxHeight - _margin*2,
             //to make the pan callback working, the color cannot be just null
             color: Colors.transparent,
-            child: SizedBox.expand(),
+            child: content,
           ),
         ),
       ),

@@ -18,6 +18,10 @@ class SimplePlayerTile extends StatelessWidget {
     @required this.normalizedPlayerActions,
     @required this.routeAnimationValue,
     @required this.firstUnpositionedName,
+    @required this.whoIsAttacking,
+    @required this.whoIsDefending,
+    @required this.defenceColor,
+    @required this.page,
   }): assert(indexToName[index] != null || firstUnpositionedName != null);
 
 
@@ -32,6 +36,10 @@ class SimplePlayerTile extends StatelessWidget {
   final bool isScrollingSomewhere;
   final int increment;
   final Map<String,PlayerAction> normalizedPlayerActions;
+  final String whoIsAttacking;
+  final String whoIsDefending;
+  final Color defenceColor;
+  final CSPage page;
 
   //Theming
   final Map<CSPage,Color> pageColors;
@@ -75,36 +83,41 @@ class SimplePlayerTile extends StatelessWidget {
       buttonAlignment: this.buttonAlignment,
       constraints: this.constraints,
       gameState: this.gameState,
+      page: this.page,
+      whoIsAttacking: this.whoIsAttacking,
+      whoIsDefending: this.whoIsDefending,
+      defenceColor: this.defenceColor,
+      counter: Counter.poison,
+      //LOW PRIORITY: not reacting to counters
     );
 
-    final Widget gestures = AptGestures(
+    final Widget gesturesApplied = AptGestures(
+      content: content,
       rawSelected: rawSelected,
       name: name,
       bloc: bloc,
       constraints: this.constraints,
       isScrollingSomewhere: this.isScrollingSomewhere,
+      page: this.page,
+      havingPartnerB: this.gameState.players[name].havePartnerB,
+      usingPartnerB: this.gameState.players[name].usePartnerB,
+      defenceColor: this.defenceColor,
+      whoIsAttacking: this.whoIsAttacking,
+      whoIsDefending: this.whoIsDefending,
     );
 
     final Widget imageApplied = AptCardImage(
-      gestures: gestures,
       bloc: bloc,
       name: name,
+      gesturesApplied: gesturesApplied,
       gameState: this.gameState,
     );
 
-    final Widget background = AptBackGround(
+    final Widget backgroundApplied = AptBackGround(
       highlighted: highlighted,
       imageApplied: imageApplied,
     );
 
-    final Widget tile = Stack(
-      fit: StackFit.expand,
-      alignment: Alignment.center,
-      children: <Widget>[
-        Positioned.fill(child: Center(child: background)),
-        Positioned.fill(child: content),
-      ],
-    );
     
     // now we just have to animate the route entry and exit
     return SizedBox(
@@ -118,7 +131,7 @@ class SimplePlayerTile extends StatelessWidget {
             height: constraints.maxHeight,
             left: 0.0,
             top: (1-routeAnimationValue) * constraints.maxHeight,
-            child: tile,
+            child: backgroundApplied,
           ),
         ],
       ),

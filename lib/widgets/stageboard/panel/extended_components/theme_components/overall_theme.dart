@@ -110,7 +110,7 @@ class OverallTheme extends StatelessWidget {
                   child:  ListTile(
                     title: const Text("Dark Style:"),
                     trailing: AnimatedText(
-                      text: DarkStyles.nameOf(darkStyle),
+                      DarkStyles.nameOf(darkStyle),
                       duration: const Duration(milliseconds: 220),
                     ),
                     leading: const Icon(Icons.format_color_fill),

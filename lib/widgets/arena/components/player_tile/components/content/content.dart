@@ -15,6 +15,11 @@ class AptContent extends StatelessWidget {
     @required this.isScrollingSomewhere,
     @required this.gameState,
     @required this.increment,
+    @required this.page,
+    @required this.whoIsAttacking,
+    @required this.whoIsDefending,
+    @required this.defenceColor,
+    @required this.counter,
   });
 
   //Business Logic
@@ -29,7 +34,11 @@ class AptContent extends StatelessWidget {
   final bool highlighted;
   final int increment;
   final bool rawSelected;
-  //TODO: attacca / difendi
+  final CSPage page;
+  final String whoIsAttacking;
+  final String whoIsDefending;
+  final Color defenceColor;
+  final Counter counter;
 
   //Theming
   final Map<CSPage,Color> pageColors;
@@ -40,18 +49,17 @@ class AptContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: constraints.maxWidth,
-      height: constraints.maxHeight,
+    return Material(
+      type: MaterialType.transparency,
       child: Row(
         children: leftButton 
-          ? <Widget>[info, expandedBody]
-          : <Widget>[expandedBody, info],
+          ? <Widget>[expandedBody, info]
+          : <Widget>[info, expandedBody],
       ),
     );
   }
 
-  bool get leftButton => (buttonAlignment?.x ?? 0) < 0;
+  bool get leftButton => (buttonAlignment?.x ?? 0) <= 0;
   bool get rightInfo => leftButton;
 
   Widget get expandedBody => Expanded(child: body,);
@@ -66,13 +74,37 @@ class AptContent extends StatelessWidget {
 
   Widget get number {
     final playerState = gameState.players[name].states.last;
-    final bool scrolling = highlighted && isScrollingSomewhere;
+
+    bool scrolling;
+    switch (page) {
+      case CSPage.history:
+        scrolling = false;
+        break;
+      case CSPage.counters:
+      case CSPage.commanderCast:
+      case CSPage.life:
+        scrolling = this.highlighted && this.isScrollingSomewhere;
+        break;
+      case CSPage.commanderDamage:
+        scrolling = this.whoIsDefending == this.name;
+        break;
+      default:
+    }
+    assert(scrolling != null);
+
     return APTNumber(
       rawSelected: rawSelected,
       scrolling: scrolling,
       increment: this.increment,
       playerState: playerState,
       constraints: this.constraints,
+      name: this.name,
+      page: this.page,
+      whoIsAttacking: this.whoIsAttacking,
+      whoIsDefending: this.whoIsDefending,
+      isAttackerUsingPartnerB: this.gameState.players[this.whoIsAttacking]?.havePartnerB??false,
+      usingPartnerB: gameState.players[name].usePartnerB,
+      counter: this.counter, 
     );
   }
 
@@ -86,22 +118,25 @@ class AptContent extends StatelessWidget {
       : <Widget>[nameWidget, role],
   );
 
-  Widget get nameWidget => bloc.settings.arenaHideNameWhenImages.build((_, hideNameWithImage){
-    if(hideNameWithImage){
-      final bool thereIsCard = bloc.game.gameGroup.cards(
-        !this.gameState.players[name].usePartnerB,
-      ).value[name] != null;
-      
-      if(thereIsCard) return SizedBox();
-    }
-    return Text("$name", style: const TextStyle(fontSize: 16),);
-  },);
+  Widget get nameWidget => AptName(
+    bloc: this.bloc,
+    name: this.name,
+    gameState: this.gameState,
+    whoIsAttacking: this.whoIsAttacking,
+    whoIsDefending: this.whoIsDefending,
+  );
 
   Widget get role => AptRole(
     name: this.name,
     rawSelected: this.rawSelected,
-    actionBloc: this.bloc.game.gameAction,
+    bloc: this.bloc,
     pageColors: this.pageColors,
+    isScrollingSomewhere: this.isScrollingSomewhere,
+    page: this.page,
+    whoIsAttacking: this.whoIsAttacking,
+    whoIsDefending: this.whoIsDefending,
+    havingPartnerB: this.gameState.players[this.name].havePartnerB,
+    defenceColor: this.defenceColor,
   );
 
   Widget get info => AptInfo(
@@ -109,6 +144,7 @@ class AptContent extends StatelessWidget {
     bloc: this.bloc,
     name: this.name,
     pageColors: this.pageColors,
+    defenceColor: this.defenceColor,
   );
 
 }

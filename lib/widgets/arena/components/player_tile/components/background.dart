@@ -33,7 +33,11 @@ class AptBackGround extends StatelessWidget {
           blur: highlighted ? 2 : 0,
           offset: [0,0]
         ),
-      child: imageApplied,
+      child: Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.center,
+        children: <Widget>[imageApplied],
+      ),
     );
   }
 }

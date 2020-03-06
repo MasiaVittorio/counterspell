@@ -39,7 +39,7 @@ class AlertTitle extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: animated 
           ? AnimatedText(
-            text: this.title,
+            this.title,
             textAlign: this.centered ? TextAlign.center : TextAlign.start,
             maxLines: this.twoLines ? 2: 1, 
             overflow: TextOverflow.ellipsis,

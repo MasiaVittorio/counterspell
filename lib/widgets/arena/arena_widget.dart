@@ -149,6 +149,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     @required BoxConstraints constraints, 
     @required bool squadLayout,
     @required Widget menuButton,
+    @required String atk,
+    @required String def,
+    @required Color defC,
+    @required CSPage pg,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -186,9 +190,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 SizedBox(
                   width: box.maxWidth,
                   height: box.maxHeight,
-                  child: buildPlayer(i, 
-                    constraints: box, 
-                    buttonAlignment: i == 4 ? Alignment.topCenter : null,
+                  child: buildPlayer(
+                    i, box, i == 4 ? Alignment.topCenter : null,
+                    atk, def, defC, pg,
                   ),
                 ),
             ],),
@@ -202,9 +206,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               SizedBox(
                 width: box.maxWidth,
                 height: box.maxHeight,
-                child: buildPlayer(i, 
-                  constraints: box, 
-                  buttonAlignment: i == 1 ? Alignment.topCenter : null,
+                child: buildPlayer(
+                  i, box, i == 1 ? Alignment.topCenter : null,
+                  atk, def, defC, pg,
                 ),
               ),
           ],),
@@ -248,9 +252,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           height: h,
           child: RotatedBox(
             quarterTurns: 1,
-            child: buildPlayer(3, 
-              constraints: sideBox, 
-              buttonAlignment: null,
+            child: buildPlayer(
+              3, sideBox, null,
+              atk, def, defC, pg,
             ),
           ),
         ),
@@ -265,9 +269,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 quarterTurns: 2,
                 child: Row(children: <Widget>[ //rotated
                   for(final i in [5,4])
-                    buildPlayer(i, 
-                      constraints: middleBox, 
-                      buttonAlignment: {5: Alignment.topRight, 4: Alignment.topLeft}[i],
+                    buildPlayer(
+                      i, middleBox, {5: Alignment.topRight, 4: Alignment.topLeft}[i],
+                      atk, def, defC, pg,
                     ),
                 ],),
               ),
@@ -277,9 +281,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               height: h/2,
               child: Row(children: <Widget>[ //rotated
                 for(final i in [2,1])
-                  buildPlayer(i, 
-                    constraints: middleBox, 
-                    buttonAlignment: {2: Alignment.topRight, 1: Alignment.topLeft}[i],
+                  buildPlayer(
+                    i,  middleBox, {2: Alignment.topRight, 1: Alignment.topLeft}[i],
+                    atk, def, defC, pg,
                   ),
               ],),
             ),
@@ -290,9 +294,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           height: h,
           child: RotatedBox(
             quarterTurns: 3,
-            child: buildPlayer(0, 
-              constraints: sideBox, 
-              buttonAlignment: null,
+            child: buildPlayer(
+              0, sideBox, null,
+              atk, def, defC, pg,
             ),
           ),
         ),
@@ -312,6 +316,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     @required BoxConstraints constraints, 
     @required bool squadLayout,
     @required Widget menuButton,
+    @required String atk,
+    @required String def,
+    @required Color defC,
+    @required CSPage pg,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -356,12 +364,12 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 SizedBox(
                   width: boxTop.maxWidth,
                   height: boxTop.maxHeight,
-                  child: buildPlayer(i, 
-                    constraints: boxTop, 
-                    buttonAlignment: <int,Alignment>{
+                  child: buildPlayer(
+                    i, boxTop, <int,Alignment>{
                       4: Alignment.topRight,
                       3: Alignment.topLeft,
                     }[i],
+                    atk, def, defC, pg,
                   ),
                 ),
             ],),
@@ -375,9 +383,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               SizedBox(
                 width: boxBottom.maxWidth,
                 height: boxBottom.maxHeight,
-                child: buildPlayer(i, 
-                  constraints: boxBottom, 
-                  buttonAlignment: i == 1 ? Alignment.topCenter : null,
+                child: buildPlayer(
+                  i, boxBottom, i == 1 ? Alignment.topCenter : null,
+                  atk, def, defC, pg,
                 ),
               ),
           ],),
@@ -427,9 +435,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           child: SizedBox(
             width: h,
             height: x,
-            child: buildPlayer(2,
-              constraints: box2,
-              buttonAlignment: Alignment.topRight,
+            child: buildPlayer(
+              2, box2, Alignment.topRight,
+              atk, def, defC, pg,
             ),
           ),
         ),
@@ -443,17 +451,17 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 SizedBox(
                   width: y/2,
                   height: y/2,
-                  child: buildPlayer(4, 
-                    constraints: box0134, 
-                    buttonAlignment: Alignment.topRight,
+                  child: buildPlayer(
+                    4, box0134, Alignment.topRight,
+                    atk, def, defC, pg,
                   ),
                 ),
                 SizedBox(
                   width: y/2,
                   height: h/2,
-                  child: buildPlayer(3, 
-                    constraints: box0134, 
-                    buttonAlignment: Alignment.topLeft,
+                  child: buildPlayer(
+                    3, box0134, Alignment.topLeft,
+                    atk, def, defC, pg,
                   ),
                 ),
               ]),
@@ -466,17 +474,17 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               SizedBox(
                 width: y/2,
                 height: h/2,
-                child: buildPlayer(1, 
-                  constraints: box0134, 
-                  buttonAlignment: Alignment.topRight,
+                child: buildPlayer(
+                  1, box0134, Alignment.topRight,
+                  atk, def, defC, pg,
                 ),
               ),
               SizedBox(
                 width: y/2,
                 height: h/2,
-                child: buildPlayer(0, 
-                  constraints: box0134, 
-                  buttonAlignment: Alignment.topLeft,
+                child: buildPlayer(
+                  0, box0134, Alignment.topLeft,
+                  atk, def, defC, pg,
                 ),
               ),
             ]),
@@ -498,6 +506,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     @required BoxConstraints constraints, 
     @required bool squadLayout,
     @required Widget menuButton,
+    @required String atk,
+    @required String def,
+    @required Color defC,
+    @required CSPage pg,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -528,13 +540,13 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             width: w,
             height: h/2,
             child: Row(children: <Widget>[
-              buildPlayer(3,
-                constraints: box,
-                buttonAlignment: Alignment.topRight,
+              buildPlayer(
+                3, box, Alignment.topRight,
+                atk, def, defC, pg,
               ),
-              buildPlayer(2,
-                constraints: box,
-                buttonAlignment: Alignment.topLeft,
+              buildPlayer(
+                2, box, Alignment.topLeft,
+                atk, def, defC, pg,
               ),
             ])
           ),
@@ -543,13 +555,13 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           width: w,
           height: h/2,
           child: Row(children: <Widget>[
-            buildPlayer(1,
-              constraints: box,
-              buttonAlignment: Alignment.topRight,
+            buildPlayer(
+              1, box,  Alignment.topRight,
+              atk, def, defC, pg,
             ),
-            buildPlayer(0,
-              constraints: box,
-              buttonAlignment: Alignment.topLeft,
+            buildPlayer(
+              0, box, Alignment.topLeft,
+              atk, def, defC, pg,
             ),
           ]),
         ),
@@ -568,9 +580,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       players = Column(children: <Widget>[
         RotatedBox(
           quarterTurns: 2,
-          child: buildPlayer(2,
-            constraints: extBox,
-            buttonAlignment: null,
+          child: buildPlayer(
+            2, extBox, null,
+            atk, def, defC, pg,
           ),
         ),
         SizedBox(
@@ -579,23 +591,23 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           child: Row(children: <Widget>[
             RotatedBox(
               quarterTurns: 1,
-              child: buildPlayer(1,
-                constraints: intBox,
-                buttonAlignment: Alignment.topCenter,
+              child: buildPlayer(
+                1, intBox, Alignment.topCenter,
+                atk, def, defC, pg,
               ),
             ),
             RotatedBox(
               quarterTurns: 3,
-              child: buildPlayer(3,
-                constraints: intBox,
-                buttonAlignment: Alignment.topCenter,
+              child: buildPlayer(
+                3, intBox, Alignment.topCenter,
+                atk, def, defC, pg,
               ),
             ),
           ]),
         ),
-        buildPlayer(0,
-          constraints: extBox,
-          buttonAlignment: null,
+        buildPlayer(
+          0, extBox, null,
+          atk, def, defC, pg,
         ),
       ]);
     }
@@ -611,6 +623,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     @required BoxConstraints constraints, 
     @required bool squadLayout,
     @required Widget menuButton,
+    @required String atk,
+    @required String def,
+    @required Color defC,
+    @required CSPage pg,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -641,19 +657,19 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       players = Column(children: <Widget>[
         RotatedBox(
           quarterTurns: 2,
-          child: buildPlayer(2,
-            constraints: topBox,
-            buttonAlignment: Alignment.topCenter,
+          child: buildPlayer(
+            2, topBox, Alignment.topCenter,
+            atk, def, defC, pg,
           ),
         ),
         Row(children: <Widget>[
-          buildPlayer(1,
-            constraints: bottomBox,
-            buttonAlignment: Alignment.topRight,
+          buildPlayer(
+            1, bottomBox, Alignment.topRight,
+            atk, def, defC, pg,
           ),
-          buildPlayer(0,
-            constraints: bottomBox,
-            buttonAlignment: Alignment.topLeft,
+          buildPlayer(
+            0, bottomBox, Alignment.topLeft,
+            atk, def, defC, pg,
           ),
         ]),
       ]);
@@ -683,9 +699,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         child: Column(children: <Widget>[
           RotatedBox(
             quarterTurns: 2,
-            child: buildPlayer(2,
-              constraints: topBox,
-              buttonAlignment: Alignment.topCenter,
+            child: buildPlayer(
+              2, topBox, Alignment.topCenter,
+              atk, def, defC, pg,
             ),
           ),
           ConstrainedBox(
@@ -696,16 +712,16 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             child: Row(children: <Widget>[
               RotatedBox(
                 quarterTurns: 1,
-                child: buildPlayer(1,
-                  constraints: bottomBox,
-                  buttonAlignment: Alignment.topLeft,
+                child: buildPlayer(
+                  1, bottomBox, Alignment.topLeft,
+                  atk, def, defC, pg,
                 ),
               ),
               RotatedBox(
                 quarterTurns: 3,
-                child: buildPlayer(0,
-                  constraints: bottomBox,
-                  buttonAlignment: Alignment.topRight,
+                child: buildPlayer(
+                  0, bottomBox, Alignment.topRight,
+                  atk, def, defC, pg,
                 ),
               ),
             ],),
@@ -726,6 +742,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     @required BoxConstraints constraints, 
     @required bool squadLayout,
     @required Widget menuButton,
+    @required String atk,
+    @required String def,
+    @required Color defC,
+    @required CSPage pg,
   }) {
     final w = constraints.maxWidth;
     final h = constraints.maxHeight;
@@ -739,14 +759,14 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       child: Column(children: <Widget>[
         RotatedBox(
           quarterTurns: 2,
-          child: buildPlayer(1,
-            constraints: box,
-            buttonAlignment: Alignment.topCenter,
+          child: buildPlayer(
+            1, box, Alignment.topCenter,
+            atk, def, defC, pg,
           ),
         ),
-        buildPlayer(0,
-          constraints: box,
-          buttonAlignment: Alignment.topCenter,
+        buildPlayer(
+          0, box, Alignment.topCenter,
+          atk, def, defC, pg,
         ),
       ]),
     );
@@ -758,10 +778,14 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     );
   }
 
-  Widget buildPlayer(int index, {
-    @required BoxConstraints constraints,
-    @required Alignment buttonAlignment,
-  }) => SimplePlayerTile(
+  Widget buildPlayer(int index, 
+    BoxConstraints constraints,
+    Alignment buttonAlignment,
+    String attacker,
+    String defender,
+    Color defenceColor,
+    CSPage page,
+  ) => SimplePlayerTile(
     index,
     onPosition: playerCallback(index),
     buttonAlignment: buttonAlignment,
@@ -780,11 +804,16 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     normalizedPlayerActions: widget.normalizedPlayerActions,
 
     firstUnpositionedName: firstUnpositionedName,
+    whoIsAttacking: attacker,
+    whoIsDefending: defender,
+    defenceColor: defenceColor,
+    page: page,
   );
 
   @override
   Widget build(BuildContext context) {
     final bloc = widget.group.parent.parent;
+    final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor
@@ -807,16 +836,28 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             preExit();
             return true;
           },
-          child: bloc.settings.arenaSquadLayout.build((_, squadLayout)
-            => LayoutBuilder(builder: (context, constraints){
+          child: BlocVar.build5<bool, CSPage, Color, String, String>(
+            bloc.settings.arenaSquadLayout,
+            stage.pagesController.page,
+            bloc.themer.defenceColor,
+            bloc.game.gameAction.defendingPlayer,
+            bloc.game.gameAction.attackingPlayer,
+            builder: (_, 
+              bool squadLayout,
+              CSPage pg,
+              Color defC,
+              String def,
+              String atk,
+            ) => LayoutBuilder(builder: (context, constraints){
               final Widget menuButton = buildButton(squadLayout, constraints);
 
               switch (widget.gameState.players.length) {
                 case 2:
                   return layout2Players(context,
                     constraints: constraints,
-                    squadLayout:squadLayout,
+                    squadLayout: squadLayout,
                     menuButton: menuButton,
+                    atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
                 case 3:
@@ -824,6 +865,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                     constraints: constraints,
                     squadLayout: squadLayout,
                     menuButton: menuButton,
+                    atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
                 case 4:
@@ -831,6 +873,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                     constraints: constraints,
                     squadLayout: squadLayout,
                     menuButton: menuButton,
+                    atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
                 case 5:
@@ -838,6 +881,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                     constraints: constraints,
                     squadLayout: squadLayout,
                     menuButton: menuButton,
+                    atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
                 case 6:
@@ -845,6 +889,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                     constraints: constraints,
                     squadLayout: squadLayout,
                     menuButton: menuButton,
+                    atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
                 default:

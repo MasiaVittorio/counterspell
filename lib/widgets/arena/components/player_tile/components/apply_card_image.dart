@@ -8,12 +8,24 @@ class AptCardImage extends StatelessWidget {
     @required this.name,
     @required this.gameState,
     @required this.gesturesApplied,
+    @required this.isAttacking,
+    @required this.isDefending,
+    @required this.pageColors,
+    @required this.defenceColor,
+    @required this.highlighted,
   });
 
   final GameState gameState;
   final String name;
   final CSBloc bloc;
   final Widget gesturesApplied;
+  final bool isAttacking;
+  final bool isDefending;
+  final Map<CSPage,Color> pageColors;
+  final Color defenceColor;
+  final bool highlighted;
+
+  static const double _cmdrOpacity = 0.2;
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +57,26 @@ class AptCardImage extends StatelessWidget {
           ),
         ),);
 
-        final Widget gradient = bloc.settings.simpleImageOpacity.build((context, double opacity) => Container(
-          color: themeData.canvasColor.withOpacity(opacity),
+        Color bkgColor = highlighted 
+              ? themeData.canvasColor 
+              : themeData.scaffoldBackgroundColor;
+        
+        if(isAttacking) {
+          bkgColor = Color.alphaBlend(
+            this.pageColors[CSPage.commanderDamage]
+                .withOpacity(_cmdrOpacity),
+            bkgColor,
+          );
+        } else if (isDefending) {
+          bkgColor = Color.alphaBlend(
+            this.defenceColor
+                .withOpacity(_cmdrOpacity),
+            bkgColor,
+          );
+        }
+
+        final Widget filterColor = bloc.settings.simpleImageOpacity.build((context, double opacity) => Container(
+          color: bkgColor.withOpacity(opacity),
         ));
 
         return Stack(
@@ -57,7 +87,7 @@ class AptCardImage extends StatelessWidget {
               child: image,
             ),
             Positioned.fill(
-              child: gradient,
+              child: filterColor,
             ),
             Theme(
               data: themeData.copyWith(splashColor: Colors.white.withAlpha(0x66)),

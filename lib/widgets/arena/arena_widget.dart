@@ -822,10 +822,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         top: true,
         child: WillPopScope(
           onWillPop: () async {
-            if(bloc.game.gameAction.actionPending){
-              bloc.scroller.cancel();
+            if(! await bloc.scroller.decidePop(true)) {
               return false;
-            }
+            } 
+
             if(open){
               this.setState((){
                 open = false;

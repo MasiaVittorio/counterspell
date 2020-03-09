@@ -101,6 +101,7 @@ class AptRole extends StatelessWidget {
                   havingPartnerB==true
                     ? CSIcons.attackIconTwo
                     : CSIcons.attackIconOne,
+                  color: this.pageColors[CSPage.commanderDamage],
                 ),
               ),
             ),
@@ -122,6 +123,7 @@ class AptRole extends StatelessWidget {
                 whoIsDefending == name
                   ? CSIcons.defenceIconFilled
                   : CSIcons.defenceIconOutline,
+                color: this.defenceColor,
               ),
             ),
           ),),

@@ -36,7 +36,6 @@ class AptGestures extends StatelessWidget {
   final Color defenceColor;
   final bool havingPartnerB;
   final bool usingPartnerB;
-  //TODO: attacca / difendi
 
   //Layout information
   final BoxConstraints constraints;

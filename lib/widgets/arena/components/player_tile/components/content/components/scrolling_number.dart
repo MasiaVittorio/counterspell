@@ -21,7 +21,6 @@ class APTNumber extends StatelessWidget {
   //Player information
   final PlayerState playerState;
   final String name;
-  // TODO: attacca / difendi
 
   //Interaction information
   final bool rawSelected;

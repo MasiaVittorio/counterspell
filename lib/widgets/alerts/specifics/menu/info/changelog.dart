@@ -188,8 +188,8 @@ class ChangeLogData {
       ),
       Change(
         ChangeType.newFeature, 
-        "Arena Mode now features commander damage", 
-        null,
+        "Arena Mode now handles commander damage too!", 
+        "Long press on one player to declare it as the attacker, scroll on the defender to deal damage. Any single tap will return to life mode",
       ),
       Change(
         ChangeType.newFeature,

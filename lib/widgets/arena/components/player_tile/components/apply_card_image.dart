@@ -25,7 +25,7 @@ class AptCardImage extends StatelessWidget {
   final Color defenceColor;
   final bool highlighted;
 
-  static const double _cmdrOpacity = 0.2;
+  static const double _cmdrOpacity = 0.35;
 
   @override
   Widget build(BuildContext context) {

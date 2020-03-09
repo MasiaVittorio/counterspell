@@ -20,6 +20,9 @@ class TimeModes{
     "In game": TimeMode.inGame,
     "Clock": TimeMode.clock,
     "None": TimeMode.none,
+    "in game": TimeMode.inGame,
+    "clock": TimeMode.clock,
+    "none": TimeMode.none,
   };
 
 

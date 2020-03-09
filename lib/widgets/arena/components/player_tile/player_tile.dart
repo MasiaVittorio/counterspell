@@ -70,7 +70,7 @@ class SimplePlayerTile extends StatelessWidget {
     if(name == null) return buildPositioner(themeData);
 
     final bool rawSelected = selectedNames[name];
-    final bool highlighted = selectedNames[name] != false;
+    final bool highlighted = selectedNames[name] != false || whoIsAttacking == name || whoIsDefending == name;
 
     final Widget content = AptContent(
       highlighted: highlighted,
@@ -110,12 +110,21 @@ class SimplePlayerTile extends StatelessWidget {
       bloc: bloc,
       name: name,
       gesturesApplied: gesturesApplied,
+      highlighted: highlighted,
       gameState: this.gameState,
+      isAttacking: this.whoIsAttacking == name,
+      isDefending: this.whoIsDefending == name,
+      defenceColor: this.defenceColor,
+      pageColors: this.pageColors,
     );
 
     final Widget backgroundApplied = AptBackGround(
       highlighted: highlighted,
       imageApplied: imageApplied,
+      isAttacking: this.whoIsAttacking == name,
+      isDefending: this.whoIsDefending == name,
+      defenceColor: this.defenceColor,
+      pageColors: this.pageColors,
     );
 
     

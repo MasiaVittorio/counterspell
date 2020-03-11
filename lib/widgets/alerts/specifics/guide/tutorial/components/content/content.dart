@@ -28,13 +28,11 @@ class TutorialContent extends StatelessWidget {
       itemCount: children.length,
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (_, page){
-        return SubSection(
-          <Widget>[Expanded(child: children[page]),], 
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          margin: const EdgeInsets.all(8.0),
-        );
-      },
+      itemBuilder: (_, page)
+        => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: children[page],
+        ),
     );
   }
 }

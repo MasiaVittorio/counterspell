@@ -24,6 +24,7 @@ class __LocalState extends State<_Local> {
 
   CSScroller localScroller;
   int value = 40;
+  bool scrolled = false;
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class __LocalState extends State<_Local> {
     
     final ThemeData theme = Theme.of(context); 
 
-    return Column(children: <Widget>[
+    return SubSection(<Widget>[
       Expanded(child: Center(child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(
@@ -53,7 +54,12 @@ class __LocalState extends State<_Local> {
       ),),),
       CSWidgets.divider,
       CSWidgets.height15,
-      LocalNumber(localScroller, widget.bloc, value),
+      LocalNumber(localScroller, widget.bloc, value, () {
+        if(this.mounted && scrolled == false)
+          this.setState((){
+            scrolled = true;
+          });
+      }),
       CSWidgets.height15,
       CSWidgets.divider,
       Expanded(child: Center(child: Column(
@@ -69,8 +75,8 @@ class __LocalState extends State<_Local> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "(If you scroll again before the delay expires, you'll gain more time!)",
+            child: AnimatedText(
+              scrolled ? "(If you scroll again before the delay expires, you'll gain more time!)" : "",
               textAlign: TextAlign.center,
             ),
           ),
@@ -80,10 +86,12 @@ class __LocalState extends State<_Local> {
         padding: const EdgeInsets.all(8.0),
         child: LocalDelayer(localScroller, widget.bloc),
       ),
-      Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          "(You can also manually cancel or confirm an action before the delay expires)",
+      Container(
+        alignment: Alignment.center,
+        height: 56,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: AnimatedText(
+          scrolled ? "(You can also manually cancel or confirm an action before the delay expires)" : "",
           textAlign: TextAlign.center,
         ),
       ),

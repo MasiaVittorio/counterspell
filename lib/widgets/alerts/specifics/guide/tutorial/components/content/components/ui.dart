@@ -8,24 +8,23 @@ class TutorialUI extends StatelessWidget {
     return ListView(
       primary: false,
       children: <Widget>[
-        _Title(McIcons.fullscreen, "The panel"),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("Alerts (like this one) are contained in an extended version of this app's main \"Panel\". You can often close them by scrolling down."),
+
+        SubExplanation(
+          icon: Icons.fullscreen,
+          title: "The panel",
+          text: "Alerts (like this one) are contained in an extended version of this app's main \"Panel\". You can often close them by scrolling down.",
         ),
 
-        CSWidgets.height5,
-        _Title(McIcons.menu, "The main menu"),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("Opened by pressing the hamburger button or scrolling up the panel."),
+        SubExplanation(
+          icon: Icons.menu,
+          title: "The main menu",
+          text: "Opened by pressing the hamburger button or scrolling up the panel.",
         ),
 
-        CSWidgets.height5,
-        _Title(Icons.help_outline, "Getting back here"),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("To reopen this tutorial, just open up the menu and head for the \"Info\" section!"),
+        SubExplanation(
+          icon: Icons.help_outline,
+          title: "Getting back here",
+          text: "To reopen this tutorial, just open up the menu and head for the \"Info\" section!",
         ),
 
         // CSWidgets.height5,
@@ -41,6 +40,33 @@ class TutorialUI extends StatelessWidget {
         // ),
       ],
     );
+  }
+}
+
+class SubExplanation extends StatelessWidget {
+
+  final IconData icon;
+  final String title;
+  final String text;
+
+  const SubExplanation({
+    @required this.icon,
+    @required this.title,
+    @required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SubSection(<Widget>[
+      _Title(icon, title),
+      CSWidgets.divider,
+      CSWidgets.height5,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Text(text),
+      ),
+      CSWidgets.height10,
+    ], margin: const EdgeInsets.only(bottom: 14),);
   }
 }
 

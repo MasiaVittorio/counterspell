@@ -3,11 +3,12 @@ import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gest
 
 class LocalNumber extends StatelessWidget {
 
-  LocalNumber(this.localScroller, this.bloc, this.value);
+  LocalNumber(this.localScroller, this.bloc, this.value, this.callback);
 
   final CSScroller localScroller;
   final CSBloc bloc;
   final int value;
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +18,17 @@ class LocalNumber extends StatelessWidget {
     return LayoutBuilder(
       builder: (_, constraints) => VelocityPanDetector(
         onPanEnd: (_details) => localScroller.onDragEnd(),
-        onPanUpdate: (details) => PlayerGestures.pan(
-          details,
-          "",
-          constraints.maxWidth,
-          bloc: bloc,
-          page: CSPage.life,
-          dummyScroller: localScroller,
-        ),
+        onPanUpdate: (details) {
+          this.callback();
+          PlayerGestures.pan(
+            details,
+            "",
+            constraints.maxWidth,
+            bloc: bloc,
+            page: CSPage.life,
+            dummyScroller: localScroller,
+          );
+        },
         onPanCancel: localScroller.onDragEnd,
         child: BlocVar.build3(
           localScroller.isScrolling,
@@ -36,24 +40,29 @@ class LocalNumber extends StatelessWidget {
             final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;
             final textStyle = TextStyle(color: textColor, fontSize: 0.26 * CSSizes.minTileSize);
 
-            return Row(
-              children: <Widget>[
-                Expanded(child: Container(
-                  color: Colors.transparent,
-                  alignment: Alignment.center,
-                  child: CircleNumber(
-                    size: 56,
-                    value: value,
-                    numberOpacity: 1.0,
-                    open: scrolling,
-                    style: textStyle,
-                    duration: CSAnimations.fast,
-                    color: color,
-                    increment: scrolling ? increment : 0,
-                    borderRadiusFraction: 1.0,
-                  ),
-                ),),
-              ],
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.keyboard_arrow_left),
+                  Expanded(child: Container(
+                    color: Colors.transparent,
+                    alignment: Alignment.center,
+                    child: CircleNumber(
+                      size: 56,
+                      value: value,
+                      numberOpacity: 1.0,
+                      open: scrolling,
+                      style: textStyle,
+                      duration: CSAnimations.fast,
+                      color: color,
+                      increment: scrolling ? increment : 0,
+                      borderRadiusFraction: 1.0,
+                    ),
+                  ),),
+                  Icon(Icons.keyboard_arrow_right),
+                ],
+              ),
             );
           },
         ),

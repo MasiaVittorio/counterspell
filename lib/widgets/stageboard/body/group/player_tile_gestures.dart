@@ -14,10 +14,13 @@ class PlayerGestures{
     @required CSPage page,
     @required CSBloc bloc,
     bool vertical = false,
+    CSScroller dummyScroller,
   }){
 
-    final actionBloc = bloc.game.gameAction;
-    final scrollerBloc = bloc.scroller;
+    final CSGameAction actionBloc = bloc.game.gameAction;
+    final CSScroller scrollerBloc = dummyScroller ?? bloc.scroller;
+    final bool tutorial = dummyScroller != null; 
+
     switch (page) {
       case CSPage.history:
         _returnToLife(bloc);
@@ -28,9 +31,11 @@ class PlayerGestures{
       case CSPage.life:
         if(scrollerBloc.ignoringThisPan) 
           return;
-        if(actionBloc.selected.value[name] == false){
-          actionBloc.selected.value[name] = true;
-          actionBloc.selected.refresh();
+        if(!tutorial){
+          if(actionBloc.selected.value[name] == false){
+            actionBloc.selected.value[name] = true;
+            actionBloc.selected.refresh();
+          }
         }
         scrollerBloc.onDragUpdate(details, width, vertical: vertical ?? false);
         return;

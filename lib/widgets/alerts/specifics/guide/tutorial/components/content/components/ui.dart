@@ -1,0 +1,66 @@
+import 'package:counter_spell_new/core.dart';
+
+class TutorialUI extends StatelessWidget {
+  const TutorialUI();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      primary: false,
+      children: <Widget>[
+        _Title(McIcons.fullscreen, "The panel"),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Alerts (like this one) are contained in an extended version of this app's main \"Panel\". You can often close them by scrolling down."),
+        ),
+
+        CSWidgets.height5,
+        _Title(McIcons.menu, "The main menu"),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Opened by pressing the hamburger button or scrolling up the panel."),
+        ),
+
+        CSWidgets.height5,
+        _Title(Icons.help_outline, "Getting back here"),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("To reopen this tutorial, just open up the menu and head for the \"Info\" section!"),
+        ),
+
+        // CSWidgets.height5,
+        // _Title(Icons.space_bar, "Closed panel"),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        //   child: Text("While the panel is closed down, it will show undo / re-do buttons and quick shortcuts that fit the page you're currently using.\n  (often, those actions are also found in the main menu in a larger and clearer layout)"),
+        // ),
+        // // ListTile(
+        //   leading: Icon(McIcons.gesture_double_tap),
+        //   title: Text("Just try stuff out!"),
+        //   subtitle: Text("There's very little that can't be undone in CounterSpell, and when any action can be undesirable, it will prompt an alert that asks you for confirmation. So don't fear to try random buttons out if a shortcut doesn't have a label!"),
+        // ),
+      ],
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+
+  final IconData icon;
+  final String text;
+  const _Title(this.icon, this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12.0, 3.0, 12.0, 3.0),
+          child: Icon(icon),
+        ),
+        Text(text, style: Theme.of(context).textTheme.subhead,),
+      ],),
+    );
+  }
+}

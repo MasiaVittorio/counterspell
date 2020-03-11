@@ -313,7 +313,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              width: 50,
+              width: 60,
               child: Text("-${(widget.gameDuration * (1.0 - this.controller.value)).textFormat}"),
             ),
             Expanded(child: Slider(

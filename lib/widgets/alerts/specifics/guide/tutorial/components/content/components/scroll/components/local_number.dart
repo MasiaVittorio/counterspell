@@ -40,15 +40,15 @@ class LocalNumber extends StatelessWidget {
             final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;
             final textStyle = TextStyle(color: textColor, fontSize: 0.26 * CSSizes.minTileSize);
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.keyboard_arrow_left),
-                  Expanded(child: Container(
-                    color: Colors.transparent,
-                    alignment: Alignment.center,
-                    child: CircleNumber(
+            return Container(
+              color: Colors.transparent,
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_left),
+                    Expanded(child: Center(child: CircleNumber(
                       size: 56,
                       value: value,
                       numberOpacity: 1.0,
@@ -58,10 +58,10 @@ class LocalNumber extends StatelessWidget {
                       color: color,
                       increment: scrolling ? increment : 0,
                       borderRadiusFraction: 1.0,
-                    ),
-                  ),),
-                  Icon(Icons.keyboard_arrow_right),
-                ],
+                    ),),),
+                    Icon(Icons.keyboard_arrow_right),
+                  ],
+                ),
               ),
             );
           },

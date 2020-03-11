@@ -33,6 +33,8 @@ class TutorialControls extends StatelessWidget {
               controller: controller, 
               count: AdvancedTutorial.pages,
               effect: ExpandingDotsEffect(
+                dotWidth: 12,
+                dotHeight: 12,
                 activeDotColor: theme.accentColor,
               ),
             ),

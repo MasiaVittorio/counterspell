@@ -132,8 +132,8 @@ class CSGameState {
 
   }
 
-  void restart() {
-    this.parent.parent.pastGames.saveGame(
+  void restart() async {
+    final bool prompt = await this.parent.parent.pastGames.saveGame(
       this.gameState.value, 
       commandersA: this.parent.gameGroup.cardsA.value, 
       commandersB: this.parent.gameGroup.cardsB.value,
@@ -141,6 +141,8 @@ class CSGameState {
     _resetGame(this.gameState.value.newGame(
       startingLife: this.parent.currentStartingLife,
     ));
+    this.parent.parent.stage.pagesController.pageSet(CSPage.life);
+    if(!prompt) this.parent.parent.stage.panelController.closePanelCompletely();
   }
   void startNew(Set<String> names){
     this.parent.gameGroup.newGroup(names.toList());

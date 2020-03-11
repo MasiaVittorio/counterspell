@@ -40,7 +40,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         title: Text(autoSavingPrompt ? "Don't choose" : "Cancel"),
         leading: const Icon(Icons.close),
         onTap: (){
-          stage.panelController.closePanel();
+          stage.panelController.closePanelCompletely();
         }
       )),
       Expanded(child: ListTile(
@@ -49,7 +49,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         onTap: selected != null 
           ? (){
             widget.onConfirm(selected);
-            stage.panelController.closePanel();
+            stage.panelController.closePanelCompletely();
           }
           : null,
       )),
@@ -84,7 +84,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
               title: const Text("Don't save"),
               onTap: (){
                 widget.onDontSave();
-                stage.panelController.closePanel();
+                stage.panelController.closePanelCompletely();
               },
             ),
           ],

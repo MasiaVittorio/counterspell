@@ -16,6 +16,8 @@ class CSScroller {
   //==============================
   // Values
 
+  final bool justTutorial;
+
   final CSBloc parent;
   double value = 0.0;
   final BlocVar<int> intValue;
@@ -29,13 +31,20 @@ class CSScroller {
   //==============================
   // Constructor
 
-  CSScroller(this.parent): 
+  CSScroller(this.parent, {void Function(int) tutorialConfirm}): 
     delayerController = DelayerController(),
-    intValue = BlocVar(0)
+    intValue = BlocVar(0),
+    justTutorial = tutorialConfirm != null
   {
     isScrolling = BlocVar<bool>(false, onChanged: (b){
       if(b == false){
-        parent.game.gameAction.privateConfirm(parent.stageBloc.controller.pagesController.page.value);
+        if(tutorialConfirm != null){
+          tutorialConfirm(this.intValue.value);
+          this.value = 0.0;
+          this.intValue.set(0);
+        } else {
+          parent.game.gameAction.privateConfirm(parent.stageBloc.controller.pagesController.page.value);
+        }
       }
     });
   }
@@ -123,10 +132,13 @@ class CSScroller {
   void cancel([bool alsoAttacker = false]){
     this.value = 0.0;
     this.intValue.set(0);
-    
+
     //this will trigger confirm() but the action will be null, so it will
     //not affect the gamestate's history
-    if(!this.forceComplete()){
+    bool completed = this.forceComplete();
+    if(this.justTutorial) return;
+
+    if(!completed){
       parent.game.gameAction.clearSelection(true);
     } else {
       if(alsoAttacker) 

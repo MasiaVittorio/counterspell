@@ -3,25 +3,34 @@ import 'components/all.dart';
 
 class TutorialContent extends StatelessWidget {
 
-  TutorialContent(this.controller);
+  TutorialContent(this.pageController);
 
-  final PageController controller;
+  final PageController pageController;
 
   static const List<Widget> children = <Widget>[
+    TutorialUI(),
     TutorialScroll(),
     TutorialSelection(),
     TutorialHistory(),
     TutorialCommander(),
+  ];
+  static const List<String> titles = <String>[
+    "App UI",
+    "Scroll gestures",
+    "Multi-select",
+    "Game history",
+    "Commander stats",
   ];
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
       itemCount: children.length,
-      
+      controller: pageController,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, page){
         return SubSection(
-          <Widget>[children[page],], 
+          <Widget>[Expanded(child: children[page]),], 
           crossAxisAlignment: CrossAxisAlignment.stretch,
           margin: const EdgeInsets.all(8.0),
         );

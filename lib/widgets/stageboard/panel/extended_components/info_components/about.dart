@@ -35,7 +35,7 @@ class AboutCounterSpell extends StatelessWidget {
       ListTile(
         title: const Text("Tutorial"),
         leading: const Icon(Icons.help_outline),
-        onTap: () => stage.showAlert(const TutorialAlert(), size: TutorialAlert.height),
+        onTap: () => stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height),
       ),
     ]);
   }

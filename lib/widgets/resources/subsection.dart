@@ -17,12 +17,14 @@ class SubSection extends StatelessWidget {
   }): assert(crossAxisAlignment != null),
       assert(margin != null);
 
+  static Color getColor(ThemeData theme) => theme.scaffoldBackgroundColor.withOpacity(0.7);
+
   static const borderRadiusDefault = BorderRadius.all(Radius.circular(10.0));
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final background = theme.scaffoldBackgroundColor.withOpacity(0.6);
+    final background = getColor(theme);
 
     return Container(
       margin: margin,

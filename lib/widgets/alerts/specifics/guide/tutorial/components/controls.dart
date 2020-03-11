@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'page_reactor.dart';
 
 class TutorialControls extends StatelessWidget {
 
@@ -9,28 +10,52 @@ class TutorialControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: <Widget>[
-      FlatButton(
-        child: const Text("Back"),
-        onPressed: () => controller.previousPage(
-          duration: CSAnimations.fast, 
-          curve: Curves.easeOut,
-        ),
-      ),
-      Expanded(child: SmoothPageIndicator(
-        controller: controller, 
-        count: AdvancedTutorial.pages,
-        effect: const ExpandingDotsEffect(),
-      ),),
-      SubSection(<Widget>[
-        FlatButton(
-          child: const Text("Next"),
-          onPressed: () => controller.nextPage(
-            duration: CSAnimations.fast, 
-            curve: Curves.easeOut,
+
+    final ThemeData theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          PageReactor(
+            controller: controller,
+            builder: (_, page) => FlatButton(
+              child: Text(page== 0 ? "" : "Back"),
+              onPressed: page== 0 ? null : () => controller.previousPage(
+                duration: CSAnimations.fast, 
+                curve: Curves.easeOut,
+              ),
+            ),
           ),
-        ),
-      ],),
-    ],);
+          Expanded(child: Center(
+            child: SmoothPageIndicator(
+              controller: controller, 
+              count: AdvancedTutorial.pages,
+              effect: ExpandingDotsEffect(
+                activeDotColor: theme.accentColor,
+              ),
+            ),
+          ),),
+          PageReactor(
+            controller: controller,
+            builder: (_, page) => FlatButton(
+              color: SubSection.getColor(theme),
+              child: Text(page == AdvancedTutorial.pages -1 ? "Close" : "Next"),
+              onPressed: () {
+                if(page == AdvancedTutorial.pages - 1){
+                  Stage.of(context).panelController.closePanel();
+                } else {
+                  controller.nextPage(
+                    duration: CSAnimations.fast, 
+                    curve: Curves.easeOut,
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

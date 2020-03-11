@@ -41,12 +41,13 @@ class CSPastGames {
     );
   }
 
-  void saveGame(GameState state, {
+  //returns true if a prompt is shown
+  Future<bool> saveGame(GameState state, {
     @required Map<String,MtgCard> commandersA,
     @required Map<String,MtgCard> commandersB,
   }) async {
 
-    if(state.historyLenght <= 1) return;
+    if(state.historyLenght <= 1) return false;
 
     final pastGame = PastGame.fromState(state.frozen, 
       commandersA: commandersA,
@@ -69,7 +70,10 @@ class CSPastGames {
         size: WinnerSelector.heightCalc(pastGame.state.players.length, true),
         replace: true,
       );
+      return true;
     }
+
+    return false;
   }
 
 

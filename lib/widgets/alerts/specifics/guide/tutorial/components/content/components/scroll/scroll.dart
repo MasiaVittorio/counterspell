@@ -43,58 +43,84 @@ class __LocalState extends State<_Local> {
     
     final ThemeData theme = Theme.of(context); 
 
-    return SubSection(<Widget>[
-      Expanded(child: Center(child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          "Scroll horizontally to increase or decrease the number",
-          style: theme.textTheme.subhead,
-          textAlign: TextAlign.center,
-        ),
-      ),),),
-      CSWidgets.divider,
-      CSWidgets.height15,
-      LocalNumber(localScroller, widget.bloc, value, () {
-        if(this.mounted && scrolled == false)
-          this.setState((){
-            scrolled = true;
-          });
-      }),
-      CSWidgets.height15,
-      CSWidgets.divider,
-      Expanded(child: Center(child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+    return Column(children: <Widget>[
+      
+      Expanded(child: SubSection(<Widget>[
+        Expanded(child: Center(child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(child: Text(
+            "Scroll horizontally to increase or decrease the number",
+            style: theme.textTheme.subhead,
+            textAlign: TextAlign.center,
+          ),),
+        ),),),
+        CSWidgets.divider,
+        CSWidgets.height10,
+        LocalNumber(localScroller, widget.bloc, value, () {
+          if(this.mounted && scrolled == false)
+            this.setState((){
+              scrolled = true;
+            });
+        }),
+        CSWidgets.height20,
+        // Expanded(child: Padding(
+        //   padding: const EdgeInsets.all(16.0),
+        //   child: Center(child: Text(
+        //     "The change is applied after a short delay",
+        //     style: theme.textTheme.subhead,
+        //     textAlign: TextAlign.center,
+        //   ),),
+        // ),),
+      ], margin: EdgeInsets.zero,),),
+
+      CSWidgets.height10,
+
+      Expanded(child: SubSection(<Widget>[
+        // Expanded(child: Padding(
+        //   padding: const EdgeInsets.all(16.0),
+        //   child: Center(child: AnimatedOpacity(
+        //     duration: CSAnimations.fast,
+        //     opacity: scrolled ? 1.0 : 0.0,
+        //     child: Text(
+        //       "(If you scroll again before the delay expires, you'll gain more time!)",
+        //       textAlign: TextAlign.center,
+        //     ),
+        //   ),),
+        // ),),
+        Expanded(child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(child: AnimatedOpacity(
+            duration: CSAnimations.fast,
+            opacity: scrolled ? 1.0 : 0.0,
             child: Text(
               "The change is applied after a short delay",
               style: theme.textTheme.subhead,
               textAlign: TextAlign.center,
             ),
+          ),),
+        ),),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: theme.colorScheme.onSurface.withOpacity(0.6)),
+            ),
+            child: LocalDelayer(localScroller, widget.bloc),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: AnimatedText(
-              scrolled ? "(If you scroll again before the delay expires, you'll gain more time!)" : "",
+        ),
+        Expanded(child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(child: AnimatedOpacity(
+            duration: CSAnimations.fast,
+            opacity: scrolled ? 1.0 : 0.0,
+            child: Text(
+              "(You can scroll multiple times before it expires)",
               textAlign: TextAlign.center,
             ),
-          ),
-        ],
-      ),),),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: LocalDelayer(localScroller, widget.bloc),
-      ),
-      Container(
-        alignment: Alignment.center,
-        height: 56,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: AnimatedText(
-          scrolled ? "(You can also manually cancel or confirm an action before the delay expires)" : "",
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ],);
+          ),),
+        ),),
+      ], margin: EdgeInsets.zero,),),
+
+    ]);
   }
 }

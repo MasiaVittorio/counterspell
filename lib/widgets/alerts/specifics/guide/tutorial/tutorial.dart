@@ -6,11 +6,15 @@ import 'components/all.dart';
 
 class AdvancedTutorial extends StatefulWidget {
 
+  final int initialPage;
+
+  const AdvancedTutorial([this.initialPage = 0]);
+
+
   static int get pages => TutorialContent.children.length;
 
   static const double height = double.infinity;
 
-  const AdvancedTutorial();
 
   @override
   _AdvancedTutorialState createState() => _AdvancedTutorialState();
@@ -25,6 +29,7 @@ class _AdvancedTutorialState extends State<AdvancedTutorial> {
     super.initState();
     this.pageController = PageController(
       viewportFraction: 0.9,
+      initialPage: widget.initialPage ?? 0,
     );
   }
 

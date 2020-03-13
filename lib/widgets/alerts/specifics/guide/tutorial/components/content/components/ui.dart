@@ -5,27 +5,26 @@ class TutorialUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      primary: false,
-      children: <Widget>[
+    return Column(
+      children: const <Widget>[
 
-        SubExplanation(
-          icon: Icons.fullscreen,
-          title: "The panel",
-          text: "Alerts (like this one) are contained in an extended version of this app's main \"Panel\". You can often close them by scrolling down.",
-        ),
-
-        SubExplanation(
-          icon: Icons.menu,
-          title: "The main menu",
-          text: "Opened by pressing the hamburger button or scrolling up the panel.",
-        ),
-
-        SubExplanation(
+        const Expanded(child: const SubExplanation(
           icon: Icons.help_outline,
           title: "Getting back here",
           text: "To reopen this tutorial, just open up the menu and head for the \"Info\" section!",
-        ),
+        ),),
+
+        const Expanded(child: const SubExplanation(
+          icon: Icons.menu,
+          title: "The main menu",
+          text: "Opened by pressing the hamburger button or scrolling up the panel.",
+        ),),
+
+        const Expanded(child: const SubExplanation(
+          icon: Icons.fullscreen,
+          title: "The panel",
+          text: "Alerts (like this one) are contained in an extended version of this app's main \"Panel\". You can often close them by scrolling down.",
+        ),),
 
         // CSWidgets.height5,
         // _Title(Icons.space_bar, "Closed panel"),
@@ -38,7 +37,7 @@ class TutorialUI extends StatelessWidget {
         //   title: Text("Just try stuff out!"),
         //   subtitle: Text("There's very little that can't be undone in CounterSpell, and when any action can be undesirable, it will prompt an alert that asks you for confirmation. So don't fear to try random buttons out if a shortcut doesn't have a label!"),
         // ),
-      ],
+      ].separateWith(CSWidgets.height15),
     );
   }
 }
@@ -61,12 +60,13 @@ class SubExplanation extends StatelessWidget {
       _Title(icon, title),
       CSWidgets.divider,
       CSWidgets.height5,
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Text(text),
+      SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 10.0),
+          child: Text(text, style: TextStyle(fontSize: 15)),
+        ),
       ),
-      CSWidgets.height10,
-    ], margin: const EdgeInsets.only(bottom: 14),);
+    ], margin: EdgeInsets.zero,);
   }
 }
 

@@ -51,7 +51,10 @@ class AptGestures extends StatelessWidget {
       type: MaterialType.transparency,
       child: InkWell(
         onTap: () {
-          if(page == CSPage.commanderDamage){
+          if(
+            page == CSPage.commanderDamage 
+            && !(whoIsAttacking == name && havingPartnerB)
+          ){
             bloc.game.gameAction.clearSelection();
             stage.pagesController.pageSet(CSPage.life);
           } else {

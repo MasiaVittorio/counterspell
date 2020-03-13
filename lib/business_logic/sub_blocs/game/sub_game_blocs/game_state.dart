@@ -216,6 +216,17 @@ class CSGameState {
     this.gameState.refresh();
   }
 
+  bool toggleUsePartner(String name){
+    assert(gameState.value.players.containsKey(name));
+
+    if(!gameState.value.players[name].havePartnerB) 
+      return false; 
+
+    this.gameState.value.players[name].usePartnerB = !this.gameState.value.players[name].usePartnerB;
+    this.gameState.refresh();
+    return true;
+  }
+
 
 }
 

@@ -8,6 +8,14 @@ class SubSection extends StatelessWidget {
   final BorderRadius borderRadius;
   final bool color;
 
+  const SubSection.withoutMargin(this.children, {
+    this.crossAxisAlignment = CrossAxisAlignment.start, 
+    this.onTap,
+    this.borderRadius = borderRadiusDefault,
+    this.color = true,
+  }): assert(crossAxisAlignment != null),
+      margin = EdgeInsets.zero;
+
   const SubSection(this.children, {
     this.crossAxisAlignment = CrossAxisAlignment.start, 
     this.margin = const EdgeInsets.symmetric(horizontal:10),

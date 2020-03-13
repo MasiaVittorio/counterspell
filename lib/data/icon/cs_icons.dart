@@ -27,6 +27,10 @@ class CSIcons {
   static const IconData experienceFilled = CSIconsRaw.experience_filled;
 
   static const IconData counterSpell = CSIconsRaw.counter_spell;
+  
+  static const IconData leaderboards = McIcons.license;
+
+
   static const double ideal_counterspell_size = 20;
   static const double ideal_counterspell_bottom_padding_ratio = 0.09549150281;
   static const double ideal_counterspell_bottom_padding = ideal_counterspell_size * ideal_counterspell_bottom_padding_ratio;

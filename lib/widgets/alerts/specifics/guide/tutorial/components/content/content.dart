@@ -13,6 +13,7 @@ class TutorialContent extends StatelessWidget {
     TutorialSelection(),
     TutorialHistory(),
     TutorialCommander(),
+    TutorialProFeatures(),
   ];
   static const List<String> titles = <String>[
     "App UI",

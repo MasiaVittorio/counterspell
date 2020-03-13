@@ -100,7 +100,7 @@ class __LocalState extends State<_Local> {
           ),),
         ),),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: theme.colorScheme.onSurface.withOpacity(0.6)),

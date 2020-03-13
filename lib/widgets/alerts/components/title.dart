@@ -48,7 +48,7 @@ class AlertTitle extends StatelessWidget {
                 theme, 
                 fallbackOnTextTheme: true
               ).onCanvas,
-              fontWeight: incrementFontWeight[style.fontWeight],
+              fontWeight: style.fontWeight.increment,
             ),
           )
           : Text(
@@ -61,7 +61,7 @@ class AlertTitle extends StatelessWidget {
                 theme, 
                 fallbackOnTextTheme: true
               ).onCanvas,
-              fontWeight: incrementFontWeight[style.fontWeight],
+              fontWeight: style.fontWeight.increment,
             ),
           ),
       ),

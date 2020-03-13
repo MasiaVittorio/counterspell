@@ -8,19 +8,20 @@ class TutorialContent extends StatelessWidget {
   final PageController pageController;
 
   static const List<Widget> children = <Widget>[
-    TutorialUI(),
     TutorialScroll(),
     TutorialSelection(),
-    TutorialHistory(),
-    TutorialCommander(),
+    // TutorialHistory(),
+    // TutorialCommander(),
+    TutorialUI(),
     TutorialProFeatures(),
   ];
   static const List<String> titles = <String>[
-    "App UI",
     "Scroll gestures",
     "Multi-select",
-    "Game history",
-    "Commander stats",
+    // "Game history",
+    // "Commander stats",
+    "App UI",
+    "Pro features",
   ];
 
   @override

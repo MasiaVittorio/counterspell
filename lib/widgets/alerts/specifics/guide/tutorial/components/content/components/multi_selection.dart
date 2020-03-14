@@ -109,42 +109,43 @@ class _TutorialSelectionState extends State<TutorialSelection> {
             child: AnimatedOpacity(
               duration: CSAnimations.fast,
               opacity: this.tried ? 1.0 : 0.0,
-              child: Text("(You can long press the small checkbox to anti-select a player: useful for lifelink!)"),
+              child: const Text(
+                "(You can long press the small checkbox to anti-select a player: useful for lifelink!)",
+                textAlign: TextAlign.center,
+              ),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(children: <Widget>[
+              for(final child in <Widget>[
+                ExtraButton(
+                  onTap: (){},
+                  text: "Selected",
+                  customIcon: Checkbox(value: true, onChanged: null,),
+                  icon: null,
+                  forceExternalSize: true,
+                ),
+                ExtraButton(
+                  onTap: (){},
+                  text: "Not selected",
+                  icon: null,
+                  customIcon: Checkbox(value: false, onChanged: null,),
+                  forceExternalSize: true,
+                ),
+                ExtraButton(
+                  onTap: (){},
+                  text: "Anti-Selected",
+                  icon: null,
+                  customIcon: Checkbox(value: null, tristate: true, onChanged: null,),
+                  forceExternalSize: true,
+                ),
+              ]) 
+                Expanded(child: child,),
+            ].separateWith(CSWidgets.extraButtonsDivider),),
           ),
         ], margin: EdgeInsets.zero,),
 
-        Row(children: <Widget>[
-          for(final child in <Widget>[
-            ExtraButton(
-              onTap: (){},
-              text: "Selected",
-              customIcon: Checkbox(value: true, onChanged: null,),
-              icon: null,
-              forceExternalSize: true,
-            ),
-            ExtraButton(
-              onTap: (){},
-              text: "Not selected",
-              icon: null,
-              customIcon: Checkbox(value: false, onChanged: null,),
-              forceExternalSize: true,
-            ),
-            ExtraButton(
-              onTap: (){},
-              text: "Anti-Selected",
-              icon: null,
-              customIcon: Checkbox(value: null, tristate: true, onChanged: null,),
-              forceExternalSize: true,
-            ),
-          ]) 
-            Expanded(child: SubSection.withoutMargin(<Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: child,
-              ),
-            ]),),
-        ].separateWith(CSWidgets.width15),),
 
       ].separateWith(CSWidgets.height15),
     );

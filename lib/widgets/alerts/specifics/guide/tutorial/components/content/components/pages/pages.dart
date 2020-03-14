@@ -26,7 +26,9 @@ class _TutorialPagesState extends State<TutorialPages> {
 
     final ThemeData theme = Theme.of(context);
     final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle subheadBold = subhead.copyWith(fontWeight: subhead.fontWeight.increment.increment);
     final TextStyle body1 = theme.textTheme.body1;
+    final TextStyle body1Bold = body1.copyWith(fontWeight: body1.fontWeight.increment.increment);
 
     final double collapsedPanelSize = stage.dimensions.value.collapsedPanelSize;
 
@@ -35,22 +37,23 @@ class _TutorialPagesState extends State<TutorialPages> {
         
         SubSection.withoutMargin(<Widget>[
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 16, 16, 4.0),
             child: RichText(
               text: TextSpan(
                 style: subhead,
                 children: <TextSpan>[
-                  const TextSpan(text: "Different "),
-                  TextSpan(text: "pages", style: TextStyle(fontWeight: subhead.fontWeight.increment.increment)),
-                  const TextSpan(text: " have different "),
-                  TextSpan(text: "controls", style: TextStyle(fontWeight: subhead.fontWeight.increment.increment)),
+                  const TextSpan(text: "Each "),
+                  TextSpan(text: "page", style: subheadBold),
+                  const TextSpan(text: " has different "),
+                  TextSpan(text: "controls", style: subheadBold),
                 ],
               ),
               textAlign: TextAlign.center,
             ),
           ),
+          CSWidgets.divider,
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 16),
+            padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16, 16),
             child: Text("Try using the bottom bar!", textAlign: TextAlign.center,),
           ),
         ], crossAxisAlignment: CrossAxisAlignment.center,),
@@ -87,17 +90,19 @@ class _TutorialPagesState extends State<TutorialPages> {
                 text: TextSpan(
                   style: body1,
                   children: <TextSpan>[
-                    const TextSpan(text: "The bottom panel contains different buttons for each page, "),
-                    TextSpan(text: "try them all out!", style: TextStyle(fontWeight: body1.fontWeight.increment.increment)),
+                    const TextSpan(text: "The "),
+                    TextSpan(text: "bottom panel", style: body1Bold),
+                    const TextSpan(text: " contains "),
+                    TextSpan(text: "different buttons", style: body1Bold),
+                    const TextSpan(text: " for each page"),
                   ],
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
           ),
+          bottomBar(colors, collapsedPanelSize, theme),
         ]),
-
-        bottomBar(colors, collapsedPanelSize, theme),
 
       ].separateWith(CSWidgets.height15),
     );

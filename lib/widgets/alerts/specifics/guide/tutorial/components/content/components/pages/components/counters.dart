@@ -10,14 +10,35 @@ class TutorialCounters extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final TextStyle subhead = theme.textTheme.subhead;
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Text(
-          "Independently tracks a variety of different counters",
-          style: subhead,
-          textAlign: TextAlign.center,
-        ),
+    return IconTheme.merge(
+      data: IconThemeData(opacity: 0.63),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: RichText(
+              text: TextSpan(
+                style: subhead,
+                children: <TextSpan>[
+                  TextSpan(text: "Independently", style: TextStyle(fontWeight: subhead.fontWeight.increment.increment)),
+                  const TextSpan(text: " tracks a variety of different counters"),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: <Widget>[
+                for(final counter in Counter.defaultList)
+                  Icon(counter.icon)
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            ),
+          ),
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
       ),
     );
   }

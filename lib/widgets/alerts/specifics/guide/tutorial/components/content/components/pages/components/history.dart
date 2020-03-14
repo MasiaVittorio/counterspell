@@ -12,10 +12,11 @@ class TutorialHistory extends StatelessWidget {
     // final TextStyle body1 = theme.textTheme.body1;
 
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Text(
-          "Everything is recored in an horizontal scrollable list",
+      child: ListTile(
+        leading: Icon(McIcons.gesture_swipe_horizontal),
+        trailing: Icon(Icons.grid_on),
+        title: Text(
+          "Everything is recored in an horizontal scrollable grid",
           style: subhead,
           textAlign: TextAlign.center,
         ),

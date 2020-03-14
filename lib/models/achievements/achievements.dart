@@ -7,10 +7,9 @@ abstract class Achievement {
   final String shortTitle;
   final String title;
   final String text;
-  // final int count;
-  // final int targetBronze;
-  // final int targetSilver;
-  // final int targetGold;
+  final int targetBronze;
+  final int targetSilver;
+  final int targetGold;
 
 
   //=====================================
@@ -18,36 +17,26 @@ abstract class Achievement {
   const Achievement(this.shortTitle,{
     @required this.title,
     @required this.text,
+    @required this.targetBronze,
+    @required this.targetSilver,
+    @required this.targetGold,
   });
 
   //=====================================
   // Getters ========================
-  bool get bronze;
-  bool get silver;
-  bool get gold;
-
-  // Achievement withCount(int newCount) => Achievement(
-  //   this.shortTitle,
-  //   title: this.title,
-  //   text: this.text,
-  //   targetBronze: this.targetBronze,
-  //   targetSilver: this.targetSilver,
-  //   targetGold: this.targetGold,
-  //   count: newCount,
-  // );
-
-  // Achievement get increment => withCount(this.count +1);
-  // Achievement get decrement => withCount((this.count -1).clamp(0, 99999999999));
+  int get count;
+  bool get bronze => count >= targetBronze;
+  bool get silver => count >= targetSilver;
+  bool get gold => count >= targetGold;
 
 
   //=====================================
   // Data ===========================
-
   static const Achievement counters = QuantityAchievement(
     "Counters master",
     title: "Track different counters in a single game",
     text: 'You can select a new counter in the "Counters" page by tapping on the icon at the right of the bottom panel',
-    count: 0,
+    currentCount: 0,
     targetSilver: 3,
     targetBronze: 5,
     targetGold: 7,
@@ -93,10 +82,7 @@ class QuantityAchievement extends Achievement {
 
   //=================================
   // Values =====================
-  final int count;
-  final int targetBronze;
-  final int targetSilver;
-  final int targetGold;
+  final int currentCount;
 
 
   // =====================================
@@ -104,21 +90,24 @@ class QuantityAchievement extends Achievement {
   const QuantityAchievement(String shortTitle, {
     String title,
     String text,
-    @required this.count,
-    @required this.targetBronze,
-    @required this.targetSilver,
-    @required this.targetGold,
-  }) : super(shortTitle, title: title, text: text);
+    @required this.currentCount,
+    int targetBronze,
+    int targetSilver,
+    int targetGold,
+  }) : super(
+    shortTitle, 
+    title: title, 
+    text: text,
+    targetBronze: targetBronze,
+    targetSilver: targetSilver,
+    targetGold: targetGold,
+  );
 
 
   //=====================================
   // Getters ========================
-  @override
-  bool get bronze => this.count >= this.targetBronze;
-  @override
-  bool get silver => this.count >= this.targetSilver;
-  @override
-  bool get gold => this.count >= this.targetGold;
+  @override 
+  int get count => this.currentCount;
 
   QuantityAchievement withCount(int newCount) => QuantityAchievement(
     this.shortTitle,
@@ -127,7 +116,7 @@ class QuantityAchievement extends Achievement {
     targetBronze: this.targetBronze,
     targetSilver: this.targetSilver,
     targetGold: this.targetGold,
-    count: newCount,
+    currentCount: newCount,
   );
 
   QuantityAchievement get increment => withCount(this.count +1);
@@ -141,7 +130,7 @@ class QuantityAchievement extends Achievement {
     "title": this.title,
     "shortTitle": this.shortTitle,
     "text": this.text,
-    "count": this.count,
+    "currentCount": this.currentCount,
     "targetBronze": this.targetBronze,
     "targetSilver": this.targetSilver,
     "targetGold": this.targetGold,
@@ -152,7 +141,7 @@ class QuantityAchievement extends Achievement {
     json["shortTitle"],
     title: json["title"],
     text: json["text"],
-    count: json["count"],
+    currentCount: json["currentCount"],
     targetBronze: json["targetBronze"],
     targetSilver: json["targetSilver"],
     targetGold: json["targetGold"],
@@ -167,9 +156,6 @@ class QualityAchievement extends Achievement {
   //=================================
   // Values =====================
   final Map<String,bool> targets;
-  final int targetBronze;
-  final int targetSilver;
-  final int targetGold;
 
 
   // =====================================
@@ -178,15 +164,24 @@ class QualityAchievement extends Achievement {
     String title,
     String text,
     @required this.targets,
-    @required this.targetBronze,
-    @required this.targetSilver,
-    @required this.targetGold,
-  }) : super(shortTitle, title: title, text: text);
+    int targetBronze,
+    int targetSilver,
+    int targetGold,
+  }) : super(
+    shortTitle, 
+    title: title, 
+    text: text,
+    targetBronze: targetBronze,
+    targetSilver: targetSilver,
+    targetGold: targetGold,
+  );
+
 
 
   //=====================================
   // Getters ========================
 
+  @override
   int get count {
     int c = 0;
     for(final value in this.targets.values){

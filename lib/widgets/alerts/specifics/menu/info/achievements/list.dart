@@ -12,6 +12,7 @@ class AchievementsAlert extends StatelessWidget {
     return RadioHeaderedAlert<bool>(
       initialValue: false, 
       orderedValues: [false,true], 
+      accentSelected: true,
       items: const <bool,RadioHeaderedItem>{
         false: RadioHeaderedItem(
           longTitle: "Currently open", 

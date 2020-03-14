@@ -42,6 +42,10 @@ class CSHomePage extends StatelessWidget {
         backgroundColor: (theme) => Colors.black,
         splashScreenBackground: const Color(0xFF263133),
         splashScreenIcon: const Icon(CSIcons.counterSpell, color: Colors.white, size: 40,),
+        panelBlurRadiusCollapsed: 32.0,
+        panelBlurRadiusExtended: 64.0,
+        panelShadowColor: const Color(0x50000000),
+        panelShadowOffset: const Offset(0.0, 5),
       ),
     );
 

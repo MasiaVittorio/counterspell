@@ -21,7 +21,7 @@ class CSStage {
       panelHorizontalPaddingClosed: Stage.kPanelHorizontalPaddingClosed,
       panelHorizontalPaddingOpened: Stage.kPanelHorizontalPaddingOpened,
     ),
-
+  
     // closed pages
     initialClosedPage: CSPage.life,
     initialClosedPagesData: <CSPage,StagePage>{

@@ -14,10 +14,7 @@ class LocalDelayer extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final ThemeData themeData = Theme.of(context);
-    final primary = Color.alphaBlend(
-      SubSection.getColor(themeData), 
-      themeData.canvasColor
-    );
+
     final primaryContrast = themeData.colorScheme.onSurface;
 
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
@@ -26,19 +23,17 @@ class LocalDelayer extends StatelessWidget {
       localScroller.isScrolling,
       localScroller.intValue,
       bloc.settings.confirmDelay,
-      stage.themeController.primaryColor,
+      stage.themeController.primaryColorsMap,
       distinct: true,
       builder: (
         BuildContext context, 
         bool scrolling,
         int increment,
         Duration confirmDelay,
-        Color currentPrimaryColor,
+        Map<CSPage,Color> colors,
       ){
-        final accentColor = Color.alphaBlend(
-          currentPrimaryColor,
-          primary,
-        );
+        final accentColor = colors[CSPage.life];
+
         return AnimatedOpacity(
           duration: CSAnimations.veryFast,
           curve: Curves.decelerate,

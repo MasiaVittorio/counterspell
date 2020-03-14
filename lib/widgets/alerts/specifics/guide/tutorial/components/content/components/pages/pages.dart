@@ -27,8 +27,6 @@ class _TutorialPagesState extends State<TutorialPages> {
     final ThemeData theme = Theme.of(context);
     final TextStyle subhead = theme.textTheme.subhead;
     final TextStyle subheadBold = subhead.copyWith(fontWeight: subhead.fontWeight.increment.increment);
-    final TextStyle body1 = theme.textTheme.body1;
-    final TextStyle body1Bold = body1.copyWith(fontWeight: body1.fontWeight.increment.increment);
 
     final double collapsedPanelSize = stage.dimensions.value.collapsedPanelSize;
 
@@ -36,27 +34,24 @@ class _TutorialPagesState extends State<TutorialPages> {
       children: <Widget>[
         
         SubSection.withoutMargin(<Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 16, 16, 4.0),
-            child: RichText(
-              text: TextSpan(
-                style: subhead,
-                children: <TextSpan>[
-                  const TextSpan(text: "Each "),
-                  TextSpan(text: "page", style: subheadBold),
-                  const TextSpan(text: " has different "),
-                  TextSpan(text: "controls", style: subheadBold),
-                ],
+          Row(children: <Widget>[
+            Expanded(child: Center(child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: RichText(
+                text: TextSpan(
+                  style: subhead,
+                  children: <TextSpan>[
+                    const TextSpan(text: "Each "),
+                    TextSpan(text: "page", style: subheadBold),
+                    const TextSpan(text: " has different "),
+                    TextSpan(text: "controls", style: subheadBold),
+                  ],
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          CSWidgets.divider,
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16, 16),
-            child: Text("Try using the bottom bar!", textAlign: TextAlign.center,),
-          ),
-        ], crossAxisAlignment: CrossAxisAlignment.center,),
+            ),),),
+          ],),
+        ], crossAxisAlignment: CrossAxisAlignment.stretch,),
 
         Expanded(child: SubSection.withoutMargin(<Widget>[
           Padding(
@@ -81,24 +76,16 @@ class _TutorialPagesState extends State<TutorialPages> {
         ], crossAxisAlignment: CrossAxisAlignment.center,),),
 
         SubSection.withoutMargin(<Widget>[
-          AnimatedOpacity(
-            opacity: tried ? 1.0 : 0.0,
-            duration: CSAnimations.medium,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: RichText(
-                text: TextSpan(
-                  style: body1,
-                  children: <TextSpan>[
-                    const TextSpan(text: "The "),
-                    TextSpan(text: "bottom panel", style: body1Bold),
-                    const TextSpan(text: " contains "),
-                    TextSpan(text: "different buttons", style: body1Bold),
-                    const TextSpan(text: " for each page"),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
+          Container(
+            constraints: BoxConstraints(minHeight: collapsedPanelSize + 8),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: AnimatedText(
+              tried 
+              ? "The bottom panel contains different buttons for each page"
+              : "Try changing page here!",
+              textAlign: TextAlign.center,
+              duration: CSAnimations.slow,
             ),
           ),
           bottomBar(colors, collapsedPanelSize, theme),
@@ -177,34 +164,37 @@ class _TutorialPagesState extends State<TutorialPages> {
           height: collapsedPanelSize,
           right: 16.0,
           left: 16.0,
-          child: Material(
-            borderRadius: BorderRadius.circular(collapsedPanelSize/2),
-            elevation: 16,
-            child: SizedBox(
-              height: collapsedPanelSize,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: Center(
-                    child: <CSPage,Widget>{
-                      CSPage.history: Text("Life Chart"),
-                      CSPage.counters: Text("Arena Mode"),
-                      CSPage.commanderDamage: Text("Arena Mode"),
-                    }[page],
-                  ),),
-                  Container(
-                    color: theme.colorScheme.onSurface.withOpacity(0.5),
-                    width: 1,
-                    height: collapsedPanelSize * 0.8,
-                  ),
-                  Expanded(child: Center(
-                    child: <CSPage,Widget>{
-                      CSPage.history: Text("Restart"),
-                      CSPage.counters: Text("Counter Picker"),
-                      CSPage.commanderDamage: Text("Info"),
-                    }[page],
-                  ),),
-                ],
+          child: DefaultTextStyle.merge(
+            style: TextStyle(color: theme.colorScheme.onSurface.withOpacity(0.5)),
+            child: Material(
+              borderRadius: BorderRadius.circular(collapsedPanelSize/2),
+              elevation: 16,
+              child: SizedBox(
+                height: collapsedPanelSize,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(child: Center(
+                      child: AnimatedText(<CSPage,String>{
+                        CSPage.history: "Life Chart",
+                        CSPage.counters: "Arena Mode",
+                        CSPage.commanderDamage: "Arena Mode",
+                      }[page]),
+                    ),),
+                    Container(
+                      color: theme.colorScheme.onSurface.withOpacity(0.5),
+                      width: 1,
+                      height: collapsedPanelSize * 0.8,
+                    ),
+                    Expanded(child: Center(
+                      child: AnimatedText(<CSPage,String>{
+                        CSPage.history: "Restart",
+                        CSPage.counters: "Counter picker",
+                        CSPage.commanderDamage: "Info",
+                      }[page]),
+                    ),),
+                  ],
+                ),
               ),
             ),
           ),

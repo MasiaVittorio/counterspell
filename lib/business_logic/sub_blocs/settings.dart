@@ -216,14 +216,14 @@ class CSSettings {
       fromJson: (name) => TimeModes.fromName(name),
     ),
     tutored= PersistentVar<bool>(
-      key: "bloc_settings_blocvar_tutored",
+      key: "bloc_settings_blocvar_tutorial_shown",
       initVal: false,
       toJson: (b) => b,
       fromJson: (j) => j,
-      readCallback: (already){
-        if(!already){
+      readCallback: (alreadyShown){
+        if(!alreadyShown){
           Future.delayed(const Duration(seconds: 1)).then((_){
-            parent.stage.showAlert(const TutorialAlert(), size: TutorialAlert.height);
+            parent.stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height);
             parent.settings.tutored.setDistinct(true);
           });
         }

@@ -9,6 +9,7 @@ enum CSPage{
 }
 
 class CSPages{
+  
   static String nameOf(CSPage page) => _pageToStringMap[page];
 
   static CSPage fromName(String name) => _stringToPageMap[name];

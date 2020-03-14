@@ -42,15 +42,24 @@ class __LocalState extends State<_Local> {
   Widget build(BuildContext context) {
     
     final ThemeData theme = Theme.of(context); 
+    final TextStyle subhead = theme.textTheme.subhead;
+
+    
 
     return Column(children: <Widget>[
       
       Expanded(child: SubSection(<Widget>[
         Expanded(child: Center(child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Center(child: Text(
-            "Scroll horizontally to increase or decrease the number",
-            style: theme.textTheme.subhead,
+          child: Center(child: RichText(
+            text: TextSpan(
+              style: subhead,
+              children: <TextSpan>[
+                const TextSpan(text: "Scroll "),
+                TextSpan(text: "horizontally", style: TextStyle(fontWeight: subhead.fontWeight.increment.increment)),
+                const TextSpan(text: " to increase or decrease the number"),
+              ],
+            ),
             textAlign: TextAlign.center,
           ),),
         ),),),
@@ -63,30 +72,11 @@ class __LocalState extends State<_Local> {
             });
         }),
         CSWidgets.height20,
-        // Expanded(child: Padding(
-        //   padding: const EdgeInsets.all(16.0),
-        //   child: Center(child: Text(
-        //     "The change is applied after a short delay",
-        //     style: theme.textTheme.subhead,
-        //     textAlign: TextAlign.center,
-        //   ),),
-        // ),),
       ], margin: EdgeInsets.zero,),),
 
       CSWidgets.height10,
 
       Expanded(child: SubSection(<Widget>[
-        // Expanded(child: Padding(
-        //   padding: const EdgeInsets.all(16.0),
-        //   child: Center(child: AnimatedOpacity(
-        //     duration: CSAnimations.fast,
-        //     opacity: scrolled ? 1.0 : 0.0,
-        //     child: Text(
-        //       "(If you scroll again before the delay expires, you'll gain more time!)",
-        //       textAlign: TextAlign.center,
-        //     ),
-        //   ),),
-        // ),),
         Expanded(child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Center(child: AnimatedOpacity(

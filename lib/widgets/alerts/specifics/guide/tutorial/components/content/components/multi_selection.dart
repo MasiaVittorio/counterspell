@@ -13,9 +13,11 @@ class _TutorialSelectionState extends State<TutorialSelection> {
     "You": true,
     "Them": false,
   };
+  bool tried = false;
 
   void tapKey(String key) => this.setState((){
     this.state[key] = !(this.state[key] ?? true);
+    this.tried = true;
   });
 
   @override
@@ -31,6 +33,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
       ? Colors.black 
       : Colors.white;
     final textStyle = TextStyle(color: textColor, fontSize: 0.26 * CSSizes.minTileSize);
+    final TextStyle subhead = theme.textTheme.subhead;
 
 
     return Column(
@@ -39,9 +42,16 @@ class _TutorialSelectionState extends State<TutorialSelection> {
         Expanded(child: SubSection(<Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "You can select more than one player to affect at once!",
-              style: theme.textTheme.subhead,
+            child: RichText(
+              text: TextSpan(
+                style: subhead,
+                children: <TextSpan>[
+                  const TextSpan(text: "You can select "),
+                  TextSpan(text: "more than one", style: TextStyle(fontWeight: subhead.fontWeight.increment)),
+                  const TextSpan(text: " player to affect at once!"),
+                ],
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
 
@@ -52,38 +62,40 @@ class _TutorialSelectionState extends State<TutorialSelection> {
             primary: false,
             children: <Widget>[
               for(final String key in state.keys) 
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: ListTile(
-                    title: Text(key),
-                    onTap: () => this.tapKey(key),
-                    trailing: InkWell(
-                      onTap: () => this.tapKey(key),
-                      onLongPress: () => this.setState((){
-                        this.state[key] = null;
-                      }),
-                      child: Checkbox(
-                        tristate: true,
-                        value: this.state[key],
-                        onChanged: (b) => this.setState((){
-                          this.state[key] = b ?? false;
+                InkWell(
+                  onTap: () => this.tapKey(key),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      title: Text(key),
+                      trailing: InkWell(
+                        onTap: () => this.tapKey(key),
+                        onLongPress: () => this.setState((){
+                          this.state[key] = null;
                         }),
+                        child: Checkbox(
+                          tristate: true,
+                          value: this.state[key],
+                          onChanged: (b) => this.setState((){
+                            this.state[key] = b ?? false;
+                          }),
+                        ),
                       ),
-                    ),
-                    leading: CircleNumber(
-                      size: 56,
-                      value: 40,
-                      numberOpacity: 1.0,
-                      open: this.state[key] != false,
-                      style: textStyle,
-                      duration: CSAnimations.fast,
-                      color: color,
-                      increment: this.state[key] == true 
-                        ? 7
-                        : this.state[key] == false
-                          ? 0
-                          : -7,
-                      borderRadiusFraction: 1.0,
+                      leading: CircleNumber(
+                        size: 56,
+                        value: 40,
+                        numberOpacity: 1.0,
+                        open: this.state[key] != false,
+                        style: textStyle,
+                        duration: CSAnimations.fast,
+                        color: color,
+                        increment: this.state[key] == true 
+                          ? 7
+                          : this.state[key] == false
+                            ? 0
+                            : -7,
+                        borderRadiusFraction: 1.0,
+                      ),
                     ),
                   ),
                 ),
@@ -91,16 +103,50 @@ class _TutorialSelectionState extends State<TutorialSelection> {
           ),),
         ], margin: EdgeInsets.zero,),),
 
-        CSWidgets.height15,
-
         SubSection(<Widget>[
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text("(You can long press the small checkbox to anti-select a player: useful for lifelink!)"),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: AnimatedOpacity(
+              duration: CSAnimations.fast,
+              opacity: this.tried ? 1.0 : 0.0,
+              child: Text("(You can long press the small checkbox to anti-select a player: useful for lifelink!)"),
+            ),
           ),
         ], margin: EdgeInsets.zero,),
 
-      ],
+        Row(children: <Widget>[
+          for(final child in <Widget>[
+            ExtraButton(
+              onTap: (){},
+              text: "Selected",
+              customIcon: Checkbox(value: true, onChanged: null,),
+              icon: null,
+              forceExternalSize: true,
+            ),
+            ExtraButton(
+              onTap: (){},
+              text: "Not selected",
+              icon: null,
+              customIcon: Checkbox(value: false, onChanged: null,),
+              forceExternalSize: true,
+            ),
+            ExtraButton(
+              onTap: (){},
+              text: "Anti-Selected",
+              icon: null,
+              customIcon: Checkbox(value: null, tristate: true, onChanged: null,),
+              forceExternalSize: true,
+            ),
+          ]) 
+            Expanded(child: SubSection.withoutMargin(<Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: child,
+              ),
+            ]),),
+        ].separateWith(CSWidgets.width15),),
+
+      ].separateWith(CSWidgets.height15),
     );
   }
 }

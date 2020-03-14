@@ -8,6 +8,7 @@ class TutorialProFeatures extends StatelessWidget {
     
     final ThemeData theme = Theme.of(context);
     final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle big = subhead.copyWith(fontSize: subhead.fontSize + 2);
 
     return Column(children: <Widget>[
 
@@ -27,10 +28,10 @@ class TutorialProFeatures extends StatelessWidget {
 
           ListTile(title: RichText(
             text: TextSpan(
-              style: subhead.copyWith(fontSize: subhead.fontSize + 2),
+              style: big,
               children: <TextSpan>[
                 const TextSpan(text: "CounterSpell is a ",),
-                TextSpan(text: "one", style: subhead.copyWith(fontWeight: subhead.fontWeight.increment)),
+                TextSpan(text: "one", style: big.copyWith(fontWeight: subhead.fontWeight.increment)),
                 const TextSpan(text: " man project\n",),
               ],
             ),

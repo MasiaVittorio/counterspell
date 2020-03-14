@@ -7,6 +7,7 @@ class CSBloc extends BlocBase {
 
   @override
   void dispose() {
+    this.achievements.dispose();
     this.game.dispose();
     this.pastGames.dispose();
     this.payments.dispose();
@@ -21,7 +22,7 @@ class CSBloc extends BlocBase {
   //=============================
   // Values 
 
-
+  CSAchievements achievements;
   CSGame game;
   CSPastGames pastGames;
   CSPayments payments;
@@ -35,6 +36,7 @@ class CSBloc extends BlocBase {
   // Constructor 
 
   CSBloc(){
+    achievements = CSAchievements(this);
     game = CSGame(this);
     pastGames = CSPastGames(this);
     payments = CSPayments(this);

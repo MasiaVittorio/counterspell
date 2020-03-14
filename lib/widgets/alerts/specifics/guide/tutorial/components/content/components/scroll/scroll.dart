@@ -78,33 +78,37 @@ class __LocalState extends State<_Local> {
 
       Expanded(child: SubSection(<Widget>[
         Expanded(child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: Center(child: AnimatedOpacity(
             duration: CSAnimations.fast,
             opacity: scrolled ? 1.0 : 0.0,
             child: Text(
-              "The change is applied after a short delay",
+              "The change is applied after a delay",
               style: theme.textTheme.subhead,
               textAlign: TextAlign.center,
             ),
           ),),
         ),),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+          child: DecoratedBox(
             decoration: BoxDecoration(
-              border: Border.all(color: theme.colorScheme.onSurface.withOpacity(0.6)),
+              border: Border.all(color: theme.colorScheme.onSurface.withOpacity(0.40), width: 2.0),
+              borderRadius: BorderRadius.circular(120),
             ),
-            child: LocalDelayer(localScroller, widget.bloc),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(120),
+              child: LocalDelayer(localScroller, widget.bloc),
+            ),
           ),
         ),
         Expanded(child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: Center(child: AnimatedOpacity(
             duration: CSAnimations.fast,
             opacity: scrolled ? 1.0 : 0.0,
             child: Text(
-              "(You can scroll multiple times before it expires)",
+              "(You can keep scrolling before it expires)",
               textAlign: TextAlign.center,
             ),
           ),),

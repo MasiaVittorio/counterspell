@@ -54,7 +54,7 @@ class LocalDelayer extends StatelessWidget {
               onManualCancel: scrolling ? localScroller.cancel : null,
               onManualConfirm: scrolling ? localScroller.forceComplete : null,
 
-              primaryColor: primary,
+              primaryColor: Colors.transparent,
               onPrimaryColor: primaryContrast,
               accentColor: accentColor,
               onAccentColor: themeData.colorScheme.onPrimary,

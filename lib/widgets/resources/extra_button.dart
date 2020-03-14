@@ -14,7 +14,7 @@ class ExtraButton extends StatelessWidget {
   final bool filled;
   final Widget customIcon;
 
-  ExtraButton({
+  const ExtraButton({
     @required this.icon,
     @required this.text,
     @required this.onTap,

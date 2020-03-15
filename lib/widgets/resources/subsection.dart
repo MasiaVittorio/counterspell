@@ -28,6 +28,15 @@ class SubSection extends StatelessWidget {
   }): assert(crossAxisAlignment != null),
       assert(margin != null);
 
+  const SubSection.stretch(this.children, {
+    this.margin = const EdgeInsets.symmetric(horizontal:10),
+    this.onTap,
+    this.borderRadius = borderRadiusDefault,
+    this.color = true,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+  }): assert(margin != null),
+      crossAxisAlignment = CrossAxisAlignment.stretch;
+
   static Color getColor(ThemeData theme) => theme.scaffoldBackgroundColor.withOpacity(0.7);
 
   static const borderRadiusDefault = BorderRadius.all(Radius.circular(10.0));

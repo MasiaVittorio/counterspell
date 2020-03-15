@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:time/time.dart';
 
 class CSAchievements extends BlocBase {
   //=================================
@@ -20,7 +21,7 @@ class CSAchievements extends BlocBase {
   CSAchievements(this.parent):
     this.map = BlocMap<String,Achievement>(
       <String,Achievement>{for(final a in Achievement.all) a.shortTitle: a},
-      key: "counterspell_bloc_box_achievementsBloc_map",
+      key: "counterspell_bloc_achievementsBloc_blocMap_map",
       itemToJson: (item) => item.json,
       jsonToItem: (json) => Achievement.fromJson(json),
     ),
@@ -28,9 +29,27 @@ class CSAchievements extends BlocBase {
       initVal: <String>{
         Achievement.counters.shortTitle,
         Achievement.uiExpert.shortTitle,
+        Achievement.roller.shortTitle,
       },
-      key: "counterspell_bloc_var_achievementsBloc_todo",
-    );
+      toJson: (s) => <String>[...s],
+      fromJson: (j) => <String>{...(j as List)},
+      key: "counterspell_bloc_achievementsBloc_blocVar_todo",
+    ){
+      this.checkNewAchievements();
+    }
+
+  void checkNewAchievements() async {
+    await Future.delayed(2.seconds);
+
+
+    for(final achievement in Achievement.all){
+      this.map.value[achievement.shortTitle] 
+        = this.map.value[achievement.shortTitle]
+          ?.updateStats(achievement) 
+            ?? achievement;
+    }
+    this.map.refresh();
+  }
 
   void achieve(String achievement, String key){
     this.map.value[achievement] = (this.map.value[achievement] as QualityAchievement).achieve(key);
@@ -47,9 +66,19 @@ class CSAchievements extends BlocBase {
   void check(String achievement){
     if(this.map.value[achievement].gold){
       this.todo.value.remove(achievement);
-      this.todo.value.add((this.map.value.values.firstWhere((a) => !a.gold)).shortTitle);
+      final Achievement newUndone = this.map.value.values.firstWhere((a) => !a.gold, orElse: () => null);
+      if(newUndone != null){
+        this.todo.value.add(newUndone.shortTitle);
+      }
       this.todo.refresh();
     }
+  }
+
+  void reset(String achievement){
+    Achievement a = this.map.value[achievement];
+    if(a.gold) return;
+    this.map.value[achievement] = a.reset;
+    this.map.refresh();
   }
 
 }

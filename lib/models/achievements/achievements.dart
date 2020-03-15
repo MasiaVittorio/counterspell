@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:counter_spell_new/core.dart'; 
 
 abstract class Achievement {
 
@@ -29,20 +30,33 @@ abstract class Achievement {
   bool get silver => count >= targetSilver;
   bool get gold => count >= targetGold;
 
+  Achievement get reset; 
+
+  Achievement updateStats(Achievement updated);
 
   //=====================================
   // Data ===========================
-  static const Achievement counters = QuantityAchievement(
-    "Counters master",
+  static const String countersShortTitle = "Counters master";
+  static const Achievement counters = QualityAchievement(
+    countersShortTitle,
     title: "Track different counters in a single game",
     text: 'You can select a new counter in the "Counters" page by tapping on the icon at the right of the bottom panel',
-    currentCount: 0,
-    targetSilver: 3,
-    targetBronze: 5,
+    targets: <String,bool>{
+      Counter.poisonLongName: false,
+      Counter.experienceLongName: false,
+      Counter.stormLongName: false,
+      Counter.manaLongName: false,
+      Counter.blessingLongName: false,
+      Counter.monarchLongName: false,
+      Counter.energyLongName: false,
+    },
+    targetBronze: 3,
+    targetSilver: 5,
     targetGold: 7,
   );
+  static const String uiExpertShortTitle = "UI expert";
   static const Achievement uiExpert = QualityAchievement(
-    "UI expert",
+    uiExpertShortTitle,
     title: "Restart the game or edit the playgroup in different ways",
     text: "You can use the closed panel's right button (History and Life pages) or the main menu's buttons (\"Game\" tab)",
     targets: <String,bool>{
@@ -51,13 +65,24 @@ abstract class Achievement {
       "Playgroup panel": false,
       "Playgroup menu": false,
     },
-    targetSilver: 2,
-    targetBronze: 3,
+    targetBronze: 2,
+    targetSilver: 3,
     targetGold: 4,
+  );
+  static const String rollerShortTitle = "The roller";
+  static const Achievement roller = QuantityAchievement(
+    rollerShortTitle,
+    title: "Flip a ton of coins, roll a bunch of dice",
+    text: 'Open the main menu. In the "Game" tab you\'ll find the "Random" button',
+    currentCount: 0,
+    targetBronze: 10,
+    targetSilver: 25,
+    targetGold: 50,
   );
   static const List<Achievement> all = [
     counters,
     uiExpert,
+    roller,
   ];
 
 
@@ -119,9 +144,18 @@ class QuantityAchievement extends Achievement {
     currentCount: newCount,
   );
 
-  QuantityAchievement get increment => withCount(this.count +1);
-  QuantityAchievement get decrement => withCount((this.count -1).clamp(0, 99999999999));
+  QuantityAchievement get increment => withCount((this.count +1).clamp(0, this.targetGold));
+  QuantityAchievement get decrement => withCount((this.count -1).clamp(0, this.targetGold));
 
+  @override
+  QuantityAchievement get reset => withCount(0);
+
+  @override
+  QuantityAchievement updateStats(Achievement updated){
+    if(updated is QuantityAchievement && updated.shortTitle == this.shortTitle){
+      return updated.withCount(this.count);
+    } else return this;
+  }
 
   //=========================================
   // Persistence ========================
@@ -197,18 +231,33 @@ class QualityAchievement extends Achievement {
   @override
   bool get gold => this.count >= this.targetGold;
 
-  QualityAchievement achieve(String key) => QualityAchievement(
+  QualityAchievement achieve(String key) => withTargets(<String,bool>{
+    for(final entry in this.targets.entries)
+      entry.key: entry.value || (entry.key == key),
+  });
+
+  QualityAchievement get reset => withTargets(<String,bool>{
+    for(final entry in this.targets.entries)
+      entry.key: false,
+  });
+
+  QualityAchievement withTargets(Map<String,bool> newTargets) => QualityAchievement(
     this.shortTitle,
     title: this.title,
     text: this.text,
     targetBronze: this.targetBronze,
     targetSilver: this.targetSilver,
     targetGold: this.targetGold,
-    targets: <String,bool>{
-      for(final entry in this.targets.entries)
-        entry.key: entry.value || (entry.key == key),
-    },
-  );
+    targets: newTargets,
+  ); 
+ 
+
+  @override
+  QualityAchievement updateStats(Achievement updated){
+    if(updated is QualityAchievement && updated.shortTitle == this.shortTitle){
+      return updated.withTargets(this.targets);
+    } else return this;
+  }
 
 
   //=========================================

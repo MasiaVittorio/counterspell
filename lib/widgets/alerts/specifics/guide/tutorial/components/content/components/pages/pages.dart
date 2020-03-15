@@ -95,113 +95,31 @@ class _TutorialPagesState extends State<TutorialPages> {
     );
   }
 
-  Widget bottomBar(Map<CSPage,Color> colors, double collapsedPanelSize, ThemeData theme) => SizedBox(
-    height: collapsedPanelSize + RadioNavBar.defaultTileSize,
-    child: Stack(
-      fit: StackFit.passthrough,
-      children: <Widget>[
-        Positioned(
-          top: collapsedPanelSize / 2,
-          bottom: 0.0,
-          left: 0.0,
-          right: 0.0,
-          child: ClipRRect(
-            borderRadius: SubSection.borderRadiusDefault,
-            // clipBehavior: Clip.antiAlias,
-            child: RadioNavBar<CSPage>(
-              tileSize: RadioNavBar.defaultTileSize,
-              topPadding: collapsedPanelSize / 2,
-              selectedValue: page, 
-              orderedValues: const <CSPage>[
-                CSPage.history, 
-                CSPage.counters, 
-                // CSPage.life, 
-                CSPage.commanderDamage, 
-                // CSPage.commanderCast,
-              ], 
-              items: <CSPage,RadioNavBarItem>{
-                CSPage.history: RadioNavBarItem(
-                  title: "History",
-                  icon: CSIcons.historyIconFilled,
-                  unselectedIcon: CSIcons.historyIconOutlined,
-                  color: colors[CSPage.history],
-                ),
-                CSPage.counters: RadioNavBarItem(
-                  title: "Counters",
-                  icon: CSIcons.counterIconFilled,
-                  unselectedIcon: CSIcons.counterIconOutlined,
-                  color: colors[CSPage.counters],
-                ),
-                CSPage.life: RadioNavBarItem(
-                  title: "Life",
-                  icon: CSIcons.lifeIconFilled,
-                  unselectedIcon: CSIcons.lifeIconOutlined,
-                  color: colors[CSPage.life],
-                ),
-                CSPage.commanderDamage: RadioNavBarItem(
-                  title: "Damage",
-                  icon: CSIcons.damageIconFilled,
-                  unselectedIcon: CSIcons.damageIconOutlined,
-                  color: colors[CSPage.commanderDamage],
-                ),
-                CSPage.commanderCast: RadioNavBarItem(
-                  title: "Casts",
-                  icon: CSIcons.castIconFilled,
-                  unselectedIcon: CSIcons.castIconOutlined,
-                  color: colors[CSPage.commanderCast],
-                ),
-              }, 
-              onSelect: (CSPage newPage) => this.setState((){
-                this.page = newPage;
-                this.tried = true;
-              })
-            ),
-          ),
-        ),
-
-        Positioned(
-          top: 0.0,
-          height: collapsedPanelSize,
-          right: 16.0,
-          left: 16.0,
-          child: DefaultTextStyle.merge(
-            style: TextStyle(color: theme.colorScheme.onSurface.withOpacity(0.5)),
-            child: Material(
-              borderRadius: BorderRadius.circular(collapsedPanelSize/2),
-              elevation: 16,
-              child: SizedBox(
-                height: collapsedPanelSize,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: Center(
-                      child: AnimatedText(<CSPage,String>{
-                        CSPage.history: "Life Chart",
-                        CSPage.counters: "Arena Mode",
-                        CSPage.commanderDamage: "Arena Mode",
-                      }[page]),
-                    ),),
-                    Container(
-                      color: theme.colorScheme.onSurface.withOpacity(0.5),
-                      width: 1,
-                      height: collapsedPanelSize * 0.8,
-                    ),
-                    Expanded(child: Center(
-                      child: AnimatedText(<CSPage,String>{
-                        CSPage.history: "Restart",
-                        CSPage.counters: "Counter picker",
-                        CSPage.commanderDamage: "Info",
-                      }[page]),
-                    ),),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
+  Widget bottomBar(Map<CSPage,Color> colors, double collapsedPanelSize, ThemeData theme) => FakeBottomBar(
+    collapsedPanelSize: collapsedPanelSize, 
+    page: page, 
+    colors: colors, 
+    onSelect: (CSPage newPage) => this.setState((){
+      this.page = newPage;
+      this.tried = true;
+    }), 
+    orderedValues: const <CSPage>[
+      CSPage.history, 
+      CSPage.counters, 
+      // CSPage.life, 
+      CSPage.commanderDamage, 
+      // CSPage.commanderCast,
+    ], 
+    leftTitles: <CSPage,String>{
+      CSPage.history: "Life Chart",
+      CSPage.counters: "Arena Mode",
+      CSPage.commanderDamage: "Arena Mode",
+    }, 
+    rightTitles: <CSPage,String>{
+      CSPage.history: "Restart",
+      CSPage.counters: "Counter picker",
+      CSPage.commanderDamage: "Info",
+    },
   );
-
-
+  
 }

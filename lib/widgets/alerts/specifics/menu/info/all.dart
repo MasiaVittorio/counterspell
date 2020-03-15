@@ -9,4 +9,3 @@ export 'licenses.dart';
 export 'quotes.dart';
 export 'support.dart';
 export 'telegram.dart';
-export 'tutorial.dart';

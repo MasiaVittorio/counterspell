@@ -56,49 +56,55 @@ class Counter{
     'uniquePlayer': this.uniquePlayer,
   };
 
+  static const String poisonLongName = "Poison Counters";
   static const Counter poison = Counter(
     shortName: 'Poison',
-    longName: 'Poison Counters',
+    longName: poisonLongName,
     minValue: 0,
     maxValue: MAX_LIFE,
     icon: CSIcons.poison,
     uniquePlayer: false,
   );
+  static const String experienceLongName = "Experience Counters";
   static const Counter experience = Counter(
     shortName: 'Experience',
-    longName: 'Experience Counters',
+    longName: experienceLongName,
     minValue: 0,
     maxValue: MAX_LIFE,
     icon: CSIcons.experienceFilled,
     uniquePlayer: false,
   );
+  static const String stormLongName = "Storm Count";
   static const Counter storm = const Counter(
     shortName: 'Storm',
-    longName: 'Storm Count',
+    longName: stormLongName,
     minValue: 0,
     maxValue: MAX_LIFE,
     icon: McIcons.weather_lightning,
     uniquePlayer: false,
   );
+  static const String blessingLongName = "City's Blessing";
   static const Counter blessing = Counter(
     shortName: 'Blessing',
-    longName: "City's Blessing",
+    longName: blessingLongName,
     minValue: 0,
     maxValue: 1,
     icon: McIcons.ship_wheel,
     uniquePlayer: false,
   );
+  static const String monarchLongName = "Take the Crown";
   static const Counter monarch = Counter(
     shortName: 'Monarch',
-    longName: 'Take the Crown',
+    longName: monarchLongName,
     minValue: 0,
     maxValue: 1,
     icon: McIcons.crown,
     uniquePlayer: true,
   );
+  static const String manaLongName = "Total Mana";
   static const Counter mana = Counter(
     shortName: 'Mana',
-    longName: 'Total Mana',
+    longName: manaLongName,
     minValue: 0,
     maxValue: MAX_LIFE,
     icon: McIcons.alpha_x_circle,
@@ -112,9 +118,10 @@ class Counter{
   //   icon: Icons.palette,
   //   uniquePlayer: false,
   // );
+  static const String energyLongName = "Energy Counters";
   static const Counter energy = Counter(
     shortName: 'Energy',
-    longName: 'Energy Counters',
+    longName: energyLongName,
     minValue: 0,
     maxValue: MAX_LIFE,
     icon: McIcons.flash,

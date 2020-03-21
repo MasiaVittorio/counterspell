@@ -1,3 +1,4 @@
+export 'changelog/data.dart';
 export 'double/all.dart';
 export 'duration/all.dart';
 export 'function/all.dart';

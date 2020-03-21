@@ -34,7 +34,7 @@ class CSHomePage extends StatelessWidget {
         backToPreviousPageOpened: false,
 
         onPanelOpen: bloc.scroller.cancel,
-        onPanelClose: () {
+        onPanelClose: (){
           bloc.stageBloc.playerDetailsPage = null;
         },
 
@@ -46,6 +46,7 @@ class CSHomePage extends StatelessWidget {
         panelBlurRadiusExtended: 20.0,
         panelShadowColor: const Color(0x50000000),
         panelShadowOffset: const Offset(0.0, 7),
+        topBarElevation: 16,
       ),
     );
 

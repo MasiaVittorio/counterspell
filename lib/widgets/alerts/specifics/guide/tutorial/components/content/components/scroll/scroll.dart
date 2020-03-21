@@ -91,15 +91,15 @@ class __LocalState extends State<_Local> {
         ),),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border.all(color: theme.colorScheme.onSurface.withOpacity(0.40), width: 2.0),
-              borderRadius: BorderRadius.circular(120),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(120),
-              child: LocalDelayer(localScroller, widget.bloc),
-            ),
+          child: Material(
+            elevation: 2,
+            // color: Color.alphaBlend(
+            //   SubSection.getColor(theme),
+            //   theme.canvasColor,
+            // ),
+            clipBehavior: Clip.antiAlias,
+            borderRadius: BorderRadius.circular(120),
+            child: LocalDelayer(localScroller, widget.bloc),
           ),
         ),
         Expanded(child: Padding(

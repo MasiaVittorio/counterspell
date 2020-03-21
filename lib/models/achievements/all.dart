@@ -1,2 +1,3 @@
-export 'achievements.dart';
+export 'achievement.dart';
+export 'data.dart';
 export 'ui.dart';

@@ -5,15 +5,16 @@ class CounterSelector extends StatelessWidget {
   const CounterSelector();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final counterSet = bloc.game.gameAction.counterSet;
-    final theme = Theme.of(context);
+    final CSBloc bloc = CSBloc.of(context);
+    final ThemeData theme = Theme.of(context);
+    final CSGameAction gameAction = bloc.game.gameAction;
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
-    return Stage.of(context).themeController.primaryColorsMap.build((_,map)
+    return stage.themeController.primaryColorsMap.build((_,map)
       => Material(
         child: SingleChildScrollView(
-          physics: Stage.of(context).panelScrollPhysics(),
-          child: counterSet.build((context, current)
+          physics: stage.panelScrollPhysics(),
+          child: gameAction.counterSet.build((context, current)
             => IconTheme.merge(
               data: const IconThemeData(opacity: 1.0),
               child: Padding(
@@ -22,14 +23,12 @@ class CounterSelector extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const AlertTitle("Pick counter"),
-                    for(final counter in counterSet.list)
+                    for(final counter in gameAction.counterSet.list)
                       SidRadioListTile<String>(
                         activeColor: theme.accentColor,
                         groupValue: current.longName,
                         value: counter.longName,
-                        onChanged: (name) => counterSet.choose(
-                          counterSet.list.indexWhere((c) => c.longName == name),
-                        ),
+                        onChanged: gameAction.chooseCounterByLongName,
                         title: Text(counter.longName),
                         secondary: Icon(
                           counter.icon, 

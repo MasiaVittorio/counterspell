@@ -34,7 +34,7 @@ class CSScroller {
   CSScroller(this.parent, {void Function(int) tutorialConfirm}): 
     delayerController = DelayerController(),
     intValue = BlocVar(0),
-    justTutorial = tutorialConfirm != null
+    justTutorial = tutorialConfirm != null //in case this is a dummy scroller for the tutorial page, it has not to interfere with the bloc 
   {
     isScrolling = BlocVar<bool>(false, onChanged: (b){
       if(b == false){

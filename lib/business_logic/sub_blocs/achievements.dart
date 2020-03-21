@@ -20,60 +20,81 @@ class CSAchievements extends BlocBase {
   // Constructor ===================
   CSAchievements(this.parent):
     this.map = BlocMap<String,Achievement>(
-      <String,Achievement>{for(final a in Achievements.all) a.shortTitle: a},
+      Achievements.map,
       key: "counterspell_bloc_achievementsBloc_blocMap_map",
       itemToJson: (item) => item.json,
       jsonToItem: (json) => Achievement.fromJson(json),
     ),
     this.todo = PersistentVar<Set<String>>(
-      initVal: <String>{
-        Achievements.counters.shortTitle,
-        Achievements.uiExpert.shortTitle,
-        Achievements.roller.shortTitle,
+      initVal: const <String>{
+        Achievements.countersShortTitle,
+        Achievements.vampireShortTitle,
+        Achievements.rollerShortTitle,
       },
       toJson: (s) => <String>[...s],
       fromJson: (j) => <String>{...(j as List)},
       key: "counterspell_bloc_achievementsBloc_blocVar_todo",
+      copier: (s) => <String>{...s},
     ){
-      this.checkNewAchievements();
+      final bool reset = false;
+      if(this.map.reading){
+        this.map.readCallback = (_) => this.checkNewAchievements(reset);
+      } else {
+        this.checkNewAchievements(reset);
+      }
     }
 
 
 
   //=======================================
   // General methods ===================
-  void checkNewAchievements() async {
+  void checkNewAchievements([bool forceResetDev = false]) async {
     await Future.delayed(2.seconds);
 
-
-    for(final achievement in Achievements.all){
-      this.map.value[achievement.shortTitle] 
-        = this.map.value[achievement.shortTitle]
-          ?.updateStats(achievement) 
-            ?? achievement;
+    for(final entry in Achievements.map.entries){
+      this.map.value[entry.key] 
+        = (forceResetDev ?? false) 
+          ? entry.value 
+          : this.map.value[entry.key]
+              ?.updateStats(entry.value) 
+                ?? entry.value;
     }
     this.map.refresh();
+
+    if(forceResetDev ?? false){
+      this.todo.set(const <String>{
+        Achievements.countersShortTitle,
+        Achievements.vampireShortTitle,
+        Achievements.rollerShortTitle,
+      });
+    }
   }
 
   bool achieve(String title, String key){
-    final QualityAchievement achievement 
+    final QualityAchievement oldAchievement 
         = this.map.value[title] 
         ?? Achievements.mapQuality[title];
-    if(achievement == null) return false;
-    this.map.value[title] = achievement.achieve(key);
+
+    if(oldAchievement == null) return false;
+    final Achievement newAchievement = oldAchievement.achieve(key); 
+    this.map.value[title] = newAchievement;
     this.map.refresh(key: title);
-    this.check(title);
+    this.checkNewTODO(title);
+    this.checkSnackBar(oldAchievement, newAchievement);
     return true;
   }
 
   bool incrementBy(String title, int by){
-    final QuantityAchievement achievement 
+    final QuantityAchievement oldAchievement 
         = this.map.value[title] 
         ?? Achievements.mapQuantity[title];
-    if(achievement == null) return false;
-    this.map.value[title] = achievement.incrementBy(by ?? 0);
+
+    if(oldAchievement == null) return false;
+    final Achievement newAchievement = oldAchievement.incrementBy(by ?? 0); 
+    this.map.value[title] = newAchievement;
     this.map.refresh(key: title);
-    this.check(title);
+    this.checkNewTODO(title);
+    this.checkSnackBar(oldAchievement, newAchievement);
     return true;
   }
   bool increment(String title) => this.incrementBy(title, 1);
@@ -89,7 +110,17 @@ class CSAchievements extends BlocBase {
     return true;
   }
 
-  void check(String achievement){
+  void checkSnackBar(Achievement oldOne, Achievement newOne){
+    if(newOne.medal.biggerThan(oldOne.medal)){
+      this.parent.stage.showSnackBar(StageSnackBar(
+        title: Text(newOne.shortTitle),
+        subtitle: Text("Reached: ${newOne.medal.name}"),
+        secondary: MedalIcon(newOne.medal),
+      ));
+    }
+  }
+
+  void checkNewTODO(String achievement){
     if(this.map.value[achievement].gold){
       this.todo.value.remove(achievement);
 
@@ -110,6 +141,23 @@ class CSAchievements extends BlocBase {
 
   //====================================================
   // Single achievements methods ===================
+
+  void gameActionPerformed(GameAction action){
+    if(action is GAComposite){
+      final Set<int> increments = <int>{
+        for(final a in action.actionList.values)
+          if(a is PALife) a.increment,
+      };
+      if(increments.length > 1){
+        this.incrementBy(Achievements.vampireShortTitle, increments.first.abs());
+      }
+    }
+    if(action is GALife){
+      if(action.selected.values.any((v) => v==null)){
+        this.incrementBy(Achievements.vampireShortTitle, action.increment.abs());
+      }
+    }
+  }
 
   void restarted(bool fromClosedPanel){
     this.achieve(Achievements.uiExpertShortTitle, fromClosedPanel ? "Restart panel" : "Restart menu");

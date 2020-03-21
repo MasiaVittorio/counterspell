@@ -10,11 +10,12 @@ class TodoAchievements extends StatelessWidget {
     return BlocVar.build2(
       bloc.achievements.todo,
       bloc.achievements.map,
-      builder: (_, Set<String> todo, Map<String,Achievement> map)
-        => Column(children: <Widget>[
+      builder: (_, Set<String> todo, Map<String,Achievement> map){
+        return Column(children: <Widget>[
           for(final shortTitle in todo)
-            AchievementTile(map[shortTitle]),
-        ].separateWith(CSWidgets.divider),),
+            if(map[shortTitle]!= null) AchievementTile(map[shortTitle]),
+        ].separateWith(CSWidgets.divider),);
+      },
     );
   }
 }

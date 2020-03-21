@@ -29,6 +29,7 @@ abstract class Achievement {
   bool get bronze => count >= targetBronze;
   bool get silver => count >= targetSilver;
   bool get gold => count >= targetGold;
+  Medal get medal => gold ? Medal.gold : silver ? Medal.silver : bronze ? Medal.bronze : null;
 
   Achievement get reset; 
 
@@ -173,13 +174,6 @@ class QualityAchievement extends Achievement {
     }
     return c;
   }
-
-  @override
-  bool get bronze => this.count >= this.targetBronze;
-  @override
-  bool get silver => this.count >= this.targetSilver;
-  @override
-  bool get gold => this.count >= this.targetGold;
 
   QualityAchievement achieve(String key) => withTargets(<String,bool>{
     for(final entry in this.targets.entries)

@@ -1,4 +1,3 @@
-import 'achievement.dart';
 import 'package:counter_spell_new/core.dart';
 
 class Achievements{
@@ -47,13 +46,19 @@ class Achievements{
     targetSilver: 25,
     targetGold: 50,
   );
+  static const String vampireShortTitle = "The vampire";
+  static const Achievement vampire = QuantityAchievement(
+    vampireShortTitle,
+    title: "Steal a bunch of life via lifelink",
+    text: 'A long press on the checkbox of a player will anti-select it to receive the opposite damage of any other player',
+    currentCount: 0,
+    targetBronze: 10,
+    targetSilver: 25,
+    targetGold: 50,
+  );
 
-  static const List<Achievement> all = <Achievement>[
-    counters,
-    uiExpert,
-    roller,
-  ];
   static const Map<String,Achievement> map = <String,Achievement>{
+    vampireShortTitle: vampire,
     countersShortTitle: counters,
     uiExpertShortTitle: uiExpert,
     rollerShortTitle: roller,
@@ -63,6 +68,7 @@ class Achievements{
     uiExpertShortTitle: uiExpert,
   };
   static const Map<String,QuantityAchievement> mapQuantity = <String,QuantityAchievement>{
+    vampireShortTitle: vampire,
     rollerShortTitle: roller,
   };
 

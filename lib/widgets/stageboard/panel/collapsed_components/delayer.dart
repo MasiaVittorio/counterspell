@@ -132,7 +132,17 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints){
-      final width = constraints.maxWidth;
+      final double width = constraints.maxWidth;
+      final double xOffset = width - widget.circleOffset;
+      final Offset offset = Offset(
+        xOffset, 
+        widget.height / 2
+      );
+      final double maxRadius = sqrt(
+        xOffset * xOffset
+        +
+        (widget.height/2) * (widget.height/2)
+      );
 
       return Stack(
         children: <Widget>[
@@ -165,15 +175,8 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
                   child: childA,
                 ),
                 clipper: _CircleClipper(
-                  center: Offset(
-                    width - widget.circleOffset, 
-                    widget.height / 2
-                  ),
-                  radius: s * sqrt(
-                    (width - widget.circleOffset) * (width - widget.circleOffset)
-                    +
-                    (widget.height/2) * (widget.height/2)
-                  )
+                  center: offset,
+                  radius: s * maxRadius,
                 )
               );
             }
@@ -329,5 +332,5 @@ class _CircleClipper extends CustomClipper<Rect> {
   }
 
   @override
-  bool shouldReclip(CustomClipper<Rect> oldClipper) => true;
+  bool shouldReclip(_CircleClipper oldClipper) => oldClipper.radius != this.radius || oldClipper.center != this.center;
 }

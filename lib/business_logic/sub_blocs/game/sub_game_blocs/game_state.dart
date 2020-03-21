@@ -53,6 +53,7 @@ class CSGameState {
     if(_applyAction(action, clearFutures: clearFutures ?? true)){
       this.parent.gameHistory.forward();
     }
+    this.parent.parent.achievements.gameActionPerformed(action);
   }
   bool _applyAction(GameAction action, {bool clearFutures = true}){
     //the action should be provided as already normalized by the action bloc!
@@ -141,7 +142,7 @@ class CSGameState {
       commandersA: this.parent.gameGroup.cardsA.value, 
       commandersB: this.parent.gameGroup.cardsB.value,
     );
-    //actually reset the game
+    //actually resets the game
     _resetGame(this.gameState.value.newGame(
       startingLife: this.parent.currentStartingLife,
     ));

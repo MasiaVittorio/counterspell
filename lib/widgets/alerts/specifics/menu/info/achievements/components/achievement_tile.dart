@@ -11,9 +11,9 @@ class AchievementTile extends StatelessWidget {
 
     final ThemeData theme = Theme.of(context);
 
-    final Color goldColor = AchieveUI.colorOnTheme(Medal.gold, theme);
-    final Color silverColor = AchieveUI.colorOnTheme(Medal.silver, theme);
-    final Color bronzeColor = AchieveUI.colorOnTheme(Medal.bronze, theme);
+    final Color goldColor = Medal.gold.colorOnTheme(theme);
+    final Color silverColor = Medal.silver.colorOnTheme(theme);
+    final Color bronzeColor = Medal.bronze.colorOnTheme(theme);
     final Color neutralColor = theme.colorScheme.onSurface;
 
     final StageData stage = Stage.of(context);

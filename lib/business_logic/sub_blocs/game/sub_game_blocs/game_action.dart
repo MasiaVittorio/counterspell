@@ -213,7 +213,8 @@ class CSGameAction {
   //Do not call this manually, let it be called by the isScrolling's "onChanged" method
   // -> if you want to trigger this, just call scroller.forceComplete()
   void privateConfirm(CSPage page){
-    this.parent.gameState.applyAction(this.currentNormalizedAction(page));
+    final GameAction action = this.currentNormalizedAction(page);
+    this.parent.gameState.applyAction(action);
     this.clearSelection(false);
     this.parent.parent.scroller.value = 0.0;
     this.parent.parent.scroller.intValue.set(0);

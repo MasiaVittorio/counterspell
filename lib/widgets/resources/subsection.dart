@@ -52,14 +52,19 @@ class SubSection extends StatelessWidget {
         color: color ? background : null,
         borderRadius: borderRadius,
       ),
-      child: InkWell(
-        onTap: onTap,
+      child: Material(
+        type: MaterialType.transparency,
         borderRadius: borderRadius,
-        child: Column(
-          mainAxisAlignment: this.mainAxisAlignment,
-          crossAxisAlignment: this.crossAxisAlignment,
-          mainAxisSize: MainAxisSize.min,
-          children: this.children,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: borderRadius,
+          child: Column(
+            mainAxisAlignment: this.mainAxisAlignment,
+            crossAxisAlignment: this.crossAxisAlignment,
+            mainAxisSize: MainAxisSize.min,
+            children: this.children,
+          ),
         ),
       ),
     );

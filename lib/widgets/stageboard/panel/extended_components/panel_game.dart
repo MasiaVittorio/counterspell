@@ -29,7 +29,7 @@ class PanelGame extends StatelessWidget {
               Expanded(child: ExtraButton(
                 icon: McIcons.restart,
                 text: "New Game",
-                onTap: () => stage.showAlert(const RestarterAlert(), size: ConfirmAlert.height),
+                onTap: () => stage.showAlert(const RestarterAlert(false), size: ConfirmAlert.height),
                 filled: true,
               ),),
               CSWidgets.extraButtonsDivider,
@@ -37,7 +37,7 @@ class PanelGame extends StatelessWidget {
                 icon: McIcons.account_multiple_outline,
                 text: "Edit playgroup",
                 onTap: () => stage.showAlert(
-                  PlayGroupEditor(bloc), 
+                  PlayGroupEditor(bloc, fromClosedPanel: false,), 
                   size: PlayGroupEditor.sizeCalc(
                     bloc.game.gameState.gameState.value.players.length,
                   ),

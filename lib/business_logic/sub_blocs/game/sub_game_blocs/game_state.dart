@@ -132,18 +132,26 @@ class CSGameState {
 
   }
 
-  void restart() async {
-    final bool prompt = await this.parent.parent.pastGames.saveGame(
+  /// This is the method callable by the UI, all the other restart-related methods 
+  /// are to be considered private use of the Business Logic
+  void restart(bool fromClosedPanel) async {
+    //check if the game is to be saved and the prompt to chose the winner is displayed
+    final bool prompt = this.parent.parent.pastGames.saveGame(
       this.gameState.value, 
       commandersA: this.parent.gameGroup.cardsA.value, 
       commandersB: this.parent.gameGroup.cardsB.value,
     );
+    //actually reset the game
     _resetGame(this.gameState.value.newGame(
       startingLife: this.parent.currentStartingLife,
     ));
+    //exit history page (or any other) or the menu
     this.parent.parent.stage.pagesController.pageSet(CSPage.life);
     if(!prompt) this.parent.parent.stage.panelController.closePanelCompletely();
+
+    this.parent.parent.achievements.restarted(fromClosedPanel);
   }
+
   void startNew(Set<String> names){
     this.parent.gameGroup.newGroup(names.toList());
     _resetGame(GameState.start(

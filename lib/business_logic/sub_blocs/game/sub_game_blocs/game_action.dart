@@ -220,4 +220,12 @@ class CSGameAction {
   }
 
 
+  void chooseCounterByLongName(String newCounterLongName){
+    this.counterSet.choose(
+      this.counterSet.list.indexWhere((counter) => counter.longName == newCounterLongName),
+    );
+    this.parent.parent.achievements.countered(newCounterLongName);
+  }
+
+
 }

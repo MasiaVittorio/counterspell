@@ -42,10 +42,10 @@ class CSPastGames {
   }
 
   //returns true if a prompt is shown
-  Future<bool> saveGame(GameState state, {
+  bool saveGame(GameState state, {
     @required Map<String,MtgCard> commandersA,
     @required Map<String,MtgCard> commandersB,
-  }) async {
+  }) {
 
     if(state.historyLenght <= 1) return false;
 

@@ -37,7 +37,7 @@ class CSPanelCollapsed extends StatelessWidget {
             true,
             McIcons.restart,
             () => stage.showAlert(
-              RestarterAlert(),
+              RestarterAlert(true),
               size: ConfirmAlert.height,
             ),
             1.0,
@@ -48,7 +48,7 @@ class CSPanelCollapsed extends StatelessWidget {
               true, 
               McIcons.account_multiple_outline, 
               () => stage.showAlert(
-                PlayGroupEditor(bloc),
+                PlayGroupEditor(bloc, fromClosedPanel: true,),
                 size: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
               ),
               1.0,

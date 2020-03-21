@@ -3,7 +3,10 @@ import 'package:flutter/scheduler.dart';
 
 class PlayGroupEditor extends StatefulWidget {
   final CSBloc bloc;
-  const PlayGroupEditor(this.bloc);
+  final bool fromClosedPanel;
+  const PlayGroupEditor(this.bloc,{
+    @required this.fromClosedPanel,
+  });
 
   static const double playerTileSize = 56.0;
   static const double titleSize = AlertTitle.height;
@@ -27,6 +30,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     super.initState();
     this.controller = TextEditingController();
     this.focusNode = FocusNode();
+    widget.bloc.achievements.playGroupEdited(widget.fromClosedPanel);
   }
   @override
   void dispose() {

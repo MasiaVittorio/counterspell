@@ -18,7 +18,7 @@ class _SnackCounterSelectorState extends State<SnackCounterSelector> with Single
       vsync: this, 
       value: 0,
       upperBound: 1.5,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 800),
     );
     this.prepare();
   }

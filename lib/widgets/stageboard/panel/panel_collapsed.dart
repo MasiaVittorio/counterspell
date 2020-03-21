@@ -2,6 +2,7 @@ import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
 import 'package:counter_spell_new/widgets/arena/arena_route.dart';
+import 'package:stage/stage.dart';
 
 class CSPanelCollapsed extends StatelessWidget {
   const CSPanelCollapsed({Key key}): super(key: key);
@@ -36,10 +37,18 @@ class CSPanelCollapsed extends StatelessWidget {
           CSPage.history : _PanelButton(
             true,
             McIcons.restart,
-            () => stage.showAlert(
-              RestarterAlert(true),
-              size: ConfirmAlert.height,
-            ),
+            () => stage.showSnackBar(StageSnackBar(
+              alignment: 0,
+              title: const Text("Restart Game?"),
+              secondary: StageSnackBarButton(
+                onTap: () => bloc.game.gameState.restart(true),
+                icon: const Icon(Icons.check),
+              ),
+            ), rightAligned: true),
+            // () => stage.showAlert(
+            //   RestarterAlert(true),
+            //   size: ConfirmAlert.height,
+            // ),
             1.0,
             iconSize: 24,
           ),
@@ -71,10 +80,17 @@ class CSPanelCollapsed extends StatelessWidget {
             => _PanelButton(
               true,
               counter.icon,
-              () => stage.showAlert(
-                const CounterSelector(), 
-                size: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)) + AlertTitle.height,
-              ),
+              // () => stage.showAlert(
+              //   const CounterSelector(), 
+              //   size: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)) + AlertTitle.height,
+              // ),
+              () {
+                stage.showSnackBar(
+                  const SnackCounterSelector(), 
+                  rightAligned: true,
+                  // duration: null,
+                );
+              },
               1.0, 
             ),
           ),

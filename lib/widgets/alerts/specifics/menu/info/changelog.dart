@@ -1,50 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 
 
-//==========================================
-// Model
-class Version {
-  final String name;
-  final List<Change> changes;
-
-  const Version(this.name, this.changes);
-}
-
-class Change {
-  final ChangeType changeType;
-  final String title;
-  final String description;
-  final bool important;
-
-  const Change(this.changeType, this.title, this.description, {
-    this.important = true,
-  });
-}
-
-enum ChangeType {
-  newFeature,
-  change,
-  removed,
-}
-
-class ChangeTypes{
-  static const Map<ChangeType,String> names = {
-    ChangeType.newFeature: "NEW",
-    ChangeType.change: "CHANGE",
-    ChangeType.removed: "REMOVED",
-  };
-  static const Map<String,ChangeType> inverse = {
-    "NEW": ChangeType.newFeature,
-    "CHANGE": ChangeType.change,
-    "REMOVED": ChangeType.removed,
-  };
-
-  static String nameOf(ChangeType type) => names[type];
-  static ChangeType fromName(String name) => inverse[name];
-}
-
-//==========================================
-// Widget
 class Changelog extends StatefulWidget {
 
   const Changelog();
@@ -158,55 +114,5 @@ class _VersionWidget extends StatelessWidget {
           ),
     ]);
   }
-}
-
-//==========================================
-// Data
-
-class ChangeLogData {
-  static const List<Version> list = <Version>[
-    Version("3.0.8", <Change>[
-      Change(
-        ChangeType.newFeature, 
-        "Past games notes", 
-        "You can now note some text along with each past game to record interesting stuff about that game. Just open a game from the list of past games in the leaderboards screen and you'll find a dedicated field to fill with your annotations.",
-      ),
-      Change(
-        ChangeType.change,
-        "Simple view renamed to Arena Mode",
-        null,
-      ),
-      Change(
-        ChangeType.newFeature, 
-        "Arena Mode advanced settings", 
-        null,
-      ),
-      Change(
-        ChangeType.newFeature, 
-        "Arena Mode up to 6 players, plus a new menu", 
-        null,
-      ),
-      Change(
-        ChangeType.newFeature, 
-        "Arena Mode now handles commander damage too!", 
-        "Long press on one player to declare it as the attacker, scroll on the defender to deal damage. Any single tap will return to life mode",
-      ),
-      Change(
-        ChangeType.newFeature,
-        "History life chart",
-        "On the bottom left on the screen, when you're on the history screen, you'll now find a button to bring up a chart with the life of each player plotted over time.",
-      ),
-      Change(
-        ChangeType.change, 
-        "Adaptive system nav bar color", 
-        null,
-      ),
-      Change(
-        ChangeType.newFeature, 
-        "Cache manager", 
-        'Go into the "info" section of the menu and find a way to delete cached images or saved card search suggestions!',
-      ),
-    ]),
-  ];
 }
 

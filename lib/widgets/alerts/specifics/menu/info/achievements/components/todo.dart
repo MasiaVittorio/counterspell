@@ -14,7 +14,7 @@ class TodoAchievements extends StatelessWidget {
         return Column(children: <Widget>[
           for(final shortTitle in todo)
             if(map[shortTitle]!= null) AchievementTile(map[shortTitle]),
-        ].separateWith(CSWidgets.divider),);
+        ],);
       },
     );
   }

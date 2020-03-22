@@ -225,7 +225,7 @@ class CSGameAction {
     this.counterSet.choose(
       this.counterSet.list.indexWhere((counter) => counter.longName == newCounterLongName),
     );
-    this.parent.parent.achievements.countered(newCounterLongName);
+    this.parent.parent.achievements.counterChosen(newCounterLongName);
   }
 
 

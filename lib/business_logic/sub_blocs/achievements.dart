@@ -1,5 +1,4 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:time/time.dart';
 
 class CSAchievements extends BlocBase {
   //=================================
@@ -47,10 +46,10 @@ class CSAchievements extends BlocBase {
 
 
   //=======================================
-  // General methods ===================
-  void checkNewAchievements([bool forceResetDev = false]) async {
-    await Future.delayed(2.seconds);
+  // Methods ===================
 
+  // ===> Checkers
+  void checkNewAchievements([bool forceResetDev = false]){
     for(final entry in Achievements.map.entries){
       this.map.value[entry.key] 
         = (forceResetDev ?? false) 
@@ -68,46 +67,6 @@ class CSAchievements extends BlocBase {
         Achievements.rollerShortTitle,
       });
     }
-  }
-
-  bool achieve(String title, String key){
-    final QualityAchievement oldAchievement 
-        = this.map.value[title] 
-        ?? Achievements.mapQuality[title];
-
-    if(oldAchievement == null) return false;
-    final Achievement newAchievement = oldAchievement.achieve(key); 
-    this.map.value[title] = newAchievement;
-    this.map.refresh(key: title);
-    this.checkNewTODO(title);
-    this.checkSnackBar(oldAchievement, newAchievement);
-    return true;
-  }
-
-  bool incrementBy(String title, int by){
-    final QuantityAchievement oldAchievement 
-        = this.map.value[title] 
-        ?? Achievements.mapQuantity[title];
-
-    if(oldAchievement == null) return false;
-    final Achievement newAchievement = oldAchievement.incrementBy(by ?? 0); 
-    this.map.value[title] = newAchievement;
-    this.map.refresh(key: title);
-    this.checkNewTODO(title);
-    this.checkSnackBar(oldAchievement, newAchievement);
-    return true;
-  }
-  bool increment(String title) => this.incrementBy(title, 1);
-
-  bool reset(String title, {bool force = false}){
-    final Achievement achievement 
-        = this.map.value[title] 
-        ?? Achievements.map[title];
-    if(achievement == null) return false;
-    if(achievement.gold && !(force ?? false)) return false;
-    this.map.value[title] = achievement.reset;
-    this.map.refresh(key: title);
-    return true;
   }
 
   void checkSnackBar(Achievement oldOne, Achievement newOne){
@@ -137,6 +96,62 @@ class CSAchievements extends BlocBase {
   }
 
 
+  // ===> Interact with achievements
+  bool achieve(String shortTitle, String key){
+    if(!this.todo.value.contains(shortTitle))
+      return false;
+
+    final QualityAchievement oldAchievement 
+        = this.map.value[shortTitle] 
+        ?? Achievements.mapQuality[shortTitle];
+
+    if(oldAchievement == null) return false;
+    final Achievement newAchievement = oldAchievement.achieve(key); 
+    this.map.value[shortTitle] = newAchievement;
+    this.map.refresh(key: shortTitle);
+    this.checkNewTODO(shortTitle);
+    this.checkSnackBar(oldAchievement, newAchievement);
+    return true;
+  }
+
+  bool incrementBy(String shortTitle, int by){
+    if(!this.todo.value.contains(shortTitle))
+      return false;
+
+    final QuantityAchievement oldAchievement 
+        = this.map.value[shortTitle] 
+        ?? Achievements.mapQuantity[shortTitle];
+
+    if(oldAchievement == null) return false;
+    final Achievement newAchievement = oldAchievement.incrementBy(by ?? 0); 
+    this.map.value[shortTitle] = newAchievement;
+    this.map.refresh(key: shortTitle);
+    this.checkNewTODO(shortTitle);
+    this.checkSnackBar(oldAchievement, newAchievement);
+    return true;
+  }
+  bool increment(String shortTitle) => this.incrementBy(shortTitle, 1);
+
+  bool reset(String shortTitle, {bool force = false}){
+    final Achievement achievement 
+        = this.map.value[shortTitle] 
+        ?? Achievements.map[shortTitle];
+    if(achievement == null) return false;
+    if(achievement.gold && !(force ?? false)) return false;
+    this.map.value[shortTitle] = achievement.reset;
+    this.map.refresh(key: shortTitle);
+    if(!todo.value.contains(shortTitle)){
+      todo.value.add(shortTitle);
+      while(todo.value.length > 3){
+        todo.value.remove(todo.value.firstWhere((t) => t != shortTitle));
+      }
+      todo.refresh();
+    }
+    return true;
+  }
+
+
+
 
 
   //====================================================
@@ -159,7 +174,7 @@ class CSAchievements extends BlocBase {
     }
   }
 
-  void restarted(bool fromClosedPanel){
+  void gameRestarted(bool fromClosedPanel){
     this.achieve(Achievements.uiExpertShortTitle, fromClosedPanel ? "Restart panel" : "Restart menu");
     this.reset(Achievements.countersShortTitle, force: false);
   }
@@ -167,7 +182,7 @@ class CSAchievements extends BlocBase {
   void playGroupEdited(bool fromClosedPanel)
     => this.achieve(Achievements.uiExpertShortTitle, fromClosedPanel ? "Playgroup panel" : "Playgroup menu");
 
-  void countered(String newCounterLongName)
+  void counterChosen(String newCounterLongName)
     => this.achieve(Achievements.countersShortTitle, newCounterLongName);
 
   void flippedOrRolled()

@@ -63,6 +63,12 @@ class _UI {
     Brightness.light: onLight,
   };
 
+  static const Map<Medal,IconData> icons = {
+    Medal.bronze: McIcons.podium_bronze,
+    Medal.silver: McIcons.podium_silver,
+    Medal.gold: McIcons.podium_gold,
+  };
+
 }
 
 extension MedalColors on Medal {
@@ -71,15 +77,45 @@ extension MedalColors on Medal {
   Color colorOnTheme(ThemeData theme) => colorOnBrightness(theme.brightness);
 }
 
+extension MedalIcons on Medal {
+  IconData get podiumIcon => _UI.icons[this];
+
+  static const IconData icon = McIcons.medal;
+}
+
 class MedalIcon extends StatelessWidget {
   final Medal medal;
-  const MedalIcon(this.medal);
+  final double size;
+  const MedalIcon(this.medal, {this.size});
 
   @override
   Widget build(BuildContext context) {
     return Icon(
-      McIcons.medal, 
+      McIcons.medal,
+      size: this.size,
       color: medal.colorOnTheme(Theme.of(context))
+    );
+  }
+}
+
+class PodiumIcon extends StatelessWidget {
+  final Medal medal;
+  final double size;
+  final bool colored;
+  const PodiumIcon(this.medal, {this.size, this.colored = true});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return IconTheme.merge(
+      data: IconThemeData(opacity: colored ? 1.0 : 0.5),
+      child: Icon(
+        medal.podiumIcon,
+        size: this.size,
+        color: (colored??true) 
+          ? medal.colorOnTheme(Theme.of(context))
+          : null,
+      ),
     );
   }
 }

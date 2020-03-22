@@ -115,7 +115,7 @@ class SupportInfo extends StatelessWidget {
         ]),
         const Section([
           SectionTitle('What are those features'),
-          ListTile(title: Text("At this moment, the pro features include the theme engine and the leaderboards. If you already made a donation and unlocked those, you will get any future \"pro\" feature if I ever add any"),),
+          ListTile(title: Text("At this moment, the pro features include the theme engine and the leaderboards. If you already made a donation and unlocked those, you will get any future \"pro\" feature if I ever add any."),),
           SubSection([ListTile(subtitle: Text(
             "CounterSpell already saves stats of your past games even while the leaderboards are locked.",
             style: TextStyle(fontStyle: FontStyle.italic),

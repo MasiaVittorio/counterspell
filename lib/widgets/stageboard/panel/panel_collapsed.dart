@@ -37,14 +37,10 @@ class CSPanelCollapsed extends StatelessWidget {
           CSPage.history : _PanelButton(
             true,
             McIcons.restart,
-            () => stage.showSnackBar(StageSnackBar(
-              alignment: 0,
-              title: const Text("Restart Game?"),
-              secondary: StageSnackBarButton(
-                onTap: () => bloc.game.gameState.restart(true),
-                icon: const Icon(Icons.check),
-              ),
-            ), rightAligned: true),
+            () => stage.showSnackBar(
+              const SnackRestart(), 
+              rightAligned: true,
+            ),
             // () => stage.showAlert(
             //   RestarterAlert(true),
             //   size: ConfirmAlert.height,

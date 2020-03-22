@@ -150,7 +150,7 @@ class CSGameState {
     this.parent.parent.stage.pagesController.pageSet(CSPage.life);
     if(!prompt) this.parent.parent.stage.panelController.closePanelCompletely();
 
-    this.parent.parent.achievements.restarted(fromClosedPanel);
+    this.parent.parent.achievements.gameRestarted(fromClosedPanel);
   }
 
   void startNew(Set<String> names){

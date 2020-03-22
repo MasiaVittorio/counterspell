@@ -30,6 +30,11 @@ abstract class Achievement {
   bool get silver => count >= targetSilver;
   bool get gold => count >= targetGold;
   Medal get medal => gold ? Medal.gold : silver ? Medal.silver : bronze ? Medal.bronze : null;
+  int target(Medal m) => <Medal,int>{
+    Medal.bronze: targetBronze,
+    Medal.silver: targetSilver,
+    Medal.gold: targetGold,
+  }[m];
 
   Achievement get reset; 
 

@@ -51,7 +51,6 @@ class _SnackCounterSelectorState extends State<_SnackCounterSelector> with Singl
       duration: const Duration(milliseconds: 800),
     );
     this.prepare();
-    //TODO: modo di calcolare l'offset iniziale
   }
 
   void prepare(){
@@ -78,12 +77,19 @@ class _SnackCounterSelectorState extends State<_SnackCounterSelector> with Singl
   @override
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context);
+    final StageData stage = Stage.of(context);
     final CSGameAction gameAction = bloc.game.gameAction;
 
     final Widget child = SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       controller: scrollController,
-      physics: Stage.of(context).snackBarScrollPhysics(),
+      physics: SidereusScrollPhysics(
+        topBounce: true,
+        bottomBounce: true,
+        topBounceCallback: stage.closeSnackBar,
+        alwaysScrollable: true,
+        neverScrollable: false,
+      ),
       child: gameAction.counterSet.build((_, current) => Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

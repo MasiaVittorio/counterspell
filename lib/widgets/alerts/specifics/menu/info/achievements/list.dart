@@ -9,11 +9,11 @@ class AchievementsAlert extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return RadioHeaderedAlert<bool>(
+    return const RadioHeaderedAlert<bool>(
       initialValue: false, 
       orderedValues: [false,true], 
       accentSelected: true,
-      items: const <bool,RadioHeaderedItem>{
+      items: <bool,RadioHeaderedItem>{
         false: RadioHeaderedItem(
           longTitle: "Currently open", 
           title: "To do",

@@ -7,12 +7,12 @@ class ChangeLogData {
       Change(
         ChangeType.newFeature,
         "In-depth Tutorial",
-        null,
+        'You find it in the "Info" tab of the menu! It contains lots of useful tips on how to learn using CounterSpell',
       ),
       Change(
         ChangeType.newFeature,
         "Achievements system",
-        null,
+        "You can progressively unlock useless ranks and learn all the little hidden features of CounterSpell!",
       ),
     ]),
 

@@ -22,7 +22,7 @@ class CounterSpellActions extends StatelessWidget {
           Expanded(child: ExtraButton(
             text: "Contact me",
             icon: McIcons.message_text_outline,
-            onTap: () => stage.showAlert(const FeedbackAlert(), size: FeedbackAlert.height),
+            onTap: () => stage.showAlert(const ContactsAlert(), size: ContactsAlert.height),
           ),),
           Expanded(child: ExtraButton(
             text: "Manage cache",

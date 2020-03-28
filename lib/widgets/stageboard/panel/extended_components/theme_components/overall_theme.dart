@@ -49,7 +49,7 @@ class OverallTheme extends StatelessWidget {
                   selectedIndex: autoDark ? 1 : light ? 0 : 2,
                   items: [
                     RadioSliderItem(
-                      icon: const Icon(Icons.brightness_7),
+                      icon: const Icon(McIcons.weather_sunny),
                       title: const Text("Light"),
                     ),
                     RadioSliderItem(
@@ -57,7 +57,7 @@ class OverallTheme extends StatelessWidget {
                       title: const Text("Auto"),
                     ),
                     RadioSliderItem(
-                      icon: const Icon(Icons.brightness_2),
+                      icon: const Icon(McIcons.weather_night),
                       title: const Text("Dark"),
                     ),
                   ],
@@ -94,7 +94,7 @@ class OverallTheme extends StatelessWidget {
                     },
                     items: const [
                       RadioSliderItem(
-                        icon: const Icon(Icons.timelapse),
+                        icon: const Icon(McIcons.theme_light_dark),
                         title: const Text("Day time"),
                       ),
                       RadioSliderItem(

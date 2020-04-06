@@ -26,15 +26,15 @@ class CSPastGames {
     jsonToItem: (json) => PastGame.fromJson(json),
   ){
     this.commanderStats = BlocVar.fromCorrelate(
-      pastGames, 
-      (List<PastGame> pastGames) => <CommanderStats>[
+      from: pastGames, 
+      map: (List<PastGame> pastGames) => <CommanderStats>[
         for(final card in cards(pastGames))
           CommanderStats.fromPastGames(card, pastGames),
       ]..sort((one,two) => two.games.compareTo(one.games)),
     );
     this.playerStats = BlocVar.fromCorrelate(
-      pastGames, 
-      (List<PastGame> pastGames) => <PlayerStats>[
+      from: pastGames, 
+      map: (List<PastGame> pastGames) => <PlayerStats>[
         for(final name in names(pastGames))
           PlayerStats.fromPastGames(name, pastGames),
       ]..sort((one,two) => ((two.games - one.games)*1000).toInt()),

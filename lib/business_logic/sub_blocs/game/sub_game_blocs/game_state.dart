@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+// import 'package:flutter/foundation.dart';
 
 
 class CSGameState {
@@ -37,6 +38,15 @@ class CSGameState {
           counter.longName,
       }, startingLife: 40),
       toJson: (s) => s.toJson(),
+      // toJson: (state) async {
+      //   ///This serialization may be heavy due to long history and quick and repeated edits on this var
+      //   ///Can therefore risk skipping frames on the UI Thread. Let's spawn an isolate to handle it
+      //   final result = await compute(
+      //     _serializeGameState,
+      //     state,
+      //   );
+      //   return result;
+      // },
       fromJson: (j) => GameState.fromJson(j),
       readCallback: (afterReadState) 
         => parent.gameHistory.listController.refresh(
@@ -245,3 +255,8 @@ const _kNames = {
   "Peter",
   "Steve",
 };
+
+
+// dynamic _serializeGameState(GameState gameState){
+//   return gameState.toJson();
+// }

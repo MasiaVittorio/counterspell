@@ -16,11 +16,12 @@ class PastGamesList extends StatelessWidget {
       return ListView.builder(
         physics: Stage.of(context).panelScrollPhysics(),
         itemBuilder: (_, index){
-          if(index == 0) return Container();
-          final int gameIndex = pastGames.length - index;
+          final int gameIndex = pastGames.length - index - 1;
           return PastGameTile(pastGames[gameIndex], gameIndex);
         },
-        itemCount: pastGames.length + 1,
+        padding: const EdgeInsets.only(top: AlertTitle.height),
+        //TODO: questo padding dovrebbe essere inutile now
+        itemCount: pastGames.length,
         itemExtent: PastGameTile.height,
       );
     });

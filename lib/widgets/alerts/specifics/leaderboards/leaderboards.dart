@@ -34,7 +34,6 @@ class Leaderboards extends StatelessWidget {
       unselectedIcon: CSIcons.damageIconOutlined,
       child: CommandersLeaderboards(),
       alreadyScrollableChild: true,
-      extraOffset: CommanderStatWidget.height - AlertTitle.height,
     ),
 
     _LeadType.games: RadioHeaderedItem(
@@ -43,7 +42,6 @@ class Leaderboards extends StatelessWidget {
       icon: Icons.history,
       child: PastGamesList(),
       alreadyScrollableChild: true,
-      extraOffset: PastGameTile.height - AlertTitle.height,
     ),
 
     _LeadType.players: RadioHeaderedItem(
@@ -53,7 +51,6 @@ class Leaderboards extends StatelessWidget {
       unselectedIcon: Icons.person_outline,
       child: PlayerStatsList(),
       alreadyScrollableChild: true,
-      extraOffset: PlayerStatTile.height - AlertTitle.height,
     ),
 
     _LeadType.settings: RadioHeaderedItem(

@@ -14,15 +14,14 @@ class CommandersLeaderboards extends StatelessWidget {
     return bloc.pastGames.commanderStats.build((_, stats)
       => ListView.builder(
         physics: Stage.of(context).panelScrollPhysics(),
-        itemBuilder: (_, index){
-          if(index == 0) return Container();
-          return CommanderStatWidget(stats[index - 1], 
+        itemBuilder: (_, index)
+          => CommanderStatWidget(stats[index], 
             pastGames: bloc.pastGames.pastGames.value,
             //commanderStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
-          );
-        },
-        itemCount: stats.length + 1,
+          ),
+        padding: const EdgeInsets.only(top: AlertTitle.height),
+        itemCount: stats.length,
         itemExtent: CommanderStatWidget.height,
       ),
     );

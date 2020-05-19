@@ -86,7 +86,9 @@ class PlayerTile extends StatelessWidget {
       if(other.coreTileSize != this.coreTileSize) return false;
 
       return true;
-    } else return false;
+    } else {
+      return false;
+    }
   }
 
   const PlayerTile(this.name, {

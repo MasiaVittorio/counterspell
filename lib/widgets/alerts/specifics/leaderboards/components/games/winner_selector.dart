@@ -6,11 +6,13 @@ class WinnerSelector extends StatefulWidget {
   final String initialSelected;
   final void Function(String) onConfirm;
   final VoidCallback onDontSave;
+  final bool closeCompletely;
 
   const WinnerSelector(this.names, {
     this.initialSelected, 
     @required this.onConfirm, 
     this.onDontSave,
+    this.closeCompletely = false,
   });
 
   static const double _bottomPadding = 10.0;
@@ -40,7 +42,11 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         title: Text(autoSavingPrompt ? "Don't choose" : "Cancel"),
         leading: const Icon(Icons.close),
         onTap: (){
-          stage.closePanelCompletely();
+          if(widget.closeCompletely ?? false){
+            stage.closePanelCompletely();
+          } else {
+            stage.closePanel();
+          }
         }
       )),
       Expanded(child: ListTile(
@@ -49,7 +55,11 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         onTap: selected != null 
           ? (){
             widget.onConfirm(selected);
-            stage.closePanelCompletely();
+            if(widget.closeCompletely ?? false){
+              stage.closePanelCompletely();
+            } else {
+              stage.closePanel();
+            }
           }
           : null,
       )),
@@ -66,7 +76,10 @@ class _WinnerSelectorState extends State<WinnerSelector> {
               SidRadioListTile<String>(
                 value: name,
                 groupValue: selected,
-                onChanged: (name) => this.setState((){this.selected = name;}),
+                onChanged: (name) => this.setState((){
+                  if(selected == name) selected = null;
+                  else selected = name;
+                }),
                 title: Text(name),
               ),
             const SizedBox(height: WinnerSelector._bottomPadding,)
@@ -84,7 +97,11 @@ class _WinnerSelectorState extends State<WinnerSelector> {
               title: const Text("Don't save"),
               onTap: (){
                 widget.onDontSave();
-                stage.closePanelCompletely();
+                if(widget.closeCompletely ?? false){
+                  stage.closePanelCompletely();
+                } else {
+                  stage.closePanel();
+                }
               },
             ),
           ],

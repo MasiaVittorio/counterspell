@@ -19,8 +19,6 @@ class PastGamesList extends StatelessWidget {
           final int gameIndex = pastGames.length - index - 1;
           return PastGameTile(pastGames[gameIndex], gameIndex);
         },
-        // padding: const EdgeInsets.only(top: PanelTitle.height),
-        //TODO: questo padding dovrebbe essere inutile now
         itemCount: pastGames.length,
         itemExtent: PastGameTile.height,
       );

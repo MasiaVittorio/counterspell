@@ -6,8 +6,8 @@ class PastGame{
   // Values
   final GameState state;
   String winner;
-  final Map<String,MtgCard> commandersA;
-  final Map<String,MtgCard> commandersB;
+  final Map<String,MtgCard> commandersA; //player - commander B
+  final Map<String,MtgCard> commandersB; //player - commander B
   String notes;
   final DateTime startingDateTime;
 
@@ -27,7 +27,10 @@ class PastGame{
     },
     this.commandersB = <String,MtgCard>{
       for(final player in state.players.keys)
-        player: commandersB != null ? commandersB[player] : null,
+        if(state.players[player].havePartnerB)
+          player: commandersB != null ? commandersB[player] : null
+        else
+          player: null,
     }
   {
     if(this.winner==null){
@@ -94,8 +97,9 @@ class PastGame{
     for(final commander in this.commandersA.values){
       if(commander?.oracleId == card.oracleId) return true;
     }
-    for(final commander in this.commandersB.values){
-      if(commander?.oracleId == card.oracleId) return true;
+    for(final player in this.commandersB.keys){
+      if(state.players[player].havePartnerB) //a card may still be set for commanderB on a next game without partners
+        if(commandersB[player]?.oracleId == card.oracleId) return true;
     }
     return false;
   }
@@ -105,18 +109,21 @@ class PastGame{
         if(entry.value?.oracleId == card.oracleId)
           entry.key,
       for(final entry in this.commandersB.entries)
+        if(state.players[entry.key].havePartnerB)
         if(entry.value?.oracleId == card.oracleId)
           entry.key,
     };
   }
   bool commanderPlayedBy(MtgCard card, String name){
     if(this.commandersA[name]?.oracleId == card.oracleId) return true;
-    if(this.commandersB[name]?.oracleId == card.oracleId) return true;
+    if(this.state.players[name].havePartnerB)
+      if(this.commandersB[name]?.oracleId == card.oracleId) return true;
     return false;
   }
   List<MtgCard> commandersPlayedBy(String name) => <MtgCard>[
     if(this.commandersA[name] != null) this.commandersA[name],
-    if(this.commandersB[name] != null) this.commandersB[name],
+    if(this.state.players[name].havePartnerB)
+      if(this.commandersB[name] != null) this.commandersB[name],
   ];
 
 

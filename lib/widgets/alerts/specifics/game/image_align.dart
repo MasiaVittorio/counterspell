@@ -11,7 +11,7 @@ class ImageAlign extends StatelessWidget {
   static const double _imageSize = 120.0;
   static const double _sliderSize = 56.0;
 
-  static const double height = AlertTitle.height + _imageSize + _sliderSize;
+  static const double height = PanelTitle.height + _imageSize + _sliderSize;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +21,11 @@ class ImageAlign extends StatelessWidget {
     
     return Material(
       child: SingleChildScrollView(
-        physics: Stage.of(context).panelScrollPhysics(),
+        physics: Stage.of(context).panelController.panelScrollPhysics(),
         child: settings.imageAlignments.build((_,alignments) => Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            AlertTitle("Image alignment"),
+            PanelTitle("Image alignment"),
             Container(
               padding: const EdgeInsets.symmetric(horizontal:8.0),
               height: _imageSize,

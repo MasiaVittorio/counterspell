@@ -9,7 +9,7 @@ class SettingsBehavior extends StatelessWidget {
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     return Section([
-      const AlertTitle("Behavior", centered: false,),
+      const PanelTitle("Behavior", centered: false,),
       Padding(
       padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 8.0),
         child: Row(children: <Widget>[

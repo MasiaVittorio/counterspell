@@ -20,7 +20,7 @@ class AchievementAlert extends StatelessWidget {
         // canvasBackground: true,
         alreadyScrollableChild: true,
         child: Padding(
-          padding: const EdgeInsets.only(top: AlertTitle.height),
+          padding: const EdgeInsets.only(top: PanelTitle.height),
           child: Column(children: <Widget>[
             AchievementAgnosticSection(achievement),          
             Expanded(child: Section(<Widget>[
@@ -41,7 +41,7 @@ class AchievementAgnosticSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle subhead = theme.textTheme.subtitle1;
     final CSBloc bloc = CSBloc.of(context);
     final StageData stage = Stage.of(context);
 

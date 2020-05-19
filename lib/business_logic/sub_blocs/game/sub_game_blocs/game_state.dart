@@ -157,8 +157,8 @@ class CSGameState {
       startingLife: this.parent.currentStartingLife,
     ));
     //exit history page (or any other) or the menu
-    this.parent.parent.stage.pagesController.pageSet(CSPage.life);
-    if(!prompt) this.parent.parent.stage.panelController.closePanelCompletely();
+    this.parent.parent.stage.mainPagesController.goToPage(CSPage.life);
+    if(!prompt) this.parent.parent.stage.closePanelCompletely();
 
     this.parent.parent.achievements.gameRestarted(fromClosedPanel);
   }

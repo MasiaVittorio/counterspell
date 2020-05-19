@@ -15,16 +15,14 @@ class PagePie extends StatelessWidget {
     );
 
     final StageData<CSPage,SettingsPage> stage 
-      = Stage.of<CSPage,SettingsPage>(context);
+      = Stage.of(context);
 
     return Container(
       height: 175,
       alignment: Alignment.center,
-      child: BlocVar.build2(
-        stage.pagesController.enabledPages, 
-        stage.themeController.primaryColorsMap, 
-        builder: (_, enabled, colors){
-          return Column(
+      child: StageBuild.offMainEnabledPages((_, enabled) 
+        => stage.themeController.derived.mainPageToPrimaryColor.build((_, colors)
+          =>Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(bottom: 2.0),
@@ -45,9 +43,8 @@ class PagePie extends StatelessWidget {
                 ),
               ),
             ],
-          );
-
-        },
+          ),
+        ),
       ),
     );
 
@@ -59,13 +56,13 @@ class PagePie extends StatelessWidget {
     StageData<CSPage,SettingsPage> stage, 
     Map<CSPage,bool> enabled,
   ) => Text(
-    "${stage.pagesController.pagesData[page].name}",
+    "${stage.mainPagesController.pagesData[page].name}",
     style: TextStyle(
       fontWeight: !PanelSettings.disablablePages.contains(page)
         ? FontWeight.w700
         : null,
       color: !enabled[page]
-        ? theme.textTheme.body1.color.withOpacity(0.5)
+        ? theme.textTheme.bodyText2.color.withOpacity(0.5)
         : null,
     ), 
   );
@@ -89,17 +86,17 @@ class PagePie extends StatelessWidget {
       type: MaterialType.transparency,
       child: InkWell(
         onTap: PanelSettings.disablablePages.contains(page) 
-          ? ()=> stage.pagesController.togglePage(page) 
+          ? ()=> stage.mainPagesController.togglePage(page) 
           : null,
         child: Center(
           child: AnimatedCrossFade(
             firstChild: Icon(
-              stage.pagesController.pagesData[page].icon,
+              stage.mainPagesController.pagesData[page].icon,
               size: 24,
               color: CSColors.contrastWith(colors[page]),
             ),
             secondChild: Icon(
-              stage.pagesController.pagesData[page].unselectedIcon, 
+              stage.mainPagesController.pagesData[page].unselectedIcon, 
               size: 24,
             ),
             crossFadeState: enabled[page] 

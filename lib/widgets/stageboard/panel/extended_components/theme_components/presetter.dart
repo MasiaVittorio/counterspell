@@ -13,18 +13,18 @@ class ThemePResetter extends StatelessWidget {
 
     return BlocVar.build6(
       themer.savedSchemes,
-      themeController.primaryColor,
-      themeController.accentColor,
-      themeController.primaryColorsMap,
-      themeController.light,
-      themeController.darkStyle,
+      themeController.derived.currentPrimaryColor,
+      themeController.derived.accentColor,
+      themeController.derived.mainPageToPrimaryColor,
+      themeController.brightness.brightness,
+      themeController.brightness.darkStyle,
       builder: (
         _, 
         Map<String,CSColorScheme> savedSchemes, 
         Color primary,
         Color accent, 
         Map<CSPage,Color> perPage,
-        bool light,
+        Brightness brightness,
         DarkStyle darkStyle,
       ){
         
@@ -32,7 +32,7 @@ class ThemePResetter extends StatelessWidget {
           primary: primary,
           accent: accent,
           perPage: perPage,
-          light: light,
+          light: brightness.isLight,
           darkStyle: darkStyle,
         );
         

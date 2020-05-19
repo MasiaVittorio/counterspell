@@ -10,7 +10,7 @@ class AboutCounterSpell extends StatelessWidget {
     final stage = Stage.of(context);
     
     return Section([
-      const AlertTitle("About CounterSpell", centered: false,),
+      const PanelTitle("About CounterSpell", centered: false,),
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
         child: Row(children: <Widget>[

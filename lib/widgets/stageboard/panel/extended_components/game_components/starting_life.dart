@@ -18,11 +18,11 @@ class StartingLifeTile extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final settings= bloc.settings;
     final startingLife = settings.startingLife;
-    final stage = Stage.of<CSPage,SettingsPage>(context);
+    final stage = Stage.of(context);
 
     return BlocVar.build2(
       startingLife,
-      stage.themeController.primaryColorsMap,
+      stage.themeController.derived.mainPageToPrimaryColor,
       builder: (_, life, colorMap)
         => Section(<Widget>[
             SectionTitle("Starting Life: ${lifeNames[life] ?? life}", animated: true),

@@ -26,14 +26,14 @@ class _TutorialSelectionState extends State<TutorialSelection> {
     final ThemeData theme = Theme.of(context);
 
     final CSBloc bloc = CSBloc.of(context);
-    final Color color = bloc.stage.themeController.primaryColorsMap.value[CSPage.life];
+    final Color color = bloc.stage.themeController.derived.mainPageToPrimaryColor.value[CSPage.life];
 
     final colorBright = ThemeData.estimateBrightnessForColor(color);
     final Color textColor = colorBright == Brightness.light 
       ? Colors.black 
       : Colors.white;
     final textStyle = TextStyle(color: textColor, fontSize: 0.26 * CSSizes.minTileSize);
-    final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle subhead = theme.textTheme.subtitle1;
 
 
     return Column(

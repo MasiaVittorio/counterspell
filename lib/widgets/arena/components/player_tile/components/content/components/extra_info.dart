@@ -27,12 +27,8 @@ class AptInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
 
-    final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
-
-    return BlocVar.build2<Counter,Map<CSPage,bool>>(
-      bloc.game.gameAction.counterSet.variable,
-      stage.pagesController.enabledPages,
-      builder: (context, _, enabledPages){
+    return StageBuild.offMainEnabledPages<CSPage>((_, enabledPages) 
+      => bloc.game.gameAction.counterSet.variable.build((context, _){
 
         final List<ExtraInfo> list = ExtraInfo.fromPlayer(name,
           ofGroup: gameState.lastPlayerStates,
@@ -74,7 +70,7 @@ class AptInfo extends StatelessWidget {
             ),
           ),
         );
-      }
+      },),
     );
   }
 }

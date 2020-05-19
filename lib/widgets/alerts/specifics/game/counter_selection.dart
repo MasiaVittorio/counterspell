@@ -10,10 +10,10 @@ class CounterSelector extends StatelessWidget {
     final CSGameAction gameAction = bloc.game.gameAction;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
-    return stage.themeController.primaryColorsMap.build((_,map)
+    return stage.themeController.derived.mainPageToPrimaryColor.build((_,map)
       => Material(
         child: SingleChildScrollView(
-          physics: stage.panelScrollPhysics(),
+          physics: stage.panelController.panelScrollPhysics(),
           child: gameAction.counterSet.build((context, current)
             => IconTheme.merge(
               data: const IconThemeData(opacity: 1.0),
@@ -22,7 +22,7 @@ class CounterSelector extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const AlertTitle("Pick counter"),
+                    const PanelTitle("Pick counter"),
                     for(final counter in gameAction.counterSet.list)
                       SidRadioListTile<String>(
                         activeColor: theme.accentColor,

@@ -22,8 +22,8 @@ class CacheCards extends StatelessWidget {
         ..sort((a,b) => a.name.compareTo(b.name));
 
       return ListView.builder(
-        padding: const EdgeInsets.only(top: AlertTitle.height),
-        physics: stage.panelScrollPhysics(),
+        padding: const EdgeInsets.only(top: PanelTitle.height),
+        physics: stage.panelController.panelScrollPhysics(),
         itemCount: cards.length,
         itemBuilder: (_, index){
           final MtgCard card = cards[index];

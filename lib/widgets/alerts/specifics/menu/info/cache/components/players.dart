@@ -15,8 +15,8 @@ class CachePlayers extends StatelessWidget {
         ..sort((a,b) => cards[b].length - cards[a].length);
 
       return ListView.builder(
-        padding: const EdgeInsets.only(top: AlertTitle.height),
-        physics: stage.panelScrollPhysics(),
+        padding: const EdgeInsets.only(top: PanelTitle.height),
+        physics: stage.panelController.panelScrollPhysics(),
         itemBuilder: (_, index){
           final player = players[index];
           return ListTile(

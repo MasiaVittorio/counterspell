@@ -87,7 +87,7 @@ class _CSSliderState extends State<CSSlider> {
                 Text(
                   widget.title(this._value),
                   style: widget.bigTitle 
-                    ? Theme.of(context).textTheme.body2
+                    ? Theme.of(context).textTheme.bodyText1
                     : null,
                 ),
                 

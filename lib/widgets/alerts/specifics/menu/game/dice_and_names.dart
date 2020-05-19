@@ -60,7 +60,7 @@ class _DiceThrowerState extends State<DiceThrower> {
         child: SidAnimatedList(
           physics: SidereusScrollPhysics(
             bottomBounce: true,
-            bottomBounceCallback: stage.panelController.closePanel,
+            bottomBounceCallback: stage.closePanel,
             alwaysScrollable: false,
             neverScrollable: false,
           ),
@@ -70,7 +70,7 @@ class _DiceThrowerState extends State<DiceThrower> {
             sizeFactor: animation,
             child: Padding(
               padding: EdgeInsets.only(top: index == this.throws.length - 1
-                ? AlertTitle.height
+                ? PanelTitle.height
                 : 0,
               ),
               child: _ThrowWidget(this.throws[index], names),
@@ -193,12 +193,12 @@ class _ThrowWidget extends StatelessWidget {
     1: McIcons.coin,
     2: McIcons.circle_outline,
   };
-  static const Map<int,IconData> d6icons = {
-    1: McIcons.dice_1,
-    2: McIcons.dice_2,
-    3: McIcons.dice_3,
-    4: McIcons.dice_4,
-    5: McIcons.dice_5,
-    6: McIcons.dice_6,
-  };  
+  // static const Map<int,IconData> d6icons = {
+  //   1: McIcons.dice_1,
+  //   2: McIcons.dice_2,
+  //   3: McIcons.dice_3,
+  //   4: McIcons.dice_4,
+  //   5: McIcons.dice_5,
+  //   6: McIcons.dice_6,
+  // };  
 }

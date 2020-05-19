@@ -20,7 +20,7 @@ class Leaderboards extends StatelessWidget {
       initialValue: _LeadType.games,
       orderedValues: [_LeadType.commanders, _LeadType.games, _LeadType.players, _LeadType.settings],
       items: items,
-      animatedSwitch: false,
+      animationType: RadioAnimation.none,
     );
   }
   

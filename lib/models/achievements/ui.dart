@@ -1,5 +1,5 @@
-import 'package:counter_spell_new/data/icon/material_community_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:stage/stage.dart';
 
 enum Medal {
   bronze,
@@ -42,7 +42,7 @@ extension Compare on Medal{
 class _UI {
   static const Color lightGold = Color(0xFFAF9500);
   static const Color oldGold = Color(0xFFC9B037);
-  static const Color lightSilver = Color(0xFFD7D7D7);
+  // static const Color lightSilver = Color(0xFFD7D7D7);
   static const Color philippineSilver = Color(0xFFB4B4B4);
   static const Color philippineBronze = Color(0xFF6A3805);
   static const Color metallicBronze = Color(0xFFAD8A56);

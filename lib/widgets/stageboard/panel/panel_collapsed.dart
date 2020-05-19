@@ -11,132 +11,128 @@ class CSPanelCollapsed extends StatelessWidget {
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context);
     final gameStateBloc = bloc.game.gameState;
-    final stage = Stage.of(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
-    return BlocVar.build2(
-      stage.pagesController.page, 
-      bloc.themer.defenceColor, 
-      builder: (context, currentPage, defenceColor){
-        final Widget backButton = gameStateBloc.gameState.build( (context, state)
-          => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3, iconSize: 20,),
-        );
-        final Widget forwardButton = gameStateBloc.futureActions.build( (context, futures)
-          => _PanelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward, 1.3, iconSize: 20,),
-        );
-        final arenaDisplayer = gameStateBloc.gameState.build( (context, state)
+    return StageBuild.offMainPage<CSPage>((_, currentPage){
+      final Widget backButton = gameStateBloc.gameState.build( (context, state)
+        => _PanelButton(gameStateBloc.backable, Icons.undo, gameStateBloc.back, 1.3, iconSize: 20,),
+      );
+      final Widget forwardButton = gameStateBloc.futureActions.build( (context, futures)
+        => _PanelButton(gameStateBloc.forwardable, Icons.redo, gameStateBloc.forward, 1.3, iconSize: 20,),
+      );
+      final arenaDisplayer = gameStateBloc.gameState.build( (context, state)
+        => _PanelButton(
+          ArenaWidget.okNumbers.contains(state.players.length), 
+          CSIcons.simpleViewIcon,
+          ()=> showArena(context: context, bloc: bloc), 
+          1.0,
+          iconSize: 20,
+        ),
+      );
+
+      final rightButton = <CSPage,Widget>{
+        CSPage.history : _PanelButton(
+          true,
+          McIcons.restart,
+          () => stage.showSnackBar(
+            const SnackRestart(), 
+            rightAligned: true,
+          ),
+          // () => stage.showAlert(
+          //   RestarterAlert(true),
+          //   size: ConfirmAlert.height,
+          // ),
+          1.0,
+          iconSize: 24,
+        ),
+        CSPage.life: gameStateBloc.gameState.build( (context, state)
           => _PanelButton(
-            ArenaWidget.okNumbers.contains(state.players.length), 
-            CSIcons.simpleViewIcon,
-            ()=> showArena(context: context, bloc: bloc), 
-            1.0,
-            iconSize: 20,
-          ),
-        );
-
-        final rightButton = <CSPage,Widget>{
-          CSPage.history : _PanelButton(
-            true,
-            McIcons.restart,
-            () => stage.showSnackBar(
-              const SnackRestart(), 
-              rightAligned: true,
+            true, 
+            McIcons.account_multiple_outline, 
+            () => stage.showAlert(
+              PlayGroupEditor(bloc, fromClosedPanel: true,),
+              size: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
             ),
+            1.0,
+            iconSize: 25,
+          ),
+        ),
+        CSPage.commanderCast: _PanelButton(
+          true,
+          Icons.info_outline,
+          () => stage.showAlert(const CastInfo(), size: CastInfo.height),
+          1.0,
+        ),
+        CSPage.commanderDamage: _PanelButton(
+          true,
+          Icons.info_outline,
+          () => stage.showAlert(const DamageInfo(), size: DamageInfo.height),
+          1.0,
+        ),
+        CSPage.counters: bloc.game.gameAction.counterSet.build((context, counter)
+          => _PanelButton(
+            true,
+            counter.icon,
             // () => stage.showAlert(
-            //   RestarterAlert(true),
-            //   size: ConfirmAlert.height,
+            //   const CounterSelector(), 
+            //   size: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)) + PanelTitle.height,
             // ),
-            1.0,
-            iconSize: 24,
+            () {
+              stage.showSnackBar(
+                const SnackCounterSelector(), 
+                rightAligned: true,
+                // duration: null,
+              );
+            },
+            1.0, 
           ),
-          CSPage.life: gameStateBloc.gameState.build( (context, state)
-            => _PanelButton(
-              true, 
-              McIcons.account_multiple_outline, 
-              () => stage.showAlert(
-                PlayGroupEditor(bloc, fromClosedPanel: true,),
-                size: PlayGroupEditor.sizeCalc(bloc.game.gameGroup.names.value.length),
-              ),
-              1.0,
-              iconSize: 25,
-            ),
-          ),
-          CSPage.commanderCast: _PanelButton(
+        ),
+      }[currentPage] ?? SizedBox(width: CSSizes.barSize,);
+
+      final Widget row = Row(children: <Widget>[
+        currentPage == CSPage.history 
+          ?  _PanelButton(
             true,
-            Icons.info_outline,
-            () => stage.showAlert(const CastInfo(), size: CastInfo.height),
-            1.0,
-          ),
-          CSPage.commanderDamage: _PanelButton(
-            true,
-            Icons.info_outline,
-            () => stage.showAlert(const DamageInfo(), size: DamageInfo.height),
-            1.0,
-          ),
-          CSPage.counters: bloc.game.gameAction.counterSet.build((context, counter)
-            => _PanelButton(
-              true,
-              counter.icon,
-              // () => stage.showAlert(
-              //   const CounterSelector(), 
-              //   size: 56.0 * (bloc.game.gameAction.counterSet.list.length.clamp(2, 9)) + AlertTitle.height,
-              // ),
-              () {
-                stage.showSnackBar(
-                  const SnackCounterSelector(), 
-                  rightAligned: true,
-                  // duration: null,
-                );
-              },
-              1.0, 
+            Icons.timeline,
+            () => stage.showAlert(
+              const AnimatedLifeChart(), 
+              size: AnimatedLifeChart.height,
             ),
-          ),
-        }[currentPage] ?? SizedBox(width: CSSizes.barSize,);
-
-        final Widget row = Row(children: <Widget>[
-          currentPage == CSPage.history 
-            ?  _PanelButton(
-              true,
-              Icons.timeline,
-              () => stage.showAlert(
-                const AnimatedLifeChart(), 
-                size: AnimatedLifeChart.height,
-              ),
-              1.0, 
-            )
-            : arenaDisplayer,
-          const Spacer(),
-          backButton, 
-          forwardButton,
-          const Spacer(),
-          rightButton,
-        ]);
-
-        /// missing: restarter
-
-        return Material(
-          type: MaterialType.transparency,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Positioned(
-                left: 0.0,
-                top: 0.0,
-                right: 0.0,
-                height: CSSizes.barSize,
-                child: row
-              ),
-              Positioned(
-                left: 0.0,
-                top: 0.0,
-                right: 0.0,
-                height: CSSizes.barSize,
-                child: _DelayerPanel(defenceColor: defenceColor, bloc: bloc,),
-              ),
-            ]
+            1.0, 
           )
-        );
-      },
-    );
+          : arenaDisplayer,
+        const Spacer(),
+        backButton, 
+        forwardButton,
+        const Spacer(),
+        rightButton,
+      ]);
+
+      /// missing: restarter
+
+      return Material(
+        type: MaterialType.transparency,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Positioned(
+              left: 0.0,
+              top: 0.0,
+              right: 0.0,
+              height: CSSizes.barSize,
+              child: row
+            ),
+            Positioned(
+              left: 0.0,
+              top: 0.0,
+              right: 0.0,
+              height: CSSizes.barSize,
+              child: _DelayerPanel(bloc: bloc,),
+            ),
+          ]
+        )
+      );
+    },);
   }
 
 
@@ -145,11 +141,9 @@ class CSPanelCollapsed extends StatelessWidget {
 
 class _DelayerPanel extends StatelessWidget {
   _DelayerPanel({
-    @required this.defenceColor,
     @required this.bloc,
   });
   final CSBloc bloc;
-  final Color defenceColor;
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +157,7 @@ class _DelayerPanel extends StatelessWidget {
       scroller.isScrolling,
       scroller.intValue,
       bloc.settings.confirmDelay,
-      stage.themeController.primaryColor,
+      stage.themeController.derived.currentPrimaryColor,
       distinct: true,
       builder: (
         BuildContext context, 
@@ -195,7 +189,7 @@ class _DelayerPanel extends StatelessWidget {
               onPrimaryColor: canvasContrast,
               accentColor: accentColor,
               onAccentColor: themeData.colorScheme.onPrimary,
-              style: themeData.primaryTextTheme.body1,
+              style: themeData.primaryTextTheme.bodyText2,
 
               height: CSSizes.barSize,
               duration: confirmDelay,

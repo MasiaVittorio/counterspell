@@ -14,39 +14,29 @@ class CSHomePage extends StatelessWidget {
     return WillPopScope(
       onWillPop: bloc.scroller.decidePop,
       child: Stage<CSPage,SettingsPage>(
-        accentSelectedPage: false,
-        forceOpenedPanelOverNavBar: true,
-
         controller: bloc.stageBloc.controller,
+
         collapsedPanel: const CSPanelCollapsed(key: WidgetsKeys.homePage,),
 
         extendedPanel: const CSPanelExtended(key: WidgetsKeys.extendedPanel,),
 
         body: const CSBody(key: WidgetsKeys.body,),
 
-        openedPanelSubtitle: (settingsPage)=>settingsThemes[settingsPage].longName,
-        appBarTitle: const CSTopBarTitle(key: WidgetsKeys.animatedAppTitle,),
-
-        backToClosePanel: true,
-        backToDefaultPageClosed: true,
-        backToDefaultPageOpened: true,
-        backToPreviousPageClosed: false,
-        backToPreviousPageOpened: false,
-
-        onPanelOpen: bloc.scroller.cancel,
-        onPanelClose: (){
-          bloc.stageBloc.playerDetailsPage = null;
-        },
-
-        pandaOpenedPanelBottomBar: true,
+        topBarData: StageTopBarData(
+          title: const CSTopBarTitle(key: WidgetsKeys.animatedAppTitle,),
+          subtitle: StageTopBarSubtitle<SettingsPage>((settingsPage) => settingsThemes[settingsPage].longName),
+          elevation: 16,
+        ),
+        
         backgroundColor: (theme) => Colors.black,
-        splashScreenBackground: const Color(0xFF263133),
-        splashScreenIcon: const Icon(CSIcons.counterSpell, color: Colors.white, size: 40,),
-        panelBlurRadiusCollapsed: 10.0,
-        panelBlurRadiusExtended: 20.0,
-        panelShadowColor: const Color(0x50000000),
-        panelShadowOffset: const Offset(0.0, 7),
-        topBarElevation: 16,
+
+        splashScreen: const StageSplashScreen(background: Color(0xFF263133), icon: Icon(CSIcons.counterSpell, color: Colors.white, size: 40,)),
+
+        shadowBuilder: (val) => BoxShadow(
+          blurRadius: val.mapToRange(10.0, 20.0),
+          color: const Color(0x50000000),
+          offset: const Offset(0.0, 7),
+        ),
       ),
     );
 

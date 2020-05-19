@@ -16,7 +16,7 @@ class PresetsAlert extends StatelessWidget {
     return Material(
       color: theme.scaffoldBackgroundColor,
       child: SingleChildScrollView(
-        physics: stage.panelScrollPhysics(),
+        physics: stage.panelController.panelScrollPhysics(),
         child: bloc.themer.savedSchemes.build((_, savedSchemes) {
           List<CSColorScheme> all = [...CSColorScheme.defaults.values, ...savedSchemes.values];
           List<CSColorScheme> lights = [
@@ -34,13 +34,13 @@ class PresetsAlert extends StatelessWidget {
 
           return Column(children: <Widget>[
             lights.first.applyBaseTheme(child: Section([
-              const AlertTitle("Light themes", centered: false,),
+              const PanelTitle("Light themes", centered: false,),
               for(final s in lights)
                 PresetTile(s),
             ]),),
             for(final style in DarkStyle.values)
               darks[style].first.applyBaseTheme(child: Section([
-                SectionTitle("${DarkStyles.nameOf(style)} themes"),
+                SectionTitle("${style.name} themes"),
                 for(final s in darks[style])
                   PresetTile(s),
               ]),),
@@ -87,7 +87,7 @@ class PresetTile extends StatelessWidget {
           height: _rowSize,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: <Widget>[for(final page in stage.pagesController.pagesData.keys)
+            children: <Widget>[for(final page in stage.mainPagesController.pagesData.keys)
               Padding(
                 padding: const EdgeInsets.all(_rowPadding),
                 child: Material(
@@ -97,7 +97,7 @@ class PresetTile extends StatelessWidget {
                   child: Container(
                     width: _medalSize,
                     child: Icon(
-                      stage.pagesController.pagesData[page].icon,
+                      stage.mainPagesController.pagesData[page].icon,
                       color: CSColors.contrastWith(scheme.perPage[page]),
                     )
                   ),
@@ -135,40 +135,31 @@ class PresetTile extends StatelessWidget {
           Map<CSPage,Color> perPage = <CSPage,Color>{
             for(final entry in scheme.perPage.entries)
               entry.key: Color(entry.value.value),
-          };
+          };  // Copy map
 
           if(scheme.light){
-            if(themeController.autoDark.value){
-              if(themeController.light.value == false){
-                themeController.autoDark.set(false);
-                themeController.light.set(true);
-              } 
-            } else {
-              themeController.light.setDistinct(true);
+            if(themeController.brightness.autoDark.value){
+              themeController.brightness.autoDark.set(false);
             }
-            themeController.lightPrimary.set(scheme.primary);
-            themeController.lightPrimaryPerPage.set(perPage);
-            themeController.lightAccent.set(scheme.accent);
+            themeController.brightness.brightness.setDistinct(Brightness.light);
+            // need to be set before editing colors
+          
+            themeController.colors.editPanelPrimary(scheme.primary);
+            themeController.colors.editMainPagedPrimaries(perPage);
+            themeController.colors.editAccent(scheme.accent);
           } else {
-            if(themeController.autoDark.value){
-              if(themeController.light.value){
-                themeController.autoDark.set(false);
-                themeController.light.set(false);
-              } 
-            } else {
-              themeController.light.setDistinct(false);
-            }
-            themeController.darkStyle.setDistinct(scheme.darkStyle);
-            themeController.darkPrimariesPerPage.value[scheme.darkStyle] = perPage;
-            themeController.darkPrimariesPerPage.refresh();
+            if(themeController.brightness.autoDark.value){
+              themeController.brightness.autoDark.set(false);
+            } 
+            themeController.brightness.brightness.setDistinct(Brightness.dark);
+            themeController.brightness.darkStyle.setDistinct(scheme.darkStyle);
+            // need to be set before editing colors
 
-            themeController.darkPrimaries.value[scheme.darkStyle] = scheme.primary;
-            themeController.darkPrimaries.refresh();
-
-            themeController.darkAccents.value[scheme.darkStyle] = scheme.accent;
-            themeController.darkAccents.refresh();
+            themeController.colors.editPanelPrimary(scheme.primary);
+            themeController.colors.editMainPagedPrimaries(perPage);
+            themeController.colors.editAccent(scheme.accent);
           }
-          stage.panelController.closePanel();
+          stage.closePanel();
         },
       ),
     ),);

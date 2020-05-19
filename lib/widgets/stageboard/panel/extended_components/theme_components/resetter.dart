@@ -17,28 +17,18 @@ class ThemeResetter extends StatelessWidget {
         cancelText: "No, keep the current theme",
         action: () {
           final themeController = stage.themeController;
-          final style = themeController.darkStyle.value;
-          final light = themeController.light.value;
-          final defaultScheme = CSColorScheme.defaultScheme(light, style); 
+          final style = themeController.brightness.darkStyle.value;
+          final brightness = themeController.brightness.brightness.value;
+
+          final defaultScheme = CSColorScheme.defaultScheme(brightness.isLight, style); 
           Map<CSPage,Color> perPage = <CSPage,Color>{
             for(final entry in defaultScheme.perPage.entries)
               entry.key: Color(entry.value.value),
-          };
+          }; // copy the map
 
-          if(light){
-            themeController.lightPrimary.set(defaultScheme.primary);
-            themeController.lightPrimaryPerPage.set(perPage);
-            themeController.lightAccent.set(defaultScheme.accent);
-          } else {
-            themeController.darkPrimariesPerPage.value[style] = perPage;
-            themeController.darkPrimariesPerPage.refresh();
-
-            themeController.darkPrimaries.value[style] = defaultScheme.primary;
-            themeController.darkPrimaries.refresh();
-
-            themeController.darkAccents.value[style] = defaultScheme.accent;
-            themeController.darkAccents.refresh();
-          }
+          themeController.colors.editPanelPrimary(defaultScheme.primary);
+          themeController.colors.editMainPagedPrimaries(perPage);
+          themeController.colors.editAccent(defaultScheme.accent);
         },
       ),size: ConfirmAlert.height),
     );

@@ -8,15 +8,9 @@ class SnackRestart extends StatelessWidget {
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context);
 
-    return StageSnackBar(
-      alignment: 0,
-      scrollable: true,
-      title: const Text("Restart game?"),
-      secondary: StageSnackBarButton(
-        onTap: () => bloc.game.gameState.restart(true),
-        icon: const Icon(Icons.check),
-        autoClose: true,
-      ),
+    return ConfirmSnackbar(
+      label:"Restart game?",
+      action: () => bloc.game.gameState.restart(true),
     );
   }
 }

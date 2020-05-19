@@ -11,11 +11,11 @@ class PanelGame extends StatelessWidget {
     final bloc = CSBloc.of(context);
 
     return SingleChildScrollView(
-      physics: stage.panelScrollPhysics(),
+      physics: stage.panelController.panelScrollPhysics(),
       child: Column(
         children: <Widget>[
           const Section([
-            AlertTitle("Enabled Screens", centered: false),
+            PanelTitle("Enabled Screens", centered: false),
             PagePie(),
           ]),
           StartingLifeTile(),

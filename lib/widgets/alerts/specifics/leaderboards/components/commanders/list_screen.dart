@@ -13,14 +13,14 @@ class CommandersLeaderboards extends StatelessWidget {
 
     return bloc.pastGames.commanderStats.build((_, stats)
       => ListView.builder(
-        physics: Stage.of(context).panelScrollPhysics(),
+        physics: Stage.of(context).panelController.panelScrollPhysics(),
         itemBuilder: (_, index)
           => CommanderStatWidget(stats[index], 
             pastGames: bloc.pastGames.pastGames.value,
             //commanderStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
           ),
-        padding: const EdgeInsets.only(top: AlertTitle.height),
+        padding: const EdgeInsets.only(top: PanelTitle.height),
         itemCount: stats.length,
         itemExtent: CommanderStatWidget.height,
       ),

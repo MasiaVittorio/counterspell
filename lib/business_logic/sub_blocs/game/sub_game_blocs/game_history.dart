@@ -31,7 +31,12 @@ class CSGameHistory {
         final newData = [
           for(int i = 1; i < newLen; ++i)
             GameHistoryData.fromStates(state, i-1 , i,
-              types: DamageTypes.fromPages(parent.parent.stageBloc.controller.pagesController.enabledPages.value),
+              types: DamageTypes.fromPages(
+                parent.parent?.stageBloc?.controller?.mainPagesController?.currentlyEnabledPages 
+                ?? <CSPage,bool>{
+                  for(final p in CSPage.values) p: true,
+                }
+              ),
               counterMap: parent.gameAction.currentCounterMap,
             ),
           GameHistoryNull(state, newLen - 1),
@@ -76,7 +81,7 @@ class CSGameHistory {
         counters: parent.gameAction.currentCounterMap,
         tileSize: null,
         defenceColor: parent.parent.themer.defenceColor.value,
-        pageColors: parent.parent.stageBloc.controller.themeController.primaryColorsMap.value,
+        pageColors: parent.parent.stageBloc.controller.themeController.derived.mainPageToPrimaryColor.value,
         avoidInteraction: true,
         coreTileSize: CSSizes.minTileSize,
         names: parent.gameGroup.names.value,

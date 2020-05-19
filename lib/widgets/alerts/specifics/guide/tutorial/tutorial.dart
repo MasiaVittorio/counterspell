@@ -43,7 +43,7 @@ class _AdvancedTutorialState extends State<AdvancedTutorial> {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Positioned.fill(
-        top: AlertTitle.height,
+        top: PanelTitle.height,
         bottom: _bottomHeight,
         child: TutorialContent(pageController),
       ),
@@ -52,7 +52,7 @@ class _AdvancedTutorialState extends State<AdvancedTutorial> {
         left: 0.0,
         right: 0.0,
         child: PageReactor(controller: pageController, builder: (_,page)
-          => AlertTitle(TutorialContent.titles[page], animated: true),
+          => PanelTitle(TutorialContent.titles[page], animated: true),
         ),
       ),
       Positioned(

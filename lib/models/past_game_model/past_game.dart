@@ -66,7 +66,6 @@ class PastGame{
       for(final entry in this.commandersB.entries)
         entry.key: entry.value?.toJson() ?? null,
     },
-    "dateTime": this.startingDateTime.millisecondsSinceEpoch,
   };
 
   factory PastGame.fromJson(dynamic json) => PastGame(

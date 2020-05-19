@@ -8,9 +8,9 @@ class TutorialDamage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle subhead = theme.textTheme.subtitle1;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
-    final Map<CSPage,Color> colors = stage.themeController.primaryColorsMap.value;
+    final Map<CSPage,Color> colors = stage.themeController.derived.mainPageToPrimaryColor.value;
     final CSBloc bloc = CSBloc.of(context);
     final Color defenceColor = bloc.themer.defenceColor.value;
 

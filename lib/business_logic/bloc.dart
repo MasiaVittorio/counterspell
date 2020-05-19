@@ -41,8 +41,8 @@ class CSBloc extends BlocBase {
     pastGames = CSPastGames(this);
     payments = CSPayments(this);
     settings = CSSettings(this);
-    stageBloc = CSStage(this);
     scroller = CSScroller(this);
+    stageBloc = CSStage(this);
     themer = CSThemer(this);
   }
 

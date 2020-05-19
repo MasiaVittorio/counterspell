@@ -59,7 +59,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   }
 
   void preExit(){
-    Stage.of(context).pagesController.pageSet(
+    Stage.of(context).mainPagesController.goToPage(
       CSBloc.of(context).settings.lastPageBeforeArena.value,
     );
   }
@@ -813,7 +813,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   @override
   Widget build(BuildContext context) {
     final bloc = widget.group.parent.parent;
-    final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor
@@ -825,7 +825,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             
             if (bloc.game.gameAction.actionPending) {
               bloc.scroller.cancel(true);
-              stage.pagesController.pageSet(CSPage.life);
+              stage.mainPagesController.goToPage(CSPage.life);
               return false;
             } 
 
@@ -839,15 +839,14 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             preExit();
             return true;
           },
-          child: BlocVar.build5<bool, CSPage, Color, String, String>(
+          /// main page is not a visible var from the stage, need its private builder separately
+          child: StageBuild.offMainPage((_, pg) => BlocVar.build4<bool, Color, String, String>(
             bloc.settings.arenaSquadLayout,
-            stage.pagesController.page,
             bloc.themer.defenceColor,
             bloc.game.gameAction.defendingPlayer,
             bloc.game.gameAction.attackingPlayer,
             builder: (_, 
               bool squadLayout,
-              CSPage pg,
               Color defC,
               String def,
               String atk,
@@ -899,7 +898,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   return Container();
               }
             }),
-          ),
+          ),),
         ),
       ),
     );

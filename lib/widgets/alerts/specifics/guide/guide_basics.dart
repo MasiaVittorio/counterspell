@@ -100,7 +100,7 @@ class InfoTitle extends StatelessWidget {
             Expanded(
               child: Text(
                 this.title,
-                style: Theme.of(context).textTheme.body2, 
+                style: Theme.of(context).textTheme.bodyText1, 
                 maxLines: 2, 
                 overflow: TextOverflow.ellipsis,
               ),

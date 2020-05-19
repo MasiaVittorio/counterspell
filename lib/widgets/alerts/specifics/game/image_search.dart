@@ -136,11 +136,11 @@ class _ImageSearchState extends State<ImageSearch> {
   Widget get list {
     if (results.isNotEmpty) {
       return SingleChildScrollView(
-        physics: Stage.of(context).panelScrollPhysics(),
+        physics: Stage.of(context).panelController.panelScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const SizedBox(height: AlertTitle.height,),
+            const SizedBox(height: PanelTitle.height,),
             for(final result in results)
               CardTile(
                 result, 
@@ -256,11 +256,11 @@ class CardTile extends StatelessWidget {
       leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl(),),),
       onTap: (){
         callback(card);
-        if(this.autoClose??true) stage.panelController.closePanel();
+        if(this.autoClose??true) stage.closePanel();
       },
       onLongPress: (){
         if(!longPressOpenCard) return;
-        final dimensions = stage.dimensions.value;
+        final dimensions = stage.dimensionsController.dimensions.value;
         final width = MediaQuery.of(context).size.width;
         final cardWidth = width - dimensions.panelHorizontalPaddingOpened * 2;
         stage.showAlert(

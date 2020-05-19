@@ -17,8 +17,8 @@ class _CountersMasterState extends State<CountersMaster> {
 
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
-    final double collapsedPanelSize = stage.dimensions.value.collapsedPanelSize;
-    final Map<CSPage,Color> colors = stage.themeController.primaryColorsMap.value;
+    final double collapsedPanelSize = stage.dimensionsController.dimensions.value.collapsedPanelSize;
+    final Map<CSPage,Color> colors = stage.themeController.derived.mainPageToPrimaryColor.value;
 
     return Column(
       children: <Widget>[

@@ -11,7 +11,7 @@ class PanelInfo extends StatelessWidget {
     final stage = Stage.of(context);
 
     return SingleChildScrollView(
-      physics: stage.panelScrollPhysics(),
+      physics: stage.panelController.panelScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[

@@ -8,66 +8,86 @@ class CSStage {
     controller.dispose();
   }
 
-  final StageData<CSPage,SettingsPage> controller;
+  StageData<CSPage,SettingsPage> controller;
   PlayerDetailsPage playerDetailsPage;
   final CSBloc parent;
 
-  CSStage(this.parent): controller = StageData<CSPage,SettingsPage>(
-    dimensions: StageDimensions(
-      barSize: Stage.kBarSize,
-      collapsedPanelSize: Stage.kBarSize,
-      panelRadiusClosed: Stage.kBarSize/2,
-      panelRadiusOpened: Stage.kPanelRadius,
-      panelHorizontalPaddingClosed: Stage.kPanelHorizontalPaddingClosed,
-      panelHorizontalPaddingOpened: Stage.kPanelHorizontalPaddingOpened,
-    ),
-  
-    // closed pages
-    initialClosedPage: CSPage.life,
-    initialClosedPagesData: <CSPage,StagePage>{
-      for(final page in CSPage.values)
-        page: StagePage(
-          // primaryColor: defaultPageColorsLight[page],
-          name: CSPages.shortTitleOf(page),
-          longName: CSPages.longTitleOf(page),
-          unselectedIcon: CSIcons.pageIconsOutlined[page],
-          icon: CSIcons.pageIconsFilled[page],
+  /// Needs the parent to have scroller initialized
+  CSStage(this.parent){
+    controller = StageData<CSPage,SettingsPage>(
+      storeKey: "MvSidereus_CounterSpell_Stage",
+      panelData: StagePanelData(
+        onPanelClose: (){
+          playerDetailsPage = null;
+        },
+        onPanelOpen: parent.scroller.cancel,
+      ),
+      popBehavior: StagePopBehavior(),
+
+      initialDimensions: StageDimensions(
+        collapsedPanelSize: StageDimensions.defaultBarSize,
+        panelRadiusClosed: StageDimensions.defaultBarSize/2,
+        panelRadiusOpened: StageDimensions.defaultPanelRadius,
+      ),
+    
+      // closed pages
+      mainPageToJson: (page) => CSPages.nameOf(page),
+      jsonToMainPage: (json) => CSPages.fromName(json as String),
+      initialMainPagesData: StagePagesData.nullable(
+        defaultPage: CSPage.life,
+        pagesData: <CSPage,StagePage>{
+          for(final page in CSPage.values)
+            page: StagePage(
+              name: CSPages.shortTitleOf(page),
+              longName: CSPages.longTitleOf(page),
+              unselectedIcon: CSIcons.pageIconsOutlined[page],
+              icon: CSIcons.pageIconsFilled[page],
+            ),
+        },
+        orderedPages: CSPage.values.toList(),
+      ).complete,
+      onMainPageChanged: (_) => parent.scroller.cancel(true),
+
+      jsonToPanelPage: (json) => SettingsPages.fromName(json as String),
+      panelPageToJson: (page) => SettingsPages.nameOf(page),
+      initialPanelPagesData: StagePagesData.nullable(
+        defaultPage: SettingsPage.game,
+        pagesData: settingsThemes,
+        orderedPages: <SettingsPage>[
+          SettingsPage.game,
+          SettingsPage.settings,
+          SettingsPage.theme,
+          SettingsPage.info,
+        ],
+      ).complete,
+
+      initialThemeData: StageThemeData.nullable(
+        forceSystemNavBarStyle: true,
+        accentSelectedPage: false,
+        forcedPrimaryColorBrightnessOnLightTheme: Brightness.dark,
+        pandaOpenedPanelNavBar: true,
+        brightness: StageBrightnessData.nullable(
+          brightness: Brightness.light,
+          autoDark: true,
+          autoDarkMode: AutoDarkMode.timeOfDay,
+          darkStyle: DarkStyle.nightBlue,
         ),
-    },
-    decodePageClosed: (json) => CSPages.fromName(json as String),
-    encodePageClosed: (page) => CSPages.nameOf(page),
-    initialClosedPagesList: CSPage.values,
-    onClosedPageChanged: (newPage) {
-      parent.scroller.cancel(true);
-    },
+        colors: StageColorsData<CSPage,SettingsPage>.nullable(
+          lightAccent: CSColorScheme.defaultLight.accent,
+          darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},
 
-    // opened pages
-    initialOpenedPage: SettingsPage.game,
-    decodePageOpened: (json) => SettingsPages.fromName(json as String),
-    encodePageOpened: (page) => SettingsPages.nameOf(page),
-    initialOpenedPagesData: settingsThemes,
-    initialOpenedPagesList: [
-      SettingsPage.game,
-      SettingsPage.settings,
-      SettingsPage.theme,
-      SettingsPage.info,
-    ],
-    lastOpenedPage: SettingsPage.game,
+          // lightMainPrimary: CSColorScheme.defaultLight.primary, //TODO: controlla se non dando questo va bene perché dai l'altro
+          lightMainPageToPrimary: CSColorScheme.defaultLight.perPage,
+          darkMainPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.primary},
+          darkMainPageToPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.perPage},
 
-    //themes
-    light: true,
-    darkStyle: DarkStyle.nightBlue,
-    lightPrimary: CSColorScheme.defaultLight.primary,
-    lightPrimaryPerPage: CSColorScheme.defaultLight.perPage,
-    lightAccent: CSColorScheme.defaultLight.accent,
-    darkPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.primary},
-    darkPrimariesPerPage: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.perPage},
-    darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},
-
-    //back behavior
-    lastClosedPage: CSPage.life,
-    forceSystemNavBarStyle: true,
-  );
+          lightPanelPrimary: CSColorScheme.defaultLight.primary,
+          darkPanelPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.primary},
+        ),
+      ).complete,
+    );
+  }
+  
 }
 
 const settingsThemes = <SettingsPage,StagePage>{

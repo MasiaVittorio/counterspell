@@ -1,6 +1,4 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:sidereus/reusable_widgets/material_color_picker/sheet_color_picker.dart';
-import 'all.dart';
 
 class OverallTheme extends StatelessWidget {
   const OverallTheme();
@@ -12,12 +10,12 @@ class OverallTheme extends StatelessWidget {
     final theme = Theme.of(context);
 
     return BlocVar.build5(
-      themeController.autoDark, 
-      themeController.light,
-      themeController.darkStyle,
-      themeController.timeOfDay,
+      themeController.brightness.autoDark, 
+      themeController.brightness.brightness,
+      themeController.brightness.darkStyle,
+      themeController.brightness.autoDarkMode,
       bloc.payments.unlocked,
-      builder: (_, autoDark, light, darkStyle, timeOfDay, unlocked)
+      builder: (_, bool autoDark, Brightness brightness, DarkStyle darkStyle, AutoDarkMode autoDarkMode, bool unlocked)
       => Stack(
         fit: StackFit.loose,
         children: <Widget>[
@@ -25,101 +23,15 @@ class OverallTheme extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Section([
-                AlertTitle("Base Theme", centered: false),
-                Row(children: <Widget>[
-                  Expanded(child: themeController.panelPrimaryColor.build((_, primary) 
-                    =>ListTile(
-                      title: Text("Primary"),
-                      leading: ColorCircle(primary,),
-                      onTap:() => pickPrimaryColor(stage, primary),
-                    ),
-                  ),),
-                  Expanded(child: themeController.accentColor.build((_, accentColor) 
-                    => ListTile(
-                      title: Text("Accent"),
-                      leading: ColorCircle(accentColor,),
-                      onTap:() => pickAccentColor(stage, accentColor),
-                    ),
-                  ),),
+                PanelTitle("Base Theme", centered: false),
+                Row(children: const <Widget>[
+                  Expanded(child: StagePanelSingleColor()),
+                  Expanded(child: StageAccentColor()),
                 ],),
               ]),
-              Section([
+              const Section([
                 SectionTitle("Brightness"),
-                RadioSlider(
-                  selectedIndex: autoDark ? 1 : light ? 0 : 2,
-                  items: [
-                    RadioSliderItem(
-                      icon: const Icon(McIcons.weather_sunny),
-                      title: const Text("Light"),
-                    ),
-                    RadioSliderItem(
-                      icon: const Icon(Icons.brightness_auto),
-                      title: const Text("Auto"),
-                    ),
-                    RadioSliderItem(
-                      icon: const Icon(McIcons.weather_night),
-                      title: const Text("Dark"),
-                    ),
-                  ],
-                  onTap: (i){
-                    switch (i) {
-                      case 0:
-                        themeController.disableAutoDark(true);
-                        break;
-                      case 1:
-                        themeController.enableAutoDark(MediaQuery.of(context));
-                        break;
-                      case 2:
-                        themeController.disableAutoDark(false);
-                        break;
-                      default:
-                    }
-                  },
-                ),
-                AnimatedListed(
-                  listed: autoDark,
-                  child: RadioSlider(
-                    title: const Text("Based on:"),
-                    selectedIndex: timeOfDay ? 0 : 1,
-                    onTap: (i){
-                      switch (i) {
-                        case 0:
-                          themeController.autoDarkBasedOnTime();
-                          break;
-                        case 1:
-                          themeController.autoDarkBasedOnSystem(MediaQuery.of(context));
-                          break;
-                        default:
-                      }
-                    },
-                    items: const [
-                      RadioSliderItem(
-                        icon: const Icon(McIcons.theme_light_dark),
-                        title: const Text("Day time"),
-                      ),
-                      RadioSliderItem(
-                        icon: const Icon(Icons.timeline),
-                        title: const Text("System"),
-                      ),
-                    ],
-                  ),
-                ),
-                AnimatedListed(
-                  duration: const Duration(milliseconds: 220),
-                  listed: !light,
-                  child:  ListTile(
-                    title: const Text("Dark Style:"),
-                    trailing: AnimatedText(
-                      DarkStyles.nameOf(darkStyle),
-                      duration: const Duration(milliseconds: 220),
-                    ),
-                    leading: const Icon(Icons.format_color_fill),
-                    onTap: (){
-                      final current = themeController.darkStyle.value;
-                      themeController.darkStyle.setDistinct(DarkStyles.next[current]);
-                    },
-                  ),
-                ),
+                StageBrightnessToggle(),
               ]),
             ],
           ),
@@ -135,30 +47,5 @@ class OverallTheme extends StatelessWidget {
       ),
     );
   }
-  static void pickPrimaryColor(StageData stage, Color primary) {
-    stage.showAlert(
-      SheetColorPicker(
-        underscrollCallback: stage.panelController.closePanel,
-        color: primary,
-        onSubmitted: (color){
-          stage.themeController.editPrimaryDefault(color);
-          stage.panelController.closePanel();
-        },
-      ),
-      size: 480.0,
-    );
-  }
-  static void pickAccentColor(StageData stage, Color accent) {
-    stage.showAlert(
-      SheetColorPicker(
-        underscrollCallback: stage.panelController.closePanel,
-        color: accent,
-        onSubmitted: (color){
-          stage.themeController.editAccent(color);
-          stage.panelController.closePanel();
-        },
-      ),
-      size: 480.0,
-    );
-  }
+
 }

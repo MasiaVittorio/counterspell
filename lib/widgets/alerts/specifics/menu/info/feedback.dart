@@ -4,7 +4,7 @@ class FeedbackAlert extends StatelessWidget {
 
   const FeedbackAlert();
   
-  static const double height = AlternativesAlert.tileSize * 2 + AlertTitle.twoLinesHeight; 
+  static const double height = AlternativesAlert.tileSize * 2 + PanelTitle.twoLinesHeight; 
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class FeedbackAlert extends StatelessWidget {
 
 class PositiveFeedback extends StatelessWidget {
 
-  static const double height = AlternativesAlert.tileSize * 3 + AlertTitle.height; 
+  static const double height = AlternativesAlert.tileSize * 3 + PanelTitle.height; 
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class PositiveFeedback extends StatelessWidget {
 
 class NegativeFeedback extends StatelessWidget {
 
-  static const double height = AlternativesAlert.tileSize * 2 + AlertTitle.height; 
+  static const double height = AlternativesAlert.tileSize * 2 + PanelTitle.height; 
 
   @override
   Widget build(BuildContext context) {

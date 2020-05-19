@@ -19,7 +19,7 @@ class DamageInfo extends StatelessWidget {
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: SingleChildScrollView(
-        physics: Stage.of(context).panelScrollPhysics(),
+        physics: Stage.of(context).panelController.panelScrollPhysics(),
         primary: true,
         child: Container(
           height: height,
@@ -75,7 +75,7 @@ class _AttackerSection extends StatelessWidget {
     
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
-      child: stage.themeController.primaryColorsMap.build((_,map)
+      child: stage.themeController.derived.mainPageToPrimaryColor.build((_,map)
         => InfoSection(
           first: true,
           icon: Icon(

@@ -15,13 +15,13 @@ class LifeChart extends StatelessWidget {
     final CSBloc bloc = CSBloc.of(context);
     final ThemeData theme = Theme.of(context);
     final Color bkgColor = theme.scaffoldBackgroundColor;
-    final TextStyle textStyle = theme.textTheme.body1; 
+    final TextStyle textStyle = theme.textTheme.bodyText2; 
 
     return Material(child: bloc.game.gameState.gameState.build((_, gameState){
       final List<Player> players = gameState.players.values.toList();
 
       return Column(children: <Widget>[
-        AlertTitle("Life Chart"),
+        PanelTitle("Life Chart"),
         Expanded(child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(children: <Widget>[
@@ -83,7 +83,7 @@ class _Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Color canvasColor = theme.canvasColor;
-    final TextStyle textStyle = theme.textTheme.body1; 
+    final TextStyle textStyle = theme.textTheme.bodyText2; 
 
     final List<Player> players = [
       for(final player in gameState.players.values)
@@ -315,11 +315,4 @@ class _Chart extends StatelessWidget {
   static const Set<int> _nLifesOk = <int>{3,4,5};
   static const int _nTimes = 3;
   
-}
-
-extension on Color {
-  Color get contrast {
-    if(ThemeData.estimateBrightnessForColor(this) == Brightness.dark) return Colors.white;
-    else return Colors.black;
-  }
 }

@@ -10,39 +10,29 @@ class CSTopBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final bloc = CSBloc.of(context);
-    final stage = Stage.of<CSPage,SettingsPage>(context);
-    return BlocVar.build4(
-      stage.panelController.isMostlyOpened,
-      stage.pagesController.page,
-      stage.themeController.primaryColor,
-      stage.isShowingAlert,
-      builder: (_, open, page, currentPrimaryColor, isShowingAlert,){
-        final color = currentPrimaryColor ?? Theme.of(context).primaryColor;
-        final textColor = ThemeData.estimateBrightnessForColor(color) == Brightness.dark 
-          ? Colors.white
-          : Colors.black;
+    final stage = Stage.of(context);
+    return StageBuild.offMainPage((_, page) => BlocVar.build2<Counter,bool>(
+      bloc.game.gameAction.counterSet.variable,
+      stage.panelController.isMostlyOpenedNonAlert,
+      builder: (_, counter, openNonAlert,){
+        String text = "";
+        if(openNonAlert){
+          text = "CounterSpell";
+        } else if(page == CSPage.counters){
+          text = counter.longName;
+        } else {
+          text = CSPages.longTitleOf(page);
+        }
 
-        return bloc.game.gameAction.counterSet.build((context, counter){
-          String text = "";
-          if(open && !isShowingAlert){
-            text = "CounterSpell";
-          } else if(page == CSPage.counters){
-            text = counter.longName;
-          } else {
-            text = CSPages.longTitleOf(page);
-          }
-
-          return AnimatedText(
-            text,
-            duration: const Duration(milliseconds: 260),
-            style: Theme.of(context).primaryTextTheme.title.copyWith(
-              fontWeight: FontWeight.w600,
-              color: textColor,
-            ),
-          );
-        });
+        return AnimatedText(
+          text,
+          duration: const Duration(milliseconds: 260),
+          style: Theme.of(context).primaryTextTheme.headline6.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        );
       },
-    );
+    ),);
   }
 
 }

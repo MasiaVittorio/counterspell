@@ -46,7 +46,7 @@ class TutorialControls extends StatelessWidget {
               child: AnimatedText(page == AdvancedTutorial.pages -1 ? "Close" : "Next"),
               onPressed: () {
                 if(page == AdvancedTutorial.pages - 1){
-                  Stage.of(context).panelController.closePanel();
+                  Stage.of(context).closePanel();
                 } else {
                   controller.nextPage(
                     duration: CSAnimations.fast, 

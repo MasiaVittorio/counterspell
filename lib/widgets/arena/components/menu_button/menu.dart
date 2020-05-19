@@ -29,7 +29,7 @@ class ArenaMenu extends StatelessWidget {
       children: <Widget>[
         if(gameState.players.length != 2)
           Section(<Widget>[
-            const AlertTitle("Actions"),
+            const PanelTitle("Actions"),
             ArenaActions(reorderPlayers, exit),
           ]),
         Section(<Widget>[

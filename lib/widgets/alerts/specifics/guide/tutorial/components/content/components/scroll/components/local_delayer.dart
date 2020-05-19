@@ -23,7 +23,7 @@ class LocalDelayer extends StatelessWidget {
       localScroller.isScrolling,
       localScroller.intValue,
       bloc.settings.confirmDelay,
-      stage.themeController.primaryColorsMap,
+      stage.themeController.derived.mainPageToPrimaryColor,
       distinct: true,
       builder: (
         BuildContext context, 
@@ -53,7 +53,7 @@ class LocalDelayer extends StatelessWidget {
               onPrimaryColor: primaryContrast,
               accentColor: accentColor,
               onAccentColor: themeData.colorScheme.onPrimary,
-              style: themeData.primaryTextTheme.body1,
+              style: themeData.primaryTextTheme.bodyText2,
 
               height: CSSizes.barSize,
               duration: confirmDelay,

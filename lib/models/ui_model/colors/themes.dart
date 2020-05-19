@@ -29,12 +29,15 @@ class CSColorScheme{
     darkStyle: this.darkStyle,
   );
 
-  Widget applyBaseTheme({@required Widget child}) => Stage.applyTheme(
+  Widget applyBaseTheme({@required Widget child,}) => Theme(
+    data: StageThemeUtils.getThemeData(
+      accent: this.accent,
+      brightness: this.light ? Brightness.light : Brightness.dark,
+      darkStyle: this.darkStyle,
+      forcedPrimaryColorBrightness: null,
+      primary: this.primary,
+    ),
     child: child,
-    light: this.light,
-    darkStyle: this.darkStyle,
-    primary: this.primary,
-    accent: this.accent,
   );
 
   Map<String,dynamic> get toJson => {
@@ -46,7 +49,7 @@ class CSColorScheme{
         CSPages.nameOf(entry.key) : entry.value.value,
     },
     "light": this.light,
-    "darkStyle": DarkStyles.nameOf(this.darkStyle),
+    "darkStyle": this.darkStyle.name,
   };
 
   static CSColorScheme fromJson(dynamic json) => CSColorScheme(

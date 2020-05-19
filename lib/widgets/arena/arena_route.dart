@@ -69,23 +69,22 @@ Future<T> showArena<T>({
 }) {
   assert(context != null);
 
+  final stage = Stage.of(context);
   if(!ArenaWidget.okNumbers.contains(bloc.game.gameState.gameState.value.players.length)){
-    final stage = Stage.of(context);
     stage.showAlert(AlternativesAlert(
       twoLinesLabel: true,
       label: "You need to have a smaller playgroup to open Arena Mode",
       alternatives: [Alternative(
         title: "Got it",
         icon: Icons.check,
-        action: () => stage.panelController.closePanel(), 
+        action: () => stage.closePanel(), 
       )],
     ), size: AlternativesAlert.twoLinesheightCalc(1));
     return null;
   }
   
-  final stage = Stage.of(context);
-  bloc.settings.lastPageBeforeArena.set(stage.pagesController.page.value);
-  stage.pagesController.pageSet(CSPage.life);
+  bloc.settings.lastPageBeforeArena.set(stage.mainPagesController.currentPage);
+  stage.mainPagesController.goToPage(CSPage.life);
   bloc.game.gameAction.clearSelection();
 
   if(bloc.settings.arenaFullScreen.value){
@@ -115,14 +114,14 @@ class _SimpleGroup extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
-    final stage = Stage.of<CSPage,SettingsPage>(context);
+    final stage = Stage.of(context);
 
     return BlocVar.build5(
       bloc.scroller.isScrolling,
       bloc.scroller.intValue,
       actionBloc.selected,
       bloc.game.gameState.gameState,
-      stage.themeController.primaryColorsMap,
+      stage.themeController.derived.mainPageToPrimaryColor,
       builder: (
         BuildContext context, 
         bool isScrolling, 

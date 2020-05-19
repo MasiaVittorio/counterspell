@@ -43,7 +43,7 @@ class CSScroller {
           this.value = 0.0;
           this.intValue.set(0);
         } else {
-          parent.game.gameAction.privateConfirm(parent.stageBloc.controller.pagesController.page.value);
+          parent.game.gameAction.privateConfirm(parent.stageBloc.controller.mainPagesController.currentPage);
         }
       }
     });

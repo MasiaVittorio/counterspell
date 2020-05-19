@@ -13,9 +13,9 @@ class QuotesAlert extends StatelessWidget {
 
     return HeaderedAlert("MtG quotes", 
       child: ListView.builder(
-        physics: stage.panelScrollPhysics(),
+        physics: stage.panelController.panelScrollPhysics(),
         itemBuilder: (_, i){
-          if(i == 0) return const SizedBox(height: AlertTitle.height);
+          if(i == 0) return const SizedBox(height: PanelTitle.height);
 
           final String card = cards[i-1];
           final String quote = FlavorTexts.map[card];

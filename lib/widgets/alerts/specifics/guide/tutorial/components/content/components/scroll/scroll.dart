@@ -42,7 +42,7 @@ class __LocalState extends State<_Local> {
   Widget build(BuildContext context) {
     
     final ThemeData theme = Theme.of(context); 
-    final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle subhead = theme.textTheme.subtitle1;
 
     
 
@@ -84,7 +84,7 @@ class __LocalState extends State<_Local> {
             opacity: scrolled ? 1.0 : 0.0,
             child: Text(
               "The change is applied after a delay",
-              style: theme.textTheme.subhead,
+              style: theme.textTheme.subtitle1,
               textAlign: TextAlign.center,
             ),
           ),),

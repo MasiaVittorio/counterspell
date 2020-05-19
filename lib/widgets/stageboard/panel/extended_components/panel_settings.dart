@@ -14,17 +14,15 @@ class PanelSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final pagesController = stage.pagesController;
-    final enabledPages = pagesController.enabledPages;
     
-    return enabledPages.build((_, enabledPages)=> SingleChildScrollView(
-      physics: stage.panelScrollPhysics(),
+    return SingleChildScrollView(
+      physics: stage.panelController.panelScrollPhysics(),
       child: Column(
         children: <Widget>[
           const SettingsBehavior(),
           const SettingsAppearance(),
         ],
       ),
-    ));
+    );
   }
 }

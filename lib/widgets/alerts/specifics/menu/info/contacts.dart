@@ -5,7 +5,7 @@ class ContactsAlert extends StatelessWidget {
 
   const ContactsAlert();
 
-  static const double height = AlternativesAlert.tileSize * 2 + AlertTitle.height; 
+  static const double height = AlternativesAlert.tileSize * 2 + PanelTitle.height; 
 
   @override
   Widget build(BuildContext context) {

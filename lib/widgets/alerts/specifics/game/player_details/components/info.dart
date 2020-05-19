@@ -11,8 +11,8 @@ class PlayerDetailsInfo extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final stage = bloc.stage;
     final counters = bloc.game.gameAction.counterSet.list;
-    final body2 = theme.textTheme.body2;
-    return stage.themeController.primaryColorsMap.build((_, colors)
+    final body2 = theme.textTheme.bodyText1;
+    return stage.themeController.derived.mainPageToPrimaryColor.build((_, colors)
         => PlayerBuilder(index, (gameState, names, name, playerState, player){
 
           final bool partner = player.havePartnerB;

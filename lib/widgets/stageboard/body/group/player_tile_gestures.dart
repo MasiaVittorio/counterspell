@@ -5,7 +5,7 @@ class PlayerGestures{
 
   static void _returnToLife(CSBloc bloc){
     final stage = bloc.stageBloc.controller;
-    if(stage.pagesController.page.setDistinct(CSPage.life)){
+    if(stage.mainPagesController.goToPage(CSPage.life)){
       bloc.scroller.ignoringThisPan = true;
     }
   }

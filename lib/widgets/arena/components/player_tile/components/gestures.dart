@@ -56,7 +56,7 @@ class AptGestures extends StatelessWidget {
             && !(whoIsAttacking == name && havingPartnerB)
           ){
             bloc.game.gameAction.clearSelection();
-            stage.pagesController.pageSet(CSPage.life);
+            stage.mainPagesController.goToPage(CSPage.life);
           } else {
             PlayerGestures.tap(
               name,
@@ -72,9 +72,9 @@ class AptGestures extends StatelessWidget {
         },
         onLongPress: (){
           if(page == CSPage.commanderDamage && this.whoIsAttacking == this.name){
-            stage.pagesController.pageSet(CSPage.life);
+            stage.mainPagesController.goToPage(CSPage.life);
           } else {
-            stage.pagesController.pageSet(CSPage.commanderDamage);
+            stage.mainPagesController.goToPage(CSPage.commanderDamage);
             bloc.game.gameAction.attackingPlayer.set(this.name);
             bloc.game.gameAction.defendingPlayer.set("");
           } 

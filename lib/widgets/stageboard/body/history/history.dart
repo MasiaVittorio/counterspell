@@ -67,7 +67,7 @@ class BodyHistory extends StatelessWidget {
             physics: SidereusScrollPhysics(
               topBounce: true,
               bottomBounce: false,
-              topBounceCallback: () => stage.pagesController.page.set(CSPage.life),
+              topBounceCallback: () => stage.mainPagesController.goToPage(CSPage.life),
               alwaysScrollable: true,
             ),
             shrinkWrap: false,

@@ -33,7 +33,7 @@ class LocalNumber extends StatelessWidget {
         child: BlocVar.build3(
           localScroller.isScrolling,
           localScroller.intValue,
-          stage.themeController.primaryColorsMap, 
+          stage.themeController.derived.mainPageToPrimaryColor, 
           builder: (_, scrolling, increment, pageColors){
             final Color color = pageColors[CSPage.life];
             final colorBright = ThemeData.estimateBrightnessForColor(color);

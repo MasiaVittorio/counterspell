@@ -22,13 +22,13 @@ class _TutorialPagesState extends State<TutorialPages> {
   Widget build(BuildContext context) {
 
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
-    final Map<CSPage,Color> colors = stage.themeController.primaryColorsMap.value;
+    final Map<CSPage,Color> colors = stage.themeController.derived.mainPageToPrimaryColor.value;
 
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle subhead = theme.textTheme.subtitle1;
     final TextStyle subheadBold = subhead.copyWith(fontWeight: subhead.fontWeight.increment.increment);
 
-    final double collapsedPanelSize = stage.dimensions.value.collapsedPanelSize;
+    final double collapsedPanelSize = stage.dimensionsController.dimensions.value.collapsedPanelSize;
 
     return Column(
       children: <Widget>[

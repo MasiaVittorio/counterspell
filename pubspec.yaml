@@ -20,7 +20,7 @@ dependencies:
   sidereus:
     path: ../sidereus
   stage:
-    path: ../stage
+    path: ../stage_2
   animations: ^1.0.0+5
   auto_size_text: ^2.1.0
   cached_network_image: ^2.0.0-rc

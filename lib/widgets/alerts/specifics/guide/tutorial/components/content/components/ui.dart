@@ -86,7 +86,7 @@ class SubExplanation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle subhead = theme.textTheme.subtitle1;
 
     List<Widget> rowChildren = <Widget>[
       for(final child in children)
@@ -158,7 +158,7 @@ class SubExplanation extends StatelessWidget {
 //           padding: const EdgeInsets.fromLTRB(12.0, 3.0, 12.0, 3.0),
 //           child: Icon(icon),
 //         ),
-//         Text(text, style: Theme.of(context).textTheme.subhead,),
+//         Text(text, style: Theme.of(context).textTheme.subtitle1,),
 //       ],),
 //     );
 //   }

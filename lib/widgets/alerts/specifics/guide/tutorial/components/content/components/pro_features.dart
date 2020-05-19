@@ -7,9 +7,9 @@ class TutorialProFeatures extends StatelessWidget {
   Widget build(BuildContext context) {
     
     final ThemeData theme = Theme.of(context);
-    final TextStyle body1 = theme.textTheme.body1;
-    final TextStyle body1Bold = theme.textTheme.body1.copyWith(fontWeight: body1.fontWeight.increment.increment);
-    final TextStyle subhead = theme.textTheme.subhead;
+    final TextStyle body1 = theme.textTheme.bodyText2;
+    final TextStyle body1Bold = theme.textTheme.bodyText2.copyWith(fontWeight: body1.fontWeight.increment.increment);
+    final TextStyle subhead = theme.textTheme.subtitle1;
     final TextStyle subheadBold = subhead.copyWith(fontWeight: body1.fontWeight.increment.increment);
     final TextStyle big = subhead.copyWith(fontSize: subhead.fontSize + 2);
     final TextStyle bigBold = big.copyWith(fontWeight: body1.fontWeight.increment.increment);

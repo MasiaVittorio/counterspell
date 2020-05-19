@@ -173,7 +173,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
     return Material(child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        const AlertTitle("Life Chart"),
+        const PanelTitle("Life Chart"),
         Expanded(child: layoutChart()),
         buildControls(),
         CSWidgets.height5,
@@ -196,7 +196,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
         vertical: 8.0,
       ),
       child: BlocVar.build2(
-        stage.themeController.primaryColorsMap,
+        stage.themeController.derived.mainPageToPrimaryColor,
         bloc.themer.defenceColor,
         builder:(_, colors, defenceColor) 
           =>SubSection(<Widget>[
@@ -243,7 +243,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
     ThemeData theme,
   ){
 
-    final TextStyle style = theme.textTheme.body1.copyWith(
+    final TextStyle style = theme.textTheme.bodyText2.copyWith(
       color: theme.colorScheme.onSurface.withOpacity(0.5),
     );
 

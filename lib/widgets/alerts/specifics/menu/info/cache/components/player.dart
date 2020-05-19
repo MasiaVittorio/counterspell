@@ -18,8 +18,8 @@ class CachePlayer extends StatelessWidget {
         final List<MtgCard> cards = <MtgCard>[...map[this.player]];
 
         return ListView.builder(
-          padding: const EdgeInsets.only(top: AlertTitle.height),
-          physics: stage.panelScrollPhysics(),
+          padding: const EdgeInsets.only(top: PanelTitle.height),
+          physics: stage.panelController.panelScrollPhysics(),
           itemBuilder: (_, index){
             final MtgCard card = cards[index];
             return CardTile(

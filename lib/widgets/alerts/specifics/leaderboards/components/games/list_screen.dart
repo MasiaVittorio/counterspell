@@ -14,12 +14,12 @@ class PastGamesList extends StatelessWidget {
       if(pastGames.isEmpty) return Container();
 
       return ListView.builder(
-        physics: Stage.of(context).panelScrollPhysics(),
+        physics: Stage.of(context).panelController.panelScrollPhysics(),
         itemBuilder: (_, index){
           final int gameIndex = pastGames.length - index - 1;
           return PastGameTile(pastGames[gameIndex], gameIndex);
         },
-        padding: const EdgeInsets.only(top: AlertTitle.height),
+        // padding: const EdgeInsets.only(top: PanelTitle.height),
         //TODO: questo padding dovrebbe essere inutile now
         itemCount: pastGames.length,
         itemExtent: PastGameTile.height,

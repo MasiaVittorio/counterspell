@@ -14,7 +14,7 @@ class WinnerSelector extends StatefulWidget {
   });
 
   static const double _bottomPadding = 10.0;
-  static double heightCalc(int lenght, [bool promptDontSave = false]) => AlertTitle.height + 56.0 * (lenght + 1 + ((promptDontSave ?? false) ? 1 : 0)) + _bottomPadding;
+  static double heightCalc(int lenght, [bool promptDontSave = false]) => PanelTitle.height + 56.0 * (lenght + 1 + ((promptDontSave ?? false) ? 1 : 0)) + _bottomPadding;
 
   @override
   _WinnerSelectorState createState() => _WinnerSelectorState();
@@ -40,7 +40,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         title: Text(autoSavingPrompt ? "Don't choose" : "Cancel"),
         leading: const Icon(Icons.close),
         onTap: (){
-          stage.panelController.closePanelCompletely();
+          stage.closePanelCompletely();
         }
       )),
       Expanded(child: ListTile(
@@ -49,7 +49,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         onTap: selected != null 
           ? (){
             widget.onConfirm(selected);
-            stage.panelController.closePanelCompletely();
+            stage.closePanelCompletely();
           }
           : null,
       )),
@@ -84,7 +84,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
               title: const Text("Don't save"),
               onTap: (){
                 widget.onDontSave();
-                stage.panelController.closePanelCompletely();
+                stage.closePanelCompletely();
               },
             ),
           ],

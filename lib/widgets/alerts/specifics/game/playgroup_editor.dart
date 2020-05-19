@@ -9,7 +9,7 @@ class PlayGroupEditor extends StatefulWidget {
   });
 
   static const double playerTileSize = 56.0;
-  static const double titleSize = AlertTitle.height;
+  static const double titleSize = PanelTitle.height;
   static const double hintSize = 40;
   static const double newPlayerSize = playerTileSize + hintSize;
   static double sizeCalc(int howMany) => (howMany.clamp(1, 5.5)) * playerTileSize + titleSize + newPlayerSize;
@@ -47,7 +47,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   void _reCalcSize(){
     final int howMany = state.gameState.value.players.length;
     final stage = Stage.of(context);
-    stage.recalcAlertSize(PlayGroupEditor.sizeCalc(howMany));
+    stage.panelController.alertController.recalcAlertSize(PlayGroupEditor.sizeCalc(howMany));
   }
 
   void startEditing(String who){
@@ -211,7 +211,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
 
             return Column(
               children: <Widget>[
-                const Material(child: const AlertTitle("Edit Playgroup"),),
+                const Material(child: const PanelTitle("Edit Playgroup"),),
                 Expanded(
                   child: Material(
                     elevation: 2,

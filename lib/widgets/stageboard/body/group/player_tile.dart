@@ -124,7 +124,7 @@ class PlayerTile extends StatelessWidget {
     final stateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
     final actionBloc = bloc.game.gameAction;
-    final StageData<CSPage,SettingsPage> stage = Stage.of<CSPage,SettingsPage>(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
     final ThemeData theme = Theme.of(context);
 
     final bool attacking = whoIsAttacking == name;

@@ -26,6 +26,7 @@ class CSBody extends StatelessWidget {
           group.names,
           stage.themeController.derived.mainPageToPrimaryColor,
           builder: (context, names, pageColors){
+            //TODO: names distinct?
 
             final bool landScape = constraints.maxWidth >= constraints.maxHeight;
             final historyEnabled = enabledPages[CSPage.history];

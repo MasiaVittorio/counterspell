@@ -28,6 +28,7 @@ class CSStage {
         collapsedPanelSize: StageDimensions.defaultBarSize,
         panelRadiusClosed: StageDimensions.defaultBarSize/2,
         panelRadiusOpened: StageDimensions.defaultPanelRadius,
+        parallax: 0.1,
       ),
     
       // closed pages

@@ -33,7 +33,7 @@ class CSHomePage extends StatelessWidget {
         splashScreen: const StageSplashScreen(background: Color(0xFF263133), icon: Icon(CSIcons.counterSpell, color: Colors.white, size: 40,)),
 
         shadowBuilder: (val) => BoxShadow(
-          blurRadius: val.mapToRange(10.0, 20.0),
+          blurRadius: val.mapToRangeLoose(10.0, 20.0),
           color: const Color(0x50000000),
           offset: const Offset(0.0, 7),
         ),

@@ -39,7 +39,7 @@ class CSGameAction {
   CSGameAction(this.parent): 
     selected = BlocVar(<String,bool>{}),
     counterSet = PersistentSet<Counter>(
-      key: "bloc_game_action_blocvar_counterset",
+      key: "bloc_game_action_blocvar_counterset_2",
       initList: Counter.defaultList,
       toJson: (list) => [
         for(final counter in list)
@@ -64,6 +64,7 @@ class CSGameAction {
             name: false,
         });
       }); 
+
   }
 
 

@@ -81,7 +81,7 @@ class CSPanelCollapsed extends StatelessWidget {
               stage.showSnackBar(
                 const SnackCounterSelector(), 
                 rightAligned: true,
-                // duration: null,
+                duration: null,
               );
             },
             1.0, 

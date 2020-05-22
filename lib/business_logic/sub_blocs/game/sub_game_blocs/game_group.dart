@@ -89,6 +89,12 @@ class CSGameGroup {
         for(final s in json)
           s as String,
       ],
+      equals: (a,b){
+        if(a.length != b.length) return false;
+        for(int i=0; i<a.length; ++i)
+          if(a[i] != b[i]) return false;
+        return true;
+      }
     );
     alternativeLayoutNameOrder = PersistentVar<Map<int,String>>(
       key: "bloc_game_group_blocvar_alternative_layout_name_order",
@@ -127,7 +133,7 @@ class CSGameGroup {
     for(final name in toBeRemoved){
       names.value.remove(name);        
     }
-    names.refresh();
+    names.refreshDistinct();
   }
   void updateNamesAltLayout(List<String> newNames){
     for(final name in newNames){
@@ -151,7 +157,7 @@ class CSGameGroup {
       for(int i=0; i<current.length; ++i)
         i:current[i],
     });
-    names.refresh();
+    names.refreshDistinct();
   }
 
 

@@ -89,7 +89,8 @@ class Counter{
     longName: blessingLongName,
     minValue: 0,
     maxValue: 1,
-    icon: McIcons.ship_wheel,
+    // icon: McIcons.ship_wheel,
+    icon: Keyrune.rix,
     uniquePlayer: false,
   );
   static const String monarchLongName = "Take the Crown";
@@ -98,7 +99,8 @@ class Counter{
     longName: monarchLongName,
     minValue: 0,
     maxValue: 1,
-    icon: McIcons.crown,
+    // icon: McIcons.crown,
+    icon: Keyrune.cn2,
     uniquePlayer: true,
   );
   static const String manaLongName = "Total Mana";
@@ -107,7 +109,8 @@ class Counter{
     longName: manaLongName,
     minValue: 0,
     maxValue: MAX_LIFE,
-    icon: McIcons.alpha_x_circle,
+    // icon: McIcons.alpha_x_circle,
+    icon: ManaIcons.c,
     uniquePlayer: false,
   );
   // static const Counter CUSTOM = Counter(
@@ -124,17 +127,22 @@ class Counter{
     longName: energyLongName,
     minValue: 0,
     maxValue: MAX_LIFE,
-    icon: McIcons.flash,
+    // icon: McIcons.flash,
+    icon: ManaIcons.e,
     uniquePlayer: false,
   );
   static const Map<String,IconData> _icons = <String,IconData>{
-    'Poison Counters': CSIcons.poison,
-    'Experience Counters': CSIcons.experienceFilled,
-    'Storm Count': McIcons.weather_lightning,
-    "City's Blessing": McIcons.ship_wheel,
-    'Take the Crown': McIcons.crown,
-    'Total Mana': McIcons.alpha_x_circle,
-    'Energy Counters': McIcons.flash,
+    poisonLongName: CSIcons.poison,
+    experienceLongName: CSIcons.experienceFilled,
+    stormLongName: McIcons.weather_lightning,
+    // "City's Blessing": McIcons.ship_wheel,
+    // 'Take the Crown': McIcons.crown,
+    // 'Total Mana': McIcons.alpha_x_circle,
+    // 'Energy Counters': McIcons.flash,
+    blessingLongName: Keyrune.rix,
+    monarchLongName: Keyrune.cn2,
+    manaLongName: ManaIcons.c,
+    energyLongName: ManaIcons.e,
   };
 
 

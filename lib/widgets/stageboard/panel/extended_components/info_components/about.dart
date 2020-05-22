@@ -42,6 +42,43 @@ class AboutCounterSpell extends StatelessWidget {
       //   leading: const Icon(McIcons.bookmark_check),
       //   onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
       // ),
+      // ListTile(
+      //   title: const Text("Icons"),
+      //   leading: const Icon(McIcons.null_icon),
+      //   onTap: () => stage.showAlert(IconsAlert(), size: 500),
+      // ),
     ]);
   }
 }
+
+
+// class IconsAlert extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return HeaderedAlert(
+//       "icons",
+//       child: Wrap(children: <Widget>[
+//         for(final icon in <IconData>[
+//           ManaIcons.artifact,
+//           ManaIcons.artist_brush,
+//           ManaIcons.artist_nib,
+//           ManaIcons.c,
+//           ManaIcons.chaos,
+//           ManaIcons.dfc_day,
+//           ManaIcons.dfc_enchantment,
+//           ManaIcons.dfc_enchantment,
+//           ManaIcons.dfc_ignite,
+//           ManaIcons.dfc_moon,
+//           ManaIcons.dfc_night,
+//           ManaIcons.s,
+//           ManaIcons.r,
+//           ManaIcons.e,
+//           // ManaIcons,
+//           // ManaIcons,
+//           // ManaIcons,
+//           // ManaIcons,
+//         ]) Icon(icon),
+//       ],),
+//     );
+//   }
+// }

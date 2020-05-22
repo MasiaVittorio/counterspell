@@ -10,15 +10,15 @@ class TutorialContent extends StatelessWidget {
   static const List<Widget> children = <Widget>[
     TutorialScroll(),
     TutorialSelection(),
-    TutorialPages(),
     TutorialUI(),
+    TutorialPages(),
     TutorialProFeatures(),
   ];
   static const List<String> titles = <String>[
     "Scroll gestures",
     "Multi-select",
-    "Pages",
     "App UI",
+    "Pages",
     "Pro features",
   ];
 

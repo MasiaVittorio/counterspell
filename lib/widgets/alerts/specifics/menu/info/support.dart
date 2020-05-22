@@ -1,16 +1,16 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:flutter/services.dart';
 
-class Support extends StatefulWidget {
+class SupportAlert extends StatefulWidget {
 
-  const Support();
+  const SupportAlert();
   static const double height = 450.0;
 
   @override
-  _SupportState createState() => _SupportState();
+  _SupportAlertState createState() => _SupportAlertState();
 }
 
-class _SupportState extends State<Support> {
+class _SupportAlertState extends State<SupportAlert> {
 
   bool refreshing = false;
 

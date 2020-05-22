@@ -42,7 +42,7 @@ class CounterSpellActions extends StatelessWidget {
       ListTile(
         title: const Text("Support the development"),
         leading: const Icon(McIcons.thumb_up_outline),
-        onTap: () => stage.showAlert(const Support(), size: Support.height),
+        onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
       ),
     ], last: true,);
   }

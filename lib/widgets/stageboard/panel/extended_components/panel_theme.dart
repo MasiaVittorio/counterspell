@@ -23,7 +23,7 @@ class PanelTheme extends StatelessWidget {
             title: const Text("Unlock theme engine"),
             subtitle: const Text("Support the developer"),
             leading: const Icon(McIcons.palette_outline),
-            onTap: () => stage.showAlert(const Support(), size: Support.height),
+            onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
           ),
           _themeColors,
           if(unlocked) _presets,

@@ -40,14 +40,17 @@ class SidRadioListTile<T> extends StatelessWidget {
       ),
       child: Material(
         type: MaterialType.transparency,
-        child: RadioListTile<T>(
-          value: value,
-          groupValue: groupValue,
-          onChanged: this.onChanged,
+        child: ListTile(
+          leading: Radio(
+            value: value,
+            groupValue: groupValue,
+            onChanged: this.onChanged,
+            activeColor: activeColor,
+          ),
+          onTap: () => this.onChanged(this.value),
           title: title,
           subtitle: subtitle,
-          secondary: secondary,
-          activeColor: activeColor,
+          trailing: secondary,
         ),
       ),
     );

@@ -55,7 +55,7 @@ class PositiveFeedback extends StatelessWidget {
           title: "Support the development",
           icon: Icons.attach_money,
           autoClose: false,
-          action: () => stage.showAlert(const Support(), size: Support.height),
+          action: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
         ),
         Alternative(
           title: "Share your ideas",

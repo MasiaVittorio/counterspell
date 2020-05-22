@@ -29,7 +29,7 @@ class PanelGameExtras extends StatelessWidget {
               if(unlocked){
                 stage.showAlert(const Leaderboards(), size: Leaderboards.height);
               } else {
-                stage.showAlert(const Support(), size: Support.height);
+                stage.showAlert(const SupportAlert(), size: SupportAlert.height);
               }
             },
             forceExternalSize: true,

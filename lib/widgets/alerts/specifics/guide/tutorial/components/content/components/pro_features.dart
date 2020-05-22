@@ -6,75 +6,50 @@ class TutorialProFeatures extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
+    final StageData stage = Stage.of(context);
     final ThemeData theme = Theme.of(context);
     final TextStyle body1 = theme.textTheme.bodyText2;
-    final TextStyle body1Bold = theme.textTheme.bodyText2.copyWith(fontWeight: body1.fontWeight.increment.increment);
     final TextStyle subhead = theme.textTheme.subtitle1;
     final TextStyle subheadBold = subhead.copyWith(fontWeight: body1.fontWeight.increment.increment);
-    final TextStyle big = subhead.copyWith(fontSize: subhead.fontSize + 2);
-    final TextStyle bigBold = big.copyWith(fontWeight: body1.fontWeight.increment.increment);
+
+    void showSupport() => this.showSupport(stage);
 
     return Column(children: <Widget>[
 
-      Expanded(flex: 3, child: SubSection.withoutMargin(<Widget>[
-        ListTile(
-          leading: const Icon(McIcons.thumb_up_outline),
-          title: RichText(
-            text: TextSpan(
-              style: subhead,
-              children: <TextSpan>[
-                const TextSpan(text: "Every "),
-                TextSpan(text: "essential", style: subheadBold),
-                const TextSpan(text: " feature here is "),
-                TextSpan(text: "free", style: subheadBold),
-                const TextSpan(text: " , but"),
-              ],
+      Expanded(flex: 2, child: SubSection.withoutMargin(
+        <Widget>[
+          ListTile(
+            leading: const Icon(McIcons.thumb_up_outline),
+            title: RichText(
+              text: TextSpan(
+                style: subhead,
+                children: <TextSpan>[
+                  const TextSpan(text: "Every essential feature is "),
+                  TextSpan(text: "free", style: subheadBold),
+                ],
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
 
-        ListTile(
-          trailing: Icon(Icons.person_outline),
-          title: RichText(
-            text: TextSpan(
-              style: big,
-              children: <TextSpan>[
-                const TextSpan(text: "CounterSpell is a ",),
-                TextSpan(text: "one", style: bigBold),
-                const TextSpan(text: " man project",),
-              ],
+          ListTile(
+            trailing: Icon(Icons.attach_money),
+            title: RichText(
+              text: TextSpan(
+                style: subhead,
+                children: <TextSpan>[
+                  const TextSpan(text: 'There are just a couple of ',),
+                  TextSpan(text: 'extra', style: subheadBold),
+                  const TextSpan(text: ' "pro" features',),
+                ],
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
-
-        // ListTile(title: RichText(
-        //   text: TextSpan(
-        //     style: body1,
-        //     children: <TextSpan>[
-        //       const TextSpan(text: 'so to keep things going, there are a couple of ',),
-        //       TextSpan(text: 'extra', style: body1Bold),
-        //       const TextSpan(text: ' "pro" features',),
-        //     ],
-        //   ),
-        //   textAlign: TextAlign.center,
-        // ),),
-        ListTile(
-          leading: Icon(Icons.attach_money),
-          title: RichText(
-            text: TextSpan(
-              style: body1,
-              children: <TextSpan>[
-                const TextSpan(text: 'so I made a couple of ',),
-                TextSpan(text: 'extra', style: body1Bold),
-                const TextSpan(text: ' "pro" features',),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ], mainAxisAlignment: MainAxisAlignment.spaceAround,),),
+        ], 
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        onTap: showSupport,
+      ),),
       
 
       Row(children: <Widget>[
@@ -82,12 +57,12 @@ class TutorialProFeatures extends StatelessWidget {
           ExtraButton(
             text: "Theming options",
             icon: McIcons.palette_outline,
-            onTap: null,
+            onTap: showSupport,
           ),
           ExtraButton(
             text: "Past games stats",
             icon: CSIcons.leaderboards,
-            onTap: null,
+            onTap: showSupport,
           ),
         ]) 
           Expanded(child: SubSection.withoutMargin(<Widget>[
@@ -99,45 +74,45 @@ class TutorialProFeatures extends StatelessWidget {
       ].separateWith(CSWidgets.width15),),
 
 
-      Expanded(flex: 2, child: SubSection.withoutMargin(<Widget>[
-        for(final child in [
-          ListTile(
-            trailing: const Icon(McIcons.cards_outline),
-            title: RichText(
-              text: TextSpan(
-                style: subhead,
-                children: <TextSpan>[
-                  const TextSpan(text: "You "),
-                  TextSpan(text: "DON'T", style: TextStyle(fontWeight: subhead.fontWeight.increment)),
-                  const TextSpan(text: " have to purchase every "),
-                  TextSpan(text: "single", style: TextStyle(fontWeight: subhead.fontWeight.increment)),
-                  const TextSpan(text: " pro feature"),
-                ],
+      Expanded(flex: 2, child: SubSection.withoutMargin(
+        <Widget>[
+          for(final child in [
+            ListTile(
+              trailing: const Icon(McIcons.cards_outline),
+              title: RichText(
+                text: TextSpan(
+                  style: subhead,
+                  children: <TextSpan>[
+                    const TextSpan(text: "You "),
+                    TextSpan(text: "DON'T", style: TextStyle(fontWeight: subhead.fontWeight.increment)),
+                    const TextSpan(text: " have to purchase every single feature"),
+                  ],
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
 
-          ListTile(
-            leading: const Icon(McIcons.crown),
-            title: RichText(
-              text: TextSpan(
-                style: subhead,
-                children: <TextSpan>[
-                  TextSpan(text: "any", style: subheadBold),
-                  const TextSpan(text: " one donation will "),
-                  TextSpan(text: "permanently", style: subheadBold),
-                  const TextSpan(text: " unlock everything\n"),
-                  // TextSpan(text: "(even future stuff I may add)", style: body1),
-                ],
+            ListTile(
+              leading: const Icon(McIcons.crown),
+              title: RichText(
+                text: TextSpan(
+                  style: subhead,
+                  children: <TextSpan>[
+                    const TextSpan(text: "Any one donation unlocks "),
+                    TextSpan(text: "everything", style: subheadBold),
+                  ],
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
 
-        ]) Expanded(child: Center(child: child),),
-      ],),),
+          ]) Expanded(child: Center(child: child),),
+        ],
+        onTap: showSupport,
+      ),),
 
     ].separateWith(CSWidgets.height15),);
   }
+
+  void showSupport(StageData stage) => stage.showAlert(const SupportAlert(), size: SupportAlert.height);
 }

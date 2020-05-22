@@ -1,76 +1,151 @@
 import 'package:counter_spell_new/core.dart';
 
 class TutorialUI extends StatelessWidget {
-  const TutorialUI();
 
-  static const int flex = 5;
+  const TutorialUI();
+  
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(flex: flex - 1, child: SubExplanation(
-          "Getting back here",
-          separator: const Icon(Icons.keyboard_arrow_right),
-          children: const <Widget>[
-            ExtraButton(
-              onTap: null,
-              icon: Icons.menu,
-              text: "Menu",
-              forceExternalSize: true,
-            ),
-            ExtraButton(
-              onTap: null,
-              icon: Icons.info_outline,
-              text: '"Info" tab',
-              forceExternalSize: true,
-            ),
-            ExtraButton(
-              onTap: null,
-              icon: Icons.help_outline,
-              text: "Tutorial",
-              forceExternalSize: true,
-            ),
-          ],
-        ),),
-
-        Expanded(flex: flex-1, child: SubExplanation(
-          "Opening the menu",
-          separator: const Text("or"),
-          children: const <Widget>[
-            ExtraButton(
-              onTap: null,
-              icon: Icons.menu,
-              text: "Tap the Icon",
-              forceExternalSize: true,
-            ),
-            ExtraButton(
-              onTap: null,
-              icon: Icons.space_bar,
-              text: 'Scroll up panel',
-              forceExternalSize: true,
-            ),
-          ],
-        ),),
-
-        Expanded(flex: flex, child: SubExplanation(
-          "The panel",
-          separator: CSWidgets.extraButtonsDivider,
-          children: const <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text("Alerts (like this) are shown in the panel", textAlign: TextAlign.center,),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text("You can close them by scrolling down", textAlign: TextAlign.center,),
-            ),
-          ],
-        ),),
-
-      ].separateWith(CSWidgets.height15),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Stage<CSPage,SettingsPage>(
+        body: const _UIBody(),
+        wholeScreen: false,
+        topBarData: const StageTopBarData(
+          title: _UITopBar(),
+        ),
+        mainPages: StagePagesData.nullable(
+          defaultPage: CSPage.counters,
+          orderedPages: <CSPage>[CSPage.history, CSPage.counters, CSPage.commanderDamage],
+        ),
+        // TODO: dimensions not inerhited
+        dimensions: Stage.of(context).dimensionsController.dimensions.value,
+        collapsedPanel: const _UICollapsed(),
+        extendedPanel: const _UIExtended(),
+      ),
     );
   }
 }
+
+
+
+class _UIExtended extends StatelessWidget {
+
+  const _UIExtended();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Material(child: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: StageBuild.offPanelPage<SettingsPage>((_, page) 
+          => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              AnimatedText(
+                page == SettingsPage.info 
+                  ? "You'll find the tutorial here!"
+                  : 'Go to the "Info" tab',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              Icon(
+                page == SettingsPage.info 
+                  ? McIcons.emoticon_happy_outline
+                  : Icons.info_outline,
+                size: 33,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),);
+  }
+}
+
+class _UICollapsed extends StatelessWidget {
+
+  const _UICollapsed();
+
+  @override
+  Widget build(BuildContext context) {
+    final stage = Stage.of(context);
+    return stage.dimensionsController.dimensions.build((_, dimensions) 
+      => Row(children: <Widget>[
+        SizedBox(width: dimensions.barSize),
+        Expanded(child: Center(child: Text("Or swipe me up!", style: TextStyle(fontSize: 16),),),),
+        SizedBox(
+          width: dimensions.barSize,
+          child: Center(child: IconButton(
+            icon: Icon(Icons.help_outline),
+            onPressed: () => stage.showAlert(
+              AlternativesAlert(
+                label: "This is an alert",
+                alternatives: <Alternative>[
+                  Alternative(
+                    action: null,
+                    icon: Icons.space_bar,
+                    title: "Alerts like this are shown in the panel",
+                  ),
+                  Alternative(
+                    action: null,
+                    icon: McIcons.gesture_swipe_down,
+                    title: "You can close them by scrolling down",
+                  ),
+                ], 
+              ),
+              size: AlternativesAlert.heightCalc(2)
+            ),
+          )),
+        ),
+      ],),
+    );
+  }
+}
+
+
+class _UIBody extends StatelessWidget {
+
+  const _UIBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const <Widget>[
+          Icon(Icons.keyboard_arrow_up),
+          Text(
+            "To get back to the tutorial...", 
+            textAlign: TextAlign.center, 
+            style: TextStyle(fontSize: 20),
+          ),
+          Icon(Icons.keyboard_arrow_down),
+        ],
+      ),
+    );
+  }
+}
+
+class _UITopBar extends StatelessWidget {
+
+  const _UITopBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return StageBuild.offOpenNonAlert((_, openNonAlert) 
+      => AnimatedText(
+        openNonAlert ? "In the panel" : '< Tap the Icon'
+      ),
+    );
+  }
+}
+
+
 
 
 class SubExplanation extends StatelessWidget {
@@ -115,51 +190,3 @@ class SubExplanation extends StatelessWidget {
   }
 }
 
-// class SubExplanation extends StatelessWidget {
-
-//   final IconData icon;
-//   final String title;
-//   final String text;
-
-//   const SubExplanation({
-//     @required this.icon,
-//     @required this.title,
-//     @required this.text,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SubSection(<Widget>[
-//       _Title(icon, title),
-//       CSWidgets.divider,
-//       CSWidgets.height5,
-//       SingleChildScrollView(
-//         child: Padding(
-//           padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 10.0),
-//           child: Text(text, style: TextStyle(fontSize: 15)),
-//         ),
-//       ),
-//     ], margin: EdgeInsets.zero,);
-//   }
-// }
-
-// class _Title extends StatelessWidget {
-
-//   final IconData icon;
-//   final String text;
-//   const _Title(this.icon, this.text);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(top: 8.0),
-//       child: Row(children: <Widget>[
-//         Padding(
-//           padding: const EdgeInsets.fromLTRB(12.0, 3.0, 12.0, 3.0),
-//           child: Icon(icon),
-//         ),
-//         Text(text, style: Theme.of(context).textTheme.subtitle1,),
-//       ],),
-//     );
-//   }
-// }

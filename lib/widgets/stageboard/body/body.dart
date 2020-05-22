@@ -26,7 +26,7 @@ class CSBody extends StatelessWidget {
           group.names,
           stage.themeController.derived.mainPageToPrimaryColor,
           builder: (context, names, pageColors){
-            //TODO: names distinct?
+            //TODO: names distinct? viene cambiato ad ogni gamestate
 
             final bool landScape = constraints.maxWidth >= constraints.maxHeight;
             final historyEnabled = enabledPages[CSPage.history];

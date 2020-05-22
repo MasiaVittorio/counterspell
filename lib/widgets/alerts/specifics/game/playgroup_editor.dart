@@ -10,7 +10,7 @@ class PlayGroupEditor extends StatefulWidget {
 
   static const double playerTileSize = 56.0;
   static const double titleSize = PanelTitle.height;
-  static const double hintSize = 40;
+  static const double hintSize = 44;
   static const double newPlayerSize = playerTileSize + hintSize;
   static double sizeCalc(int howMany) => (howMany.clamp(1, 5.5)) * playerTileSize + titleSize + newPlayerSize;
 

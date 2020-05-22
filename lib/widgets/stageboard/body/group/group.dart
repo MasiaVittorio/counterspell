@@ -53,6 +53,7 @@ class BodyGroup extends StatelessWidget {
           Counter counter,
           GameState gameState,
         ) {
+          print("build group");
 
           final normalizedPlayerActions = CSGameAction.normalizedAction(
             pageValue: page,

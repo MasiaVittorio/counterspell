@@ -14,19 +14,21 @@ class CSBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("body building 1");
     final bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
     final themer = bloc.themer;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
 
-    return LayoutBuilder(builder: (context, constraints)
-      => StageBuild.offMainPagesData<CSPage>((_, enabledPages, __, currentPage)
-        => BlocVar.build2<List<String>, Map<CSPage,Color>>(
-          group.names,
-          stage.themeController.derived.mainPageToPrimaryColor,
-          builder: (context, names, pageColors){
-            //TODO: names distinct? viene cambiato ad ogni gamestate
+    return stage.themeController.derived.mainPageToPrimaryColor.build((_, pageColors){
+      print("body building 2 (pageColors)");
+      return LayoutBuilder(builder: (_, constraints){
+        print("body building 3 (constraints)");
+        return group.names.build((_, names){
+          print("body building 4 (names)");
+          return StageBuild.offMainPagesData<CSPage>((_, enabledPages, __, currentPage){
+            print("body building 5 (main pages data)");
 
             final bool landScape = constraints.maxWidth >= constraints.maxHeight;
             final historyEnabled = enabledPages[CSPage.history];
@@ -34,6 +36,7 @@ class CSBody extends StatelessWidget {
               if(historyEnabled){
                 SchedulerBinding.instance.addPostFrameCallback((_) {
                   //cant notify listeners during build phase lol
+                  print("disabling history");
                   stage.mainPagesController.disablePage(CSPage.history);
                 });
               }
@@ -41,6 +44,7 @@ class CSBody extends StatelessWidget {
               if(!historyEnabled){
                 SchedulerBinding.instance.addPostFrameCallback((_) {
                   //just (dont) build lol
+                  print("enabling history");
                   stage.mainPagesController.enablePage(CSPage.history);
                   bloc.game.gameHistory.listController.refresh(
                     bloc.game.gameState.gameState.value.historyLenght,
@@ -124,9 +128,9 @@ class CSBody extends StatelessWidget {
                 ),
               ),
             );
-          },
-        ),
-      ),
-    );
+          },);
+        },);
+      },);
+    },);
   }
 }

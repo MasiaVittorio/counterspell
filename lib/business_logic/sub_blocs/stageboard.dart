@@ -17,6 +17,7 @@ class CSStage {
     controller = StageData<CSPage,SettingsPage>(
       storeKey: "MvSidereus_CounterSpell_Stage",
       panelData: StagePanelData(
+        // TODO: register basic states while panel open for alert pages and cancel on panel close completely 
         onPanelClose: (){
           playerDetailsPage = null;
         },

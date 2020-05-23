@@ -36,15 +36,16 @@ class BodyGroup extends StatelessWidget {
     final settings = bloc.settings;
     print("build group");
 
-    // Apparently, having BlocVar.build7() have the effect of the builder being caller twice as many times.
+    // Apparently, having BlocVar.build7() have the effect of the builder being called twice as many times.
     // Meh...
 
-    return bloc.scroller.isScrolling.build((_, isScrolling) 
-      => bloc.scroller.intValue.build((_, increment) 
+    // TODO: finishing a scroll on the panel makes some of these rebuild lol
+    return bloc.scroller.isScrolling.buildDistinct((_, isScrolling) 
+      => bloc.scroller.intValue.buildDistinct((_, increment) 
       => actionBloc.selected.build((_, selected) 
-      => actionBloc.attackingPlayer.build((_, attackingPlayer) 
-      => actionBloc.defendingPlayer.build((_, defendingPlayer) 
-      => actionBloc.counterSet.build((_, counter) 
+      => actionBloc.attackingPlayer.buildDistinct((_, attackingPlayer) 
+      => actionBloc.defendingPlayer.buildDistinct((_, defendingPlayer) 
+      => actionBloc.counterSet.variable.buildDistinct((_, Counter counter) 
       => bloc.game.gameState.gameState.build((_, gameState) {
         print("build group 7 bloc vars");
 
@@ -92,18 +93,15 @@ class BodyGroup extends StatelessWidget {
             ),
         ];
 
-        return Material(
-          elevation: 8,
-          child: Column(children: landScape 
-            ? [
-              for(final couple in partition(children,2))
-                Row(children: <Widget>[
-                  Expanded(child: couple[0]),
-                  if(couple.length == 2)
-                    Expanded(child: couple[1],)
-                ],),
-            ] : children,
-          ),
+        return Column(children: landScape 
+          ? [
+            for(final couple in partition(children,2))
+              Row(children: <Widget>[
+                Expanded(child: couple[0]),
+                if(couple.length == 2)
+                  Expanded(child: couple[1],)
+              ],),
+          ] : children,
         );
 
       },),),),),),),

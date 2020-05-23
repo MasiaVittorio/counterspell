@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:counter_spell_new/core.dart';
 import 'dart:math';
 
@@ -47,6 +49,20 @@ class Counter{
       maxValue: json['maxValue'],
     );
   }
+
+  @override
+  operator == (Object other){
+    if(other is Counter){
+      if(other.longName != longName) return false;
+      if(other.maxValue != maxValue) return false;
+      if(other.shortName != shortName) return false;
+      if(other.uniquePlayer != uniquePlayer) return false;
+      return true;
+    } else return false;
+  }
+
+  @override
+  int get hashCode => jsonEncode(this.toJson()).hashCode;
 
   Map<String,dynamic> toJson() => {
     'longName' : this.longName,

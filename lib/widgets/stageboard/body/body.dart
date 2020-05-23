@@ -105,6 +105,7 @@ class CSBody extends StatelessWidget {
                           ),
 
                         AnimatedPositioned(
+                          curve: Curves.ease,
                           duration: CSAnimations.fast,
                           top: 0.0,
                           bottom: 0.0,
@@ -114,6 +115,7 @@ class CSBody extends StatelessWidget {
                             : 0.0,
 
                           child: Material(
+                            elevation: 8,
                             child: BodyGroup(
                               names,
                               currentPage: currentPage,

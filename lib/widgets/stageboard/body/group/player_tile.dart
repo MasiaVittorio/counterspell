@@ -1,4 +1,4 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
@@ -29,67 +29,67 @@ class PlayerTile extends StatelessWidget {
   final bool havingPartnerB;
   final bool isAttackerHavingPartnerB;
 
-  String get encoded => jsonEncode(<String,dynamic>{
-    "name": name,
-    "tileSize": tileSize,
-    "bottom": bottom,
-    "coreTileSize": coreTileSize,
-    "page": CSPages.nameOf(page),
-    "selected": selected,
-    "isScrollingSomewhere": isScrollingSomewhere,
-    "whoIsAttacking": whoIsAttacking,
-    "whoIsDefending": whoIsDefending,
-    "counter": counter.longName,
-    "playerState": playerState.toJson(),
-    "defenceColor": defenceColor.value,
-    "increment": increment,
-    "nextState": normalizedPlayerAction.apply(playerState).toJson(),
-    "maxWidth": maxWidth,
-    "pageColor": pageColor.value,
-    "usingPartnerB": usingPartnerB,
-    "havingPartnerB": havingPartnerB,
-    "isAttackerHavingPartnerB": isAttackerHavingPartnerB,
-    "isAttackerUsingPartnerB": isAttackerUsingPartnerB,
-  });
+  // String get encoded => jsonEncode(<String,dynamic>{
+  //   "name": name,
+  //   "tileSize": tileSize,
+  //   "bottom": bottom,
+  //   "coreTileSize": coreTileSize,
+  //   "page": CSPages.nameOf(page),
+  //   "selected": selected,
+  //   "isScrollingSomewhere": isScrollingSomewhere,
+  //   "whoIsAttacking": whoIsAttacking,
+  //   "whoIsDefending": whoIsDefending,
+  //   "counter": counter.longName,
+  //   "playerState": playerState.toJson(),
+  //   "defenceColor": defenceColor.value,
+  //   "increment": increment,
+  //   "nextState": normalizedPlayerAction.apply(playerState).toJson(),
+  //   "maxWidth": maxWidth,
+  //   "pageColor": pageColor.value,
+  //   "usingPartnerB": usingPartnerB,
+  //   "havingPartnerB": havingPartnerB,
+  //   "isAttackerHavingPartnerB": isAttackerHavingPartnerB,
+  //   "isAttackerUsingPartnerB": isAttackerUsingPartnerB,
+  // });
 
-  @override
-  int get hashCode => this.encoded.hashCode;
+  // @override
+  // int get hashCode => this.encoded.hashCode;
 
-  @override 
-  bool operator ==(Object other){
-    if(identical(other, this)) return true;
-    if(other.runtimeType != this.runtimeType) return false;
-    if(other is PlayerTile){
-      if(other.name != this.name) return false;
-      if(other.increment != this.increment) return false;
-      if(other.selected != this.selected) return false;
-      if(other.isScrollingSomewhere != this.isScrollingSomewhere) return false;
-      if(other.whoIsAttacking != this.whoIsAttacking) return false;
-      if(other.whoIsDefending != this.whoIsDefending) return false;
-      if(other.playerState != this.playerState) return false;
+  // @override 
+  // bool operator ==(Object other){
+  //   if(identical(other, this)) return true;
+  //   if(other.runtimeType != this.runtimeType) return false;
+  //   if(other is PlayerTile){
+  //     if(other.name != this.name) return false;
+  //     if(other.increment != this.increment) return false;
+  //     if(other.selected != this.selected) return false;
+  //     if(other.isScrollingSomewhere != this.isScrollingSomewhere) return false;
+  //     if(other.whoIsAttacking != this.whoIsAttacking) return false;
+  //     if(other.whoIsDefending != this.whoIsDefending) return false;
+  //     if(other.playerState != this.playerState) return false;
 
-      if(other.pageColor != this.pageColor) return false;
-      if(other.usingPartnerB != this.usingPartnerB) return false;
-      if(other.havingPartnerB != this.havingPartnerB) return false;
-      if(other.isAttackerHavingPartnerB != this.isAttackerHavingPartnerB) return false;
-      if(other.isAttackerUsingPartnerB != this.isAttackerUsingPartnerB) return false;
+  //     if(other.pageColor != this.pageColor) return false;
+  //     if(other.usingPartnerB != this.usingPartnerB) return false;
+  //     if(other.havingPartnerB != this.havingPartnerB) return false;
+  //     if(other.isAttackerHavingPartnerB != this.isAttackerHavingPartnerB) return false;
+  //     if(other.isAttackerUsingPartnerB != this.isAttackerUsingPartnerB) return false;
 
-      if(other.normalizedPlayerAction.apply(other.playerState).toJson() 
-      != this.normalizedPlayerAction.apply(this.playerState).toJson()) return false;
+  //     if(other.normalizedPlayerAction.apply(other.playerState).toJson() 
+  //     != this.normalizedPlayerAction.apply(this.playerState).toJson()) return false;
 
-      if(other.counter.longName != this.counter.longName) return false;
+  //     if(other.counter.longName != this.counter.longName) return false;
 
-      if(other.maxWidth != this.maxWidth) return false;
-      if(other.defenceColor != this.defenceColor) return false;
-      if(other.tileSize != this.tileSize) return false;
-      if(other.bottom != this.bottom) return false;
-      if(other.coreTileSize != this.coreTileSize) return false;
+  //     if(other.maxWidth != this.maxWidth) return false;
+  //     if(other.defenceColor != this.defenceColor) return false;
+  //     if(other.tileSize != this.tileSize) return false;
+  //     if(other.bottom != this.bottom) return false;
+  //     if(other.coreTileSize != this.coreTileSize) return false;
 
-      return true;
-    } else {
-      return false;
-    }
-  }
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   const PlayerTile(this.name, {
     @required this.usingPartnerB,

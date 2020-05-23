@@ -77,7 +77,7 @@ class CSStage {
           lightAccent: CSColorScheme.defaultLight.accent,
           darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},
 
-          // lightMainPrimary: CSColorScheme.defaultLight.primary, //TODO: controlla se non dando questo va bene perché dai l'altro
+          // lightMainPrimary: CSColorScheme.defaultLight.primary,
           lightMainPageToPrimary: CSColorScheme.defaultLight.perPage,
           darkMainPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.primary},
           darkMainPageToPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.perPage},

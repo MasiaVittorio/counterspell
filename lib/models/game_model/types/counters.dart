@@ -80,7 +80,8 @@ class Counter{
     longName: stormLongName,
     minValue: 0,
     maxValue: MAX_LIFE,
-    icon: McIcons.weather_lightning,
+    icon: ManaIcons.instant,
+    // icon: McIcons.weather_lightning,
     uniquePlayer: false,
   );
   static const String blessingLongName = "City's Blessing";
@@ -134,15 +135,18 @@ class Counter{
   static const Map<String,IconData> _icons = <String,IconData>{
     poisonLongName: CSIcons.poison,
     experienceLongName: CSIcons.experienceFilled,
-    stormLongName: McIcons.weather_lightning,
+    // stormLongName: McIcons.weather_lightning,
     // "City's Blessing": McIcons.ship_wheel,
     // 'Take the Crown': McIcons.crown,
     // 'Total Mana': McIcons.alpha_x_circle,
     // 'Energy Counters': McIcons.flash,
+    stormLongName: ManaIcons.instant,
     blessingLongName: Keyrune.rix,
     monarchLongName: Keyrune.cn2,
     manaLongName: ManaIcons.c,
     energyLongName: ManaIcons.e,
+    //TODO: license Mana Icons and Keyrune
+    
   };
 
 

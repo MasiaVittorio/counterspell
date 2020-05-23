@@ -34,26 +34,16 @@ class BodyGroup extends StatelessWidget {
     final bloc = group.parent.parent;
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
+    print("build group");
 
-    return BlocVar.build7(
-      bloc.scroller.isScrolling,
-      bloc.scroller.intValue,
-      actionBloc.selected,
-      actionBloc.attackingPlayer,
-      actionBloc.defendingPlayer,
-      actionBloc.counterSet.variable,
-      bloc.game.gameState.gameState,
-      builder: (
-        BuildContext context, 
-        bool isScrolling, 
-        int increment,
-        Map<String,bool> selected, 
-        String attackingPlayer, 
-        String defendingPlayer,
-        Counter counter,
-        GameState gameState,
-      ) {
-        print("build group");
+    return bloc.scroller.isScrolling.build((_, isScrolling) 
+      => bloc.scroller.intValue.build((_, increment) 
+      => actionBloc.selected.build((_, selected) 
+      => actionBloc.attackingPlayer.build((_, attackingPlayer) 
+      => actionBloc.defendingPlayer.build((_, defendingPlayer) 
+      => actionBloc.counterSet.build((_, counter) 
+      => bloc.game.gameState.gameState.build((_, gameState) {
+        print("build group 7 bloc vars");
 
         final normalizedPlayerActions = CSGameAction.normalizedAction(
           pageValue: currentPage,
@@ -113,7 +103,7 @@ class BodyGroup extends StatelessWidget {
           ),
         );
 
-      },
+      },),),),),),),
     );
   }
 

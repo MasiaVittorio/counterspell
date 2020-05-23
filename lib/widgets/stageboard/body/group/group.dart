@@ -36,6 +36,9 @@ class BodyGroup extends StatelessWidget {
     final settings = bloc.settings;
     print("build group");
 
+    // Apparently, having BlocVar.build7() have the effect of the builder being caller twice as many times.
+    // Meh...
+
     return bloc.scroller.isScrolling.build((_, isScrolling) 
       => bloc.scroller.intValue.build((_, increment) 
       => actionBloc.selected.build((_, selected) 

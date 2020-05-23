@@ -18,8 +18,6 @@ class TutorialUI extends StatelessWidget {
           defaultPage: CSPage.counters,
           orderedPages: <CSPage>[CSPage.history, CSPage.counters, CSPage.commanderDamage],
         ),
-        // TODO: dimensions not inerhited
-        dimensions: Stage.of(context).dimensionsController.dimensions.value,
         collapsedPanel: const _UICollapsed(),
         extendedPanel: const _UIExtended(),
       ),

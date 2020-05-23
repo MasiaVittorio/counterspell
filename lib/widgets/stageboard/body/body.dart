@@ -79,8 +79,9 @@ class CSBody extends StatelessWidget {
                 child: SizedBox(
                   width: constraints.maxWidth,
                   height: totalSize,
-                  child: themer.defenceColor.build((_, defenceColor) 
-                    => Stack(
+                  child: themer.defenceColor.build((_, defenceColor){
+                    print("body building 6 (defence color)");
+                    return Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
                         if(!landScape)
@@ -125,8 +126,8 @@ class CSBody extends StatelessWidget {
                         ),
 
                       ],
-                    )
-                  ),
+                    );
+                  },),
                 ),
               ),
             );

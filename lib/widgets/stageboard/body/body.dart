@@ -110,9 +110,11 @@ class CSBody extends StatelessWidget {
                           child: Material(
                             child: BodyGroup(
                               names,
+                              currentPage: currentPage,
                               bottom: bottom,
                               maxWidth: constraints.maxWidth,
                               count: count,
+                              pageColors: pageColors,
                               tileSize: tileSize,
                               coreTileSize: coreTileSize,
                               defenceColor: defenceColor,

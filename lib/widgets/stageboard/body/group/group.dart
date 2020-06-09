@@ -34,7 +34,6 @@ class BodyGroup extends StatelessWidget {
     final bloc = group.parent.parent;
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
-    print("build group");
 
     // Apparently, having BlocVar.build7() have the effect of the builder being called twice as many times.
     // Meh...
@@ -47,7 +46,6 @@ class BodyGroup extends StatelessWidget {
       => actionBloc.defendingPlayer.build((_, defendingPlayer) 
       => actionBloc.counterSet.build((_, counter) 
       => bloc.game.gameState.gameState.build((_, gameState) {
-        print("build group 7 bloc vars");
 
         final normalizedPlayerActions = CSGameAction.normalizedAction(
           pageValue: currentPage,

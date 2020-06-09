@@ -93,21 +93,15 @@ class ImageOpacitySimple extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Section([playerTile]),
-        Section([
-          opacity.build((_,value)=>CSSlider(
-            value: value,
-            onChanged: opacity.set,
-            title: (val) => "Opacity: ${val.toStringAsFixed(2)}",
-          )),
-        ], last: true),
-        ListTile(
-          title: const Text("Reset"),
-          leading: const Icon(McIcons.restart),
-          onTap: (){
-            settings.simpleImageOpacity.set(CSSettings.defaultSimpleImageOpacity);
-          },
-        ),
+        playerTile,
+        const SizedBox(height: 8,),
+        opacity.build((_,value) => FullSlider(
+          value: value,
+          leading: Icon(Icons.opacity),
+          onChanged: opacity.set,
+          defaultValue: CSSettings.defaultSimpleImageOpacity,
+          titleBuilder: (val) => Text("Opacity: ${val.toStringAsFixed(2)}"),
+        )),
       ],
     );
   }

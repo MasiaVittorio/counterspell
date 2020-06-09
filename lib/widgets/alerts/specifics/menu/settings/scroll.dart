@@ -18,21 +18,16 @@ class ScrollSensitivity extends StatelessWidget {
     final _preBoostValue = settings.scrollPreBoostValue;
 
     return HeaderedAlertCustom(
-      _sens.build((_,sens) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          SectionTitle("Scroll Sensitivity: ${((sens*10.round()) /10).toStringAsFixed(1)}"),
-          Slider(
-            min: 4.0,
-            max: 14.0,
-            onChanged: _sens.set,
-            value: sens,
-          ),
-          CSWidgets.height10,
-        ],
+      _sens.build((_,sens) => FullSlider(
+        titleBuilder: (val) => Text("Scroll Sensitivity: ${((val*10.round()) /10).toStringAsFixed(1)}"),
+        min: 4.0,
+        max: 14.0,
+        onChangeEnd: _sens.set,
+        value: sens,
+        leading: Icon(Icons.gesture),
+        defaultValue: CSSettings.sensVal,
       ),),
-      titleSize: 108.0, 
+      titleSize: 56.0 + 16, 
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -45,17 +40,23 @@ class ScrollSensitivity extends StatelessWidget {
               title: const Text("Dynamic sensitivity"),
               subtitle: const Text("Adjust sens to the speed of your finger"),
             ),
-            SubSection(<Widget>[
-              CSWidgets.height5,
-              _speedValue.build((_, speedValue) =>  CSSlider(
+            _speedValue.build((_, speedValue) {
+              const min = 0.1;
+              const max = 0.95; 
+              const delta = max - min;
+              const small = min + delta/3;
+              const big = min + delta * 2 / 3;
+              return FullSlider(
                 onChangeEnd: _speedValue.set,
                 enabled: speed,
                 value: speedValue,
                 min: 0.1,
                 max: 0.95,
-                title: (val)=>"Speed Weight: ${val.toStringAsFixed(1)}",
-              )),
-            ],),
+                defaultValue: CSSettings.sensSpeedVal,
+                leadingBuilder: (val) => Icon(val < small ? McIcons.speedometer_slow : val >= big ? McIcons.speedometer : McIcons.speedometer_medium),
+                titleBuilder: (val) => Text("Speed Weight: ${val.toStringAsFixed(1)}"),
+              );
+            }),
             CSWidgets.height10,
           ],),),
 
@@ -66,17 +67,16 @@ class ScrollSensitivity extends StatelessWidget {
               title: const Text("Sens boost before 1"),
               subtitle: const Text("Avoid being stuck around 0"),
             ),
-            SubSection(<Widget>[
-              CSWidgets.height5,
-              _preBoostValue.build((_, preBoostValue) =>  CSSlider(
-                onChangeEnd: _preBoostValue.set,
-                enabled: preBoost,
-                value: preBoostValue,
-                min: 1.2,
-                max: 3.5,
-                title: (val)=>"Boost multiplier: ${val.toStringAsFixed(1)}",
-              )),
-            ],),
+            _preBoostValue.build((_, preBoostValue) => FullSlider(
+              onChangeEnd: _preBoostValue.set,
+              enabled: preBoost,
+              value: preBoostValue,
+              min: 1.2,
+              max: 3.5,
+              defaultValue: CSSettings.sensPreBoostVal,
+              leading: Icon(Icons.add_circle_outline),
+              titleBuilder: (val) => Text("Boost multiplier: ${val.toStringAsFixed(1)}"),
+            )),
             CSWidgets.height10,
           ],),),
 
@@ -87,17 +87,16 @@ class ScrollSensitivity extends StatelessWidget {
               title: const Text("Sens dampening around 1"),
               subtitle: const Text("Slow down in the range [1,2]"),
             ),
-            SubSection(<Widget>[
-              CSWidgets.height5,
-              _oneStaticValue.build((_, oneStaticValue) =>  CSSlider(
-                onChangeEnd: _oneStaticValue.set,
-                enabled: oneStatic,
-                value: oneStaticValue,
-                min: 0.1,
-                max: 0.95,
-                title: (val)=>"Dampening multiplier: ${val.toStringAsFixed(1)}",
-              )),
-            ],),
+            _oneStaticValue.build((_, oneStaticValue) => FullSlider(
+              onChangeEnd: _oneStaticValue.set,
+              enabled: oneStatic,
+              value: oneStaticValue,
+              min: 0.1,
+              max: 0.95,
+              leading: Icon(Icons.remove_circle_outline),
+              defaultValue: CSSettings.sens1StaticVal,
+              titleBuilder: (val) => Text("Dampening multiplier: ${val.toStringAsFixed(1)}"),
+            )),
             CSWidgets.height10,
           ],),),
 

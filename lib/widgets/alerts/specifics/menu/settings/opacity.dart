@@ -15,6 +15,7 @@ class ImageOpacity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RadioHeaderedAlert<_OpacityPage>(
+      canvasBackground: true,
       orderedValues: _OpacityPage.values, 
       initialValue: (initialArena ?? false) ? _OpacityPage.arena : _OpacityPage.regular, 
       accentSelected: true,

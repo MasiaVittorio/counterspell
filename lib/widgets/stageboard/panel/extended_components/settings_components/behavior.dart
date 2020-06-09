@@ -48,16 +48,25 @@ class SettingsBehavior extends StatelessWidget {
       //   ),
       // ),
       CSWidgets.divider,
-      settings.confirmDelay.build((_, dur) => CSSlider(
-        icon: const Icon(Icons.timelapse),
+      // settings.confirmDelay.build((_, dur) => CSSlider(
+      //   icon: const Icon(Icons.timelapse),
+      //   value: dur.inMilliseconds.toDouble(),
+      //   min: 200,
+      //   max: 2000,
+      //   onChangeEnd: (val) => settings.confirmDelay.set(Duration(milliseconds: val.round())),
+      //   title: (val) => "Confirm delay: ${_fromMilliseconds(val.round())}",
+      //   restartTo: CSSettings.confirmDelayVal.inMilliseconds.toDouble(),
+      //   bigTitle: true,
+      // )),
+      settings.confirmDelay.build((_, dur) => FullSlider(
+        leading: const Icon(Icons.timelapse),
         value: dur.inMilliseconds.toDouble(),
         min: 200,
         max: 2000,
         onChangeEnd: (val) => settings.confirmDelay.set(Duration(milliseconds: val.round())),
-        title: (val) => "Confirm delay: ${_fromMilliseconds(val.round())}",
-        restartTo: CSSettings.confirmDelayVal.inMilliseconds.toDouble(),
-        bigTitle: true,
-      )),
+        titleBuilder: (val) => Text("Confirm delay: ${_fromMilliseconds(val.round())}"),
+        defaultValue: CSSettings.confirmDelayVal.inMilliseconds.toDouble(),
+      ),),
     ]);
   }
 

@@ -14,7 +14,6 @@ class CSBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("body building 1");
     final bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
     final themer = bloc.themer;
@@ -24,11 +23,8 @@ class CSBody extends StatelessWidget {
     final bottom = stage.dimensionsController.dimensions.value.collapsedPanelSize/2;
 
     return stage.themeController.derived.mainPageToPrimaryColor.build((_, pageColors){
-      print("body building 2 (pageColors)");
       return themer.defenceColor.build((_, defenceColor){
-        print("body building 6 (defence color)");
         return LayoutBuilder(builder: (_, constraints){
-          print("body building 3 (constraints)");
 
           final bool landScape = constraints.maxWidth >= constraints.maxHeight;
 
@@ -38,7 +34,6 @@ class CSBody extends StatelessWidget {
           );
 
           return group.names.build((_, names){
-            print("body building 4 (names)");
 
             final int count = names.length;
             final int rowCount = landScape 
@@ -71,14 +66,12 @@ class CSBody extends StatelessWidget {
                   width: constraints.maxWidth,
                   height: totalSize,
                   child: StageBuild.offMainPagesData<CSPage>((_, enabledPages, __, currentPage){
-                    print("body building 5 (main pages data)");
 
                     final historyEnabled = enabledPages[CSPage.history];
                     if(landScape){
                       if(historyEnabled){
                         SchedulerBinding.instance.addPostFrameCallback((_) {
                           //cant notify listeners during build phase lol
-                          print("disabling history");
                           stage.mainPagesController.disablePage(CSPage.history);
                         });
                       }
@@ -86,7 +79,6 @@ class CSBody extends StatelessWidget {
                       if(!historyEnabled){
                         SchedulerBinding.instance.addPostFrameCallback((_) {
                           //just (dont) build lol
-                          print("enabling history");
                           stage.mainPagesController.enablePage(CSPage.history);
                           bloc.game.gameHistory.listController.refresh(
                             bloc.game.gameState.gameState.value.historyLenght,

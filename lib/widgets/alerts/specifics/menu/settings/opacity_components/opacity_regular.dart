@@ -130,30 +130,22 @@ class ImageOpacityRegular extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Section([
-          playerTile,
-        ]),
-        Section([
-          const SectionTitle("Opacity values"),
-          start.build((_,value)=>CSSlider(
-            value: value,
-            onChanged: start.set,
-            title: (val) => "Start: ${val.toStringAsFixed(2)}",
-          )),
-          end.build((_,value)=>CSSlider(
-            value: value,
-            onChanged: end.set,
-            title: (val) => "End: ${val.toStringAsFixed(2)}",
-          )),
-        ], last: true),
-        ListTile(
-          title: const Text("Reset"),
-          leading: const Icon(McIcons.restart),
-          onTap: (){
-            settings.imageGradientEnd.set(CSSettings.defaultImageGradientEnd);
-            settings.imageGradientStart.set(CSSettings.defaultImageGradientStart);
-          },
-        ),
+        playerTile,
+        const SizedBox(height: 8,),
+        start.build((_,value) => FullSlider(
+          value: value,
+          onChanged: start.set,
+          defaultValue: CSSettings.defaultImageGradientStart,
+          leading: Icon(Icons.keyboard_arrow_left),
+          titleBuilder: (val) => Text("Start: ${val.toStringAsFixed(2)}"),
+        )),
+        end.build((_,value) => FullSlider(
+          value: value,
+          onChanged: end.set,
+          defaultValue: CSSettings.defaultImageGradientEnd,
+          leading: Icon(Icons.keyboard_arrow_right),
+          titleBuilder: (val) => Text("End: ${val.toStringAsFixed(2)}"),
+        )),
       ],
     );
   }

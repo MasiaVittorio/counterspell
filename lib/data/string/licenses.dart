@@ -5,6 +5,8 @@ class CSLicenses {
 
   static const String scryfallImagePolicy =  r"All the M:TG-related information, icons, and card images found within CounterSpell are copyrighted by Wizards of the Coast.";
 
+  static const String iconsLicenses =  r'The mana icons and M:tG set icons fonts are used under the SIL OFL 1.1 license, are made by Andrew Gioia and are available on Github ("Mana", and "Keyrune")';
+
   static const String openSourceDisclaimer = r"The source code of CounterSpell is available on GitHub under the GNU GPLv3 License.";
 
   static const String mit = r"""

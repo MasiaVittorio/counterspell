@@ -161,8 +161,6 @@ class Counter{
     monarchLongName: Keyrune.cn2,
     manaLongName: ManaIcons.c,
     energyLongName: ManaIcons.e,
-    //TODO: license Mana Icons and Keyrune
-    
   };
 
 

@@ -4,29 +4,44 @@ import 'package:counter_spell_new/core.dart';
 
 enum _ThrowType {
   coin,
-  d20,
+  dice,
   name
 }
+
 class _Throw<T> {
   final _ThrowType type;
   final int value;
-  _Throw(this.type, Random generator, int max,):
+  final _DiceType _diceType;
+  _Throw(this.type, Random generator, int max, this._diceType,):
     value = generator.nextInt(max) + 1;
 }
 
 class DiceThrower extends StatefulWidget {
 
-  static const double height = _DiceThrowerState._thrower + 360.0; 
+  static const double height = _DiceThrowerState._throwerHeight + 360.0; 
 
   @override
   _DiceThrowerState createState() => _DiceThrowerState();
 }
 
+enum _DiceType{
+  d6,
+  d20,
+}
+
+extension on _DiceType {
+  int get max => this == _DiceType.d6 ? 6 : 20;
+  IconData get icon => this == _DiceType.d6 ? McIcons.dice_d6 : McIcons.dice_d20;
+  _DiceType get other => this == _DiceType.d6 ? _DiceType.d20 : _DiceType.d6;
+}
+
 class _DiceThrowerState extends State<DiceThrower> {
 
   Random generator;
+  _DiceType _diceType = _DiceType.d20;
   SidAnimatedListController controller;
   final List<_Throw> throws = <_Throw>[];
+
 
   @override
   void initState() {
@@ -35,17 +50,12 @@ class _DiceThrowerState extends State<DiceThrower> {
     this.generator = Random(DateTime.now().millisecondsSinceEpoch);
   }
   
-  static const double _thrower = 56.0;
+  static const double _throwerHeight = 56.0;
   static const Map<_ThrowType, String> predicates = {
     _ThrowType.coin: "Flip",
     _ThrowType.name: "Name",
-    _ThrowType.d20: "Throw",
+    _ThrowType.dice: "Throw",
   };
-  static const Map<_ThrowType,IconData> icons = {
-    _ThrowType.coin: McIcons.coin,
-    _ThrowType.name: Icons.person_outline,
-    _ThrowType.d20: McIcons.dice_d20,
-  };  
 
   @override
   Widget build(BuildContext context) {
@@ -83,24 +93,36 @@ class _DiceThrowerState extends State<DiceThrower> {
           primary: false,
         ),
         bottom: Container(
-          height: _thrower,
+          height: _throwerHeight,
           alignment: Alignment.center,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              for(final type in [_ThrowType.coin, _ThrowType.name, _ThrowType.d20])
+              for(final type in [_ThrowType.coin, _ThrowType.name, _ThrowType.dice])
                 Expanded(child: FlatButton.icon(
                   label: Text(predicates[type] ?? "?? error"),
-                  icon: Icon(icons[type] ?? McIcons.dice_multiple),
+                  icon: Icon({
+                    _ThrowType.coin: McIcons.coin,
+                    _ThrowType.name: Icons.person_outline,
+                    _ThrowType.dice: _diceType.icon,
+                  }[type] ?? McIcons.dice_multiple),
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  onLongPress: type != _ThrowType.dice ? null : () => this.setState(() {
+                    this._diceType = this._diceType.other;
+                  }),
                   onPressed: (){
                     this.setState((){
-                      this.throws.insert(0, _Throw(type, generator, {
-                        _ThrowType.coin: 2, 
-                        _ThrowType.name: names.length, 
-                        _ThrowType.d20: 20,
-                      }[type]));
+                      this.throws.insert(0, _Throw(
+                        type, 
+                        generator, 
+                        {
+                          _ThrowType.coin: 2, 
+                          _ThrowType.name: names.length, 
+                          _ThrowType.dice: _diceType.max,
+                        }[type],
+                        _diceType,
+                      ),);
                       this.controller.insert(0, duration: duration);
                       bloc.achievements.flippedOrRolled();
                     });
@@ -137,7 +159,9 @@ class _ThrowWidget extends StatelessWidget {
     final IconData icon = {
       _ThrowType.coin: coinIcons[data.value],
       _ThrowType.name: Icons.person_outline,
-      _ThrowType.d20: McIcons.hexagon_outline,
+      _ThrowType.dice: data._diceType == _DiceType.d20 
+        ? McIcons.hexagon_outline
+        : d6icons[data.value],
     }[data.type] ?? McIcons.dice_multiple;
 
     final Widget child = Row(
@@ -172,7 +196,7 @@ class _ThrowWidget extends StatelessWidget {
           child: Text(title),
         );
         break;
-      case _ThrowType.d20:
+      case _ThrowType.dice:
         return Container(
           height: size,
           child: Row(children: <Widget>[
@@ -193,12 +217,12 @@ class _ThrowWidget extends StatelessWidget {
     1: McIcons.coin,
     2: McIcons.circle_outline,
   };
-  // static const Map<int,IconData> d6icons = {
-  //   1: McIcons.dice_1,
-  //   2: McIcons.dice_2,
-  //   3: McIcons.dice_3,
-  //   4: McIcons.dice_4,
-  //   5: McIcons.dice_5,
-  //   6: McIcons.dice_6,
-  // };  
+  static const Map<int,IconData> d6icons = {
+    1: McIcons.dice_1,
+    2: McIcons.dice_2,
+    3: McIcons.dice_3,
+    4: McIcons.dice_4,
+    5: McIcons.dice_5,
+    6: McIcons.dice_6,
+  };  
 }

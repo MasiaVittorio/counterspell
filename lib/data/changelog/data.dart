@@ -10,10 +10,15 @@ class ChangeLogData {
         'You find it in the "Info" tab of the menu! It contains lots of useful tips on how to learn using CounterSpell',
       ),
       Change(
-        ChangeType.newFeature,
-        "Achievements system",
-        "You can progressively unlock useless ranks and learn all the little hidden features of CounterSpell!",
+        ChangeType.change,
+        'You can change dice type in the "Random" section',
+        null,
       ),
+      // Change(
+      //   ChangeType.newFeature,
+      //   "Achievements system",
+      //   "You can progressively unlock useless ranks and learn all the little hidden features of CounterSpell!",
+      // ),
     ]),
 
     Version("3.0.8", <Change>[

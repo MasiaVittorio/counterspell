@@ -90,6 +90,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
     controller = AnimationController(
       duration: widget.duration,
       vsync: this,
+      animationBehavior: AnimationBehavior.preserve,
     );
     controller.addStatusListener(widget.animationListener);
   }

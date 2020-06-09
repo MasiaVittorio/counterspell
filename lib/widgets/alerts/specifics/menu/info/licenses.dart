@@ -20,6 +20,7 @@ class AlertLicenses extends StatelessWidget {
 
     return HeaderedAlert(
       "Licenses & source code", 
+
       bottom: ListTile(
         title: const Text("View source code"),
         leading: const Icon(McIcons.github_circle),
@@ -32,11 +33,9 @@ class AlertLicenses extends StatelessWidget {
           cancelColor: CSColors.delete,
         ), size: ConfirmAlert.twoLinesheight),
       ),
+
       child: Column(children: <Widget>[
-        // const Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-        //   child: const Text(CSLicenses.flutter),
-        // ),
+        
         const Section([
           const SectionTitle("Disclaimer"),
           const Padding(
@@ -44,6 +43,7 @@ class AlertLicenses extends StatelessWidget {
             child: const Text(CSLicenses.wizardFanContentPolicy),
           ),
         ]),
+        
         const Section([
           const SectionTitle("Images"),
           const Padding(
@@ -51,6 +51,16 @@ class AlertLicenses extends StatelessWidget {
             child: const Text(CSLicenses.scryfallImagePolicy),
           ),
         ]),
+
+        const Section(<Widget>[
+          const SectionTitle("Icons"),
+          const Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+            child: const Text(CSLicenses.iconsLicenses),
+          ),
+        ]),
+
+
         Section([
           const SectionTitle("Flutter Packages"),
           ListTile(

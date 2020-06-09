@@ -20,10 +20,18 @@ class CacheAlert extends StatelessWidget {
             title: const Text("Clear cache"),
             subtitle: const Text("This will delete all the cached image files you used for the players' backgrounds"),
             leading: CSWidgets.deleteIcon,
-            onTap: (){
-              final cacheManager = DefaultCacheManager();
-              cacheManager.emptyCache();
-            },
+            onTap: () => stage.showAlert(
+              ConfirmAlert(
+                warningText: "Delete cached images?",
+                confirmColor: CSColors.delete,
+                confirmIcon: Icons.delete_forever,
+                action: (){
+                  final cacheManager = DefaultCacheManager();
+                  cacheManager.emptyCache();
+                },
+              ), 
+              size: ConfirmAlert.height
+            ),
           ),
         ]),
         Section(<Widget>[
@@ -37,9 +45,17 @@ class CacheAlert extends StatelessWidget {
               Expanded(child: ExtraButton(
                 text: "Clear all",
                 icon: Icons.delete_forever,
-                onTap: (){
-                  bloc.game.gameGroup.savedCards.removeAll();
-                },
+                onTap: () => stage.showAlert(
+                  ConfirmAlert(
+                    warningText: "Clear commander cards suggestions?",
+                    confirmColor: CSColors.delete,
+                    confirmIcon: Icons.delete_forever,
+                    action: (){
+                      bloc.game.gameGroup.savedCards.removeAll();
+                    },
+                  ), 
+                  size: ConfirmAlert.height
+                ),
               )),
               Expanded(child: ExtraButton(
                 text: "View",

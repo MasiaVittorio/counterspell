@@ -40,12 +40,12 @@ class BodyGroup extends StatelessWidget {
     // Meh...
 
     // TODO: finishing a scroll on the panel makes some of these rebuild lol
-    return bloc.scroller.isScrolling.buildDistinct((_, isScrolling) 
-      => bloc.scroller.intValue.buildDistinct((_, increment) 
+    return bloc.scroller.isScrolling.build((_, isScrolling) 
+      => bloc.scroller.intValue.build((_, increment) 
       => actionBloc.selected.build((_, selected) 
-      => actionBloc.attackingPlayer.buildDistinct((_, attackingPlayer) 
-      => actionBloc.defendingPlayer.buildDistinct((_, defendingPlayer) 
-      => actionBloc.counterSet.variable.buildDistinct((_, Counter counter) 
+      => actionBloc.attackingPlayer.build((_, attackingPlayer) 
+      => actionBloc.defendingPlayer.build((_, defendingPlayer) 
+      => actionBloc.counterSet.build((_, counter) 
       => bloc.game.gameState.gameState.build((_, gameState) {
         print("build group 7 bloc vars");
 

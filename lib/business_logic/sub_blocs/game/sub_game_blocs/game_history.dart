@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:counter_spell_new/core.dart';
 
 import 'package:counter_spell_new/widgets/stageboard/body/history/history_tile.dart';
-import 'package:sidereus/reusable_widgets/animated_widgets/animated_list/sid_animated_list.dart';
 
 class CSGameHistory {
 

@@ -1,8 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'card.dart';
 import 'dart:convert';
-
-import 'package:sidereus/utils/percent_encoding.dart';
+import 'package:sid_utils/sid_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -45,7 +44,7 @@ class ScryfallApi{
 
   static String _searchString(String string, {bool uniqueName = true}) => 
     "https://api.scryfall.com/cards/search?order=edhrec&q="
-    + percentEncodeString(string)
+    + PercentEncode.encodeString(string)
     + (uniqueName ? "+unique%3Aname":"");//+legal%3Acommander";
 
 

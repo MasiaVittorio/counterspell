@@ -290,6 +290,11 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
     );
   }
 
+  static String safeSubString(String start, int len){
+    if(start.length >  len) return start.substring(0,len-1)+'.';
+    else return start; 
+  }
+
   Duration _swapAnimationDuration(int i){
     if(i >= widget.times.length - 1) return Duration(milliseconds: 200);
 

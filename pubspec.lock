@@ -149,13 +149,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  hive:
-    dependency: transitive
-    description:
-      name: hive
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.1+1"
   http:
     dependency: "direct main"
     description:
@@ -268,13 +261,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  pointycastle:
-    dependency: transitive
-    description:
-      name: pointycastle
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   quiver:
     dependency: transitive
     description:
@@ -296,10 +282,24 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.5"
-  sidereus:
+  sid_bloc:
     dependency: "direct main"
     description:
-      path: "../sidereus"
+      path: "../sid_bloc"
+      relative: true
+    source: path
+    version: "0.0.1"
+  sid_ui:
+    dependency: "direct main"
+    description:
+      path: "../sid_ui"
+      relative: true
+    source: path
+    version: "0.0.1"
+  sid_utils:
+    dependency: "direct main"
+    description:
+      path: "../sid_utils"
       relative: true
     source: path
     version: "0.0.1"

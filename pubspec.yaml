@@ -11,14 +11,18 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.0+77
+version: 3.1.1+78
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  sidereus:
-    path: ../sidereus
+  sid_ui:
+    path: ../sid_ui
+  sid_utils:
+    path: ../sid_utils
+  sid_bloc:
+    path: ../sid_bloc
   stage:
     path: ../stage_2
   animations: ^1.0.0+5

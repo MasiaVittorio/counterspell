@@ -108,7 +108,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
   Widget buildBarrier(){
     return Positioned.fill(child: IgnorePointer(
-      ignoring: open ? false : true,
+      ignoring: !open,
       child: GestureDetector(
         onTap: () => this.setState((){
           this.open = false;
@@ -910,9 +910,12 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       indexToName: this.indexToName, 
       isScrollingSomewhere: widget.isScrollingSomewhere,
       open: open, 
-      toggleOpen: ()=> this.setState((){
-        open = !open;
+      openMenu: () => this.setState((){
+        open = true;
       }), 
+      closeMenu: () => this.setState(() {
+        open = false;
+      }),
       routeAnimationValue: widget.routeAnimationValue, 
       buttonSize: _buttonSize, 
       exit: exit,

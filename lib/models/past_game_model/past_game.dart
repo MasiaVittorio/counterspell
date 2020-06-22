@@ -122,7 +122,7 @@ class PastGame{
   }
   List<MtgCard> commandersPlayedBy(String name) => <MtgCard>[
     if(this.commandersA[name] != null) this.commandersA[name],
-    if(this.state.players[name].havePartnerB)
+    if(this.state.players[name]?.havePartnerB ?? false) // could be no player with that name in this game
       if(this.commandersB[name] != null) this.commandersB[name],
   ];
 

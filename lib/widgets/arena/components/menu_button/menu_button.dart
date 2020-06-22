@@ -9,7 +9,8 @@ class ArenaMenuButton extends StatelessWidget {
   final Map<int,String> indexToName;
   final bool isScrollingSomewhere;
   final bool open;
-  final VoidCallback toggleOpen;
+  final VoidCallback openMenu;
+  final VoidCallback closeMenu;
   final double routeAnimationValue;
   final double buttonSize;
   final VoidCallback exit;
@@ -26,7 +27,8 @@ class ArenaMenuButton extends StatelessWidget {
     @required this.indexToName,
     @required this.isScrollingSomewhere,
     @required this.open,
-    @required this.toggleOpen,
+    @required this.openMenu,
+    @required this.closeMenu,
     @required this.routeAnimationValue,
     @required this.buttonSize,
     @required this.exit,
@@ -55,7 +57,7 @@ class ArenaMenuButton extends StatelessWidget {
           squadLayout: squadLayout, 
           reorderPlayers: reorderPlayers, 
           exit: exit, 
-          close: toggleOpen,
+          close: closeMenu,
         ),
       ),
     );
@@ -64,7 +66,7 @@ class ArenaMenuButton extends StatelessWidget {
       routeAnimationValue: routeAnimationValue,
       isScrollingSomewhere: isScrollingSomewhere,
       exit: exit,
-      toggleOpen: toggleOpen,
+      openMenu: openMenu,
       indexToName: indexToName,
       buttonSize: buttonSize,
       open: open,

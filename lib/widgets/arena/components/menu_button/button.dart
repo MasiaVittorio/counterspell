@@ -7,7 +7,7 @@ class ArenaButton extends StatelessWidget {
     @required this.indexToName,
     @required this.isScrollingSomewhere,
     @required this.open,
-    @required this.toggleOpen,
+    @required this.openMenu,
     @required this.routeAnimationValue,
     @required this.buttonSize,
     @required this.exit,
@@ -16,7 +16,7 @@ class ArenaButton extends StatelessWidget {
   final Map<int,String> indexToName;
   final bool isScrollingSomewhere;
   final bool open;
-  final VoidCallback toggleOpen;
+  final VoidCallback openMenu;
   final double routeAnimationValue;
   final double buttonSize;
   final VoidCallback exit;
@@ -37,7 +37,7 @@ class ArenaButton extends StatelessWidget {
       centerTap = bloc.scroller.cancel;
     } else {
       buttonCross = open;
-      centerTap = toggleOpen;
+      centerTap = openMenu;
     }
     assert(buttonCross != null);
     assert(centerTap != null);

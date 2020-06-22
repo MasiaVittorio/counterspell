@@ -98,7 +98,6 @@ class ImageOpacitySimple extends StatelessWidget {
         opacity.build((_,value) => FullSlider(
           value: value,
           divisions: 20,
-          tapToEditBy: 0.05,
           leading: Icon(Icons.opacity),
           onChanged: opacity.set,
           defaultValue: CSSettings.defaultSimpleImageOpacity,

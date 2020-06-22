@@ -53,6 +53,8 @@ class SettingsBehavior extends StatelessWidget {
         value: dur.inMilliseconds.toDouble(),
         min: 500,
         max: 2000,
+        tapToEditBy: 50,
+        divisions: 30,
         onChangeEnd: (val) => settings.confirmDelay.set(Duration(milliseconds: val.round())),
         titleBuilder: (val) => Text("Confirm delay: ${_fromMilliseconds(val.round())}"),
         defaultValue: CSSettings.confirmDelayVal.inMilliseconds.toDouble(),

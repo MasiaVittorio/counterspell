@@ -135,6 +135,8 @@ class ImageOpacityRegular extends StatelessWidget {
         start.build((_,value) => FullSlider(
           value: value,
           onChanged: start.set,
+          divisions: 20,
+          tapToEditBy: 0.05,
           defaultValue: CSSettings.defaultImageGradientStart,
           leading: Icon(Icons.keyboard_arrow_left),
           titleBuilder: (val) => Text("Start: ${val.toStringAsFixed(2)}"),
@@ -142,6 +144,8 @@ class ImageOpacityRegular extends StatelessWidget {
         end.build((_,value) => FullSlider(
           value: value,
           onChanged: end.set,
+          divisions: 20,
+          tapToEditBy: 0.05,
           defaultValue: CSSettings.defaultImageGradientEnd,
           leading: Icon(Icons.keyboard_arrow_right),
           titleBuilder: (val) => Text("End: ${val.toStringAsFixed(2)}"),

@@ -73,11 +73,14 @@ class CacheAlert extends StatelessWidget {
 class SavedCardsCache extends StatelessWidget {
   const SavedCardsCache();
   static const double height = 450.0; 
+  static const String pageKey = "savedCardsCacheAlertKey";
 
   @override
   Widget build(BuildContext context) {
-    return const RadioHeaderedAlert<bool>(
-      initialValue: true, // player by player
+    final stage = Stage.of(context);
+    return RadioHeaderedAlert<bool>(
+      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? true,
+      onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
       orderedValues: [true, false],
       items: const <bool, RadioHeaderedItem>{
         true: RadioHeaderedItem(

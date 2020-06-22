@@ -36,9 +36,9 @@ class BodyGroup extends StatelessWidget {
     final settings = bloc.settings;
 
     // Apparently, having BlocVar.build7() have the effect of the builder being called twice as many times.
-    // Meh...
+    // Meh... Will have to look into StreamBuilder :/
 
-    // TODO: finishing a scroll on the panel makes some of these rebuild lol
+    // Also, finishing a scroll on the panel makes some of these rebuild lol, wtf
     return bloc.scroller.isScrolling.build((_, isScrolling) 
       => bloc.scroller.intValue.build((_, increment) 
       => actionBloc.selected.build((_, selected) 

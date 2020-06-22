@@ -14,10 +14,13 @@ class Leaderboards extends StatelessWidget {
   
   static const double height = 650.0;
 
+  static const String pageKey = "leaderboardsAlert";
   @override
   Widget build(BuildContext context) {
+    final stage = Stage.of(context);
     return RadioHeaderedAlert<_LeadType>(
-      initialValue: _LeadType.games,
+      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? _LeadType.games,
+      onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
       orderedValues: [_LeadType.commanders, _LeadType.games, _LeadType.players, _LeadType.settings],
       items: items,
       animationType: RadioAnimation.none,

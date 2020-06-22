@@ -15,15 +15,18 @@ class PlayerDetails extends StatelessWidget {
 
   static const double height = 500.0;
 
+  String get pageKey => "playerDetailsAlert$index";
+
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
+    final stage = Stage.of(context);
     final groupBloc = bloc.game.gameGroup;
 
     return groupBloc.names.build((_, names) 
       => RadioHeaderedAlert<PlayerDetailsPage>(
-        initialValue: bloc.stageBloc.playerDetailsPage ?? PlayerDetailsPage.info,
-        onPageChanged: (p) => bloc.stageBloc.playerDetailsPage = p,
+        initialValue: stage.panelController.alertController.savedStates[pageKey] ?? PlayerDetailsPage.info,
+        onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
         orderedValues: PlayerDetailsPage.values,
         items: <PlayerDetailsPage,RadioHeaderedItem>{
           PlayerDetailsPage.info: RadioHeaderedItem(

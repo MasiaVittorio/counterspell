@@ -5,10 +5,16 @@ class TutorialAlert extends StatelessWidget {
 
   static const double height = 450.0;
 
+  static const String pageKey = "tutorialAlert";
+
   @override
   Widget build(BuildContext context) {
+
+    final stage = Stage.of(context);
+    
     return RadioHeaderedAlert<String>(
-      initialValue: TutorialSection.sections.first.title,
+      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? TutorialSection.sections.first.title,
+      onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
       orderedValues: [for(final section in TutorialSection.sections) section.title],
       accentSelected: true,
       items: <String,RadioHeaderedItem>{for(final section in TutorialSection.sections)

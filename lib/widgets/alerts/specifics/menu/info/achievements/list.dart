@@ -6,11 +6,16 @@ class AchievementsAlert extends StatelessWidget {
   const AchievementsAlert();
 
   static const double height = 550;
+
+  static const String pageKey = "achievementsListAlert";
   
   @override
   Widget build(BuildContext context) {
-    return const RadioHeaderedAlert<bool>(
-      initialValue: false, 
+    final stage = Stage.of(context);
+
+    return RadioHeaderedAlert<bool>(
+      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? false,
+      onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
       orderedValues: [false,true], 
       accentSelected: true,
       items: <bool,RadioHeaderedItem>{

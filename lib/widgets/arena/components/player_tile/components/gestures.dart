@@ -16,6 +16,7 @@ class AptGestures extends StatelessWidget {
     @required this.havingPartnerB,
     @required this.usingPartnerB,
     @required this.defenceColor,
+    @required this.localScroller,
   });
 
   //child
@@ -23,6 +24,7 @@ class AptGestures extends StatelessWidget {
 
   //Business Logic
   final CSBloc bloc;
+  final CSScroller localScroller;
 
   //Actual Game State
   final String name;
@@ -44,7 +46,6 @@ class AptGestures extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final CSScroller scrollerBloc = bloc.scroller;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     return Material(
@@ -67,6 +68,7 @@ class AptGestures extends StatelessWidget {
               isScrollingSomewhere: isScrollingSomewhere,
               hasPartnerB: havingPartnerB,
               usePartnerB: usingPartnerB,
+              scrollerBloc: localScroller,
             );
           }
         },
@@ -80,7 +82,7 @@ class AptGestures extends StatelessWidget {
           } 
         },
         child: VelocityPanDetector(
-          onPanEnd: (_details) => scrollerBloc.onDragEnd(),
+          onPanEnd: (_details) => localScroller.onDragEnd(),
           onPanUpdate: (details) => PlayerGestures.pan(
             details,
             name,
@@ -88,8 +90,9 @@ class AptGestures extends StatelessWidget {
             bloc: bloc,
             page: page,
             vertical: bloc.settings.arenaSettings.verticalScroll.value,
+            scrollerBloc: localScroller,
           ),
-          onPanCancel: scrollerBloc.onDragEnd,
+          onPanCancel: localScroller.onDragEnd,
           child: Container(
             // width: constraints.maxWidth - _margin*2,
             // height: constraints.maxHeight - _margin*2,

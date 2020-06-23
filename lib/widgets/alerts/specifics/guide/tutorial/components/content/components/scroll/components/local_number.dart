@@ -26,7 +26,8 @@ class LocalNumber extends StatelessWidget {
             constraints.maxWidth,
             bloc: bloc,
             page: CSPage.life,
-            dummyScroller: localScroller,
+            scrollerBloc: localScroller,
+            tutorial: true,
           );
         },
         onPanCancel: localScroller.onDragEnd,

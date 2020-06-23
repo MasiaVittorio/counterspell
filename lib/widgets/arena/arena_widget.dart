@@ -43,11 +43,19 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
   Map<int, String> indexToName;
   bool open = false;
+  CSScroller localScroller;
 
   @override
   void initState() {
     super.initState();
     initNames(widget.initialNameOrder);
+    localScroller = CSScroller(widget.group.parent.parent);
+  }
+
+  @override
+  void dispose() {
+    localScroller?.dispose();
+    super.dispose();
   }
 
   void initNames(Map<int,String> initialNameOrder){
@@ -791,6 +799,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     buttonAlignment: buttonAlignment,
     constraints: constraints,
     routeAnimationValue: widget.routeAnimationValue,
+    localScroller: localScroller,
 
     indexToName: indexToName,
 

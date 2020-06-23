@@ -7,6 +7,7 @@ class CSSettingsArena {
   //======================================
   // Disposer
   void dispose(){
+    this.scrollOverTap.dispose();
     this.squadLayout.dispose();
     this.verticalScroll.dispose();
     this.hideNameWhenImages.dispose();
@@ -23,6 +24,8 @@ class CSSettingsArena {
 
   final PersistentVar<bool> verticalScroll;
 
+  final PersistentVar<bool> scrollOverTap;
+
   final PersistentVar<bool> hideNameWhenImages;
 
   final PersistentVar<bool> fullScreen;
@@ -31,7 +34,11 @@ class CSSettingsArena {
   //======================================
   // Constructor
   CSSettingsArena(this.parent):
-    squadLayout= PersistentVar<bool>(
+    scrollOverTap = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_arenaScrollOverTap",
+      initVal: true,
+    ),
+    squadLayout = PersistentVar<bool>(
       key: "bloc_settings_blocvar_simpleSquadLayout",
       initVal: true,
     ),

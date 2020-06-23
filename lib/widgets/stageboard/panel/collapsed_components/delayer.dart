@@ -112,6 +112,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
 
     this.controller.fling();
   }
+
   void leaving() async {
     if(this.controller.value == 0.0)
       return;

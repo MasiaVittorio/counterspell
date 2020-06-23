@@ -89,7 +89,7 @@ class ArenaMenuButton extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center, 
             children: <Widget>[
-              AnimatedDouble(
+              AnimatedDouble( //clamping the [-1, 0] part in order to cross fade between the two objects implicitly
                 duration: CSAnimations.medium,
                 value: !open ? 1.0 : -1.0,
                 builder:(_, val)=> Opacity(

@@ -160,7 +160,6 @@ class PlayerTile extends StatelessWidget {
         isScrollingSomewhere: isScrollingSomewhere,
         hasPartnerB: havingPartnerB,
         usePartnerB: usingPartnerB,
-        scrollerBloc: bloc.scroller,
       ),
       onLongPress: () => stage.showAlert(
         PlayerDetails(bloc.game.gameGroup.names.value.indexOf(name), this.maxWidth/(this.tileSize + this.bottom)), 
@@ -174,7 +173,6 @@ class PlayerTile extends StatelessWidget {
           maxWidth,
           bloc: bloc,
           page: page,
-          scrollerBloc: bloc.scroller,
         ),
         onPanCancel: scrollerBloc.onDragEnd,
         child: Container(

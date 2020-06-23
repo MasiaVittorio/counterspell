@@ -43,19 +43,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
   Map<int, String> indexToName;
   bool open = false;
-  CSScroller localScroller;
 
   @override
   void initState() {
     super.initState();
     initNames(widget.initialNameOrder);
-    localScroller = CSScroller(widget.group.parent.parent);
-  }
-
-  @override
-  void dispose() {
-    localScroller?.dispose();
-    super.dispose();
   }
 
   void initNames(Map<int,String> initialNameOrder){
@@ -799,7 +791,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     buttonAlignment: buttonAlignment,
     constraints: constraints,
     routeAnimationValue: widget.routeAnimationValue,
-    localScroller: localScroller,
 
     indexToName: indexToName,
 
@@ -807,7 +798,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     group: widget.group,
     isScrollingSomewhere: widget.isScrollingSomewhere,
     gameState: widget.gameState,
-    // theme: widget.theme,
     pageColors: widget.pageColors,
     selectedNames: widget.selectedNames,
     normalizedPlayerActions: widget.normalizedPlayerActions,
@@ -914,7 +904,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   }
 
   Widget buildButton(bool squadLayout, BoxConstraints screenConstraints){
-    return ArenaMenuButton(
+    final Widget button = ArenaMenuButton(
       bloc: widget.group.parent.parent, 
       indexToName: this.indexToName, 
       isScrollingSomewhere: widget.isScrollingSomewhere,
@@ -937,6 +927,23 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       }),
       screenConstraints: screenConstraints,
     );
+
+    final bloc = widget.group.parent.parent;
+
+    final Widget delayer = bloc.settings.scrollSettings.confirmDelay.build((context, delay) 
+      => ArenaDelayer(
+        onManualCancel: bloc.scroller.cancel, 
+        onManualConfirm: bloc.scroller.forceComplete, 
+        delayerController: bloc.scroller.delayerController, 
+        duration: delay, 
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
+    );
+
+    return Stack(children: <Widget>[
+      Center(child: delayer),
+      Center(child: button),
+    ],);
   }
 
 

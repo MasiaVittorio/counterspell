@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:flutter/scheduler.dart';
 
 
 class ArenaMenu extends StatelessWidget {
@@ -22,7 +23,9 @@ class ArenaMenu extends StatelessWidget {
     return ListView(
       physics: SidereusScrollPhysics(
         topBounce: true,
-        topBounceCallback: close,
+        topBounceCallback: () => SchedulerBinding.instance.addPostFrameCallback((_) {
+          close();
+        }),
         alwaysScrollable: true,
         neverScrollable: false,
       ),
@@ -36,17 +39,19 @@ class ArenaMenu extends StatelessWidget {
             const SectionTitle("Layout"),
             ArenaLayoutSelector(squadLayout),
           ],),
-        const Section(<Widget>[
-          SectionTitle("Gestures"),
-          ArenaScrollOverTap(),
-          ArenaScrollDirectionSelector(),
-        ],),
+
         const Section(<Widget>[
           SectionTitle("Appearance"),
           ArenaFullScreenToggle(true),
           ArenaHideNamesWithImageToggle(),
         ],),
-        const SectionTitle("Info"),
+
+        const Section(<Widget>[
+          SectionTitle("Gestures"),
+          ArenaScrollOverTap(),
+          ArenaScrollDirectionSelector(),
+          ArenaTapHint(),
+        ],),
         const ArenaInfo(),
       ],
     );
@@ -58,9 +63,21 @@ class ArenaInfo extends StatelessWidget {
   const ArenaInfo();
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 14.0),
-      child: Text(_info),
+    final bloc = CSBloc.of(context);
+
+    return bloc.settings.arenaSettings.scrollOverTap.build((context, scroll) 
+      => AnimatedListed(
+        listed: scroll,
+        child: Column(
+          children: const <Widget>[
+            SectionTitle("Info"),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 14.0),
+              child: Text(_info),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -115,6 +132,26 @@ class ArenaLayoutSelector extends StatelessWidget {
           title: Text("Free for all"),
         ),
       ],
+    );
+  }
+}
+
+class ArenaTapHint extends StatelessWidget {
+
+  const ArenaTapHint();
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = CSBloc.of(context);
+
+    return bloc.settings.arenaSettings.scrollOverTap.build((context, scroll) 
+      => AnimatedListed(
+        listed: !scroll,
+        child: const Padding(
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: 8.0),
+          child: Text("(top half to increase)", style: TextStyle(fontStyle: FontStyle.italic),),
+        ),
+      ),
     );
   }
 }

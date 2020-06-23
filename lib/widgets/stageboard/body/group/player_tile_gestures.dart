@@ -14,12 +14,11 @@ class PlayerGestures{
     @required CSPage page,
     @required CSBloc bloc,
     bool vertical = false,
-    CSScroller dummyScroller,
+    @required CSScroller scrollerBloc,
+    bool tutorial = false,
   }){
 
     final CSGameAction actionBloc = bloc.game.gameAction;
-    final CSScroller scrollerBloc = dummyScroller ?? bloc.scroller;
-    final bool tutorial = dummyScroller != null; 
 
     switch (page) {
       case CSPage.history:
@@ -59,10 +58,10 @@ class PlayerGestures{
     @required bool attacking,
     @required bool hasPartnerB,
     @required bool usePartnerB,
+    @required CSScroller scrollerBloc,
   }){
     final actionBloc = bloc.game.gameAction;
     final gameStateBloc = bloc.game.gameState;
-    final scrollerBloc = bloc.scroller;
     switch (page) {
       case CSPage.history:
         _returnToLife(bloc);

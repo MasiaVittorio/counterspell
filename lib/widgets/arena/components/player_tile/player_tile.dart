@@ -11,6 +11,7 @@ class SimplePlayerTile extends StatelessWidget {
     @required this.buttonAlignment,
     @required this.constraints,
     @required this.group,
+    @required this.localScroller, 
     @required this.selectedNames,
     @required this.isScrollingSomewhere,
     @required this.gameState,
@@ -27,6 +28,7 @@ class SimplePlayerTile extends StatelessWidget {
 
   //Business Logic
   final CSGameGroup group;
+  final CSScroller localScroller;
 
   //Actual Game State
   final GameState gameState;
@@ -96,6 +98,7 @@ class SimplePlayerTile extends StatelessWidget {
       rawSelected: rawSelected,
       name: name,
       bloc: bloc,
+      localScroller: localScroller,
       constraints: this.constraints,
       isScrollingSomewhere: this.isScrollingSomewhere,
       page: this.page,

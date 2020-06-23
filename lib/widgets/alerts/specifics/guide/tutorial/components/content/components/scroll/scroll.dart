@@ -37,6 +37,12 @@ class __LocalState extends State<_Local> {
     });
   }
 
+  @override
+  void dispose() {
+    this.localScroller.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {

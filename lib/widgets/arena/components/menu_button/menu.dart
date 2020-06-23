@@ -69,6 +69,7 @@ class ArenaInfo extends StatelessWidget {
       => AnimatedListed(
         listed: scroll,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: const <Widget>[
             SectionTitle("Info"),
             Padding(
@@ -147,9 +148,14 @@ class ArenaTapHint extends StatelessWidget {
     return bloc.settings.arenaSettings.scrollOverTap.build((context, scroll) 
       => AnimatedListed(
         listed: !scroll,
-        child: const Padding(
-          padding: EdgeInsets.only(left: 16, right: 16, bottom: 8.0),
-          child: Text("(top half to increase)", style: TextStyle(fontStyle: FontStyle.italic),),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.only(left: 16, right: 16, bottom: 8.0),
+              child: Text("(top half to increase)", style: TextStyle(fontStyle: FontStyle.italic),),
+            ),
+          ],
         ),
       ),
     );

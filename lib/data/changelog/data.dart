@@ -3,6 +3,14 @@ import 'package:counter_spell_new/models/changelog/model.dart';
 
 class ChangeLogData {
   static const List<Version> list = <Version>[
+    Version("3.1.2", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "Tap gestures on Arena Mode",
+        "You can enable them in the Arena Settings, they'll override the scroll gestures and will work only with managing life",
+      ),
+    ]),
+
     Version("3.1.0", <Change>[
       Change(
         ChangeType.newFeature,
@@ -14,11 +22,6 @@ class ChangeLogData {
         'You can change dice type in the "Random" section',
         null,
       ),
-      // Change(
-      //   ChangeType.newFeature,
-      //   "Achievements system",
-      //   "You can progressively unlock useless ranks and learn all the little hidden features of CounterSpell!",
-      // ),
     ]),
 
     Version("3.0.8", <Change>[

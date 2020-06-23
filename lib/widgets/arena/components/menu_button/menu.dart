@@ -27,19 +27,23 @@ class ArenaMenu extends StatelessWidget {
         neverScrollable: false,
       ),
       children: <Widget>[
-        if(gameState.players.length != 2)
-          Section(<Widget>[
-            const PanelTitle("Actions"),
-            ArenaActions(reorderPlayers, exit),
-          ]),
         Section(<Widget>[
-          const SectionTitle("Layout"),
-          ArenaLayoutSelector(squadLayout),
+          const PanelTitle("Actions"),
+          ArenaActions(reorderPlayers, exit),
+        ]),
+        if(gameState.players.length > 2) // for two players there is only one layout
+          Section(<Widget>[
+            const SectionTitle("Layout"),
+            ArenaLayoutSelector(squadLayout),
+          ],),
+        const Section(<Widget>[
+          SectionTitle("Gestures"),
+          ArenaScrollOverTap(),
+          ArenaScrollDirectionSelector(),
         ],),
         const Section(<Widget>[
-          SectionTitle("Settings"),
+          SectionTitle("Appearance"),
           ArenaFullScreenToggle(true),
-          ArenaVerticalScrollToggle(),
           ArenaHideNamesWithImageToggle(),
         ],),
         const SectionTitle("Info"),
@@ -48,6 +52,7 @@ class ArenaMenu extends StatelessWidget {
     );
   }
 }
+
 
 class ArenaInfo extends StatelessWidget {
   const ArenaInfo();

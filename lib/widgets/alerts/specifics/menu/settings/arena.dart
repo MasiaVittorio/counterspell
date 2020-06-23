@@ -11,8 +11,9 @@ class ArenaSettings extends StatelessWidget {
     return HeaderedAlert("Arena Settings",
       child: Column(children: const <Widget>[
         Section(<Widget>[
-          SectionTitle("Behavior"),
-          ArenaVerticalScrollToggle(),
+          SectionTitle("Gestures"),
+          ArenaScrollOverTap(),
+          ArenaScrollDirectionSelector(),
         ]),
         Section(<Widget>[
           SectionTitle("Appearance"),
@@ -24,6 +25,29 @@ class ArenaSettings extends StatelessWidget {
     );
   }
 }
+
+class ArenaScrollOverTap extends StatelessWidget {
+  
+  const ArenaScrollOverTap();
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = CSBloc.of(context);
+    final settings = bloc.settings.arenaSettings;
+
+    return settings.scrollOverTap.build((context, scrollOverTap) 
+      => RadioSliderOf<bool>(
+        selectedItem: scrollOverTap, 
+        items: const <bool,RadioSliderItem>{
+          true: RadioSliderItem(title: Text("Scroll"), icon: Icon(Icons.gesture)),
+          false: RadioSliderItem(title: Text("Tap"), icon: Icon(McIcons.gesture_tap)),
+        }, 
+        onSelect: settings.scrollOverTap.set,
+      ),
+    );
+  }
+}
+
 
 class ArenaOpacityTile extends StatelessWidget {
   const ArenaOpacityTile();
@@ -76,19 +100,41 @@ class ArenaHideNamesWithImageToggle extends StatelessWidget {
   }
 }
 
-class ArenaVerticalScrollToggle extends StatelessWidget {
-  const ArenaVerticalScrollToggle();
+class ArenaScrollDirectionSelector extends StatelessWidget {
+  const ArenaScrollDirectionSelector();
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
     final settings = bloc.settings.arenaSettings;
-    return settings.verticalScroll.build((_, vertical)
-      => SwitchListTile(
-        value: vertical,
-        onChanged: settings.verticalScroll.set,
-        title: const Text("Vertical Scroll"),
-        secondary: const Icon(McIcons.gesture_swipe_down),
+
+    final content = settings.verticalScroll.build((_, vertical)
+      => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          RadioSliderOf<bool>(
+            selectedItem: vertical,
+            onSelect: settings.verticalScroll.set,
+            title: const Text("Axis"),
+            items: const <bool,RadioSliderItem>{
+              true: RadioSliderItem(title: Text("Vertical"), icon: Icon(McIcons.gesture_swipe_vertical)),
+              false: RadioSliderItem(title: Text("Horizontal"), icon: Icon(McIcons.gesture_swipe_horizontal)),
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            child: AnimatedText(
+              vertical ? "(down to up to increase)" : "(left to right to increase)",
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+        ],
       ),
     );
+
+    return settings.scrollOverTap.build((context, scroll) => AnimatedListed(
+      listed: scroll,
+      child: content,
+    ));
+
   }
 }

@@ -2,26 +2,48 @@ import 'package:flutter/material.dart';
 
 import 'dart:math';
 
+enum DelayerListenerType {
+  mainScreen,
+  arena
+}
 
 class DelayerController {
-  void Function() _start;
-  void Function() _end;
+  Map<DelayerListenerType,void Function()> _starts = <DelayerListenerType,void Function()>{
+    DelayerListenerType.mainScreen: null,
+    DelayerListenerType.arena: null,
+  };
+  Map<DelayerListenerType,void Function()> _ends = <DelayerListenerType,void Function()>{
+    DelayerListenerType.mainScreen: null,
+    DelayerListenerType.arena: null,
+  };
 
-  void addListeners({
+  void addListenersMain({
     @required void Function() startListener,
     @required void Function() endListener,
   }){
-    this._start = startListener;
-    this._end = endListener;
+    this._starts[DelayerListenerType.mainScreen] = startListener;
+    this._ends[DelayerListenerType.mainScreen] = endListener;
+  }
+  void addListenersArena({
+    @required void Function() startListener,
+    @required void Function() endListener,
+  }){
+    this._starts[DelayerListenerType.arena] = startListener;
+    this._ends[DelayerListenerType.arena] = endListener;
+  }
+
+  void removeArenaListeners(){
+    this._starts[DelayerListenerType.arena] = null;
+    this._ends[DelayerListenerType.arena] = null;
   }
 
   void scrolling(){
-    if(_start != null)
-      _start();
+    for(void Function() _start in _starts.values)
+      _start?.call();
   }
   void leaving(){
-    if(_end != null)
-      _end();
+    for(void Function() _end in _ends.values)
+      _end?.call();
   }
 }
 
@@ -78,7 +100,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
 
     this.initController();
 
-    widget.delayerController.addListeners(
+    widget.delayerController.addListenersMain(
       startListener: scrolling,
       endListener: leaving,
     );
@@ -105,6 +127,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
   }
 
   void scrolling(){
+    if(!mounted) return;
     if(controller.isAnimating && controller.velocity > 0)
       return;
     if(controller.value == 1.0)
@@ -114,6 +137,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
   }
 
   void leaving() async {
+    if(!mounted) return;
     if(this.controller.value == 0.0)
       return;
     if(this.controller.isAnimating){

@@ -60,27 +60,28 @@ class CSScroller {
   void onDragUpdate(CSDragUpdateDetails details, double width, {bool vertical = false}){
     if(ignoringThisPan) return;
 
+    final scrollSettings = this.parent.settings.scrollSettings;
     this.delayerController.scrolling();
 
     final double vx = vertical 
       ? details.velocity.pixelsPerSecond.dy 
       : details.velocity.pixelsPerSecond.dx;
 
-    final double maxSpeedWeight = this.parent.settings.scrollDynamicSpeedValue.value.clamp(0.0, 1.0);
-    final double multiplierVel = this.parent.settings.scrollDynamicSpeed.value 
+    final double maxSpeedWeight = scrollSettings.scrollDynamicSpeedValue.value.clamp(0.0, 1.0);
+    final double multiplierVel = scrollSettings.scrollDynamicSpeed.value 
       ? (vx / _maxVel).abs().clamp(0.0, 1.0) * maxSpeedWeight + (1-maxSpeedWeight)
       : 1.0;
 
-    final double multiplierPreBoost = (this.parent.settings.scrollPreBoost.value && this.value > -1.0 && this.value < 1.0)
-      ? this.parent.settings.scrollPreBoostValue.value.clamp(1.0, 4.0)
+    final double multiplierPreBoost = (scrollSettings.scrollPreBoost.value && this.value > -1.0 && this.value < 1.0)
+      ? scrollSettings.scrollPreBoostValue.value.clamp(1.0, 4.0)
       : 1.0;
-    final double multiplier1Static = (this.parent.settings.scroll1Static.value && this.value.abs() > 1.0 && this.value.abs() < 2.0)
-      ? this.parent.settings.scroll1StaticValue.value.clamp(0.0, 1.0)
+    final double multiplier1Static = (scrollSettings.scroll1Static.value && this.value.abs() > 1.0 && this.value.abs() < 2.0)
+      ? scrollSettings.scroll1StaticValue.value.clamp(0.0, 1.0)
       : 1.0;
 
 
     // final double width = this.parent.scaffold.dimensions.value.globalWidth;
-    final double max = this.parent.settings.scrollSensitivity.value;
+    final double max = scrollSettings.scrollSensitivity.value;
     final double fraction = (vertical ? - details.delta.dy : details.delta.dx) / width;
 
     this.value += fraction * max * multiplierVel * multiplier1Static * multiplierPreBoost;
@@ -88,6 +89,7 @@ class CSScroller {
     if(intValue.setDistinct(value.round()))
       feedBack();
   }
+  
   void onDragEnd(){
     if(!ignoringThisPan) this.delayerController.leaving();
     ignoringThisPan = false;
@@ -103,8 +105,8 @@ class CSScroller {
   }
 
   void feedBack(){
-    if(parent.settings.canVibrate == true)
-      if(parent.settings.wantVibrate.value)
+    if(parent.settings.appSettings.canVibrate == true)
+      if(parent.settings.appSettings.wantVibrate.value)
         Vibrate.feedback(FeedbackType.success);
   }
 
@@ -145,6 +147,14 @@ class CSScroller {
         parent.game.gameAction.attackingPlayer.set("");
     }
   }
+
   bool forceComplete() => isScrolling.setDistinct(false);
+
+  void editVal(int by){
+    this.delayerController.scrolling();
+    this.intValue.value += by;
+    this.intValue.refresh();
+    this.delayerController.leaving();
+  }
 
 }

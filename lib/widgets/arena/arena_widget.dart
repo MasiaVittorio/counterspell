@@ -60,7 +60,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
   void preExit(){
     Stage.of(context).mainPagesController.goToPage(
-      CSBloc.of(context).settings.lastPageBeforeArena.value,
+      CSBloc.of(context).settings.appSettings.lastPageBeforeArena.value,
     );
   }
   void exit(){
@@ -841,7 +841,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           },
           /// main page is not a visible var from the stage, need its private builder separately
           child: StageBuild.offMainPage((_, pg) => BlocVar.build4<bool, Color, String, String>(
-            bloc.settings.arenaSquadLayout,
+            bloc.settings.arenaSettings.squadLayout,
             bloc.themer.defenceColor,
             bloc.game.gameAction.defendingPlayer,
             bloc.game.gameAction.attackingPlayer,

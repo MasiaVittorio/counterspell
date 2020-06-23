@@ -19,7 +19,7 @@ class AptName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return bloc.settings.arenaHideNameWhenImages.build((_, hideNameWithImage){
+    return bloc.settings.arenaSettings.hideNameWhenImages.build((_, hideNameWithImage){
       if(hideNameWithImage){
         final bool thereIsCard = bloc.game.gameGroup.cards(
           !this.gameState.players[name].usePartnerB,

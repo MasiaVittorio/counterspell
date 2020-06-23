@@ -9,13 +9,14 @@ class ScrollSensitivity extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
     final settings = bloc.settings;
-    final _sens = settings.scrollSensitivity;
-    final _speed = settings.scrollDynamicSpeed;
-    final _speedValue = settings.scrollDynamicSpeedValue;
-    final _oneStatic = settings.scroll1Static;
-    final _oneStaticValue = settings.scroll1StaticValue;
-    final _preBoost = settings.scrollPreBoost;
-    final _preBoostValue = settings.scrollPreBoostValue;
+    final scrollSettings = settings.scrollSettings;
+    final _sens = scrollSettings.scrollSensitivity;
+    final _speed = scrollSettings.scrollDynamicSpeed;
+    final _speedValue = scrollSettings.scrollDynamicSpeedValue;
+    final _oneStatic = scrollSettings.scroll1Static;
+    final _oneStaticValue = scrollSettings.scroll1StaticValue;
+    final _preBoost = scrollSettings.scrollPreBoost;
+    final _preBoostValue = scrollSettings.scrollPreBoostValue;
 
     return HeaderedAlertCustom(
       _sens.build((_,sens) => FullSlider(
@@ -26,7 +27,7 @@ class ScrollSensitivity extends StatelessWidget {
         onChangeEnd: _sens.set,
         value: sens,
         leading: Icon(Icons.gesture),
-        defaultValue: CSSettings.sensVal,
+        defaultValue: CSSettingsScroll.sensVal,
       ),),
       titleSize: 56.0 + 16, 
       child: Column(
@@ -54,7 +55,7 @@ class ScrollSensitivity extends StatelessWidget {
                 min: 0.1,
                 max: 0.95,
                 divisions: 17,
-                defaultValue: CSSettings.sensSpeedVal,
+                defaultValue: CSSettingsScroll.sensSpeedVal,
                 leadingBuilder: (val) => Icon(val < small ? McIcons.speedometer_slow : val >= big ? McIcons.speedometer : McIcons.speedometer_medium),
                 titleBuilder: (val) => Text("Speed Weight: ${val.toStringAsFixed(2)}"),
               );
@@ -76,7 +77,7 @@ class ScrollSensitivity extends StatelessWidget {
               min: 1.2,
               max: 3.5,
               divisions: 23,
-              defaultValue: CSSettings.sensPreBoostVal,
+              defaultValue: CSSettingsScroll.sensPreBoostVal,
               leading: Icon(Icons.add_circle_outline),
               titleBuilder: (val) => Text("Boost multiplier: ${val.toStringAsFixed(1)}"),
             )),
@@ -98,16 +99,16 @@ class ScrollSensitivity extends StatelessWidget {
               max: 0.95,
               divisions: 17,
               leading: Icon(Icons.remove_circle_outline),
-              defaultValue: CSSettings.sens1StaticVal,
+              defaultValue: CSSettingsScroll.sens1StaticVal,
               titleBuilder: (val) => Text("Dampening multiplier: ${val.toStringAsFixed(2)}"),
             )),
             CSWidgets.height10,
           ],),),
 
-          settings.arenaScreenVerticalScroll.build((_, vertical)
+          settings.arenaSettings.verticalScroll.build((_, vertical)
             => SwitchListTile(
               value: vertical,
-              onChanged: settings.arenaScreenVerticalScroll.set,
+              onChanged: settings.arenaSettings.verticalScroll.set,
               title: const Text("Vertical Scroll on Arena Mode"),
               secondary: const Icon(McIcons.gesture_swipe_down),
             ),
@@ -117,13 +118,13 @@ class ScrollSensitivity extends StatelessWidget {
             title: const Text("Restore default values"),
             leading: const Icon(Icons.settings_backup_restore),
             onTap: (){
-              _sens.set(CSSettings.sensVal);
+              _sens.set(CSSettingsScroll.sensVal);
               _speed.set(true);
-              _speedValue.set(CSSettings.sensSpeedVal);
+              _speedValue.set(CSSettingsScroll.sensSpeedVal);
               _preBoost.set(true);
-              _preBoostValue.set(CSSettings.sensPreBoostVal);
+              _preBoostValue.set(CSSettingsScroll.sensPreBoostVal);
               _oneStatic.set(true);
-              _oneStaticValue.set(CSSettings.sens1StaticVal);
+              _oneStaticValue.set(CSSettingsScroll.sens1StaticVal);
             },
           ),
 

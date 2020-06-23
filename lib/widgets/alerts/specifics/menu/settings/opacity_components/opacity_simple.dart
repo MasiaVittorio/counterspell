@@ -9,7 +9,7 @@ class ImageOpacitySimple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
+    final settings = bloc.settings.imagesSettings;
     final opacity = settings.simpleImageOpacity;
 
     final theme = Theme.of(context);
@@ -24,7 +24,7 @@ class ImageOpacitySimple extends StatelessWidget {
       ),
     );
 
-    final Widget gradient = bloc.settings.simpleImageOpacity.build((context, double opacity) => Container(
+    final Widget gradient = opacity.build((context, double opacity) => Container(
       color: theme.canvasColor.withOpacity(opacity),
     ));
 
@@ -100,7 +100,7 @@ class ImageOpacitySimple extends StatelessWidget {
           divisions: 20,
           leading: Icon(Icons.opacity),
           onChanged: opacity.set,
-          defaultValue: CSSettings.defaultSimpleImageOpacity,
+          defaultValue: CSSettingsImages.defaultSimpleImageOpacity,
           titleBuilder: (val) => Text("Opacity: ${val.toStringAsFixed(2)}"),
         )),
       ],

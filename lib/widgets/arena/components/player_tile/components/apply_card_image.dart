@@ -44,7 +44,7 @@ class AptCardImage extends StatelessWidget {
         final ThemeData themeData = Theme.of(context);
         final String imageUrl = card.imageUrl();
 
-        final Widget image = bloc.settings.imageAlignments.build((_,alignments) => Container(
+        final Widget image = bloc.settings.imagesSettings.imageAlignments.build((_,alignments) => Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: CachedNetworkImageProvider(
@@ -75,7 +75,7 @@ class AptCardImage extends StatelessWidget {
           );
         }
 
-        final Widget filterColor = bloc.settings.simpleImageOpacity.build((context, double opacity) => Container(
+        final Widget filterColor = bloc.settings.imagesSettings.simpleImageOpacity.build((context, double opacity) => Container(
           color: bkgColor.withOpacity(opacity),
         ));
 

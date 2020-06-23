@@ -50,9 +50,9 @@ class ArenaFullScreenToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
-    return settings.arenaFullScreen.build((_, fullScreen) => SwitchListTile(
-      onChanged: settings.arenaFullScreen.set,
+    final settings = bloc.settings.arenaSettings;
+    return settings.fullScreen.build((_, fullScreen) => SwitchListTile(
+      onChanged: settings.fullScreen.set,
       value: fullScreen,
       title: const Text("Full screen"),
       subtitle: (disclaimer ?? false) ? const Text("Exit and re-enter to apply") : null,
@@ -66,9 +66,9 @@ class ArenaHideNamesWithImageToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
-    return settings.arenaHideNameWhenImages.build((_, hide) => SwitchListTile(
-      onChanged: settings.arenaHideNameWhenImages.set,
+    final settings = bloc.settings.arenaSettings;
+    return settings.hideNameWhenImages.build((_, hide) => SwitchListTile(
+      onChanged: settings.hideNameWhenImages.set,
       value: hide,
       title: const Text("Hide names with images"),
       secondary: const Icon(McIcons.account_minus_outline),
@@ -81,11 +81,11 @@ class ArenaVerticalScrollToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
-    return settings.arenaScreenVerticalScroll.build((_, vertical)
+    final settings = bloc.settings.arenaSettings;
+    return settings.verticalScroll.build((_, vertical)
       => SwitchListTile(
         value: vertical,
-        onChanged: settings.arenaScreenVerticalScroll.set,
+        onChanged: settings.verticalScroll.set,
         title: const Text("Vertical Scroll"),
         secondary: const Icon(McIcons.gesture_swipe_down),
       ),

@@ -5,5 +5,5 @@ export 'achievements.dart';
 export 'past_games.dart';
 export 'payments.dart';
 export 'stageboard.dart';
-export 'settings.dart';
+export 'settings/settings.dart';
 export 'themer.dart';

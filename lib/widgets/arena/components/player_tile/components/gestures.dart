@@ -87,7 +87,7 @@ class AptGestures extends StatelessWidget {
             constraints.maxWidth,
             bloc: bloc,
             page: page,
-            vertical: bloc.settings.arenaScreenVerticalScroll.value,
+            vertical: bloc.settings.arenaSettings.verticalScroll.value,
           ),
           onPanCancel: scrollerBloc.onDragEnd,
           child: Container(

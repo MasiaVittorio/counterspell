@@ -6,6 +6,7 @@ class SettingsBehavior extends StatelessWidget {
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context);
     final CSSettings settings = bloc.settings;
+    final scrollSettings = settings.scrollSettings;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     return Section([
@@ -13,11 +14,11 @@ class SettingsBehavior extends StatelessWidget {
       Padding(
       padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 8.0),
         child: Row(children: <Widget>[
-          Expanded(child: settings.wantVibrate.build((_, vibrate)
+          Expanded(child: settings.appSettings.wantVibrate.build((_, vibrate)
             => ExtraButton(
               text: "Vibration",
               icon: vibrate ? McIcons.vibrate : McIcons.vibrate_off,
-              onTap: () => settings.wantVibrate.set(!vibrate),
+              onTap: () => settings.appSettings.wantVibrate.set(!vibrate),
             ),
           ),),
           Expanded(child: ExtraButton(
@@ -48,15 +49,15 @@ class SettingsBehavior extends StatelessWidget {
       //   ),
       // ),
       CSWidgets.divider,
-      settings.confirmDelay.build((_, dur) => FullSlider(
+      scrollSettings.confirmDelay.build((_, dur) => FullSlider(
         leading: const Icon(Icons.timelapse),
         value: dur.inMilliseconds.toDouble(),
         min: 500,
         max: 2000,
         divisions: 30,
-        onChangeEnd: (val) => settings.confirmDelay.set(Duration(milliseconds: val.round())),
+        onChangeEnd: (val) => scrollSettings.confirmDelay.set(Duration(milliseconds: val.round())),
         titleBuilder: (val) => Text("Confirm delay: ${_fromMilliseconds(val.round())}"),
-        defaultValue: CSSettings.confirmDelayVal.inMilliseconds.toDouble(),
+        defaultValue: CSSettingsScroll.confirmDelayVal.inMilliseconds.toDouble(),
       ),),
     ]);
   }

@@ -16,7 +16,7 @@ class ImageAlign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
+    final settings = bloc.settings.imagesSettings;
     // final theme = Theme.of(context);
     
     return Material(

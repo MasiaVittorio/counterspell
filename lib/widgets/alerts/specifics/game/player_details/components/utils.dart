@@ -16,8 +16,8 @@ class DetailsUtils {
                 if(n == name) n: true
                 else n: false,
             },
-            minVal: bloc.settings.minValue.value,
-            maxVal: bloc.settings.maxValue.value,
+            minVal: bloc.settings.gameSettings.minValue.value,
+            maxVal: bloc.settings.gameSettings.maxValue.value,
           ));
         }
       }
@@ -38,8 +38,8 @@ class DetailsUtils {
                 if(n == name) n: true
                 else n: false,
             },
-            minVal: bloc.settings.minValue.value,
-            maxVal: bloc.settings.maxValue.value,
+            minVal: bloc.settings.gameSettings.minValue.value,
+            maxVal: bloc.settings.gameSettings.maxValue.value,
           ));
         }
       }
@@ -68,7 +68,7 @@ class DetailsUtils {
                 if(n == name) n: partnerB
                 else n: false,
             },
-            maxVal: bloc.settings.maxValue.value,
+            maxVal: bloc.settings.gameSettings.maxValue.value,
           ));
         }
       }
@@ -98,8 +98,8 @@ class DetailsUtils {
             defender: defender,
             attacker: attacker,
             usingPartnerB: partnerB,
-            maxVal: bloc.settings.maxValue.value,
-            minLife: bloc.settings.minValue.value,
+            maxVal: bloc.settings.gameSettings.maxValue.value,
+            minLife: bloc.settings.gameSettings.minValue.value,
             settings: gameState.players[attacker].commanderSettings(!partnerB),
           ));
         }

@@ -99,7 +99,7 @@ class ArenaLayoutSelector extends StatelessWidget {
     final settings = bloc.settings;
     return RadioSlider(
       selectedIndex: squadLayout ? 0 : 1,
-      onTap: (i) => settings.arenaSquadLayout.set(i==0),
+      onTap: (i) => settings.arenaSettings.squadLayout.set(i==0),
       items: [
         RadioSliderItem(
           icon: Icon(McIcons.account_multiple_outline),

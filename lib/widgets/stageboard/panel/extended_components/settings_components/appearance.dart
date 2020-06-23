@@ -34,15 +34,15 @@ class SettingsAppearance extends StatelessWidget {
         ].separateWith(CSWidgets.extraButtonsDivider),),
       ),
       CSWidgets.divider,
-      settings.alwaysOnDisplay.build((_, alwaysOn) => SwitchListTile(
+      settings.appSettings.alwaysOnDisplay.build((_, alwaysOn) => SwitchListTile(
         value: alwaysOn,
-        onChanged: settings.alwaysOnDisplay.set,
+        onChanged: settings.appSettings.alwaysOnDisplay.set,
         title: const Text("Always on display"),
         secondary: const Icon(Icons.settings_brightness),
       ),),
       const SectionTitle("History time"),
-      bloc.settings.timeMode.build((_,mode)=> RadioSlider(
-        onTap: (i) => settings.timeMode.set(TimeMode.values[i]),
+      bloc.settings.gameSettings.timeMode.build((_,mode)=> RadioSlider(
+        onTap: (i) => settings.gameSettings.timeMode.set(TimeMode.values[i]),
         selectedIndex: TimeMode.values.indexOf(mode),
         items: [for(final timeMode in TimeMode.values)
           RadioSliderItem(

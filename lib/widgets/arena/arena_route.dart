@@ -49,7 +49,7 @@ class _ArenaRoute<T> extends PopupRoute<T> {
     if (theme != null){
       page = Theme(data: theme, child: page);
     }
-    if (CSBloc.of(context).settings.arenaFullScreen.value){
+    if (CSBloc.of(context).settings.arenaSettings.fullScreen.value){
       page = MediaQuery.removePadding(
         context: context, 
         removeTop: true, 
@@ -83,11 +83,11 @@ Future<T> showArena<T>({
     return null;
   }
   
-  bloc.settings.lastPageBeforeArena.set(stage.mainPagesController.currentPage);
+  bloc.settings.appSettings.lastPageBeforeArena.set(stage.mainPagesController.currentPage);
   stage.mainPagesController.goToPage(CSPage.life);
   bloc.game.gameAction.clearSelection();
 
-  if(bloc.settings.arenaFullScreen.value){
+  if(bloc.settings.arenaSettings.fullScreen.value){
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
@@ -144,8 +144,8 @@ class _SimpleGroup extends StatelessWidget {
           //these two values are so rarely updated that all the actual
           //reactive variables make this rebuild so often that min and max
           //will basically always be correct. no need to add 2 streambuilders
-          minValue: settings.minValue.value,
-          maxValue: settings.maxValue.value,
+          minValue: settings.gameSettings.minValue.value,
+          maxValue: settings.gameSettings.maxValue.value,
         ).actions(gameState.names);
 
         return AnimatedBuilder(

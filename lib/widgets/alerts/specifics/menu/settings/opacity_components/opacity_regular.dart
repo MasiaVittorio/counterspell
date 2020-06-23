@@ -13,7 +13,7 @@ class ImageOpacityRegular extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
+    final settings = bloc.settings.imagesSettings;
     final start = settings.imageGradientStart;
     final end = settings.imageGradientEnd;
 
@@ -30,8 +30,8 @@ class ImageOpacityRegular extends StatelessWidget {
     );
 
     final Widget gradient = BlocVar.build2(
-      bloc.settings.imageGradientStart,
-      bloc.settings.imageGradientEnd,
+      start,
+      end,
       builder: (context, double startVal, double endVal) => Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -136,7 +136,7 @@ class ImageOpacityRegular extends StatelessWidget {
           value: value,
           onChanged: start.set,
           divisions: 20,
-          defaultValue: CSSettings.defaultImageGradientStart,
+          defaultValue: CSSettingsImages.defaultImageGradientStart,
           leading: Icon(Icons.keyboard_arrow_left),
           titleBuilder: (val) => Text("Start: ${val.toStringAsFixed(2)}"),
         )),
@@ -144,7 +144,7 @@ class ImageOpacityRegular extends StatelessWidget {
           value: value,
           onChanged: end.set,
           divisions: 20,
-          defaultValue: CSSettings.defaultImageGradientEnd,
+          defaultValue: CSSettingsImages.defaultImageGradientEnd,
           leading: Icon(Icons.keyboard_arrow_right),
           titleBuilder: (val) => Text("End: ${val.toStringAsFixed(2)}"),
         )),

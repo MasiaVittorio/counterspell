@@ -211,7 +211,7 @@ class PlayerTile extends StatelessWidget {
       } else {
         final String imageUrl = card.imageUrl();
 
-        final Widget image = bloc.settings.imageAlignments.build((_,alignments) => Container(
+        final Widget image = bloc.settings.imagesSettings.imageAlignments.build((_,alignments) => Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: CachedNetworkImageProvider(
@@ -225,8 +225,8 @@ class PlayerTile extends StatelessWidget {
         ),);
 
         final Widget gradient = BlocVar.build2(
-          bloc.settings.imageGradientStart,
-          bloc.settings.imageGradientEnd,
+          bloc.settings.imagesSettings.imageGradientStart,
+          bloc.settings.imagesSettings.imageGradientEnd,
           builder: (context, double startVal, double endVal) => Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

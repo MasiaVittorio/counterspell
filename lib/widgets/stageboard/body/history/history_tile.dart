@@ -99,7 +99,7 @@ class HistoryTile extends StatelessWidget {
       child: InkWell(
         onLongPress: index > 0 
           ? () {
-            final timeMode = bloc.settings.timeMode.value;
+            final timeMode = bloc.settings.gameSettings.timeMode.value;
             final bool none = timeMode == TimeMode.none;
             final realMode = none ? TimeMode.clock : timeMode;
             final bool inGame = realMode == TimeMode.inGame;

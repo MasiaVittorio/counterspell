@@ -909,9 +909,13 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       indexToName: this.indexToName, 
       isScrollingSomewhere: widget.isScrollingSomewhere,
       open: open, 
-      openMenu: () => this.setState((){
-        open = true;
-      }), 
+      openMenu: () {
+        widget.group.parent.parent.stage.mainPagesController.goToPage(CSPage.life);
+        widget.group.parent.parent.scroller.cancel(true);
+        this.setState((){
+          open = true;
+        });
+      }, 
       closeMenu: () => this.setState(() {
         open = false;
       }),

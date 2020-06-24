@@ -46,30 +46,37 @@ class AptGestures extends StatelessWidget {
 
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
-    final Widget interactiveContent = Container(
-      // width: constraints.maxWidth - _margin*2,
-      // height: constraints.maxHeight - _margin*2,
-      //to make the pan callback working, the color cannot be just null
-      color: Colors.transparent,
-      child: content,
-    );
-
     return Material(
       type: MaterialType.transparency,
       child: bloc.settings.arenaSettings.scrollOverTap.build((context, scrollOverTap) 
-        => InkResponse(
-          onTap: scrollOverTap ? () => tapWithScrollSettings(stage) : (){}, /// not null because the inkwell must be seen as enabled
-          onTapDown: scrollOverTap ? null : (details) => this.tapOnly(details, stage),
-          onLongPress: scrollOverTap ? () => longPressWithScrollSettings(stage) : null,
-          child: scrollOverTap 
-            ? VelocityPanDetector(
-              onPanUpdate: onPanUpdate,
-              onPanEnd: onPanEnd,
-              onPanCancel: bloc.scroller.onDragEnd,
-              child: interactiveContent,
-            )
-            : interactiveContent,
-        ),
+        => scrollOverTap 
+          ? InkResponse(
+              onTap:() => tapWithScrollSettings(stage), 
+              onLongPress: () => longPressWithScrollSettings(stage),
+              child: VelocityPanDetector(
+                onPanUpdate: onPanUpdate,
+                onPanEnd: onPanEnd,
+                onPanCancel: bloc.scroller.onDragEnd,
+                child: Container(
+                  /// Transparent color (not just null) unless the empty part would not be interactive
+                  color: Colors.transparent,
+                  child: content,
+                ),
+              ),
+            ) 
+          : Stack(children: <Widget>[
+              Positioned.fill(child: content),
+              
+              Positioned.fill(child: Column(children: <Widget>[
+                for(bool topHalf in const <bool>[true,false])
+                  Expanded(child: InkResponse(
+                    containedInkWell: true,
+                    onTap: (){}, /// not null because the inkwell must be seen as enabled
+                    onTapDown: (_) => this.tapOnly(topHalf, stage),
+                    child: Container(color: Colors.transparent,),
+                  ),),
+              ],),),
+            ],),
       ),
     );
   }
@@ -125,7 +132,7 @@ class AptGestures extends StatelessWidget {
   /// with only taps, we need the relative position to be able to determimne if the
   /// tap happened on the top or bottom half of the player tile, so we will need to use
   /// the onTapUp callback instead of the normal onTap one.
-  void tapOnly(TapDownDetails details, StageData stage){
+  void tapOnly(bool topHalf, StageData stage){
     final actionBloc = bloc.game.gameAction;
     final selectedVar = actionBloc.selected;
     final previousVal = <String,bool>{
@@ -161,9 +168,8 @@ class AptGestures extends StatelessWidget {
     selectedVar.refresh();
 
     /// and now edit the value
-    this.bloc.scroller.editVal(
-      details.localPosition.dy < this.constraints.maxHeight / 2 ? 1 : -1,
-    );
+    // final bool topHalf = details.localPosition.dy < (this.constraints.maxHeight / 2);
+    this.bloc.scroller.editVal(topHalf ? 1 : -1);
 
   }
 

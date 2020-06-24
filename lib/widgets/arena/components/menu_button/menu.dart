@@ -149,7 +149,7 @@ class ArenaTapHint extends StatelessWidget {
       => AnimatedListed(
         listed: !scroll,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Padding(
               padding: EdgeInsets.only(left: 16, right: 16, bottom: 8.0),

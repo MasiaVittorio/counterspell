@@ -99,10 +99,12 @@ class AptGestures extends StatelessWidget {
 
             final Map<bool,Widget> children = <bool,Widget>{
               for(bool plus in const <bool>[true,false])
-                plus: Expanded(child: InkResponse(
+                plus: Expanded(child: ContinuousPressInkResponse(
                   containedInkWell: true,
                   onTap: (){}, /// not null because the inkwell must be seen as enabled
                   onTapDown: (_) => this.tapOnly(plus, stage),
+                  whileLongPress: () => this.tapOnly(plus, stage),
+                  interval: const Duration(milliseconds: 250),
                   child: Container(
                     color: Colors.transparent,
                     child: buildArrow(verticalTap, plus),

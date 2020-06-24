@@ -10,6 +10,7 @@ class CSSettingsArena {
     this.scrollOverTap.dispose();
     this.squadLayout.dispose();
     this.verticalScroll.dispose();
+    this.verticalTap.dispose();
     this.hideNameWhenImages.dispose();
     this.fullScreen.dispose();
   }
@@ -23,6 +24,7 @@ class CSSettingsArena {
   final PersistentVar<bool> squadLayout;
 
   final PersistentVar<bool> verticalScroll;
+  final PersistentVar<bool> verticalTap;
 
   final PersistentVar<bool> scrollOverTap;
 
@@ -45,6 +47,10 @@ class CSSettingsArena {
     verticalScroll = PersistentVar<bool>(
       key: "bloc_settings_blocvar_simpleScreenVerticalScroll",
       initVal: false,
+    ),
+    verticalTap = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_simpleScreenVerticalTap",
+      initVal: true,
     ),
     hideNameWhenImages = PersistentVar<bool>(
       key: "bloc_settings_blocvar_arenaHideNameWhenImages",

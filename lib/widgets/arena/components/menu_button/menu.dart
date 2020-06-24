@@ -50,7 +50,7 @@ class ArenaMenu extends StatelessWidget {
           SectionTitle("Gestures"),
           ArenaScrollOverTap(),
           ArenaScrollDirectionSelector(),
-          ArenaTapHint(),
+          ArenaTapDirectionSelector(),
         ],),
         const ArenaInfo(),
       ],
@@ -137,27 +137,3 @@ class ArenaLayoutSelector extends StatelessWidget {
   }
 }
 
-class ArenaTapHint extends StatelessWidget {
-
-  const ArenaTapHint();
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-
-    return bloc.settings.arenaSettings.scrollOverTap.build((context, scroll) 
-      => AnimatedListed(
-        listed: !scroll,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, bottom: 8.0),
-              child: Text("(top half to increase)", style: TextStyle(fontStyle: FontStyle.italic),),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

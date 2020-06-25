@@ -138,6 +138,8 @@ class AptGestures extends StatelessWidget {
               page: this.page, 
               whoIsAttacking: this.whoIsAttacking,
               whoIsDefending: this.whoIsDefending,
+              usePartnerB: this.usingPartnerB,
+              hasPartnerB: this.havingPartnerB,
             ),
           ),
         ],);
@@ -257,6 +259,8 @@ class AptCmdrDmg extends StatelessWidget {
     @required this.page,
     @required this.whoIsAttacking,
     @required this.whoIsDefending,
+    @required this.hasPartnerB,
+    @required this.usePartnerB,
   });
 
   final CSBloc bloc;
@@ -264,6 +268,8 @@ class AptCmdrDmg extends StatelessWidget {
   final CSPage page;
   final String whoIsAttacking;
   final String whoIsDefending;
+  final bool hasPartnerB;
+  final bool usePartnerB;
 
   static const double _size = 56.0;
 
@@ -299,6 +305,13 @@ class AptCmdrDmg extends StatelessWidget {
             bloc.stage.mainPagesController.goToPage(CSPage.life);
         }
       },
+      onLongPress: mode == _CmdrMode.isAttacking && hasPartnerB
+        ? (){
+          //toggling used partners
+          bloc.game.gameState.gameState.value.players[name].usePartnerB = !usePartnerB;
+          bloc.game.gameState.gameState.refresh();
+        }
+        : null,
       child: Container(
         alignment: Alignment.center,
         width: _size,

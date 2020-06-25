@@ -164,7 +164,7 @@ class PlayerGestures{
         }
 
         /// Check if there was already a defending player going on
-        final bool othersAlreadyDefending = whoIsDefending != null && whoIsDefending != "";
+        final bool othersAlreadyDefending = whoIsDefending != null && whoIsDefending != "" && whoIsDefending != name;
 
         if(othersAlreadyDefending){
           /// if other players were defending before, wether there was a non zero damage or not, 

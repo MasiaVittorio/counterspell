@@ -12,9 +12,7 @@ class ArenaSettings extends StatelessWidget {
       child: Column(children: const <Widget>[
         Section(<Widget>[
           SectionTitle("Gestures"),
-          ArenaScrollOverTap(),
-          ArenaScrollDirectionSelector(),
-          ArenaTapDirectionSelector(),
+          Gestures(),
         ]),
         Section(<Widget>[
           SectionTitle("Appearance"),
@@ -75,6 +73,15 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
             child: AnimatedText(
               vertical ? "(down to up to increase)" : "(left to right to increase)",
               style: TextStyle(fontStyle: FontStyle.italic),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            child: AnimatedText(
+              "(Long press on a player for commander damage)",
+              style: TextStyle(fontStyle: FontStyle.italic),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
@@ -88,6 +95,71 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
 
   }
 }
+
+
+
+class Gestures extends StatelessWidget {
+  const Gestures();
+  @override
+  Widget build(BuildContext context) {
+    final bloc = CSBloc.of(context);
+    final settings = bloc.settings.arenaSettings;
+
+    return settings.scrollOverTap.build((context, scroll) 
+      => settings.verticalScroll.build((context, verticalScroll) 
+        => settings.verticalTap.build((context, verticalTap) 
+          => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                child: Row(children: <Widget>[
+                  for(final child in <Widget>[
+                    ExtraButton(
+                      icon: scroll ? Icons.gesture : McIcons.gesture_tap, 
+                      text: scroll ? "Scroll" : "Tap", 
+                      onTap: () => settings.scrollOverTap.set(!scroll),
+                    ),
+                    ExtraButton(
+                      icon: scroll 
+                        ? verticalScroll ? McIcons.gesture_swipe_vertical : McIcons.gesture_swipe_horizontal 
+                        : verticalTap ? McIcons.unfold_more_horizontal : McIcons.unfold_more_vertical,
+                      text: (scroll ? verticalScroll : verticalTap) ? "Vertical": "Horizontal",
+                      onTap: scroll 
+                        ? () => settings.verticalScroll.set(!verticalScroll)
+                        : () => settings.verticalTap.set(!verticalTap),
+                    ),
+                  ]) Expanded(child: child,),
+                ].separateWith(CSWidgets.extraButtonsDivider),),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+                child: AnimatedText(
+                  scroll 
+                    ? (verticalScroll ? "(down to up to increase)" : "(left to right to increase)")
+                    : (verticalTap ? "(top half to increase)" : "(right half to increase)"),
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+                child: AnimatedText(
+                  scroll ? "(long press on a player for commander damage)" : "(tap on commander icon for commander damage)",
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+  }
+}
+
+
 
 class ArenaTapDirectionSelector extends StatelessWidget {
   const ArenaTapDirectionSelector();

@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/arena/components/player_tile/components/all.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
 
 class AptGestures extends StatelessWidget {
@@ -16,8 +17,10 @@ class AptGestures extends StatelessWidget {
     @required this.havingPartnerB,
     @required this.usingPartnerB,
     @required this.defenceColor,
+    @required this.buttonAlignment,
   });
 
+  final Alignment buttonAlignment;
   //child
   final Widget content;
 
@@ -54,7 +57,7 @@ class AptGestures extends StatelessWidget {
       child: bloc.settings.arenaSettings.scrollOverTap.build((context, scrollOverTap) {
 
         if(scrollOverTap){
-          final Widget interactive = InkResponse(
+          final Widget interactiveContent = InkResponse(
             onTap:() => tapWithScrollSettings(stage), 
             onLongPress: () => longPressWithScrollSettings(stage),
             child: VelocityPanDetector(
@@ -69,57 +72,74 @@ class AptGestures extends StatelessWidget {
             ),
           );
 
-
-          return Stack(children: <Widget>[
-            Positioned.fill(child: settings.verticalScroll.build((context, verticalScroll) {
-              final Map<bool,Widget> children = <bool,Widget>{
-                for(bool plus in const <bool>[true,false])
-                  plus: Expanded(child: Container(
-                    /// color: null because it should not be interactive
-                    child: buildArrow(verticalScroll, plus),
-                  ),),
-              };
-              
-              return Flex(
-                direction: verticalScroll ? Axis.vertical : Axis.horizontal,
-                children: <Widget>[
-                  if(verticalScroll) ...[children[true], children[false]] /// top + bottom -
-                  else ...[children[false], children[true]], /// left - right +
-                ],
-              );
-            })),
-
-            Positioned.fill(child: interactive),
-          ],);
-        } 
-
-        return Stack(children: <Widget>[
-          Positioned.fill(child: content),
-          Positioned.fill(child: settings.verticalTap.build((context, verticalTap) {
-
+          final Widget arrows = settings.verticalScroll.build((context, verticalScroll) {
             final Map<bool,Widget> children = <bool,Widget>{
               for(bool plus in const <bool>[true,false])
-                plus: Expanded(child: ContinuousPressInkResponse(
-                  containedInkWell: true,
-                  onTap: (){}, /// not null because the inkwell must be seen as enabled
-                  onTapDown: (_) => this.tapOnly(plus, stage),
-                  whileLongPress: () => this.tapOnly(plus, stage),
-                  interval: const Duration(milliseconds: 250),
-                  child: Container(
-                    color: Colors.transparent,
-                    child: buildArrow(verticalTap, plus),
-                  ),
+                plus: Expanded(child: Container(
+                  /// color: null because it should not be interactive
+                  child: buildArrow(verticalScroll, plus),
                 ),),
             };
-
+            
             return Flex(
-              direction: verticalTap ? Axis.vertical : Axis.horizontal,
+              direction: verticalScroll ? Axis.vertical : Axis.horizontal,
               children: <Widget>[
-                if(verticalTap) ...[children[true], children[false]] /// top + bottom -
+                if(verticalScroll) ...[children[true], children[false]] /// top + bottom -
                 else ...[children[false], children[true]], /// left - right +
               ],
             );
-          },),),
+          },);
+
+
+          return Stack(children: <Widget>[
+            Positioned.fill(child: arrows),
+            Positioned.fill(child: interactiveContent),
+          ],);
+        } 
+
+        final Widget buttons = settings.verticalTap.build((context, verticalTap) {
+
+          final Map<bool,Widget> children = <bool,Widget>{
+            for(bool plus in const <bool>[true,false])
+              plus: Expanded(child: ContinuousPressInkResponse(
+                containedInkWell: true,
+                onTap: (){}, /// not null because the inkwell must be seen as enabled
+                onTapDown: (_) => this.tapOnly(plus, stage),
+                whileLongPress: () => this.tapOnly(plus, stage),
+                interval: const Duration(milliseconds: 250),
+                child: Container(
+                  color: Colors.transparent,
+                  child: buildArrow(verticalTap, plus),
+                ),
+              ),),
+          };
+
+          return Flex(
+            direction: verticalTap ? Axis.vertical : Axis.horizontal,
+            children: <Widget>[
+              if(verticalTap) ...[children[true], children[false]] /// top + bottom -
+              else ...[children[false], children[true]], /// left - right +
+            ],
+          );
+        },);
+
+        return Stack(children: <Widget>[
+          Positioned.fill(child: content),
+
+          Positioned.fill(child: buttons),
+
+          Align(
+            alignment: AptContent.rightInfoFromButtonAlignment(buttonAlignment)
+              ? Alignment.bottomLeft
+              : Alignment.bottomRight,
+            child: AptCmdrDmg(
+              bloc: this.bloc, 
+              name: this.name, 
+              page: this.page, 
+              whoIsAttacking: this.whoIsAttacking,
+              whoIsDefending: this.whoIsDefending,
+            ),
+          ),
         ],);
       },
       ),
@@ -207,44 +227,84 @@ class AptGestures extends StatelessWidget {
   /// tap happened on the top or bottom half of the player tile, so we will need to use
   /// the onTapUp callback instead of the normal onTap one.
   void tapOnly(bool topHalf, StageData stage){
-    final actionBloc = bloc.game.gameAction;
-    final selectedVar = actionBloc.selected;
-    final previousVal = <String,bool>{
-      for(final e in selectedVar.value.entries)
-        e.key+'': e.value,
-    };
-
-    /// We must be in life page only!
-    if(stage.mainPagesController.currentPage != CSPage.life)
-      stage.mainPagesController.goToPage(CSPage.life);
-    /// This will handle automatically any pending action 
-  
-    /// Check if there was already a selection going on
-    bool othersAlreadySelected = false; /// (should not happen very often)
-    for(final key in previousVal.keys){
-      if(previousVal[key] && key != this.name){
-        othersAlreadySelected = true;
-        break;
-      }
-    }
-
-    if(othersAlreadySelected){
-      /// if other players were selected before, wether there was an edit or not, 
-      /// confirm that edit and move on with this new selected player
-      this.bloc.scroller.forceComplete();
-    } 
-
-    /// now, only select this player
-    selectedVar.value = <String,bool>{
-      for(final key in previousVal.keys)
-        key: key == this.name,
-    };
-    selectedVar.refresh();
-
-    /// and now edit the value
-    // final bool topHalf = details.localPosition.dy < (this.constraints.maxHeight / 2);
-    this.bloc.scroller.editVal(topHalf ? 1 : -1);
-
+    PlayerGestures.tapOnlyArena(
+      this.name, 
+      bloc: this.bloc, 
+      page: this.page, 
+      whoIsAttacking: this.whoIsAttacking,
+      topHalf: topHalf,
+      whoIsDefending: this.whoIsDefending, 
+    );
   }
 
+}
+
+
+
+
+enum _CmdrMode {
+  outOfCommanderDamage,
+  isAttacking, 
+  isWaitingForAttack,
+  isDefending,
+}
+
+
+class AptCmdrDmg extends StatelessWidget {
+  AptCmdrDmg({
+    @required this.bloc,
+    @required this.name,
+    @required this.page,
+    @required this.whoIsAttacking,
+    @required this.whoIsDefending,
+  });
+
+  final CSBloc bloc;
+  final String name;
+  final CSPage page;
+  final String whoIsAttacking;
+  final String whoIsDefending;
+
+  static const double _size = 56.0;
+
+  static const Map<_CmdrMode,IconData> _icons= <_CmdrMode,IconData>{
+    _CmdrMode.outOfCommanderDamage: CSIcons.damageIconOutlined,
+    _CmdrMode.isAttacking: CSIcons.attackIconTwo,
+    _CmdrMode.isWaitingForAttack: CSIcons.defenceIconOutline,
+    _CmdrMode.isDefending: CSIcons.defenceIconFilled,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    _CmdrMode mode;
+    if(page != CSPage.commanderDamage){
+      mode = _CmdrMode.outOfCommanderDamage;
+    } else if(whoIsAttacking == name) {
+      mode = _CmdrMode.isAttacking;
+    } else if(whoIsDefending == name){
+      mode = _CmdrMode.isDefending;
+    } else {
+      mode = _CmdrMode.isWaitingForAttack;
+    }
+
+    return InkWell(
+      onTap: (){
+        switch (mode) {
+          case _CmdrMode.outOfCommanderDamage:
+            bloc.stage.mainPagesController.goToPage(CSPage.commanderDamage);
+            bloc.game.gameAction.attackingPlayer.set(this.name);
+            bloc.game.gameAction.defendingPlayer.set("");
+            break;
+          default:
+            bloc.stage.mainPagesController.goToPage(CSPage.life);
+        }
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: _size,
+        height: _size,
+        child: Icon(_icons[mode]),
+      ),
+    );
+  }
 }

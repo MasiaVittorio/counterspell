@@ -839,7 +839,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             return true;
           },
           /// main page is not a visible var from the stage, need its private builder separately
-          child: StageBuild.offMainPage((_, pg) => BlocVar.build4<bool, Color, String, String>(
+          child: StageBuild.offMainPage<CSPage>((_, pg) => BlocVar.build4<bool, Color, String, String>(
             bloc.settings.arenaSettings.squadLayout,
             bloc.themer.defenceColor,
             bloc.game.gameAction.defendingPlayer,
@@ -850,7 +850,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               String def,
               String atk,
             ) => LayoutBuilder(builder: (context, constraints){
-              final Widget menuButton = buildButton(squadLayout, constraints);
+              final Widget menuButton = buildButton(squadLayout, constraints, pg);
 
               switch (widget.gameState.players.length) {
                 case 2:
@@ -903,8 +903,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     );
   }
 
-  Widget buildButton(bool squadLayout, BoxConstraints screenConstraints){
+  Widget buildButton(bool squadLayout, BoxConstraints screenConstraints, CSPage page){
     final Widget button = ArenaMenuButton(
+      page: page,
       bloc: widget.group.parent.parent, 
       indexToName: this.indexToName, 
       isScrollingSomewhere: widget.isScrollingSomewhere,

@@ -1,5 +1,4 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 import 'components/all.dart';
 
 class AptContent extends StatelessWidget {
@@ -59,18 +58,23 @@ class AptContent extends StatelessWidget {
     );
   }
 
-  bool get leftButton => (buttonAlignment?.x ?? 0) <= 0;
-  bool get rightInfo => leftButton;
+  static bool rightInfoFromButtonAlignment(Alignment al) => (al?.x ?? 0) <= 0;
+  bool get leftButton => rightInfo;
+  bool get rightInfo => rightInfoFromButtonAlignment(this.buttonAlignment);
 
   Widget get expandedBody => Expanded(child: body,);
 
-  Widget get body => Column(children: <Widget>[
-    if(buttonOnTop) SizedBox(height: ArenaWidget.buttonSize.height/2),
-    Expanded(child: Center(child: number,),),
-    nameAndRole,
+  Widget get body => Stack(children: <Widget>[
+    // const SizedBox(height: AptRole.size,),
+    Positioned.fill(child: Center(child: number,),),
+    Positioned(
+      bottom:0.0, 
+      left: 0.0,
+      right: 0.0,
+      child: nameAndRole
+    ),
   ],);
 
-  bool get buttonOnTop => buttonAlignment != null;
 
   Widget get number {
     final playerState = gameState.players[name].states.last;
@@ -102,7 +106,7 @@ class AptContent extends StatelessWidget {
       page: this.page,
       whoIsAttacking: this.whoIsAttacking,
       whoIsDefending: this.whoIsDefending,
-      isAttackerUsingPartnerB: this.gameState.players[this.whoIsAttacking]?.havePartnerB??false,
+      isAttackerUsingPartnerB: this.gameState.players[this.whoIsAttacking]?.usePartnerB??false,
       usingPartnerB: gameState.players[name].usePartnerB,
       counter: this.counter, 
     );
@@ -126,17 +130,20 @@ class AptContent extends StatelessWidget {
     whoIsDefending: this.whoIsDefending,
   );
 
-  Widget get role => AptRole(
-    name: this.name,
-    rawSelected: this.rawSelected,
-    bloc: this.bloc,
-    pageColors: this.pageColors,
-    isScrollingSomewhere: this.isScrollingSomewhere,
-    page: this.page,
-    whoIsAttacking: this.whoIsAttacking,
-    whoIsDefending: this.whoIsDefending,
-    havingPartnerB: this.gameState.players[this.name].havePartnerB,
-    defenceColor: this.defenceColor,
+  Widget get role => this.bloc.settings.arenaSettings.scrollOverTap.build((context, scroll) => scroll
+    ? AptRole(
+      name: this.name,
+      rawSelected: this.rawSelected,
+      bloc: this.bloc,
+      pageColors: this.pageColors,
+      isScrollingSomewhere: this.isScrollingSomewhere,
+      page: this.page,
+      whoIsAttacking: this.whoIsAttacking,
+      whoIsDefending: this.whoIsDefending,
+      havingPartnerB: this.gameState.players[this.name].havePartnerB,
+      // defenceColor: this.defenceColor,
+    )
+    : const SizedBox(width: AptRole.size, height: AptRole.size,),
   );
 
   Widget get info => AptInfo(

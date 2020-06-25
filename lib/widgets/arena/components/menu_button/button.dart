@@ -11,8 +11,10 @@ class ArenaButton extends StatelessWidget {
     @required this.routeAnimationValue,
     @required this.buttonSize,
     @required this.exit,
+    @required this.page,
   });
 
+  final CSPage page;
   final Map<int,String> indexToName;
   final bool isScrollingSomewhere;
   final bool open;
@@ -30,12 +32,19 @@ class ArenaButton extends StatelessWidget {
     bool buttonCross;
 
     if(indexToName.values.any((v) => v == null)){
+      // reorder waiting to happen
       buttonCross = true;
       centerTap = exit;
     } else if(this.isScrollingSomewhere){
+      // action pending to be cancelled
       buttonCross = true;
       centerTap = bloc.scroller.cancel;
-    } else {
+    } 
+    else if(page != CSPage.life){
+      buttonCross = true;
+      centerTap = () => bloc.stage.mainPagesController.goToPage(CSPage.life);
+    } 
+    else {
       buttonCross = open;
       centerTap = openMenu;
     }

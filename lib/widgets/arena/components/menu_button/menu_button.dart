@@ -14,6 +14,7 @@ class ArenaMenuButton extends StatelessWidget {
   final double routeAnimationValue;
   final double buttonSize;
   final VoidCallback exit;
+  final CSPage page;
 
   //menu
   final GameState gameState;
@@ -23,6 +24,7 @@ class ArenaMenuButton extends StatelessWidget {
 
 
   ArenaMenuButton({
+    @required this.page,
     @required this.bloc,
     @required this.indexToName,
     @required this.isScrollingSomewhere,
@@ -63,6 +65,7 @@ class ArenaMenuButton extends StatelessWidget {
     );
 
     final Widget button = ArenaButton(
+      page: page,
       routeAnimationValue: routeAnimationValue,
       isScrollingSomewhere: isScrollingSomewhere,
       exit: exit,

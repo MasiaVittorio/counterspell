@@ -106,4 +106,86 @@ class PlayerGestures{
     }
 
   }
+
+  static void tapOnlyArena(String name, {
+    @required CSBloc bloc,
+    @required CSPage page,
+    @required String whoIsAttacking,
+    @required bool topHalf,
+    @required String whoIsDefending,
+  }){
+
+    final actionBloc = bloc.game.gameAction;
+
+    switch (page) {
+      case CSPage.commanderCast:
+      case CSPage.history:
+        //history and commander cast are not implemented in arena yet
+        _returnToLife(bloc);
+        return;
+        break;
+      case CSPage.counters:
+      case CSPage.life:
+
+        final selectedVar = actionBloc.selected;
+        final previousVal = <String,bool>{
+          for(final e in selectedVar.value.entries)
+            e.key+'': e.value,
+        };
+
+        /// Check if there was already a selection going on
+        bool othersAlreadySelected = false; /// (should not happen very often)
+        for(final key in previousVal.keys){
+          if(previousVal[key] && key != name){
+            othersAlreadySelected = true;
+            break;
+          }
+        }
+
+        if(othersAlreadySelected){
+          /// if other players were selected before, wether there was an edit or not, 
+          /// confirm that edit and move on with this new selected player
+          bloc.scroller.forceComplete();
+        } 
+
+        /// now, only select this player
+        selectedVar.value = <String,bool>{
+          for(final key in previousVal.keys)
+            key: key == name,
+        };
+        selectedVar.refresh();
+        break;
+
+      case CSPage.commanderDamage:
+        // should not happen in arena, but if theres no attacker, this player will be!
+        if(whoIsAttacking == null || whoIsAttacking == ""){
+          actionBloc.attackingPlayer.set(name);
+          return;
+        }
+
+        /// Check if there was already a defending player going on
+        final bool othersAlreadyDefending = whoIsDefending != null && whoIsDefending != "";
+
+        if(othersAlreadyDefending){
+          /// if other players were defending before, wether there was a non zero damage or not, 
+          /// confirm that damage and move on with this new defending player
+          bloc.scroller.forceComplete();
+
+          // but reselect the previous attacker then
+          actionBloc.attackingPlayer.set(whoIsAttacking);
+        } 
+
+        /// now, only select this player as defender
+        actionBloc.defendingPlayer.setDistinct(name);
+        
+        break;
+      default:
+    }
+
+    /// and now edit the value
+    bloc.scroller.editVal(topHalf ? 1 : -1);
+
+  }
+
+
 }

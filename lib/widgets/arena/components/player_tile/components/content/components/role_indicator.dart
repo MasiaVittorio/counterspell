@@ -11,7 +11,7 @@ class AptRole extends StatelessWidget {
     @required this.isScrollingSomewhere,
     @required this.whoIsAttacking,
     @required this.whoIsDefending,
-    @required this.defenceColor,
+    // @required this.defenceColor,
     @required this.havingPartnerB,
   });
 
@@ -23,10 +23,10 @@ class AptRole extends StatelessWidget {
   final bool isScrollingSomewhere;
   final String whoIsAttacking;
   final String whoIsDefending;
-  final Color defenceColor;
+  // final Color defenceColor;
   final bool havingPartnerB;
 
-  static const double _size = 56.0;
+  static const double size = 56.0;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,8 @@ class AptRole extends StatelessWidget {
     final CSGameAction actionBloc = bloc.game.gameAction;
 
     return  SizedBox(
-      width: _size,
-      height: _size,
+      width: size,
+      height: size,
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -52,8 +52,8 @@ class AptRole extends StatelessWidget {
                 actionBloc.selected.refresh();
               },
               child: Container(
-                width: _size,
-                height: _size,
+                width: size,
+                height: size,
                 alignment: Alignment.center,
                 child: Checkbox(
                   value: rawSelected,
@@ -75,8 +75,8 @@ class AptRole extends StatelessWidget {
             child: InkWell(
               onTap: () => stateBloc.toggleHavePartner(name),
               child: Container(
-                width: _size,
-                height: _size,
+                width: size,
+                height: size,
                 alignment: Alignment.center,
                 child: Icon(
                   havingPartnerB==true
@@ -94,14 +94,14 @@ class AptRole extends StatelessWidget {
             child: InkWell(
               onTap: () => stateBloc.toggleHavePartner(name),
               child: Container(
-                width: _size,
-                height: _size,
+                width: size,
+                height: size,
                 alignment: Alignment.center,
                 child: Icon(
                   havingPartnerB==true
                     ? CSIcons.attackIconTwo
                     : CSIcons.attackIconOne,
-                  color: this.pageColors[CSPage.commanderDamage],
+                  // color: this.pageColors[CSPage.commanderDamage],
                 ),
               ),
             ),
@@ -116,14 +116,14 @@ class AptRole extends StatelessWidget {
               whoIsAttacking!=null && 
               whoIsAttacking!="",
             child: Container(
-              width: _size,
-              height: _size,
+              width: size,
+              height: size,
               alignment: Alignment.center,
               child: Icon(
                 whoIsDefending == name
                   ? CSIcons.defenceIconFilled
                   : CSIcons.defenceIconOutline,
-                color: this.defenceColor,
+                // color: this.defenceColor,
               ),
             ),
           ),),

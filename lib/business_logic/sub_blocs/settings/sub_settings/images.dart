@@ -8,7 +8,7 @@ class CSSettingsImages {
     this.imageAlignments.dispose();
     this.imageGradientStart.dispose();
     this.imageGradientEnd.dispose();
-    this.simpleImageOpacity.dispose();
+    this.arenaImageOpacity.dispose();
   }
 
   //================================
@@ -18,7 +18,7 @@ class CSSettingsImages {
   final PersistentVar<Map<String,double>> imageAlignments;
   final PersistentVar<double> imageGradientStart;
   final PersistentVar<double> imageGradientEnd;
-  final PersistentVar<double> simpleImageOpacity;
+  final PersistentVar<double> arenaImageOpacity;
 
   //====================================
   // Default values
@@ -51,7 +51,7 @@ class CSSettingsImages {
       toJson: (d) => d,
       fromJson: (j) => j,
     ),
-    simpleImageOpacity = PersistentVar<double>(
+    arenaImageOpacity = PersistentVar<double>(
       key: "bloc_settings_blocvar_simpleImageOpacity",
       initVal: defaultSimpleImageOpacity,
       toJson: (d) => d,

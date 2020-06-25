@@ -92,6 +92,7 @@ class SimplePlayerTile extends StatelessWidget {
     );
 
     final Widget gesturesApplied = AptGestures(
+      buttonAlignment: buttonAlignment,
       content: content,
       rawSelected: rawSelected,
       name: name,

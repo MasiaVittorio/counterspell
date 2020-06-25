@@ -59,7 +59,7 @@ class ExtraInfo {
             ExtraInfo(
               color: defenceColor,
               icon: CSIcons.defenceIconFilled,
-              value: entry.value.a,
+              value: entry.value.b,
               note: "${PTileUtils.subString(entry.key,4)} (B)",
             ),
         ],

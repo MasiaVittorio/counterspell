@@ -31,7 +31,8 @@ class ArenaMenu extends StatelessWidget {
       ),
       children: <Widget>[
         Section(<Widget>[
-          const PanelTitle("Actions"),
+          AlertDrag(),
+          // const PanelTitle("Actions"),
           ArenaActions(reorderPlayers, exit),
         ]),
         if(gameState.players.length > 2) // for two players there is only one layout
@@ -41,49 +42,25 @@ class ArenaMenu extends StatelessWidget {
           ],),
 
         const Section(<Widget>[
-          SectionTitle("Appearance"),
-          ArenaFullScreenToggle(true),
-          ArenaHideNamesWithImageToggle(),
+          SectionTitle("Gestures"),
+          Gestures(),
         ],),
 
         const Section(<Widget>[
-          SectionTitle("Gestures"),
-          ArenaScrollOverTap(),
-          ArenaScrollDirectionSelector(),
-          ArenaTapDirectionSelector(),
+          SectionTitle("Appearance"),
+          ArenaFullScreenToggle(true),
+          ArenaHideNamesWithImageToggle(),
+          ArenaOpacity(),
         ],),
-        const ArenaInfo(),
+
       ],
     );
   }
 }
 
 
-class ArenaInfo extends StatelessWidget {
-  const ArenaInfo();
-  @override
-  Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
 
-    return bloc.settings.arenaSettings.scrollOverTap.build((context, scroll) 
-      => AnimatedListed(
-        listed: scroll,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            SectionTitle("Info"),
-            Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 14.0),
-              child: Text(_info),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
-  static const String _info = "Long press on a player to enter commander damage mode. That player will be the attacker. Scroll on another player to deal commander damage. Once you tap on another player you will exit commander damage mode.";
-}
 
 class ArenaActions extends StatelessWidget {
 
@@ -137,3 +114,18 @@ class ArenaLayoutSelector extends StatelessWidget {
   }
 }
 
+class ArenaOpacity extends StatelessWidget {
+  const ArenaOpacity();
+  @override
+  Widget build(BuildContext context) {
+    final opacity = CSBloc.of(context).settings.imagesSettings.arenaImageOpacity;
+    return opacity.build((_,value) => FullSlider(
+      value: value,
+      divisions: 20,
+      leading: Icon(Icons.opacity),
+      onChanged: opacity.set,
+      defaultValue: CSSettingsImages.defaultSimpleImageOpacity,
+      titleBuilder: (val) => Text("Opacity: ${val.toStringAsFixed(2)}"),
+    ));
+  }
+}

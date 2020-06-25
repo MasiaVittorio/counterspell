@@ -75,7 +75,7 @@ class AptCardImage extends StatelessWidget {
           );
         }
 
-        final Widget filterColor = bloc.settings.imagesSettings.simpleImageOpacity.build((context, double opacity) => Container(
+        final Widget filterColor = bloc.settings.imagesSettings.arenaImageOpacity.build((context, double opacity) => Container(
           color: bkgColor.withOpacity(opacity),
         ));
 

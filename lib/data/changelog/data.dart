@@ -7,7 +7,7 @@ class ChangeLogData {
       Change(
         ChangeType.newFeature,
         "Tap gestures on Arena Mode",
-        "You can enable them in the Arena Settings, they'll override the scroll gestures and will work only with managing life",
+        "You can enable them in the Arena Settings, they'll override the scroll gestures and will still allow for commander damage!",
       ),
     ]),
 

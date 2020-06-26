@@ -124,9 +124,10 @@ class AptGestures extends StatelessWidget {
         },);
 
         return Stack(children: <Widget>[
-          Positioned.fill(child: content),
 
           Positioned.fill(child: buttons),
+
+          Positioned.fill(child: content),
 
           Align(
             alignment: AptContent.rightInfoFromButtonAlignment(buttonAlignment)
@@ -147,6 +148,8 @@ class AptGestures extends StatelessWidget {
       ),
     );
   }
+
+
 
   Widget buildArrow(bool vertical, bool plus) => Align(
     alignment: _alignments[vertical][plus],
@@ -177,6 +180,8 @@ class AptGestures extends StatelessWidget {
       false: Alignment.centerLeft,
     },
   };
+
+
 
   /// With scroll settings, taps are used to select
   void tapWithScrollSettings(StageData stage) {

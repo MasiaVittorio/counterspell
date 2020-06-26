@@ -20,18 +20,14 @@ class AptName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return bloc.settings.arenaSettings.hideNameWhenImages.build((_, hideNameWithImage){
-      if(hideNameWithImage){
-        final bool thereIsCard = bloc.game.gameGroup.cards(
-          !this.gameState.players[name].usePartnerB,
-        ).value[name] != null;
-        
-        if(thereIsCard) return SizedBox();
-      }
+      bool hideName = hideNameWithImage && bloc.game.gameGroup.cards(
+        !this.gameState.players[name].usePartnerB,
+      ).value[name] != null;
 
-      String text = "$name";
+      String text = hideName ? "" : "$name ";
       if(whoIsAttacking != null && whoIsAttacking != ""){
-        if(whoIsAttacking == name) text += " (attacking)";
-        else text += " (dmg taken)";
+        if(whoIsAttacking == name) text += "(attacking)";
+        else text += "(dmg taken)";
       }
       return AnimatedText("$text", style: const TextStyle(fontSize: 16),);
     },);

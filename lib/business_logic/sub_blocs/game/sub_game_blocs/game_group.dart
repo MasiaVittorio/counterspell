@@ -30,7 +30,7 @@ class CSGameGroup {
 
   final PersistentVar<Map<String,MtgCard>> cardsA;
   final PersistentVar<Map<String,MtgCard>> cardsB;
-  BlocVar<Map<String,MtgCard>> cards(bool a) => a ? this.cardsA : this.cardsB;
+  BlocVar<Map<String,MtgCard>> cards(bool partnerA) => partnerA ? this.cardsA : this.cardsB;
 
   ///========================
   /// Constructor

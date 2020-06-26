@@ -54,19 +54,18 @@ class AptInfo extends StatelessWidget {
             ),
         ];
 
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
+        return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Container(
+            margin: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: themeData.colorScheme.onSurface.withOpacity(0.05),
               borderRadius: BorderRadius.circular(SidChip.height/2),
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: children.separateWith(SizedBox(height: 4,)),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: children.separateWith(SizedBox(height: 4,)),
             ),
           ),
         );

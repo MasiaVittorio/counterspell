@@ -48,13 +48,10 @@ class AptContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      child: Row(
-        children: leftButton 
-          ? <Widget>[expandedBody, info]
-          : <Widget>[info, expandedBody],
-      ),
+    return Row(
+      children: leftButton 
+        ? <Widget>[expandedBody, info]
+        : <Widget>[info, expandedBody],
     );
   }
 
@@ -62,7 +59,19 @@ class AptContent extends StatelessWidget {
   bool get leftButton => rightInfo;
   bool get rightInfo => rightInfoFromButtonAlignment(this.buttonAlignment);
 
-  Widget get expandedBody => Expanded(child: body,);
+  Widget get expandedBody => Expanded(child: bloc.settings.arenaSettings.scrollOverTap.buildChild(
+    child: body,
+    builder: (context, scrolls, child) => IgnorePointer(
+      ignoring: !scrolls,
+      /// if we have taps, two buttons are below this content in a stack
+      /// so if we want those buttons to be tappable through the text, we need ignore pointer
+      /// while if we have scrolls, all this content is wrapped inside a gesture detector so we don't need to
+      /// 
+      /// Anyway remember, that only the body can be ignored, while the info is to be scrollable so cannot be, and will
+      /// block any tap in taps mode unfortunately
+      child: child,
+    ),
+  ),);
 
   Widget get body => Stack(children: <Widget>[
     // const SizedBox(height: AptRole.size,),

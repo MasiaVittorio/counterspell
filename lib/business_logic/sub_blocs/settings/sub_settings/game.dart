@@ -9,6 +9,7 @@ class CSSettingsGame {
     this.minValue.dispose();
     this.maxValue.dispose();
     this.timeMode.dispose();
+    this.keepCommanderSettingsBetweenGames.dispose();
   }
 
   //====================================
@@ -18,9 +19,9 @@ class CSSettingsGame {
   final PersistentVar<int> minValue;
   final PersistentVar<int> maxValue;
 
-
-
   final PersistentVar<TimeMode> timeMode;
+
+  final PersistentVar<bool> keepCommanderSettingsBetweenGames;
 
 
   //====================================
@@ -49,6 +50,12 @@ class CSSettingsGame {
       initVal: TimeMode.clock,
       toJson: (mode) => TimeModes.nameOf(mode),
       fromJson: (name) => TimeModes.fromName(name),
+    ),
+    keepCommanderSettingsBetweenGames = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_keepCommanderSettingsBetweenGames",
+      initVal: false,
+      toJson: (b) => b,
+      fromJson: (j) => j,
     );
 
 

@@ -38,10 +38,26 @@ class GameState {
     @required this.players
   });
 
-  factory GameState.start(Set<String> names, Set<String> counters, {int startingLife = 20}) => GameState(
+  factory GameState.start(
+    Set<String> names, 
+    Set<String> counters, {
+      int startingLife = 20,
+      Map<String,CommanderSettings> settingsPartnersA = const <String,CommanderSettings>{},
+      Map<String,CommanderSettings> settingsPartnersB = const <String,CommanderSettings>{},
+      Map<String,bool>  havePartnerB = const <String,bool>{},
+    }
+  ) => GameState(
     players: {
       for(final name in names)
-        name: Player.start(name, names, counters, startingLife: startingLife)
+        name: Player.start(
+          name, 
+          names, 
+          counters, 
+          startingLife: startingLife,
+          havePartnerB: havePartnerB != null ? havePartnerB[name] ?? false : null,
+          settingsPartnerA: settingsPartnersA != null ? settingsPartnersA[name] : null,
+          settingsPartnerB: settingsPartnersB != null ? settingsPartnersB[name] : null,
+        ),
     }
   );
 
@@ -132,12 +148,28 @@ class GameState {
     return GameAction.fromPlayerActions(actions);
   }
 
-  GameState newGame({int startingLife = 20}){
+  GameState newGame({int startingLife = 20, bool keepCommanderSettings = false}){
     assert(startingLife != null);
     return GameState.start(
       this.names,
       this.players.values.first.states.last.counters.keys.toSet(),
       startingLife: startingLife,
+      havePartnerB: <String,bool>{
+        for(final player in this.players.values)
+          player.name : player.havePartnerB,
+      },
+      settingsPartnersA: (keepCommanderSettings ?? false) 
+        ? <String,CommanderSettings>{
+          for(final player in this.players.values)
+            player.name : player.commanderSettingsA,
+        }
+        : null,
+      settingsPartnersB: (keepCommanderSettings ?? false) 
+        ? <String,CommanderSettings>{
+          for(final player in this.players.values)
+            player.name : player.commanderSettingsB,
+        }
+        : null,
     );
   }
 

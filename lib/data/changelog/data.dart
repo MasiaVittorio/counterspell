@@ -3,6 +3,14 @@ import 'package:counter_spell_new/models/changelog/model.dart';
 
 class ChangeLogData {
   static const List<Version> list = <Version>[
+    Version("3.1.3", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "Keep commander settings between games",
+        null,
+      ),
+    ]),
+
     Version("3.1.2", <Change>[
       Change(
         ChangeType.newFeature,

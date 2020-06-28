@@ -155,6 +155,7 @@ class CSGameState {
     //actually resets the game
     _resetGame(this.gameState.value.newGame(
       startingLife: this.parent.currentStartingLife,
+      keepCommanderSettings: this.parent.parent.settings.gameSettings.keepCommanderSettingsBetweenGames.value,
     ));
     //exit history page (or any other) or the menu
     this.parent.parent.stage.mainPagesController.goToPage(CSPage.life);
@@ -231,6 +232,14 @@ class CSGameState {
     assert(gameState.value.players.containsKey(name));
 
     this.gameState.value.players[name].havePartnerB = !this.gameState.value.players[name].havePartnerB;
+    this.gameState.value.players[name].usePartnerB = false;
+    this.gameState.refresh();
+  }
+  
+  void setHavePartner(String name, bool partner){
+    assert(gameState.value.players.containsKey(name));
+
+    this.gameState.value.players[name].havePartnerB = partner;
     this.gameState.value.players[name].usePartnerB = false;
     this.gameState.refresh();
   }

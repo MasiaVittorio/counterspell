@@ -68,13 +68,16 @@ class Player {
     Set<String> others,
     Set<String> counters,
     {
-      int startingLife = 20
+      int startingLife = 20,
+      CommanderSettings settingsPartnerA,
+      CommanderSettings settingsPartnerB,
+      bool havePartnerB = false,
     }
   ) => Player(
       name, 
-      commanderSettingsA: CommanderSettings.defaultSettings,
-      commanderSettingsB: CommanderSettings.defaultSettings,
-      havePartnerB: false,
+      commanderSettingsA: settingsPartnerA ?? CommanderSettings.defaultSettings,
+      commanderSettingsB: settingsPartnerB ?? CommanderSettings.defaultSettings,
+      havePartnerB: havePartnerB ?? false,
       usePartnerB: false,
       states: [
         PlayerState.start(

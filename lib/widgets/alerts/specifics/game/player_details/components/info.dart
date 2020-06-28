@@ -20,18 +20,8 @@ class PlayerDetailsInfo extends StatelessWidget {
           return Column(
             mainAxisSize: MainAxisSize.min, 
             children: <Widget>[
-              ListTile(
-                title: Text(partner ? "Two partners" : "One commander"),
-                leading: Icon(partner ? McIcons.account_multiple_outline :McIcons.account_outline),
-                trailing: FlatButton.icon(
-                  label: Text(partner ? "Merge" : "Split"),
-                  icon: Icon(Icons.exit_to_app),
-                  onPressed: () => bloc.game.gameState.toggleHavePartner(name),
-                ),
-              ),
-
               Section([
-                SectionTitle("Values"),
+                const SectionTitle("Values"),
                 for(final couple in partition(<Widget>[
 
                   ListTile(

@@ -18,7 +18,9 @@ class CSStage {
       panelData: StagePanelData(
         onPanelOpen: parent.scroller.cancel,
       ),
-      popBehavior: StagePopBehavior(),
+      popBehavior: StagePopBehavior(
+        backToDefaultMainPage: true,
+      ),
 
       initialDimensions: StageDimensions(
         collapsedPanelSize: StageDimensions.defaultBarSize,

@@ -16,15 +16,22 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
 
       return Column(
         mainAxisSize: MainAxisSize.min, 
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ListTile(
-            title: Text(partner ? "Two partners" : "One commander"),
-            leading: Icon(partner ? McIcons.account_multiple_outline :McIcons.account_outline),
-            trailing: FlatButton.icon(
-              label: Text(partner ? "Merge" : "Split"),
-              icon: Icon(Icons.exit_to_app),
-              onPressed: ()=> bloc.game.gameState.toggleHavePartner(name),
-            ),
+
+          RadioSliderOf<bool>(
+            selectedItem: partner, 
+            items: <bool,RadioSliderItem>{
+              false: RadioSliderItem(
+                icon: Icon(McIcons.account_outline),
+                title: Text("Single"),
+              ),
+              true: RadioSliderItem(
+                icon: Icon(McIcons.account_multiple_outline),
+                title: Text("Partners"),
+              ),
+            }, 
+            onSelect: (val) => bloc.game.gameState.setHavePartner(name, val),
           ),
 
 
@@ -37,20 +44,56 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
           else 
             _Section(this.index, partnerA: true, havePartner: false, aspectRatio: aspectRatio),
 
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 16.0,
-              left: 16.0,
-              right: 16.0,
-            ),
-            child: Text("WARNING: Lifelink and infect get disabled every time you start a new game"),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(
+          //     bottom: 16.0,
+          //     left: 16.0,
+          //     right: 16.0,
+          //   ),
+          //   child: Text("WARNING: Lifelink and infect get disabled every time you start a new game"),
+          // ),
+          
+          CSWidgets.height5,
+          const _KeepSettings(),
 
         ],
       );
     },);
   }
 }
+
+class _KeepSettings extends StatelessWidget {
+  const _KeepSettings();
+  @override
+  Widget build(BuildContext context) {
+    final bloc = CSBloc.of(context);
+    final settings = bloc.settings.gameSettings;
+    
+    return settings.keepCommanderSettingsBetweenGames.build((context, keep) 
+      => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SwitchListTile(
+            value: keep,
+            title: const Text("Keep settings between games"),
+            subtitle: const Text("(Lifelink, infect...)", style: TextStyle(fontStyle: FontStyle.italic),),
+            onChanged: settings.keepCommanderSettingsBetweenGames.set,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+            child: AnimatedText(keep 
+              ? "(Don't forget to reset them manually then)"
+              : "(Reset for each game is recommended)",
+              style: TextStyle(fontStyle: FontStyle.italic),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 class _Section extends StatelessWidget {
   final bool partnerA;
@@ -64,18 +107,14 @@ class _Section extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return PlayerBuilder(index, (gameState, names, name, playerState, player){
-      return Section([
+    return PlayerBuilder(index, (gameState, names, name, playerState, player)
+      => Section(<Widget>[
         if(havePartner) SectionTitle(partnerA ? "First partner" : "Second partner"),
         _CommanderTile(this.index, 
           partnerA: partnerA, 
           havePartner: havePartner, 
           aspectRatio: aspectRatio,
         ),
-        // const Padding(
-        //   padding: const EdgeInsets.only(left: 56+8.0),
-        //   child: const Divider(height: 2,),
-        // ),
         SubSection([
           SwitchListTile(
             value: player.damageDefendersLife(partnerA), 
@@ -106,8 +145,8 @@ class _Section extends StatelessWidget {
           ),
         ]),
         CSWidgets.height10,
-      ]);
-    },);
+      ],last: !havePartner || !partnerA,),
+    );
   }
 }
 
@@ -124,6 +163,7 @@ class _CommanderTile extends StatelessWidget {
     final CSBloc bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
     final stage = Stage.of(context);
+    final state = bloc.game.gameState;
 
 
     return group.names.build((_, names){
@@ -134,6 +174,11 @@ class _CommanderTile extends StatelessWidget {
           group.cards(partnerA).value[name] = found;
           group.cards(partnerA).refresh();
           group.savedCards.setKey(name, (group.savedCards.value[name] ?? <MtgCard>{})..add(found));
+          
+          //Will always reset commander settings on a new card
+          if(partnerA) state.gameState.value.players[name].commanderSettingsA = CommanderSettings.defaultSettings;
+          else state.gameState.value.players[name].commanderSettingsB = CommanderSettings.defaultSettings;
+          state.gameState.refresh();
         }, 
         searchableCache: <MtgCard>{
           for(final single in group.savedCards.value.values)

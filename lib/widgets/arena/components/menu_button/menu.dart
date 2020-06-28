@@ -31,9 +31,11 @@ class ArenaMenu extends StatelessWidget {
       ),
       children: <Widget>[
         Section(<Widget>[
-          AlertDrag(),
+          const AlertDrag(),
           // const PanelTitle("Actions"),
           ArenaActions(reorderPlayers, exit),
+          CSWidgets.divider,
+          _Restarter(close),
         ]),
         if(gameState.players.length > 2) // for two players there is only one layout
           Section(<Widget>[
@@ -61,7 +63,6 @@ class ArenaMenu extends StatelessWidget {
 
 
 
-
 class ArenaActions extends StatelessWidget {
 
   ArenaActions(this.reorderPlayers, this.exit);
@@ -84,6 +85,28 @@ class ArenaActions extends StatelessWidget {
           onTap: exit,
         )),
       ].separateWith(CSWidgets.extraButtonsDivider)),
+    );
+  }
+}
+
+class _Restarter extends StatelessWidget {
+
+  const _Restarter(this.closeMenu);
+  final VoidCallback closeMenu;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = CSBloc.of(context);
+    final state = bloc.game.gameState;
+
+    return ConfirmableTile(
+      onConfirm: (){
+        state.restart(false, avoidPrompt: true);
+        closeMenu?.call();
+      },
+      leading: Icon(McIcons.restart),
+      titleBuilder: (_,__) => Text("New game"),
+      subTitleBuilder: (_, pressed) => AnimatedText(pressed ? "Confirm?" : "Start fresh"),
     );
   }
 }

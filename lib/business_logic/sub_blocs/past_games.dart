@@ -45,6 +45,7 @@ class CSPastGames {
   bool saveGame(GameState state, {
     @required Map<String,MtgCard> commandersA,
     @required Map<String,MtgCard> commandersB,
+    @required bool avoidPrompt, 
   }) {
 
     if(state.historyLenght <= 1) return false;
@@ -58,7 +59,7 @@ class CSPastGames {
     this.pastGames.value.sort((one, two) => one.startingDateTime.difference(two.startingDateTime).inMilliseconds);
     this.pastGames.refresh();
 
-    if(parent.payments.unlocked.value && pastGame.winner == null){
+    if(!avoidPrompt && parent.payments.unlocked.value && pastGame.winner == null){
       parent.stage.showAlert(
         WinnerSelector(
           pastGame.state.names,

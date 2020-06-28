@@ -1,5 +1,6 @@
 export 'bottom_extra.dart';
 export 'chip.dart';
+export 'confirmable_tile.dart';
 export 'extra_button.dart';
 export 'fake_bottom_bar.dart';
 export 'radio_list_tile.dart';

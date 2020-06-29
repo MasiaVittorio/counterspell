@@ -50,8 +50,8 @@ class AptContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: leftButton 
-        ? <Widget>[expandedBody, info]
-        : <Widget>[info, expandedBody],
+        ? <Widget>[expandedBody, if(page == CSPage.life) info]
+        : <Widget>[if(page == CSPage.life) info, expandedBody],
     );
   }
 
@@ -105,7 +105,7 @@ class AptContent extends StatelessWidget {
     }
     assert(scrolling != null);
 
-    return APTNumber(
+    return APTNumberAlt(
       rawSelected: rawSelected,
       scrolling: scrolling,
       increment: this.increment,

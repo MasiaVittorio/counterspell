@@ -44,7 +44,8 @@ class CommanderStats {
         final Set<String> pilots = game.whoPlayedCommander(card);
         double average = 0.0;
         for(final pilot in pilots){
-          final bool partnerA = game.commandersA[pilot].oracleId == card.oracleId;
+          ///could have partnerA null and partnerB not null
+          final bool partnerA = game.commandersA[pilot]?.oracleId == card.oracleId;
           average += game.state.totalDamageDealtFrom(pilot, partnerA: partnerA);
         }
         average = average / pilots.length;

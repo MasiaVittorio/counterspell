@@ -8,7 +8,7 @@ enum _ThrowType {
   name
 }
 
-class _Throw<T> {
+class _Throw {
   final _ThrowType type;
   final int value;
   final _DiceType _diceType;

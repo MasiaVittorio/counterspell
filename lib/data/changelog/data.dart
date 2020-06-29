@@ -5,8 +5,13 @@ class ChangeLogData {
   static const List<Version> list = <Version>[
     Version("3.1.3", <Change>[
       Change(
-        ChangeType.newFeature,
+        ChangeType.change,
         "Keep commander settings between games",
+        null,
+      ),
+      Change(
+        ChangeType.newFeature,
+        "Start new game from Arena quick menu",
         null,
       ),
     ]),

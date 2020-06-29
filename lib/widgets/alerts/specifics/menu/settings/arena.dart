@@ -145,7 +145,7 @@ class Gestures extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
                 child: AnimatedText(
-                  scroll ? "(long press on a player for commander damage)" : "(tap on commander icon for commander damage)",
+                  scroll ? "(long press on a player for commander damage)" : "(bottom icon for commander damage)",
                   style: TextStyle(fontStyle: FontStyle.italic),
                   textAlign: TextAlign.center,
                 ),

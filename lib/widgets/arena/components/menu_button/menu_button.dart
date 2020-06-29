@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import 'button.dart';
-import 'menu.dart';
+import 'menu/menu.dart';
 
 class ArenaMenuButton extends StatelessWidget {
 

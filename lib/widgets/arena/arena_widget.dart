@@ -34,8 +34,8 @@ class ArenaWidget extends StatefulWidget {
   @override
   _ArenaWidgetState createState() => _ArenaWidgetState();
 
-  static const double _buttonSize = 56.0;
-  static const Size buttonSize = Size(_buttonSize,_buttonSize);
+  static const double buttonDim = 56.0;
+  static const Size buttonSize = Size(buttonDim,buttonDim);
 
 }
 
@@ -81,7 +81,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     }
   }
 
-  double get _buttonSize => ArenaWidget._buttonSize;
+  double get _buttonSize => ArenaWidget.buttonDim;
   Size get buttonSize => ArenaWidget.buttonSize;
 
   String get firstUnpositionedName {
@@ -133,7 +133,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     assert(players != null);
     return Stack(children: <Widget>[
       Positioned.fill(child: rotate 
-        ? RotatedBox(child:players, quarterTurns: 1,)
+        ? RotatedBox(child: players, quarterTurns: 1,)
         : players
       ),
       buildBarrier(),
@@ -148,7 +148,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout6Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required Widget menuButton,
     @required String atk,
     @required String def,
     @required Color defC,
@@ -215,8 +214,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         ),
       ],);
 
+      final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
+      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+      
       return finishLayout(
-        players:players, 
+        players: players, 
         rotate: rotate, 
         menuButton: menuButton,
       );
@@ -303,6 +305,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ],);
 
 
+      final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
+      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+
       return finishLayout(
         players:players, 
         rotate: rotate, 
@@ -315,7 +320,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout5Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required Widget menuButton,
     @required String atk,
     @required String def,
     @required Color defC,
@@ -391,6 +395,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           ],),
         ),
       ],);
+
+      final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
+      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
 
       return finishLayout(
         players:players, 
@@ -492,6 +499,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
         ]),
       ]);
 
+      final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
+      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+
       return finishLayout(
         players:players, 
         buttonPadding: buttonPadding, 
@@ -505,7 +515,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout4Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required Widget menuButton,
     @required String atk,
     @required String def,
     @required Color defC,
@@ -612,17 +621,19 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ]);
     }
 
-      return finishLayout(
-        players:players, 
-        rotate: rotate,
-        menuButton: menuButton,
-      );
+    final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
+    final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+
+    return finishLayout(
+      players:players, 
+      rotate: rotate,
+      menuButton: menuButton,
+    );
   }
 
   Widget layout3Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required Widget menuButton,
     @required String atk,
     @required String def,
     @required Color defC,
@@ -643,6 +654,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     }
     Widget players;
     EdgeInsets buttonPadding;
+    Axis undoAxis;
     if(squadLayout){
       final topBox = BoxConstraints(
         maxHeight: h/2,
@@ -673,6 +685,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           ),
         ]),
       ]);
+
+      undoAxis = landscape ? Axis.horizontal : Axis.vertical;
+
     } else {
       //area top = w * y
       //area bottom  half = (w / 2) * (h - y)
@@ -728,7 +743,13 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           ),
         ],),
       );
+
+      undoAxis = landscape ? Axis.vertical : Axis.horizontal;
+      ///contrary to most layouts
+
     }
+
+    final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
 
     return finishLayout(
       players:players, 
@@ -741,7 +762,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout2Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required Widget menuButton,
     @required String atk,
     @required String def,
     @required Color defC,
@@ -771,8 +791,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ]),
     );
 
+    final menuButton = buildButton(squadLayout, constraints, pg, Axis.horizontal);
+    /// Always horizontal
+
     return finishLayout(
-      players:players, 
+      players: players, 
       rotate: false, 
       menuButton: menuButton,
     );
@@ -808,6 +831,8 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     defenceColor: defenceColor,
     page: page,
   );
+
+  int get numberOfPlayers => widget.gameState.players.length;
 
   @override
   Widget build(BuildContext context) {
@@ -850,14 +875,12 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               String def,
               String atk,
             ) => LayoutBuilder(builder: (context, constraints){
-              final Widget menuButton = buildButton(squadLayout, constraints, pg);
 
-              switch (widget.gameState.players.length) {
+              switch (numberOfPlayers) {
                 case 2:
                   return layout2Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    menuButton: menuButton,
                     atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
@@ -865,7 +888,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   return layout3Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    menuButton: menuButton,
                     atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
@@ -873,7 +895,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   return layout4Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    menuButton: menuButton,
                     atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
@@ -881,7 +902,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   return layout5Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    menuButton: menuButton,
                     atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
@@ -889,7 +909,6 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   return layout6Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    menuButton: menuButton,
                     atk: atk, def: def, pg: pg, defC: defC,
                   );
                   break;
@@ -903,7 +922,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     );
   }
 
-  Widget buildButton(bool squadLayout, BoxConstraints screenConstraints, CSPage page){
+  Widget buildButton(bool squadLayout, BoxConstraints screenConstraints, CSPage page, Axis undoRedoAxis){
     final Widget button = ArenaMenuButton(
       page: page,
       bloc: widget.group.parent.parent, 
@@ -945,7 +964,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ),
     );
 
+    final Widget undoRedo = ArenaUndo(undoRedoAxis);
+
     return Stack(children: <Widget>[
+      Center(child: undoRedo),
       Center(child: delayer),
       Center(child: button),
     ],);
@@ -953,3 +975,19 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
 
 }
+
+
+// /// Always assume landscape when building the players layout and then maybe rotate
+// class _LayoutInfo {
+
+//   _LayoutInfo(BoxConstraints c):
+//     landscape = c.maxWidth >= c.maxHeight,
+//     rotate = c.maxWidth < c.maxHeight,
+//     w = max(c.maxHeight, c.maxWidth),
+//     h = min(c.maxHeight, c.maxWidth);
+
+//   final bool landscape;
+//   final double w;
+//   final double h;
+//   final bool rotate;
+// }

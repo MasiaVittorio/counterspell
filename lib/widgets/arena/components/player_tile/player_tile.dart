@@ -5,44 +5,22 @@ import 'components/all.dart';
 class SimplePlayerTile extends StatelessWidget {
 
   SimplePlayerTile(this.index, {
-    @required this.pageColors,
     @required this.indexToName,
-    @required this.onPosition,
     @required this.buttonAlignment,
     @required this.constraints,
-    @required this.group,
-    @required this.selectedNames,
+    @required this.logic,
     @required this.isScrollingSomewhere,
-    @required this.gameState,
-    @required this.increment,
-    @required this.normalizedPlayerActions,
-    @required this.routeAnimationValue,
-    @required this.firstUnpositionedName,
-    @required this.whoIsAttacking,
-    @required this.whoIsDefending,
-    @required this.defenceColor,
     @required this.page,
-  }): assert(indexToName[index] != null || firstUnpositionedName != null);
+  }): assert(indexToName[index] != null);
 
 
   //Business Logic
-  final CSGameGroup group;
-
-  //Actual Game State
-  final GameState gameState;
+  final CSBloc logic;
 
   //Interaction information
-  final Map<String, bool> selectedNames;
   final bool isScrollingSomewhere;
-  final int increment;
-  final Map<String,PlayerAction> normalizedPlayerActions;
-  final String whoIsAttacking;
-  final String whoIsDefending;
-  final Color defenceColor;
-  final CSPage page;
 
-  //Theming
-  final Map<CSPage,Color> pageColors;
+  final CSPage page;
 
   //Layout information
   final BoxConstraints constraints;
@@ -51,109 +29,157 @@ class SimplePlayerTile extends StatelessWidget {
   //Reordering stuff
   final Map<int,String> indexToName;
   final int index;
-  final VoidCallback onPosition;
-  final String firstUnpositionedName;
 
-  //Route enter / exit animation
-  final double routeAnimationValue;
+  CSSettings get settings => logic.settings;
+  CSSettingsArena get arenaSettings => settings.arenaSettings;
+  CSGame get gameLogic => logic.game;
+  CSGameState get stateLogic => gameLogic.gameState;
+  CSGameAction get actionLogic => gameLogic.gameAction;
+  CSGameGroup get groupLogic => gameLogic.gameGroup;
 
+  String firstUnpositionedName(Map<int,String> indexToName, GameState gameState) {
+    for(final name in gameState.names){
+      if(!indexToName.values.contains(name)){
+        return name;
+      }
+    }
+    return null;
+  }
 
+  void positionName(String name, int position){
+    groupLogic.arenaNameOrder.value[position] = name;
+    groupLogic.arenaNameOrder.refresh();
+  }
+
+  void playerCallback(
+    int index, 
+    GameState gameState, 
+    Map<int,String> indexToName,
+  ) => this.positionName(
+    firstUnpositionedName(indexToName, gameState), 
+    index,
+  );
 
 
   @override
   Widget build(BuildContext context) {
 
-    final bloc = group.parent.parent;
+
     final themeData = Theme.of(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     final String name = indexToName[index];
-    if(name == null) return buildPositioner(themeData);
 
-    final bool rawSelected = selectedNames[name];
-    final bool highlighted = selectedNames[name] != false || whoIsAttacking == name || whoIsDefending == name;
+    return BlocVar.build7(
+      stage.themeController.derived.mainPageToPrimaryColor,
+      logic.scroller.intValue,
+      stateLogic.gameState,
+      actionLogic.attackingPlayer,
+      actionLogic.defendingPlayer,
+      logic.themer.defenceColor,
+      actionLogic.selected,
+      builder: (
+        BuildContext context, 
+        Map<CSPage,Color> pageColors,
+        int increment, 
+        GameState gameState, 
+        String whoIsAttacking, 
+        String whoIsDefending, 
+        Color defenceColor,
+        Map<String,bool> selectedNames,
+      ) {
 
-    final Widget content = AptContent(
-      highlighted: highlighted,
-      rawSelected: rawSelected,
-      name: name,
-      bloc: bloc,
-      isScrollingSomewhere: this.isScrollingSomewhere,
-      pageColors: this.pageColors,
-      increment: this.increment,
-      buttonAlignment: this.buttonAlignment,
-      constraints: this.constraints,
-      gameState: this.gameState,
-      page: this.page,
-      whoIsAttacking: this.whoIsAttacking,
-      whoIsDefending: this.whoIsDefending,
-      defenceColor: this.defenceColor,
-      counter: Counter.poison,
-      //LOW PRIORITY: not reacting to counters
-    );
+        if(name == null) return buildPositioner(themeData, gameState);
 
-    final Widget gesturesApplied = AptGestures(
-      buttonAlignment: buttonAlignment,
-      content: content,
-      rawSelected: rawSelected,
-      name: name,
-      bloc: bloc,
-      constraints: this.constraints,
-      isScrollingSomewhere: this.isScrollingSomewhere,
-      page: this.page,
-      havingPartnerB: this.gameState.players[name].havePartnerB,
-      usingPartnerB: this.gameState.players[name].usePartnerB,
-      defenceColor: this.defenceColor,
-      whoIsAttacking: this.whoIsAttacking,
-      whoIsDefending: this.whoIsDefending,
-    );
+        final bool rawSelected = selectedNames[name];
+        final bool highlighted = selectedNames[name] != false || whoIsAttacking == name || whoIsDefending == name;
 
-    final Widget imageApplied = AptCardImage(
-      bloc: bloc,
-      name: name,
-      gesturesApplied: gesturesApplied,
-      highlighted: highlighted,
-      gameState: this.gameState,
-      isAttacking: this.whoIsAttacking == name,
-      isDefending: this.whoIsDefending == name,
-      defenceColor: this.defenceColor,
-      pageColors: this.pageColors,
-    );
+        final Widget content = AptContent(
+          highlighted: highlighted,
+          rawSelected: rawSelected,
+          name: name,
+          bloc: logic,
+          isScrollingSomewhere: this.isScrollingSomewhere,
+          pageColors: pageColors,
+          increment: increment,
+          buttonAlignment: this.buttonAlignment,
+          constraints: this.constraints,
+          gameState: gameState,
+          page: this.page,
+          whoIsAttacking: whoIsAttacking,
+          whoIsDefending: whoIsDefending,
+          defenceColor: defenceColor,
+          counter: Counter.poison,
+          //LOW PRIORITY: not reacting to counters
+        );
 
-    final Widget backgroundApplied = AptBackGround(
-      highlighted: highlighted,
-      imageApplied: imageApplied,
-      isAttacking: this.whoIsAttacking == name,
-      isDefending: this.whoIsDefending == name,
-      defenceColor: this.defenceColor,
-      pageColors: this.pageColors,
-    );
+        final Widget gesturesApplied = AptGestures(
+          content: content,
+          buttonAlignment: buttonAlignment,
+          rawSelected: rawSelected,
+          name: name,
+          bloc: logic,
+          constraints: this.constraints,
+          isScrollingSomewhere: this.isScrollingSomewhere,
+          page: this.page,
+          havingPartnerB: gameState.players[name].havePartnerB,
+          usingPartnerB: gameState.players[name].usePartnerB,
+          defenceColor: defenceColor,
+          whoIsAttacking: whoIsAttacking,
+          whoIsDefending: whoIsDefending,
+        );
 
-    
-    // now we just have to animate the route entry and exit
-    return SizedBox(
-      width: constraints.maxWidth,
-      height: constraints.maxHeight,
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Positioned(
-            width: constraints.maxWidth,
-            height: constraints.maxHeight,
-            left: 0.0,
-            top: (1-routeAnimationValue) * constraints.maxHeight,
-            child: backgroundApplied,
+        final Widget imageApplied = AptCardImage(
+          bloc: logic,
+          name: name,
+          gesturesApplied: gesturesApplied,
+          highlighted: highlighted,
+          gameState: gameState,
+          isAttacking: whoIsAttacking == name,
+          isDefending: whoIsDefending == name,
+          defenceColor: defenceColor,
+          pageColors: pageColors,
+        );
+
+        final Widget backgroundApplied = AptBackGround(
+          highlighted: highlighted,
+          imageApplied: imageApplied,
+          isAttacking: whoIsAttacking == name,
+          isDefending: whoIsDefending == name,
+          defenceColor: defenceColor,
+          pageColors: pageColors,
+        );
+
+        
+        // now we just have to animate the route entry and exit
+        /// TODO: nope
+        return SizedBox(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Positioned(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                left: 0.0,
+                top: 0.0,
+                child: backgroundApplied,
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+
+      },
     );
   }
 
 
 
-  Widget buildPositioner(ThemeData themeData) => Material(
+  Widget buildPositioner(ThemeData themeData, GameState gameState) => Material(
     type: MaterialType.transparency,
     child: InkWell(
-      onTap: onPosition,
+      onTap: () => this.playerCallback(index, gameState, indexToName),
       child: Container(
         color: Colors.transparent,
         width: constraints.maxWidth,

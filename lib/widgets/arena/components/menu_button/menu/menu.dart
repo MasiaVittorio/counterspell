@@ -5,14 +5,14 @@ import 'components/all.dart';
 class ArenaMenu extends StatelessWidget {
 
   const ArenaMenu({
-    @required this.gameState,
+    @required this.names,
     @required this.squadLayout,
     @required this.reorderPlayers,
     @required this.exit,
     @required this.close,
   });
 
-  final GameState gameState;
+  final List<String> names;
   final bool squadLayout;
   final VoidCallback reorderPlayers;
   final VoidCallback exit;
@@ -39,7 +39,7 @@ class ArenaMenu extends StatelessWidget {
             close: close,
             exit: exit,
             reorderPlayers: reorderPlayers,
-            names: gameState.names,
+            names: names,
           ), 
           icon: Icons.menu,
           title: "Game"
@@ -48,7 +48,7 @@ class ArenaMenu extends StatelessWidget {
         false: RadioHeaderedItem(
           longTitle: "Arena settings", 
           child: ArenaMenuSettings(
-            gameState: gameState,
+            players: names.length,
             squadLayout: squadLayout,
           ), 
           icon: McIcons.settings,

@@ -8,7 +8,6 @@ class ArenaButton extends StatelessWidget {
     @required this.isScrollingSomewhere,
     @required this.open,
     @required this.openMenu,
-    @required this.routeAnimationValue,
     @required this.buttonSize,
     @required this.exit,
     @required this.page,
@@ -19,7 +18,6 @@ class ArenaButton extends StatelessWidget {
   final bool isScrollingSomewhere;
   final bool open;
   final VoidCallback openMenu;
-  final double routeAnimationValue;
   final double buttonSize;
   final VoidCallback exit;
 

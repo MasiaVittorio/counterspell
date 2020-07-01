@@ -8,25 +8,25 @@ enum DelayerListenerType {
 }
 
 class DelayerController {
-  Map<DelayerListenerType,void Function()> _starts = <DelayerListenerType,void Function()>{
+  Map<DelayerListenerType,bool Function()> _starts = <DelayerListenerType, bool Function()>{
     DelayerListenerType.mainScreen: null,
     DelayerListenerType.arena: null,
   };
-  Map<DelayerListenerType,void Function()> _ends = <DelayerListenerType,void Function()>{
+  Map<DelayerListenerType,bool Function()> _ends = <DelayerListenerType, bool Function()>{
     DelayerListenerType.mainScreen: null,
     DelayerListenerType.arena: null,
   };
 
   void addListenersMain({
-    @required void Function() startListener,
-    @required void Function() endListener,
+    @required bool Function() startListener,
+    @required bool Function() endListener,
   }){
     this._starts[DelayerListenerType.mainScreen] = startListener;
     this._ends[DelayerListenerType.mainScreen] = endListener;
   }
   void addListenersArena({
-    @required void Function() startListener,
-    @required void Function() endListener,
+    @required bool Function() startListener,
+    @required bool Function() endListener,
   }){
     this._starts[DelayerListenerType.arena] = startListener;
     this._ends[DelayerListenerType.arena] = endListener;
@@ -38,12 +38,16 @@ class DelayerController {
   }
 
   void scrolling(){
-    for(void Function() _start in _starts.values)
-      _start?.call();
+    final arena = _starts[DelayerListenerType.arena];
+    if(!(arena?.call() ?? false)){
+      _starts[DelayerListenerType.mainScreen]?.call();
+    }
   }
   void leaving(){
-    for(void Function() _end in _ends.values)
-      _end?.call();
+    final arena = _ends[DelayerListenerType.arena];
+    if(!(arena?.call() ?? false)){
+      _ends[DelayerListenerType.mainScreen]?.call();
+    }
   }
 }
 
@@ -109,6 +113,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
 
 
   void initController(){
+    controller?.dispose();
     controller = AnimationController(
       duration: widget.duration,
       vsync: this,
@@ -126,25 +131,36 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
     }
   }
 
-  void scrolling(){
-    if(!mounted) return;
+  bool scrolling(){
+    if(!mounted) return false;
     if(controller.isAnimating && controller.velocity > 0)
-      return;
+      return true;
     if(controller.value == 1.0)
-      return;
+      return true;
 
     this.controller.fling();
+    return true;
   }
 
-  void leaving() async {
-    if(!mounted) return;
+  bool leaving() {
+    if(!mounted) return false;
     if(this.controller.value == 0.0)
-      return;
+      return true;
+
+    bool fling = false;
     if(this.controller.isAnimating){
       if(this.controller.velocity < 0)
-        return;
-      await controller.fling();
+        return true;
+      fling = true;
     }
+    _leaving(fling);
+    return true;
+  }
+
+  void _leaving(bool withFling) async {
+    if(!mounted) return;
+    if(withFling) await  this.controller.fling();
+    if(!mounted) return;
     this.controller.animateBack(0.0);
   }
 

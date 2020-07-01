@@ -15,7 +15,7 @@ class ArenaMenuActions extends StatelessWidget {
   final VoidCallback reorderPlayers;
   final VoidCallback exit;
   final VoidCallback close;
-  final Set<String> names;
+  final List<String> names;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ArenaMenuActions extends StatelessWidget {
           const RandomListTile(20),
           RandomListTile(
             null, 
-            values: names.toList(),
+            values: names,
             title: const Text("Pick name"),
             leading: const Icon(Icons.person_outline),
           ),

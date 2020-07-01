@@ -6,38 +6,36 @@ import 'menu/menu.dart';
 class ArenaMenuButton extends StatelessWidget {
 
   //button
-  final CSBloc bloc;
+  final CSBloc logic;
   final Map<int,String> indexToName;
   final bool isScrollingSomewhere;
   final bool open;
   final VoidCallback openMenu;
   final VoidCallback closeMenu;
-  final double routeAnimationValue;
   final double buttonSize;
   final VoidCallback exit;
   final CSPage page;
 
   //menu
-  final GameState gameState;
   final bool squadLayout;
   final VoidCallback reorderPlayers;
   final BoxConstraints screenConstraints;
+  final List<String> names;
 
   ArenaMenuButton({
     @required this.page,
-    @required this.bloc,
+    @required this.logic,
     @required this.indexToName,
     @required this.isScrollingSomewhere,
     @required this.open,
     @required this.openMenu,
     @required this.closeMenu,
-    @required this.routeAnimationValue,
     @required this.buttonSize,
     @required this.exit,
-    @required this.gameState,
     @required this.reorderPlayers,
     @required this.squadLayout,
     @required this.screenConstraints,
+    @required this.names,
   });
 
   @override
@@ -49,13 +47,15 @@ class ArenaMenuButton extends StatelessWidget {
 
     final double menuWidth = screenConstraints.maxWidth * (horizontalView ? 0.5 : 0.85);
     final double menuHeight = screenConstraints.maxHeight * (horizontalView ? 0.85 : 0.65);
+
+
     final Widget menu = SizedBox(
       width: menuWidth,
       height: menuHeight,
       child: Container(
         color: theme.scaffoldBackgroundColor,
         child: ArenaMenu(
-          gameState: gameState, 
+          names: names, 
           squadLayout: squadLayout, 
           reorderPlayers: reorderPlayers, 
           exit: exit, 
@@ -66,7 +66,6 @@ class ArenaMenuButton extends StatelessWidget {
 
     final Widget button = ArenaButton(
       page: page,
-      routeAnimationValue: routeAnimationValue,
       isScrollingSomewhere: isScrollingSomewhere,
       exit: exit,
       openMenu: openMenu,
@@ -77,54 +76,51 @@ class ArenaMenuButton extends StatelessWidget {
 
 
 
-    return Opacity(
-      opacity: this.routeAnimationValue,
-      child: Material(
-        clipBehavior: Clip.antiAlias,
-        animationDuration: CSAnimations.medium,
-        elevation: open ? 10 : 4,
-        borderRadius: BorderRadius.circular(open ? 16 : this.buttonSize/2),
-        child: AnimatedContainer(
-          duration: CSAnimations.medium,
-          width: open ? menuWidth : buttonSize,
-          height: open ? menuHeight : buttonSize,
-          curve: Curves.fastOutSlowIn,
-          child: Stack(
-            alignment: Alignment.center, 
-            children: <Widget>[
-              AnimatedDouble( 
+    return Material(
+      clipBehavior: Clip.antiAlias,
+      animationDuration: CSAnimations.medium,
+      elevation: open ? 10 : 4,
+      borderRadius: BorderRadius.circular(open ? 16 : this.buttonSize/2),
+      child: AnimatedContainer(
+        duration: CSAnimations.medium,
+        width: open ? menuWidth : buttonSize,
+        height: open ? menuHeight : buttonSize,
+        curve: Curves.fastOutSlowIn,
+        child: Stack(
+          alignment: Alignment.center, 
+          children: <Widget>[
+            AnimatedDouble( 
+              duration: CSAnimations.medium,
+              value: !open ? 1.0 : -1.0,
+              builder:(_, val) => Opacity(
+                // clamping the [-1, 0] part in order to 
+                // cross fade between the two objects implicitly
+                opacity: val.clamp(0.0, 1.0),
+                child: IgnorePointer(
+                  ignoring: open,
+                  child: button,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0.0,
+              width: menuWidth,
+              height: menuHeight,
+              child: AnimatedDouble(
                 duration: CSAnimations.medium,
-                value: !open ? 1.0 : -1.0,
+                value: open ? 1.0 : -1.0,
                 builder:(_, val) => Opacity(
                   // clamping the [-1, 0] part in order to 
                   // cross fade between the two objects implicitly
                   opacity: val.clamp(0.0, 1.0),
                   child: IgnorePointer(
-                    ignoring: open,
-                    child: button,
+                    ignoring: !open,
+                    child: menu,
                   ),
                 ),
               ),
-              Positioned(
-                top: 0.0,
-                width: menuWidth,
-                height: menuHeight,
-                child: AnimatedDouble(
-                  duration: CSAnimations.medium,
-                  value: open ? 1.0 : -1.0,
-                  builder:(_, val) => Opacity(
-                    // clamping the [-1, 0] part in order to 
-                    // cross fade between the two objects implicitly
-                    opacity: val.clamp(0.0, 1.0),
-                    child: IgnorePointer(
-                      ignoring: !open,
-                      child: menu,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -135,10 +131,10 @@ class ArenaMenuButton extends StatelessWidget {
 
 class ArenaUndo extends StatelessWidget {
 
-  const ArenaUndo(this.undoRedoAxis);
+  const ArenaUndo(this.undoRedoAxis, this.open);
   
   final Axis undoRedoAxis;
-
+  final bool open;
 
   static const double size = ArenaWidget.buttonDim;
   static const double halfSize = size / 2;
@@ -153,7 +149,7 @@ class ArenaUndo extends StatelessWidget {
 
     final radius = Radius.circular(halfSize);
 
-    final listeds = [logic.backable, logic.forwardable];
+    final actives = [logic.backable, logic.forwardable];
     final taps = [logic.back, logic.forward];
 
     final radiuses = [
@@ -206,7 +202,7 @@ class ArenaUndo extends StatelessWidget {
             height: size * 2,
             alignment: alignments[n],
             child: AnimatedListed(
-              listed: listeds[n],
+              listed: !open,
               axis: undoRedoAxis,
               overlapSizeAndOpacity: 1.0,
               axisAlignment: axisAlignments[n],
@@ -224,7 +220,7 @@ class ArenaUndo extends StatelessWidget {
                     alignment: Alignment.center,
                     child: IconButton(
                       icon: Icon(icons[n], size: 20),
-                      onPressed: taps[n],
+                      onPressed: actives[n] ? taps[n] : null,
                     ),
                   ),
                 ),

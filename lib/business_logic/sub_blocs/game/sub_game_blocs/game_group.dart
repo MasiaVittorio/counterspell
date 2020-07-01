@@ -10,7 +10,7 @@ class CSGameGroup {
   void dispose(){
     this.names.dispose();
     newNamesSub.cancel();
-    this.alternativeLayoutNameOrder.dispose();
+    this.arenaNameOrder.dispose();
     this.newNamesSub.cancel();
     this.savedNames.dispose();
     this.savedCards.dispose();
@@ -22,7 +22,7 @@ class CSGameGroup {
   // Values
   final CSGame parent;
   PersistentVar<List<String>> names;
-  PersistentVar<Map<int,String>> alternativeLayoutNameOrder;
+  PersistentVar<Map<int,String>> arenaNameOrder;
   StreamSubscription newNamesSub;
   final PersistentVar<Set<String>> savedNames;
 
@@ -96,7 +96,7 @@ class CSGameGroup {
         return true;
       }
     );
-    alternativeLayoutNameOrder = PersistentVar<Map<int,String>>(
+    arenaNameOrder = PersistentVar<Map<int,String>>(
       key: "bloc_game_group_blocvar_alternative_layout_name_order",
       initVal: {
         for(int i=0; i<this.names.value.length; ++i)
@@ -137,13 +137,13 @@ class CSGameGroup {
   }
   void updateNamesAltLayout(List<String> newNames){
     for(final name in newNames){
-      if(!alternativeLayoutNameOrder.value.containsValue(name)){
-        alternativeLayoutNameOrder.value[alternativeLayoutNameOrder.value.length] = name;
+      if(!arenaNameOrder.value.containsValue(name)){
+        arenaNameOrder.value[arenaNameOrder.value.length] = name;
       }
     }
     final List<String> current = <String>[
-      for(int i=0; i<alternativeLayoutNameOrder.value.length; ++i)
-        alternativeLayoutNameOrder.value[i],
+      for(int i=0; i<arenaNameOrder.value.length; ++i)
+        arenaNameOrder.value[i],
     ];
     final List<String> toBeRemoved= <String>[];
     for(final name in current){
@@ -153,7 +153,7 @@ class CSGameGroup {
     for(final name in toBeRemoved){
       current.remove(name);        
     }
-    alternativeLayoutNameOrder.set(<int,String>{
+    arenaNameOrder.set(<int,String>{
       for(int i=0; i<current.length; ++i)
         i:current[i],
     });
@@ -181,14 +181,14 @@ class CSGameGroup {
     this.names.refresh();
 
     int altIndex;
-    for(final entry in this.alternativeLayoutNameOrder.value.entries){
+    for(final entry in this.arenaNameOrder.value.entries){
       if(entry.value == oldName){
         altIndex = entry.key;
       }
     }
     if(altIndex != null){
-      this.alternativeLayoutNameOrder.value[altIndex] = newName;
-      this.alternativeLayoutNameOrder.refresh();
+      this.arenaNameOrder.value[altIndex] = newName;
+      this.arenaNameOrder.refresh();
     }
     this.saveName(newName);
   }
@@ -203,7 +203,7 @@ class CSGameGroup {
   }
   void newGroup(List<String> newNames){
     this.names.set(newNames);
-    this.alternativeLayoutNameOrder.set({
+    this.arenaNameOrder.set({
       for(int i=0; i<newNames.length; ++i)
         i: newNames[i],
     });

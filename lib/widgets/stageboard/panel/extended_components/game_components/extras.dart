@@ -1,10 +1,11 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/arena/arena_route.dart';
 
 
 class PanelGameExtras extends StatelessWidget {
 
-  const PanelGameExtras();
+  const PanelGameExtras(this.arenaOpener);
+
+  final VoidCallback arenaOpener;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class PanelGameExtras extends StatelessWidget {
             iconSize: CSIcons.ideal_counterspell_size,
             iconPadding: CSIcons.ideal_counterspell_padding,
             text: "Arena Mode",
-            onTap: () => showArena(context: context, bloc: bloc),
+            onTap: arenaOpener,
             forceExternalSize: true,
           ),),
         ].separateWith(CSWidgets.extraButtonsDivider),

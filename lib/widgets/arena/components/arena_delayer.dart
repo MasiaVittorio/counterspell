@@ -12,6 +12,7 @@ class ArenaDelayer extends StatefulWidget {
   final void Function() onManualConfirm;
   final DelayerController delayerController;
 
+  final AnimationStatusListener animationListener;
 
   ArenaDelayer({
     @required this.onManualCancel,
@@ -19,6 +20,7 @@ class ArenaDelayer extends StatefulWidget {
     @required this.delayerController,
     @required this.duration,
     @required this.color,
+    @required this.animationListener,
   });
 
   @override
@@ -44,11 +46,13 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
 
 
   void initController(){
+    controller?.dispose();
     controller = AnimationController(
       duration: widget.duration,
       vsync: this,
       animationBehavior: AnimationBehavior.preserve,
     );
+    controller.addStatusListener(widget.animationListener);
   }
 
   @override
@@ -60,25 +64,36 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
     }
   }
 
-  void scrolling(){
-    if(!mounted) return;
+  bool scrolling(){
+    if(!mounted) return false;
     if(controller.isAnimating && controller.velocity > 0)
-      return;
+      return true;
     if(controller.value == 1.0)
-      return;
+      return true;
 
     this.controller.fling();
+    return true;
   }
 
-  void leaving() async {
-    if(!mounted) return;
+  bool leaving() {
+    if(!mounted) return false;
     if(this.controller.value == 0.0)
-      return;
+      return true;
+
+    bool fling = false;
     if(this.controller.isAnimating){
       if(this.controller.velocity < 0)
-        return;
-      await controller.fling();
+        return true;
+      fling = true;
     }
+    _leaving(fling);
+    return true;
+  }
+
+  void _leaving(bool withFling) async {
+    if(!mounted) return;
+    if(withFling) await  this.controller.fling();
+    if(!mounted) return;
     this.controller.animateBack(0.0);
   }
 

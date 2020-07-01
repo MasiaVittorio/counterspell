@@ -41,7 +41,7 @@ class ExtraButton extends StatelessWidget {
             height: _iconDimension,
             width: _iconDimension,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
+              borderRadius: BorderRadius.circular(filled ? 10 : 50),
               color: (filled ?? false) ? null : Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
               // border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.051)),
               // color: Theme.of(context).canvasColor.withOpacity(0.5),

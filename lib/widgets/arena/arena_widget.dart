@@ -6,30 +6,12 @@ import 'package:flutter/material.dart';
 class ArenaWidget extends StatefulWidget {
 
   const ArenaWidget({
-    @required this.pageColors,
-    @required this.gameState,
-    @required this.selectedNames,
-    @required this.isScrollingSomewhere,
-    @required this.increment,
-    @required this.routeAnimationValue,
-    @required this.group,
-    @required this.normalizedPlayerActions,
-    this.initialNameOrder,
-    this.onPositionNames,
+    @required this.logic,
   });
 
   static const Set<int> okNumbers = <int>{2,3,4,5,6};
 
-  final GameState gameState;
-  final Map<String,bool> selectedNames;
-  final bool isScrollingSomewhere;
-  final int increment;
-  final CSGameGroup group;
-  final Map<CSPage,Color> pageColors;
-  final Map<String,PlayerAction> normalizedPlayerActions;
-  final double routeAnimationValue;
-  final Map<int, String> initialNameOrder;
-  final void Function(Map<int,String>) onPositionNames;
+  final CSBloc logic;
 
   @override
   _ArenaWidgetState createState() => _ArenaWidgetState();
@@ -41,69 +23,22 @@ class ArenaWidget extends StatefulWidget {
 
 class _ArenaWidgetState extends State<ArenaWidget> {
 
-  Map<int, String> indexToName;
   bool open = false;
 
-  @override
-  void initState() {
-    super.initState();
-    initNames(widget.initialNameOrder);
-  }
+  CSBloc get logic => widget.logic;
+  CSSettings get settings => logic.settings;
+  CSSettingsArena get arenaSettings => settings.arenaSettings;
+  CSGame get gameLogic => logic.game;
+  CSGameState get stateLogic => gameLogic.gameState;
+  CSGameAction get actionLogic => gameLogic.gameAction;
+  CSGameGroup get groupLogic => gameLogic.gameGroup;
 
-  void initNames(Map<int,String> initialNameOrder){
-    final int len = widget.gameState.names.length;
-    this.indexToName = initialNameOrder ?? {
-      for(int i=0; i<len; ++i)
-        i: null,
-    };
-  }
-
-  void preExit(){
-    Stage.of(context).mainPagesController.goToPage(
-      CSBloc.of(context).settings.appSettings.lastPageBeforeArena.value,
-    );
-  }
   void exit(){
-    preExit();
     Navigator.of(context).pop();
   }
   
-  @override
-  void didUpdateWidget(ArenaWidget oldWidget){
-    super.didUpdateWidget(oldWidget);
-    if(indexToName.values.any((name)
-      => !widget.gameState.names.contains(name)
-    ) || widget.gameState.names.any((name)
-      => !indexToName.values.contains(name)
-    )){
-      initNames(null);
-      this.open = false;
-    }
-  }
-
   double get _buttonSize => ArenaWidget.buttonDim;
   Size get buttonSize => ArenaWidget.buttonSize;
-
-  String get firstUnpositionedName {
-    for(final name in widget.gameState.names){
-      if(!this.indexToName.values.contains(name)){
-        return name;
-      }
-    }
-    return null;
-  }
-
-  void positionName(String name, int position){
-    this.setState((){
-      this.indexToName[position] = name;
-    });
-    if(widget.onPositionNames != null)
-      widget.onPositionNames(indexToName);
-  }
-
-  VoidCallback playerCallback(int index) => (){
-    this.positionName(firstUnpositionedName, index);
-  };
 
 
   Widget buildBarrier(){
@@ -148,10 +83,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout6Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required String atk,
-    @required String def,
-    @required Color defC,
     @required CSPage pg,
+    @required Map<int,String> indexes,
+    @required bool scrolling,
+    @required List<String> names,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -191,7 +126,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   height: box.maxHeight,
                   child: buildPlayer(
                     i, box, i == 4 ? Alignment.topCenter : null,
-                    atk, def, defC, pg,
+                    pg, indexes, scrolling
                   ),
                 ),
             ],),
@@ -207,7 +142,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 height: box.maxHeight,
                 child: buildPlayer(
                   i, box, i == 1 ? Alignment.topCenter : null,
-                  atk, def, defC, pg,
+                  pg, indexes, scrolling
                 ),
               ),
           ],),
@@ -215,7 +150,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ],);
 
       final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
-      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis, indexes, scrolling, names);
       
       return finishLayout(
         players: players, 
@@ -256,7 +191,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             quarterTurns: 1,
             child: buildPlayer(
               3, sideBox, null,
-              atk, def, defC, pg,
+              pg, indexes, scrolling
             ),
           ),
         ),
@@ -273,7 +208,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   for(final i in [5,4])
                     buildPlayer(
                       i, middleBox, {5: Alignment.topRight, 4: Alignment.topLeft}[i],
-                      atk, def, defC, pg,
+                      pg, indexes, scrolling
                     ),
                 ],),
               ),
@@ -285,7 +220,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 for(final i in [2,1])
                   buildPlayer(
                     i,  middleBox, {2: Alignment.topRight, 1: Alignment.topLeft}[i],
-                    atk, def, defC, pg,
+                    pg, indexes, scrolling
                   ),
               ],),
             ),
@@ -298,7 +233,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             quarterTurns: 3,
             child: buildPlayer(
               0, sideBox, null,
-              atk, def, defC, pg,
+              pg, indexes, scrolling
             ),
           ),
         ),
@@ -306,7 +241,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
 
       final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
-      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis, indexes, scrolling, names);
 
       return finishLayout(
         players:players, 
@@ -320,10 +255,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout5Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required String atk,
-    @required String def,
-    @required Color defC,
     @required CSPage pg,
+    @required Map<int,String> indexes,
+    @required bool scrolling,
+    @required List<String> names,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -373,7 +308,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                       4: Alignment.topRight,
                       3: Alignment.topLeft,
                     }[i],
-                    atk, def, defC, pg,
+                    pg, indexes, scrolling
                   ),
                 ),
             ],),
@@ -389,7 +324,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 height: boxBottom.maxHeight,
                 child: buildPlayer(
                   i, boxBottom, i == 1 ? Alignment.topCenter : null,
-                  atk, def, defC, pg,
+                  pg, indexes, scrolling
                 ),
               ),
           ],),
@@ -397,7 +332,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ],);
 
       final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
-      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis, indexes, scrolling, names);
 
       return finishLayout(
         players:players, 
@@ -444,7 +379,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             height: x,
             child: buildPlayer(
               2, box2, Alignment.topRight,
-              atk, def, defC, pg,
+              pg, indexes, scrolling
             ),
           ),
         ),
@@ -460,7 +395,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   height: y/2,
                   child: buildPlayer(
                     4, box0134, Alignment.topRight,
-                    atk, def, defC, pg,
+                    pg, indexes, scrolling
                   ),
                 ),
                 SizedBox(
@@ -468,7 +403,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   height: h/2,
                   child: buildPlayer(
                     3, box0134, Alignment.topLeft,
-                    atk, def, defC, pg,
+                    pg, indexes, scrolling
                   ),
                 ),
               ]),
@@ -483,7 +418,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 height: h/2,
                 child: buildPlayer(
                   1, box0134, Alignment.topRight,
-                  atk, def, defC, pg,
+                  pg, indexes, scrolling
                 ),
               ),
               SizedBox(
@@ -491,7 +426,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 height: h/2,
                 child: buildPlayer(
                   0, box0134, Alignment.topLeft,
-                  atk, def, defC, pg,
+                  pg, indexes, scrolling
                 ),
               ),
             ]),
@@ -500,7 +435,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ]);
 
       final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
-      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+      final menuButton = buildButton(squadLayout, constraints, pg, undoAxis, indexes, scrolling, names);
 
       return finishLayout(
         players:players, 
@@ -515,10 +450,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout4Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required String atk,
-    @required String def,
-    @required Color defC,
     @required CSPage pg,
+    @required Map<int,String> indexes,
+    @required bool scrolling,
+    @required List<String> names,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -551,11 +486,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             child: Row(children: <Widget>[
               buildPlayer(
                 3, box, Alignment.topRight,
-                atk, def, defC, pg,
+                pg, indexes, scrolling
               ),
               buildPlayer(
                 2, box, Alignment.topLeft,
-                atk, def, defC, pg,
+                pg, indexes, scrolling
               ),
             ])
           ),
@@ -566,11 +501,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           child: Row(children: <Widget>[
             buildPlayer(
               1, box,  Alignment.topRight,
-              atk, def, defC, pg,
+              pg, indexes, scrolling
             ),
             buildPlayer(
               0, box, Alignment.topLeft,
-              atk, def, defC, pg,
+              pg, indexes, scrolling
             ),
           ]),
         ),
@@ -591,7 +526,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           quarterTurns: 2,
           child: buildPlayer(
             2, extBox, null,
-            atk, def, defC, pg,
+            pg, indexes, scrolling
           ),
         ),
         SizedBox(
@@ -602,27 +537,27 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               quarterTurns: 1,
               child: buildPlayer(
                 1, intBox, Alignment.topCenter,
-                atk, def, defC, pg,
+                pg, indexes, scrolling
               ),
             ),
             RotatedBox(
               quarterTurns: 3,
               child: buildPlayer(
                 3, intBox, Alignment.topCenter,
-                atk, def, defC, pg,
+                pg, indexes, scrolling
               ),
             ),
           ]),
         ),
         buildPlayer(
           0, extBox, null,
-          atk, def, defC, pg,
+          pg, indexes, scrolling
         ),
       ]);
     }
 
     final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
-    final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+    final menuButton = buildButton(squadLayout, constraints, pg, undoAxis, indexes, scrolling, names);
 
     return finishLayout(
       players:players, 
@@ -634,10 +569,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout3Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required String atk,
-    @required String def,
-    @required Color defC,
     @required CSPage pg,
+    @required Map<int,String> indexes,
+    @required bool scrolling,
+    @required List<String> names,
   }) {
     final wid = constraints.maxWidth;
     final hei = constraints.maxHeight;
@@ -671,17 +606,17 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           quarterTurns: 2,
           child: buildPlayer(
             2, topBox, Alignment.topCenter,
-            atk, def, defC, pg,
+            pg, indexes, scrolling
           ),
         ),
         Row(children: <Widget>[
           buildPlayer(
             1, bottomBox, Alignment.topRight,
-            atk, def, defC, pg,
+            pg, indexes, scrolling
           ),
           buildPlayer(
             0, bottomBox, Alignment.topLeft,
-            atk, def, defC, pg,
+            pg, indexes, scrolling
           ),
         ]),
       ]);
@@ -716,7 +651,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
             quarterTurns: 2,
             child: buildPlayer(
               2, topBox, Alignment.topCenter,
-              atk, def, defC, pg,
+              pg, indexes, scrolling
             ),
           ),
           ConstrainedBox(
@@ -729,14 +664,14 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                 quarterTurns: 1,
                 child: buildPlayer(
                   1, bottomBox, Alignment.topLeft,
-                  atk, def, defC, pg,
+                  pg, indexes, scrolling
                 ),
               ),
               RotatedBox(
                 quarterTurns: 3,
                 child: buildPlayer(
                   0, bottomBox, Alignment.topRight,
-                  atk, def, defC, pg,
+                  pg, indexes, scrolling
                 ),
               ),
             ],),
@@ -749,7 +684,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
     }
 
-    final menuButton = buildButton(squadLayout, constraints, pg, undoAxis);
+    final menuButton = buildButton(squadLayout, constraints, pg, undoAxis, indexes, scrolling, names);
 
     return finishLayout(
       players:players, 
@@ -762,10 +697,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget layout2Players(BuildContext context,{
     @required BoxConstraints constraints, 
     @required bool squadLayout,
-    @required String atk,
-    @required String def,
-    @required Color defC,
     @required CSPage pg,
+    @required Map<int,String> indexes,
+    @required bool scrolling,
+    @required List<String> names,
   }) {
     final w = constraints.maxWidth;
     final h = constraints.maxHeight;
@@ -781,17 +716,17 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           quarterTurns: 2,
           child: buildPlayer(
             1, box, Alignment.topCenter,
-            atk, def, defC, pg,
+            pg, indexes, scrolling
           ),
         ),
         buildPlayer(
           0, box, Alignment.topCenter,
-          atk, def, defC, pg,
+          pg, indexes, scrolling
         ),
       ]),
     );
 
-    final menuButton = buildButton(squadLayout, constraints, pg, Axis.horizontal);
+    final menuButton = buildButton(squadLayout, constraints, pg, Axis.horizontal, indexes, scrolling, names);
     /// Always horizontal
 
     return finishLayout(
@@ -804,44 +739,27 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget buildPlayer(int index, 
     BoxConstraints constraints,
     Alignment buttonAlignment,
-    String attacker,
-    String defender,
-    Color defenceColor,
     CSPage page,
-  ) => SimplePlayerTile(
+    Map<int,String> indexToName,
+    bool isScrollingSomewhere
+  ) =>  SimplePlayerTile(
     index,
-    onPosition: playerCallback(index),
+    logic: logic,
     buttonAlignment: buttonAlignment,
     constraints: constraints,
-    routeAnimationValue: widget.routeAnimationValue,
-
     indexToName: indexToName,
-
-    increment: widget.increment,
-    group: widget.group,
-    isScrollingSomewhere: widget.isScrollingSomewhere,
-    gameState: widget.gameState,
-    pageColors: widget.pageColors,
-    selectedNames: widget.selectedNames,
-    normalizedPlayerActions: widget.normalizedPlayerActions,
-
-    firstUnpositionedName: firstUnpositionedName,
-    whoIsAttacking: attacker,
-    whoIsDefending: defender,
-    defenceColor: defenceColor,
+    isScrollingSomewhere: isScrollingSomewhere,
     page: page,
   );
 
-  int get numberOfPlayers => widget.gameState.players.length;
-
   @override
   Widget build(BuildContext context) {
-    final bloc = widget.group.parent.parent;
+    final bloc = logic;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final theme = Theme.of(context);
 
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor
-        .withOpacity(widget.routeAnimationValue),
+      color: theme.scaffoldBackgroundColor,
       child: SafeArea(
         top: true,
         child: WillPopScope(
@@ -860,56 +778,61 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               return false;
             }
 
-            preExit();
             return true;
           },
           /// main page is not a visible var from the stage, need its private builder separately
-          child: StageBuild.offMainPage<CSPage>((_, pg) => BlocVar.build4<bool, Color, String, String>(
+          child: StageBuild.offMainPage<CSPage>((_, pg) => BlocVar.build4
+            <bool, bool, Map<int,String>, List<String>>(
             bloc.settings.arenaSettings.squadLayout,
-            bloc.themer.defenceColor,
-            bloc.game.gameAction.defendingPlayer,
-            bloc.game.gameAction.attackingPlayer,
+            bloc.scroller.isScrolling,
+            groupLogic.arenaNameOrder,
+            groupLogic.names,
             builder: (_, 
               bool squadLayout,
-              Color defC,
-              String def,
-              String atk,
+              bool scrolling,
+              Map<int,String> indexes,
+              List<String> names,
             ) => LayoutBuilder(builder: (context, constraints){
 
-              switch (numberOfPlayers) {
+              switch (names.length) {
                 case 2:
                   return layout2Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    atk: atk, def: def, pg: pg, defC: defC,
+                    pg: pg, indexes: indexes, 
+                    scrolling: scrolling, names: names,
                   );
                   break;
                 case 3:
                   return layout3Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    atk: atk, def: def, pg: pg, defC: defC,
+                    pg: pg, indexes: indexes, 
+                    scrolling: scrolling, names: names,
                   );
                   break;
                 case 4:
                   return layout4Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    atk: atk, def: def, pg: pg, defC: defC,
+                    pg: pg, indexes: indexes, 
+                    scrolling: scrolling, names: names,
                   );
                   break;
                 case 5:
                   return layout5Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    atk: atk, def: def, pg: pg, defC: defC,
+                    pg: pg, indexes: indexes, 
+                    scrolling: scrolling, names: names,
                   );
                   break;
                 case 6:
                   return layout6Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
-                    atk: atk, def: def, pg: pg, defC: defC,
+                    pg: pg, indexes: indexes, 
+                    scrolling: scrolling, names: names,
                   );
                   break;
                 default:
@@ -922,16 +845,25 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     );
   }
 
-  Widget buildButton(bool squadLayout, BoxConstraints screenConstraints, CSPage page, Axis undoRedoAxis){
+  Widget buildButton(
+    bool squadLayout, 
+    BoxConstraints screenConstraints, 
+    CSPage page, 
+    Axis undoRedoAxis,
+    Map<int,String> indexToName,
+    bool isScrollingSomewhere,
+    List<String> names,
+  ){
     final Widget button = ArenaMenuButton(
+      names: names,
       page: page,
-      bloc: widget.group.parent.parent, 
-      indexToName: this.indexToName, 
-      isScrollingSomewhere: widget.isScrollingSomewhere,
+      logic: logic, 
+      indexToName: indexToName, 
+      isScrollingSomewhere: isScrollingSomewhere,
       open: open, 
       openMenu: () {
-        widget.group.parent.parent.stage.mainPagesController.goToPage(CSPage.life);
-        widget.group.parent.parent.scroller.cancel(true);
+        logic.stage.mainPagesController.goToPage(CSPage.life);
+        logic.scroller.cancel(true);
         this.setState((){
           open = true;
         });
@@ -939,32 +871,32 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       closeMenu: () => this.setState(() {
         open = false;
       }),
-      routeAnimationValue: widget.routeAnimationValue, 
       buttonSize: _buttonSize, 
       exit: exit,
       squadLayout: squadLayout,
-      gameState: widget.gameState,
-      reorderPlayers:   () => this.setState((){
-        this.initNames(null);
+      reorderPlayers: () => this.setState((){
         open = false;
-        this.widget.onPositionNames(this.indexToName);
+        groupLogic.arenaNameOrder.set(<int,String>{
+          for(final key in groupLogic.arenaNameOrder.value.keys)
+            key: null,
+        });
       }),
       screenConstraints: screenConstraints,
     );
 
-    final bloc = widget.group.parent.parent;
 
-    final Widget delayer = bloc.settings.scrollSettings.confirmDelay.build((context, delay) 
+    final Widget delayer = logic.settings.scrollSettings.confirmDelay.build((context, delay) 
       => ArenaDelayer(
-        onManualCancel: bloc.scroller.cancel, 
-        onManualConfirm: bloc.scroller.forceComplete, 
-        delayerController: bloc.scroller.delayerController, 
+        onManualCancel: logic.scroller.cancel, 
+        onManualConfirm: logic.scroller.forceComplete, 
+        delayerController: logic.scroller.delayerController, 
         duration: delay, 
         color: Theme.of(context).colorScheme.onSurface,
+        animationListener: logic.scroller.delayerAnimationListener,
       ),
     );
 
-    final Widget undoRedo = ArenaUndo(undoRedoAxis);
+    final Widget undoRedo = ArenaUndo(undoRedoAxis, open);
 
     return Stack(children: <Widget>[
       Center(child: undoRedo),
@@ -975,19 +907,3 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
 
 }
-
-
-// /// Always assume landscape when building the players layout and then maybe rotate
-// class _LayoutInfo {
-
-//   _LayoutInfo(BoxConstraints c):
-//     landscape = c.maxWidth >= c.maxHeight,
-//     rotate = c.maxWidth < c.maxHeight,
-//     w = max(c.maxHeight, c.maxWidth),
-//     h = min(c.maxHeight, c.maxWidth);
-
-//   final bool landscape;
-//   final double w;
-//   final double h;
-//   final bool rotate;
-// }

@@ -3,11 +3,11 @@ import 'package:counter_spell_new/core.dart';
 class ArenaMenuSettings extends StatelessWidget {
 
   const ArenaMenuSettings({
-    @required this.gameState,
+    @required this.players,
     @required this.squadLayout,
   });
 
-  final GameState gameState;
+  final int players;
   final bool squadLayout;
 
   @override
@@ -15,14 +15,14 @@ class ArenaMenuSettings extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        if(gameState.players.length > 2) // for two players there is only one layout
+        if(players > 2) // for two players there is only one layout
           Section(<Widget>[
             const PanelTitle("Layout"),
             ArenaLayoutSelector(squadLayout),
           ],),
 
         Section(<Widget>[
-          if(gameState.players.length > 2)
+          if(players > 2)
             const SectionTitle("Gestures")
           else 
             const PanelTitle("Gestures"),

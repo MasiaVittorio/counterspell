@@ -896,7 +896,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       ),
     );
 
-    final Widget undoRedo = ArenaUndo(undoRedoAxis, open);
+    final Widget undoRedo = ArenaUndo(
+      undoRedoAxis: undoRedoAxis, 
+      open: open,
+      scrollingSomewhere: isScrollingSomewhere,
+    );
 
     return Stack(children: <Widget>[
       Center(child: undoRedo),

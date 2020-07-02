@@ -28,11 +28,12 @@ class ArenaTransformer extends StatelessWidget {
       openColor: theme.scaffoldBackgroundColor,
       intermediateColor: theme.canvasColor,
       openBuilder: (context, exitArena){
-        final Widget child = DelayedWidget(
-          after: ArenaWidget(logic: logic),
-          getBackgroundColor: (theme) => theme.scaffoldBackgroundColor,
-          delay: const Duration(milliseconds: 400),
-        );
+        final Widget child = ArenaWidget(logic: logic); 
+        // DelayedWidget(
+        //   after: ArenaWidget(logic: logic),
+        //   getBackgroundColor: (theme) => theme.scaffoldBackgroundColor,
+        //   delay: const Duration(milliseconds: 400),
+        // );
 
         if (logic.settings.arenaSettings.fullScreen.value){
           return  MediaQuery.removePadding(

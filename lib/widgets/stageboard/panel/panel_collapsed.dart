@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
@@ -266,6 +265,7 @@ class ArenaTransformer extends StatelessWidget {
     return OpenContainer(
       closedColor: backgroundColor ?? theme.canvasColor,
       openColor: theme.scaffoldBackgroundColor,
+      intermediateColor: theme.canvasColor,
       openBuilder: (context, exitArena){
         final Widget child = ArenaWidget(logic: logic);
 
@@ -320,7 +320,7 @@ class ArenaTransformer extends StatelessWidget {
           [SystemUiOverlay.top, SystemUiOverlay.bottom]
         );
       },
-      transitionType: ContainerTransitionType.fade,
+      transitionType: ContainerTransitionType.fadeThrough,
       closedShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(this.closedRadiusSize)

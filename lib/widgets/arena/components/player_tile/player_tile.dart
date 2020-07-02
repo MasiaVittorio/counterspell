@@ -150,24 +150,10 @@ class SimplePlayerTile extends StatelessWidget {
           pageColors: pageColors,
         );
 
-        
-        // now we just have to animate the route entry and exit
-        /// TODO: nope
         return SizedBox(
           width: constraints.maxWidth,
           height: constraints.maxHeight,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Positioned(
-                width: constraints.maxWidth,
-                height: constraints.maxHeight,
-                left: 0.0,
-                top: 0.0,
-                child: backgroundApplied,
-              ),
-            ],
-          ),
+          child: backgroundApplied,
         );
 
       },

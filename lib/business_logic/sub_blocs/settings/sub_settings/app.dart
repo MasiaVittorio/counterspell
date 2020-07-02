@@ -23,6 +23,8 @@ class CSSettingsApp {
   final BlocVar<CSPage> lastPageBeforeArena;
   final PersistentVar<bool> tutored;
 
+  final PersistentVar<int> versionShown;
+
 
   //====================================
   // Constructor
@@ -60,6 +62,20 @@ class CSSettingsApp {
       initVal: CSPage.life,
       toJson: (page) => CSPages.nameOf(page),
       fromJson: (name) => CSPages.fromName(name),
+    ),
+    versionShown = PersistentVar<int>(
+      key: "bloc_settings_blocvar_versionShown",
+      initVal: 0,
+      toJson: (b) => b,
+      fromJson: (j) => j,
+      readCallback: (shown){
+        Future.delayed(Duration(seconds: 2)).then((_){
+          if(versionCode > shown && parent.settings.appSettings.tutored.value){
+            // Don't want to show the changelog if the user has not even seen the tutorial
+            parent.settings.showChangelog();
+          }
+        });
+      }
     )
   {
     Vibrate.canVibrate.then(
@@ -67,8 +83,7 @@ class CSSettingsApp {
     );
   }
 
-  //====================================
-  // Methods
+  static const int versionCode = ChangeLogData.currentVersionCode;
 
 
 }

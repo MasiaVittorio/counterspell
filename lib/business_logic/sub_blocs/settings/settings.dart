@@ -26,8 +26,6 @@ class CSSettings {
   final CSSettingsGame gameSettings;
 
 
-
-
   //===================================
   // Constructor
   CSSettings(this.parent): 
@@ -36,5 +34,13 @@ class CSSettings {
     imagesSettings = CSSettingsImages(parent),
     appSettings = CSSettingsApp(parent),
     gameSettings = CSSettingsGame(parent);
+
+
+  void showChangelog(){
+    parent.stage.showAlert(const Changelog(), size: Changelog.height);
+    appSettings.versionShown.set(versionCode);
+  }
+
+  static const int versionCode = ChangeLogData.currentVersionCode;
 
 }

@@ -38,7 +38,7 @@ class CSSettingsArena {
   CSSettingsArena(this.parent):
     scrollOverTap = PersistentVar<bool>(
       key: "bloc_settings_blocvar_arenaScrollOverTap",
-      initVal: true,
+      initVal: false,
     ),
     squadLayout = PersistentVar<bool>(
       key: "bloc_settings_blocvar_simpleSquadLayout",

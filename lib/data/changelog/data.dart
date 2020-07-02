@@ -2,7 +2,23 @@ import 'package:counter_spell_new/models/changelog/model.dart';
 
 
 class ChangeLogData {
+
+  static const int currentVersionCode = 81;
+
   static const List<Version> list = <Version>[
+    Version("3.1.4", <Change>[
+      Change(
+        ChangeType.change,
+        "Arena mode overall redesign",
+        null,
+      ),
+      Change(
+        ChangeType.newFeature,
+        "Enhanced arena mode capabilities",
+        "More useful shortcuts on the quick menu, and easy to reach undo / re-do buttons",
+      ),
+    ]),
+
     Version("3.1.3", <Change>[
       Change(
         ChangeType.change,

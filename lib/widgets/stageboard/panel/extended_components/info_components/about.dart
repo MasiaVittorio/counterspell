@@ -8,7 +8,8 @@ class AboutCounterSpell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    
+    final logic = CSBloc.of(context);
+
     return Section([
       const PanelTitle("About CounterSpell", centered: false,),
       Padding(
@@ -27,7 +28,7 @@ class AboutCounterSpell extends StatelessWidget {
           Expanded(child: ExtraButton(
             icon: McIcons.file_document_outline,
             text: "Changelog",
-            onTap: () => stage.showAlert(const Changelog(), size: Changelog.height),
+            onTap: logic.settings.showChangelog,
           )),
         ].separateWith(CSWidgets.extraButtonsDivider),),
       ),

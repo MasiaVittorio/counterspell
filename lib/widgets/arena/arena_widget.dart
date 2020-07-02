@@ -470,6 +470,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     }
 
     Widget players;
+    Axis undoAxis;
 
     if(squadLayout){
       final box = BoxConstraints(
@@ -510,6 +511,8 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           ]),
         ),
       ]);
+      
+      undoAxis = Axis.horizontal;
 
     } else {
 
@@ -554,9 +557,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           pg, indexes, scrolling
         ),
       ]);
+
+      undoAxis = landscape ? Axis.horizontal : Axis.vertical;
+
     }
 
-    final undoAxis = landscape ? Axis.horizontal : Axis.vertical;
     final menuButton = buildButton(squadLayout, constraints, pg, undoAxis, indexes, scrolling, names);
 
     return finishLayout(

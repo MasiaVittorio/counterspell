@@ -1,5 +1,4 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/panel_collapsed.dart';
 import 'game_components/all.dart';
 
 

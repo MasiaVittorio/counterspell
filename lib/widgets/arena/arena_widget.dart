@@ -799,9 +799,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               List<String> names,
             ) => LayoutBuilder(builder: (context, constraints){
 
+              Widget child;
               switch (names.length) {
                 case 2:
-                  return layout2Players(context,
+                  child = layout2Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
                     pg: pg, indexes: indexes, 
@@ -809,7 +810,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   );
                   break;
                 case 3:
-                  return layout3Players(context,
+                  child = layout3Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
                     pg: pg, indexes: indexes, 
@@ -817,7 +818,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   );
                   break;
                 case 4:
-                  return layout4Players(context,
+                  child = layout4Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
                     pg: pg, indexes: indexes, 
@@ -825,7 +826,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   );
                   break;
                 case 5:
-                  return layout5Players(context,
+                  child = layout5Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
                     pg: pg, indexes: indexes, 
@@ -833,7 +834,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   );
                   break;
                 case 6:
-                  return layout6Players(context,
+                  child = layout6Players(context,
                     constraints: constraints,
                     squadLayout: squadLayout,
                     pg: pg, indexes: indexes, 
@@ -841,8 +842,13 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   );
                   break;
                 default:
-                  return Container();
+                  child =  Container();
               }
+
+              return ConstrainedBox(
+                constraints: constraints,
+                child: child,
+              );
             }),
           ),),
         ),

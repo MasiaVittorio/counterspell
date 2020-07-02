@@ -20,18 +20,21 @@ class VisiblePages extends StatelessWidget {
       builder: (context, constraints) {
         final double childSize = viewFraction * constraints.maxWidth;
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[for(int i = 0; i < children.length; ++i)
-              SizedBox(
-                width: childSize,
-                child: children[i], 
-              ),
-            ],
+         return ConstrainedBox(
+          constraints: constraints,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[for(int i = 0; i < children.length; ++i)
+                SizedBox(
+                  width: childSize,
+                  child: children[i], 
+                ),
+              ],
+            ),
           ),
-        );
+         );
 
       }
     );

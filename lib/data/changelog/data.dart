@@ -3,9 +3,17 @@ import 'package:counter_spell_new/models/changelog/model.dart';
 
 class ChangeLogData {
 
-  static const int currentVersionCode = 81;
+  static const int lastBigChange = 81;
 
   static const List<Version> list = <Version>[
+    Version("3.1.5", <Change>[
+      Change(
+        ChangeType.change,
+        "Minor bug fixing",
+        'Arena mode "reorder players" interface did not show the current name to be positioned properly',
+      ),
+    ]),
+
     Version("3.1.4", <Change>[
       Change(
         ChangeType.change,

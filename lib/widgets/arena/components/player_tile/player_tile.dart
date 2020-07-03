@@ -173,7 +173,7 @@ class SimplePlayerTile extends StatelessWidget {
         child: Center(child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Text(
-            "Tap to put $firstUnpositionedName here",
+            "Tap to put ${firstUnpositionedName(indexToName,gameState)} here",
             style: themeData.textTheme.button,
           ),
         ),),

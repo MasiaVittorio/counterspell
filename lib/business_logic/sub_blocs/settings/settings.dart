@@ -41,6 +41,6 @@ class CSSettings {
     appSettings.versionShown.set(versionCode);
   }
 
-  static const int versionCode = ChangeLogData.currentVersionCode;
+  static const int versionCode = ChangeLogData.lastBigChange;
 
 }

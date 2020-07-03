@@ -83,7 +83,7 @@ class CSSettingsApp {
     );
   }
 
-  static const int versionCode = ChangeLogData.currentVersionCode;
+  static const int versionCode = ChangeLogData.lastBigChange;
 
 
 }

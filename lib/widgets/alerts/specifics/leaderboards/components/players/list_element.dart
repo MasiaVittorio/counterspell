@@ -38,6 +38,7 @@ class PlayerStatTile extends StatelessWidget {
       BottomExtra(
         const Text("Per commander details"), 
         onTap: onTap,
+        icon: Icons.keyboard_arrow_right,
       ),
     ]);
   }

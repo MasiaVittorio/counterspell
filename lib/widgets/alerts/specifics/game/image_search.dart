@@ -236,12 +236,14 @@ class CardTile extends StatelessWidget {
   final Widget trailing;
   final bool autoClose;
   final bool longPressOpenCard;
+  final bool withoutImage;
 
   const CardTile(this.card,{
     @required this.callback,
     this.trailing,
     this.autoClose=true,
     this.longPressOpenCard = true,
+    this.withoutImage = false,
   });
 
   @override
@@ -253,7 +255,7 @@ class CardTile extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       trailing: trailing,
-      leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl(),),),
+      leading: (withoutImage ?? false) ? null : CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl(),),),
       onTap: (){
         callback(card);
         if(this.autoClose??true) stage.closePanel();

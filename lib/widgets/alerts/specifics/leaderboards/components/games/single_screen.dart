@@ -18,8 +18,14 @@ class PastGameScreen extends StatelessWidget {
     return bloc.pastGames.pastGames.build((_,pastGames) {
       final PastGame game = pastGames[this.index];
       return HeaderedAlertCustom(
-        GameTimeTile(game, index: index, delete: false, openable: false,),
-        titleSize: 96,
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const AlertDrag(),
+            GameTimeTile(game, index: index, delete: false, openable: false,),
+          ],
+        ),
+        titleSize: 72.0 + AlertDrag.height,
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           Section([
             const SectionTitle("Notes"),

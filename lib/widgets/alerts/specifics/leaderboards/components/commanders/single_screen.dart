@@ -7,20 +7,25 @@ class CommanderStatsScreen extends StatelessWidget {
 
   const CommanderStatsScreen(this.stat);
 
-  static const double height = 426.0;
+  static const double height = 416.0;
 
   @override
   Widget build(BuildContext context) {
     return HeaderedAlertCustom(
-      CardTile(
-        stat.card, 
-        callback: (_){}, 
-        autoClose: false,
-        trailing: Text("(${stat.games} games)"),
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const AlertDrag(),
+          CardTile(
+            stat.card, 
+            callback: (_){}, 
+            autoClose: false,
+            trailing: Text("(${stat.games} games)"),
+          ),
+        ],
       ),
-      titleSize: 56.0 + 16 + AlertDrag.height, 
+      titleSize: 72.0 + AlertDrag.height, 
       child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-        SizedBox(height: 14.0,),
         Section(<Widget>[
           ListTile(
             title: const Text("Win rate"),

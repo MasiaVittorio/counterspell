@@ -13,11 +13,17 @@ class PlayerStatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HeaderedAlertCustom(
-      ListTile(
-        title: Text("${stat.name}'s stats"),
-        trailing: Text("(${stat.games} games)"),
-        leading: const Icon(Icons.person_outline),
-      ),
+      Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const AlertDrag(),
+            ListTile(
+              title: Text("${stat.name}'s stats"),
+              trailing: Text("(${stat.games} games)"),
+              leading: const Icon(Icons.person_outline),
+            ),
+          ],
+        ),
       titleSize: 56.0 + AlertDrag.height,
       child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
         Section([

@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/core.dart';
 import 'single_screen.dart';
 import 'winner_selector.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PastGameTile extends StatelessWidget {
 
@@ -9,55 +10,55 @@ class PastGameTile extends StatelessWidget {
 
   PastGameTile(this.game, this.index);
 
-  static const double height = 232.0;
-
-  // static const double _subsectionHeight = 140.0;
+  static const double height = 167.0;
 
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final bloc = CSBloc.of(context);
 
     final VoidCallback show = () => stage.showAlert(
       PastGameScreen(index: index,),
       size: PastGameScreen.height
     );
 
+    final theme = Theme.of(context);
+
     return Section([
       GameTimeTile(game, index: index,),
-      // SubSection(<Widget>[
-      //   ListTile(
-      //     leading: const Icon(McIcons.fountain_pen_tip),
-      //     title: Text(game.notes ?? "", style: TextStyle(fontStyle: FontStyle.italic),),
-      //   ),
-      // ], onTap: () => insertNotes(game, stage, bloc)),
-      CSWidgets.divider,
-      ListTile(
-        leading: const Icon(McIcons.trophy),
-        title: Text("Winner: ${game.winner ?? "not detected"}"),
-        onTap: () => selectWinner(game, stage, bloc),
-      ),
       SubSection([
-        SectionTitle("${game.state.players.length} players"),
+        SectionTitle("Winner: ${game.winner ?? 'not detected'}"),
         SingleChildScrollView(scrollDirection: Axis.horizontal, child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 2.0, 8.0, 8.0),
           child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             for(final player in game.state.players.values)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  Text("${player.name}"),
-                  Text("(${player.states.last.life})"),
-                ],),
-              ),
-          ]),
+              (){
+                final name = player.name;
+                final commanders = game.commandersPlayedBy(name);
+                return SidChip(
+                  text: "$name",
+                  icon: game.winner == name ? McIcons.trophy : null,
+                  forceTextColor: commanders.isNotEmpty ? Colors.white : null,
+                  image: commanders.isNotEmpty 
+                    ? DecorationImage(
+                      image: CachedNetworkImageProvider(
+                        commanders.first.imageUrl()
+                      ),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        (theme.brightness.isDark 
+                          ? theme.canvasColor
+                          : Colors.black
+                        ).withOpacity(0.2), 
+                        BlendMode.srcOver,
+                      ),
+                    )
+                    : null,
+                );
+              }()
+          ].separateWith(CSWidgets.width10)),
         ),),
       ], onTap: show,),
       CSWidgets.height10,
-      // BottomExtra(
-      //   const Text("Commanders"), 
-      //   onTap: show,
-      // ),
     ], stretch: true,);
   }
 

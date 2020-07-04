@@ -5,36 +5,33 @@ class BottomExtra extends StatelessWidget {
 
   final Widget text;
   final VoidCallback onTap;
-  const BottomExtra(this.text, {@required this.onTap});
+  final IconData icon;
+  const BottomExtra(this.text, {@required this.onTap, this.icon});
 
   @override
   Widget build(BuildContext context) 
-    => Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        // const Divider(),
-        InkWell(
-          onTap: this.onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3.0),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                child: DefaultTextStyle(
-                  style: TextStyle(
-                    inherit: true,
-                    fontWeight: FontWeight.bold,
-                    color: RightContrast(Theme.of(context)).onCanvas,
-                  ),
-                  child: text,
-                ),
+    => InkWell(
+      onTap: this.onTap,
+      child: Container(
+        height: 40,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            DefaultTextStyle(
+              style: TextStyle(
+                inherit: true,
+                fontWeight: FontWeight.bold,
+                color: RightContrast(Theme.of(context)).onCanvas,
               ),
+              child: text,
             ),
-          ),
+            if(icon != null)  
+              Icon(icon),
+          ],
         ),
-      ],
+      ),
     );
 
 }

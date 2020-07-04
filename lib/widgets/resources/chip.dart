@@ -7,12 +7,16 @@ class SidChip extends StatelessWidget {
   final String text;
   final String subText;
   final Color color;
+  final DecorationImage image;
+  final Color forceTextColor;
 
   const SidChip({
-    @required this.icon,
+    this.icon,
     this.subText,
     @required this.text,
     this.color,
+    this.image,
+    this.forceTextColor,
   });
 
   static const double height = 35;
@@ -28,34 +32,39 @@ class SidChip extends StatelessWidget {
     final Color color = this.color ?? theme.primaryColor;
 
     final brightness = ThemeData.estimateBrightnessForColor(color);
-    final textColor = brightness == Brightness.dark
+    final textColor = forceTextColor ?? ((brightness == Brightness.dark)
       ? Colors.white
-      : Colors.black;
+      : Colors.black);
     
     final chip = Container(
       height: height,
       decoration: BoxDecoration(
         color: color,
+        image: image,
         borderRadius: BorderRadius.circular(height),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            height: height,
-            width: height,
-            child: IconTheme(
-              data: IconThemeData(
-                opacity: 1.0,
-                color: textColor,
-                size: 18,
+          if(icon != null)
+            Container(
+              height: height,
+              width: height,
+              child: IconTheme(
+                data: IconThemeData(
+                  opacity: 1.0,
+                  color: textColor,
+                  size: 18,
+                ),
+                child: Icon(icon),
               ),
-              child: Icon(icon),
             ),
-          ),
           Padding(
-            padding: const EdgeInsets.only(left: 4.0, right: 11.0),
+            padding: EdgeInsets.only(
+              left: icon != null ? 4.0 : 11.0, 
+              right: 11.0
+            ),
             child: Text(
               text,
               style: TextStyle(

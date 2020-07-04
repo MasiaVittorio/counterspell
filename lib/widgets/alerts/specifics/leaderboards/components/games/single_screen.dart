@@ -153,6 +153,7 @@ class CommanderSubSection extends StatelessWidget {
           bloc.pastGames.pastGames.value[this.index].state.players[this.player].havePartnerB = !partner;
           bloc.pastGames.pastGames.refresh(index: this.index);
         },
+        icon: partner ? Icons.unfold_less : Icons.unfold_more,
       ),
     ]);
   }

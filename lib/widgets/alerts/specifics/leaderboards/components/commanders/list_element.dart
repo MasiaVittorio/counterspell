@@ -46,7 +46,6 @@ class CommanderStatWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: SubSection([
-              //TODO: lista orizzontale di chips
               Row(children: <Widget>[
                 Expanded(child: ListTile(
                   subtitle: Text("${stat.wins} wins"),

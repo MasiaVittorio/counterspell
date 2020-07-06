@@ -38,6 +38,9 @@ class PastGameTile extends StatelessWidget {
                   text: "$name",
                   icon: game.winner == name ? McIcons.trophy : null,
                   forceTextColor: commanders.isNotEmpty ? Colors.white : null,
+                  subText: commanders.isNotEmpty 
+                    ? safeSubString(commanders.first.name.split(" ").first, 9)
+                    : null,
                   image: commanders.isNotEmpty 
                     ? DecorationImage(
                       image: CachedNetworkImageProvider(
@@ -61,6 +64,12 @@ class PastGameTile extends StatelessWidget {
       CSWidgets.height10,
     ], stretch: true,);
   }
+
+  static String safeSubString(String start, int len){
+    if(start.length >  len) return start.substring(0,len-1)+'.';
+    else return start; 
+  }
+
 
   void insertNotes(PastGame game, StageData stage, CSBloc bloc){
     stage.showAlert(

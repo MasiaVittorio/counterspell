@@ -32,7 +32,7 @@ class CommanderStatsScreen extends StatelessWidget {
             trailing: Text("${(stat.winRate * 100).toStringAsFixed(1)}%"),
             leading: const Icon(McIcons.trophy),
           ),
-          SubList("PerPlayer", children: <Widget>[
+          SubList("Per player", children: <Widget>[
             for(final entry in stat.perPlayerWinRates.entries)
               Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 Text("${entry.key}: ${(entry.value * 100).toStringAsFixed(0)}%"),
@@ -48,7 +48,7 @@ class CommanderStatsScreen extends StatelessWidget {
             trailing: Text("${(stat.damage).toStringAsFixed(1)}"),
             leading: const Icon(CSIcons.attackIconTwo),
           ),
-          SubList("PerPlayer", children: <Widget>[
+          SubList("Per player", children: <Widget>[
             for(final entry in stat.perPlayerDamages.entries)
               Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 Text("${entry.key}: ${(entry.value).toStringAsFixed(0)}"),

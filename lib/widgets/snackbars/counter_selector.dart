@@ -16,7 +16,7 @@ class SnackCounterSelector extends StatelessWidget {
         for(final counter in ordered)
           Icon(counter.icon)
       ], 
-      onTap: (i) => gameAction.counterSet.chooseElement(ordered[i]),
+      onTap: (i) => gameAction.chooseCounterByLongName(ordered[i].longName),
     ),);
 
 }

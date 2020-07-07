@@ -3,7 +3,8 @@ import 'components/all.dart';
 
 class AchievementsAlert extends StatelessWidget {
 
-  const AchievementsAlert();
+  const AchievementsAlert({this.initialDone = false});
+  final bool initialDone; 
 
   static const double height = 550;
 
@@ -13,12 +14,12 @@ class AchievementsAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
 
-    return RadioHeaderedAlert<bool>(
-      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? false,
+    return RadioHeaderedAlert<bool>(  // true = done
+      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? initialDone ?? false,
       onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
       orderedValues: [false,true], 
       accentSelected: true,
-      items: <bool,RadioHeaderedItem>{
+      items: const <bool,RadioHeaderedItem>{
         false: RadioHeaderedItem(
           longTitle: "Currently open", 
           title: "To do",

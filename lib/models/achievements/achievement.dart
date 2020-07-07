@@ -21,7 +21,8 @@ abstract class Achievement {
     @required this.targetBronze,
     @required this.targetSilver,
     @required this.targetGold,
-  });
+  }): assert(targetGold >= targetSilver),
+      assert(targetSilver >= targetBronze);
 
   //=====================================
   // Getters ========================
@@ -37,6 +38,30 @@ abstract class Achievement {
       : m == Medal.gold 
         ? targetGold
         : 0;
+
+  Medal get nextMedal {
+    if(!bronze){
+      if(targetBronze == targetSilver){
+        if(targetGold == targetSilver){
+          return Medal.gold;          
+        } else {
+          return Medal.silver;
+        }
+      } else {
+        return Medal.bronze;
+      }
+    } else if(!silver){
+      if(targetGold == targetSilver){
+        return Medal.gold;
+      } else {
+        return Medal.silver;
+      }
+    } else if(!gold) {
+      return Medal.gold;
+    } else {
+      return Medal.gold;
+    }
+  } 
 
   Achievement get reset; 
 

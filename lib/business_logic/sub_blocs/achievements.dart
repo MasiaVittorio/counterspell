@@ -30,7 +30,7 @@ class CSAchievements extends BlocBase {
         Achievements.vampireShortTitle,
         Achievements.rollerShortTitle,
       },
-      key: "counterspell_bloc_achievementsBloc_blocVar_todo",
+      key: "counterspell_bloc_achievementsBloc_blocVar_todo_list",
       toJson: (s) => <String>[...s],
       fromJson: (j) => <String>{...(j as List)},
       copier: (s) => <String>{...s},
@@ -77,6 +77,10 @@ class CSAchievements extends BlocBase {
         subtitle: Text("Reached: ${newOne.medal.name}"),
         secondary: MedalIcon(newOne.medal),
         scrollable: true,
+        onTap: () => parent.stage.showAlert(
+          const AchievementsAlert(initialDone: true,),
+          size: AchievementsAlert.height,
+        ),
       ));
     }
   }
@@ -165,7 +169,8 @@ class CSAchievements extends BlocBase {
 
   void gameActionPerformed(GameAction action){
 
-    if(!todo.value.contains(Achievements.vampireShortTitle))
+    if(!todo.value.contains(Achievements.vampireShortTitle) 
+      && !todo.value.contains(Achievements.vampireShortTitle))
       return;
 
     if(action is GAComposite){

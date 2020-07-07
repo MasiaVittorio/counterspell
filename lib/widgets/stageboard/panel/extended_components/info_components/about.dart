@@ -38,11 +38,11 @@ class AboutCounterSpell extends StatelessWidget {
         leading: const Icon(Icons.help_outline),
         onTap: () => stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height),
       ),
-      // ListTile(
-      //   title: const Text("Achievements"),
-      //   leading: const Icon(McIcons.bookmark_check),
-      //   onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
-      // ),
+      ListTile(
+        title: const Text("Achievements"),
+        leading: const Icon(McIcons.bookmark_check),
+        onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
+      ),
       // ListTile(
       //   title: const Text("Icons"),
       //   leading: const Icon(McIcons.null_icon),

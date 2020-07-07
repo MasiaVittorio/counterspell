@@ -10,7 +10,7 @@ class SnackRestart extends StatelessWidget {
 
     return ConfirmSnackbar(
       label:"Restart game?",
-      action: () => bloc.game.gameState.restart(true),
+      action: () => bloc.game.gameState.restart(GameRestartedFrom.historyPage),
     );
   }
 }

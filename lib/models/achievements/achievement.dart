@@ -30,14 +30,17 @@ abstract class Achievement {
   bool get silver => count >= targetSilver;
   bool get gold => count >= targetGold;
   Medal get medal => gold ? Medal.gold : silver ? Medal.silver : bronze ? Medal.bronze : null;
-  int target(Medal m) => <Medal,int>{
-    Medal.bronze: targetBronze,
-    Medal.silver: targetSilver,
-    Medal.gold: targetGold,
-  }[m];
+  int target(Medal m) => m == Medal.bronze 
+    ? targetBronze
+    : m == Medal.silver 
+      ? targetSilver
+      : m == Medal.gold 
+        ? targetGold
+        : 0;
 
   Achievement get reset; 
 
+  /// For when the dev changes the properties of an achievement
   Achievement updateStats(Achievement updated);
 
 
@@ -68,12 +71,12 @@ class QuantityAchievement extends Achievement {
   // =====================================
   // Constructor =====================
   const QuantityAchievement(String shortTitle, {
-    String title,
-    String text,
+    @required String title,
+    @required String text,
     @required this.currentCount,
-    int targetBronze,
-    int targetSilver,
-    int targetGold,
+    @required int targetBronze,
+    @required int targetSilver,
+    @required int targetGold,
   }) : super(
     shortTitle, 
     title: title, 
@@ -101,7 +104,7 @@ class QuantityAchievement extends Achievement {
 
   QuantityAchievement incrementBy(int by) => withCount((this.count + by).clamp(0, this.targetGold));
   QuantityAchievement get increment => this.incrementBy(1);
-  QuantityAchievement get decrement => withCount((this.count -1).clamp(0, this.targetGold));
+  QuantityAchievement get decrement => this.incrementBy(-1);
 
   @override
   QuantityAchievement get reset => withCount(0);

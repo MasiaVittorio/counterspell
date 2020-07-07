@@ -10,8 +10,9 @@ class DoneAchievements extends StatelessWidget {
     return bloc.achievements.map.build((_, map){
         return Column(children: <Widget>[
           for(final achievement in map.values)
-            if(achievement.gold) AchievementTile(achievement),
-        ],);
+            if(achievement.gold) 
+              AchievementTile(achievement),
+        ].separateWith(CSWidgets.divider),);
       },
     );
   }

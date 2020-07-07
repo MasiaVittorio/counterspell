@@ -67,20 +67,6 @@ class AchievementAgnosticSection extends StatelessWidget {
                     ],),
                   ),
                   CSWidgets.height12,
-                  // ListTile(
-                  //   dense: true,
-                  //   title: const Text("Reset"),
-                  //   leading: const Icon(McIcons.restart),
-                  //   onTap: () {
-                  //     stage.showAlert(
-                  //       ConfirmAlert(
-                  //         action: () => bloc.achievements.reset(achievement.shortTitle),
-                  //         warningText: "Reset this achievement's progress?",
-                  //       ),
-                  //       size: ConfirmAlert.height,
-                  //     );
-                  //   },
-                  // ),
                 ],
               ),
             ),
@@ -91,7 +77,7 @@ class AchievementAgnosticSection extends StatelessWidget {
             onTap: () {
               stage.showAlert(
                 ConfirmAlert(
-                  action: () => bloc.achievements.reset(achievement.shortTitle),
+                  action: () => bloc.achievements.reset(achievement.shortTitle, force: true),
                   warningText: "Reset this achievement's progress?",
                 ),
                 size: ConfirmAlert.height,

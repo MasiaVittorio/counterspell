@@ -73,7 +73,12 @@ class Achievements{
     rollerShortTitle: roller,
   };
 
-
+  static const Map<String,IconData> icons = <String,IconData>{
+    Achievements.vampireShortTitle: McIcons.heart_pulse,
+    Achievements.countersShortTitle: CSIcons.counterIconFilled,
+    Achievements.rollerShortTitle: McIcons.dice_multiple,
+    Achievements.uiExpertShortTitle: Icons.radio_button_checked,
+  };
 }
 
 
@@ -85,13 +90,13 @@ enum GameRestartedFrom{
 
 
 extension GameRestartedFromNames on GameRestartedFrom {
-  static const _gameRestartedFromArena = "arena";
-  static const _gameRestartedFromHistoryPage = "historyPage";
-  static const _gameRestartedFromMenu = "menu";
-  static const names = {
-    GameRestartedFrom.arena : _gameRestartedFromArena,
-    GameRestartedFrom.menu : _gameRestartedFromMenu,
-    GameRestartedFrom.historyPage : _gameRestartedFromHistoryPage,
+  static const String _gameRestartedFromArena = "arena";
+  static const String _gameRestartedFromHistoryPage = "historyPage";
+  static const String _gameRestartedFromMenu = "menu";
+  static const Map<GameRestartedFrom,String> names = <GameRestartedFrom,String>{
+    GameRestartedFrom.arena : GameRestartedFromNames._gameRestartedFromArena,
+    GameRestartedFrom.menu : GameRestartedFromNames._gameRestartedFromMenu,
+    GameRestartedFrom.historyPage : GameRestartedFromNames._gameRestartedFromHistoryPage,
   };
 
   String get name => names[this];

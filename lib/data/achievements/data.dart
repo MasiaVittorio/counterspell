@@ -17,8 +17,8 @@ class Achievements{
       Counter.monarchLongName: false,
       Counter.energyLongName: false,
     },
-    targetBronze: 3,
-    targetSilver: 5,
+    targetBronze: 7,
+    targetSilver: 7,
     targetGold: 7,
   );
   static const String uiExpertShortTitle = "UI expert";
@@ -27,8 +27,9 @@ class Achievements{
     title: "Restart the game or edit the playgroup in different ways",
     text: "You can use the closed panel's right button (History and Life pages) or the main menu's buttons (\"Game\" tab)",
     targets: <String,bool>{
-      "Restart panel": false,
-      "Restart menu": false,
+      GameRestartedFromNames._gameRestartedFromHistoryPage: false,
+      GameRestartedFromNames._gameRestartedFromMenu: false,
+      GameRestartedFromNames._gameRestartedFromArena: false,
       "Playgroup panel": false,
       "Playgroup menu": false,
     },
@@ -73,4 +74,25 @@ class Achievements{
   };
 
 
+}
+
+
+enum GameRestartedFrom{
+  arena,
+  historyPage,
+  menu,
+}
+
+
+extension GameRestartedFromNames on GameRestartedFrom {
+  static const _gameRestartedFromArena = "arena";
+  static const _gameRestartedFromHistoryPage = "historyPage";
+  static const _gameRestartedFromMenu = "menu";
+  static const names = {
+    GameRestartedFrom.arena : _gameRestartedFromArena,
+    GameRestartedFrom.menu : _gameRestartedFromMenu,
+    GameRestartedFrom.historyPage : _gameRestartedFromHistoryPage,
+  };
+
+  String get name => names[this];
 }

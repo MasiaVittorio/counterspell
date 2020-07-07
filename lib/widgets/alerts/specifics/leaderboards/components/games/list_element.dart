@@ -39,7 +39,10 @@ class PastGameTile extends StatelessWidget {
                   icon: game.winner == name ? McIcons.trophy : null,
                   forceTextColor: commanders.isNotEmpty ? Colors.white : null,
                   subText: commanders.isNotEmpty 
-                    ? safeSubString(commanders.first.name.split(" ").first, 9)
+                    ? safeSubString(
+                      untilSpaceOrComma(commanders.first.name),
+                      8,
+                    )
                     : null,
                   image: commanders.isNotEmpty 
                     ? DecorationImage(
@@ -68,6 +71,10 @@ class PastGameTile extends StatelessWidget {
   static String safeSubString(String start, int len){
     if(start.length >  len) return start.substring(0,len-1)+'.';
     else return start; 
+  }
+
+  static String untilSpaceOrComma(String from){
+    return from.split(" ").first.split(",").first;
   }
 
 

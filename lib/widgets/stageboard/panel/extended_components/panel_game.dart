@@ -30,7 +30,7 @@ class PanelGame extends StatelessWidget {
                 Expanded(child: ExtraButton(
                   icon: McIcons.restart,
                   text: "New Game",
-                  onTap: () => stage.showAlert(const RestarterAlert(false), size: ConfirmAlert.height),
+                  onTap: () => stage.showAlert(const RestarterAlert(GameRestartedFrom.menu), size: ConfirmAlert.height),
                   filled: true,
                 ),),
                 CSWidgets.extraButtonsDivider,

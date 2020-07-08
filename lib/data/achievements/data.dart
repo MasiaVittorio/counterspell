@@ -7,7 +7,7 @@ class Achievements{
   static const Achievement counters = QualityAchievement(
     countersShortTitle,
     title: "Track different counters in a single game",
-    text: 'You can select a new counter in the "Counters" page by tapping on the icon at the right of the bottom panel',
+    text: "Closed panel's shortcut from counters page",
     targets: <String,bool>{
       Counter.poisonLongName: false,
       Counter.experienceLongName: false,
@@ -24,8 +24,8 @@ class Achievements{
   static const String uiExpertShortTitle = "UI expert";
   static const Achievement uiExpert = QualityAchievement(
     uiExpertShortTitle,
-    title: "Restart the game or edit the playgroup in different ways",
-    text: "You can use the closed panel's right button (History and Life pages) or the main menu's buttons (\"Game\" tab)",
+    title: "Start new games or edit the playgroup in different ways",
+    text: "Closed panel's shortcuts, main menu's buttons, Arena quick menu",
     targets: <String,bool>{
       GameRestartedFromNames._gameRestartedFromHistoryPage: false,
       GameRestartedFromNames._gameRestartedFromMenu: false,
@@ -41,7 +41,7 @@ class Achievements{
   static const Achievement roller = QuantityAchievement(
     rollerShortTitle,
     title: "Flip a ton of coins, roll a bunch of dice",
-    text: 'Open the main menu. In the "Game" tab you\'ll find the "Random" button',
+    text: 'Menu > Game tab > Random button. (Or Arena quick menu).',
     currentCount: 0,
     targetBronze: 10,
     targetSilver: 25,
@@ -51,7 +51,7 @@ class Achievements{
   static const Achievement vampire = QuantityAchievement(
     vampireShortTitle,
     title: "Steal a bunch of life via lifelink",
-    text: 'A long press on the checkbox of a player will anti-select it to receive the opposite damage of any other player',
+    text: 'Long press on the checkbox of a player to anti-select it',
     currentCount: 0,
     targetBronze: 10,
     targetSilver: 25,

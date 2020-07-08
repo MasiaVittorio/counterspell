@@ -78,7 +78,7 @@ class CSAchievements extends BlocBase {
         secondary: MedalIcon(newOne.medal),
         scrollable: true,
         onTap: () => parent.stage.showAlert(
-          const AchievementsAlert(initialDone: true,),
+          AchievementsAlert(initialDone: newOne.gold,),
           size: AchievementsAlert.height,
         ),
       ));

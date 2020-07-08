@@ -19,6 +19,10 @@ class ArenaMenuActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final bloc = CSBloc.of(context);
+
+    final thrower = bloc.achievements.flippedOrRolled;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -29,15 +33,16 @@ class ArenaMenuActions extends StatelessWidget {
           _Restarter(close),
         ]),
         Section(<Widget>[
-          const SectionTitle("Random"),
-          const RandomListTile(2),
-          const RandomListTile(6),
-          const RandomListTile(20),
+          SectionTitle("Random"),
+          RandomListTile(2, onThrowCallback: thrower,),
+          RandomListTile(6, onThrowCallback: thrower,),
+          RandomListTile(20, onThrowCallback: thrower,),
           RandomListTile(
             null, 
             values: names,
             title: const Text("Pick name"),
             leading: const Icon(Icons.person_outline),
+            onThrowCallback: thrower,
           ),
         ]),
       ],
@@ -99,12 +104,20 @@ class ArenaFirstActions extends StatelessWidget {
 
 class RandomListTile extends StatefulWidget {
 
-  const RandomListTile(this.max, {this.values, this.leading, this.title});
+  const RandomListTile(
+    this.max, {
+      this.values, 
+      this.leading, 
+      this.title,
+      this.onThrowCallback,
+    }
+  );
   
   final int max; /// 2 = coin, 6 = d6, 20 = d20
   final List<String> values; /// If you want each number to represent a result (the lenght of this list will override the max value!)
   final Widget leading;
   final Widget title;
+  final VoidCallback onThrowCallback;
 
   @override
   _RandomListTileState createState() => _RandomListTileState();
@@ -147,6 +160,7 @@ class _RandomListTileState extends State<RandomListTile> with SingleTickerProvid
   void tap(){
     generate();
     move();
+    widget.onThrowCallback?.call();
   }
 
   static const Map<int,IconData> icons = <int,IconData>{

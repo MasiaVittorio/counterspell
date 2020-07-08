@@ -1,68 +1,100 @@
 import 'package:counter_spell_new/core.dart';
 
-class CountersMaster extends StatefulWidget {
+class CountersMaster extends StatelessWidget {
   const CountersMaster();
 
   @override
-  _CountersMasterState createState() => _CountersMasterState();
-}
-
-class _CountersMasterState extends State<CountersMaster> {
-
-  CSPage page = CSPage.life;
-  bool done = false;
-
-  @override
   Widget build(BuildContext context) {
-
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
-
-    final double collapsedPanelSize = stage.dimensionsController.dimensions.value.collapsedPanelSize;
-    final Map<CSPage,Color> colors = stage.themeController.derived.mainPageToPrimaryColor.value;
-
-    return Column(
-      children: <Widget>[
-        Expanded(child: Center(child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: AnimatedText(
-            done ? "Nice!" : <CSPage,String>{
-              CSPage.life: "Go to the counters section",
-              CSPage.counters: "Press the button on the right of the bottom panel",
-            }[page] ?? "",
-            textAlign: TextAlign.center,
-            duration: CSAnimations.medium,
-          ),
-        ),),),
-
-        FakeBottomBar(
-          rightCallback: (){
-            if(page == CSPage.counters) this.setState((){
-              this.done = true;
-            });
-          },
-          collapsedPanelSize: collapsedPanelSize, 
-          page: page, 
-          colors: colors, 
-          onSelect: (CSPage newPage) => this.setState((){
-            this.page = newPage;
-          }), 
-          orderedValues: const <CSPage>[
-            // CSPage.history, 
-            CSPage.counters, 
-            CSPage.life, 
-            // CSPage.commanderDamage, 
-            // CSPage.commanderCast,
-          ], 
-          leftTitles: <CSPage,String>{
-            CSPage.life: "Arena Mode",
-            CSPage.counters: "Arena Mode",
-          }, 
-          rightTitles: <CSPage,String>{
-            CSPage.life: "Playgroup",
-            CSPage.counters: "Counter picker",
-          },
-        ),
-      ],
+    return Stage<CSPage,SettingsPage>(
+      body: _Body(), 
+      collapsedPanel: const _Collapsed(), 
+      extendedPanel: _Extended(), 
+      topBarData: StageTopBarData(
+        title: StageTopBarTitle(panelTitle: "Close the menu!",)
+      ),
+      mainPages: StagePagesData.nullable(
+        defaultPage: CSPage.life,
+        orderedPages: [CSPage.counters, CSPage.life, CSPage.commanderCast],
+      ),
+      wholeScreen: false,
     );
   }
 }
+
+class _Body extends StatelessWidget {
+  const _Body();
+  @override
+  Widget build(BuildContext context) {
+    return StageBuild.offMainPage((_, page) => Container(
+      padding: const EdgeInsets.all(16),
+      alignment: Alignment.center,
+      child: AnimatedText(
+        page == CSPage.counters 
+          ? "Now tap the bottom right shortcut!"
+          : 'First, go to the "Counters" page.',
+        textAlign: TextAlign.center,
+      ),
+    ));
+  }
+}
+
+class _Extended extends StatelessWidget {
+  const _Extended();
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(child: Material(child: SizedBox.expand(
+      child: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          "The main menu is useless for this task, close it!",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),));
+  }
+}
+
+
+class _Collapsed extends StatelessWidget {
+
+  const _Collapsed();
+
+  @override
+  Widget build(BuildContext context) {
+    final stage = Stage.of(context);
+
+    final logic = CSBloc.of(context);
+
+    return StageBuild.offMainPage((_, page) 
+      => logic.game.gameAction.counterSet.build((context, counter) 
+        => Row(children: <Widget>[
+          Expanded(child: Center(child: AnimatedText(
+            page == CSPage.counters
+              ? "Selected: ${counter.shortName}"
+              : "page-specific stuff",
+          ),),),
+          IconButton(
+            icon:  Icon(
+              {
+                CSPage.life: McIcons.account_multiple_outline,
+                CSPage.counters: counter.icon,
+                CSPage.commanderCast: Icons.info_outline,
+              }[page] ?? Icons.error_outline
+            ),
+            onPressed: page == CSPage.counters 
+              ? () => stage.showSnackBar(
+                SnackCounterSelector(),
+                rightAligned: true,
+              )
+              : null,
+          ),
+        ],),
+      ),
+    );
+
+  }
+}
+
+

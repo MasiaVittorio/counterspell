@@ -54,77 +54,79 @@ class AptGestures extends StatelessWidget {
 
     return Material(
       type: MaterialType.transparency,
-      child: bloc.settings.arenaSettings.scrollOverTap.build((context, scrollOverTap) {
+      child: StageBuild.offMainEnabledPages((_, enabled) 
+        => bloc.settings.arenaSettings.scrollOverTap.build((context, scrollOverTap) {
 
-        if(scrollOverTap){
-          final Widget interactiveContent = InkResponse(
-            onTap:() => tapWithScrollSettings(stage), 
-            onLongPress: () => longPressWithScrollSettings(stage),
-            child: VelocityPanDetector(
-              onPanUpdate: onPanUpdate,
-              onPanEnd: onPanEnd,
-              onPanCancel: bloc.scroller.onDragEnd,
-              child: Container(
-                /// Transparent color (not just null) unless the empty part would not be interactive
-                color: Colors.transparent,
-                child: content,
+          if(scrollOverTap){
+            final Widget interactiveContent = InkResponse(
+              onTap:() => tapWithScrollSettings(stage), 
+              onLongPress: enabled[CSPage.commanderDamage] 
+                ? () => longPressWithScrollSettings(stage)
+                : null,
+              child: VelocityPanDetector(
+                onPanUpdate: onPanUpdate,
+                onPanEnd: onPanEnd,
+                onPanCancel: bloc.scroller.onDragEnd,
+                child: Container(
+                  /// Transparent color (not just null) unless the empty part would not be interactive
+                  color: Colors.transparent,
+                  child: content,
+                ),
               ),
-            ),
-          );
+            );
 
-          final Widget arrows = settings.verticalScroll.build((context, verticalScroll) {
+            final Widget arrows = settings.verticalScroll.build((context, verticalScroll) {
+              final Map<bool,Widget> children = <bool,Widget>{
+                for(bool plus in const <bool>[true,false])
+                  plus: Expanded(child: Container(
+                    /// color: null because it should not be interactive
+                    child: buildArrow(verticalScroll, plus),
+                  ),),
+              };
+              
+              return Flex(
+                direction: verticalScroll ? Axis.vertical : Axis.horizontal,
+                children: <Widget>[
+                  if(verticalScroll) ...[children[true], children[false]] /// top + bottom -
+                  else ...[children[false], children[true]], /// left - right +
+                ],
+              );
+            },);
+
+
+            return Stack(children: <Widget>[
+              Positioned.fill(child: arrows),
+              Positioned.fill(child: interactiveContent),
+            ],);
+          } 
+
+          final Widget buttons = settings.verticalTap.build((context, verticalTap) {
+
             final Map<bool,Widget> children = <bool,Widget>{
               for(bool plus in const <bool>[true,false])
-                plus: Expanded(child: Container(
-                  /// color: null because it should not be interactive
-                  child: buildArrow(verticalScroll, plus),
+                plus: Expanded(child: ContinuousPressInkResponse(
+                  containedInkWell: true,
+                  onTap: (){}, /// not null because the inkwell must be seen as enabled
+                  onTapDown: (_) => this.tapOnly(plus, stage),
+                  whileLongPress: () => this.tapOnly(plus, stage),
+                  interval: const Duration(milliseconds: 250),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: buildArrow(verticalTap, plus),
+                  ),
                 ),),
             };
-            
+
             return Flex(
-              direction: verticalScroll ? Axis.vertical : Axis.horizontal,
+              direction: verticalTap ? Axis.vertical : Axis.horizontal,
               children: <Widget>[
-                if(verticalScroll) ...[children[true], children[false]] /// top + bottom -
+                if(verticalTap) ...[children[true], children[false]] /// top + bottom -
                 else ...[children[false], children[true]], /// left - right +
               ],
             );
           },);
 
-
           return Stack(children: <Widget>[
-            Positioned.fill(child: arrows),
-            Positioned.fill(child: interactiveContent),
-          ],);
-        } 
-
-        final Widget buttons = settings.verticalTap.build((context, verticalTap) {
-
-          final Map<bool,Widget> children = <bool,Widget>{
-            for(bool plus in const <bool>[true,false])
-              plus: Expanded(child: ContinuousPressInkResponse(
-                containedInkWell: true,
-                onTap: (){}, /// not null because the inkwell must be seen as enabled
-                onTapDown: (_) => this.tapOnly(plus, stage),
-                whileLongPress: () => this.tapOnly(plus, stage),
-                interval: const Duration(milliseconds: 250),
-                child: Container(
-                  color: Colors.transparent,
-                  child: buildArrow(verticalTap, plus),
-                ),
-              ),),
-          };
-
-          return Flex(
-            direction: verticalTap ? Axis.vertical : Axis.horizontal,
-            children: <Widget>[
-              if(verticalTap) ...[children[true], children[false]] /// top + bottom -
-              else ...[children[false], children[true]], /// left - right +
-            ],
-          );
-        },);
-
-        return StageBuild.offMainEnabledPages((_, enabled) 
-          => Stack(children: <Widget>[
 
             Positioned.fill(child: buttons),
 
@@ -145,9 +147,8 @@ class AptGestures extends StatelessWidget {
                   hasPartnerB: this.havingPartnerB,
                 ),
               ),
-          ],),
-        );
-      },
+          ],);
+        },),
       ),
     );
   }

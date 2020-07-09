@@ -11,26 +11,23 @@ class CounterSpellActions extends StatelessWidget {
     
     return Section([
       const SectionTitle("Actions"),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 10.0),
-        child: Row(children: <Widget>[
-          Expanded(child: ExtraButton(
-            text: "Give feedback",
-            icon: Icons.favorite_border,
-            onTap: () => stage.showAlert(const FeedbackAlert(), size: FeedbackAlert.height),
-          ),),
-          Expanded(child: ExtraButton(
-            text: "Contact me",
-            icon: McIcons.message_text_outline,
-            onTap: () => stage.showAlert(const ContactsAlert(), size: ContactsAlert.height),
-          ),),
-          Expanded(child: ExtraButton(
-            text: "Manage cache",
-            icon: McIcons.memory,
-            onTap: () => stage.showAlert(const CacheAlert(), size: CacheAlert.height),
-          ),),
-        ].separateWith(CSWidgets.extraButtonsDivider)),
-      ),
+      RowOfExtraButtons(children: <Widget>[
+        ExtraButton(
+          text: "Give feedback",
+          icon: Icons.favorite_border,
+          onTap: () => stage.showAlert(const FeedbackAlert(), size: FeedbackAlert.height),
+        ),
+        ExtraButton(
+          text: "Contact me",
+          icon: McIcons.message_text_outline,
+          onTap: () => stage.showAlert(const ContactsAlert(), size: ContactsAlert.height),
+        ),
+        ExtraButton(
+          text: "Manage cache",
+          icon: McIcons.memory,
+          onTap: () => stage.showAlert(const CacheAlert(), size: CacheAlert.height),
+        ),
+      ],),
 
       CSWidgets.divider,
 

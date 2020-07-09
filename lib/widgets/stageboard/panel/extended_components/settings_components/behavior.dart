@@ -10,44 +10,48 @@ class SettingsBehavior extends StatelessWidget {
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     return Section([
-      const PanelTitle("Behavior", centered: false,),
-      Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 8.0),
-        child: Row(children: <Widget>[
-          Expanded(child: settings.appSettings.wantVibrate.build((_, vibrate)
-            => ExtraButton(
+      const PanelTitle("Gestures", centered: false,),
+      RowOfExtraButtons(
+        children: <Widget>[
+          settings.appSettings.wantVibrate.build((_, vibrate)
+            => ExtraButtonToggle(
               text: "Vibration",
-              icon: vibrate ? McIcons.vibrate : McIcons.vibrate_off,
-              onTap: () => settings.appSettings.wantVibrate.set(!vibrate),
+              icon: McIcons.vibrate,
+              iconOff: McIcons.vibrate_off,
+              onChanged: settings.appSettings.wantVibrate.set,
+              value: vibrate,
             ),
-          ),),
-          Expanded(child: ExtraButton(
-            text: "Scroll Sens",
-            icon: Icons.gesture,
+          ),
+          ExtraButton(
+            text: "Arena Settings",
+            icon: CSIcons.counterSpell,
+            iconSize: CSIcons.ideal_counterspell_size,
+            iconPadding: CSIcons.ideal_counterspell_padding,
             onTap: () => stage.showAlert(
-              const ScrollSensitivity(),
-              size: ScrollSensitivity.height,
+              const ArenaSettings(),
+              size: ArenaSettings.height,
             ),
-          ),),
-        ].separateWith(CSWidgets.extraButtonsDivider),),
+          ),
+          // ExtraButton(
+          //   text: "Scroll Sens",
+          //   icon: Icons.gesture,
+          //   onTap: () => stage.showAlert(
+          //     const ScrollSensitivity(),
+          //     size: ScrollSensitivity.height,
+          //   ),
+          // ),
+        ],
       ),
-      // settings.wantVibrate.build((_, vibrate)
-      //   => SwitchListTile(
-      //     value: vibrate,
-      //     onChanged: settings.wantVibrate.set,
-      //     title: const Text("Vibration"),
-      //     secondary: const Icon(Icons.vibration),
-      //   ),
-      // ),
-      // ListTile(
-      //   title: const Text("Scroll Feeling"),
-      //   leading: Icon(Icons.touch_app),
-      //   trailing: Icon(Icons.keyboard_arrow_right),
-      //   onTap: () => stage.showAlert(
-      //     const ScrollSensitivity(),
-      //     size: ScrollSensitivity.height,
-      //   ),
-      // ),
+      CSWidgets.divider,
+      ListTile(
+        title: const Text("Scroll Sensitivities"),
+        leading: Icon(Icons.gesture),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: () => stage.showAlert(
+          const ScrollSensitivity(),
+          size: ScrollSensitivity.height,
+        ),
+      ),
       CSWidgets.divider,
       scrollSettings.confirmDelay.build((_, dur) => FullSlider(
         leading: const Icon(Icons.timelapse),

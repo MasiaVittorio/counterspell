@@ -17,27 +17,10 @@ class CSWidgets{
   static const Widget width15 = SizedBox(width: 15.0, height: 0.0,);
   static const Widget height20 = SizedBox(height: 20.0, width: 0.0,);
   static const Widget width20 = SizedBox(width: 20.0, height: 0.0,);
-  static const Widget extraButtonsDivider = _ExtraButtonDivider();
+  static const Widget extraButtonsDivider = RowOfExtraButtons.divider;
   static const Widget verticalDivider = _VerticalDivider();
 }
 
-class _ExtraButtonDivider extends StatelessWidget {
-  const _ExtraButtonDivider();
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Container(
-        width: 1.0,
-        height: 44.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.15),
-        ),
-      ),
-    );
-  }
-}
 
 
 class _VerticalDivider extends StatelessWidget {

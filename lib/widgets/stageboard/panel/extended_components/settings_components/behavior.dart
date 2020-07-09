@@ -22,7 +22,7 @@ class SettingsBehavior extends StatelessWidget {
             ),
           ),),
           Expanded(child: ExtraButton(
-            text: "Scroll Settings",
+            text: "Scroll Sens",
             icon: Icons.gesture,
             onTap: () => stage.showAlert(
               const ScrollSensitivity(),

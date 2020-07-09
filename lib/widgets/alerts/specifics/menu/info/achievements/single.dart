@@ -6,7 +6,7 @@ class AchievementAlert extends StatelessWidget {
 
   final String shortTitle;
 
-  static const double height = 550;
+  static const double height = 900.0;
 
   const AchievementAlert(this.shortTitle);
 

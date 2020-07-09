@@ -101,38 +101,29 @@ class CSScroller {
   }
 
   void delayerAnimationListener(AnimationStatus status){
-    print("reacting to animation status");
     if(status == AnimationStatus.dismissed) {
-      print("dismissed");
       if(isScrolling.setDistinct(false)){
-        print("scrolling was true, now false, lets perform callbacks");
         _performAutoConfirm();
       }
       _performClearAutoConfirm();
     } else {
-      print("not dismissed status");
       if(isScrolling.setDistinct(true)){
-        print("scrolling was false now true, lets clear");
         _performClearAutoConfirm();
       }
     }
   }
 
   void _performAutoConfirm(){
-    print("enter perform autoconfirm");
     if(_clearNextAutoConfirm){
-      print("clear autoconfirm was true");
       _performClearAutoConfirm();
     } else {
       for(final key in this._onNextAutoConfirm.keys){
-        print("action to be done, key: $key");
         _onNextAutoConfirm[key]?.call();
       }
     }
   }
 
   void _performClearAutoConfirm(){
-    print("enter _performClearAutoConfirm()");
     this._onNextAutoConfirm.clear();
     this._clearNextAutoConfirm = false;
   }
@@ -185,7 +176,6 @@ class CSScroller {
       if(alsoAttacker) 
         parent.game.gameAction.attackingPlayer.set("");
     }
-    print("registering the clear of autoconfirm callbacks from cancel method");
     _clearNextAutoConfirm = true;
   }
 

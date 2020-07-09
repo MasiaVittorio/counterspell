@@ -45,10 +45,7 @@ class CSStage {
         },
         orderedPages: CSPage.values.toList(),
       ).complete,
-      onMainPageChanged: (_) {
-        print("on main page changed");
-        parent.scroller.cancel(true);
-      },
+      onMainPageChanged: (_) => parent.scroller.cancel(true),
 
       jsonToPanelPage: (json) => SettingsPages.fromName(json as String),
       panelPageToJson: (page) => SettingsPages.nameOf(page),

@@ -20,7 +20,9 @@ class ScrollSensitivity extends StatelessWidget {
 
     return HeaderedAlertCustom(
       _sens.build((_,sens) => FullSlider(
-        titleBuilder: (val) => Text("Scroll Sensitivity: ${((val*10.round()) /10).toStringAsFixed(1)}"),
+        titleBuilder: (val) => Text(
+          "Scroll Sensitivity: ${((val*10.round()) /10).toStringAsFixed(1)}"
+        ),
         min: 4.0,
         max: 14.0,
         divisions: 100,
@@ -56,8 +58,14 @@ class ScrollSensitivity extends StatelessWidget {
                 max: 0.95,
                 divisions: 17,
                 defaultValue: CSSettingsScroll.sensSpeedVal,
-                leadingBuilder: (val) => Icon(val < small ? McIcons.speedometer_slow : val >= big ? McIcons.speedometer : McIcons.speedometer_medium),
-                titleBuilder: (val) => Text("Speed Weight: ${val.toStringAsFixed(2)}"),
+                leadingBuilder: (val) => Icon(val < small 
+                  ? McIcons.speedometer_slow 
+                  : val >= big 
+                    ? McIcons.speedometer 
+                    : McIcons.speedometer_medium
+                ),
+                titleBuilder: (val) 
+                  => Text("Speed Weight: ${val.toStringAsFixed(2)}"),
               );
             }),
             CSWidgets.height10,
@@ -79,7 +87,8 @@ class ScrollSensitivity extends StatelessWidget {
               divisions: 23,
               defaultValue: CSSettingsScroll.sensPreBoostVal,
               leading: Icon(Icons.add_circle_outline),
-              titleBuilder: (val) => Text("Boost multiplier: ${val.toStringAsFixed(1)}"),
+              titleBuilder: (val) 
+                => Text("Boost multiplier: ${val.toStringAsFixed(1)}"),
             )),
             CSWidgets.height10,
           ],),),
@@ -100,33 +109,34 @@ class ScrollSensitivity extends StatelessWidget {
               divisions: 17,
               leading: Icon(Icons.remove_circle_outline),
               defaultValue: CSSettingsScroll.sens1StaticVal,
-              titleBuilder: (val) => Text("Dampening multiplier: ${val.toStringAsFixed(2)}"),
+              titleBuilder: (val) 
+                => Text("Dampening multiplier: ${val.toStringAsFixed(2)}"),
             )),
             CSWidgets.height10,
           ],),),
 
-          settings.arenaSettings.verticalScroll.build((_, vertical)
-            => SwitchListTile(
-              value: vertical,
-              onChanged: settings.arenaSettings.verticalScroll.set,
-              title: const Text("Vertical Scroll on Arena Mode"),
-              secondary: const Icon(McIcons.gesture_swipe_down),
-            ),
-          ),
-          CSWidgets.divider,
-          ListTile(
-            title: const Text("Restore default values"),
-            leading: const Icon(Icons.settings_backup_restore),
-            onTap: (){
-              _sens.set(CSSettingsScroll.sensVal);
-              _speed.set(true);
-              _speedValue.set(CSSettingsScroll.sensSpeedVal);
-              _preBoost.set(true);
-              _preBoostValue.set(CSSettingsScroll.sensPreBoostVal);
-              _oneStatic.set(true);
-              _oneStaticValue.set(CSSettingsScroll.sens1StaticVal);
-            },
-          ),
+          // settings.arenaSettings.verticalScroll.build((_, vertical)
+          //   => SwitchListTile(
+          //     value: vertical,
+          //     onChanged: settings.arenaSettings.verticalScroll.set,
+          //     title: const Text("Vertical Scroll on Arena Mode"),
+          //     secondary: const Icon(McIcons.gesture_swipe_down),
+          //   ),
+          // ),
+          // CSWidgets.divider,
+          // ListTile(
+          //   title: const Text("Restore default values"),
+          //   leading: const Icon(Icons.settings_backup_restore),
+          //   onTap: (){
+          //     _sens.set(CSSettingsScroll.sensVal);
+          //     _speed.set(true);
+          //     _speedValue.set(CSSettingsScroll.sensSpeedVal);
+          //     _preBoost.set(true);
+          //     _preBoostValue.set(CSSettingsScroll.sensPreBoostVal);
+          //     _oneStatic.set(true);
+          //     _oneStaticValue.set(CSSettingsScroll.sens1StaticVal);
+          //   },
+          // ),
 
         ],
       ),

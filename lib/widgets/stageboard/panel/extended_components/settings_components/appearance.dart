@@ -10,36 +10,27 @@ class SettingsAppearance extends StatelessWidget {
 
     return Section([
       const SectionTitle("Appearance"),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 8.0),
-        child: Row(children: <Widget>[
-          Expanded(child: ExtraButton(
+      RowOfExtraButtons(
+        children: <Widget>[
+          settings.appSettings.alwaysOnDisplay.build((_, alwaysOn) 
+            => ExtraButtonToggle(
+              value: alwaysOn,
+              onChanged: settings.appSettings.alwaysOnDisplay.set,
+              text: "Always on display",
+              icon: Icons.settings_brightness,
+            ),
+          ),
+          ExtraButton(
             text: "Images",
             icon: Icons.invert_colors,
             onTap: () => stage.showAlert(
               const ImageOpacity(),
               size: ImageOpacity.height,
             ),
-          ),),
-          Expanded(child: ExtraButton(
-            text: "Arena Settings",
-            icon: CSIcons.counterSpell,
-            iconSize: CSIcons.ideal_counterspell_size,
-            iconPadding: CSIcons.ideal_counterspell_padding,
-            onTap: () => stage.showAlert(
-              const ArenaSettings(),
-              size: ArenaSettings.height,
-            ),
-          ),),
-        ].separateWith(CSWidgets.extraButtonsDivider),),
+          ),
+        ],
       ),
-      CSWidgets.divider,
-      settings.appSettings.alwaysOnDisplay.build((_, alwaysOn) => SwitchListTile(
-        value: alwaysOn,
-        onChanged: settings.appSettings.alwaysOnDisplay.set,
-        title: const Text("Always on display"),
-        secondary: const Icon(Icons.settings_brightness),
-      ),),
+
       const SectionTitle("History time"),
       bloc.settings.gameSettings.timeMode.build((_,mode)=> RadioSlider(
         onTap: (i) => settings.gameSettings.timeMode.set(TimeMode.values[i]),

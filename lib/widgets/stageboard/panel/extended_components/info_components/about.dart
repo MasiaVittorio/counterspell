@@ -12,25 +12,25 @@ class AboutCounterSpell extends StatelessWidget {
 
     return Section([
       const PanelTitle("About CounterSpell", centered: false,),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
-        child: Row(children: <Widget>[
-          Expanded(child: ExtraButton(
+      RowOfExtraButtons(
+        // margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+        children: <Widget>[
+          ExtraButton(
             icon: Icons.person_outline,
             text: "The developer",
             onTap: () => stage.showAlert(const Developer(), size: Developer.height),
-          )),
-          Expanded(child: ExtraButton(
+          ),
+          ExtraButton(
             icon: McIcons.file_document_box_check_outline,
             text: "Licenses",
             onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
-          )),
-          Expanded(child: ExtraButton(
+          ),
+          ExtraButton(
             icon: McIcons.file_document_outline,
             text: "Changelog",
             onTap: logic.settings.showChangelog,
-          )),
-        ].separateWith(CSWidgets.extraButtonsDivider),),
+          ),
+        ],
       ),
       CSWidgets.divider,
       ListTile(

@@ -4,6 +4,53 @@ import 'package:stage/stage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 
+class RowOfExtraButtons extends StatelessWidget {
+
+  const RowOfExtraButtons({
+    @required this.children,
+    this.margin = defaultMargin,
+  });
+
+  final List<Widget> children;
+  final EdgeInsets margin;
+
+  static const defaultMargin = const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
+  static const Widget divider = _ExtraButtonDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: margin ?? defaultMargin,
+      child: Row(
+        children: <Widget>[
+          for(final child in children)
+            Expanded(child: child),
+        ].separateWith(divider),
+      ),
+    );
+  }
+}
+
+class _ExtraButtonDivider extends StatelessWidget {
+  const _ExtraButtonDivider();
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Container(
+        width: 1.0,
+        height: 44.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.15),
+        ),
+      ),
+    );
+  }
+}
+
+
+
 class ExtraButton extends StatelessWidget {
   final IconData icon;
   final String text;
@@ -14,6 +61,7 @@ class ExtraButton extends StatelessWidget {
   final bool forceExternalSize;
   final bool filled;
   final Widget customIcon;
+  final Color customCircleColor;
 
   const ExtraButton({
     @required this.icon,
@@ -24,6 +72,7 @@ class ExtraButton extends StatelessWidget {
     this.iconSize,
     this.customIcon,
     this.filled = false,
+    this.customCircleColor,
   });
 
   static const double _iconDimension = 38.0;
@@ -32,8 +81,10 @@ class ExtraButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final defaultSize = DefaultTextStyle.of(context).style.fontSize;
 
+    final theme = Theme.of(context);
+
     return SubSection(
-      [
+      <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
           child: Container(
@@ -42,9 +93,9 @@ class ExtraButton extends StatelessWidget {
             width: _iconDimension,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(filled ? 10 : 50),
-              color: (filled ?? false) ? null : Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
-              // border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.051)),
-              // color: Theme.of(context).canvasColor.withOpacity(0.5),
+              color: (filled ?? false) 
+                ? null 
+                : customCircleColor ?? theme.colorScheme.onSurface.withOpacity(0.1),
             ),
             child: Padding(
               padding: this.iconPadding,

@@ -9,6 +9,7 @@ class CSScroller {
   void dispose(){
     intValue.dispose();
     isScrolling.dispose();
+    _onNextAutoConfirm.clear();
   }
 
 
@@ -24,6 +25,8 @@ class CSScroller {
   final DelayerController delayerController;
   BlocVar<bool> isScrolling; 
   bool ignoringThisPan = false;
+  final Map<String,VoidCallback> _onNextAutoConfirm = <String,VoidCallback>{};
+  bool _clearNextAutoConfirm = false;
 
 
 
@@ -43,7 +46,9 @@ class CSScroller {
           this.value = 0.0;
           this.intValue.set(0);
         } else {
-          parent.game.gameAction.privateConfirm(parent.stageBloc.controller.mainPagesController.currentPage);
+          parent.game.gameAction.privateConfirm(
+            parent.stageBloc.controller.mainPagesController.currentPage
+          );
         }
       }
     });
@@ -96,13 +101,47 @@ class CSScroller {
   }
 
   void delayerAnimationListener(AnimationStatus status){
+    print("reacting to animation status");
     if(status == AnimationStatus.dismissed) {
-      isScrolling.setDistinct(false);
-    }
-    else {
-      isScrolling.setDistinct(true);
+      print("dismissed");
+      if(isScrolling.setDistinct(false)){
+        print("scrolling was true, now false, lets perform callbacks");
+        _performAutoConfirm();
+      }
+      _performClearAutoConfirm();
+    } else {
+      print("not dismissed status");
+      if(isScrolling.setDistinct(true)){
+        print("scrolling was false now true, lets clear");
+        _performClearAutoConfirm();
+      }
     }
   }
+
+  void _performAutoConfirm(){
+    print("enter perform autoconfirm");
+    if(_clearNextAutoConfirm){
+      print("clear autoconfirm was true");
+      _performClearAutoConfirm();
+    } else {
+      for(final key in this._onNextAutoConfirm.keys){
+        print("action to be done, key: $key");
+        _onNextAutoConfirm[key]?.call();
+      }
+    }
+  }
+
+  void _performClearAutoConfirm(){
+    print("enter _performClearAutoConfirm()");
+    this._onNextAutoConfirm.clear();
+    this._clearNextAutoConfirm = false;
+  }
+
+  void registerCallbackOnNextAutoConfirm(String key, VoidCallback callback){
+    if(_clearNextAutoConfirm) this._performClearAutoConfirm();   
+    this._onNextAutoConfirm[key] = callback;
+  } 
+
 
   void feedBack(){
     if(parent.settings.appSettings.canVibrate == true)
@@ -146,6 +185,8 @@ class CSScroller {
       if(alsoAttacker) 
         parent.game.gameAction.attackingPlayer.set("");
     }
+    print("registering the clear of autoconfirm callbacks from cancel method");
+    _clearNextAutoConfirm = true;
   }
 
   bool forceComplete() => isScrolling.setDistinct(false);

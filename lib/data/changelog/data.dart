@@ -3,9 +3,17 @@ import 'package:counter_spell_new/models/changelog/model.dart';
 
 class ChangeLogData {
 
-  static const int lastBigChange = 81;
+  static const int lastBigChange = 83;
 
   static const List<Version> list = <Version>[
+    Version("3.2.0", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "Achievements system",
+        'Every achievement has a mini-tutorial that explains how to use a little known feature of CounterSpell',
+      ),
+    ]),
+
     Version("3.1.5", <Change>[
       Change(
         ChangeType.change,

@@ -5,9 +5,10 @@ class CustomStartingLife extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
-    final initial = bloc.settings.gameSettings.startingLife.value.toString();
+    final initialInt = bloc.settings.gameSettings.currentStartingLife;
+    final initial = initialInt.toString();
     return InsertAlert(
-      onConfirm: (string) => bloc.settings.gameSettings.startingLife.set(int.tryParse(string) ?? 40),
+      onConfirm: (string) => bloc.settings.gameSettings.changeStartingLife(int.tryParse(string) ?? initialInt),
       inputType: TextInputType.number,
       checkErrors: (string){
         final int n = int.tryParse(string);

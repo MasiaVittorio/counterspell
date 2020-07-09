@@ -16,12 +16,12 @@ class StartingLifeTile extends StatelessWidget {
 
     final theme = Theme.of(context);
     final bloc = CSBloc.of(context);
-    final settings= bloc.settings;
-    final startingLife = settings.gameSettings.startingLife;
+    final gameSettings= bloc.settings.gameSettings;
+
     final stage = Stage.of(context);
 
     return BlocVar.build2(
-      startingLife,
+      gameSettings.startingLifeBlocVar,
       stage.themeController.derived.mainPageToPrimaryColor,
       builder: (_, life, colorMap)
         => Section(<Widget>[
@@ -57,7 +57,7 @@ class StartingLifeTile extends StatelessWidget {
   Widget _buildButton(int value, int current, CSBloc bloc, Color color){
     return Expanded(
       child: InkWell(
-        onTap: () => bloc.settings.gameSettings.startingLife.set(value),
+        onTap: () => bloc.settings.gameSettings.changeStartingLife(value),
         child: Padding(
           padding: EdgeInsets.only(right:16.0, top: 3.0, bottom: 3.0),
           child: Row(

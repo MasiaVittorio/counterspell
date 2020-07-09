@@ -5,7 +5,7 @@ class CSSettingsGame {
   //====================================
   // Disposer
   void dispose(){
-    this.startingLife.dispose();
+    this._startingLife.dispose();
     this.minValue.dispose();
     this.maxValue.dispose();
     this.timeMode.dispose();
@@ -15,7 +15,7 @@ class CSSettingsGame {
   //====================================
   // Values
   final CSBloc parent;
-  final PersistentVar<int> startingLife;
+  final PersistentVar<int> _startingLife;
   final PersistentVar<int> minValue;
   final PersistentVar<int> maxValue;
 
@@ -27,7 +27,7 @@ class CSSettingsGame {
   //====================================
   // Constructor
   CSSettingsGame(this.parent):
-    startingLife = PersistentVar<int>(
+    _startingLife = PersistentVar<int>(
       key: "bloc_settings_blocvar_startinglife",
       initVal: 40,
       toJson: (b) => b,
@@ -57,6 +57,20 @@ class CSSettingsGame {
       toJson: (b) => b,
       fromJson: (j) => j,
     );
+
+  //==========================
+  // Methods
+
+  int get currentStartingLife => _startingLife.value;
+  BlocVar<int> get startingLifeBlocVar => _startingLife;
+
+  void changeStartingLife(int newLife){
+    if(newLife == currentStartingLife) return;
+    this._startingLife.set(newLife);
+    if(parent.game.gameState.gameState.value.historyLenght <= 1){
+      parent.game.gameState.restart(null, avoidClosingPanel: true);
+    } 
+  }
 
 
 }

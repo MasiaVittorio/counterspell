@@ -17,8 +17,8 @@ class Achievements{
       Counter.monarchLongName: false,
       Counter.energyLongName: false,
     },
-    targetBronze: 7,
-    targetSilver: 7,
+    targetBronze: 0,
+    targetSilver: 0,
     targetGold: 7,
   );
   static const String uiExpertShortTitle = "UI expert";
@@ -33,9 +33,9 @@ class Achievements{
       "Playgroup panel": false,
       "Playgroup menu": false,
     },
-    targetBronze: 2,
-    targetSilver: 3,
-    targetGold: 4,
+    targetBronze: 3,
+    targetSilver: 4,
+    targetGold: 5,
   );
   static const String rollerShortTitle = "The roller";
   static const Achievement roller = QuantityAchievement(

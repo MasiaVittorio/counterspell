@@ -70,7 +70,6 @@ class CSAchievements extends BlocBase {
   }
 
   void checkSnackBar(Achievement oldOne, Achievement newOne){
-    // TODO: rifai achievements
     if(newOne.medal.biggerThan(oldOne.medal)){
       this.parent.stage.showSnackBar(StageSnackBar(
         title: Text(newOne.shortTitle),

@@ -10,7 +10,7 @@ class PastGameTile extends StatelessWidget {
 
   PastGameTile(this.game, this.index);
 
-  static const double height = 167.0;
+  static const double height = 182.0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,49 +23,59 @@ class PastGameTile extends StatelessWidget {
 
     final theme = Theme.of(context);
 
-    return Section([
-      GameTimeTile(game, index: index,),
-      SubSection([
-        SectionTitle("Winner: ${game.winner ?? 'not detected'}"),
-        SingleChildScrollView(scrollDirection: Axis.horizontal, child: Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 2.0, 8.0, 8.0),
-          child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            for(final player in game.state.players.values)
-              (){
-                final name = player.name;
-                final commanders = game.commandersPlayedBy(name);
-                return SidChip(
-                  text: "$name",
-                  icon: game.winner == name ? McIcons.trophy : null,
-                  forceTextColor: commanders.isNotEmpty ? Colors.white : null,
-                  subText: commanders.isNotEmpty 
-                    ? safeSubString(
-                      untilSpaceOrComma(commanders.first.name),
-                      8,
-                    )
-                    : null,
-                  image: commanders.isNotEmpty 
-                    ? DecorationImage(
-                      image: CachedNetworkImageProvider(
-                        commanders.first.imageUrl()
-                      ),
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                        (theme.brightness.isDark 
-                          ? theme.canvasColor
-                          : Colors.black
-                        ).withOpacity(0.2), 
-                        BlendMode.srcOver,
-                      ),
-                    )
-                    : null,
-                );
-              }()
-          ].separateWith(CSWidgets.width10)),
+    return SizedBox(
+      height: height,
+      child: Section([
+        GameTimeTile(game, index: index,),
+        Expanded(child: SubSection(
+          <Widget>[
+            SectionTitle("Winner: ${game.winner ?? 'not detected'}"),
+            Expanded(child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal, 
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12.0, 2.0, 8.0, 8.0),
+                child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  for(final player in game.state.players.values)
+                    (){
+                      final name = player.name;
+                      final commanders = game.commandersPlayedBy(name);
+                      return SidChip(
+                        text: "$name",
+                        icon: game.winner == name ? McIcons.trophy : null,
+                        forceTextColor: commanders.isNotEmpty ? Colors.white : null,
+                        subText: commanders.isNotEmpty 
+                          ? safeSubString(
+                            untilSpaceOrComma(commanders.first.name),
+                            8,
+                          )
+                          : null,
+                        image: commanders.isNotEmpty 
+                          ? DecorationImage(
+                            image: CachedNetworkImageProvider(
+                              commanders.first.imageUrl()
+                            ),
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                              (theme.brightness.isDark 
+                                ? theme.canvasColor
+                                : Colors.black
+                              ).withOpacity(0.2), 
+                              BlendMode.srcOver,
+                            ),
+                          )
+                          : null,
+                      );
+                    }()
+                ].separateWith(CSWidgets.width10),),
+              ),
+            ),),
+          ], 
+          onTap: show,
+          mainAxisAlignment: MainAxisAlignment.center,
         ),),
-      ], onTap: show,),
-      CSWidgets.height10,
-    ], stretch: true,);
+        CSWidgets.height10,
+      ], stretch: true,),
+    );
   }
 
   static String safeSubString(String start, int len){

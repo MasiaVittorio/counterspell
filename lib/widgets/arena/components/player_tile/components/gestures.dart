@@ -123,27 +123,30 @@ class AptGestures extends StatelessWidget {
           );
         },);
 
-        return Stack(children: <Widget>[
+        return StageBuild.offMainEnabledPages((_, enabled) 
+          => Stack(children: <Widget>[
 
-          Positioned.fill(child: buttons),
+            Positioned.fill(child: buttons),
 
-          Positioned.fill(child: content),
+            Positioned.fill(child: content),
 
-          Align(
-            alignment: AptContent.rightInfoFromButtonAlignment(buttonAlignment)
-              ? Alignment.bottomLeft
-              : Alignment.bottomRight,
-            child: AptCmdrDmg(
-              bloc: this.bloc, 
-              name: this.name, 
-              page: this.page, 
-              whoIsAttacking: this.whoIsAttacking,
-              whoIsDefending: this.whoIsDefending,
-              usePartnerB: this.usingPartnerB,
-              hasPartnerB: this.havingPartnerB,
-            ),
-          ),
-        ],);
+            if(enabled[CSPage.commanderDamage])
+              Align(
+                alignment: AptContent.rightInfoFromButtonAlignment(buttonAlignment)
+                  ? Alignment.bottomLeft
+                  : Alignment.bottomRight,
+                child: AptCmdrDmg(
+                  bloc: this.bloc, 
+                  name: this.name, 
+                  page: this.page, 
+                  whoIsAttacking: this.whoIsAttacking,
+                  whoIsDefending: this.whoIsDefending,
+                  usePartnerB: this.usingPartnerB,
+                  hasPartnerB: this.havingPartnerB,
+                ),
+              ),
+          ],),
+        );
       },
       ),
     );

@@ -191,6 +191,8 @@ class CSAchievements extends BlocBase {
   void gameRestarted(GameRestartedFrom from){
     if(!todo.value.contains(Achievements.uiExpertShortTitle)) 
       return;
+    if(from == null) 
+      return;
     this.achieve(Achievements.uiExpertShortTitle, from.name);
     this.reset(Achievements.countersShortTitle, force: false);
   }

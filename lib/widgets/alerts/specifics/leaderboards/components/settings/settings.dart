@@ -5,6 +5,10 @@ class LeaderboardsSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final logic = CSBloc.of(context);
+    final stage = Stage.of(context);
+
     return Column(children: <Widget>[
       Section(<Widget>[
         const SectionTitle("Information"),
@@ -42,9 +46,9 @@ class LeaderboardsSettings extends StatelessWidget {
         leading: const Icon(Icons.delete_forever, color: CSColors.delete,),
         title: const Text("Delete ALL history",),
         trailing: const Icon(Icons.warning),
-        onTap: () => Stage.of(context).showAlert(
+        onTap: () => stage.showAlert(
           ConfirmAlert(
-            action: () => CSBloc.of(context).pastGames.pastGames.set(<PastGame>[]),
+            action: () => logic.pastGames.pastGames.set(<PastGame>[]),
             warningText: "Delete ALL the past games? This cannot be undone",
             confirmColor: CSColors.delete,
             confirmIcon: Icons.delete_forever,

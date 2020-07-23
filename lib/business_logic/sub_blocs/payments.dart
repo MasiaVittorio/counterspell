@@ -31,7 +31,7 @@ class CSPayments {
   CSPayments(this.parent): 
     unlocked = PersistentVar<bool>(
       key: "counterspell_bloc_var_payments_unlocked",
-      initVal: false,
+      initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j as bool,
     ),

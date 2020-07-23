@@ -113,7 +113,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
 
 
   void initController(){
-    controller?.dispose();
+    _disposeController();
     controller = AnimationController(
       duration: widget.duration,
       vsync: this,
@@ -126,7 +126,6 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
   void didUpdateWidget(Delayer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if(widget.duration != controller.duration){
-      controller.dispose();
       initController();
     }
   }
@@ -164,9 +163,14 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
     this.controller.animateBack(0.0);
   }
 
+  void _disposeController(){
+    this.controller?.dispose();
+    this.controller = null;
+  }
+
   @override
   void dispose() {
-    this.controller.dispose();
+    _disposeController();
     super.dispose();
   }
 

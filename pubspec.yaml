@@ -31,7 +31,7 @@ dependencies:
     path: ../stage_2
   animations: ^1.1.1
   auto_size_text: ^2.1.0
-  cached_network_image: ^2.0.0-rc
+  cached_network_image: ^2.2.0+1
   division: ^0.7.0
   equatable: ^1.0.0
   fl_chart: ^0.8.1

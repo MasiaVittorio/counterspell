@@ -7,13 +7,12 @@ class DoneAchievements extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return bloc.achievements.map.build((_, map){
-        return Column(children: <Widget>[
-          for(final achievement in map.values)
-            if(achievement.gold) 
-              AchievementTile(achievement),
-        ].separateWith(CSWidgets.divider),);
-      },
+    return bloc.achievements.map.build((_, map)
+      => Column(children: <Widget>[
+        for(final achievement in map.values)
+          if(achievement.gold) 
+            AchievementTile(achievement),
+      ].separateWith(CSWidgets.divider),),
     );
   }
 }

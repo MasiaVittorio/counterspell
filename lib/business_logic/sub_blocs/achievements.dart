@@ -12,18 +12,27 @@ class CSAchievements extends BlocBase {
   //=================================
   // Values ===================
   final CSBloc parent;
-  final BlocMap<String,Achievement> map;
-  final PersistentVar<Set<String>> todo;
+  BlocMap<String,Achievement> map;
+  PersistentVar<Set<String>> todo;
+  bool _mapReading = true;
+  bool _todoReading = true;
+  bool _checked = false; //if the check method is already been launched
+
 
   //===================================
   // Constructor ===================
-  CSAchievements(this.parent):
+  CSAchievements(this.parent){
+    final bool reset = false;
     this.map = BlocMap<String,Achievement>(
       Achievements.map,
       key: "counterspell_bloc_achievementsBloc_blocMap_mapOfAchievements",
       itemToJson: (item) => item.json,
       jsonToItem: (json) => Achievement.fromJson(json),
-    ),
+      readCallback: (_){
+        _mapReading = false;
+        this.checkNewAchievements(reset);
+      }
+    );
     this.todo = PersistentVar<Set<String>>(
       initVal: const <String>{
         Achievements.countersShortTitle,
@@ -34,14 +43,13 @@ class CSAchievements extends BlocBase {
       toJson: (s) => <String>[...s],
       fromJson: (j) => <String>{...(j as List)},
       copier: (s) => <String>{...s},
-    ){
-      final bool reset = false;
-      if(this.map.reading){
-        this.map.readCallback = (_) => this.checkNewAchievements(reset);
-      } else {
+      readCallback: (_){
+        _todoReading = false;
         this.checkNewAchievements(reset);
       }
-    }
+    );
+
+  }
 
 
 
@@ -49,7 +57,15 @@ class CSAchievements extends BlocBase {
   // Methods ===================
 
   // ===> Checkers
+
   void checkNewAchievements([bool forceResetDev = false]){
+
+    if(_todoReading) return;
+    if(_mapReading) return;
+    if(_checked) return;
+    _checked = true;
+
+    /// checks if new achievements are made by the dev and must be saved in this variable
     for(final entry in Achievements.map.entries){
       this.map.value[entry.key] 
         = (forceResetDev ?? false) 
@@ -67,6 +83,23 @@ class CSAchievements extends BlocBase {
         Achievements.rollerShortTitle,
       });
     }
+
+    /// checks if the todoList is not filled but there are achievements not golden yet anyway
+    /// useful for when the dev changes the gold target of an achievement
+    if(todo.value.length < 3){
+      bool changed = false;
+      for(final a in Achievements.map.values){
+        if(todo.value.length < 3
+        && !map.value[a.shortTitle].gold
+        && !todo.value.contains(a.shortTitle)
+        ){
+          todo.value.add(a.shortTitle);
+          changed = true;
+        }
+      }
+      if(changed) todo.refresh();
+    }
+
   }
 
   void checkSnackBar(Achievement oldOne, Achievement newOne){

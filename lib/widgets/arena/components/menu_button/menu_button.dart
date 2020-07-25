@@ -6,7 +6,7 @@ class ArenaMenuButton extends StatelessWidget {
 
   //button
   final CSBloc logic;
-  final Map<int,String> indexToName;
+  final Map<int,String> positions;
   final bool isScrollingSomewhere;
   final bool open;
   final VoidCallback openMenu;
@@ -14,17 +14,18 @@ class ArenaMenuButton extends StatelessWidget {
   final double buttonSize;
   final VoidCallback exit;
   final CSPage page;
+  final ArenaLayoutType layoutType;
 
   //menu
-  final bool squadLayout;
   final VoidCallback reorderPlayers;
   final BoxConstraints screenConstraints;
   final List<String> names;
+  final Map<ArenaLayoutType,bool> flipped;
 
   ArenaMenuButton({
     @required this.page,
     @required this.logic,
-    @required this.indexToName,
+    @required this.positions,
     @required this.isScrollingSomewhere,
     @required this.open,
     @required this.openMenu,
@@ -32,9 +33,10 @@ class ArenaMenuButton extends StatelessWidget {
     @required this.buttonSize,
     @required this.exit,
     @required this.reorderPlayers,
-    @required this.squadLayout,
     @required this.screenConstraints,
     @required this.names,
+    @required this.layoutType,
+    @required this.flipped,
   });
 
   @override
@@ -55,10 +57,13 @@ class ArenaMenuButton extends StatelessWidget {
         color: theme.scaffoldBackgroundColor,
         child: ArenaMenu(
           names: names, 
-          squadLayout: squadLayout, 
           reorderPlayers: reorderPlayers, 
           exit: exit, 
           close: closeMenu,
+          height: menuHeight,
+          layoutType: layoutType,
+          flipped: flipped,
+          positions: positions,
         ),
       ),
     );
@@ -68,7 +73,7 @@ class ArenaMenuButton extends StatelessWidget {
       isScrollingSomewhere: isScrollingSomewhere,
       exit: exit,
       openMenu: openMenu,
-      indexToName: indexToName,
+      indexToName: positions,
       buttonSize: buttonSize,
       open: open,
     );

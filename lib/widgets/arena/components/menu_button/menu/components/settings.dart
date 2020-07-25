@@ -4,22 +4,15 @@ class ArenaMenuSettings extends StatelessWidget {
 
   const ArenaMenuSettings({
     @required this.players,
-    @required this.squadLayout,
   });
 
   final int players;
-  final bool squadLayout;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        if(players > 2) // for two players there is only one layout
-          Section(<Widget>[
-            const PanelTitle("Layout"),
-            ArenaLayoutSelector(squadLayout),
-          ],),
 
         Section(<Widget>[
           if(players > 2)
@@ -42,31 +35,31 @@ class ArenaMenuSettings extends StatelessWidget {
 }
 
 
-class ArenaLayoutSelector extends StatelessWidget {
+// class ArenaLayoutSelector extends StatelessWidget {
 
-  ArenaLayoutSelector(this.squadLayout);
-  final bool squadLayout;
+//   ArenaLayoutSelector(this.squadLayout);
+//   final bool squadLayout;
 
-  @override
-  Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
-    return RadioSlider(
-      selectedIndex: squadLayout ? 0 : 1,
-      onTap: (i) => settings.arenaSettings.squadLayout.set(i==0),
-      items: [
-        RadioSliderItem(
-          icon: Icon(McIcons.account_multiple_outline),
-          title: Text("Squad"),
-        ),
-        RadioSliderItem(
-          icon: Icon(McIcons.account_outline),
-          title: Text("Free for all"),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final bloc = CSBloc.of(context);
+//     final settings = bloc.settings;
+//     return RadioSliderOf<ArenaLayoutType>(
+//       selectedItem: squadLayout ? ArenaLayoutType.squad : ArenaLayoutType.ffa,
+//       onSelect: settings.arenaSettings.layoutType.set,
+//       items: {
+//         ArenaLayoutType.ffa: RadioSliderItem(
+//           icon: Icon(McIcons.account_outline),
+//           title: Text("Free for all"),
+//         ),
+//         ArenaLayoutType.squad: RadioSliderItem(
+//           icon: Icon(McIcons.account_multiple_outline),
+//           title: Text("Squad"),
+//         ),
+//       },
+//     );
+//   }
+// }
 
 class ArenaOpacity extends StatelessWidget {
   const ArenaOpacity();

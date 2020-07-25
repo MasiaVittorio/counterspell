@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/resources/arena_layout/arena_layout_picker.dart';
 
 
 class AboutCounterSpell extends StatelessWidget {
@@ -43,11 +44,11 @@ class AboutCounterSpell extends StatelessWidget {
         leading: const Icon(McIcons.bookmark_check),
         onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
       ),
-      // ListTile(
-      //   title: const Text("Icons"),
-      //   leading: const Icon(McIcons.null_icon),
-      //   onTap: () => stage.showAlert(IconsAlert(), size: 500),
-      // ),
+      ListTile(
+        title: const Text("Test arena layout"),
+        leading: const Icon(McIcons.null_icon),
+        onTap: () => stage.showAlert(const ArenaLayoutAlert(), size: 900),
+      ),
     ]);
   }
 }

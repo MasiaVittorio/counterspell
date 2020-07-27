@@ -1,5 +1,6 @@
 export 'achievements/all.dart';
 export 'cache/all.dart';
+export 'backups.dart';
 export 'contacts.dart';
 export 'changelog.dart';
 export 'developer.dart';

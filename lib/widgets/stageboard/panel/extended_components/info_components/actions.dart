@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+// import 'package:counter_spell_new/widgets/other_routes/data_backup/backup_route.dart';
 
 
 class CounterSpellActions extends StatelessWidget {
@@ -13,34 +14,50 @@ class CounterSpellActions extends StatelessWidget {
       const SectionTitle("Actions"),
       RowOfExtraButtons(children: <Widget>[
         ExtraButton(
-          text: "Give feedback",
-          icon: Icons.favorite_border,
-          onTap: () => stage.showAlert(const FeedbackAlert(), size: FeedbackAlert.height),
-        ),
-        ExtraButton(
-          text: "Contact me",
-          icon: McIcons.message_text_outline,
-          onTap: () => stage.showAlert(const ContactsAlert(), size: ContactsAlert.height),
-        ),
-        ExtraButton(
-          text: "Manage cache",
+          text: "Cache manager",
           icon: McIcons.memory,
           onTap: () => stage.showAlert(const CacheAlert(), size: CacheAlert.height),
         ),
+        ExtraButton(
+          text: "Backup & restore",
+          icon: McIcons.content_save_outline,
+          onTap: () => stage.showAlert(null),
+          // onTap: () => Navigator
+          //   .of(context, rootNavigator: true)
+          //   .pushReplacement(
+          //     MaterialPageRoute(builder: (_) => BackupScreen()),
+          //   ),
+        ),
       ],),
 
-      CSWidgets.divider,
+      SubSection(<Widget>[
+        RowOfExtraButtons(
+          margin: EdgeInsets.zero,
+          children: <Widget>[
+            ExtraButton(
+              text: "Feedback",
+              icon: Icons.favorite_border,
+              onTap: () => stage.showAlert(const FeedbackAlert(), size: FeedbackAlert.height),
+              customCircleColor: Colors.transparent,
+            ),
+            ExtraButton(
+              text: "Support",
+              icon: McIcons.thumb_up_outline,
+              onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
+              customCircleColor: Colors.transparent,
+            ),
+            ExtraButton(
+              text: "Contacts",
+              icon: McIcons.message_text_outline,
+              onTap: () => stage.showAlert(const ContactsAlert(), size: ContactsAlert.height),
+              customCircleColor: Colors.transparent,
+            ),
+          ],
+        ),
+      ],margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),),
 
-      ListTile(
-        title: const Text("Rate CounterSpell"),
-        leading: const Icon(Icons.star_border),
-        onTap: CSActions.review,
-      ),
-      ListTile(
-        title: const Text("Support the development"),
-        leading: const Icon(McIcons.thumb_up_outline),
-        onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
-      ),
-    ], last: true,);
+    ]);
+
+
   }
 }

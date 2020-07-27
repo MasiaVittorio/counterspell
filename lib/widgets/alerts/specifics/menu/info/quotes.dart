@@ -15,9 +15,7 @@ class QuotesAlert extends StatelessWidget {
       child: ListView.builder(
         physics: stage.panelController.panelScrollPhysics(),
         itemBuilder: (_, i){
-          if(i == 0) return const SizedBox(height: PanelTitle.height);
-
-          final String card = cards[i-1];
+          final String card = cards[i];
           final String quote = FlavorTexts.map[card];
 
           return Section([
@@ -25,7 +23,7 @@ class QuotesAlert extends StatelessWidget {
             ListTile(title: Text(quote, style: TextStyle(fontStyle: FontStyle.italic),),),
           ]);
         },
-        itemCount: FlavorTexts.map.length+1,
+        itemCount: FlavorTexts.map.length,
       ),
       alreadyScrollableChild: true,
       bottom: ListTile(

@@ -8,6 +8,18 @@ import 'core.dart';
 
 void main() => runApp(CounterSpell());
 
+class TopNavigator extends StatelessWidget {
+  const TopNavigator();
+  /// to enter the backup and restore screen having the logic disposed completely
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'CounterSpell',
+      home: CounterSpell(),
+    );
+  }
+}
+
 class CounterSpell extends StatefulWidget {
   // This widget is the root of your application.
   @override
@@ -34,6 +46,7 @@ class _CounterSpellState extends State<CounterSpell> {
   @override
   void dispose() {
     _subscription.cancel();
+    print("disposing counterspell logic");
     super.dispose();
   }
 
@@ -101,6 +114,12 @@ class _MaterialApp extends StatelessWidget {
         theme: theme,
         title: 'CounterSpell',
         home: const CSHomePage(key: WidgetsKeys.homePage),
+        // routes: <String,WidgetBuilder>{
+        //   "arena": (context) => 
+        // },
+        /// TODO: fai in modo di non necessitare queste mostruosità?
+        /// altrimenti, metti un navigator ancora più esterno, e fai in modo di pushare la route
+        /// del backup dei dati in quel navigator (più facile lol)
       ),
     );
       

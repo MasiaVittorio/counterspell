@@ -20,12 +20,15 @@ class CSBackupBloc {
   final CSBloc parent;
   final BlocVar<List<File>> savedPastGames 
     = BlocVar<List<File>>(<File>[]);
+  final BlocVar<List<File>> savedPreferences 
+    = BlocVar<List<File>>(<File>[]);
 
   final BlocVar<bool> ready = BlocVar<bool>(false);
 
   String storagePath;
   Directory csDirectory;
   Directory pastGamesDirectory;
+  Directory preferencesDirectory;
 
   //===================================
   // Constructor
@@ -36,13 +39,14 @@ class CSBackupBloc {
   //===================================
   // Init
   void init() async {
-    if(await initDirectoriesAndFiles()){
+    if(await initDirectories()){
       ready.set(true);
       this.initPastGames();
+      this.initPreferences();
     }
   }
 
-  Future<bool> initDirectoriesAndFiles() async {
+  Future<bool> initDirectories() async {
 
     if(!(await Permission.storage.status.isGranted)){
       return false;
@@ -62,6 +66,11 @@ class CSBackupBloc {
       );
       if(pastGamesDirectory == null) return false;
 
+      this.preferencesDirectory = await getPreferencesDirectory(
+        this.csDirectory,
+      );
+      if(preferencesDirectory == null) return false;
+
     } catch (e) {
       return false;
     }
@@ -69,6 +78,19 @@ class CSBackupBloc {
     return true;
   }
 
+  void initPastGames() {
+    if(!ready.value) return;
+    final List<File> _pastGames = jsonFilesInDirectory(pastGamesDirectory);
+    if(_pastGames == null) return;
+    this.savedPastGames.set(_pastGames);
+  }
+
+  void initPreferences() {
+    if(!ready.value) return;
+    final List<File> _preferences = jsonFilesInDirectory(preferencesDirectory);
+    if(_preferences == null) return;
+    this.savedPreferences.set(_preferences);
+  }
 
   //===================================
   // Getters
@@ -99,6 +121,17 @@ class CSBackupBloc {
     }
     return dir;
   }
+  static const String preferencesDirName = "Preferences";
+  static Future<Directory> getPreferencesDirectory(Directory _csDirectory) async {
+    Directory dir =  Directory(path.join(
+      _csDirectory.path,
+      preferencesDirName,
+    ));
+    if(!await dir.exists()){
+      dir = await dir.create(recursive: true);
+    }
+    return dir;
+  }
 
   static List<File> jsonFilesInDirectory(Directory dir) => <File>[
     for(final entity in dir.listSync())
@@ -115,13 +148,6 @@ class CSBackupBloc {
   //===================================
   // Methods
   
-  void initPastGames() {
-    if(!ready.value) return;
-    final List<File> _pastGames = jsonFilesInDirectory(pastGamesDirectory);
-    if(_pastGames == null) return;
-    this.savedPastGames.set(_pastGames);
-  }
-
 
   Future<bool> savePastGames() async {
     if(!ready.value) return false;
@@ -129,15 +155,16 @@ class CSBackupBloc {
     final now = DateTime.now();
     File newFile = File(path.join(
       this.pastGamesDirectory.path,
-      "past_games_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
+      "pg_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
     ));
     
     int i = 0;
     while(await newFile.exists()){
+      ++i;
       String withoutExt = path.basenameWithoutExtension(newFile.path);
       newFile = File(path.join(
         this.pastGamesDirectory.path,
-        withoutExt + "${++i}.json",
+        withoutExt + "_($i).json",
       ));
       if(i == 100){
         print("100 files in the same second? wtf??");
@@ -158,6 +185,15 @@ class CSBackupBloc {
     this.savedPastGames.refresh();
 
     return true;
+  }
+
+  Future<bool> deletePastGame(int index) async {
+    if(this.savedPastGames.value.checkIndex(index)){
+      final file = this.savedPastGames.value.removeAt(index);
+      this.savedPastGames.refresh();
+      await file.delete();
+      return true;
+    } else return false;
   }
 
   Future<bool> loadPastGame(File file) async {
@@ -211,5 +247,229 @@ class CSBackupBloc {
     return true;
   }
 
+
+  Future<bool> savePreferences() async {
+    if(!ready.value) return false;
+
+    final now = DateTime.now();
+    File newFile = File(path.join(
+      this.preferencesDirectory.path,
+      "pr_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
+    ));
+    
+    int i = 0;
+    while(await newFile.exists()){
+      ++i;
+      String withoutExt = path.basenameWithoutExtension(newFile.path);
+      newFile = File(path.join(
+        this.preferencesDirectory.path,
+        withoutExt + "_($i).json",
+      ));
+      if(i == 100){
+        print("100 files in the same second? wtf??");
+        return false;
+      }
+    }
+
+    newFile.create();
+
+    final settings = parent.settings;
+    final arena = settings.arenaSettings;
+    final gameSettings = settings.gameSettings;
+    final app = settings.appSettings;
+    final scroll = settings.scrollSettings;
+    final game = parent.game;
+    final group = game.gameGroup;
+
+    await newFile.writeAsString(jsonEncode(<String,dynamic>{
+      group.savedNames.key // Set<String> ->
+        : group.savedNames.value.toList(), // List<String>
+
+      gameSettings.timeMode.key: // TimeMode ->
+        TimeModes.nameOf(gameSettings.timeMode.value), // String (nameOf)
+
+      app.alwaysOnDisplay.key:
+        app.alwaysOnDisplay.value, // bool
+
+      app.wantVibrate.key:
+        app.wantVibrate.value, // bool
+
+      arena.scrollOverTap.key:
+        arena.scrollOverTap.value, // bool
+
+      arena.verticalScroll.key:
+        arena.verticalScroll.value, // bool
+
+      arena.verticalTap.key:
+        arena.verticalTap.value, // bool
+
+      scroll.confirmDelay.key: // Duration ->
+        scroll.confirmDelay.value.inMilliseconds, // int (milliseconds)
+
+      scroll.scrollSensitivity.key:
+        scroll.scrollSensitivity.value, // double
+
+      scroll.scroll1Static.key:
+        scroll.scroll1Static.value, // bool
+
+      scroll.scroll1StaticValue.key:
+        scroll.scroll1StaticValue.value, // double
+
+      scroll.scrollDynamicSpeed.key:
+        scroll.scrollDynamicSpeed.value, // bool
+
+      scroll.scrollDynamicSpeedValue.key:
+        scroll.scrollDynamicSpeedValue.value, // double
+
+      scroll.scrollPreBoost.key:
+        scroll.scrollPreBoost.value, //bool
+
+      scroll.scrollPreBoostValue.key:
+        scroll.scrollPreBoostValue.value, //double
+
+    }),);
+
+
+    this.savedPreferences.value.add(newFile);
+    this.savedPreferences.refresh();
+
+    return true;
+  }
+
+
+  Future<bool> deletePreference(int index) async {
+    if(this.savedPreferences.value.checkIndex(index)){
+      final file = this.savedPreferences.value.removeAt(index);
+      this.savedPreferences.refresh();
+      await file.delete();
+      return true;
+    } else return false;
+  }
+
+
+  Future<bool> loadPreferences(File file) async {
+    if(!ready.value) return false;
+    if(!(await Permission.storage.isGranted)) return false;
+
+    try {
+      String content = await file.readAsString();
+
+      dynamic map = jsonDecode(content);
+
+      if(map is Map){
+
+        final settings = parent.settings;
+        final arena = settings.arenaSettings;
+        final gameSettings = settings.gameSettings;
+        final app = settings.appSettings;
+        final scroll = settings.scrollSettings;
+        final game = parent.game;
+        final group = game.gameGroup;
+
+        {final blocVar = group.savedNames; 
+        final _val = map[blocVar.key];
+        if(_val is List){
+          for(final name in _val){
+            if(name is String)
+              blocVar.value.add(name);
+          }
+          blocVar.refresh();
+        }}
+
+        {final blocVar = gameSettings.timeMode; 
+        final _val = map[blocVar.key];
+        if(_val is String){
+          if(TimeModes.reversed.containsKey(_val)){
+            blocVar.set(TimeModes.fromName(_val));
+          }
+        }}
+
+        {final blocVar = app.alwaysOnDisplay; 
+        final _val = map[blocVar.key];
+        if(_val is bool){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = app.wantVibrate; 
+        final _val = map[blocVar.key];
+        if(_val is bool){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = arena.scrollOverTap; 
+        final _val = map[blocVar.key];
+        if(_val is bool){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = arena.verticalScroll; 
+        final _val = map[blocVar.key];
+        if(_val is bool){
+          blocVar.set(_val);
+        }}
+
+
+        {final blocVar = arena.verticalTap; 
+        final _val = map[blocVar.key];
+        if(_val is bool){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = scroll.confirmDelay; 
+        final _val = map[blocVar.key];
+        if(_val is int){
+          blocVar.set(Duration(milliseconds: _val));
+        }}
+
+        {final blocVar = scroll.scrollSensitivity; 
+        final _val = map[blocVar.key];
+        if(_val is double){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = scroll.scroll1StaticValue; 
+        final _val = map[blocVar.key];
+        if(_val is double){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = scroll.scrollDynamicSpeedValue; 
+        final _val = map[blocVar.key];
+        if(_val is double){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = scroll.scrollPreBoostValue; 
+        final _val = map[blocVar.key];
+        if(_val is double){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = scroll.scroll1Static; 
+        final _val = map[blocVar.key];
+        if(_val is bool){
+          blocVar.set(_val);
+        }}
+
+        {final blocVar = scroll.scrollDynamicSpeed; 
+        final _val = map[blocVar.key];
+        if(_val is bool){
+          blocVar.set(_val);
+        }}
+        
+        {final blocVar = scroll.scrollPreBoost; 
+        final _val = map[blocVar.key];
+        if(_val is bool){
+          blocVar.set(_val);
+        }}
+
+      } else return false;
+
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  }
 
 }

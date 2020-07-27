@@ -57,7 +57,7 @@ class CSPastGames {
     );
     this.pastGames.value.add(pastGame);
     this.pastGames.value.sort((one, two) 
-      => one.startingDateTime.difference(two.startingDateTime).inMilliseconds
+      => one.startingDateTime.compareTo(two.startingDateTime)
     );
     this.pastGames.refresh();
 
@@ -65,7 +65,10 @@ class CSPastGames {
       parent.stage.showAlert(
         WinnerSelector(
           pastGame.state.names,
-          onConfirm: (winner) => pastGame.winner = winner,
+          onConfirm: (winner){
+            pastGame.winner = winner;
+            pastGames.refresh(index: pastGames.value.length-1);
+          },
           onDontSave: (){
             this.pastGames.removeLast();
           },

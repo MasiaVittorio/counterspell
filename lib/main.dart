@@ -114,12 +114,6 @@ class _MaterialApp extends StatelessWidget {
         theme: theme,
         title: 'CounterSpell',
         home: const CSHomePage(key: WidgetsKeys.homePage),
-        // routes: <String,WidgetBuilder>{
-        //   "arena": (context) => 
-        // },
-        /// TODO: fai in modo di non necessitare queste mostruosità?
-        /// altrimenti, metti un navigator ancora più esterno, e fai in modo di pushare la route
-        /// del backup dei dati in quel navigator (più facile lol)
       ),
     );
       

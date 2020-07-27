@@ -1,6 +1,5 @@
 import 'package:counter_spell_new/business_logic/sub_blocs/backup_and_restore.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/other_routes/data_backup/body.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 
@@ -77,24 +76,48 @@ class _BackupsAlertState extends State<_BackupsAlert> {
         );
       }
 
-      // final stage = Stage.of(context);
+      final stage = Stage.of(context);
 
       return RadioHeaderedAlert<BackupType>(
+        initialValue: stage.panelController.alertController.savedStates[
+          "backups radio headered alert"
+        ] ?? BackupType.pastGames,
+        onPageChanged: (p) => stage.panelController.alertController.savedStates[
+          "backups radio headered alert"
+        ] = p,
+        orderedValues: <BackupType>[BackupType.pastGames, BackupType.preferences],
         items: <BackupType,RadioHeaderedItem>{
-          BackupType.theme: RadioHeaderedItem(
-            child: Container(),
-            longTitle: "Backup themes",
-            title: "Themes",
-            icon: McIcons.palette,
-            unselectedIcon: McIcons.palette_outline,
+          BackupType.preferences: RadioHeaderedItem(
+            child: backups.savedPreferences.build((context, list) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                for(int i=0; i<list.length; ++i)
+                  FileListTile(
+                    file: list[i],
+                    index: i,
+                    type: BackupType.preferences,
+                  ),
+                  
+                DoOneTime(
+                  title: Text("Create new backup"),
+                  leading: Icon(Icons.add),
+                  futureTap: backups.savePreferences,
+                ),
+              ],
+            ),),
+            longTitle: "Backup preferences",
+            title: "Preferences",
+            icon: McIcons.settings,
+            unselectedIcon: McIcons.settings_outline,
           ),
           BackupType.pastGames: RadioHeaderedItem(
             child: backups.savedPastGames.build((context, list) => Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                for(final file in list)
+                for(int i=0; i<list.length; ++i)
                   FileListTile(
-                    file: file,
+                    file: list[i],
+                    index: i,
                     type: BackupType.pastGames,
                   ),
                   
@@ -107,8 +130,7 @@ class _BackupsAlertState extends State<_BackupsAlert> {
             ),),
             longTitle: "Backup game history",
             title: "Games",
-            icon: McIcons.palette,
-            unselectedIcon: McIcons.palette_outline,
+            icon: McIcons.medal,
           ),
         },
       );
@@ -156,7 +178,7 @@ class _DoOneTimeState extends State<DoOneTime> {
             waiting = true;
             done = false;
           });
-          widget.delegateTap((){
+          widget.delegateTap(() {
             if(!mounted) return;
             this.setState(() {
               waiting = false;
@@ -185,16 +207,18 @@ class _DoOneTimeState extends State<DoOneTime> {
 
 
 enum BackupType {
-  theme,
+  preferences,
   pastGames,
 }
 
 
 class FileListTile extends StatelessWidget {
   final File file;
+  final int index;
   final BackupType type;
 
   FileListTile({
+    @required this.index,
     @required this.file,
     @required this.type,
   });
@@ -203,20 +227,108 @@ class FileListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = CSBloc.of(context);
     final stage = Stage.of(context);
-    return DoOneTime(
+    return ListTile(
       title: Text(path.basename(file.path)),
       leading: Icon(McIcons.file_document_outline),
-      delegateTap: (tapped) => stage.showAlert(
-        ConfirmAlert( ///TODO: long confirm nel senso che prima di andarsene aspetta che finisci
-          action: () async {
-            await logic.backups.loadPastGame(file);
-            tapped();
-          },
-          warningText: "Merge games from file?",
+      trailing: IconButton(
+        icon: CSWidgets.deleteIcon,
+        onPressed: () => stage.showAlert(
+        ConfirmAlert(
+          action: <BackupType,VoidCallback>{
+            BackupType.preferences: () => logic.backups.deletePreference(index),
+            BackupType.pastGames: () => logic.backups.deletePastGame(index),
+          }[type],
+          warningText: "Delete file?",
+          confirmIcon: Icons.delete_forever,
+          confirmColor: CSColors.delete,
         ),
         size: ConfirmAlert.height,
       ),
+      ),
+      onTap: () => stage.showAlert(
+        ConfirmAlert(
+          action: <BackupType,VoidCallback>{
+            BackupType.preferences: () => logic.backups.loadPreferences(file),
+            BackupType.pastGames: () => logic.backups.loadPastGame(file),
+          }[type],
+          warningText: <BackupType,String>{
+            BackupType.preferences: "Merge preferences from file?",
+            BackupType.pastGames: "Merge games from file?",
+          }[type],
+        ),
+        size: ConfirmAlert.height,
+      ),
+
     );
   }
 }
 
+
+
+
+
+
+
+class PermissionStatusWidget extends StatefulWidget {
+
+  const PermissionStatusWidget(this.status, {
+    @required this.onStatusChanged,
+  });
+
+  final PermissionStatus status;
+  final ValueChanged<PermissionStatus> onStatusChanged;
+
+  @override
+  _PermissionStatusWidgetState createState() => _PermissionStatusWidgetState();
+}
+
+class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
+
+  bool waiting = false;
+
+  String get permissionString => (<PermissionStatus,String>{
+    PermissionStatus.denied: "Denied",
+    PermissionStatus.granted: "Granted",
+    PermissionStatus.permanentlyDenied: "Permanently denied",
+    PermissionStatus.restricted: "Restricted",
+    PermissionStatus.undetermined: "Not asked yet",
+  }[widget.status]) ?? "Not checked yet";
+
+  IconData get permissionIcon => (<PermissionStatus,IconData>{
+    PermissionStatus.denied: Icons.close,
+    PermissionStatus.granted: Icons.check,
+    PermissionStatus.permanentlyDenied: Icons.close,
+    PermissionStatus.restricted: Icons.help_outline,
+    PermissionStatus.undetermined: Icons.help_outline,
+  }[widget.status]) ?? Icons.help_outline;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(permissionIcon),
+      title: const Text("Storage Permission"),
+      subtitle: Text(permissionString),
+      trailing: waiting
+        ? const CircularProgressIndicator()
+        : null,
+      onTap: [
+        PermissionStatus.undetermined,
+        PermissionStatus.denied,
+        null,
+      ].contains(widget.status) ? () async {
+        this.setState(() {
+          waiting = true;
+        });
+
+        widget.onStatusChanged(
+          await Permission.storage.request(),
+        );
+
+        if(!mounted) return;
+        this.setState(() {
+          waiting = true;
+        });
+      } : null,
+    );
+  }
+}

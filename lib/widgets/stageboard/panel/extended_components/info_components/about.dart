@@ -1,6 +1,4 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/resources/arena_layout/arena_layout_picker.dart';
-
 
 class AboutCounterSpell extends StatelessWidget {
 
@@ -17,38 +15,43 @@ class AboutCounterSpell extends StatelessWidget {
         // margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
         children: <Widget>[
           ExtraButton(
-            icon: Icons.person_outline,
-            text: "The developer",
-            onTap: () => stage.showAlert(const Developer(), size: Developer.height),
-          ),
-          ExtraButton(
-            icon: McIcons.file_document_box_check_outline,
-            text: "Licenses",
-            onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
-          ),
-          ExtraButton(
             icon: McIcons.file_document_outline,
             text: "Changelog",
             onTap: logic.settings.showChangelog,
           ),
+          ExtraButton(
+            icon: Icons.help_outline,
+            text: "Tutorial",
+            onTap: () => stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height),
+          ),
+          ExtraButton(
+            icon: McIcons.bookmark_check,
+            text: "Achievements",
+            onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
+          ),
         ],
       ),
-      CSWidgets.divider,
-      ListTile(
-        title: const Text("Tutorial"),
-        leading: const Icon(Icons.help_outline),
-        onTap: () => stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height),
-      ),
-      ListTile(
-        title: const Text("Achievements"),
-        leading: const Icon(McIcons.bookmark_check),
-        onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
-      ),
-      ListTile(
-        title: const Text("Test arena layout"),
-        leading: const Icon(McIcons.null_icon),
-        onTap: () => stage.showAlert(const ArenaLayoutAlert(), size: 900),
-      ),
+
+      SubSection(<Widget>[
+        RowOfExtraButtons(
+          margin: EdgeInsets.zero,
+          children: <Widget>[
+            ExtraButton(
+              icon: Icons.person_outline,
+              text: "The developer",
+              onTap: () => stage.showAlert(const Developer(), size: Developer.height),
+              customCircleColor: Colors.transparent,
+            ),
+            ExtraButton(
+              icon: McIcons.file_document_box_check_outline,
+              text: "Licenses",
+              onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
+              customCircleColor: Colors.transparent,
+            ),
+          ],
+        ),
+      ],margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),),
+
     ]);
   }
 }

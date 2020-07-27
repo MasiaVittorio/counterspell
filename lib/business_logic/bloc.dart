@@ -7,8 +7,10 @@ class CSBloc extends BlocBase {
 
   @override
   void dispose() {
+    print("disposing all counterspell logic from inside");
     this.achievements.dispose();
     this.game.dispose();
+    this.backups.dispose();
     this.pastGames.dispose();
     this.payments.dispose();
     this.stageBloc.dispose();
@@ -26,6 +28,7 @@ class CSBloc extends BlocBase {
   CSGame game;
   CSPastGames pastGames;
   CSPayments payments;
+  CSBackupBloc backups;
   CSStage stageBloc;
   CSScroller scroller;
   CSSettings settings;
@@ -40,6 +43,7 @@ class CSBloc extends BlocBase {
     game = CSGame(this);
     pastGames = CSPastGames(this);
     payments = CSPayments(this);
+    backups = CSBackupBloc(this);
     settings = CSSettings(this);
     scroller = CSScroller(this);
     stageBloc = CSStage(this);

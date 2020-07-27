@@ -15,10 +15,7 @@ class ArenaMenuSettings extends StatelessWidget {
       children: <Widget>[
 
         Section(<Widget>[
-          if(players > 2)
-            const SectionTitle("Gestures")
-          else 
-            const PanelTitle("Gestures"),
+          const PanelTitle("Gestures"),
           const Gestures(),
         ],),
 

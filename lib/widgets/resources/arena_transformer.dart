@@ -29,12 +29,6 @@ class ArenaTransformer extends StatelessWidget {
       intermediateColor: theme.canvasColor,
       openBuilder: (context, exitArena){
         final Widget child = ArenaWidget(logic: logic); 
-        // it causes issues with the scroll controller. avoid it
-        // DelayedWidget(
-        //   after: ArenaWidget(logic: logic),
-        //   getBackgroundColor: (theme) => theme.scaffoldBackgroundColor,
-        //   delay: const Duration(milliseconds: 400),
-        // );
 
         if (logic.settings.arenaSettings.fullScreen.value){
           return  MediaQuery.removePadding(

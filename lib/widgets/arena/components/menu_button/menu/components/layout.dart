@@ -30,17 +30,26 @@ class ArenaMenuLayout extends StatelessWidget {
       constraints: BoxConstraints(
         maxHeight: height - CSSizes.barSize,
       ),
-      child: ArenaLayoutPicker(
-        type: layoutType, 
-        onTypeChanged: arenaBloc.layoutType.set,
-        flipped: flipped, 
-        onFlippedChanged: (type, val){
-          arenaBloc.flipped.value[type] = val;
-          arenaBloc.flipped.refresh();
-        }, 
-        names: this.names.toSet(), 
-        positions: positions, 
-        onPositionsChange: groupBloc.arenaNameOrder.set,
+      child: Material(
+        child: Column(
+          children: <Widget>[
+            const PanelTitle("Players' layout"),
+            Expanded(
+              child: ArenaLayoutPicker(
+                type: layoutType, 
+                onTypeChanged: arenaBloc.layoutType.set,
+                flipped: flipped, 
+                onFlippedChanged: (type, val){
+                  arenaBloc.flipped.value[type] = val;
+                  arenaBloc.flipped.refresh();
+                }, 
+                names: this.names.toSet(), 
+                positions: positions, 
+                onPositionsChange: groupBloc.arenaNameOrder.set,
+              ),
+            ),
+          ],
+        ),
       ),
     );
 

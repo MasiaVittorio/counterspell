@@ -38,7 +38,7 @@ class AboutCounterSpell extends StatelessWidget {
           children: <Widget>[
             ExtraButton(
               icon: Icons.person_outline,
-              text: "The developer",
+              text: "Developer",
               onTap: () => stage.showAlert(const Developer(), size: Developer.height),
               customCircleColor: Colors.transparent,
             ),

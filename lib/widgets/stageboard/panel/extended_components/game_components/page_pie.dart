@@ -18,7 +18,7 @@ class PagePie extends StatelessWidget {
       = Stage.of(context);
 
     return Container(
-      height: 175,
+      height: 170,
       alignment: Alignment.center,
       child: StageBuild.offMainEnabledPages((_, enabled) 
         => stage.themeController.derived.mainPageToPrimaryColor.build((_, colors)
@@ -76,8 +76,8 @@ class PagePie extends StatelessWidget {
   ) => Division(
     style: StyleClass()
       ..animate(150)
-      ..width(52)
-      ..height(52)
+      ..width(50)
+      ..height(50)
       ..borderRadius(all: 40)
       ..background.color(enabled[page] ?  colors[page] : unselected)
       ..elevation(enabled[page] && PanelSettings.disablablePages.contains(page) ? 4:0)
@@ -92,7 +92,7 @@ class PagePie extends StatelessWidget {
           child: AnimatedCrossFade(
             firstChild: Icon(
               stage.mainPagesController.pagesData[page].icon,
-              size: 24,
+              size: 23,
               color: CSColors.contrastWith(colors[page]),
             ),
             secondChild: Icon(

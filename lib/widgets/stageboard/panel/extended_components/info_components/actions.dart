@@ -42,7 +42,7 @@ class CounterSpellActions extends StatelessWidget {
             ),
             ExtraButton(
               text: "Support",
-              icon: McIcons.thumb_up_outline,
+              icon: Icons.attach_money,
               onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
               customCircleColor: Colors.transparent,
             ),

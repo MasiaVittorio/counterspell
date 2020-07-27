@@ -20,35 +20,7 @@ class PanelGame extends StatelessWidget {
               PagePie(),
             ]),
             StartingLifeTile(),
-            Section([
-              const SectionTitle("Extras"),
-              PanelGameExtras(opener),
-            ]),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(children: <Widget>[
-                Expanded(child: ExtraButton(
-                  icon: McIcons.restart,
-                  text: "New Game",
-                  onTap: () => stage.showAlert(const RestarterAlert(GameRestartedFrom.menu), size: ConfirmAlert.height),
-                  filled: true,
-                ),),
-                CSWidgets.extraButtonsDivider,
-                Expanded(child: ExtraButton(
-                  icon: McIcons.account_multiple_outline,
-                  text: "Edit playgroup",
-                  onTap: () => stage.showAlert(
-                    PlayGroupEditor(bloc, fromClosedPanel: false,), 
-                    size: PlayGroupEditor.sizeCalc(
-                      bloc.game.gameState.gameState.value.players.length,
-                    ),
-                  ),
-                  filled: true,
-                ),),
-              ],),
-            ),
-            // const RestartTile(),
-            // const EditPlaygroupTile(),
+            PanelGameExtras(opener),
           ],
         )
       ),

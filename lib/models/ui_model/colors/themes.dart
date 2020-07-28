@@ -9,6 +9,7 @@ class CSColorScheme{
   final Map<CSPage,Color> perPage;
   final bool light;
   final DarkStyle darkStyle;
+  final Color defenceColor;
 
   const CSColorScheme(this.name,{
     @required this.primary,
@@ -16,8 +17,10 @@ class CSColorScheme{
     @required this.perPage,
     @required this.light,
     @required this.darkStyle,
+    @required this.defenceColor,
   }): assert(primary != null),
       assert(accent != null),
+      assert(defenceColor != null),
       assert(perPage != null);
 
   CSColorScheme renamed(String newName) => CSColorScheme(
@@ -27,6 +30,7 @@ class CSColorScheme{
     perPage: this.perPage,
     light: this.light,
     darkStyle: this.darkStyle,
+    defenceColor: this.defenceColor,
   );
 
   Widget applyBaseTheme({@required Widget child,}) => Theme(
@@ -50,6 +54,7 @@ class CSColorScheme{
     },
     "light": this.light,
     "darkStyle": this.darkStyle.name,
+    "defenceColor": this.defenceColor.value,
   };
 
   static CSColorScheme fromJson(dynamic json) => CSColorScheme(
@@ -62,6 +67,7 @@ class CSColorScheme{
     },
     light: json["light"],
     darkStyle: DarkStyles.fromName(json["darkStyle"]),
+    defenceColor: Color(json["defenceColor"] ?? CSColors.blue.value),
   );
 
   @override
@@ -87,7 +93,8 @@ class CSColorScheme{
       ...this.perPage.keys,
     }.every((key) => this.perPage[key] == other.perPage[key]))
     && other.light == this.light
-    && (this.light || other.darkStyle == this.darkStyle);
+    && other.defenceColor == this.defenceColor
+    && (other.darkStyle == this.darkStyle || this.light);
 
   static const String _defaultLightName = "Light default";
   static const CSColorScheme defaultLight = CSColorScheme(
@@ -97,6 +104,7 @@ class CSColorScheme{
     perPage: CSColors.perPageLight,
     light: true,
     darkStyle: null,
+    defenceColor: CSColors.blue,
   );
   static const String _defaultDarkName = "Dark default";
   static const CSColorScheme defaultDark = CSColorScheme(
@@ -106,6 +114,7 @@ class CSColorScheme{
     perPage: CSColors.perPageDark,
     light: false,
     darkStyle: DarkStyle.dark,
+    defenceColor: CSColors.blue,
   );
   static const String _defaultNightBlackName = "Night Black default";
   static const CSColorScheme defaultNightBlack = CSColorScheme(
@@ -115,6 +124,7 @@ class CSColorScheme{
     perPage: CSColors.perPageDark,
     light: false,
     darkStyle: DarkStyle.nightBlack,
+    defenceColor: CSColors.blue,
   );
   static const String _defaultAmoledName = "Amoled default";
   static const CSColorScheme defaultAmoled = CSColorScheme(
@@ -124,6 +134,7 @@ class CSColorScheme{
     perPage: CSColors.perPageDark,
     light: false,
     darkStyle: DarkStyle.amoled,
+    defenceColor: CSColors.blue,
   );
   static const String _defaultNightBlueName = "Night Blue default";
   static const CSColorScheme defaultNightBlue = CSColorScheme(
@@ -133,6 +144,7 @@ class CSColorScheme{
     perPage: CSColors.perPageDarkBlue,
     light: false,
     darkStyle: DarkStyle.nightBlue,
+    defenceColor: CSColors.blue,
   );
 
   static CSColorScheme defaultScheme(bool light, DarkStyle style) => light

@@ -87,37 +87,38 @@ class PresetTile extends StatelessWidget {
           height: _rowSize,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: <Widget>[for(final page in stage.mainPagesController.pagesData.keys)
+            children: <Widget>[
+              for(final page in stage.mainPagesController.pagesData.keys)
+                Padding(
+                  padding: const EdgeInsets.all(_rowPadding),
+                  child: Material(
+                    elevation: 4,
+                    borderRadius: BorderRadius.circular(100),
+                    color: scheme.perPage[page],
+                    child: Container(
+                      width: _medalSize,
+                      child: Icon(
+                        stage.mainPagesController.pagesData[page].icon,
+                        color: CSColors.contrastWith(scheme.perPage[page]),
+                      )
+                    ),
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.all(_rowPadding),
                 child: Material(
                   elevation: 4,
                   borderRadius: BorderRadius.circular(100),
-                  color: scheme.perPage[page],
-                  child: Container(
-                    width: _medalSize,
-                    child: Icon(
-                      stage.mainPagesController.pagesData[page].icon,
-                      color: CSColors.contrastWith(scheme.perPage[page]),
-                    )
-                  ),
-                ),
-              ),
-              bloc.themer.defenceColor.build((_, defence) => Padding(
-                padding: const EdgeInsets.all(_rowPadding),
-                child: Material(
-                  elevation: 4,
-                  borderRadius: BorderRadius.circular(100),
-                  color: defence,
+                  color: scheme.defenceColor,
                   child: Container(
                     width: _medalSize,
                     child: Icon(
                       CSIcons.defenceIconFilled, 
-                      color: CSColors.contrastWith(defence),
+                      color: CSColors.contrastWith(scheme.defenceColor),
                     ),
                   ),
                 ),
-              ),),
+              ),
             ],
           ),
         ),
@@ -132,6 +133,8 @@ class PresetTile extends StatelessWidget {
           : null,
         onTap: (){
           final themeController = stage.themeController;
+          final themer = bloc.themer;
+
           Map<CSPage,Color> perPage = <CSPage,Color>{
             for(final entry in scheme.perPage.entries)
               entry.key: Color(entry.value.value),
@@ -159,6 +162,7 @@ class PresetTile extends StatelessWidget {
             themeController.colors.editMainPagedPrimaries(perPage);
             themeController.colors.editAccent(scheme.accent);
           }
+          themer.defenceColor.set(scheme.defenceColor);
           stage.closePanel();
         },
       ),

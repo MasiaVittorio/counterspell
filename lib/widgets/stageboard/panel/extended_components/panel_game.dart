@@ -8,7 +8,6 @@ class PanelGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final bloc = CSBloc.of(context);
 
     return ArenaTransformer(
       builder: (_, opener) => SingleChildScrollView(
@@ -19,7 +18,7 @@ class PanelGame extends StatelessWidget {
               PanelTitle("Enabled Screens", centered: false),
               PagePie(),
             ]),
-            StartingLifeTile(),
+            const StartingLifeTile(),
             PanelGameExtras(opener),
           ],
         )

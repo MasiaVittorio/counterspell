@@ -31,6 +31,29 @@ class SettingsAppearance extends StatelessWidget {
         ],
       ),
 
+      settings.appSettings.numberFontSizeFraction.build(
+        (context, val) => FullSlider(
+          value: val,
+          onChangeEnd: settings.appSettings.numberFontSizeFraction.set,
+          titleBuilder: (v) {
+            final mapped = v.mapToRangeLoose(
+              0.1, 1.0, 
+              fromMax: 0.32, fromMin: 0.25,
+            );
+            return Text("Number font size: ${mapped.toStringAsFixed(2)}");
+          },
+          radius: 50,
+          min: 0.25,
+          max: 0.32,
+          leading: Icon(
+            Icons.text_fields, 
+            size: val * CSSizes.minTileSize * 1.2,
+          ),
+          defaultValue: 0.27,
+          divisions: 18,
+        ),
+      ),
+
       const SectionTitle("History time"),
       bloc.settings.gameSettings.timeMode.build((_,mode)=> RadioSlider(
         onTap: (i) => settings.gameSettings.timeMode.set(TimeMode.values[i]),

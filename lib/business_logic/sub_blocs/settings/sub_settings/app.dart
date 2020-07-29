@@ -12,6 +12,8 @@ class CSSettingsApp {
     this.alwaysOnDisplay.dispose();
     this.lastPageBeforeArena.dispose();
     this.tutored.dispose();
+    this.versionShown.dispose();
+    this.numberFontSizeFraction.dispose();
   }
 
   //====================================
@@ -24,6 +26,7 @@ class CSSettingsApp {
   final PersistentVar<bool> tutored;
 
   final PersistentVar<int> versionShown;
+  final PersistentVar<double> numberFontSizeFraction;
 
 
   //====================================
@@ -32,6 +35,12 @@ class CSSettingsApp {
     wantVibrate = PersistentVar<bool>(
       key: "bloc_settings_blocvar_wantvibrate",
       initVal: true,
+      toJson: (b) => b,
+      fromJson: (j) => j,
+    ),
+    numberFontSizeFraction = PersistentVar<double>(
+      key: "bloc_settings_blocvar_numberFontSizeFraction",
+      initVal: 0.27,
       toJson: (b) => b,
       fromJson: (j) => j,
     ),

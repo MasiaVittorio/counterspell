@@ -185,17 +185,21 @@ class PlayerTile extends StatelessWidget {
             child: SizedBox(
               height: coreTileSize,
               child: Row(children: <Widget>[
-                buildLeading(
-                  rawSelected: selected,
-                  scrolling: scrolling,
-                  attacking: attacking,
-                  playerState: playerState,
-                  defending: defending,
-                  stage: stage,
-                  someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
-                  group: group,
+                bloc.settings.appSettings.numberFontSizeFraction.build(
+                  (context, val) => buildLeading(
+                    numberFontSizeFraction: val,
+                    theme: theme,
+                    rawSelected: selected,
+                    scrolling: scrolling,
+                    attacking: attacking,
+                    playerState: playerState,
+                    defending: defending,
+                    stage: stage,
+                    someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
+                    group: group,
+                  ),
                 ),
-                Expanded(child: buildBody(selected)),
+                Expanded(child: buildBody(selected, theme)),
                 buildTrailing(selected, actionBloc, stateBloc),
               ]),
             ),
@@ -272,6 +276,7 @@ class PlayerTile extends StatelessWidget {
 
   static const circleFrac = 0.7;
   Widget buildLeading({
+    @required ThemeData theme,
     @required PlayerState playerState,
     @required bool rawSelected,
     @required bool scrolling,
@@ -280,21 +285,41 @@ class PlayerTile extends StatelessWidget {
     @required StageData<CSPage,SettingsPage> stage,
     @required bool someoneAttacking,
     @required CSGameGroup group,
+    @required double numberFontSizeFraction,
   }){
     Widget child;
+    // TODO: finisci di figurare out i colory
+    final Color color = PTileUtils.cnColor(
+      page, 
+      attacking, 
+      defending, 
+      pageColor, 
+      defenceColor, 
+      someoneAttacking,
+    );
 
-    final Color color = PTileUtils.cnColor(page, attacking, defending, pageColor, defenceColor, someoneAttacking);
+    // final colorBright = ThemeData.estimateBrightnessForColor(color);
+    // final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;
+    final textStyle = TextStyle(
+      color: theme.brightness.contrast,
+      fontSize: numberFontSizeFraction * coreTileSize,
+    );
 
-    final colorBright = ThemeData.estimateBrightnessForColor(color);
-    final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;
-    final textStyle = TextStyle(color: textColor, fontSize: 0.26 * coreTileSize);
+    final Color subColor = Color.alphaBlend(
+      theme.scaffoldBackgroundColor.withOpacity(1.0),
+      theme.canvasColor,
+    );
+    final Color selectedColor = Color.alphaBlend(
+      color.withOpacity(0.4),
+      theme.canvasColor,
+    );
 
     if(page == CSPage.history){
 
       child = Material(
         key: ValueKey("circle name"),
-        color: color,
-        elevation: playerState.isAlive ? 2.0 : 0.0,
+        color: selectedColor,
+        // elevation: playerState.isAlive ? 2.0 : 0.0,
         borderRadius: BorderRadius.circular(coreTileSize),
         child: Container(
           width: coreTileSize*circleFrac,
@@ -310,6 +335,11 @@ class PlayerTile extends StatelessWidget {
     } else {
 
       final int _increment = PTileUtils.cnIncrement(normalizedPlayerAction);
+
+      final bool selected = page == CSPage.commanderDamage 
+        ? attacking || defending
+        : rawSelected != false;
+
       child = InkWell(
         key: ValueKey("circle number"),
         highlightColor: Colors.transparent,
@@ -318,30 +348,27 @@ class PlayerTile extends StatelessWidget {
           PlayerDetails(group.names.value.indexOf(name), this.maxWidth/(this.tileSize + this.bottom)), 
           size: PlayerDetails.height,
         ),
-        child: Material(
-          color: color,
-          elevation: playerState.isAlive ? (2.0) : 0.0,
-          borderRadius: BorderRadius.circular(coreTileSize * circleFrac * (attacking ? 0.1 : 1.0)),
-          child: CircleNumber(
-            size: coreTileSize * circleFrac,
-            value: PTileUtils.cnValue(
-              name, 
-              page, 
-              whoIsAttacking, 
-              whoIsDefending,
-              usingPartnerB ?? false,
-              playerState,
-              isAttackerUsingPartnerB ?? false,
-              counter,
-            ),
-            numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
-            open: scrolling,
-            style: textStyle,
-            duration: CSAnimations.fast,
-            color: color,
-            increment: _increment,
-            borderRadiusFraction: attacking ? 0.1 : 1.0,
+        child: CircleNumber(
+          size: coreTileSize * circleFrac,
+          value: PTileUtils.cnValue(
+            name, 
+            page, 
+            whoIsAttacking, 
+            whoIsDefending,
+            usingPartnerB ?? false,
+            playerState,
+            isAttackerUsingPartnerB ?? false,
+            counter,
           ),
+          numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
+          open: scrolling,
+          style: textStyle,
+          duration: CSAnimations.medium,
+          color: selected 
+            ? selectedColor
+            : subColor,
+          increment: _increment,
+          borderRadiusFraction: attacking ? 0.1 : 1.0,
         ),
       );
 
@@ -443,7 +470,7 @@ class PlayerTile extends StatelessWidget {
     );
   }
 
-  Widget buildBody(bool rawSelected){
+  Widget buildBody(bool rawSelected, ThemeData theme){
     final annotation = PTileUtils.tileAnnotation(
       name,    page,    rawSelected,    whoIsAttacking,
       havingPartnerB??false,    usingPartnerB ??false, 
@@ -461,6 +488,7 @@ class PlayerTile extends StatelessWidget {
               name,
               style: TextStyle(
                 fontSize: 19,
+                color: theme.brightness.contrast,
               ),
               maxLines: 1,
               overflow: TextOverflow.clip,
@@ -473,6 +501,9 @@ class PlayerTile extends StatelessWidget {
                   annotation,
                   maxLines: 1,
                   overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: theme.brightness.contrast,
+                  ),
                 ),
               ),
             ),

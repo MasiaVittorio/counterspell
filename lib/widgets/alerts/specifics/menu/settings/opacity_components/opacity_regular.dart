@@ -46,6 +46,9 @@ class ImageOpacityRegular extends StatelessWidget {
       ),
     );
 
+    final lifeColor = Stage.of(context).themeController
+        .derived.mainPageToPrimaryColor.value[CSPage.life];
+
     final Widget tile = InkWell(
       onTap: (){},
       child: Container(
@@ -64,7 +67,7 @@ class ImageOpacityRegular extends StatelessWidget {
                 width: CSSizes.minTileSize*PlayerTile.circleFrac,
                 height: CSSizes.minTileSize*PlayerTile.circleFrac,
                 decoration: BoxDecoration(
-                  color: theme.primaryColor,
+                  color: lifeColor,
                   borderRadius: BorderRadius.circular(CSSizes.minTileSize),
                 ),
                 alignment: Alignment.center,
@@ -93,6 +96,7 @@ class ImageOpacityRegular extends StatelessWidget {
               width: CSSizes.minTileSize,
               height: CSSizes.minTileSize,
               child: Checkbox(
+                activeColor: lifeColor,
                 onChanged: (_){},
                 value: true,
               ),

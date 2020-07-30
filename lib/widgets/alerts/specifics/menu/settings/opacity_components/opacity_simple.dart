@@ -42,7 +42,8 @@ class ImageOpacitySimple extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Checkbox(
-                  activeColor: theme.primaryColor,
+                  activeColor: Stage.of(context).themeController
+                    .derived.mainPageToPrimaryColor.value[CSPage.life],
                   value: true,
                   tristate: true,
                   onChanged: (b) {},

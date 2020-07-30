@@ -365,7 +365,7 @@ class PlayerTile extends StatelessWidget {
           numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
           open: scrolling,
           style: textStyle,
-          duration: CSAnimations.medium,
+          duration: const Duration(milliseconds: 360),
           color: selected 
             ? selectedColor
             : subColor,

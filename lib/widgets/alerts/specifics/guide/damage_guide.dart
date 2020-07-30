@@ -2,11 +2,11 @@ import 'package:counter_spell_new/core.dart';
 
 
 const String _attackerTitle = "Select the attacker";
-const String _attacker1 = "tap on a player to set it as the one dealing the damage";
-const String _attacker2 = "the other players will become blue, as possible defenders";
+const String _attacker1 = "tap on a player to set its commander as the one dealing the damage";
+const String _attacker2 = "that player will become red and squared";
 const String _partnerTitle = "Select the right partner";
-const String _partner1 = "tap on the sword icon to split the commander into two partners";
-const String _partner2 = "tap again on the attacker to switch between partners A and B";
+const String _partner1 = "long press on the sword icon to split / merge partners";
+const String _partner2 = "tap on the the sword icon to switch between partners A and B";
 const String _defenderTitle = "Scroll on the defender";
 const String _defender1 = "increment the damage taken by a player from the selected commander";
 const String _defender2 = "this will lower the defender's life unless you disable this setting";

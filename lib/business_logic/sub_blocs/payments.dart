@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:counter_spell_new/core.dart';
+import 'package:flutter/foundation.dart';
 
 import 'dart:async';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -9,7 +10,6 @@ class CSPayments {
 
   void dispose(){
     this.unlocked.dispose();
-    // _subscription.cancel();
     this.purchasedIds.dispose();
     this.donations.dispose();
   }
@@ -21,7 +21,6 @@ class CSPayments {
   List<ProductDetails> items = <ProductDetails>[]; //all available
 
   final PersistentVar<bool> unlocked; 
-  // StreamSubscription<List<PurchaseDetails>> _subscription; //react to new purchase
   final PersistentVar<Set<String>> purchasedIds; //past done purchases
   final BlocVar<List<Donation>> donations; //all available (wrapper for UI)
   String log = "";
@@ -31,7 +30,7 @@ class CSPayments {
   CSPayments(this.parent): 
     unlocked = PersistentVar<bool>(
       key: "counterspell_bloc_var_payments_unlocked",
-      initVal: true,
+      initVal: kDebugMode,
       toJson: (b) => b,
       fromJson: (j) => j as bool,
     ),
@@ -45,13 +44,6 @@ class CSPayments {
   {
     //IMPORTANT: moved all the subscription handling in the main stateful witget's initState, so it will intercept any past purchase before.
     // (strange to think that is needed, since the whole BLoC constructor is syncronous, but we will still try this way)
-
-    // _subscription = InAppPurchaseConnection
-    //     .instance
-    //     .purchaseUpdatedStream
-    //     .listen((List<PurchaseDetails> purchases) {
-    //       reactToNewPurchases(purchases);
-    //     });
 
     check();
   }
@@ -182,30 +174,6 @@ class CSPayments {
         }
       }
     }
-
-    //apparently, the getUndealPurchases was not really a fix, since that was the moment the method stopped working.
-    //but this time past purchases method actually returned a list, and the status of that purchases was .purchased
-    //so we should be fine by removing this part and just go with the --now working lol-- queryPastPurchases. mmmmh.
-    // logAdd("restore: 2 -> waiting for getUndealPurchases");
-    // final List<PurchaseDetails> undealts = await InAppPurchaseConnection.instance.getUndealPurchases();
-    // if(undealts == null){
-    //   logAdd("restore: 2.null -> undealPurchases() returned a null list");
-    // }
-
-    // logAdd("restore: 3 -> getUndealPurchases() found: ${undealts.length} non completed purchases");
-    // i = 0;
-    // for (PurchaseDetails un in undealts ?? []) {
-    //   ++i;
-    //   logAdd("restore: 3.iteration_$i -> un-product: ${un.productID} // purchase: ${un.purchaseID} ==> status: ${un.status}");
-
-    //   if (Platform.isIOS) {
-    //     logAdd("restore: 3.iteration_$i.iOS -> platform is iOS, should call completePurchase(details) (only if it is not still pending)");
-    //     if(un.status != PurchaseStatus.pending) {
-    //       logAdd("restore: 3.iteration_$i.iOS -> indeed not pending, calling completePurchase(details)");
-    //       InAppPurchaseConnection.instance.completePurchase(un);
-    //     }
-    //   }
-    // }
 
     this.purchasedIds.set(<String>{
       for(final details in pastResponse.pastPurchases)

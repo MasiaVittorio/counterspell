@@ -42,7 +42,6 @@ class SettingsAppearance extends StatelessWidget {
             );
             return Text("Number font size: ${mapped.toStringAsFixed(2)}");
           },
-          radius: 50,
           min: 0.25,
           max: 0.32,
           leading: Icon(

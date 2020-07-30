@@ -23,36 +23,25 @@ class SettingsBehavior extends StatelessWidget {
             ),
           ),
           ExtraButton(
-            text: "Arena Settings",
-            icon: CSIcons.counterSpell,
-            iconSize: CSIcons.ideal_counterspell_size,
-            iconPadding: CSIcons.ideal_counterspell_padding,
+            text: "Scroll Sens",
+            icon: Icons.gesture,
             onTap: () => stage.showAlert(
-              const ArenaSettings(),
-              size: ArenaSettings.height,
+              const ScrollSensitivity(),
+              size: ScrollSensitivity.height,
             ),
           ),
-          // ExtraButton(
-          //   text: "Scroll Sens",
-          //   icon: Icons.gesture,
-          //   onTap: () => stage.showAlert(
-          //     const ScrollSensitivity(),
-          //     size: ScrollSensitivity.height,
-          //   ),
-          // ),
         ],
       ),
-      CSWidgets.divider,
-      ListTile(
-        title: const Text("Scroll Sensitivities"),
-        leading: Icon(Icons.gesture),
-        trailing: Icon(Icons.keyboard_arrow_right),
-        onTap: () => stage.showAlert(
-          const ScrollSensitivity(),
-          size: ScrollSensitivity.height,
-        ),
-      ),
-      CSWidgets.divider,
+      // CSWidgets.divider,
+      // ListTile(
+      //   title: const Text("Scroll Sensitivities"),
+      //   leading: Icon(Icons.gesture),
+      //   trailing: Icon(Icons.keyboard_arrow_right),
+      //   onTap: () => stage.showAlert(
+      //     const ScrollSensitivity(),
+      //     size: ScrollSensitivity.height,
+      //   ),
+      // ),
       scrollSettings.confirmDelay.build((_, dur) => FullSlider(
         leading: const Icon(Icons.timelapse),
         value: dur.inMilliseconds.toDouble(),

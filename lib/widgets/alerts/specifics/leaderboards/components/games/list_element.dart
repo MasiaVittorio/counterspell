@@ -40,6 +40,7 @@ class PastGameTile extends StatelessWidget {
                       final name = player.name;
                       final commanders = game.commandersPlayedBy(name);
                       return SidChip(
+                        color: theme.accentColor,
                         text: "$name",
                         icon: game.winner == name ? McIcons.trophy : null,
                         forceTextColor: commanders.isNotEmpty ? Colors.white : null,

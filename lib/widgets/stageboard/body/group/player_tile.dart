@@ -1,5 +1,7 @@
 // import 'dart:convert';
 
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_detector.dart';
 import 'package:counter_spell_new/core.dart';
@@ -422,10 +424,24 @@ class PlayerTile extends StatelessWidget {
               child: Container(
                 width: coreTileSize,
                 height: coreTileSize,
-                child: Icon(
-                  havingPartnerB==true
-                    ? McIcons.account_multiple_outline
-                    : McIcons.account_outline,
+                child: Transform(
+                  transform: Matrix4.rotationY(usingPartnerB  
+                    ? pi
+                    : 0.0
+                  ),
+                  origin: Offset(
+                    coreTileSize / 2,
+                    coreTileSize / 2,
+                  ),
+                  child: Icon(
+                    havingPartnerB==true
+                      ? rawSelected == true 
+                        ? McIcons.account_multiple
+                        : McIcons.account_multiple_outline
+                      : rawSelected == true 
+                        ? McIcons.account
+                        : McIcons.account_outline,
+                  ),
                 ),
               ),
             ),

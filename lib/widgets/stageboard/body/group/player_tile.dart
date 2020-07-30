@@ -290,7 +290,6 @@ class PlayerTile extends StatelessWidget {
     @required double numberFontSizeFraction,
   }){
     Widget child;
-    // TODO: finisci di figurare out i colory
     final Color color = PTileUtils.cnColor(
       page, 
       attacking, 

@@ -4,23 +4,35 @@ import 'package:counter_spell_new/widgets/alerts/specifics/guide/tutorial/compon
 import 'components/all.dart';
 
 
-class AdvancedTutorial extends StatefulWidget {
+class AdvancedTutorial extends StatelessWidget {
+
+  const AdvancedTutorial();
+
+  static int get pages => TutorialContent.children.length;
+  static const double height = double.infinity;
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvancedTutorial(
+      Stage.of(context).panelController.alertController
+          .savedStates[stateKey],
+    );
+  }
+
+  static const String stateKey = "advanced tutorial page stage";
+}
+
+class _AdvancedTutorial extends StatefulWidget {
 
   final int initialPage;
 
-  const AdvancedTutorial([this.initialPage = 0]);
-
-
-  static int get pages => TutorialContent.children.length;
-
-  static const double height = double.infinity;
-
+  const _AdvancedTutorial(this.initialPage);
 
   @override
   _AdvancedTutorialState createState() => _AdvancedTutorialState();
 }
 
-class _AdvancedTutorialState extends State<AdvancedTutorial> {
+class _AdvancedTutorialState extends State<_AdvancedTutorial> {
 
   PageController pageController;
 

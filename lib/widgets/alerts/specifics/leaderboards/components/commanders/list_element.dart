@@ -45,21 +45,26 @@ class CommanderStatWidget extends StatelessWidget {
               color: theme.canvasColor.withOpacity(0.4),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: SubSection([
-              Row(children: <Widget>[
-                Expanded(child: ListTile(
-                  subtitle: Text("${stat.wins} wins"),
-                  title: Text("${(stat.winRate * 100).toStringAsFixed(1)}%"),
-                  leading: const Icon(McIcons.trophy),
-                ),),
-                CSWidgets.extraButtonsDivider,
-                Expanded(child: ListTile(
-                  subtitle: const Text("(average)", style: TextStyle(fontStyle: FontStyle.italic),),
-                  title: Text("${(stat.damage).toStringAsFixed(1)} dmg"),
-                  leading: const Icon(CSIcons.attackIconTwo),
-                ),),
-              ],),
-            ], onTap: onTap, margin: EdgeInsets.zero,),
+            child: Material(
+              color: theme.scaffoldBackgroundColor.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(10),
+              child: InkWell(
+                onTap: onTap, 
+                child: Row(children: <Widget>[
+                  Expanded(child: ListTile(
+                    subtitle: Text("${stat.wins} wins"),
+                    title: Text("${(stat.winRate * 100).toStringAsFixed(1)}%"),
+                    leading: const Icon(McIcons.trophy),
+                  ),),
+                  CSWidgets.extraButtonsDivider,
+                  Expanded(child: ListTile(
+                    subtitle: const Text("(average)", style: TextStyle(fontStyle: FontStyle.italic),),
+                    title: Text("${(stat.damage).toStringAsFixed(1)} dmg"),
+                    leading: const Icon(CSIcons.attackIconTwo),
+                  ),),
+                ],),
+              ),
+            ),
           ),
           BottomExtra(
             const Text("Per player details"), 

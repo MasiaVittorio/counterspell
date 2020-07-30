@@ -241,7 +241,8 @@ class CSGameState {
   void toggleHavePartner(String name){
     assert(gameState.value.players.containsKey(name));
 
-    this.gameState.value.players[name].havePartnerB = !this.gameState.value.players[name].havePartnerB;
+    this.gameState.value.players[name].havePartnerB = 
+      !this.gameState.value.players[name].havePartnerB;
     this.gameState.value.players[name].usePartnerB = false;
     this.gameState.refresh();
   }
@@ -254,13 +255,21 @@ class CSGameState {
     this.gameState.refresh();
   }
 
-  bool toggleUsePartner(String name){
+  bool toggleUsePartner(String name, {bool force = false}){
     assert(gameState.value.players.containsKey(name));
 
-    if(!gameState.value.players[name].havePartnerB) 
-      return false; 
+    if(!gameState.value.players[name].havePartnerB){
+      if(force ?? false){
+        this.gameState.value.players[name].havePartnerB = true;
+        this.gameState.refresh();
+        return true;
+      } else {
+        return false; 
+      }
+    } 
 
-    this.gameState.value.players[name].usePartnerB = !this.gameState.value.players[name].usePartnerB;
+    this.gameState.value.players[name].usePartnerB = 
+      !this.gameState.value.players[name].usePartnerB;
     this.gameState.refresh();
     return true;
   }

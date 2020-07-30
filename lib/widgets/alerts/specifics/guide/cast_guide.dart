@@ -1,11 +1,11 @@
 import 'package:counter_spell_new/core.dart';
 
-const String _multiTitle = "No multi selection";
-const String _multi1 = "You'll just have to scroll on one player at a time";
+const String _choseTitle = "Choose single commander or partners";
+const String _chose1 = "Long press on the person icon to split in two partners";
+const String _chose2 = "(Or merge two partners into a single commander)";
 
 const String _partnerTitle = "Select the right partner";
-const String _partner1 = "tap on the person icon to split the commander into two partners";
-const String _partner2 = "tap again on the player to switch between partners A and B";
+const String _partner1 = "Tap on the person icon to switch between partner A and B";
 
 class CastInfo extends StatelessWidget {
   const CastInfo();
@@ -24,10 +24,11 @@ class CastInfo extends StatelessWidget {
             children: <Widget>[
               const InfoSection(
                 first: true,
-                icon: const Icon(McIcons.gesture_swipe_horizontal),
-                title: _multiTitle,
+                icon: const Icon(Icons.person_outline),
+                title: _choseTitle,
                 info: [
-                  _multi1,
+                  _chose1,
+                  _chose2,
                 ],
               ),
               const InfoSection(
@@ -36,7 +37,6 @@ class CastInfo extends StatelessWidget {
                 title: _partnerTitle,
                 info: [
                   _partner1,
-                  _partner2,
                 ],
               ),
             ],

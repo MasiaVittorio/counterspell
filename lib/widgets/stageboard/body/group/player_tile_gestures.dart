@@ -70,6 +70,7 @@ class PlayerGestures{
         break;
       case CSPage.counters:
       case CSPage.life:
+      case CSPage.commanderCast: /// recently added
         actionBloc.selected.value[name] = (rawSelected == false);
         actionBloc.selected.refresh();
         if(isScrollingSomewhere){
@@ -78,24 +79,26 @@ class PlayerGestures{
         }
         return;
         break;
-      case CSPage.commanderCast:
-        if(hasPartnerB==true){
-          //toggling used partners
-          gameStateBloc.gameState.value.players[name].usePartnerB = !usePartnerB;
-          gameStateBloc.gameState.refresh();
-        }
-        if(isScrollingSomewhere){
-          scrollerBloc.delayerController.scrolling();
-          scrollerBloc.delayerController.leaving();
-        }
-        return;
-        break;
+      // case CSPage.commanderCast:
+        // if(hasPartnerB==true){
+        //   //toggling used partners
+        //   gameStateBloc.gameState.value.players[name].usePartnerB = !usePartnerB;
+        //   gameStateBloc.gameState.refresh();
+        // }
+        // if(isScrollingSomewhere){
+        //   scrollerBloc.delayerController.scrolling();
+        //   scrollerBloc.delayerController.leaving();
+        // }
+        // return;
+        // break;
       case CSPage.commanderDamage:
         if(attacking){
-          if(hasPartnerB==true){
-            gameStateBloc.gameState.value.players[name].usePartnerB = !usePartnerB;
-            gameStateBloc.gameState.refresh();
-          }
+          actionBloc.attackingPlayer.set("");
+          actionBloc.defendingPlayer.set("");
+          // if(hasPartnerB==true){
+          //   gameStateBloc.gameState.value.players[name].usePartnerB = !usePartnerB;
+          //   gameStateBloc.gameState.refresh();
+          // }
         } else {
           actionBloc.attackingPlayer.set(name);
           actionBloc.defendingPlayer.set("");

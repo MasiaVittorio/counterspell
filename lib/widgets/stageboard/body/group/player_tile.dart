@@ -309,12 +309,13 @@ class PlayerTile extends StatelessWidget {
 
     final Color subColor = Color.alphaBlend(
       theme.scaffoldBackgroundColor.withOpacity(1.0),
+      // theme.colorScheme.onSurface.withOpacity(.1),
       theme.canvasColor,
-    );
+    ).withOpacity(0.6);
     final Color selectedColor = Color.alphaBlend(
-      color.withOpacity(0.4),
+      color.withOpacity(0.55),
       theme.canvasColor,
-    );
+    ).withOpacity(0.8);
 
     if(page == CSPage.history){
 
@@ -420,7 +421,8 @@ class PlayerTile extends StatelessWidget {
             duration: CSAnimations.fast,
             presented: page == CSPage.commanderCast,
             child: InkWell(
-              onTap: () => stateBloc.toggleHavePartner(name),
+              onLongPress: () => stateBloc.toggleHavePartner(name),
+              onTap: () => stateBloc.toggleUsePartner(name, force: true),
               child: Container(
                 width: coreTileSize,
                 height: coreTileSize,
@@ -451,14 +453,25 @@ class PlayerTile extends StatelessWidget {
             duration: CSAnimations.fast,
             presented: page == CSPage.commanderDamage && whoIsAttacking==name,
             child: InkWell(
-              onTap: () => stateBloc.toggleHavePartner(name),
+              onLongPress: () => stateBloc.toggleHavePartner(name),
+              onTap: () => stateBloc.toggleUsePartner(name, force: true),
               child: Container(
                 width: coreTileSize,
                 height: coreTileSize,
-                child: Icon(
-                  havingPartnerB==true
-                    ? CSIcons.attackIconTwo
-                    : CSIcons.attackIconOne,
+                child: Transform(
+                  transform: Matrix4.rotationY(usingPartnerB  
+                    ? pi
+                    : 0.0
+                  ),
+                  origin: Offset(
+                    coreTileSize / 2,
+                    coreTileSize / 2,
+                  ),
+                  child: Icon(
+                    havingPartnerB==true
+                      ? CSIcons.attackIconTwo
+                      : CSIcons.attackIconOne,
+                  ),
                 ),
               ),
             ),

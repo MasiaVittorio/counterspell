@@ -29,6 +29,8 @@ class TutorialContent extends StatelessWidget {
     return PageView.builder(
       itemCount: children.length,
       controller: pageController,
+      onPageChanged: (i) => Stage.of(context).panelController.alertController
+        .savedStates[AdvancedTutorial.stateKey] = i,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, page)
         => Padding(

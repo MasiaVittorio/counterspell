@@ -61,7 +61,7 @@ class PlayerGestures{
     @required bool usePartnerB,
   }){
     final actionBloc = bloc.game.gameAction;
-    final gameStateBloc = bloc.game.gameState;
+    // final gameStateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
     switch (page) {
       case CSPage.history:

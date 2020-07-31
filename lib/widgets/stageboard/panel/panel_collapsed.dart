@@ -3,6 +3,8 @@ import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
 import 'package:stage/stage.dart';
 
+import 'collapsed_components/circle_button.dart';
+
 class CSPanelCollapsed extends StatelessWidget {
   const CSPanelCollapsed({Key key}) : super(key: key);
 
@@ -12,136 +14,130 @@ class CSPanelCollapsed extends StatelessWidget {
     final gameStateBloc = bloc.game.gameState;
     final StageData<CSPage, SettingsPage> stage = Stage.of(context);
 
+    final Widget backButton = gameStateBloc.gameState.build(
+      (context, state) => _PanelButton(
+        gameStateBloc.backable,
+        Icons.undo,
+        gameStateBloc.back,
+        1.3,
+        iconSize: 20,
+      ),
+    );
+
+    final Widget forwardButton = gameStateBloc.futureActions.build(
+      (context, futures) => _PanelButton(
+        gameStateBloc.forwardable,
+        Icons.redo,
+        gameStateBloc.forward,
+        1.3,
+        iconSize: 20,
+      ),
+    );
+
     return  ArenaTransformer(
       closedRadiusSize: stage.dimensionsController.dimensions.value.barSize/2,
-      builder: (_, opener) => StageBuild.offMainPage<CSPage>((_, currentPage) {
+      builder: (_, opener) => StageBuild.offMainPage<CSPage>((_, currentPage) 
+        => StageBuild.offMainColors((_, __, colors){
 
-        final Widget backButton = gameStateBloc.gameState.build(
-          (context, state) => _PanelButton(
-            gameStateBloc.backable,
-            Icons.undo,
-            gameStateBloc.back,
-            1.3,
-            iconSize: 20,
-          ),
-        );
-
-        final Widget forwardButton = gameStateBloc.futureActions.build(
-          (context, futures) => _PanelButton(
-            gameStateBloc.forwardable,
-            Icons.redo,
-            gameStateBloc.forward,
-            1.3,
-            iconSize: 20,
-          ),
-        );
-
-        final arenaDisplayer = gameStateBloc.gameState.build(
-          (context, state) => _PanelButton(
-            ArenaWidget.okNumbers.contains(state.players.length),
-            CSIcons.simpleViewIcon,
-            opener,
-            1.0,
-            iconSize: 20,
-          ),
-        );
-
-        final rightButton = <CSPage, Widget>{
-          CSPage.history: _PanelButton(
-            true,
-            McIcons.restart,
-            () => stage.showSnackBar(
-              const SnackRestart(),
-              rightAligned: true,
-            ),
-            1.0,
-            iconSize: 24,
-          ),
-          CSPage.life: gameStateBloc.gameState.build(
+          final arenaDisplayer = gameStateBloc.gameState.build(
             (context, state) => _PanelButton(
-              true,
-              McIcons.account_multiple_outline,
-              () => stage.showAlert(
-                PlayGroupEditor(
-                  bloc,
-                  fromClosedPanel: true,
-                ),
-                size: PlayGroupEditor.sizeCalc(
-                    bloc.game.gameGroup.names.value.length),
-              ),
+              ArenaWidget.okNumbers.contains(state.players.length),
+              CSIcons.simpleViewIcon,
+              opener,
               1.0,
-              iconSize: 25,
+              iconSize: 20,
             ),
-          ),
-          CSPage.commanderCast: _PanelButton(
-            true,
-            Icons.info_outline,
-            () => stage.showAlert(const CastInfo(), size: CastInfo.height),
-            1.0,
-          ),
-          CSPage.commanderDamage: _PanelButton(
-            true,
-            Icons.info_outline,
-            () => stage.showAlert(const DamageInfo(),
-                size: DamageInfo.height),
-            1.0,
-          ),
-          CSPage.counters: bloc.game.gameAction.counterSet.build(
-            (context, counter) => _PanelButton(
-              true,
-              counter.icon,
-              () => stage.showSnackBar(
-                const SnackCounterSelector(),
-                rightAligned: true,
-                duration: null,
-              ),
-              1.0,
-            ),
-          ),
-        }[currentPage] ?? const SizedBox(width: CSSizes.barSize);
+          );
 
-        final Widget row = Row(children: <Widget>[
-          currentPage == CSPage.history
-            ? _PanelButton(
-                true,
-                Icons.timeline,
-                () => stage.showAlert(
-                  const AnimatedLifeChart(),
-                  size: AnimatedLifeChart.height,
+          final rightButton = CircleButton(
+            externalCircles: 2,
+            sizeIncrement: 0.65,
+            color: colors[currentPage]
+                .withOpacity(0.125),
+            size: CSSizes.barSize,
+            child: <CSPage,Widget>{
+              CSPage.history: const Icon(McIcons.restart),
+              CSPage.life: const Icon(McIcons.account_multiple_outline),
+              CSPage.counters: bloc.game.gameAction.counterSet.build(
+                (context, counter) => Icon(counter.icon),
+              ),
+              CSPage.commanderCast: const Icon(Icons.info_outline),
+              CSPage.commanderDamage: const Icon(Icons.info_outline),
+            }[currentPage] ?? const SizedBox(width: CSSizes.barSize),
+            onTap: () {
+              if(currentPage == CSPage.history){
+                stage.showSnackBar(
+                  const SnackRestart(),
+                  rightAligned: true,
+                );
+              } else if(currentPage == CSPage.life){
+                stage.showAlert(
+                  PlayGroupEditor(
+                    bloc,
+                    fromClosedPanel: true,
+                  ),
+                  size: PlayGroupEditor.sizeCalc(
+                    bloc.game.gameGroup.names.value.length
+                  ),
+                );
+              } else if (currentPage == CSPage.commanderCast){
+                stage.showAlert(const CastInfo(), size: CastInfo.height);
+              } else if (currentPage == CSPage.commanderDamage){
+                stage.showAlert(const DamageInfo(), size: DamageInfo.height);
+              } else if (currentPage == CSPage.counters){
+                stage.showSnackBar(
+                  const SnackCounterSelector(),
+                  rightAligned: true,
+                  duration: null,
+                );
+              } 
+            }, 
+          );
+
+
+          final Widget row = Row(children: <Widget>[
+            currentPage == CSPage.history
+              ? _PanelButton(
+                  true,
+                  Icons.timeline,
+                  () => stage.showAlert(
+                    const AnimatedLifeChart(),
+                    size: AnimatedLifeChart.height,
+                  ),
+                  1.0,
+                )
+              : arenaDisplayer,
+            const Spacer(),
+            backButton,
+            forwardButton,
+            const Spacer(),
+            rightButton,
+          ],);
+
+          return Material(
+            type: MaterialType.transparency,
+            child: Stack(
+              fit: StackFit.expand, 
+              children: <Widget>[
+                Positioned(
+                  left: 0.0,
+                  top: 0.0,
+                  right: 0.0,
+                  height: CSSizes.barSize,
+                  child: row,
                 ),
-                1.0,
-              )
-            : arenaDisplayer,
-          const Spacer(),
-          backButton,
-          forwardButton,
-          const Spacer(),
-          rightButton,
-        ],);
-
-        return Material(
-          type: MaterialType.transparency,
-          child: Stack(
-            fit: StackFit.expand, 
-            children: <Widget>[
-              Positioned(
-                left: 0.0,
-                top: 0.0,
-                right: 0.0,
-                height: CSSizes.barSize,
-                child: row,
-              ),
-              Positioned(
-                left: 0.0,
-                top: 0.0,
-                right: 0.0,
-                height: CSSizes.barSize,
-                child: _DelayerPanel(bloc: bloc),
-              ),
-            ],
-          ),
-        );
-      },),
+                Positioned(
+                  left: 0.0,
+                  top: 0.0,
+                  right: 0.0,
+                  height: CSSizes.barSize,
+                  child: _DelayerPanel(bloc: bloc),
+                ),
+              ],
+            ),
+          );
+        },),
+      ),
     );
   }
 }

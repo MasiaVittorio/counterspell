@@ -12,6 +12,26 @@ class ChangeLogData {
         "Achievements system",
         'Every achievement has a mini-tutorial that explains how to use a little known feature of CounterSpell',
       ),
+      Change(
+        ChangeType.newFeature,
+        "Font size slider for numbers",
+        'Want a bigger life number? Go ahead on menu > settings and slide all you need!',
+      ),
+      Change(
+        ChangeType.change,
+        "Several small UI improvements",
+        "Most UI components are more coherent in design and colors, and the Leaderboards page is particularly improved.",
+      ),
+      Change(
+        ChangeType.change,
+        "Better support for partners in the commander damage / cast page",
+        "Now you can multi-select on the Cast page, and use only the icons on the right to handle partners splitting / selecting",
+      ),
+      Change(
+        ChangeType.change,
+        "Arena mode settings and layout improvements",
+        null,
+      ),
     ]),
 
     Version("3.1.5", <Change>[

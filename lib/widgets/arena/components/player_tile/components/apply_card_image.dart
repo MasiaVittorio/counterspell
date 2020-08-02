@@ -13,6 +13,7 @@ class AptCardImage extends StatelessWidget {
     @required this.pageColors,
     @required this.defenceColor,
     @required this.highlighted,
+    @required this.maxWidth,
   });
 
   final GameState gameState;
@@ -24,78 +25,117 @@ class AptCardImage extends StatelessWidget {
   final Map<CSPage,Color> pageColors;
   final Color defenceColor;
   final bool highlighted;
+  final double maxWidth;
 
   static const double _cmdrOpacity = 0.35;
 
   @override
   Widget build(BuildContext context) {
+    
+    final player = gameState.players[name];
+    final bool haveB = player.havePartnerB;
+    final bool useB = haveB && player.usePartnerB;
+    final group = bloc.game.gameGroup;
 
-    return bloc.game.gameGroup.cards(!this.gameState.players[name].usePartnerB).build((_, cards){
-      final MtgCard card = cards[name];
+    return group.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
+      final MtgCard cardA = cardsA[name];
+      final MtgCard cardB = haveB ? cardsB[name] : null;
 
-      if(card == null){
-
+      if(cardB == null && cardA == null){
         return SizedBox.expand(
           child: gesturesApplied,
         );
-
       } else {
 
-        final ThemeData themeData = Theme.of(context);
-        final String imageUrl = card.imageUrl();
+        final String urlA = cardA?.imageUrl();
+        final String urlB = cardB?.imageUrl();
 
-        final Widget image = bloc.settings.imagesSettings.imageAlignments.build((_,alignments) => Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
+        return bloc.settings.imagesSettings.imageAlignments.build((_,alignments){
+          
+          final Decoration decorationA = urlA == null 
+            ? null 
+            : BoxDecoration(image: DecorationImage(
               image: CachedNetworkImageProvider(
-                imageUrl,
+                urlA,
                 errorListener: (){},
               ),
               fit: BoxFit.cover,
-              alignment: Alignment(0,alignments[imageUrl] ?? -0.5),
-            ),
-          ),
-        ),);
+              alignment: Alignment(0, alignments[urlA] ?? -0.5),
+            ),);
 
-        Color bkgColor = highlighted 
-              ? themeData.canvasColor 
-              : themeData.scaffoldBackgroundColor;
-        
-        if(isAttacking) {
-          bkgColor = Color.alphaBlend(
-            this.pageColors[CSPage.commanderDamage]
-                .withOpacity(_cmdrOpacity),
-            bkgColor,
+          Widget image;
+
+          if(haveB){
+            final Decoration decorationB = urlB == null 
+              ? null 
+              : BoxDecoration(image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                  urlB,
+                  errorListener: (){},
+                ),
+                fit: BoxFit.cover,
+                alignment: Alignment(0, alignments[urlB] ?? -0.5),
+              ),);
+
+            image = Row(
+              children: <Widget>[
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 350),
+                  curve: Curves.easeOut,
+                  width: maxWidth * (useB ? 0.25 : 0.75),
+                  decoration: decorationA,
+                ),
+                Expanded(child: Container(
+                  decoration: decorationB,
+                ),),
+              ],
+            );
+          } else {
+            image =  Container(decoration: decorationA);
+          }
+
+          final ThemeData themeData = Theme.of(context);
+
+          Color bkgColor = highlighted 
+                ? themeData.canvasColor 
+                : themeData.scaffoldBackgroundColor;
+          
+          if(isAttacking) {
+            bkgColor = Color.alphaBlend(
+              this.pageColors[CSPage.commanderDamage]
+                  .withOpacity(_cmdrOpacity),
+              bkgColor,
+            );
+          } else if (isDefending) {
+            bkgColor = Color.alphaBlend(
+              this.defenceColor
+                  .withOpacity(_cmdrOpacity),
+              bkgColor,
+            );
+          }
+
+          final Widget filterColor = bloc.settings.imagesSettings.arenaImageOpacity.build((context, double opacity) => Container(
+            color: bkgColor.withOpacity(opacity),
+          ));
+
+          return Stack(
+            fit: StackFit.expand,
+            alignment: Alignment.center,
+            children: <Widget>[
+              Positioned.fill(
+                child: image,
+              ),
+              Positioned.fill(
+                child: filterColor,
+              ),
+              Theme(
+                data: themeData.copyWith(splashColor: Colors.white.withAlpha(0x66)),
+                child: gesturesApplied,
+              ),
+            ],
           );
-        } else if (isDefending) {
-          bkgColor = Color.alphaBlend(
-            this.defenceColor
-                .withOpacity(_cmdrOpacity),
-            bkgColor,
-          );
-        }
-
-        final Widget filterColor = bloc.settings.imagesSettings.arenaImageOpacity.build((context, double opacity) => Container(
-          color: bkgColor.withOpacity(opacity),
-        ));
-
-        return Stack(
-          fit: StackFit.expand,
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned.fill(
-              child: image,
-            ),
-            Positioned.fill(
-              child: filterColor,
-            ),
-            Theme(
-              data: themeData.copyWith(splashColor: Colors.white.withAlpha(0x66)),
-              child: gesturesApplied,
-            ),
-          ],
-        );
+        });
       }
-    },);
+    },),);
   }
 }

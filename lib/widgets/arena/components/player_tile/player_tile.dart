@@ -142,6 +142,7 @@ class ArenaPlayerTile extends StatelessWidget {
               isDefending: whoIsDefending == name,
               defenceColor: defenceColor,
               pageColors: pageColors,
+              maxWidth: constraints.maxWidth,
             );
 
             final Widget backgroundApplied = AptBackGround(

@@ -67,7 +67,10 @@ class ImageOpacityRegular extends StatelessWidget {
                 width: CSSizes.minTileSize*PlayerTile.circleFrac,
                 height: CSSizes.minTileSize*PlayerTile.circleFrac,
                 decoration: BoxDecoration(
-                  color: lifeColor,
+                  color: Color.alphaBlend(
+                    lifeColor.withOpacity(0.55),
+                    theme.canvasColor,
+                  ).withOpacity(0.8),
                   borderRadius: BorderRadius.circular(CSSizes.minTileSize),
                 ),
                 alignment: Alignment.center,

@@ -97,7 +97,7 @@ class CSBody extends StatelessWidget {
                           ),
 
                         AnimatedPositioned(
-                          curve: Curves.ease,
+                          curve: Curves.easeOut,
                           duration: CSAnimations.fast,
                           top: 0.0,
                           bottom: 0.0,

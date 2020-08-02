@@ -27,10 +27,19 @@ class CachePlayer extends StatelessWidget {
               callback: null,
               trailing: IconButton(
                 icon: CSWidgets.deleteIcon,
-                onPressed: (){
-                  bloc.game.gameGroup.savedCards.value[this.player].removeWhere((c) => c.id == card.id);
-                  bloc.game.gameGroup.savedCards.refresh(key: this.player);
-                }, 
+                onPressed: () => stage.showAlert(
+                  ConfirmAlert(
+                    twoLinesWarning: true,
+                    confirmText: 'Clear "${card.name}" for $player',
+                    confirmColor: CSColors.delete,
+                    confirmIcon: Icons.delete_forever,
+                    action: (){
+                      bloc.game.gameGroup.savedCards.value[this.player].removeWhere((c) => c.id == card.id);
+                      bloc.game.gameGroup.savedCards.refresh(key: this.player);
+                    },
+                  ),
+                  size: ConfirmAlert.twoLinesheight,
+                ), 
               ),
             );
           },

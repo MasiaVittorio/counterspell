@@ -49,49 +49,51 @@ class CSPanelCollapsed extends StatelessWidget {
             ),
           );
 
-          final rightButton = CircleButton(
-            externalCircles: 2,
-            sizeIncrement: 0.65,
-            color: colors[currentPage]
-                .withOpacity(0.125),
-            size: CSSizes.barSize,
-            child: <CSPage,Widget>{
-              CSPage.history: const Icon(McIcons.restart),
-              CSPage.life: const Icon(McIcons.account_multiple_outline),
-              CSPage.counters: bloc.game.gameAction.counterSet.build(
-                (context, counter) => Icon(counter.icon),
-              ),
-              CSPage.commanderCast: const Icon(Icons.info_outline),
-              CSPage.commanderDamage: const Icon(Icons.info_outline),
-            }[currentPage] ?? const SizedBox(width: CSSizes.barSize),
-            onTap: () {
-              if(currentPage == CSPage.history){
-                stage.showSnackBar(
-                  const SnackRestart(),
-                  rightAligned: true,
-                );
-              } else if(currentPage == CSPage.life){
-                stage.showAlert(
-                  PlayGroupEditor(
-                    bloc,
-                    fromClosedPanel: true,
-                  ),
-                  size: PlayGroupEditor.sizeCalc(
-                    bloc.game.gameGroup.names.value.length
-                  ),
-                );
-              } else if (currentPage == CSPage.commanderCast){
-                stage.showAlert(const CastInfo(), size: CastInfo.height);
-              } else if (currentPage == CSPage.commanderDamage){
-                stage.showAlert(const DamageInfo(), size: DamageInfo.height);
-              } else if (currentPage == CSPage.counters){
-                stage.showSnackBar(
-                  const SnackCounterSelector(),
-                  rightAligned: true,
-                  duration: null,
-                );
-              } 
-            }, 
+          final rightButton =  bloc.scroller.isScrolling.build(
+            (context, scrolling) => CircleButton(
+              externalCircles: 3,
+              sizeIncrement: scrolling ? 0.0 : 0.5,
+              color: colors[currentPage]
+                  .withOpacity(0.07),
+              size: CSSizes.barSize,
+              child: <CSPage,Widget>{
+                CSPage.history: const Icon(McIcons.restart),
+                CSPage.life: const Icon(McIcons.account_multiple_outline),
+                CSPage.counters: bloc.game.gameAction.counterSet.build(
+                  (context, counter) => Icon(counter.icon),
+                ),
+                CSPage.commanderCast: const Icon(Icons.info_outline),
+                CSPage.commanderDamage: const Icon(Icons.info_outline),
+              }[currentPage] ?? const SizedBox(width: CSSizes.barSize),
+              onTap: () {
+                if(currentPage == CSPage.history){
+                  stage.showSnackBar(
+                    const SnackRestart(),
+                    rightAligned: true,
+                  );
+                } else if(currentPage == CSPage.life){
+                  stage.showAlert(
+                    PlayGroupEditor(
+                      bloc,
+                      fromClosedPanel: true,
+                    ),
+                    size: PlayGroupEditor.sizeCalc(
+                      bloc.game.gameGroup.names.value.length
+                    ),
+                  );
+                } else if (currentPage == CSPage.commanderCast){
+                  stage.showAlert(const CastInfo(), size: CastInfo.height);
+                } else if (currentPage == CSPage.commanderDamage){
+                  stage.showAlert(const DamageInfo(), size: DamageInfo.height);
+                } else if (currentPage == CSPage.counters){
+                  stage.showSnackBar(
+                    const SnackCounterSelector(),
+                    rightAligned: true,
+                    duration: null,
+                  );
+                } 
+              }, 
+            ),
           );
 
 
@@ -169,7 +171,8 @@ class _DelayerPanel extends StatelessWidget {
       Color currentPrimaryColor,
     ) {
       final accentColor = Color.alphaBlend(
-        currentPrimaryColor,
+        currentPrimaryColor
+          .withOpacity(0.85),
         canvas,
       );
       return AnimatedOpacity(
@@ -195,7 +198,7 @@ class _DelayerPanel extends StatelessWidget {
 
             height: CSSizes.barSize,
             duration: confirmDelay,
-            circleOffset: 44, //Floating Action Button
+            circleOffset: CSSizes.barSize / 2, 
           ),
         ),
       );

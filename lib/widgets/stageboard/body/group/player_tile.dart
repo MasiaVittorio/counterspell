@@ -31,67 +31,6 @@ class PlayerTile extends StatelessWidget {
   final bool havingPartnerB;
   final bool isAttackerHavingPartnerB;
 
-  // String get encoded => jsonEncode(<String,dynamic>{
-  //   "name": name,
-  //   "tileSize": tileSize,
-  //   "bottom": bottom,
-  //   "coreTileSize": coreTileSize,
-  //   "page": CSPages.nameOf(page),
-  //   "selected": selected,
-  //   "isScrollingSomewhere": isScrollingSomewhere,
-  //   "whoIsAttacking": whoIsAttacking,
-  //   "whoIsDefending": whoIsDefending,
-  //   "counter": counter.longName,
-  //   "playerState": playerState.toJson(),
-  //   "defenceColor": defenceColor.value,
-  //   "increment": increment,
-  //   "nextState": normalizedPlayerAction.apply(playerState).toJson(),
-  //   "maxWidth": maxWidth,
-  //   "pageColor": pageColor.value,
-  //   "usingPartnerB": usingPartnerB,
-  //   "havingPartnerB": havingPartnerB,
-  //   "isAttackerHavingPartnerB": isAttackerHavingPartnerB,
-  //   "isAttackerUsingPartnerB": isAttackerUsingPartnerB,
-  // });
-
-  // @override
-  // int get hashCode => this.encoded.hashCode;
-
-  // @override 
-  // bool operator ==(Object other){
-  //   if(identical(other, this)) return true;
-  //   if(other.runtimeType != this.runtimeType) return false;
-  //   if(other is PlayerTile){
-  //     if(other.name != this.name) return false;
-  //     if(other.increment != this.increment) return false;
-  //     if(other.selected != this.selected) return false;
-  //     if(other.isScrollingSomewhere != this.isScrollingSomewhere) return false;
-  //     if(other.whoIsAttacking != this.whoIsAttacking) return false;
-  //     if(other.whoIsDefending != this.whoIsDefending) return false;
-  //     if(other.playerState != this.playerState) return false;
-
-  //     if(other.pageColor != this.pageColor) return false;
-  //     if(other.usingPartnerB != this.usingPartnerB) return false;
-  //     if(other.havingPartnerB != this.havingPartnerB) return false;
-  //     if(other.isAttackerHavingPartnerB != this.isAttackerHavingPartnerB) return false;
-  //     if(other.isAttackerUsingPartnerB != this.isAttackerUsingPartnerB) return false;
-
-  //     if(other.normalizedPlayerAction.apply(other.playerState).toJson() 
-  //     != this.normalizedPlayerAction.apply(this.playerState).toJson()) return false;
-
-  //     if(other.counter.longName != this.counter.longName) return false;
-
-  //     if(other.maxWidth != this.maxWidth) return false;
-  //     if(other.defenceColor != this.defenceColor) return false;
-  //     if(other.tileSize != this.tileSize) return false;
-  //     if(other.bottom != this.bottom) return false;
-  //     if(other.coreTileSize != this.coreTileSize) return false;
-
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   const PlayerTile(this.name, {
     @required this.usingPartnerB,
@@ -210,69 +149,104 @@ class PlayerTile extends StatelessWidget {
       ),
     );
 
-    return group.cards(!(usingPartnerB ?? false)).build((_, cards){
-      final MtgCard card = cards[name];
-      if(card == null){
+    return group.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
+      final MtgCard cardA = cardsA[name];
+      final MtgCard cardB = havingPartnerB ? cardsB[name] : null;
+
+      if(cardB == null && cardA == null){
         return Material(child: tile);
       } else {
-        final String imageUrl = card.imageUrl();
+        final String urlA = cardA?.imageUrl();
+        final String urlB = cardB?.imageUrl();
 
-        final Widget image = bloc.settings.imagesSettings.imageAlignments.build((_,alignments) => Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
+        return bloc.settings.imagesSettings.imageAlignments.build((_,alignments){
+          
+          final Decoration decorationA = urlA == null 
+            ? null 
+            : BoxDecoration(image: DecorationImage(
               image: CachedNetworkImageProvider(
-                imageUrl,
+                urlA,
                 errorListener: (){},
               ),
               fit: BoxFit.cover,
-              alignment: Alignment(0,alignments[imageUrl] ?? -0.5),
-            ),
-          ),
-        ),);
+              alignment: Alignment(0, alignments[urlA] ?? -0.5),
+            ),);
 
-        final Widget gradient = BlocVar.build2(
-          bloc.settings.imagesSettings.imageGradientStart,
-          bloc.settings.imagesSettings.imageGradientEnd,
-          builder: (context, double startVal, double endVal) => Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  theme.canvasColor.withOpacity(startVal),
-                  theme.canvasColor.withOpacity(endVal),
-                ],
-              ),
-            ),
-          ),
-        );
+          Widget image;
 
-        return SizedBox(
-          height: tileSize + bottom,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Positioned.fill(
-                child: image,
-              ),
-              Positioned.fill(
-                child: gradient,
-              ),
-              Positioned.fill(
-                bottom: bottom,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: Theme(
-                    data: theme.copyWith(splashColor: Colors.white.withAlpha(0x66)),
-                    child: tile,
-                  ),
+          if(havingPartnerB){
+            final Decoration decorationB = urlB == null 
+              ? null 
+              : BoxDecoration(image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                  urlB,
+                  errorListener: (){},
+                ),
+                fit: BoxFit.cover,
+                alignment: Alignment(0, alignments[urlB] ?? -0.5),
+              ),);
+
+            image = Row(
+              children: <Widget>[
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 350),
+                  curve: Curves.easeOut,
+                  width: maxWidth * (usingPartnerB ? 0.25 : 0.75),
+                  decoration: decorationA,
+                ),
+                Expanded(child: Container(
+                  decoration: decorationB,
+                ),),
+              ],
+            );
+          } else {
+            image =  Container(decoration: decorationA);
+          }
+
+          final Widget gradient = BlocVar.build2(
+            bloc.settings.imagesSettings.imageGradientStart,
+            bloc.settings.imagesSettings.imageGradientEnd,
+            builder: (context, double startVal, double endVal) => Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    theme.canvasColor.withOpacity(startVal),
+                    theme.canvasColor.withOpacity(endVal),
+                  ],
                 ),
               ),
-            ],
-          ),
-        );
+            ),
+          );
+
+          return SizedBox(
+            height: tileSize + bottom,
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                Positioned.fill(
+                  child: image,
+                ),
+                Positioned.fill(
+                  child: gradient,
+                ),
+                Positioned.fill(
+                  bottom: bottom,
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: Theme(
+                      data: theme.copyWith(splashColor: Colors.white.withAlpha(0x66)),
+                      child: tile,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
       }
-    });
+    },),);
 
   }
 

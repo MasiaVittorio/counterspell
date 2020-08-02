@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:counter_spell_new/core.dart';
 // import 'package:counter_spell_new/widgets/other_routes/data_backup/backup_route.dart';
 
@@ -18,16 +20,18 @@ class CounterSpellActions extends StatelessWidget {
           icon: McIcons.memory,
           onTap: () => stage.showAlert(const CacheAlert(), size: CacheAlert.height),
         ),
-        ExtraButton(
-          text: "Backup & restore",
-          icon: McIcons.content_save_outline,
-          onTap: () => stage.showAlert(BackupsAlert(), size: 500),
-          // onTap: () => Navigator
-          //   .of(context, rootNavigator: true)
-          //   .pushReplacement(
-          //     MaterialPageRoute(builder: (_) => BackupScreen()),
-          //   ),
-        ),
+        if(Platform.isAndroid)
+          ExtraButton(
+            text: "Backup & restore",
+            icon: McIcons.content_save_outline,
+            onTap: () => stage.showAlert(BackupsAlert(), size: 500),
+          )
+        else
+          const ExtraButton(
+            text: "Rate app",
+            icon: Icons.star_border,
+            onTap: CSActions.review,
+          ),
       ],),
 
       SubSection(<Widget>[

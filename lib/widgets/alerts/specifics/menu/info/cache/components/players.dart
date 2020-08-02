@@ -25,7 +25,15 @@ class CachePlayers extends StatelessWidget {
             leading: Icon(McIcons.account_outline),
             trailing: IconButton(
               icon: CSWidgets.deleteIcon,
-              onPressed: () => bloc.game.gameGroup.savedCards.removeKey(player),
+              onPressed: () => stage.showAlert(
+                ConfirmAlert(
+                  confirmText: "Clear $player's cache",
+                  confirmColor: CSColors.delete,
+                  confirmIcon: Icons.delete_forever,
+                  action: () => bloc.game.gameGroup.savedCards.removeKey(player),
+                ),
+                size: ConfirmAlert.height,
+              ),
             ),
             onTap: () => stage.showAlert(CachePlayer(player), size: CachePlayer.height),
           );

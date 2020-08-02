@@ -76,7 +76,7 @@ class ImageOpacityRegular extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   "40",
-                  style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 0.26 * CSSizes.minTileSize),
+                  style: TextStyle(fontSize: 0.26 * CSSizes.minTileSize),
                 ),
               ),
             ),

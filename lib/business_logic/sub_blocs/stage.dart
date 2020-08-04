@@ -63,7 +63,7 @@ class CSStage {
       initialThemeData: StageThemeData.nullable(
         forceSystemNavBarStyle: true,
         accentSelectedPage: false,
-        forcedPrimaryColorBrightnessOnLightTheme: Brightness.dark,
+        // forcedPrimaryColorBrightnessOnLightTheme: Brightness.dark,
         pandaOpenedPanelNavBar: true,
         brightness: StageBrightnessData.nullable(
           brightness: Brightness.light,
@@ -72,6 +72,8 @@ class CSStage {
           darkStyle: DarkStyle.nightBlue,
         ),
         colors: StageColorsData<CSPage,SettingsPage>.nullable(
+          themeType: StageThemeType.google,
+          
           lightAccent: CSColorScheme.defaultLight.accent,
           darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},
 

@@ -27,9 +27,10 @@ class CSTopBarTitle extends StatelessWidget {
         return AnimatedText(
           text,
           duration: const Duration(milliseconds: 260),
-          style: Theme.of(context).primaryTextTheme.headline6.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          // style: Theme.of(context).primaryTextTheme.headline6.copyWith(
+          //   fontWeight: FontWeight.w600,
+          //   color: DefaultTextStyle.of(context).style.color,
+          // ),
         );
       },
     ),);

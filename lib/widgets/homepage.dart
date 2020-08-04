@@ -25,7 +25,7 @@ class CSHomePage extends StatelessWidget {
         topBarData: StageTopBarData(
           title: const CSTopBarTitle(key: WidgetsKeys.animatedAppTitle,),
           subtitle: StageTopBarSubtitle<SettingsPage>((settingsPage) => settingsThemes[settingsPage].longName),
-          elevation: 16,
+          elevation: 8,
         ),
         
         backgroundColor: (theme) => Colors.black,

@@ -273,7 +273,7 @@ class CardTile extends StatelessWidget {
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const Icon(Icons.brush, size: 15.0),
+          const Icon(CSIcons.artist, size: 15.0),
           Expanded(child: Text(card.artist, overflow: TextOverflow.ellipsis, maxLines: 1,),),
         ],
       ),

@@ -24,18 +24,33 @@ class CSHomePage extends StatelessWidget {
 
         topBarData: StageTopBarData(
           title: const CSTopBarTitle(key: WidgetsKeys.animatedAppTitle,),
-          subtitle: StageTopBarSubtitle<SettingsPage>((settingsPage) => settingsThemes[settingsPage].longName),
-          elevation: 8,
+          subtitle: StageTopBarSubtitle<SettingsPage>(
+            (settingsPage) => settingsThemes[settingsPage].longName,
+          ),
+          elevations: <StageColorPlace,double>{
+            StageColorPlace.texts: 4,
+            StageColorPlace.background: 16,
+          },
         ),
         
-        backgroundColor: (theme) => Colors.black,
+        backgroundColor: (theme, place) => place.isTexts 
+          ? theme.scaffoldBackgroundColor 
+          : Colors.black,
 
-        splashScreen: const StageSplashScreen(background: Color(0xFF263133), icon: Icon(CSIcons.counterSpell, color: Colors.white, size: 40,)),
+        splashScreen: const StageSplashScreen(
+          background: Color(0xFF263133), 
+          icon: Icon(CSIcons.counterSpell, color: Colors.white, size: 40,),
+        ),
 
-        shadowBuilder: (val) => BoxShadow(
-          blurRadius: val.mapToRangeLoose(10.0, 20.0),
+        shadowBuilder: (val, place) => BoxShadow(
+          blurRadius: place.isTexts 
+            ? val.mapToRangeLoose(2.0, 6.0) 
+            : val.mapToRangeLoose(10.0, 20.0), 
           color: const Color(0x50000000),
-          offset: const Offset(0.0, 7),
+          offset: Offset(
+            0.0, 
+            place.isTexts ? 3 : 7,
+          ),
         ),
       ),
     );

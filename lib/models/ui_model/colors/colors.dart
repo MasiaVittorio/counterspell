@@ -7,6 +7,7 @@ class CSColors {
 
   static const Color dark = const Color(0xFF263133);
   static const Color blue = const Color(0xFF0A4968); //defence
+  static const Color darkBlueGoogle = const Color(0xFF236A8D); //defence
   static const Color delete = const Color(0xFFE45356);
 
   static const Map<CSPage,Color> perPageLight = const <CSPage,Color>{
@@ -23,6 +24,13 @@ class CSColors {
     CSPage.commanderCast: Color(0xFF006064),
     CSPage.commanderDamage: Color(0xFF792738),
   };
+  static const Map<CSPage,Color> perPageDarkGoogle = const <CSPage,Color>{
+    CSPage.history: Color(0xFF757575),
+    CSPage.counters: Color(0xFF607D8B), 
+    CSPage.life: Color(0xFF4CAF50), 
+    CSPage.commanderCast: Color(0xFF00ACC1),
+    CSPage.commanderDamage: Color(0xFF9D384D),
+  };
   static const Map<CSPage,Color> perPageDarkBlue = const <CSPage,Color>{
     CSPage.history: Color(0xFF303030),
     CSPage.counters: CSColors.dark, 
@@ -33,6 +41,7 @@ class CSColors {
 
   static const Color primary = const Color(0xFF263133);
   static const Color accent = const Color(0xFF00BFA5);
+  static const Color accentGoogle = const Color(0xFF1976D2);
 
   static const Color nightBluePrimary = const Color(0xFF222E3C);
   static const Color darkPrimary = const Color(0xFF1E1E1E);

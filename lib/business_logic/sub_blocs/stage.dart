@@ -72,7 +72,7 @@ class CSStage {
           darkStyle: DarkStyle.nightBlue,
         ),
         colors: StageColorsData<CSPage,SettingsPage>.nullable(
-          themeType: StageThemeType.google,
+          themeType: StageColorPlace.background,
           
           lightAccent: CSColorScheme.defaultLight.accent,
           darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},

@@ -280,8 +280,15 @@ class CSBackupBloc {
     final scroll = settings.scrollSettings;
     final game = parent.game;
     final group = game.gameGroup;
+    final themer = parent.themer;
 
     await newFile.writeAsString(jsonEncode(<String,dynamic>{
+      themer.savedSchemes.key:
+        <String,Map<String,dynamic>>{
+          for(final e in themer.savedSchemes.value.entries)
+            e.key: e.value.toJson,
+        },
+
       group.savedNames.key // Set<String> ->
         : group.savedNames.value.toList(), // List<String>
 
@@ -365,6 +372,19 @@ class CSBackupBloc {
         final scroll = settings.scrollSettings;
         final game = parent.game;
         final group = game.gameGroup;
+        final themer = parent.themer;
+
+        {final blocVar = themer.savedSchemes;
+        final _val = map[blocVar.key];
+        if(_val is Map){
+          for(final e in _val.entries){
+            if(e.key is String)
+            if(e.value is Map)
+              blocVar.value[e.key] 
+                = CSColorScheme.fromJson(e.value);
+          }
+          blocVar.refresh();
+        }}
 
         {final blocVar = group.savedNames; 
         final _val = map[blocVar.key];

@@ -10,25 +10,17 @@ class ThemePResetter extends StatelessWidget {
     final themer = bloc.themer;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
     final themeController = stage.themeController;
+    final derived = themeController.derived;
+    final brightnessController = themeController.brightness;
 
-    return BlocVar.build7(
-      themer.savedSchemes,
-      themer.defenceColor,
-      themeController.derived.currentPrimaryColor,
-      themeController.derived.accentColor,
-      themeController.derived.mainPageToPrimaryColor,
-      themeController.brightness.brightness,
-      themeController.brightness.darkStyle,
-      builder: (
-        _, 
-        Map<String,CSColorScheme> savedSchemes, 
-        Color defenceColor,
-        Color primary,
-        Color accent, 
-        Map<CSPage,Color> perPage,
-        Brightness brightness,
-        DarkStyle darkStyle,
-      ){
+    return themer.savedSchemes.build((_, savedSchemes) 
+      => themer.defenceColor.build((_, defenceColor)
+      => derived.currentPrimaryColor.build((_, primary)
+      => derived.accentColor.build((_, accent)
+      => derived.mainPageToPrimaryColor.build((_, perPage)
+      => brightnessController.brightness.build((_, brightness)
+      => themeController.colors.colorPlace.build((_, colorPlace)
+      => brightnessController.darkStyle.build((_, darkStyle) {
         
         final derivedScheme = CSColorScheme("",
           primary: primary,
@@ -37,6 +29,7 @@ class ThemePResetter extends StatelessWidget {
           light: brightness.isLight,
           darkStyle: darkStyle,
           defenceColor: defenceColor,
+          colorPlace: colorPlace,
         );
         
         final bool saved = [
@@ -97,7 +90,7 @@ class ThemePResetter extends StatelessWidget {
         );
 
       }
-    );
+    ))))))));
   }
 }
 

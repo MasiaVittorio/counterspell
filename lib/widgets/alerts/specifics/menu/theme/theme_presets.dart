@@ -94,12 +94,16 @@ class PresetTile extends StatelessWidget {
                   child: Material(
                     elevation: 4,
                     borderRadius: BorderRadius.circular(100),
-                    color: scheme.perPage[page],
+                    color: scheme.colorPlace.isTexts 
+                      ? null 
+                      : scheme.perPage[page],
                     child: Container(
                       width: _medalSize,
                       child: Icon(
                         stage.mainPagesController.pagesData[page].icon,
-                        color: CSColors.contrastWith(scheme.perPage[page]),
+                        color: scheme.colorPlace.isTexts 
+                          ? scheme.perPage[page]
+                          : CSColors.contrastWith(scheme.perPage[page]),
                       )
                     ),
                   ),
@@ -109,12 +113,16 @@ class PresetTile extends StatelessWidget {
                 child: Material(
                   elevation: 4,
                   borderRadius: BorderRadius.circular(100),
-                  color: scheme.defenceColor,
+                  color: scheme.colorPlace.isTexts 
+                    ? null 
+                    : scheme.defenceColor,
                   child: Container(
                     width: _medalSize,
                     child: Icon(
                       CSIcons.defenceIconFilled, 
-                      color: CSColors.contrastWith(scheme.defenceColor),
+                      color: scheme.colorPlace.isTexts 
+                      ? scheme.defenceColor 
+                      : CSColors.contrastWith(scheme.defenceColor),
                     ),
                   ),
                 ),
@@ -162,6 +170,7 @@ class PresetTile extends StatelessWidget {
             themeController.colors.editMainPagedPrimaries(perPage);
             themeController.colors.editAccent(scheme.accent);
           }
+          themeController.colors.colorPlace.set(scheme.colorPlace);
           themer.defenceColor.set(scheme.defenceColor);
           stage.closePanel();
         },

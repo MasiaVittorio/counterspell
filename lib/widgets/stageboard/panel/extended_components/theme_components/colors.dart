@@ -9,7 +9,7 @@ class ThemeColors extends StatelessWidget {
     final stage = Stage.of(context);
     final bloc = CSBloc.of(context);
     final theme = Theme.of(context);
-    final type = stage.themeController.colors.themeType;
+    final type = stage.themeController.colors.colorPlace;
 
     return bloc.payments.unlocked.build((_, unlocked)
       => Stack(
@@ -19,11 +19,15 @@ class ThemeColors extends StatelessWidget {
             const SectionTitle("CounterSpell Colors"),
             type.build((context, val) 
               => SwitchListTile(
-                value: val.isGoogle, 
+                value: val.isTexts, 
                 onChanged: (b) => type.set(
-                  b ? StageThemeType.google : StageThemeType.fullColor
+                  b ? StageColorPlace.texts : StageColorPlace.background
                 ),
                 title: Text("Google-like colors"),
+                subtitle: AnimatedText(val.isTexts
+                  ? "Colored text"
+                  : "Colored background"
+                ),
               ),
             ),
             StageMainColorsPerPage(extraChildren: <Widget>[

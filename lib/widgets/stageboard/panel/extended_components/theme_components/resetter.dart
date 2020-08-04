@@ -19,8 +19,13 @@ class ThemeResetter extends StatelessWidget {
           final themeController = stage.themeController;
           final style = themeController.brightness.darkStyle.value;
           final brightness = themeController.brightness.brightness.value;
+          final colorPlace = themeController.colors.colorPlace.value;
 
-          final defaultScheme = CSColorScheme.defaultScheme(brightness.isLight, style); 
+          final defaultScheme = CSColorScheme.defaultScheme(
+            brightness.isLight, 
+            style, 
+            colorPlace,
+          ); 
           Map<CSPage,Color> perPage = <CSPage,Color>{
             for(final entry in defaultScheme.perPage.entries)
               entry.key: Color(entry.value.value),

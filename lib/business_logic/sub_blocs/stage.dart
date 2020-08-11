@@ -71,19 +71,30 @@ class CSStage {
           autoDarkMode: AutoDarkMode.timeOfDay,
           darkStyle: DarkStyle.nightBlue,
         ),
-        colors: StageColorsData<CSPage,SettingsPage>.nullable(
-          colorPlace: StageColorPlace.background,
-          
+        colorPlace: StageColorPlace.background,
+        backgroundColors: StageColorsData<CSPage,SettingsPage>.nullable(
           lightAccent: CSColorScheme.defaultLight.accent,
           darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},
 
-          // lightMainPrimary: CSColorScheme.defaultLight.primary,
+          lightMainPrimary: CSColorScheme.defaultLight.primary,
           lightMainPageToPrimary: CSColorScheme.defaultLight.perPage,
           darkMainPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.primary},
           darkMainPageToPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.perPage},
 
           lightPanelPrimary: CSColorScheme.defaultLight.primary,
           darkPanelPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.primary},
+        ),
+        textsColors: StageColorsData<CSPage,SettingsPage>.nullable(
+          lightAccent: CSColorScheme.defaultGoogleLight.accent,
+          darkAccents: {for(final e in CSColorScheme.darkSchemesGoogle.entries) e.key: e.value.accent},
+
+          lightMainPrimary: CSColorScheme.defaultGoogleLight.primary,
+          lightMainPageToPrimary: CSColorScheme.defaultGoogleLight.perPage,
+          darkMainPrimaries: {for(final e in CSColorScheme.darkSchemesGoogle.entries) e.key: e.value.primary},
+          darkMainPageToPrimaries: {for(final e in CSColorScheme.darkSchemesGoogle.entries) e.key: e.value.perPage},
+
+          lightPanelPrimary: CSColorScheme.defaultGoogleLight.primary,
+          darkPanelPrimaries: {for(final e in CSColorScheme.darkSchemesGoogle.entries) e.key: e.value.primary},
         ),
       ).complete,
     );

@@ -11,14 +11,18 @@ class CommanderStats {
   final int games;
 
   final int totalDamage;
+  final int totalCasts;
 
 
   //================================
   // Getters
   double get winRate => wins / games;
 
-  //average
+  /// average
   double get damage => totalDamage / games;
+
+  /// average
+  double get casts => totalCasts / games;
 
   //================================
   // Constructor(s)
@@ -26,6 +30,7 @@ class CommanderStats {
     @required this.wins,
     @required this.games,
     @required this.totalDamage,
+    @required this.totalCasts,
   });
 
   factory CommanderStats.fromPastGames(MtgCard card, Iterable<PastGame> pastGames){
@@ -33,6 +38,7 @@ class CommanderStats {
     int present = 0;
     int winner = 0;
     int totalDamage = 0;
+    int totalCasts = 0;
 
     for(final game in pastGames){
       if(game.winner != null && game.commanderPlayed(card)){
@@ -42,14 +48,25 @@ class CommanderStats {
         }
 
         final Set<String> pilots = game.whoPlayedCommander(card);
-        double average = 0.0;
+
+        //average from pilots of the same commander this single same game
+        double averageDamageThisGame = 0.0; 
         for(final pilot in pilots){
           ///could have partnerA null and partnerB not null
           final bool partnerA = game.commandersA[pilot]?.oracleId == card.oracleId;
-          average += game.state.totalDamageDealtFrom(pilot, partnerA: partnerA);
+          averageDamageThisGame += game.state.totalDamageDealtFrom(pilot, partnerA: partnerA);
         }
-        average = average / pilots.length;
-        totalDamage += average.round();
+        averageDamageThisGame = averageDamageThisGame / pilots.length;
+        totalDamage += averageDamageThisGame.round();
+
+        double averageCastsThisGame = 0.0; 
+        for(final pilot in pilots){
+          ///could have partnerA null and partnerB not null
+          final bool partnerA = game.commandersA[pilot]?.oracleId == card.oracleId;
+          averageCastsThisGame += game.state.players[pilot].states.last.cast.fromPartner(partnerA);
+        }
+        averageCastsThisGame = averageCastsThisGame / pilots.length;
+        totalCasts += averageCastsThisGame.round();
       }
 
     }
@@ -58,6 +75,7 @@ class CommanderStats {
       wins: winner,
       games: present,
       totalDamage: totalDamage,
+      totalCasts: totalCasts,
     );
 
   }

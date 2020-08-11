@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import '../all.dart';
+import 'all.dart';
 import 'model_advanced.dart';
 import 'model_simple.dart';
 

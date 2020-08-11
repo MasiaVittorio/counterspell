@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/alerts/specifics/leaderboards/components/commanders/model_simple.dart';
-import 'package:counter_spell_new/widgets/alerts/specifics/leaderboards/components/games/winner_selector.dart';
-import 'package:counter_spell_new/widgets/alerts/specifics/leaderboards/components/players/model_simple.dart';
+import 'package:counter_spell_new/widgets/alerts/specifics/leaderboards/stats/commanders/model_simple.dart';
+import 'package:counter_spell_new/widgets/alerts/specifics/leaderboards/history/winner_selector.dart';
+import 'package:counter_spell_new/widgets/alerts/specifics/leaderboards/stats/players/model_simple.dart';
 
 class CSPastGames {
 

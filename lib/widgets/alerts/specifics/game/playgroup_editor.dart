@@ -234,7 +234,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                             for(final name in names)
                               ReorderableItem(
                                 key: ValueKey(name),
-                                childBuilder:(context,state) => Material(
+                                childBuilder: (context, state) => Material(
                                   child: Opacity(
                                     opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
                                     child: IgnorePointer(

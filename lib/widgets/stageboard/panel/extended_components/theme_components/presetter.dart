@@ -19,7 +19,7 @@ class ThemePResetter extends StatelessWidget {
       => derived.accentColor.build((_, accent)
       => derived.mainPageToPrimaryColor.build((_, perPage)
       => brightnessController.brightness.build((_, brightness)
-      => themeController.colors.colorPlace.build((_, colorPlace)
+      => themeController.colorPlace.build((_, colorPlace)
       => brightnessController.darkStyle.build((_, darkStyle) {
         
         final derivedScheme = CSColorScheme("",

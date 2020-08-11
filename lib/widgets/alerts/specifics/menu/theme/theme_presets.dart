@@ -148,6 +148,7 @@ class PresetTile extends StatelessWidget {
               entry.key: Color(entry.value.value),
           };  // Copy map
 
+          themeController.colorPlace.set(scheme.colorPlace);
           if(scheme.light){
             if(themeController.brightness.autoDark.value){
               themeController.brightness.autoDark.set(false);
@@ -155,9 +156,9 @@ class PresetTile extends StatelessWidget {
             themeController.brightness.brightness.setDistinct(Brightness.light);
             // need to be set before editing colors
           
-            themeController.colors.editPanelPrimary(scheme.primary);
-            themeController.colors.editMainPagedPrimaries(perPage);
-            themeController.colors.editAccent(scheme.accent);
+            themeController.currentColorsController.editPanelPrimary(scheme.primary);
+            themeController.currentColorsController.editMainPagedPrimaries(perPage);
+            themeController.currentColorsController.editAccent(scheme.accent);
           } else {
             if(themeController.brightness.autoDark.value){
               themeController.brightness.autoDark.set(false);
@@ -166,11 +167,10 @@ class PresetTile extends StatelessWidget {
             themeController.brightness.darkStyle.setDistinct(scheme.darkStyle);
             // need to be set before editing colors
 
-            themeController.colors.editPanelPrimary(scheme.primary);
-            themeController.colors.editMainPagedPrimaries(perPage);
-            themeController.colors.editAccent(scheme.accent);
+            themeController.currentColorsController.editPanelPrimary(scheme.primary);
+            themeController.currentColorsController.editMainPagedPrimaries(perPage);
+            themeController.currentColorsController.editAccent(scheme.accent);
           }
-          themeController.colors.colorPlace.set(scheme.colorPlace);
           themer.defenceColor.set(scheme.defenceColor);
           stage.closePanel();
         },

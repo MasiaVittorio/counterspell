@@ -16,13 +16,13 @@ class CommanderStats {
 
   //================================
   // Getters
-  double get winRate => wins / games;
+  double get winRate => games == 0 ? 0 : wins / games;
 
   /// average
-  double get damage => totalDamage / games;
+  double get damage =>  games == 0 ? 0 : totalDamage / games;
 
   /// average
-  double get casts => totalCasts / games;
+  double get casts =>  games == 0 ? 0 : totalCasts / games;
 
   //================================
   // Constructor(s)

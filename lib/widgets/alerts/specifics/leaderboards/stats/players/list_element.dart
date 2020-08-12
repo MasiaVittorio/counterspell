@@ -11,7 +11,7 @@ class PlayerStatTile extends StatelessWidget {
 
   PlayerStatTile(this.stat, {@required this.pastGames});
 
-  static const double height = 166.0;
+  static const double height = 142.0;
   // static const double subsectionHeight = 140.0;
 
   @override
@@ -22,24 +22,28 @@ class PlayerStatTile extends StatelessWidget {
     );
 
     return Section([
-      ListTile(
-        leading: const Icon(Icons.person_outline),
-        title: Text("${stat.name}"),
-        trailing: Text("${stat.games} games"),
-        onTap: onTap,
-      ),
+      SectionTitle("${stat.name}"),
       SubSection([
-        ListTile(
-          leading: const Icon(McIcons.trophy),
-          title: Text("Wins: ${stat.wins}"),
-          trailing: Text("${(stat.winRate * 100).toStringAsFixed(1)}%"),
-        ),
-      ], onTap: onTap,),
-      BottomExtra(
-        const Text("Per commander details"), 
-        onTap: onTap,
-        icon: Icons.keyboard_arrow_right,
-      ),
+         Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: Row(children: [
+              Expanded(child: InfoDisplayer(
+                title: const Text("Games"),
+                value: Text("${stat.games}"),
+                background: const Icon(McIcons.cards),
+                detail: const Text("(Total)"),
+              ),),
+              CSWidgets.extraButtonsDivider,
+              Expanded(child: InfoDisplayer(
+                title: const Text("Win rate"),
+                value: Text("${InfoDisplayer.getString(stat.winRate * 100)}%"),
+                detail: Text("Overall: ${stat.wins}"),
+                background: const Icon(McIcons.trophy),
+                color: CSColors.gold,
+              ),),
+            ]),
+         ),
+       ], onTap: onTap,),
     ]);
   }
 }

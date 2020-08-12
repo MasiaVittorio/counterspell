@@ -10,7 +10,7 @@ class LeaderboardsStats extends StatelessWidget {
     final stage = Stage.of(context);
     const pageKey = "leaderboards_stats_page_key"; 
     return RadioHeaderedAlert<String>(
-      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? "players",
+      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? "commanders",
       onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
       items: const <String,RadioHeaderedItem>{
         "players": RadioHeaderedItem(

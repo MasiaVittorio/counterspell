@@ -11,7 +11,7 @@ class CommanderStatWidget extends StatelessWidget {
   final CommanderStats stat;
   final List<PastGame> pastGames;
 
-  static const double height = 198;
+  static const double height = 186;
   //found by trial and error
 
   CommanderStatWidget(this.stat, {@required this.pastGames,});
@@ -27,6 +27,8 @@ class CommanderStatWidget extends StatelessWidget {
     );
 
     final theme = Theme.of(context);
+    final pageColors = Stage.of(context).themeController.derived
+        .mainPageToPrimaryColor.value;
 
     return SizedBox(
       height: CommanderStatWidget.height,
@@ -38,7 +40,9 @@ class CommanderStatWidget extends StatelessWidget {
             trailing: Text("(${stat.games} games)"),
             callback: (_) => onTap(), 
             autoClose: false,
+            longPressOpenCard: false,
           ),
+
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: BoxDecoration(
@@ -51,27 +55,35 @@ class CommanderStatWidget extends StatelessWidget {
               child: InkWell(
                 onTap: onTap, 
                 child: Row(children: <Widget>[
-                  Expanded(child: ListTile(
-                    subtitle: Text("${stat.wins} wins"),
-                    title: Text("${(stat.winRate * 100).toStringAsFixed(1)}%"),
-                    leading: const Icon(McIcons.trophy),
+                  Expanded(child: InfoDisplayer(
+                    title: const Text("Win rate"),
+                    value: Text("${InfoDisplayer.getString(stat.winRate * 100)}%"),
+                    detail: Text("(Overall: ${stat.wins})"),
+                    background: const Icon(McIcons.trophy),
+                    color: CSColors.gold,
                   ),),
                   CSWidgets.extraButtonsDivider,
-                  Expanded(child: ListTile(
-                    subtitle: const Text("(average)", style: TextStyle(fontStyle: FontStyle.italic),),
-                    title: Text("${(stat.damage).toStringAsFixed(1)} dmg"),
-                    leading: const Icon(CSIcons.attackIconTwo),
+                  Expanded(child: InfoDisplayer(
+                    title: const Text("Damage"),
+                    value: Text("${InfoDisplayer.getString(stat.damage)}"),
+                    detail: const Text("(average)"),
+                    background: const Icon(CSIcons.attackIconTwo),
+                    color: pageColors[CSPage.commanderDamage],
+                  ),),
+                  CSWidgets.extraButtonsDivider,
+                  Expanded(child: InfoDisplayer(
+                    title: const Text("Casts"),
+                    value: Text("${InfoDisplayer.getString(stat.casts)}"),
+                    detail: const Text("(average)"),
+                    background: const Icon(CSIcons.castIconFilled),
+                    color: pageColors[CSPage.commanderCast],
                   ),),
                 ],),
               ),
             ),
           ),
-          BottomExtra(
-            const Text("Per player details"), 
-            onTap: onTap,
-            icon: Icons.keyboard_arrow_right,
-          ),
-        ], 
+
+        ],
         image: DecorationImage(
           image: CachedNetworkImageProvider(
             stat.card.imageUrl(),

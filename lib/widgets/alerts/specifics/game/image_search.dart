@@ -236,19 +236,31 @@ class CardTile extends StatelessWidget {
   final Widget trailing;
   final bool autoClose;
   final bool longPressOpenCard;
+  final bool tapOpenCard;
   final bool withoutImage;
 
   const CardTile(this.card,{
-    @required this.callback,
+    this.callback,
     this.trailing,
     this.autoClose=true,
     this.longPressOpenCard = true,
+    this.tapOpenCard = false,
     this.withoutImage = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
+
+    final openCard = (){
+      final dimensions = stage.dimensionsController.dimensions.value;
+      final width = MediaQuery.of(context).size.width;
+      final cardWidth = width - dimensions.panelHorizontalPaddingOpened * 2;
+      stage.showAlert(
+        CardAlert(this.card),
+        size: cardWidth / MtgCard.cardAspectRatio,
+      );
+    };
     return ListTile(
       title: Text(card.name,
         maxLines: 1,
@@ -256,20 +268,11 @@ class CardTile extends StatelessWidget {
       ),
       trailing: trailing,
       leading: (withoutImage ?? false) ? null : CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl(),),),
-      onTap: (){
-        callback(card);
+      onTap: (tapOpenCard ?? false) ? openCard : (){
+        callback?.call(card);
         if(this.autoClose??true) stage.closePanel();
       },
-      onLongPress: (){
-        if(!longPressOpenCard) return;
-        final dimensions = stage.dimensionsController.dimensions.value;
-        final width = MediaQuery.of(context).size.width;
-        final cardWidth = width - dimensions.panelHorizontalPaddingOpened * 2;
-        stage.showAlert(
-          CardAlert(this.card),
-          size: cardWidth / MtgCard.cardAspectRatio,
-        );
-      },
+      onLongPress: (longPressOpenCard ?? true) ? openCard : null,
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

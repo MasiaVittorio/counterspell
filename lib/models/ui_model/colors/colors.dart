@@ -9,6 +9,7 @@ class CSColors {
   static const Color blue = const Color(0xFF0A4968); //defence
   static const Color darkBlueGoogle = const Color(0xFF236A8D); //defence
   static const Color delete = const Color(0xFFE45356);
+  static const Color gold = const Color(0xFFa19c36);
 
   static const Map<CSPage,Color> perPageLight = const <CSPage,Color>{
     CSPage.history: Color(0xFF424242),

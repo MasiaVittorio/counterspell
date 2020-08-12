@@ -23,11 +23,17 @@ class _CardAlertState extends State<CardAlert> {
           });
         }
       },
-      child: CachedNetworkImage(
-        errorWidget: (_,__,___) => Center(child: Icon(Icons.error_outline)),
-        imageUrl: widget.card.imageUrl(faceIndex: firstFace ? 0 : 1, uri: "borderCrop"),
-        placeholder: (_,__) => Center(child: CircularProgressIndicator()),
-        fit: BoxFit.cover,
+      child: SingleChildScrollView(
+        physics: Stage.of(context).panelScrollPhysics,
+        child: AspectRatio(
+          aspectRatio: MtgCard.cardAspectRatio,
+          child: CachedNetworkImage(
+            errorWidget: (_,__,___) => Center(child: Icon(Icons.error_outline)),
+            imageUrl: widget.card.imageUrl(faceIndex: firstFace ? 0 : 1, uri: "borderCrop"),
+            placeholder: (_,__) => Center(child: CircularProgressIndicator()),
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }

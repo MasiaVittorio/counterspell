@@ -10,25 +10,36 @@ class CommanderStatWidget extends StatelessWidget {
 
   final CommanderStats stat;
   final List<PastGame> pastGames;
+  final VoidCallback onSingleScreenCallback;
 
   static const double height = 186;
   //found by trial and error
 
-  CommanderStatWidget(this.stat, {@required this.pastGames,});
+  CommanderStatWidget(this.stat, {
+    @required this.pastGames,
+    @required this.onSingleScreenCallback,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final VoidCallback onTap = () => Stage.of(context).showAlert(
-      CommanderStatsScreen(CommanderStatsAdvanced.fromPastGames(
-        stat, 
-        pastGames,
-      )),
-      size: CommanderStatsScreen.height
-    );
+    final VoidCallback onTap = () {
+      onSingleScreenCallback?.call();
+      Stage.of(context).showAlert(
+        CommanderStatsScreen(CommanderStatsAdvanced.fromPastGames(
+          stat, 
+          pastGames,
+        )),
+        size: CommanderStatsScreen.height
+      );
+    };
 
     final theme = Theme.of(context);
     final pageColors = Stage.of(context).themeController.derived
         .mainPageToPrimaryColor.value;
+
+    final logic = CSBloc.of(context);
+    final imageSettings = logic.settings.imagesSettings;
+    final imageUrl = stat.card.imageUrl();
 
     return SizedBox(
       height: CommanderStatWidget.height,
@@ -85,13 +96,16 @@ class CommanderStatWidget extends StatelessWidget {
 
         ],
         image: DecorationImage(
-          image: CachedNetworkImageProvider(
-            stat.card.imageUrl(),
-          ),
+          image: CachedNetworkImageProvider(imageUrl),
           colorFilter: ColorFilter.mode(
             theme.canvasColor
               .withOpacity(0.7), 
             BlendMode.srcOver,
+          ),
+          alignment: Alignment(
+            0.0, 
+            imageSettings.imageAlignments
+              .value[imageUrl] ?? 0.0,
           ),
           fit: BoxFit.cover,
         ),

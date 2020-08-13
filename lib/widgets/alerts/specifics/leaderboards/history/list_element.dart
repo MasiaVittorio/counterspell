@@ -7,8 +7,11 @@ class PastGameTile extends StatelessWidget {
 
   final PastGame game;
   final int index;
+  final VoidCallback onSingleScreenCallback;
 
-  PastGameTile(this.game, this.index);
+  PastGameTile(this.game, this.index, {
+    @required this.onSingleScreenCallback,
+  });
 
   static const double height = 182.0;
 
@@ -16,17 +19,20 @@ class PastGameTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
 
-    final VoidCallback show = () => stage.showAlert(
-      PastGameScreen(index: index,),
-      size: PastGameScreen.height
-    );
+    final VoidCallback show = () {
+      onSingleScreenCallback?.call();
+      stage.showAlert(
+        PastGameScreen(index: index,),
+        size: PastGameScreen.height
+      );
+    };
 
     final theme = Theme.of(context);
 
     return SizedBox(
       height: height,
       child: Section([
-        GameTimeTile(game, index: index,),
+        GameTimeTile(game, index: index, open: show,),
         Expanded(child: SubSection(
           <Widget>[
             SectionTitle("Winner: ${game.winner ?? 'not detected'}"),
@@ -127,9 +133,13 @@ class GameTimeTile extends StatelessWidget {
   final PastGame game;
   final int index;
   final bool delete;
-  final bool openable;
+  final VoidCallback open;
 
-  const GameTimeTile(this.game, {@required this.index, this.delete = true, this.openable = true});
+  const GameTimeTile(this.game, {
+    @required this.index, 
+    this.delete = true, 
+    this.open,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -142,10 +152,7 @@ class GameTimeTile extends StatelessWidget {
     final bloc = CSBloc.of(context);
 
     return ListTile(
-      onTap: openable ? () => stage.showAlert(
-        PastGameScreen(index: index,),
-        size: PastGameScreen.height
-      ) : null,
+      onTap: open,
       leading: const Icon(Icons.timelapse),
       title: Text("$month $day, $hour:$minute"),
       subtitle: Text("Lasted ${duration.inMinutes} minutes"),

@@ -1,11 +1,46 @@
 import 'package:counter_spell_new/core.dart';
 import 'list_element.dart';
 
-
 class CommandersLeaderboards extends StatelessWidget {
 
   const CommandersLeaderboards();
 
+  @override
+  Widget build(BuildContext context) {
+    return _CommandersLeaderboards(Stage.of(context));
+  }
+}
+
+class _CommandersLeaderboards extends StatefulWidget {
+
+  const _CommandersLeaderboards(this.stage);
+  final StageData stage;
+
+  @override
+  _CommandersLeaderboardsState createState() => _CommandersLeaderboardsState();
+}
+
+class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
+
+  ScrollController controller;
+
+  static const key = "commanders leaderboards scroll controller position";
+
+  @override
+  void initState() {
+    super.initState();
+    var saved = widget.stage.panelController
+        .alertController.savedStates[key];
+    controller = ScrollController(
+      initialScrollOffset: ((saved is double) ? saved : null ) ?? 0.0,
+    );
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +48,17 @@ class CommandersLeaderboards extends StatelessWidget {
 
     return bloc.pastGames.commanderStats.build((_, stats)
       => ListView.builder(
+        controller: controller,
         physics: Stage.of(context).panelController.panelScrollPhysics(),
         itemBuilder: (_, index)
           => CommanderStatWidget(stats[index], 
             pastGames: bloc.pastGames.pastGames.value,
             //commanderStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
+            onSingleScreenCallback: (){
+              widget.stage.panelController.alertController
+                .savedStates[key] = controller.offset;
+            },
           ),
         padding: const EdgeInsets.only(top: PanelTitle.height),
         itemCount: stats.length,
@@ -26,7 +66,4 @@ class CommandersLeaderboards extends StatelessWidget {
       ),
     );
   }
-
-
-  
 }

@@ -22,7 +22,7 @@ class PastGameScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const AlertDrag(),
-            GameTimeTile(game, index: index, delete: false, openable: false,),
+            GameTimeTile(game, index: index, delete: false),
           ],
         ),
         titleSize: 72.0 + AlertDrag.height,

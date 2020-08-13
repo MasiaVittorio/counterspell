@@ -8,18 +8,25 @@ class PlayerStatTile extends StatelessWidget {
 
   final PlayerStats stat;
   final List<PastGame> pastGames;
+  final VoidCallback onSingleScreenCallback;
 
-  PlayerStatTile(this.stat, {@required this.pastGames});
+  PlayerStatTile(this.stat, {
+    @required this.pastGames,
+    @required this.onSingleScreenCallback,
+  });
 
   static const double height = 142.0;
   // static const double subsectionHeight = 140.0;
 
   @override
   Widget build(BuildContext context) {
-    final VoidCallback onTap = () => Stage.of(context).showAlert(
-      PlayerStatScreen(PlayerStatsAdvanced.fromPastGames(stat, pastGames)),
-      size: PlayerStatScreen.height,
-    );
+    final VoidCallback onTap = () {
+      onSingleScreenCallback?.call();
+      Stage.of(context).showAlert(
+        PlayerStatScreen(PlayerStatsAdvanced.fromPastGames(stat, pastGames)),
+        size: PlayerStatScreen.height,
+      );
+    };
 
     return Section([
       SectionTitle("${stat.name}"),

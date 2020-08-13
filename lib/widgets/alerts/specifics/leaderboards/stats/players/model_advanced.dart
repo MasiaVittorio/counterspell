@@ -148,7 +148,6 @@ class PlayerStatsAdvanced extends PlayerStats {
               _ids.add(b.id);
               _commanders.add(b);
             }
-            print(game.winner);
             return PlayerGame(
               won: simple.name == game.winner,
               groupSize: game.state.players.length,

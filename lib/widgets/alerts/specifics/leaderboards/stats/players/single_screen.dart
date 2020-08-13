@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'model_advanced.dart';
 import 'package:counter_spell_new/core.dart';
 
@@ -35,6 +37,10 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final logic = CSBloc.of(context);
+    final theme = Theme.of(context);
+    final imageSettings = logic.settings.imagesSettings;
 
     final int totalGames = widget.stat.totalGamesFilter(
       opponent: opponent,
@@ -119,13 +125,37 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: ToggleButtons(
-                  children: [for(final c in commanders) Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(c == null ? "-" : safeSubString(
-                      untilSpaceOrComma(c.name),
-                      8,
-                    )),
-                  )],
+                  children: [for(final c in commanders) Column(children: [
+                    Expanded(child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(c == null ? "-" : safeSubString(
+                        untilSpaceOrComma(c.name),
+                        8,
+                      )),
+                      decoration: c != null ? BoxDecoration(
+                        image: DecorationImage(
+                          
+                          image: CachedNetworkImageProvider(c.imageUrl()),
+                          colorFilter: ColorFilter.mode(
+                            Color.alphaBlend(
+                              theme.accentColor.
+                                withOpacity(c?.id == commander?.id ? 0.2 : 0.0),
+                              theme.canvasColor
+                                .withOpacity(c?.id == commander?.id ? 0.8: 0.7)
+                            ), 
+                            BlendMode.srcOver,
+                          ),
+                          alignment: Alignment(
+                            0.0, 
+                            imageSettings.imageAlignments
+                              .value[c?.imageUrl()] ?? 0.0,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ) : null,
+                    ),),
+                  ],),],
                   isSelected: [for(final c in commanders) commander?.id == c?.id],
                   onPressed: (i) => setState((){
                     commander = commanders[i];

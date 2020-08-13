@@ -6,20 +6,21 @@ class PastGame{
   // Values
   final GameState state;
   String winner;
-  final Map<String,MtgCard> commandersA; //player - commander B
-  final Map<String,MtgCard> commandersB; //player - commander B
+  final Map<String,MtgCard> commandersA; /// player -> commander B
+  final Map<String,MtgCard> commandersB; /// player -> commander B
   String notes;
   final DateTime startingDateTime;
-
+  Map<String,Set<String>> customStats; /// stat -> set of applicable players
 
   //=======================================
   // Constructor(s)
   PastGame(this.winner, {
     @required this.state,
-    this.notes = "",
-    Map<String,MtgCard> commandersA,
-    Map<String,MtgCard> commandersB,
+    @required this.notes,
+    @required Map<String,MtgCard> commandersA,
+    @required Map<String,MtgCard> commandersB,
     @required this.startingDateTime,
+    @required this.customStats,
   }): 
     this.commandersA = <String,MtgCard>{
       for(final player in state.players.keys)
@@ -49,6 +50,10 @@ class PastGame{
       commandersA: commandersA,
       commandersB: commandersB,
       notes: notes,
+      customStats: <String,Set<String>>{
+        for(final stat in CustomStat.all)
+          stat: <String>{},
+      },
       startingDateTime: dateTime ?? state.players.values.first.states.first.time,
     );
   }
@@ -69,6 +74,12 @@ class PastGame{
       for(final entry in this.commandersB.entries)
         entry.key: entry.value?.toJson() ?? null,
     },
+    "customStats": <String,List<String>>{
+      for(final key in CustomStat.all)
+        key: <String>[
+          ...(customStats[key] ?? const <String>{}),
+        ],
+    },
   };
 
   factory PastGame.fromJson(dynamic json) => PastGame(
@@ -86,6 +97,16 @@ class PastGame{
     startingDateTime: json["dateTime"] != null 
       ? DateTime.fromMillisecondsSinceEpoch(json["dateTime"])
       : json["state"]["startingTime"] ?? GameState.fromJson(json["state"]).firstTime,
+    customStats: json["customStats"] != null
+      ? <String,Set<String>>{
+        for(final key in CustomStat.all)
+          key: <String>{
+            ...(((json["customStats"] as Map)[key]) ?? const <String>[]),
+          },
+      } : <String,Set<String>>{
+        for(final key in CustomStat.all)
+          key: <String>{},
+      },
   );
 
   //=========================================

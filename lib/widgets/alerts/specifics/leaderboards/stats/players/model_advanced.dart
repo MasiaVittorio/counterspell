@@ -7,16 +7,16 @@ class PlayerGame {
   final bool won;
   final Set<String> opponents;
   final int groupSize;
-  final Set<String> commandersIds;
+  final Set<String> commandersOracleIds;
 
   const PlayerGame({
     @required this.groupSize,
     @required this.won,
     @required this.opponents,
-    @required this.commandersIds,
+    @required this.commandersOracleIds,
   });
 
-  bool playedCommander(String id) => this.commandersIds.contains(id);
+  bool playedCommander(String oracleIds) => this.commandersOracleIds.contains(oracleIds);
   bool playedWith(String opponent) => this.opponents.contains(opponent);
 }
 
@@ -35,40 +35,40 @@ class PlayerStatsAdvanced extends PlayerStats {
   // Getters
 
   int totalGamesFilter({
-    String commanderId,
+    String commanderOracleId,
     String opponent,
     int groupSize,
-  }) => (commanderId == null && opponent == null && groupSize == null) 
+  }) => (commanderOracleId == null && opponent == null && groupSize == null) 
     ? super.games 
     : _totalFilter(
-      commanderId: commanderId,
+      commanderOracleId: commanderOracleId,
       opponent: opponent,
       groupSize: groupSize,
       stat: (game) => 1,
     );
   
   int totalWinsFilter({
-    String commanderId,
+    String commanderOracleId,
     String opponent,
     int groupSize,
-  }) => (commanderId == null && opponent == null && groupSize == null) 
+  }) => (commanderOracleId == null && opponent == null && groupSize == null) 
     ? super.wins 
     : _totalFilter(
-      commanderId: commanderId,
+      commanderOracleId: commanderOracleId,
       opponent: opponent,
       groupSize: groupSize,
       stat: (game) => game.won ? 1 : 0,
     );
 
   int _totalFilter({
-    String commanderId,
+    String commanderOracleId,
     String opponent,
     int groupSize,
     @required int Function(PlayerGame) stat,
   }){
     int val = 0;
     for(final game in this.playerGames)
-      if(commanderId == null || game.playedCommander(commanderId))
+      if(commanderOracleId == null || game.playedCommander(commanderOracleId))
         if(groupSize == null || game.groupSize == groupSize)
           if(opponent == null || game.opponents.contains(opponent)){
             val += stat(game);
@@ -78,12 +78,12 @@ class PlayerStatsAdvanced extends PlayerStats {
 
   double winRateFilter({
     String opponent,
-    String commanderId,
+    String commanderOracleId,
     int groupSize,
-  }) => (opponent == null && commanderId == null && groupSize == null) 
+  }) => (opponent == null && commanderOracleId == null && groupSize == null) 
     ? super.winRate 
     : _averageFilter(
-    commanderId: commanderId,
+    commanderOracleId: commanderOracleId,
     groupSize: groupSize,
     opponent: opponent,
     stat: (game) => game.won ? 1 : 0,
@@ -91,7 +91,7 @@ class PlayerStatsAdvanced extends PlayerStats {
 
 
   double _averageFilter({
-    String commanderId,
+    String commanderOracleId,
     String opponent,
     int groupSize,
     @required num Function(PlayerGame) stat,
@@ -99,7 +99,7 @@ class PlayerStatsAdvanced extends PlayerStats {
     double val = 0.0;
     int len = 0;
     for(final game in this.playerGames)
-      if(commanderId == null || game.playedCommander(commanderId))
+      if(commanderOracleId == null || game.playedCommander(commanderOracleId))
         if(groupSize == null || game.groupSize == groupSize)
           if(opponent == null || game.opponents.contains(opponent)){
             val += stat(game);
@@ -137,21 +137,21 @@ class PlayerStatsAdvanced extends PlayerStats {
         if(game.winner != null)
         if(game.state.players.containsKey(simple.name))
           ((){
-            Set<String> _ids = <String>{};
+            Set<String> _oracleIds = <String>{};
             final a = game.commandersA[simple.name];
             if(a != null){
-              _ids.add(a.id);
+              _oracleIds.add(a.oracleId);
               _commanders.add(a);
             }
             final b = game.commandersB[simple.name];
             if(b != null){
-              _ids.add(b.id);
+              _oracleIds.add(b.oracleId);
               _commanders.add(b);
             }
             return PlayerGame(
               won: simple.name == game.winner,
               groupSize: game.state.players.length,
-              commandersIds: _ids,
+              commandersOracleIds: _oracleIds,
               opponents: <String>{
                 for(final k in game.state.players.keys)
                   if(k != simple.name) k,

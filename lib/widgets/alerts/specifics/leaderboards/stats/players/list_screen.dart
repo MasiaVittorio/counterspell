@@ -47,12 +47,14 @@ class _PlayersStatsListsState extends State<_PlayersStatsLists> {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return bloc.pastGames.playerStats.build((_, stats)
-      => ListView.builder(
+    return bloc.pastGames.playerStats.build((_, map){
+      final list = [...map.values]
+        ..sort((one,two) => two.games.compareTo(one.games));
+      return ListView.builder(
         controller: controller,
         physics: Stage.of(context).panelController.panelScrollPhysics(),
         itemBuilder: (_, index)
-          => PlayerStatTile(stats[index], 
+          => PlayerStatTile(list[index], 
             pastGames: bloc.pastGames.pastGames.value,
             //playerStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
@@ -62,9 +64,10 @@ class _PlayersStatsListsState extends State<_PlayersStatsLists> {
             },
           ),
         padding: const EdgeInsets.only(top: PanelTitle.height),
-        itemCount: stats.length,
+        itemCount: list.length,
         itemExtent: PlayerStatTile.height,
-      ),
+      );
+    },
     );
   }
 

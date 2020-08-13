@@ -44,19 +44,19 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
 
     final int totalGames = widget.stat.totalGamesFilter(
       opponent: opponent,
-      commanderId: commander?.id,
+      commanderOracleId: commander?.oracleId,
       groupSize: groupSize,
     );
 
     final int totalWins = widget.stat.totalWinsFilter(
       opponent: opponent,
-      commanderId: commander?.id,
+      commanderOracleId: commander?.oracleId,
       groupSize: groupSize,
     );
 
     final double winRate = widget.stat.winRateFilter(
       opponent: opponent,
-      commanderId: commander?.id,
+      commanderOracleId: commander?.oracleId,
       groupSize: groupSize,
     );
 
@@ -140,9 +140,9 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                           colorFilter: ColorFilter.mode(
                             Color.alphaBlend(
                               theme.accentColor.
-                                withOpacity(c?.id == commander?.id ? 0.2 : 0.0),
+                                withOpacity(c?.oracleId == commander?.oracleId ? 0.2 : 0.0),
                               theme.canvasColor
-                                .withOpacity(c?.id == commander?.id ? 0.8: 0.7)
+                                .withOpacity(c?.oracleId == commander?.oracleId ? 0.8: 0.7)
                             ), 
                             BlendMode.srcOver,
                           ),
@@ -156,7 +156,7 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                       ) : null,
                     ),),
                   ],),],
-                  isSelected: [for(final c in commanders) commander?.id == c?.id],
+                  isSelected: [for(final c in commanders) commander?.oracleId == c?.oracleId],
                   onPressed: (i) => setState((){
                     commander = commanders[i];
                   }),

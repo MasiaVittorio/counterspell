@@ -16,8 +16,9 @@ class CSPastGames {
   // Values 
   final CSBloc parent; 
   final BlocBox<PastGame> pastGames;
-  BlocVar<List<CommanderStats>> commanderStats;
-  BlocVar<List<PlayerStats>> playerStats;
+  BlocVar<Map<String,CommanderStats>> commanderStats;
+  BlocVar<Map<String,PlayerStats>> playerStats;
+  BlocVar<Map<String,CustomStat>> customStats;
 
   CSPastGames(this.parent): pastGames = BlocBox<PastGame>(
     <PastGame>[],
@@ -25,19 +26,33 @@ class CSPastGames {
     itemToJson: (item) => item.toJson,
     jsonToItem: (json) => PastGame.fromJson(json),
   ){
-    this.commanderStats = BlocVar.fromCorrelate(
+    this.commanderStats = BlocVar.fromCorrelate
+      <Map<String,CommanderStats>, List<PastGame>>
+    (
       from: pastGames, 
-      map: (List<PastGame> pastGames) => <CommanderStats>[
-        for(final card in cards(pastGames))
-          CommanderStats.fromPastGames(card, pastGames),
-      ]..sort((one,two) => two.games.compareTo(one.games)),
+      map: (List<PastGame> pastGames) => <String,CommanderStats>{
+        for(final card in cards(pastGames)) 
+          card.oracleId: CommanderStats.fromPastGames(card, pastGames),
+        /// oracle Id because we want to just use one print of a commander
+      },
     );
-    this.playerStats = BlocVar.fromCorrelate(
+    this.playerStats = BlocVar.fromCorrelate
+      <Map<String,PlayerStats>, List<PastGame>>
+    (
       from: pastGames, 
-      map: (List<PastGame> pastGames) => <PlayerStats>[
+      map: (List<PastGame> pastGames) => <String,PlayerStats>{
         for(final name in names(pastGames))
-          PlayerStats.fromPastGames(name, pastGames),
-      ]..sort((one,two) => ((two.games - one.games)*1000).toInt()),
+          name: PlayerStats.fromPastGames(name, pastGames),
+      },
+    );
+    this.customStats = BlocVar.fromCorrelate
+      <Map<String,CustomStat>, List<PastGame>>
+    (
+      from: pastGames, 
+      map: (List<PastGame> pastGames) => <String,CustomStat>{
+        for(final title in CustomStat.all)
+          title: CustomStat.fromPastGames(title, pastGames),
+      },
     );
   }
 
@@ -95,6 +110,7 @@ class CSPastGames {
         ])
           if(commander != null) 
             commander.oracleId : commander,
+        /// oracle Id because we want to just use one print of a commander
     };
 
     return map.values;

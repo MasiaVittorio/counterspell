@@ -43,15 +43,6 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
             ]
           else 
             _Section(this.index, partnerA: true, havePartner: false, aspectRatio: aspectRatio),
-
-          // Padding(
-          //   padding: const EdgeInsets.only(
-          //     bottom: 16.0,
-          //     left: 16.0,
-          //     right: 16.0,
-          //   ),
-          //   child: Text("WARNING: Lifelink and infect get disabled every time you start a new game"),
-          // ),
           
           CSWidgets.height5,
           const _KeepSettings(),

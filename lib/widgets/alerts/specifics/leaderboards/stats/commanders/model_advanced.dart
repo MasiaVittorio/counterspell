@@ -165,16 +165,17 @@ class CommanderStatsAdvanced extends CommanderStats {
               winner: game.winner,
               groupSize: game.state.players.length,
               casts: <String,int>{
-                for(final player in pilots)
-                  player: game.state.players[player].states.last.cast.fromPartner(
-                    game.commandersA[player].id == simpleStats.card.id,
+                for(final p in pilots)
+                  p: game.state.players[p].states.last.cast.fromPartner(
+                    game.commandersA[p].oracleId == simpleStats.card.oracleId,
                   ),
               }, 
               damage: <String,int>{
-                for(final player in pilots)
-                  player: game.state.totalDamageDealtFrom(
-                    player, 
-                    partnerA: game.commandersA[player].id == simpleStats.card.id,
+                for(final p in pilots)
+                  p: game.state.totalDamageDealtFrom(
+                    p, 
+                    partnerA: game.commandersA[p].oracleId 
+                              == simpleStats.card.oracleId,
                   ),
               },
             );

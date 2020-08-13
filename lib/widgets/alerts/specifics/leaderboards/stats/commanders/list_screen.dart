@@ -46,12 +46,15 @@ class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return bloc.pastGames.commanderStats.build((_, stats)
-      => ListView.builder(
+    return bloc.pastGames.commanderStats.build((_, map){
+      final list = [...map.values]
+        ..sort((one,two) => two.games.compareTo(one.games));
+
+      return ListView.builder(
         controller: controller,
         physics: Stage.of(context).panelController.panelScrollPhysics(),
         itemBuilder: (_, index)
-          => CommanderStatWidget(stats[index], 
+          => CommanderStatWidget(list[index], 
             pastGames: bloc.pastGames.pastGames.value,
             //commanderStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
@@ -61,9 +64,10 @@ class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
             },
           ),
         padding: const EdgeInsets.only(top: PanelTitle.height),
-        itemCount: stats.length,
+        itemCount: list.length,
         itemExtent: CommanderStatWidget.height,
-      ),
+      );
+    },
     );
   }
 }

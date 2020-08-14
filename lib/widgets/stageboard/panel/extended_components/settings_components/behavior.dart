@@ -11,7 +11,7 @@ class SettingsBehavior extends StatelessWidget {
 
     return Section([
       const PanelTitle("Gestures", centered: false,),
-      RowOfExtraButtons(
+      ExtraButtons(
         children: <Widget>[
           settings.appSettings.wantVibrate.build((_, vibrate)
             => ExtraButtonToggle(

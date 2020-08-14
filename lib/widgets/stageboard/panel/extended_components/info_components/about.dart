@@ -11,7 +11,7 @@ class AboutCounterSpell extends StatelessWidget {
 
     return Section([
       const PanelTitle("About CounterSpell", centered: false,),
-      RowOfExtraButtons(
+      ExtraButtons(
         // margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
         children: <Widget>[
           ExtraButton(
@@ -33,7 +33,7 @@ class AboutCounterSpell extends StatelessWidget {
       ),
 
       SubSection(<Widget>[
-        RowOfExtraButtons(
+        ExtraButtons(
           margin: EdgeInsets.zero,
           children: <Widget>[
             ExtraButton(

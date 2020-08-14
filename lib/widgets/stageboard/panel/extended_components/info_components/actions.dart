@@ -14,7 +14,7 @@ class CounterSpellActions extends StatelessWidget {
     
     return Section([
       const SectionTitle("Actions"),
-      RowOfExtraButtons(children: <Widget>[
+      ExtraButtons(children: <Widget>[
         ExtraButton(
           text: "Cache manager",
           icon: McIcons.memory,
@@ -35,7 +35,7 @@ class CounterSpellActions extends StatelessWidget {
       ],),
 
       SubSection(<Widget>[
-        RowOfExtraButtons(
+        ExtraButtons(
           margin: EdgeInsets.zero,
           children: <Widget>[
             ExtraButton(

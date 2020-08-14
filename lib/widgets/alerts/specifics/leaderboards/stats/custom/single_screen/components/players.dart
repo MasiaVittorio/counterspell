@@ -1,0 +1,89 @@
+import 'package:counter_spell_new/core.dart';
+
+
+class Players extends StatefulWidget {
+  final CustomStat stat;
+
+  Players(this.stat);
+
+  @override
+  _PlayersState createState() => _PlayersState();
+}
+
+class _PlayersState extends State<Players> {
+
+  int absoluteIndex = 1; ///0 = relative
+
+  @override
+  Widget build(BuildContext context) {
+    final logic = CSBloc.of(context);
+    final stat = widget.stat;
+    final bool absolute = absoluteIndex == 1;
+    final mapTotals = <String,int>{
+      for(final e in logic.pastGames.playerStats.value.entries)
+        e.key: e.value.games,
+    };
+    final list = [...stat.playersApplicable.entries]
+      ..sort((e1, e2) => absolute
+        ? e2.value.compareTo(e1.value)
+        : (e2.value / mapTotals[e2.key]).compareTo(e1.value / mapTotals[e1.key])
+      );
+
+    return Column(children: [
+      Section([Padding(
+        padding: const EdgeInsets.only(top: PanelTitle.height),
+        child: RadioSlider(
+          title: Text("Sort by"),
+          hideOpenIcons: true,
+          items: [
+            RadioSliderItem(title: Text("Relative"), icon: Text("Relative")),
+            RadioSliderItem(title: Text("Overall"), icon: Text("Overall")),
+          ],
+          onTap: (i) => setState((){
+            absoluteIndex = i;
+          }),
+          selectedIndex: absoluteIndex,
+        ),
+      ),],),
+      Expanded(child: ListView.builder(
+        physics: Stage.of(context).panelScrollPhysics,
+        itemBuilder: (_, i) => _Player(
+          list[i].key,
+          appearances: list[i].value,
+          games: mapTotals[list[i].key],
+        ),
+        itemCount: list.length,
+        itemExtent: _Player.height,
+      ),),
+    ],);
+  }
+}
+
+class _Player extends StatelessWidget {
+
+  static const double height = 56.0 + 10;
+ 
+  final String player;
+  final int games;
+  final int appearances;
+
+  _Player(this.player, {
+    @required this.appearances,
+    @required this.games,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SubSection([
+      ListTile(
+        title: Text(player),
+        leading: Icon(Icons.person_outline),
+        subtitle: Text("${InfoDisplayer.getString(100*appearances/games)}% of $games games"),
+        trailing: Text("$appearances"),
+      ),
+    ],);
+  }
+}
+
+
+

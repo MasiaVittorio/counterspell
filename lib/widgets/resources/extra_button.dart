@@ -4,28 +4,33 @@ import 'package:stage/stage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 
-class RowOfExtraButtons extends StatelessWidget {
+class ExtraButtons extends StatelessWidget {
 
-  const RowOfExtraButtons({
+  const ExtraButtons({
     @required this.children,
     this.margin = defaultMargin,
+    this.separate = true,
   });
 
   final List<Widget> children;
   final EdgeInsets margin;
+  final bool separate;
 
   static const defaultMargin = const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
   static const Widget divider = _ExtraButtonDivider();
 
   @override
   Widget build(BuildContext context) {
+    final expanded = <Widget>[
+      for(final child in children)
+        Expanded(child: child),
+    ];
     return Padding(
       padding: margin ?? defaultMargin,
       child: Row(
-        children: <Widget>[
-          for(final child in children)
-            Expanded(child: child),
-        ].separateWith(divider),
+        children: (separate ?? true) 
+          ? expanded.separateWith(divider)
+          : expanded,
       ),
     );
   }

@@ -17,7 +17,7 @@ class CSWidgets{
   static const Widget width15 = SizedBox(width: 15.0, height: 0.0,);
   static const Widget height20 = SizedBox(height: 20.0, width: 0.0,);
   static const Widget width20 = SizedBox(width: 20.0, height: 0.0,);
-  static const Widget extraButtonsDivider = RowOfExtraButtons.divider;
+  static const Widget extraButtonsDivider = ExtraButtons.divider;
   static const Widget verticalDivider = _VerticalDivider();
 }
 

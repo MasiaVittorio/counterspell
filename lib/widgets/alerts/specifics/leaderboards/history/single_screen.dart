@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import '../all.dart';
-
+import 'edit_custom_stats.dart'; 
 
 class PastGameScreen extends StatelessWidget {
 
@@ -18,6 +18,7 @@ class PastGameScreen extends StatelessWidget {
     return bloc.pastGames.pastGames.build((_,pastGames) {
       final PastGame game = pastGames[this.index];
       return HeaderedAlertCustom(
+
         Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -25,8 +26,12 @@ class PastGameScreen extends StatelessWidget {
             GameTimeTile(game, index: index, delete: false),
           ],
         ),
+
         titleSize: 72.0 + AlertDrag.height,
+
+
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+
           Section([
             const SectionTitle("Notes"),
             CSWidgets.height5,
@@ -38,6 +43,7 @@ class PastGameScreen extends StatelessWidget {
             ], onTap: () => insertNotes(game, stage, bloc)),
             CSWidgets.height10,
           ]),
+
           Section([
             const SectionTitle("Winner"),
             CSWidgets.height5,
@@ -52,6 +58,44 @@ class PastGameScreen extends StatelessWidget {
             ),
             CSWidgets.height10,
           ]),
+
+          Section([
+            const SectionTitle("Custom stats"),
+            CSWidgets.height5,
+            SubSection(
+              [Row(children: [Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: ((){
+                    final children = [
+                      for(final e in game.customStats.entries)
+                        if(e.value.isNotEmpty)
+                          for(final n in e.value)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: SidChip(
+                                text: e.key,
+                                subText: n,
+                              ),
+                            ),
+                    ];
+                    if(children.isEmpty){
+                      return [Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: const Text("Tap to edit"),
+                      )];
+                    } else return children;
+                  })(),),
+                ),
+              )],)],
+              onTap: () => stage.showAlert(
+                EditCustomStats(index: index),
+                size: EditCustomStats.height,
+              ),
+            ),
+            CSWidgets.height10,
+          ]),
+
           Section([
             const SectionTitle("Commanders"),
             CSWidgets.height5,

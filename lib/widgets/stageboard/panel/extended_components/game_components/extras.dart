@@ -14,7 +14,7 @@ class PanelGameExtras extends StatelessWidget {
 
     return Section(<Widget>[
         const SectionTitle("Extras"),
-        RowOfExtraButtons(children: <Widget>[
+        ExtraButtons(children: <Widget>[
           ExtraButton(
             icon: McIcons.dice_multiple,
             text: "Random",
@@ -44,7 +44,7 @@ class PanelGameExtras extends StatelessWidget {
         ],),
 
         SubSection(<Widget>[
-          RowOfExtraButtons(
+          ExtraButtons(
             children: <Widget>[
               ExtraButton(
                 icon: McIcons.restart,

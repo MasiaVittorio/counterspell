@@ -10,7 +10,7 @@ class SettingsAppearance extends StatelessWidget {
 
     return Section([
       const SectionTitle("Appearance"),
-      RowOfExtraButtons(
+      ExtraButtons(
         children: <Widget>[
           settings.appSettings.alwaysOnDisplay.build((_, alwaysOn) 
             => ExtraButtonToggle(

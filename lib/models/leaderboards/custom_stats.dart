@@ -18,7 +18,7 @@ class CustomStat {
   static const List<String> all = [
     "Turn 1 Sol Ring",
     "Cycloninc Rift",
-    "Lab man win",
+    "Lab man",
   ];
 
   final String title;

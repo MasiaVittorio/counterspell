@@ -29,7 +29,7 @@ class _CommandersState extends State<Commanders> {
         : (e2.value / mapStats[e2.key].games).compareTo(e1.value / mapStats[e1.key].games)
       );
 
-    return Column(children: [
+    return Column(mainAxisSize: MainAxisSize.min, children: [
       Section([Padding(
         padding: const EdgeInsets.only(top: PanelTitle.height),
         child: RadioSlider(
@@ -46,6 +46,7 @@ class _CommandersState extends State<Commanders> {
         ),
       ),],),
       Expanded(child: ListView.builder(
+        padding: EdgeInsets.zero,
         physics: Stage.of(context).panelScrollPhysics,
         itemBuilder: (_, i) => _Commander(
           mapStats[list[i].key].card,
@@ -61,7 +62,7 @@ class _CommandersState extends State<Commanders> {
 
 class _Commander extends StatelessWidget {
 
-  static const double height = 56.0 + 10;
+  static const double height = 82.0;
  
   final MtgCard card;
   final int games;
@@ -82,7 +83,7 @@ class _Commander extends StatelessWidget {
         subtitle: Text("${InfoDisplayer.getString(100 * appearances/games)}% of $games games"),
         trailing: Text("$appearances"),
       ),
-    ],);
+    ],margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),);
   }
 }
 

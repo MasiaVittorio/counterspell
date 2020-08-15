@@ -75,7 +75,10 @@ class PastGame{
         entry.key: entry.value?.toJson() ?? null,
     },
     "customStats": <String,List<String>>{
-      for(final key in CustomStat.all)
+      for(final key in <String>{
+        ...CustomStat.all,
+        ...customStats.keys,
+      })
         key: <String>[
           ...(customStats[key] ?? const <String>{}),
         ],
@@ -99,7 +102,10 @@ class PastGame{
       : json["state"]["startingTime"] ?? GameState.fromJson(json["state"]).firstTime,
     customStats: json["customStats"] != null
       ? <String,Set<String>>{
-        for(final key in CustomStat.all)
+        for(final key in <String>{
+          ...CustomStat.all,
+          ...(json["customStats"] as Map).keys,
+        })
           key: <String>{
             ...(((json["customStats"] as Map)[key]) ?? const <String>[]),
           },

@@ -94,10 +94,13 @@ class SidChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           chip,
-          Text(
-            subText,
-            style: TextStyle(
-              fontSize: 12,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: Text(
+              subText,
+              style: TextStyle(
+                fontSize: 12,
+              ),
             ),
           ),
         ],

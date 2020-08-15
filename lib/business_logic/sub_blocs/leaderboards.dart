@@ -18,43 +18,48 @@ class CSPastGames {
   final BlocBox<PastGame> pastGames;
   BlocVar<Map<String,CommanderStats>> commanderStats;
   BlocVar<Map<String,PlayerStats>> playerStats;
+  final PersistentVar<Set<String>> customStatTitles;
   BlocVar<Map<String,CustomStat>> customStats;
 
-  CSPastGames(this.parent): pastGames = BlocBox<PastGame>(
-    <PastGame>[],
-    key: "counterspell_bloc_var_pastGames_pastGames",
-    itemToJson: (item) => item.toJson,
-    jsonToItem: (json) => PastGame.fromJson(json),
-  ){
-    this.commanderStats = BlocVar.fromCorrelate
-      <Map<String,CommanderStats>, List<PastGame>>
-    (
-      from: pastGames, 
-      map: (List<PastGame> pastGames) => <String,CommanderStats>{
-        for(final card in cards(pastGames)) 
-          card.oracleId: CommanderStats.fromPastGames(card, pastGames),
-        /// oracle Id because we want to just use one print of a commander
-      },
-    );
-    this.playerStats = BlocVar.fromCorrelate
-      <Map<String,PlayerStats>, List<PastGame>>
-    (
-      from: pastGames, 
-      map: (List<PastGame> pastGames) => <String,PlayerStats>{
-        for(final name in names(pastGames))
-          name: PlayerStats.fromPastGames(name, pastGames),
-      },
-    );
-    this.customStats = BlocVar.fromCorrelate
-      <Map<String,CustomStat>, List<PastGame>>
-    (
-      from: pastGames, 
-      map: (List<PastGame> pastGames) => <String,CustomStat>{
-        for(final title in CustomStat.all)
+  CSPastGames(this.parent): 
+    pastGames = BlocBox<PastGame>(
+      <PastGame>[],
+      key: "counterspell_bloc_var_pastGames_pastGames",
+      itemToJson: (item) => item.toJson,
+      jsonToItem: (json) => PastGame.fromJson(json),
+    ),
+    customStatTitles = PersistentVar<Set<String>>(
+      initVal: <String>{...CustomStat.all},
+      key: "counterspell_bloc_var_pastGames_allCustomStatTitles",
+      toJson: (s) => [...s],
+      fromJson: (j) => <String>{...(j as List)},
+    ){
+      this.commanderStats = BlocVar.fromCorrelate
+        <Map<String,CommanderStats>, List<PastGame>>
+      (
+        from: pastGames, 
+        map: (List<PastGame> pastGames) => <String,CommanderStats>{
+          for(final card in cards(pastGames)) 
+            card.oracleId: CommanderStats.fromPastGames(card, pastGames),
+          /// oracle Id because we want to just use one print of a commander
+        },
+      );
+      this.playerStats = BlocVar.fromCorrelate
+        <Map<String,PlayerStats>, List<PastGame>>
+      (
+        from: pastGames, 
+        map: (List<PastGame> pastGames) => <String,PlayerStats>{
+          for(final name in names(pastGames))
+            name: PlayerStats.fromPastGames(name, pastGames),
+        },
+      );
+      this.customStats = BlocVar.fromCorrelateLatest2
+        <Map<String,CustomStat>, List<PastGame>, Set<String>>
+      (pastGames, customStatTitles, map: (pastGames, titles) => <String,CustomStat>{
+        for(final title in titles)
           title: CustomStat.fromPastGames(title, pastGames),
-      },
-    );
-  }
+      },);
+    }
 
   //returns true if a prompt is shown
   bool saveGame(GameState state, {

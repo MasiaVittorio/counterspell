@@ -29,7 +29,7 @@ class _PlayersState extends State<Players> {
         : (e2.value / mapTotals[e2.key]).compareTo(e1.value / mapTotals[e1.key])
       );
 
-    return Column(children: [
+    return Column(mainAxisSize: MainAxisSize.min, children: [
       Section([Padding(
         padding: const EdgeInsets.only(top: PanelTitle.height),
         child: RadioSlider(
@@ -46,6 +46,7 @@ class _PlayersState extends State<Players> {
         ),
       ),],),
       Expanded(child: ListView.builder(
+        padding: EdgeInsets.zero,
         physics: Stage.of(context).panelScrollPhysics,
         itemBuilder: (_, i) => _Player(
           list[i].key,
@@ -61,7 +62,7 @@ class _PlayersState extends State<Players> {
 
 class _Player extends StatelessWidget {
 
-  static const double height = 56.0 + 10;
+  static const double height = 82.0;
  
   final String player;
   final int games;
@@ -81,7 +82,7 @@ class _Player extends StatelessWidget {
         subtitle: Text("${InfoDisplayer.getString(100*appearances/games)}% of $games games"),
         trailing: Text("$appearances"),
       ),
-    ],);
+    ],margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),);
   }
 }
 

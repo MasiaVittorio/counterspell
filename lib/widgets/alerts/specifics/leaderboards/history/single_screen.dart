@@ -14,8 +14,9 @@ class PastGameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
     final bloc = CSBloc.of(context);
-
-    return bloc.pastGames.pastGames.build((_,pastGames) {
+    final titlesVar = bloc.pastGames.customStatTitles;
+    final gamesVar = bloc.pastGames.pastGames;
+    return gamesVar.build((_,pastGames) {
       final PastGame game = pastGames[this.index];
       return HeaderedAlertCustom(
 
@@ -63,21 +64,20 @@ class PastGameScreen extends StatelessWidget {
             const SectionTitle("Custom stats"),
             CSWidgets.height5,
             SubSection(
-              [Row(children: [Expanded(
+              [titlesVar.build((context, titles) => Row(children: [Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(children: ((){
                     final children = [
-                      for(final e in game.customStats.entries)
-                        if(e.value.isNotEmpty)
-                          for(final n in e.value)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: SidChip(
-                                text: e.key,
-                                subText: n,
-                              ),
+                      for(final title in titles)
+                        for(final n in game.customStats[title])
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: SidChip(
+                              text: title,
+                              subText: n,
                             ),
+                          ),
                     ];
                     if(children.isEmpty){
                       return [Padding(
@@ -87,7 +87,7 @@ class PastGameScreen extends StatelessWidget {
                     } else return children;
                   })(),),
                 ),
-              )],)],
+              )],),),],
               onTap: () => stage.showAlert(
                 EditCustomStats(index: index),
                 size: EditCustomStats.height,

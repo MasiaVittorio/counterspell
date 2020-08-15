@@ -3,7 +3,7 @@ import 'components/all.dart';
 
 class CustomStatSingleScreen extends StatelessWidget {
 
-  static const double height = 500.0;
+  static const double height = 575.0;
 
   final CustomStat stat;
 
@@ -13,6 +13,7 @@ class CustomStatSingleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return RadioHeaderedAlert<String>(
       initialValue: "stats",
+      canvasBackground: true,
       items: {
         "stats": RadioHeaderedItem(
           title: "Stats", 

@@ -25,7 +25,7 @@ class CustomStat {
 
   final Map<String,int> playersApplicable;
 
-  final Map<String,int> commandersApplicable; /// commander card id => number
+  final Map<String,int> commandersApplicable; /// commander card oracleId => number
 
   final int appearances;
   final int wins;
@@ -56,15 +56,15 @@ class CustomStat {
         final MtgCard card = e.value;
         final String pilot = e.key;
         if(card != null){
-          final String id = card.id;
-          if(g.customStats[_title].contains(pilot)){
+          final String id = card.oracleId;
+          if(g.customStats[_title]?.contains(pilot) ?? false){
             _cmdrApply[id] = (_cmdrApply[id] ?? 0) + 1;
           }
         }
       }
 
       for(final name in g.state.players.keys){
-        if(g.customStats[_title].contains(name)){
+        if(g.customStats[_title]?.contains(name) ?? false){
 
           _appeared = true;
 

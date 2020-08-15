@@ -50,11 +50,13 @@ class Stats extends StatelessWidget {
     final double rate = stat.appearances == 0 
       ? 0 : 100 * stat.wins/stat.appearances;
 
-    return Column(mainAxisSize: MainAxisSize.min, children: [
+    return Column(
+      mainAxisSize: MainAxisSize.min, 
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
 
-      Section([
-        const SectionTitle("Stats"),
         SubSection([
+          const SectionTitle("Stats"),
           ExtraButtons(children: [
             InfoDisplayer(
               title: const Text("Appearances"), 
@@ -70,42 +72,44 @@ class Stats extends StatelessWidget {
               color: CSColors.gold,
             ),
           ]),
-        ]),
-      ]),
+        ], margin: margin,),
 
-      if(plTot != null || plFreq != null || cmdrTot != null || cmdrFreq != null)
-      Section([
-        const SectionTitle("Honorable mentions"),
-        if(plTot != null)
-        ListTile(
-          leading: const Icon(Icons.person_outline),
-          title: Text(plTot.key),
-          subtitle: const Text("Most times overall"),
-          trailing: Text("${plTot.value}"),
-        ),
-        if(plFreq != null)
-        ListTile(
-          leading: const Icon(Icons.person_outline),
-          title: Text(plFreq.key),
-          subtitle: Text("Most frequent (${plFreq.value} over $plFreqGames games)"),
-          trailing: Text("${InfoDisplayer.getString(plFreqValue * 100)}%"),
-        ),
-        if(cmdrTot != null)
-        ListTile(
-          leading: const Icon(CSIcons.damageIconOutlined),
-          title: Text(cmdrTotCard.name),
-          subtitle: const Text("Most times overall"),
-          trailing: Text("${cmdrTot.value}"),
-        ),
-        if(cmdrFreq != null)
-        ListTile(
-          leading: const Icon(CSIcons.damageIconOutlined),
-          title: Text(cmdrFreqCard.name),
-          subtitle: Text("Most frequent (${cmdrFreq.value} over $cmdrFreqGames games)"),
-          trailing: Text("${InfoDisplayer.getString(cmdrFreqValue * 100)}%"),
-        ),
-      ]),
+        if(plTot != null || plFreq != null || cmdrTot != null || cmdrFreq != null)
+        SubSection([
+          const SectionTitle("Honorable mentions"),
+          if(plTot != null)
+          ListTile(
+            leading: const Icon(Icons.person_outline),
+            title: Text(plTot.key),
+            subtitle: const Text("Most times overall"),
+            trailing: Text("${plTot.value}"),
+          ),
+          if(plFreq != null)
+          ListTile(
+            leading: const Icon(Icons.person_outline),
+            title: Text(plFreq.key),
+            subtitle: Text("Most frequent (${plFreq.value} over $plFreqGames games)"),
+            trailing: Text("${InfoDisplayer.getString(plFreqValue * 100)}%"),
+          ),
+          if(cmdrTot != null)
+          ListTile(
+            leading: const Icon(CSIcons.damageIconOutlined),
+            title: Text(cmdrTotCard.name),
+            subtitle: const Text("Most times overall"),
+            trailing: Text("${cmdrTot.value}"),
+          ),
+          if(cmdrFreq != null)
+          ListTile(
+            leading: const Icon(CSIcons.damageIconOutlined),
+            title: Text(cmdrFreqCard.name),
+            subtitle: Text("Most frequent (${cmdrFreq.value} over $cmdrFreqGames games)"),
+            trailing: Text("${InfoDisplayer.getString(cmdrFreqValue * 100)}%"),
+          ),
+        ], margin: margin,),
 
-    ],);
+      ],
+    );
   }
+
+  static const margin = EdgeInsets.fromLTRB(10, 0, 10, 10);
 }

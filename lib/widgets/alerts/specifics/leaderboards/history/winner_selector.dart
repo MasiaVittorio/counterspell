@@ -52,16 +52,14 @@ class _WinnerSelectorState extends State<WinnerSelector> {
       Expanded(child: ListTile(
         title: const Text("Confirm"),
         leading: const Icon(Icons.check),
-        onTap: selected != null 
-          ? (){
-            widget.onConfirm(selected);
-            if(widget.closeCompletely ?? false){
-              stage.closePanelCompletely();
-            } else {
-              stage.closePanel();
-            }
+        onTap: (){
+          widget.onConfirm(selected);
+          if(widget.closeCompletely ?? false){
+            stage.closePanelCompletely();
+          } else {
+            stage.closePanel();
           }
-          : null,
+        },
       )),
     ],);
 

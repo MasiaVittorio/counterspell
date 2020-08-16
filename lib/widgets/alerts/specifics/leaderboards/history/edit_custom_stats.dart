@@ -12,11 +12,11 @@ class EditCustomStats extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
     final logic = CSBloc.of(context);
-    final listVar = logic.pastGames.pastGames;
+    final gamesVar = logic.pastGames.pastGames;
     final titlesVar = logic.pastGames.customStatTitles;
 
-    return titlesVar.build((_, titles) => listVar.build((_, list){
-      final game = list[index];
+    return titlesVar.build((_, titles) => gamesVar.build((_, games){
+      final game = games[index];
       final names = [...game.state.players.keys];
       final stats = game.customStats;
 
@@ -30,53 +30,60 @@ class EditCustomStats extends StatelessWidget {
           ],
         ),
 
+        canvasBackground: true,
         titleSize: 72.0 + AlertDrag.height,
 
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
+        child: Column(
+          mainAxisSize: MainAxisSize.min, 
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-          for(final title in titles)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Row(children: [
-                if(!CustomStat.all.contains(title))
-                  IconButton(
-                    icon: Icon(Icons.delete_forever),
-                    color: CSColors.delete,
-                    onPressed: () => stage.showAlert(
-                      ConfirmAlert(
-                        action: () => titlesVar.edit((s) => s.remove(title)),
-                        warningText: "Delete $title stat?",
-                        confirmColor: CSColors.delete,
-                        confirmIcon: Icons.delete_forever,
-                      ),
-                      size: ConfirmAlert.height,
-                    )
-                  ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 14.0, right: 6.0),
-                  child: Text(title),
-                ),
-                Expanded(child: SingleChildScrollView(
+            for(final title in titles)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: ToggleButtons(
-                    children: [for(final n in names) Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(n),
-                    ),], 
-                    isSelected: [for(final n in names) stats[title]?.contains(n) ?? false],
-                    onPressed: (i){
-                      final n = names[i];
-                      listVar.value[index].customStats[title]
-                        = listVar.value[index].customStats[title].toggled(n);
-                      listVar.refresh();
-                    },
-                  ),
-                ),),
-              ],),
-            ),
+                  child: Row(children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 14.0, right: 6.0),
+                      child: Text(title),
+                    ),
+                    ToggleButtons(
+                      children: [for(final n in names) Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(n),
+                      ),], 
+                      isSelected: [for(final n in names) stats[title]?.contains(n) ?? false],
+                      onPressed: (i){
+                        final n = names[i];
+                        gamesVar.value[index].customStats[title]
+                          = gamesVar.value[index].customStats[title].toggled(n);
+                        gamesVar.refresh();
+                      },
+                    ),
+                    if(!CustomStat.all.contains(title))
+                      IconButton(
+                        icon: Icon(Icons.delete_forever),
+                        color: CSColors.delete,
+                        onPressed: () => stage.showAlert(
+                          ConfirmAlert(
+                            action: () => titlesVar.edit((s) => s.remove(title)),
+                            warningText: 'Delete "$title" stats?',
+                            confirmColor: CSColors.delete,
+                            confirmIcon: Icons.delete_forever,
+                          ),
+                          size: ConfirmAlert.height,
+                        )
+                      ),
+                  ],),
+                ),
+              ),
 
-            ListTile(
-              title: const Text("New"),
+            CSWidgets.divider,
+            CSWidgets.height10,
+
+            SubSection([ListTile(
+              title: const Text("New custom stat"),
               leading: const Icon(Icons.add),
               onTap: () => stage.showAlert(
                 InsertAlert(
@@ -85,9 +92,26 @@ class EditCustomStats extends StatelessWidget {
                 ),
                 size: InsertAlert.height,
               ),
+            ),],),
+
+            CSWidgets.height10,
+
+            ConfirmableTile(
+              subTitleBuilder: (_, pressed) => AnimatedText(pressed
+                ? "Confirm?" : "(Only this game stats)" 
+              ), 
+              leading: const Icon(Icons.clear_all, color: CSColors.delete,),
+              titleBuilder: (_,__) => const Text("Clear all"),
+              onConfirm: (){
+                for(final title in titles){
+                  gamesVar.value[index].customStats[title] = <String>{};
+                }
+                gamesVar.refresh();
+              },
             ),
 
-        ],),
+          ],
+        ),
       );
     },),);
 

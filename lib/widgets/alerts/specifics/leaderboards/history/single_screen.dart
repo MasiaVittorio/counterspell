@@ -31,70 +31,63 @@ class PastGameScreen extends StatelessWidget {
         titleSize: 72.0 + AlertDrag.height,
 
 
-        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
 
-          Section([
-            const SectionTitle("Notes"),
-            CSWidgets.height5,
-            SubSection(<Widget>[
+          Section(<Widget>[
+
+            SubSection([
+              const SectionTitle("Winner"),
+              ListTile(
+                leading: const Icon(McIcons.trophy),
+                title: Text("${game.winner ?? "not detected"}"),
+              ),
+            ], onTap: () => selectWinner(game, stage, bloc),),
+
+            SubSection([
+              const SectionTitle("Notes"),
               ListTile(
                 leading: const Icon(McIcons.fountain_pen_tip),
-                title: Text(game.notes ?? "", style: TextStyle(fontStyle: FontStyle.italic),),
+                title: Text(
+                  game.notes.or("[...]"), 
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
             ], onTap: () => insertNotes(game, stage, bloc)),
-            CSWidgets.height10,
-          ]),
 
-          Section([
-            const SectionTitle("Winner"),
-            CSWidgets.height5,
             SubSection(
-              <Widget>[
-                ListTile(
-                  leading: const Icon(McIcons.trophy),
-                  title: Text("${game.winner ?? "not detected"}"),
-                ),
+              [
+                const SectionTitle("Custom stats"),
+                CSWidgets.height5,
+                titlesVar.build((context, titles) => Row(children: [Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(children: ((){
+                      final children = <Widget>[
+                        for(final title in titles)
+                          for(final n in game.customStats[title])
+                            SidChip(text: title,subText: n,),
+                      ];
+                      if(children.isEmpty){
+                        return [Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: const Text("Tap to edit"),
+                        )];
+                      } else return children.separateWith(
+                        CSWidgets.width10,
+                        alsoFirstAndLast: true,
+                      );
+                    })(),),
+                  ),
+                )],),),
+
               ], 
-              onTap: () => selectWinner(game, stage, bloc)
-            ),
-            CSWidgets.height10,
-          ]),
-
-          Section([
-            const SectionTitle("Custom stats"),
-            CSWidgets.height5,
-            SubSection(
-              [titlesVar.build((context, titles) => Row(children: [Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: ((){
-                    final children = [
-                      for(final title in titles)
-                        for(final n in game.customStats[title])
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: SidChip(
-                              text: title,
-                              subText: n,
-                            ),
-                          ),
-                    ];
-                    if(children.isEmpty){
-                      return [Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: const Text("Tap to edit"),
-                      )];
-                    } else return children;
-                  })(),),
-                ),
-              )],),),],
               onTap: () => stage.showAlert(
                 EditCustomStats(index: index),
                 size: EditCustomStats.height,
               ),
             ),
-            CSWidgets.height10,
-          ]),
+
+          ].separateWith(CSWidgets.height10, alsoFirstAndLast: true,),),
 
           Section([
             const SectionTitle("Commanders"),
@@ -141,6 +134,10 @@ class PastGameScreen extends StatelessWidget {
       size: WinnerSelector.heightCalc(game.state.players.length),
     );    
   }
+}
+
+extension on String {
+  String or(String s) => this == null || this == "" ? s : this;
 }
 
 class CommanderSubSection extends StatelessWidget {

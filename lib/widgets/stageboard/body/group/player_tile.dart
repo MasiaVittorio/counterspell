@@ -34,6 +34,8 @@ class PlayerTile extends StatelessWidget {
 
 
   static const double flatPadding = 12.0;
+  static const Widget flatPaddingY = const SizedBox(height: flatPadding);
+  static const Widget flatPaddingX = const SizedBox(width: flatPadding);
   static const double _fl = flatPadding;
 
 
@@ -228,40 +230,33 @@ class PlayerTile extends StatelessWidget {
 
           return SizedBox(
             height: tileSize + bottom,
-            child: bloc.themer.flatDesign.build((context, val) => Padding(
-              padding: val 
-                ? bottom != 0 
-                  ? const EdgeInsets.fromLTRB(_fl, _fl/2, _fl, _fl)
-                  : first 
-                    ? const EdgeInsets.fromLTRB(_fl, _fl, _fl, _fl/2)
-                    : const EdgeInsets.fromLTRB(_fl, _fl/2, _fl, _fl/2)
-                : EdgeInsets.zero,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(val ? 12 : 0.0),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Positioned.fill(
-                      child: image,
-                    ),
-                    Positioned.fill(
-                      child: gradient,
-                    ),
-                    Positioned.fill(
-                      bottom: bottom,
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: Theme(
-                          data: theme.copyWith(splashColor: Colors.white.withAlpha(0x66)),
-                          child: tile,
-                        ),
+            child: bloc.themer.flatDesign.build((context, flat) => Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(flat ? 12 : 0.0),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Positioned.fill(
+                    child: image,
+                  ),
+                  Positioned.fill(
+                    child: gradient,
+                  ),
+                  Positioned.fill(
+                    bottom: bottom != 0
+                      ? flat ? bottom - _fl : bottom
+                      : bottom,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: Theme(
+                        data: theme.copyWith(splashColor: Colors.white.withAlpha(0x66)),
+                        child: tile,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),),
           );

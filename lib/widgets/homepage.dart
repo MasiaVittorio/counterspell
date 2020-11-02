@@ -42,21 +42,16 @@ class CSHomePage extends StatelessWidget {
           icon: Icon(CSIcons.counterSpell, color: Colors.white, size: 40,),
         ),
 
-        shadowBuilder: (val, place) {
-          final flat = bloc.themer.flatDesign.value;
-          return BoxShadow(
+        shadowBuilder: (val, place) => BoxShadow(
             blurRadius: place.isTexts 
-              ? val.mapToRangeLoose(2.0, flat ? 0.0 : 6.0) 
+              ? val.mapToRangeLoose(2.0, 6.0) 
               : val.mapToRangeLoose(10.0, 20.0), 
-            color: flat 
-              ? (const Color(0x50000000)).withAlpha(val.mapToRange(0x50, 0).toInt())
-              : const Color(0x50000000),
+            color: const Color(0x50000000),
             offset: Offset(
               0.0, 
-              place.isTexts ? (flat ? 0 : 3) : 7,
+              place.isTexts ? 3 : 7,
             ),
-          );
-        },
+          ),
       ),
     );
 

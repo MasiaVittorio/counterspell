@@ -12,7 +12,7 @@ class Leaderboards extends StatelessWidget {
   
   const Leaderboards();
   
-  static const double height = 650.0;
+  static const double height = 800.0;
 
   static const String pageKey = "leaderboardsAlert";
   @override

@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/history/current_state_tile.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/history/history_player_tile.dart';
 
@@ -64,15 +65,20 @@ class HistoryTile extends StatelessWidget {
         ? (data as GameHistoryNull).gameState.players.length
         : data.changes.length;
       return LayoutBuilder(builder: (context, constraints)
-        => buildKnowingSize(
-          CSSizes.computeTileSize(
-            constraints, 
-            coreTileSize, 
-            howManyPlayers,
+        => ConstrainedBox(
+          constraints: constraints, 
+          child: bloc.themer.flatDesign.build((_, flat) => buildKnowingSize(
+            CSSizes.computeTileSize(
+              constraints, 
+              coreTileSize, 
+              howManyPlayers,
+              flat ? PlayerTile.flatPadding : 0.0,
+            ),
+            stage, 
+            bloc,
           ),
-          stage, 
-          bloc,
-        ),);
+        ),),
+      );
     }
 
     return buildKnowingSize(tileSize, stage, bloc);
@@ -93,8 +99,23 @@ class HistoryTile extends StatelessWidget {
       );
     }
 
+    final children = <Widget>[
+      for(final name in names)
+        HistoryPlayerTile(
+          data.changes[name],
+          time: data.time,
+          firstTime: firstTime,
+          pageColors: pageColors,
+          defenceColor: defenceColor,
+          counters: counters,
+          tileSize: knownTileSize,
+          coreTileSize: coreTileSize,
+          partnerB: havePartnerB[name] ?? false,
+        ),
+    ];
 
-    return Material(
+
+    return bloc.themer.flatDesign.build((context, flat) => Material(
       type: MaterialType.transparency,
       child: InkWell(
         onLongPress: index > 0 
@@ -114,28 +135,21 @@ class HistoryTile extends StatelessWidget {
           } 
           : null,
         child: Container(
-          height: knownTileSize * data.changes.length,
+          height: knownTileSize * data.changes.length 
+            +  (flat ? (data.changes.length + 1) * PlayerTile.flatPadding : 0),
           constraints: BoxConstraints(minWidth: 20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              for(final name in names)
-                HistoryPlayerTile(
-                  data.changes[name],
-                  time: data.time,
-                  firstTime: firstTime,
-                  pageColors: pageColors,
-                  defenceColor: defenceColor,
-                  counters: counters,
-                  tileSize: knownTileSize,
-                  coreTileSize: coreTileSize,
-                  partnerB: havePartnerB[name] ?? false,
-                ),
-            ],
+            children: flat 
+              ? children.separateWith(
+                PlayerTile.flatPaddingY, 
+                alsoFirstAndLast: true,
+              )
+              : children,
           ),
         ),
       ),
-    );
+    ),);
   }
 }

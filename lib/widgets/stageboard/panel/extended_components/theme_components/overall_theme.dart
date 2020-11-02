@@ -29,10 +29,15 @@ class OverallTheme extends StatelessWidget {
                   Expanded(child: StageAccentColor()),
                 ],),
               ]),
-              const Section([
-                SectionTitle("Brightness"),
-                StageBrightnessToggle(),
-              ]),
+              RadioSliderTheme.merge(
+                data: RadioSliderThemeData(
+                  height: 48.0,
+                ),
+                child: const Section([
+                  SectionTitle("Brightness"),
+                  StageBrightnessToggle(),
+                ]),
+              ),
             ],
           ),
           if(!unlocked)

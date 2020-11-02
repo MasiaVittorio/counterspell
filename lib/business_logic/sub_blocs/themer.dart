@@ -74,17 +74,19 @@ class CSThemer {
   void activateFlatDesign(){
     parent.stage.themeController.colorPlace.setDistinct(StageColorPlace.texts);
     this.flatDesign.setDistinct(true);  
-    parent.stage.themeController.topBarElevations.set(_topFlat);
+    parent.stage.themeController.topBarElevations.set(_topFlatElevations);
     parent.stage.dimensionsController.dimensions.set(
       parent.stage.dimensionsController.dimensions.value.copyWith(
-        panelHorizontalPaddingOpened: 0.0,
+        // panelHorizontalPaddingOpened: 0.0,
+        panelHorizontalPaddingOpened: StageDimensions
+          .defaultPanelHorizontalPaddingOpened,
       ),
     );
     parent.stage.themeController.bottomBarShadow.setDistinct(false);
   }
   void deactivateFlatDesign(){
     this.flatDesign.setDistinct(false);  
-    parent.stage.themeController.topBarElevations.set(_topMaterial);
+    parent.stage.themeController.topBarElevations.set(_topMaterialElevations);
     parent.stage.dimensionsController.dimensions.set(
       parent.stage.dimensionsController.dimensions.value.copyWith(
         panelHorizontalPaddingOpened: StageDimensions
@@ -117,12 +119,12 @@ class CSThemer {
     }
   }
 
-  static const _topMaterial = <StageColorPlace,double>{
+  static const _topMaterialElevations = <StageColorPlace,double>{
     StageColorPlace.texts: 4,
     StageColorPlace.background: 8,
   };
 
-  static const _topFlat = <StageColorPlace,double>{
+  static const _topFlatElevations = <StageColorPlace,double>{
     StageColorPlace.texts: 0,
     StageColorPlace.background: 8,
   };

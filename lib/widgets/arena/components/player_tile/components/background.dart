@@ -20,7 +20,7 @@ class AptBackGround extends StatelessWidget {
   final Map<CSPage,Color> pageColors;
   final Color defenceColor;
 
-  static const double margin = 6.0;
+  static const double margin = 10.0;
   static const double _cmdrOpacity = 0.2;
 
   @override

@@ -95,16 +95,36 @@ class BodyGroup extends StatelessWidget {
             ),
         ];
 
-        return Column(children: landScape 
-          ? [
-            for(final couple in partition(children,2))
-              Row(children: <Widget>[
-                Expanded(child: couple[0]),
-                if(couple.length == 2)
-                  Expanded(child: couple[1],)
-              ],),
-          ] : children,
-        );
+        return bloc.themer.flatDesign.build((context, flat){
+          
+          final List<Widget> realChildren = landScape 
+            ? [
+              for(final couple in partition(children,2))
+                Row(children: (){
+                  final cpl = <Widget>[
+                    Expanded(child: couple[0]),
+                    if(couple.length == 2)
+                      Expanded(child: couple[1],)
+                  ];
+                  if(flat) return cpl.separateWith(PlayerTile.flatPaddingX);
+                  else return cpl;
+                }() ),
+            ] : children; 
+
+          
+          return Padding(
+            padding: flat
+              ? const EdgeInsets.symmetric(horizontal: PlayerTile.flatPadding)
+              : EdgeInsets.zero,
+            child: Column(children: flat 
+              ? realChildren.separateWith(
+                PlayerTile.flatPaddingY, 
+                alsoFirstAndLast: true,
+              ) 
+              : realChildren,
+            ),
+          );
+        },);
 
       },),),),),),),
     );

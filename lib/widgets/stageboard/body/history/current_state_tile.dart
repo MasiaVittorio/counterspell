@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile.dart';
 
 class CurrentStateTile extends StatelessWidget {
   final List<String> names;
@@ -21,24 +22,35 @@ class CurrentStateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final children = <Widget>[
+      for(final name in names)
+        CurrentStatePlayerTile(
+          gameState, 
+          stateIndex,
+          name: name,
+          pagesColor: pagesColor,
+          tileSize: tileSize,  
+          coreTileSize: coreTileSize,
+          counters: counters,
+          defenceColor: defenceColor,
+        ),
+    ];
+
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: Material(
         elevation: 4,
         color: Theme.of(context).scaffoldBackgroundColor,
-        child: Column(children: <Widget>[
-          for(final name in names)
-            CurrentStatePlayerTile(
-              gameState, 
-              stateIndex,
-              name: name,
-              pagesColor: pagesColor,
-              tileSize: tileSize,  
-              coreTileSize: coreTileSize,
-              counters: counters,
-              defenceColor: defenceColor,
-            ),
-        ]),
+        child: CSBloc.of(context).themer.flatDesign.build((context, flat) 
+          => Column(children: flat
+            ? children.separateWith(
+              PlayerTile.flatPaddingY, 
+              alsoFirstAndLast: true,
+            )
+            : children,
+          ),
+        ),
       ),
     );
 

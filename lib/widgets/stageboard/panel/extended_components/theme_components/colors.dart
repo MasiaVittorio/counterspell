@@ -16,34 +16,43 @@ class ThemeColors extends StatelessWidget {
       => Stack(
         fit: StackFit.loose,
         children: <Widget>[
-          Section(<Widget>[
-            const SectionTitle("CounterSpell Colors"),
-            placeVar.build((context, val) 
-              => SwitchListTile(
-                value: val.isTexts, 
-                onChanged: (_) => themer.toggleGoogleLikeColors(),
-                title: Text("Google-like colors"),
-                subtitle: AnimatedText(val.isTexts
-                  ? "Colored text"
-                  : "Colored background"
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Section([
+                const SectionTitle("Design patterns"),
+                placeVar.build((context, val) 
+                  => SwitchListTile(
+                    value: val.isTexts, 
+                    onChanged: (_) => themer.toggleGoogleLikeColors(),
+                    title: const Text("Google-like colors"),
+                    subtitle: AnimatedText(val.isTexts
+                      ? "Colored text"
+                      : "Colored background"
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            themer.flatDesign.build((context, val) => SwitchListTile(
-              value: val,
-              onChanged: (_) => themer.toggleFlatDesign(),
-              title: Text("Flat design"),
-            )),
-            StageMainColorsPerPage(extraChildren: <Widget>[
-              bloc.themer.defenceColor.build((context, defenceColor)
-                => ListTile(
-                  title: const Text("Defence"),
-                  leading: ColorCircleDisplayer(defenceColor, icon: CSIcons.defenceIconFilled),
-                  onTap: () => pickDefenceColor(stage, defenceColor, bloc),
-                ),
-              ),
-            ],),
-          ],),
+                themer.flatDesign.build((context, val) => SwitchListTile(
+                  value: val,
+                  onChanged: (_) => themer.toggleFlatDesign(),
+                  title: const Text("Flat design"),
+                  subtitle: const Text("Over material"),
+                )),
+              ]),
+              Section(<Widget>[
+                const SectionTitle("CounterSpell Colors"),
+                StageMainColorsPerPage(extraChildren: <Widget>[
+                  bloc.themer.defenceColor.build((context, defenceColor)
+                    => ListTile(
+                      title: const Text("Defence"),
+                      leading: ColorCircleDisplayer(defenceColor, icon: CSIcons.defenceIconFilled),
+                      onTap: () => pickDefenceColor(stage, defenceColor, bloc),
+                    ),
+                  ),
+                ],),
+              ],),
+            ],
+          ),
 
           if(!unlocked) Positioned.fill(child: GestureDetector(
             onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),

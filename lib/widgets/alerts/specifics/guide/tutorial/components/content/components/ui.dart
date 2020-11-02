@@ -11,7 +11,7 @@ class TutorialUI extends StatelessWidget {
       child: Stage<CSPage,SettingsPage>(
         body: const _UIBody(),
         wholeScreen: false,
-        topBarData: const StageTopBarData(
+        topBarContent: const StageTopBarContent(
           title: _UITopBar(),
         ),
         mainPages: StagePagesData.nullable(

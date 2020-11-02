@@ -9,7 +9,7 @@ class CountersMaster extends StatelessWidget {
       body: _Body(), 
       collapsedPanel: const _Collapsed(), 
       extendedPanel: _Extended(), 
-      topBarData: StageTopBarData(
+      topBarContent: StageTopBarContent(
         title: StageTopBarTitle(panelTitle: "Close the menu!",)
       ),
       mainPages: StagePagesData.nullable(

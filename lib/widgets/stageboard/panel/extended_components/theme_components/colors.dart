@@ -10,6 +10,7 @@ class ThemeColors extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final theme = Theme.of(context);
     final placeVar = stage.themeController.colorPlace;
+    final themer = bloc.themer;
 
     return bloc.payments.unlocked.build((_, unlocked)
       => Stack(
@@ -20,9 +21,7 @@ class ThemeColors extends StatelessWidget {
             placeVar.build((context, val) 
               => SwitchListTile(
                 value: val.isTexts, 
-                onChanged: (b) => placeVar.set(
-                  b ? StageColorPlace.texts : StageColorPlace.background
-                ),
+                onChanged: (_) => themer.toggleGoogleLikeColors(),
                 title: Text("Google-like colors"),
                 subtitle: AnimatedText(val.isTexts
                   ? "Colored text"
@@ -30,6 +29,11 @@ class ThemeColors extends StatelessWidget {
                 ),
               ),
             ),
+            themer.flatDesign.build((context, val) => SwitchListTile(
+              value: val,
+              onChanged: (_) => themer.toggleFlatDesign(),
+              title: Text("Flat design"),
+            )),
             StageMainColorsPerPage(extraChildren: <Widget>[
               bloc.themer.defenceColor.build((context, defenceColor)
                 => ListTile(

@@ -13,6 +13,7 @@ class PlayerTile extends StatelessWidget {
 
   final double tileSize;
   final double bottom;
+  final bool first;
   final double coreTileSize;
   final CSPage page;
   final bool selected;
@@ -32,6 +33,10 @@ class PlayerTile extends StatelessWidget {
   final bool isAttackerHavingPartnerB;
 
 
+  static const double flatPadding = 12.0;
+  static const double _fl = flatPadding;
+
+
   const PlayerTile(this.name, {
     @required this.usingPartnerB,
     @required this.isAttackerUsingPartnerB,
@@ -40,6 +45,7 @@ class PlayerTile extends StatelessWidget {
     @required this.maxWidth,
     @required this.tileSize,
     @required this.bottom,
+    @required this.first,
     @required this.coreTileSize,
     @required this.page,
     @required this.pageColor,
@@ -222,27 +228,42 @@ class PlayerTile extends StatelessWidget {
 
           return SizedBox(
             height: tileSize + bottom,
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                Positioned.fill(
-                  child: image,
+            child: bloc.themer.flatDesign.build((context, val) => Padding(
+              padding: val 
+                ? bottom != 0 
+                  ? const EdgeInsets.fromLTRB(_fl, _fl/2, _fl, _fl)
+                  : first 
+                    ? const EdgeInsets.fromLTRB(_fl, _fl, _fl, _fl/2)
+                    : const EdgeInsets.fromLTRB(_fl, _fl/2, _fl, _fl/2)
+                : EdgeInsets.zero,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(val ? 12 : 0.0),
                 ),
-                Positioned.fill(
-                  child: gradient,
-                ),
-                Positioned.fill(
-                  bottom: bottom,
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: Theme(
-                      data: theme.copyWith(splashColor: Colors.white.withAlpha(0x66)),
-                      child: tile,
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: image,
                     ),
-                  ),
+                    Positioned.fill(
+                      child: gradient,
+                    ),
+                    Positioned.fill(
+                      bottom: bottom,
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Theme(
+                          data: theme.copyWith(splashColor: Colors.white.withAlpha(0x66)),
+                          child: tile,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ),),
           );
         });
       }

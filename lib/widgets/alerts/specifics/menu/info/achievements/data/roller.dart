@@ -10,7 +10,7 @@ class TheRoller extends StatelessWidget {
       body: _Body(), 
       collapsedPanel: const _Collapsed(), 
       extendedPanel: _Extended(), 
-      topBarData: StageTopBarData(
+      topBarContent: StageTopBarContent(
         title: StageBuild.offOpenNonAlert((_, open) => AnimatedText(
           open ? "That's nice" : "< Open Menu",
         )),

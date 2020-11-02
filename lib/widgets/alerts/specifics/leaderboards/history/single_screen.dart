@@ -64,7 +64,7 @@ class PastGameScreen extends StatelessWidget {
                     child: Row(children: ((){
                       final children = <Widget>[
                         for(final title in titles)
-                          for(final n in game.customStats[title])
+                          for(final n in game.customStats[title] ?? [])
                             SidChip(text: title,subText: n,),
                       ];
                       if(children.isEmpty){

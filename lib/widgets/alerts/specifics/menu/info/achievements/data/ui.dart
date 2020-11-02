@@ -9,7 +9,7 @@ class UIExpert extends StatelessWidget {
       body: _Body(), 
       collapsedPanel: const _Collapsed(), 
       extendedPanel: _Extended(), 
-      topBarData: StageTopBarData(
+      topBarContent: StageTopBarContent(
         title: StageTopBarTitle(panelTitle: "CounterSpell",)
       ),
       mainPages: StagePagesData.nullable(

@@ -75,6 +75,10 @@ class BodyGroup extends StatelessWidget {
                 names.last,
                 if(landScape && names.length.isEven) names[names.length-2],
               ].contains(name)) ? bottom : 0.0,
+              first: ([
+                names.first,
+                if(landScape && names.length >= 2) names[1],
+              ].contains(name)) ? true : false,
               coreTileSize: coreTileSize,
               page: currentPage,
               usingPartnerB: gameState.players[name].usePartnerB,

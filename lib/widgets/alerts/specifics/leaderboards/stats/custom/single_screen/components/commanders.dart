@@ -77,7 +77,6 @@ class _Commander extends StatelessWidget {
   Widget build(BuildContext context) {
     return SubSection([
       ListTile(
-        // TODO: image?
         title: Text(card.name),
         leading: Icon(CSIcons.damageIconOutlined),
         subtitle: Text("${InfoDisplayer.getString(100 * appearances/games)}% of $games games"),
@@ -88,5 +87,7 @@ class _Commander extends StatelessWidget {
 }
 
 
+
+// TODO: mini stats gratis da mostrare quando non hai ancora sbloccato tutto
 
 

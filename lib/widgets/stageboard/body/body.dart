@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'components.dart';
@@ -17,6 +18,7 @@ class CSBody extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
     final themer = bloc.themer;
+    final theme = Theme.of(context);
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
 
     //padding to account for the half collapsed panel that is visible over the body
@@ -87,7 +89,7 @@ class CSBody extends StatelessWidget {
                       }
                     }
 
-                    return Stack(
+                    return themer.flatDesign.build((context, flat) => Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
                         if(!landScape)
@@ -96,18 +98,37 @@ class CSBody extends StatelessWidget {
                             child: bodyHistory,
                           ),
 
+                        if(flat)
+                          Positioned.fill(
+                            child: IgnorePointer(
+                              ignoring: true,
+                              child: AnimatedContainer(
+                                duration: CSAnimations.slow,
+                                curve: Curves.ease,
+                                color: currentPage == CSPage.history
+                                  ? theme.canvasColor.withOpacity(0.0)
+                                  : theme.canvasColor
+                              ),
+                            ),
+                          ),
+
                         AnimatedPositioned(
-                          curve: Curves.easeOut,
-                          duration: CSAnimations.fast,
+                          curve: Curves.ease,
+                          duration: CSAnimations.slow,
                           top: 0.0,
                           bottom: 0.0,
                           width: constraints.maxWidth,
                           left: currentPage == CSPage.history 
                             ? constraints.maxWidth - CSSizes.minTileSize
+                              - (flat ? PlayerTile.flatPadding : 0.0)
                             : 0.0,
 
                           child: Material(
-                            elevation: 8,
+                            elevation: flat ? 0 : 8,
+                            type: flat 
+                              ? MaterialType.transparency 
+                              : MaterialType.canvas,
+                            animationDuration: CSAnimations.slow,
                             child: BodyGroup(
                               names,
                               currentPage: currentPage,
@@ -125,7 +146,7 @@ class CSBody extends StatelessWidget {
                         ),
 
                       ],
-                    );
+                    ),);
                   },),
                 ),
               ),

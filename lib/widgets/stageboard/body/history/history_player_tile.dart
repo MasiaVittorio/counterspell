@@ -12,7 +12,7 @@ class HistoryPlayerTile extends StatelessWidget {
   //===================================
   // UI resources
   final double tileSize;
-  final double coreTileSize;
+  // final double coreTileSize;
   final Color defenceColor;
   final Map<String, Counter> counters;
   final Map<CSPage,Color> pageColors;
@@ -25,7 +25,7 @@ class HistoryPlayerTile extends StatelessWidget {
     @required this.firstTime,
     @required this.pageColors,
     @required this.tileSize,
-    @required this.coreTileSize,
+    // @required this.coreTileSize,
     @required this.counters,
     @required this.defenceColor,
   });

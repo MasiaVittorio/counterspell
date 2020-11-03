@@ -14,7 +14,6 @@ class PlayerTile extends StatelessWidget {
   final double tileSize;
   final double bottom;
   final bool first;
-  final double coreTileSize;
   final CSPage page;
   final bool selected;
   final bool isScrollingSomewhere;
@@ -32,13 +31,6 @@ class PlayerTile extends StatelessWidget {
   final bool havingPartnerB;
   final bool isAttackerHavingPartnerB;
 
-
-  static const double flatPadding = 12.0;
-  static const Widget flatPaddingY = const SizedBox(height: flatPadding);
-  static const Widget flatPaddingX = const SizedBox(width: flatPadding);
-  static const double _fl = flatPadding;
-
-
   const PlayerTile(this.name, {
     @required this.usingPartnerB,
     @required this.isAttackerUsingPartnerB,
@@ -48,7 +40,6 @@ class PlayerTile extends StatelessWidget {
     @required this.tileSize,
     @required this.bottom,
     @required this.first,
-    @required this.coreTileSize,
     @required this.page,
     @required this.pageColor,
     @required this.selected,
@@ -66,6 +57,7 @@ class PlayerTile extends StatelessWidget {
       && counter == null
     ));
 
+  static const double coreTileSize = CSSizes.minTileSize;
 
 
   @override
@@ -111,7 +103,10 @@ class PlayerTile extends StatelessWidget {
         usePartnerB: usingPartnerB,
       ),
       onLongPress: () => stage.showAlert(
-        PlayerDetails(bloc.game.gameGroup.names.value.indexOf(name), this.maxWidth/(this.tileSize + this.bottom)), 
+        PlayerDetails(
+          bloc.game.gameGroup.names.value.indexOf(name), 
+          this.maxWidth/(this.tileSize + this.bottom),
+        ), 
         size: PlayerDetails.height,
       ),
       child: VelocityPanDetector(
@@ -245,9 +240,7 @@ class PlayerTile extends StatelessWidget {
                     child: gradient,
                   ),
                   Positioned.fill(
-                    bottom: bottom != 0
-                      ? flat ? bottom - _fl : bottom
-                      : bottom,
+                    bottom: bottom,
                     child: Material(
                       type: MaterialType.transparency,
                       child: Theme(
@@ -337,7 +330,10 @@ class PlayerTile extends StatelessWidget {
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         onTap: () => stage.showAlert(
-          PlayerDetails(group.names.value.indexOf(name), this.maxWidth/(this.tileSize + this.bottom)), 
+          PlayerDetails(
+            group.names.value.indexOf(name), 
+            this.maxWidth/(this.tileSize + this.bottom),
+          ), 
           size: PlayerDetails.height,
         ),
         child: CircleNumber(

@@ -23,7 +23,7 @@ class CSStage {
       ),
 
       initialDimensions: StageDimensions(
-        collapsedPanelSize: StageDimensions.defaultBarSize,
+        collapsedPanelSize: CSSizes.collapsedPanelSize,
         panelRadiusClosed: StageDimensions.defaultBarSize/2,
         panelRadiusOpened: StageDimensions.defaultPanelRadius,
         parallax: 0.1,

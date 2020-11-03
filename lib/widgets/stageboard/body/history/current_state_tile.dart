@@ -1,10 +1,8 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile.dart';
 
 class CurrentStateTile extends StatelessWidget {
   final List<String> names;
   final double tileSize;
-  final double coreTileSize;
   final Map<String, Counter> counters;
   final int stateIndex;
   final GameState gameState;
@@ -14,7 +12,6 @@ class CurrentStateTile extends StatelessWidget {
   const CurrentStateTile(this.gameState, this.stateIndex,{
     @required this.names,
     @required this.tileSize,
-    @required this.coreTileSize,
     @required this.defenceColor,
     @required this.counters,
     @required this.pagesColor,
@@ -22,34 +19,24 @@ class CurrentStateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final children = <Widget>[
-      for(final name in names)
-        CurrentStatePlayerTile(
-          gameState, 
-          stateIndex,
-          name: name,
-          pagesColor: pagesColor,
-          tileSize: tileSize,  
-          coreTileSize: coreTileSize,
-          counters: counters,
-          defenceColor: defenceColor,
-        ),
-    ];
-
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: Material(
         elevation: 4,
         color: Theme.of(context).scaffoldBackgroundColor,
         child: CSBloc.of(context).themer.flatDesign.build((context, flat) 
-          => Column(children: flat
-            ? children.separateWith(
-              PlayerTile.flatPaddingY, 
-              alsoFirstAndLast: true,
-            )
-            : children,
-          ),
+          => Column(children: CSSizes.separateColumn(flat, <Widget>[
+            for(final name in names)
+              CurrentStatePlayerTile(
+                gameState, 
+                stateIndex,
+                name: name,
+                pagesColor: pagesColor,
+                tileSize: tileSize,  
+                counters: counters,
+                defenceColor: defenceColor,
+              ),
+          ],),),
         ),
       ),
     );
@@ -62,7 +49,6 @@ class CurrentStatePlayerTile extends StatelessWidget {
   final int stateIndex;
   final GameState gameState;
   final double tileSize;
-  final double coreTileSize;
   final Color defenceColor;
   final Map<String, Counter> counters;
   final Map<CSPage,Color> pagesColor;
@@ -70,7 +56,6 @@ class CurrentStatePlayerTile extends StatelessWidget {
   const CurrentStatePlayerTile(this.gameState, this.stateIndex, {
     @required this.name,
     @required this.tileSize,
-    @required this.coreTileSize,
     @required this.defenceColor,
     @required this.pagesColor,
     @required this.counters,
@@ -79,14 +64,14 @@ class CurrentStatePlayerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PlayerState playerState = gameState.players[name].states[stateIndex];
-    final double width = coreTileSize;
+    final double width = CSSizes.minTileSize;
 
     return Container(
       height: tileSize,
       width: width,
       alignment: Alignment.center,
       child: SizedBox(
-        height: coreTileSize,
+        height: CSSizes.minTileSize,
         width: width,
         child: Stack(children: <Widget>[
           //for now there is just the life here in the center

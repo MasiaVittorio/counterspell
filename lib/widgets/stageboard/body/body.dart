@@ -1,5 +1,4 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'components.dart';
@@ -11,8 +10,6 @@ class CSBody extends StatelessWidget {
     Key key,
   }): super(key: key);
 
-  static const double coreTileSize = CSSizes.minTileSize;
-
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
@@ -20,60 +17,46 @@ class CSBody extends StatelessWidget {
     final themer = bloc.themer;
     final theme = Theme.of(context);
     final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final stageTheme = stage.themeController;
 
-    //padding to account for the half collapsed panel that is visible over the body
-    final bottom = stage.dimensionsController.dimensions.value.collapsedPanelSize/2;
-
-    return stage.themeController.derived
-      .mainPageToPrimaryColor.build((_, pageColors)
-      => themer.flatDesign.build((context, flat) 
+    return stageTheme.derived.mainPageToPrimaryColor.build((_, pageColors)
+      => themer.flatDesign.build((_, flat) 
       => themer.defenceColor.build((_, defenceColor)
-      => LayoutBuilder(builder: (_, constraints){
+      => LayoutBuilder(builder: (_, constraints) => ConstrainedBox(
+        constraints: constraints,
+        child: SingleChildScrollView(
+          child: group.names.build((context, names){
 
-        final bool landScape = constraints.maxWidth >= constraints.maxHeight;
+            final bool landScape = constraints.maxWidth >= constraints.maxHeight;
 
-        final _sureConstraints = constraints.copyWith(
-          maxHeight: constraints.maxHeight - bottom,
-          minHeight: constraints.maxHeight - bottom,
-        );
+            final int count = names.length;
+            final int rowCount = landScape 
+              ? (count / 2).ceil()
+              : count;
 
-        return group.names.build((_, names){
+            final double tileSize = CSSizes.computeTileSize(
+              constraints, 
+              rowCount,
+              flat,
+            );
 
-          final int count = names.length;
-          final int rowCount = landScape 
-            ? (count / 2).ceil()
-            : count;
+            final Widget bodyHistory = BodyHistory(
+              defenceColor: defenceColor,
+              pageColors: pageColors,
+              count: count,
+              tileSize: tileSize,
+              group: group,
+              names: names,
+            );
 
-          final double tileSize = CSSizes.computeTileSize(
-            _sureConstraints, 
-            coreTileSize, 
-            rowCount,
-            flat ? PlayerTile.flatPadding : 0.0,
-          );
+            final double totalSize = CSSizes
+              .computeTotalSize(tileSize, rowCount, flat);
 
-          final double totalSize = tileSize * rowCount + bottom + (flat 
-            ? PlayerTile.flatPadding * (rowCount + 1) 
-            : 0.0
-          );
-
-          final Widget bodyHistory = BodyHistory(
-            bottom: bottom,
-            defenceColor: defenceColor,
-            pageColors: pageColors,
-            count: count,
-            tileSize: tileSize,
-            group: group,
-            names: names,
-            coreTileSize: coreTileSize,
-          );
-
-          return ConstrainedBox(
-            constraints: constraints,
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width: constraints.maxWidth,
-                height: totalSize,
-                child: StageBuild.offMainPagesData<CSPage>((_, enabledPages, __, currentPage){
+            return SizedBox(
+              width: constraints.maxWidth,
+              height: totalSize,
+              child: StageBuild.offMainPagesData<CSPage>(
+                (_, enabledPages, __, currentPage){
 
                   final historyEnabled = enabledPages[CSPage.history];
                   if(landScape){
@@ -126,7 +109,7 @@ class CSBody extends StatelessWidget {
                         width: constraints.maxWidth,
                         left: currentPage == CSPage.history 
                           ? constraints.maxWidth - CSSizes.minTileSize
-                            - (flat ? PlayerTile.flatPadding : 0.0)
+                            - (flat ? CSSizes.flatPadding : 0.0)
                           : 0.0,
 
                         child: Material(
@@ -136,13 +119,13 @@ class CSBody extends StatelessWidget {
                             : MaterialType.canvas,
                           child: BodyGroup(
                             names,
+                            bottom: CSSizes.bottomBodyPadding 
+                              - ((flat && CSSizes.lastFlatPadding) ? CSSizes.flatPadding : 0),
                             currentPage: currentPage,
-                            bottom: bottom,
                             maxWidth: constraints.maxWidth,
                             count: count,
                             pageColors: pageColors,
                             tileSize: tileSize,
-                            coreTileSize: coreTileSize,
                             defenceColor: defenceColor,
                             group: group,
                             landScape: landScape,
@@ -152,11 +135,12 @@ class CSBody extends StatelessWidget {
 
                     ],
                   );
-                },),
+                },
               ),
-            ),
-          );
-        },);
-      },),),),);
+            );
+          },),
+        ),
+      ),),),),
+    );
   }
 }

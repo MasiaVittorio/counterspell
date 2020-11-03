@@ -6,7 +6,6 @@ class BodyGroup extends StatelessWidget {
   final List<String> names;
   final int count;
   final double tileSize;
-  final double coreTileSize;
   final CSGameGroup group;
   final Color defenceColor;
   final bool landScape;
@@ -24,7 +23,6 @@ class BodyGroup extends StatelessWidget {
     @required this.count,
     @required this.group,
     @required this.tileSize,
-    @required this.coreTileSize,
     @required this.landScape,
   });
   
@@ -62,7 +60,7 @@ class BodyGroup extends StatelessWidget {
           counter: counter,
         ).actions(gameState.names);
 
-        final children = <Widget>[
+        final _children = <Widget>[
           for(final name in names)
             PlayerTile(
               name, 
@@ -79,7 +77,6 @@ class BodyGroup extends StatelessWidget {
                 names.first,
                 if(landScape && names.length >= 2) names[1],
               ].contains(name)) ? true : false,
-              coreTileSize: coreTileSize,
               page: currentPage,
               usingPartnerB: gameState.players[name].usePartnerB,
               isAttackerUsingPartnerB: gameState.players[attackingPlayer]?.usePartnerB??false,
@@ -99,29 +96,24 @@ class BodyGroup extends StatelessWidget {
           
           final List<Widget> realChildren = landScape 
             ? [
-              for(final couple in partition(children,2))
+              for(final couple in partition(_children,2))
                 Row(children: (){
                   final cpl = <Widget>[
                     Expanded(child: couple[0]),
                     if(couple.length == 2)
                       Expanded(child: couple[1],)
                   ];
-                  if(flat) return cpl.separateWith(PlayerTile.flatPaddingX);
+                  if(flat) return cpl.separateWith(CSSizes.flatPaddingX);
                   else return cpl;
                 }() ),
-            ] : children; 
+            ] : _children; 
 
           
           return Padding(
             padding: flat
-              ? const EdgeInsets.symmetric(horizontal: PlayerTile.flatPadding)
+              ? const EdgeInsets.symmetric(horizontal: CSSizes.flatPadding)
               : EdgeInsets.zero,
-            child: Column(children: flat 
-              ? realChildren.separateWith(
-                PlayerTile.flatPaddingY, 
-                alsoFirstAndLast: true,
-              ) 
-              : realChildren,
+            child: Column(children: CSSizes.separateColumn(flat, realChildren),
             ),
           );
         },);

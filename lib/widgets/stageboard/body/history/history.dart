@@ -7,18 +7,14 @@ class BodyHistory extends StatelessWidget {
   final int count;
   final CSGameGroup group;
   final double tileSize;
-  final double coreTileSize;
   final Color defenceColor;
-  final double bottom;
   final Map<CSPage,Color> pageColors;
 
   const BodyHistory({
     @required this.names,
-    @required this.bottom,
     @required this.count,
     @required this.group,
     @required this.tileSize,
-    @required this.coreTileSize,
     @required this.defenceColor,
     @required this.pageColors,
   });
@@ -34,44 +30,41 @@ class BodyHistory extends StatelessWidget {
 
         final Map<String, Counter> counters = game.gameAction.currentCounterMap;
 
-        return Padding(
-          padding: EdgeInsets.only(bottom: bottom),
-          child: SidAnimatedList(
-            listController: history.listController,
-            reverse: true, //reverse to make it appear aligned to the right
-            itemBuilder: (context, index, animation) 
-              => SizeTransition(
-                axisAlignment: -1.0,
-                axis: Axis.horizontal,
-                sizeFactor: animation,
-                child: HistoryTile(
-                  //but you must reverse the list to keep the last state on its "top"
-                  history.data[history.data.length -1 - index],
-                  firstTime: history.data.first.time,
-                  index: index,
-                  tileSize: tileSize,
-                  coreTileSize: coreTileSize,
-                  avoidInteraction: false,
-                  defenceColor: defenceColor,
-                  pageColors: pageColors,
-                  counters: counters,
-                  names: names,
-                  havePartnerB: <String,bool>{
-                    for(final entry in gameState.players.entries)
-                      entry.key: entry.value.havePartnerB,
-                  },
-                ),
+        return SidAnimatedList(
+          listController: history.listController,
+          reverse: true, //reverse to make it appear aligned to the right
+          itemBuilder: (context, index, animation) 
+            => SizeTransition(
+              axisAlignment: -1.0,
+              axis: Axis.horizontal,
+              sizeFactor: animation,
+              child: HistoryTile(
+                //but you must reverse the list to keep the last state on its "top"
+                history.data[history.data.length -1 - index],
+                firstTime: history.data.first.time,
+                index: index,
+                tileSize: tileSize,
+                // coreTileSize: coreTileSize,
+                avoidInteraction: false,
+                defenceColor: defenceColor,
+                pageColors: pageColors,
+                counters: counters,
+                names: names,
+                havePartnerB: <String,bool>{
+                  for(final entry in gameState.players.entries)
+                    entry.key: entry.value.havePartnerB,
+                },
               ),
-            initialItemCount: game.gameState.gameState.value.historyLenght,
-            scrollDirection: Axis.horizontal,
-            physics: SidereusScrollPhysics(
-              topBounce: true,
-              bottomBounce: false,
-              topBounceCallback: () => stage.mainPagesController.goToPage(CSPage.life),
-              alwaysScrollable: true,
             ),
-            shrinkWrap: false,
+          initialItemCount: game.gameState.gameState.value.historyLenght,
+          scrollDirection: Axis.horizontal,
+          physics: SidereusScrollPhysics(
+            topBounce: true,
+            bottomBounce: false,
+            topBounceCallback: () => stage.mainPagesController.goToPage(CSPage.life),
+            alwaysScrollable: true,
           ),
+          shrinkWrap: false,
         );
       }
     );

@@ -92,8 +92,8 @@ class _CommandBros extends StatelessWidget {
   );
 
   static const Color color1 = Color(0xFF003049);
-  static const Color main = color1;
-  static const Color card = color1Darker;
+  static const Color main = color1Darker;
+  static const Color card = color1;
   static const Color color1Darker = Color(0xFF00293E);
   static const Color color2 = Color(0xFFD62828);
   static const Color color3 = Color(0xFFF77F00);

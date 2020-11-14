@@ -6,6 +6,8 @@ class StuffILikeAlert extends StatelessWidget {
 
   const StuffILikeAlert();
 
+  static const double height = 425;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -18,7 +20,6 @@ class StuffILikeAlert extends StatelessWidget {
           _Note("This page's content may change only when the app gets updated"),
           CSWidgets.height10,
           _Content(),
-          CSWidgets.height20,
         ],),
         bottom: const _Note(
           "CounterSpell will not send you any notification to bring you to this page",
@@ -69,18 +70,18 @@ class _CommandBros extends StatelessWidget {
   
   static ThemeData getTheme(ThemeData base) => base.copyWith(
     brightness: Brightness.dark,
-    canvasColor: color1,
+    canvasColor: main,
     iconTheme: base.iconTheme.copyWith(color: color5),
     accentIconTheme: base.iconTheme.copyWith(color: color5),
     primaryIconTheme: base.iconTheme.copyWith(color: color5),
     textTheme: base.textTheme.apply(bodyColor: color5),
     colorScheme: base.colorScheme.copyWith(
-      primary: color1,
-      primaryVariant: color1,
+      primary: main,
+      primaryVariant: main,
       onPrimary: color5,
-      surface: color1,
+      surface: main,
       onSurface: color5,
-      background: color1,
+      background: main,
       onBackground: color5,
 
       secondary: color2,
@@ -91,7 +92,9 @@ class _CommandBros extends StatelessWidget {
   );
 
   static const Color color1 = Color(0xFF003049);
-  // static const Color color1Darker = Color(0xFF00293E);
+  static const Color main = color1;
+  static const Color card = color1Darker;
+  static const Color color1Darker = Color(0xFF00293E);
   static const Color color2 = Color(0xFFD62828);
   static const Color color3 = Color(0xFFF77F00);
   // static const Color color4 = Color(0xFFFCBF49);
@@ -104,43 +107,71 @@ class _CommandBros extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        InkResponse(
-          containedInkWell: true,
-          onTap: CSActions.visitCommandBros,
-          child: Row(children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: CircleAvatar(
-                backgroundImage: AssetImage(
-                  "assets/images/command_bros/logo.png",
+    return Container(
+      constraints: BoxConstraints(
+        minHeight: 248,
+      ),
+      child: Stack(children: [
+        Positioned.fill(
+          top: _size/2 + 10,
+          child: Container(decoration: BoxDecoration(
+            color: card,
+            boxShadow: [BoxShadow(
+              blurRadius: 5,
+              color: Color(0x89000000),
+              spreadRadius: 1.5,
+            )]
+          )),
+        ),
+        Material(
+          type: MaterialType.transparency,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              InkResponse(
+                containedInkWell: true,
+                onTap: CSActions.visitCommandBros,
+                child: Row(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Material(
+                      type: MaterialType.circle,
+                      elevation: 8,
+                      color: color1,
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage(
+                          "assets/images/command_bros/logo.png",
+                        ),
+                        backgroundColor: Colors.transparent,
+                        minRadius: _size/2,
+                        maxRadius: _size/2,
+                      ),
+                    ),
+                  ),
+                  Expanded(child: const Text("Command Bros", style: TextStyle(
+                    fontSize: 21,
+                  ),),),
+                  Padding(
+                    padding: const EdgeInsets.all(28.0),
+                    child: Icon(
+                      McIcons.youtube, 
+                      color: color3,
+                    ),
+                  ),
+                ],),
+              ),
+              CSWidgets.height5,
+              const ListTile(
+                title: Text(
+                  "This playgroup is the most fun I've had with the EDH gameplay genre in a long while. If you like pure, unadultered and easy to follow EDH games with minimal animations and hilarious commentary, be sure to check them out. Also, they use CounterSpell! :D",
+                  textAlign: TextAlign.center,
                 ),
-                backgroundColor: Colors.transparent,
-                minRadius: _size/2,
-                maxRadius: _size/2,
+                onTap: CSActions.visitCommandBros,
               ),
-            ),
-            Expanded(child: const Text("Command Bros", style: TextStyle(fontSize: 21),)),
-            Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Icon(
-                McIcons.youtube, 
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ],),
-        ),
-        CSWidgets.height5,
-        const ListTile(
-          title: Text(
-            "This playgroup is the most fun I've had with the EDH gameplay genre in a long while. If you like pure, unadultered and easy to follow EDH games with minimal animations and hilarious commentary, be sure to check them out. Also, they use CounterSpell! :D",
-            textAlign: TextAlign.center,
+            ],
           ),
-          onTap: CSActions.visitCommandBros,
         ),
-      ],
+      ],),
     );
   }
 }

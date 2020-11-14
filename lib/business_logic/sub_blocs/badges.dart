@@ -68,7 +68,7 @@ class CSBadges {
   }
 
   void showStuffILike(){
-    parent.stage.showAlert(const StuffILikeAlert(), size: Changelog.height);
+    parent.stage.showAlert(const StuffILikeAlert(), size: StuffILikeAlert.height);
     stuffILikeShown.set(lastStuffILike);
     if(!changelogBadge) {
       parent.stage.badgesController.clearPanelPage(SettingsPage.info);

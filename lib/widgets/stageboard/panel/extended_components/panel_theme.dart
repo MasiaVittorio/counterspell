@@ -7,6 +7,7 @@ class PanelTheme extends StatelessWidget {
 
   static const Widget _overallTheme = const OverallTheme();
   static const Widget _themeColors = const ThemeColors();
+  static const Widget _designPatterns = const DesignPatterns();
   static const Widget _presets = const ThemePResetter();
 
   @override
@@ -25,6 +26,7 @@ class PanelTheme extends StatelessWidget {
             leading: const Icon(McIcons.palette_outline),
             onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
           ),
+          _designPatterns,
           _themeColors,
           if(unlocked) _presets,
         ],

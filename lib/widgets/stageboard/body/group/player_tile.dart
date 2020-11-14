@@ -302,7 +302,7 @@ class PlayerTile extends StatelessWidget {
     if(page == CSPage.history){
 
       child = Material(
-        key: ValueKey("circle name"),
+        key: ValueKey("$name circle name"),
         color: selectedColor,
         // elevation: playerState.isAlive ? 2.0 : 0.0,
         borderRadius: BorderRadius.circular(coreTileSize),
@@ -326,7 +326,7 @@ class PlayerTile extends StatelessWidget {
         : rawSelected != false;
 
       child = InkWell(
-        key: ValueKey("circle number"),
+        key: ValueKey("$name circle number"),
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         onTap: () => stage.showAlert(

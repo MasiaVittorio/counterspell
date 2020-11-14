@@ -16,7 +16,7 @@ class CSHomePage extends StatelessWidget {
       child: Stage<CSPage,SettingsPage>(
         controller: bloc.stageBloc.controller,
 
-        collapsedPanel: const CSPanelCollapsed(key: WidgetsKeys.homePage,),
+        collapsedPanel: const CSPanelCollapsed(key: WidgetsKeys.collapsed,),
 
         extendedPanel: const CSPanelExtended(key: WidgetsKeys.extendedPanel,),
 

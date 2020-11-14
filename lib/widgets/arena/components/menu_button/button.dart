@@ -54,7 +54,7 @@ class ArenaButton extends StatelessWidget {
       onLongPress: exit,
       borderRadius: BorderRadius.circular(this.buttonSize/2),
       child: Container(
-        key: ValueKey("simplegroup_button_animated_icon"),
+        key: ValueKey("arena_button_animated_icon"),
         alignment: Alignment.center,
         width: this.buttonSize,
         height: this.buttonSize,

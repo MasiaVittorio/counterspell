@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:counter_spell_new/core.dart';
 
 class AboutCounterSpell extends StatelessWidget {
@@ -15,9 +16,20 @@ class AboutCounterSpell extends StatelessWidget {
         // margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
         children: <Widget>[
           ExtraButton(
-            icon: McIcons.file_document_outline,
+            icon: null,
+            customIcon: logic.badges.versionShown.build((_, __) => Badge(
+              showBadge: logic.badges.changelogBadge,
+              badgeContent: null,
+              toAnimate: false,
+              shape: BadgeShape.circle,
+              // alignment: Alignment.topRight,
+              badgeColor: Theme.of(context).accentColor,
+              position: BadgePosition.topEnd(),
+              ignorePointer: true,
+              child: const Icon(McIcons.file_document_outline),
+            ),),
             text: "Changelog",
-            onTap: logic.settings.showChangelog,
+            onTap: logic.badges.showChangelog,
           ),
           ExtraButton(
             icon: Icons.help_outline,
@@ -36,10 +48,27 @@ class AboutCounterSpell extends StatelessWidget {
         ExtraButtons(
           margin: EdgeInsets.zero,
           children: <Widget>[
+            // ExtraButton(
+            //   icon: Icons.person_outline,
+            //   text: "Developer",
+            //   onTap: () => stage.showAlert(const Developer(), size: Developer.height),
+            //   customCircleColor: Colors.transparent,
+            // ),
             ExtraButton(
-              icon: Icons.person_outline,
-              text: "Developer",
-              onTap: () => stage.showAlert(const Developer(), size: Developer.height),
+              customIcon: logic.badges.stuffILikeShown.build((_, __) => Badge(
+                showBadge: logic.badges.stuffILikeBadge,
+                badgeContent: null,
+                toAnimate: false,
+                shape: BadgeShape.circle,
+                // alignment: Alignment.topRight,
+                badgeColor: Theme.of(context).accentColor,
+                position: BadgePosition.topEnd(),
+                ignorePointer: true,
+                child: const Icon(Icons.star_border)
+              ),),
+              icon: null,
+              text: "Stuff I like",
+              onTap: logic.badges.showStuffILike,
               customCircleColor: Colors.transparent,
             ),
             ExtraButton(

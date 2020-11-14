@@ -8,6 +8,7 @@ export 'email.dart';
 export 'feedback.dart';
 export 'licenses.dart';
 export 'quotes.dart';
+export 'stuff_i_like.dart';
 export 'support.dart';
 export 'telegram.dart';
 export 'backups.dart';

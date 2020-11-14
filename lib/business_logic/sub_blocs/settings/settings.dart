@@ -35,12 +35,6 @@ class CSSettings {
     appSettings = CSSettingsApp(parent),
     gameSettings = CSSettingsGame(parent);
 
-
-  void showChangelog(){
-    parent.stage.showAlert(const Changelog(), size: Changelog.height);
-    appSettings.versionShown.set(versionCode);
-  }
-
   static const int versionCode = ChangeLogData.lastBigChange;
 
 }

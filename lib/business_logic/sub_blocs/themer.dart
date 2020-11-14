@@ -12,16 +12,20 @@ class CSThemer {
   final CSBloc parent;
   final PersistentVar<Color> defenceColor;
   final PersistentVar<Map<String,CSColorScheme>> savedSchemes;
-  final PersistentVar<bool> flatDesign; // vs material design
+  BlocVar<bool> flatDesign; // vs material design
+
+
+  static const bool flatLinkedToColorPlace = false;
+  // Flat design always require colorPlace to be texts, but it is not always
+  // the other way around. IF this constant is TRUE, then also a text colorPlace
+  // means that the design is always flat, and a material design means always 
+  // that the colorPlace is background.
 
 
   //================================
   // Constructor
+  // Needs stage if flatDesign gets linked with stage's textPlace
   CSThemer(this.parent): 
-    flatDesign = PersistentVar<bool>(
-      key: "bloc_themer_blocvar_flatDesign",
-      initVal: false,
-    ),
     defenceColor = PersistentVar<Color>(
       key: "bloc_themer_blocvar_defenceColor",
       initVal: CSColors.blue,
@@ -40,7 +44,22 @@ class CSThemer {
       fromJson: (json) => <String,CSColorScheme>{for(final e in (json as Map).entries)
         e.key as String : CSColorScheme.fromJson(e.value),
       },
-    );
+    ){
+    if(flatLinkedToColorPlace){
+      flatDesign = BlocVar.fromCorrelate<bool, StageColorPlace>(
+        from: parent.stage.themeController.colorPlace,
+        map: (StageColorPlace place)
+          => place.isTexts,
+      );
+    } else {
+      flatDesign = PersistentVar<bool>(
+        key: "bloc_themer_blocvar_flatDesign",
+        initVal: false,
+      );
+    }
+    assert(flatDesign != null);
+
+  }
 
 
   static Color getHistoryChipColor({
@@ -73,7 +92,13 @@ class CSThemer {
 
   void activateFlatDesign(){
     parent.stage.themeController.colorPlace.setDistinct(StageColorPlace.texts);
-    this.flatDesign.setDistinct(true);  
+    
+    if(flatLinkedToColorPlace == false){
+      this.flatDesign.setDistinct(true);  
+    } else {
+      // should get set to true automatically
+    }
+
     parent.stage.themeController.topBarElevations.set(_topFlatElevations);
     parent.stage.dimensionsController.dimensions.set(
       parent.stage.dimensionsController.dimensions.value.copyWith(
@@ -84,8 +109,15 @@ class CSThemer {
     );
     parent.stage.themeController.bottomBarShadow.setDistinct(false);
   }
+
   void deactivateFlatDesign(){
-    this.flatDesign.setDistinct(false);  
+    if(flatLinkedToColorPlace){
+      parent.stage.themeController.colorPlace.set(StageColorPlace.background);
+      // then flat design should become false automatically
+    } else {
+      this.flatDesign.setDistinct(false);  
+      // colorPlace can still be texts if the two are not hard linked
+    }
     parent.stage.themeController.topBarElevations.set(_topMaterialElevations);
     parent.stage.dimensionsController.dimensions.set(
       parent.stage.dimensionsController.dimensions.value.copyWith(
@@ -95,6 +127,7 @@ class CSThemer {
     );
     parent.stage.themeController.bottomBarShadow.setDistinct(true);
   }
+
   void toggleFlatDesign(){
     if(this.flatDesign.value){
       this.deactivateFlatDesign();
@@ -104,19 +137,31 @@ class CSThemer {
   }
 
   void activateGoogleLikeColors(){
-    parent.stage.themeController.colorPlace.setDistinct(StageColorPlace.texts);
+    if(flatLinkedToColorPlace){
+      activateFlatDesign();
+    } else {
+      parent.stage.themeController.colorPlace
+        .setDistinct(StageColorPlace.texts);
+    }
   }
+
   void deactivateGoogleLikeColors(){
     this.deactivateFlatDesign();
     parent.stage.themeController
       .colorPlace.setDistinct(StageColorPlace.background);
   }
+
   void toggleGoogleLikeColors(){
     if(parent.stage.themeController.colorPlace.value.isTexts){
       this.deactivateGoogleLikeColors();
     } else {
       this.activateGoogleLikeColors();
     }
+  }
+
+  void setColorPlace(StageColorPlace place){
+    if(place.isTexts) activateGoogleLikeColors();
+    else deactivateGoogleLikeColors();
   }
 
   static const _topMaterialElevations = <StageColorPlace,double>{
@@ -128,7 +173,7 @@ class CSThemer {
     StageColorPlace.texts: 0,
     StageColorPlace.background: 8,
   };
-  // static const _bottomMaterial = BoxShadow;
 
+  // static const _bottomMaterial = BoxShadow;
 
 }

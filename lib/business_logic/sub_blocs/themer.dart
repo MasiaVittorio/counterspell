@@ -135,6 +135,10 @@ class CSThemer {
       this.activateFlatDesign();
     }
   }
+  void setFlatDesign(bool val){
+    if(val) activateFlatDesign();
+    else deactivateFlatDesign();
+  }
 
   void activateGoogleLikeColors(){
     if(flatLinkedToColorPlace){

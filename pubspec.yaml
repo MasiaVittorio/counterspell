@@ -31,6 +31,7 @@ dependencies:
     path: ../stage_2
   animations: ^1.1.1
   auto_size_text: ^2.1.0
+  badges: ^1.1.4
   cached_network_image: ^2.0.0-rc
   division: ^0.7.0
   equatable: ^1.0.0
@@ -82,8 +83,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+   - assets/images/command_bros/logo.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

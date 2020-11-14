@@ -9,4 +9,7 @@ class CSUris{
   static const String featherArt = "https://i.imgur.com/N4Dyd0u.jpg";
 
   static const String githubPage = "https://github.com/MasiaVittorio/counterspell"; 
+
+  static const String commandBrosYouTubeChannel = "https://www.youtube.com/channel/UCynw8nPI4nS9HI_fmSBLs4A"; 
+
 }

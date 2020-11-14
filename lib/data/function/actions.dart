@@ -24,4 +24,8 @@ class CSActions{
     _launchUrl(CSUris.githubPage);
   }
 
+  static void visitCommandBros() async {
+    _launchUrl(CSUris.commandBrosYouTubeChannel);
+  }
+
 }

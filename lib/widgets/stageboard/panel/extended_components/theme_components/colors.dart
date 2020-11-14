@@ -21,22 +21,29 @@ class ThemeColors extends StatelessWidget {
             children: [
               Section([
                 const SectionTitle("Design patterns"),
-                placeVar.build((context, val) 
-                  => SwitchListTile(
-                    value: val.isTexts, 
-                    onChanged: (_) => themer.toggleGoogleLikeColors(),
-                    title: const Text("Google-like colors"),
-                    subtitle: AnimatedText(val.isTexts
-                      ? "Colored text"
-                      : "Colored background"
-                    ),
+                placeVar.build((_, val) => SwitchListTile(
+                  value: val.isTexts, 
+                  onChanged: (_) => themer.toggleGoogleLikeColors(),
+                  title: const Text("Google-like colors"),
+                  subtitle: AnimatedText(val.isTexts
+                    ? "Colored text"
+                    : "Colored background"
                   ),
-                ),
+                  secondary: Icon(val.isTexts 
+                    ? McIcons.alpha_a_box_outline
+                    : McIcons.alpha_a_box
+                  ),
+                ),),
+                if(!CSThemer.flatLinkedToColorPlace)
                 themer.flatDesign.build((context, val) => SwitchListTile(
                   value: val,
                   onChanged: (_) => themer.toggleFlatDesign(),
                   title: const Text("Flat design"),
                   subtitle: const Text("Over material"),
+                  secondary: Icon(val
+                    ? McIcons.rounded_corner
+                    : McIcons.android_studio
+                  ),
                 )),
               ]),
               Section(<Widget>[

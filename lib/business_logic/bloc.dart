@@ -24,15 +24,17 @@ class CSBloc extends BlocBase {
   //=============================
   // Values 
 
+
   CSAchievements achievements;
   CSGame game;
   CSPastGames pastGames;
   CSPayments payments;
   CSBackupBloc backups;
-  CSStage stageBloc;
+  CSStage stageBloc; // Needs scroller
+  CSBadges badges; // Needs stage 
   CSScroller scroller;
   CSSettings settings;
-  CSThemer themer;
+  CSThemer themer; // Needs stage
 
 
   //=============================
@@ -46,8 +48,9 @@ class CSBloc extends BlocBase {
     backups = CSBackupBloc(this);
     settings = CSSettings(this);
     scroller = CSScroller(this);
-    stageBloc = CSStage(this);
-    themer = CSThemer(this);
+    stageBloc = CSStage(this); // Needs scroller
+    badges = CSBadges(this); // Needs stage 
+    themer = CSThemer(this); // Needs stage
   }
 
 

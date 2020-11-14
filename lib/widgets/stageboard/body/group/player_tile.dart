@@ -157,7 +157,10 @@ class PlayerTile extends StatelessWidget {
       final MtgCard cardB = havingPartnerB ? cardsB[name] : null;
 
       if(cardB == null && cardA == null){
-        return Material(child: tile);
+        return Material(
+          child: tile,
+          borderRadius: BorderRadius.circular(12),
+        );
       } else {
         final String urlA = cardA?.imageUrl();
         final String urlB = cardB?.imageUrl();

@@ -14,6 +14,7 @@ class ExtraButtonToggle extends StatelessWidget {
   final Color colorOn;
   final Color colorOff;
   final double iconSize;
+  final bool twoLines;
 
   ExtraButtonToggle({
     @required this.value,
@@ -24,6 +25,7 @@ class ExtraButtonToggle extends StatelessWidget {
     this.colorOn,
     this.colorOff,
     this.iconSize,
+    this.twoLines = false,
   });
 
   @override
@@ -52,6 +54,7 @@ class ExtraButtonToggle extends StatelessWidget {
             text: text,
             customCircleColor: Color.lerp(colorOff, colorOn, val),
             onTap: () => onChanged(!(value ?? false)),
+            twoLines: twoLines ?? false,
           );
         },
       ),

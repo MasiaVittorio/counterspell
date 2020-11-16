@@ -20,6 +20,9 @@ class CSActions{
   static void chatWithMe() async {
     _launchUrl(CSUris.telegramGroup);
   }
+  static void openDiscordInvite() async {
+    _launchUrl(CSUris.discordInvite);
+  }
   static void githubPage() async {
     _launchUrl(CSUris.githubPage);
   }

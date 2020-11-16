@@ -15,8 +15,10 @@ class PanelInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const AboutCounterSpell(),
-          const CounterSpellActions(),
+          const Useful(),
+          const Development(),
+          // const AboutCounterSpell(),
+          // const CounterSpellActions(),
           const QuoteTile(),
         ],
       ),

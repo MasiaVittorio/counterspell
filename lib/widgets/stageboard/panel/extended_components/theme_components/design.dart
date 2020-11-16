@@ -159,6 +159,7 @@ class DesignPatterns extends StatelessWidget {
                   const DesignSnackBar(),
                   duration: null,
                   rightAligned: true,
+                  pagePersistent: true,
                 );
               },
             ),

@@ -11,6 +11,7 @@ class SettingsAppearance extends StatelessWidget {
     return Section([
       const SectionTitle("Appearance"),
       ExtraButtons(
+        flexes: [9,6,6],
         children: <Widget>[
           settings.appSettings.alwaysOnDisplay.build((_, alwaysOn) 
             => ExtraButtonToggle(
@@ -18,6 +19,7 @@ class SettingsAppearance extends StatelessWidget {
               onChanged: settings.appSettings.alwaysOnDisplay.set,
               text: "Always on display",
               icon: Icons.settings_brightness,
+              // twoLines: true,
             ),
           ),
           ExtraButton(
@@ -27,6 +29,14 @@ class SettingsAppearance extends StatelessWidget {
               const ImageOpacity(),
               size: ImageOpacity.height,
             ),
+          ),
+          ExtraButton(
+            text: "History",
+            icon: CSIcons.historyIconFilled,
+            onTap: () => stage.showAlert(
+              const HistoryTimeAlert(),
+              size: HistoryTimeAlert.size,
+            )
           ),
         ],
       ),
@@ -52,18 +62,6 @@ class SettingsAppearance extends StatelessWidget {
           divisions: 18,
         ),
       ),
-
-      const SectionTitle("History time"),
-      bloc.settings.gameSettings.timeMode.build((_,mode)=> RadioSlider(
-        onTap: (i) => settings.gameSettings.timeMode.set(TimeMode.values[i]),
-        selectedIndex: TimeMode.values.indexOf(mode),
-        items: [for(final timeMode in TimeMode.values)
-          RadioSliderItem(
-            icon: Icon(TimeModes.icons[timeMode]),
-            title: Text(TimeModes.nameOf(timeMode)),
-          ),
-        ],
-      )),
 
     ]);
   }

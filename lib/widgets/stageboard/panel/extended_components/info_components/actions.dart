@@ -13,7 +13,7 @@ class CounterSpellActions extends StatelessWidget {
     final stage = Stage.of(context);
     
     return Section([
-      const SectionTitle("Actions"),
+      const SectionTitle("Data"),
       ExtraButtons(children: <Widget>[
         ExtraButton(
           text: "Cache manager",

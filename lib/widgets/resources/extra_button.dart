@@ -10,11 +10,13 @@ class ExtraButtons extends StatelessWidget {
     @required this.children,
     this.margin = defaultMargin,
     this.separate = true,
+    this.flexes,
   });
 
   final List<Widget> children;
   final EdgeInsets margin;
   final bool separate;
+  final List<int> flexes;
 
   static const defaultMargin = const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
   static const Widget divider = _ExtraButtonDivider();
@@ -22,8 +24,11 @@ class ExtraButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final expanded = <Widget>[
-      for(final child in children)
-        Expanded(child: child),
+      for(int i=0; i<children.length; ++i)
+        Expanded(
+          child: children[i],
+          flex: flexes.checkIndex(i) ? flexes[i] : 1,
+        ),
     ];
     return Padding(
       padding: margin ?? defaultMargin,
@@ -67,6 +72,7 @@ class ExtraButton extends StatelessWidget {
   final bool filled;
   final Widget customIcon;
   final Color customCircleColor;
+  final bool twoLines;
 
   const ExtraButton({
     @required this.icon,
@@ -78,6 +84,7 @@ class ExtraButton extends StatelessWidget {
     this.customIcon,
     this.filled = false,
     this.customCircleColor,
+    this.twoLines = false,
   });
 
   static const double _iconDimension = 38.0;
@@ -112,15 +119,16 @@ class ExtraButton extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 3.0),
           child: Container(
             alignment: Alignment.center,
-            height: 24,
+            height: twoLines ? 36 : 24,
             child: this.forceExternalSize 
               ? AutoSizeText(
                 text,
                 maxLines: 1,
                 maxFontSize: defaultSize,
                 minFontSize: defaultSize / 2,
+                textAlign: TextAlign.center,
               )
-              : Text(text),
+              : Text(text, textAlign: TextAlign.center),
           ),
         ),
       ], 

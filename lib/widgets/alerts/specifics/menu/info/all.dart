@@ -4,6 +4,7 @@ export 'backups.dart';
 export 'contacts.dart';
 export 'changelog.dart';
 export 'developer.dart';
+export 'discord.dart';
 export 'email.dart';
 export 'feedback.dart';
 export 'licenses.dart';

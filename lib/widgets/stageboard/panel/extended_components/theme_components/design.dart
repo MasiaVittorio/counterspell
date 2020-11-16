@@ -10,10 +10,10 @@ class DesignPatterns extends StatelessWidget {
     final stage = Stage.of(context);
     final bloc = CSBloc.of(context);
     final theme = Theme.of(context);
-    final placeVar = stage.themeController.colorPlace;
-    final themer = bloc.themer;
-    final pageColorsVar = stage.themeController.derived.mainPageToPrimaryColor;
-    final color = theme.accentColor;
+    // final placeVar = stage.themeController.colorPlace;
+    // final themer = bloc.themer;
+    // final pageColorsVar = stage.themeController.derived.mainPageToPrimaryColor;
+    // final color = theme.accentColor;
     // Color.alphaBlend(
     //   theme.colorScheme.onSurface.withOpacity(0.1), 
     //   theme.canvasColor,
@@ -49,105 +49,119 @@ class DesignPatterns extends StatelessWidget {
             //     : McIcons.android_studio
             //   ),
             // )),
-            Row(children: [
-              Expanded(child: placeVar.build((_, place) => SubSection(
-                <Widget>[
-                  const SectionTitle("Color Place"),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 4.0,
-                    ),
-                    child: pageColorsVar.build((_, pages) 
-                      => themer.flatDesign.build((_, flat) => Material(
-                        color: place.isTexts 
-                          ? theme.canvasColor
-                          : pages[CSPage.life],
-                        borderRadius: BorderRadius.circular(
-                          10,
-                          // flat ? 10 : 0,
-                        ),
-                        elevation: flat ? 0 : 6,
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 38.0,
-                          width: 38.0,
-                          child: IconTheme(
-                            data: IconThemeData(
-                              opacity: 1.0,
-                              color: place.isTexts 
-                                ? pages[CSPage.life]
-                                : pages[CSPage.life].contrast, 
-                            ),
-                            child: const Icon(CSIcons.castIconFilled),
-                          ),
-                        ),
-                      ),
-                    ),),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 3.0),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 24,
-                      child: AnimatedText(
-                        place.isTexts ? "Text" : "Background",
-                      ),
-                    ),
-                  ),
-                ], 
-                crossAxisAlignment: CrossAxisAlignment.center,
-                onTap: themer.toggleGoogleLikeColors,
-                margin: EdgeInsets.zero,
-                color: false,
-              ),),),
+            // Row(children: [
+            //   Expanded(child: placeVar.build((_, place) => SubSection(
+            //     <Widget>[
+            //       const SectionTitle("Color Place"),
+            //       Padding(
+            //         padding: const EdgeInsets.only(
+            //           left: 8.0, right: 8.0, top: 4.0,
+            //         ),
+            //         child: pageColorsVar.build((_, pages) 
+            //           => themer.flatDesign.build((_, flat) => Material(
+            //             color: place.isTexts 
+            //               ? theme.canvasColor
+            //               : pages[CSPage.life],
+            //             borderRadius: BorderRadius.circular(
+            //               10,
+            //               // flat ? 10 : 0,
+            //             ),
+            //             elevation: flat ? 0 : 6,
+            //             child: Container(
+            //               alignment: Alignment.center,
+            //               height: 38.0,
+            //               width: 38.0,
+            //               child: IconTheme(
+            //                 data: IconThemeData(
+            //                   opacity: 1.0,
+            //                   color: place.isTexts 
+            //                     ? pages[CSPage.life]
+            //                     : pages[CSPage.life].contrast, 
+            //                 ),
+            //                 child: const Icon(CSIcons.castIconFilled),
+            //               ),
+            //             ),
+            //           ),
+            //         ),),
+            //       ),
+            //       Padding(
+            //         padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 3.0),
+            //         child: Container(
+            //           alignment: Alignment.center,
+            //           height: 24,
+            //           child: AnimatedText(
+            //             place.isTexts ? "Text" : "Background",
+            //           ),
+            //         ),
+            //       ),
+            //     ], 
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     onTap: themer.toggleGoogleLikeColors,
+            //     margin: EdgeInsets.zero,
+            //     color: false,
+            //   ),),),
 
-              CSWidgets.extraButtonsDivider, 
+            //   CSWidgets.extraButtonsDivider, 
 
-              Expanded(child: themer.flatDesign.build((_, flat) => SubSection(
-                <Widget>[
-                  const SectionTitle("Design"),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 4.0,
-                    ),
-                    child: pageColorsVar.build((_, pages) 
-                      => Material(
-                        color: color,
-                        borderRadius: BorderRadius.circular(
-                          // flat ? 10 : 0,
-                          10
-                        ),
-                        elevation: flat ? 0 : 6,
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 38.0,
-                          width: 38.0,
-                          child: Icon(
-                            McIcons.android_studio,
-                            color: color.contrast,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 3.0),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 24,
-                      child: AnimatedText(
-                        flat ? "Flat" : "Solid",
-                      ),
-                    ),
-                  ),
-                ], 
-                crossAxisAlignment: CrossAxisAlignment.center,
-                onTap: themer.toggleFlatDesign,
-                margin: EdgeInsets.zero,
-                color: false,
-              ),),),
+            //   Expanded(child: themer.flatDesign.build((_, flat) => SubSection(
+            //     <Widget>[
+            //       const SectionTitle("Design"),
+            //       Padding(
+            //         padding: const EdgeInsets.only(
+            //           left: 8.0, right: 8.0, top: 4.0,
+            //         ),
+            //         child: pageColorsVar.build((_, pages) 
+            //           => Material(
+            //             color: color,
+            //             borderRadius: BorderRadius.circular(
+            //               // flat ? 10 : 0,
+            //               10
+            //             ),
+            //             elevation: flat ? 0 : 6,
+            //             child: Container(
+            //               alignment: Alignment.center,
+            //               height: 38.0,
+            //               width: 38.0,
+            //               child: Icon(
+            //                 McIcons.android_studio,
+            //                 color: color.contrast,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       Padding(
+            //         padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 3.0),
+            //         child: Container(
+            //           alignment: Alignment.center,
+            //           height: 24,
+            //           child: AnimatedText(
+            //             flat ? "Flat" : "Solid",
+            //           ),
+            //         ),
+            //       ),
+            //     ], 
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     onTap: themer.toggleFlatDesign,
+            //     margin: EdgeInsets.zero,
+            //     color: false,
+            //   ),),),
 
-            ],),
+            // ],),
+
+            ListTile(
+              title: const Text("Pick design patterns"),
+              leading: const Icon(McIcons.material_design),
+              trailing: const Icon(Icons.keyboard_arrow_right),
+              onTap: (){
+                stage.panelController.close();
+                stage.showSnackBar(
+                  const DesignSnackBar(),
+                  duration: null,
+                  rightAligned: true,
+                );
+              },
+            ),
 
           ]),
 

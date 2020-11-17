@@ -16,7 +16,17 @@ class CSStage {
     controller = StageData<CSPage,SettingsPage>(
       storeKey: "MvSidereus_CounterSpell_Stage",
       panelData: StagePanelData(
-        onPanelOpen: parent.scroller.cancel,
+        onPanelOpen: (){
+          parent.scroller.cancel();
+          if(
+            parent.tutorial.currentHint != null &&
+            parent.tutorial.currentHint.needsSnackBar
+          ) parent?.stage?.panelController?.onNextPanelClose(() {
+              parent?.tutorial?.showHint(
+                parent.tutorial.currentHintIndex,  
+              );
+            });
+        },
       ),
       popBehavior: StagePopBehavior(
         backToDefaultMainPage: true,

@@ -1,5 +1,6 @@
 export 'arena_transformer.dart';
 export 'bottom_extra.dart';
+export 'centered_tile.dart';
 export 'chip.dart';
 export 'confirmable_tile.dart';
 export 'delayed_widget.dart';

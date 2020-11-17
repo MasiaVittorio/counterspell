@@ -1,0 +1,55 @@
+import 'package:counter_spell_new/core.dart';
+
+
+class CenteredTile extends StatelessWidget {
+  const CenteredTile({
+    @required this.title,
+    @required this.subtitle,
+    @required this.leading,
+    @required this.onTap,
+  });
+
+  final Widget title;
+  final Widget subtitle;
+  final Widget leading;
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: CSSizes.collapsedPanelSize,
+          alignment: Alignment.center,
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Container(
+              height: CSSizes.collapsedPanelSize,
+              width: CSSizes.collapsedPanelSize,
+              alignment: Alignment.center,
+              child: leading,
+            ),
+            Expanded(child: Column(
+              mainAxisSize: MainAxisSize.min, 
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DefaultTextStyle(
+                  style: theme.textTheme.subtitle1,
+                  child: title,
+                ),
+                DefaultTextStyle(
+                  style: theme.textTheme.bodyText2
+                    .copyWith(color: theme.textTheme.caption.color),
+                  child: subtitle,
+                ),
+              ],
+            ),),
+          ],),
+        ),
+      ),
+    );
+  }
+}

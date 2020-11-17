@@ -6,6 +6,8 @@ class CSWidgets{
     padding: const EdgeInsets.symmetric(horizontal:16.0),
     child: const Divider(height: 2.0,),
   );
+
+  static const Widget collapsedPanelDivider = const _CollapsedPanelDivider();
   static const Icon deleteIcon = Icon(Icons.delete_forever, color: CSColors.delete,);
   static const Widget height5 = SizedBox(height: 5.0, width: 0.0,);
   static const Widget width5 = SizedBox(width: 5.0, height: 0.0,);
@@ -21,6 +23,22 @@ class CSWidgets{
   static const Widget verticalDivider = _VerticalDivider();
 }
 
+
+
+class _CollapsedPanelDivider extends StatelessWidget {
+
+  const _CollapsedPanelDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: CSSizes.collapsedPanelSize * 0.65,
+      width: 1.0,
+      color: Theme.of(context).textTheme.bodyText1.color
+        .withOpacity(0.5),
+    );
+  }
+}
 
 
 class _VerticalDivider extends StatelessWidget {

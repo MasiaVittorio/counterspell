@@ -8,6 +8,7 @@ class CSBloc extends BlocBase {
   @override
   void dispose() {
     print("disposing all counterspell logic from inside");
+    this.tutorial.dispose();
     this.achievements.dispose();
     this.game.dispose();
     this.backups.dispose();
@@ -25,6 +26,7 @@ class CSBloc extends BlocBase {
   // Values 
 
 
+  CSTutorial tutorial; // Needs stage just to show, not to initialize
   CSAchievements achievements;
   CSGame game;
   CSPastGames pastGames;
@@ -41,6 +43,7 @@ class CSBloc extends BlocBase {
   // Constructor 
 
   CSBloc(){
+    tutorial = CSTutorial(this); // Needs stage just to show, not to initialize
     achievements = CSAchievements(this);
     game = CSGame(this);
     pastGames = CSPastGames(this);

@@ -17,16 +17,18 @@ class Useful extends StatelessWidget {
             icon: Icons.help_outline,
             text: "Tutorial",
             onTap: (){
-              // TODO: tutorial as a whole, to divide into sections
-            },
+              logic.tutorial.showTutorial(0, full: true);
+            }, 
             customCircleColor: Colors.transparent,
           ),
           const Icon(Icons.keyboard_arrow_right),
-          ...(<Widget>[for(final data in TutorialData.values) //TODO: sections bloc, to integrate with badges bloc and stufffff
+          ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
             ExtraButton(
-              onTap: (){}, 
-              icon: data.icon,
-              text: data.title,
+              onTap: (){
+                logic.tutorial.showTutorial(i, full: false);
+              }, 
+              icon: TutorialData.values[i].icon,
+              text: TutorialData.values[i].title,
               customCircleColor: Colors.transparent,
             ),].separateWith(CSWidgets.width5)),
         ],),

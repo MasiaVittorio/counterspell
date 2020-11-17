@@ -9,3 +9,4 @@ export 'payments.dart';
 export 'stage.dart';
 export 'settings/settings.dart';
 export 'themer.dart';
+export 'tutorial.dart';

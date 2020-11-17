@@ -38,6 +38,10 @@ class CSTutorial {
   Hint get currentHint => getHint(currentHintIndex);
   Hint get nextHint => getHint(currentHintIndex + 1);
 
+  bool get thereIsANext => (nextHint != null) ||
+      (fullTutorial && (nextTutorial != null));
+
+
   ///=============================================
   /// Methods =================================
 
@@ -77,11 +81,10 @@ class CSTutorial {
     }
     parent.stage.showAlert(
       _HintAlert(hint),
-      size: hint.needsCollapsed 
-        ? 380
-        : 450,
+      size: _HintAlert.height(hint),
       replace: true,
     );
+    parent.stage.panelController.onNextPanelClose(this._skipHint);
   }
 
   void showSnackBarHint(Hint hint){
@@ -100,8 +103,11 @@ class CSTutorial {
           ),
         ),
         secondary: StageSnackButton(
-          onTap: skipHint, 
-          child: Icon(Icons.keyboard_arrow_right),
+          onTap: _skipHint, 
+          child: Icon(thereIsANext 
+            ? Icons.keyboard_arrow_right
+            : Icons.check
+          ),
         ),
       ),
       rightAligned: false,
@@ -113,8 +119,9 @@ class CSTutorial {
 
 
   /// Skip =====================
-  void skipHint() async {
-    print("skipping hint");
+  void _skipHint() async {
+    print("skipping hint from tutorial Index: $currentTutorialIndex and hint Index: $currentHintIndex");
+
     if((currentTutorial == null) || (currentHintIndex == null)){
       quitTutorial();
       print("invlid current Tutorial or current hint index");
@@ -124,27 +131,34 @@ class CSTutorial {
     print("next hint index would be: $nextHintIndex");
     // calculating this here becaaause quitHint would put it to null
     if(nextHint == null){
+      print("next hint in this tutorial would be null, so");
       if((fullTutorial == false) || (nextTutorial == null)){
+        print("because next tutorial would also be null, we quit");
         quitTutorial();
         return;
       } else {
-        await quitCurrentHint();
+        print("because there is a next tutorial, we quit the hint and start the new tutorial");
+        await _quitCurrentHint();
         showTutorial(currentTutorialIndex + 1);
       }
     } else { // there is a next hint
-      await quitCurrentHint();
+      print("there is a next hint in this tutorial so we quit the current one");
+      await _quitCurrentHint();
+      print("now that the current is quit, we show the next ($nextHintIndex)");
       showHint(nextHintIndex);
     }
   }
 
   /// Quit =====================
   Future<void> quitTutorial() async {
+    print("quitting current tutorial");
     fullTutorial = false;
-    await quitCurrentHint();
+    await _quitCurrentHint();
     currentTutorialIndex = null;
   }
 
-  Future<void> quitCurrentHint() async {
+  Future<void> _quitCurrentHint() async {
+    print("quitting current hint");
     if(currentHint?.needsAlert ?? true){
       await parent.stage.closePanelCompletely();
     } 
@@ -162,22 +176,52 @@ class _HintAlert extends StatelessWidget {
   const _HintAlert(this.hint);
   final Hint hint;
 
+  static double height(Hint hint) 
+    => hint.needsCollapsed ? 450.0 : 600.0;
+  
+  double get size => height(this.hint);
+
   @override
   Widget build(BuildContext context) {
 
     final logic = CSBloc.of(context);
     final tutorialLogic = logic.tutorial;
+    final bool next = tutorialLogic.thereIsANext;
 
     return HeaderedAlert(
       hint.text,
-      child: hint.needsCollapsed 
-        ? _HintAlertCollapsed(hint)
-        : hint.needsExtended 
-          ? _HintAlertExtended(hint)
-          : Container(),
+      alreadyScrollableChild: true,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: PanelTitle.height)
+            + const EdgeInsets.all(16),
+          child: Material(
+            elevation: 4,
+            borderRadius: BorderRadius.circular(16),
+            clipBehavior: Clip.antiAlias,
+            child: MediaQuery.removePadding(
+              context: context,
+              removeBottom: true,
+              removeTop: true,
+              removeLeft: true,
+              removeRight: true,
+              child: Container(
+                height: size - 162,
+                color: Colors.yellow,
+                child: hint.needsCollapsed 
+                  ? HintAlertCollapsed(hint)
+                  : hint.needsExtended 
+                    ? HintAlertExtended(hint)
+                    : Container(),
+              ),
+            ),
+          ),
+        ),
+      ),
       bottom: SubSection(
         [Row(children: <Widget>[for(final child in [
-          CenteredTile(
+          if(next)
+          ...[CenteredTile(
             title: const Text("Quit tutorial"),
             subtitle: const Text("I'll figure it out"),
             leading: const Icon(Icons.close),
@@ -187,7 +231,13 @@ class _HintAlert extends StatelessWidget {
             title: const Text("Got it!"),
             subtitle: const Text("Next hint"),
             leading: const Icon(Icons.keyboard_arrow_right),
-            onTap: tutorialLogic.skipHint,
+            onTap: Stage.of(context).closePanel,
+          )]
+          else CenteredTile(
+            title: const Text("End of tutorial"),
+            subtitle: const Text("Thank you!!"),
+            leading: const Icon(Icons.check),
+            onTap: Stage.of(context).closePanel,
           ),
         ]) Expanded(child: child)]
           .separateWith(CSWidgets.collapsedPanelDivider),
@@ -199,30 +249,3 @@ class _HintAlert extends StatelessWidget {
 }
 
 
-class _HintAlertCollapsed extends StatelessWidget {
-  
-  final Hint hint;
-  const _HintAlertCollapsed(this.hint);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // TODO: collapsed panel hint
-    );
-  }
-}
-
-
-
-class _HintAlertExtended extends StatelessWidget {
-  
-  final Hint hint;
-  const _HintAlertExtended(this.hint);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // TODO: extended panel hint
-    );
-  }
-}

@@ -24,6 +24,30 @@ class TutorialData {
     //   ],
     // ),
     TutorialData(
+      icon: CSIcons.counterIconOutlined,
+      title: "Counters",
+      hints: [
+        Hint(
+          text: 'Picking counters',
+          page: CSPage.counters,
+          collapsedIcon: CSIcons.poison,
+          collapsedRightSide: true,
+        ),
+      ],
+    ),
+    TutorialData(
+      icon: Icons.people_alt_outlined,
+      title: "Playgroup",
+      hints: [
+        Hint(
+          text: 'Editing the playgroup',
+          page: CSPage.life,
+          collapsedIcon: Icons.people_alt_outlined,
+          collapsedRightSide: true,
+        ),
+      ],
+    ),
+    TutorialData(
       icon: Icons.gesture,
       title: "Gestures",
       hints: [
@@ -46,7 +70,7 @@ class TutorialData {
       title: "Multi-select",
       hints: [
         Hint(
-          text: "Tap on different players before swiping to edit them together",
+          text: "Tap on multiple players before swiping to edit them together",
           page: CSPage.life,
         ),
         Hint(
@@ -115,30 +139,6 @@ class TutorialData {
           text: 'Restarting the game',
           page: null,
           panelPage: SettingsPage.game,
-        ),
-      ],
-    ),
-    TutorialData(
-      icon: CSIcons.counterIconOutlined,
-      title: "Counters",
-      hints: [
-        Hint(
-          text: 'Picking counters',
-          page: CSPage.counters,
-          collapsedIcon: CSIcons.poison,
-          collapsedRightSide: true,
-        ),
-      ],
-    ),
-    TutorialData(
-      icon: Icons.people_alt_outlined,
-      title: "Playgroup",
-      hints: [
-        Hint(
-          text: 'Editing the playgroup',
-          page: CSPage.life,
-          collapsedIcon: Icons.people_alt_outlined,
-          collapsedRightSide: true,
         ),
       ],
     ),

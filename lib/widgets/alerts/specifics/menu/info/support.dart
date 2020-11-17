@@ -124,7 +124,7 @@ class SupportInfo extends StatelessWidget {
         ]),
         const Section([
           SectionTitle("My reasons"),
-          ListTile(title: Text("I made this app because I wanted to use it myself, and I feel like its core features should always stay free to anyone else who apprecieate it like I do."),),
+          ListTile(title: Text("I made this app because I wanted to use it myself, and I feel like its core features should always stay free to anyone else who appreciate it like I do."),),
           ListTile(title: Text("If you want to donate more than just the lowest amount you should do that because you appreciate my work, not to unlock the latest skin or stuff like that."),),
           SubSection([ListTile(subtitle: Text(
             "(Also, linking different features to different purchases is annoying to code. Right now the app considers you a pro user simply if the list of past purchases is not empty, lol)",

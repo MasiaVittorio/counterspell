@@ -21,6 +21,7 @@ class HintAlertCollapsed extends StatelessWidget {
           CSPage.life : [CSPage.history,CSPage.life,CSPage.commanderDamage],
           CSPage.commanderDamage : [CSPage.life,CSPage.commanderDamage,CSPage.commanderCast],
           CSPage.commanderCast: [CSPage.history,CSPage.life,CSPage.commanderCast],
+          null: [CSPage.counters,CSPage.life,CSPage.commanderDamage,],
         }[hint.page],
       ),
       collapsedPanel: _Collapsed(hint),
@@ -50,23 +51,25 @@ class _Collapsed extends StatelessWidget {
     return StageBuild.offMainColors<CSPage>((_, __, colors) 
       => StageBuild.offMainPage<CSPage>((_, page) {
 
+        final bool error = ((page != hint.page) && (hint.page != null));
+
         final Widget button = CircleButton(
           externalCircles: 3,
           sizeIncrement: 0.5,
           color: colors[page]
               .withOpacity(0.07),
           size: CSSizes.barSize,
-          child: Icon(page == hint.page
-            ? hint.collapsedIcon
-            : Icons.error,
+          child: Icon(error
+            ? Icons.error
+            : hint.collapsedIcon,
           ),
-          onTap: page == hint.page ? () => Stage.of(context).showSnackBar(
+          onTap: error ? (){} : () => Stage.of(context).showSnackBar(
             const StageSnackBar(
               title: Text("Yeah, like that!"),
               secondary: Icon(Icons.check),
             ),
             rightAligned: hint.collapsedRightSide,
-          ) : (){},
+          ),
         );
 
         return Row(children: [
@@ -76,14 +79,14 @@ class _Collapsed extends StatelessWidget {
             width: CSSizes.collapsedPanelSize,
             height: CSSizes.collapsedPanelSize,
             child: Center(child: Icon(
-              page != hint.page
+              error
                 ? Icons.error
                 : Icons.keyboard_arrow_right,
             ),),
           ),
 
           Expanded(child: Center(child: AnimatedText(
-            page != hint.page 
+            error 
               ? 'Go to "${CSPages.shortTitleOf(hint.page)}" page'
               : right ? 'Use the right button' : 'Use the left button',
           ),),),
@@ -94,7 +97,7 @@ class _Collapsed extends StatelessWidget {
             width: CSSizes.collapsedPanelSize,
             height: CSSizes.collapsedPanelSize,
             child: Center(child: Icon(
-              page != hint.page 
+              error
                 ? Icons.error
                 : Icons.keyboard_arrow_left,
             )),

@@ -23,7 +23,7 @@ class CSIcons {
 
   static const IconData historyIconFilled = McIcons.timer_sand;
   static const IconData historyIconOutlined = McIcons.timer_sand_empty;
-  static const IconData simpleViewIcon = CSIconsRaw.counter_spell;
+  static const IconData arena = CSIconsRaw.counter_spell;
 
   static const IconData poison = CSIconsRaw.phyrexia;
   static const IconData experienceFilled = CSIconsRaw.experience_filled;

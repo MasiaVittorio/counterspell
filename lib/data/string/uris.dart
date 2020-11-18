@@ -5,7 +5,7 @@ class CSUris{
   static const String mailAction = 'mailto:$devMail?subject=CounterSpell';
   static const String devMail = 'mvsidereus@gmail.com';
   static const String telegramGroup = 'https://t.me/joinchat/CWQ9yhZgKHf0lPgJaeGkwQ';
-  static const String discordInvite = "https://discord.gg/bbXatewV";
+  static const String discordInvite = "https://discord.gg/4G3pFf8HvW";
 
   static const String featherArt = "https://i.imgur.com/N4Dyd0u.jpg";
 

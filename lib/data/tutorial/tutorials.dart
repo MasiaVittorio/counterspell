@@ -24,30 +24,6 @@ class TutorialData {
     //   ],
     // ),
     TutorialData(
-      icon: CSIcons.counterIconOutlined,
-      title: "Counters",
-      hints: [
-        Hint(
-          text: 'Picking counters',
-          page: CSPage.counters,
-          collapsedIcon: CSIcons.poison,
-          collapsedRightSide: true,
-        ),
-      ],
-    ),
-    TutorialData(
-      icon: Icons.people_alt_outlined,
-      title: "Playgroup",
-      hints: [
-        Hint(
-          text: 'Editing the playgroup',
-          page: CSPage.life,
-          collapsedIcon: Icons.people_alt_outlined,
-          collapsedRightSide: true,
-        ),
-      ],
-    ),
-    TutorialData(
       icon: Icons.gesture,
       title: "Gestures",
       hints: [
@@ -63,12 +39,6 @@ class TutorialData {
           text: "You can swipe multiple times before a change is applied",
           page: CSPage.life,
         ),
-      ],
-    ),
-    TutorialData(
-      icon: Icons.check_box,
-      title: "Multi-select",
-      hints: [
         Hint(
           text: "Tap on multiple players before swiping to edit them together",
           page: CSPage.life,
@@ -84,20 +54,6 @@ class TutorialData {
       title: "Commanders",
       hints: [
         Hint(
-          text: "Long press on a player to open their settings",
-          page: CSPage.life,
-        ),
-        Hint(
-          text: "(Also tapping on the number circle will do!)",
-          page: CSPage.life,
-        ),
-      ],
-    ),
-    TutorialData(
-      icon: CSIcons.attackIconTwo,
-      title: "Damage",
-      hints: [
-        Hint(
           text: "Tap on attacking player to start",
           page: CSPage.commanderDamage,
         ),
@@ -105,12 +61,6 @@ class TutorialData {
           text: "Scroll on defending player to deal damage",
           page: CSPage.commanderDamage,
         ),
-      ],
-    ),
-    TutorialData(
-      icon: CSIcons.castIconOutlined,
-      title: "Casts",
-      hints: [
         Hint(
           text: 'Long-press on "person" icon to split in partners',
           page: CSPage.commanderCast,
@@ -118,6 +68,14 @@ class TutorialData {
         Hint(
           text: 'Tap on "double-person" icon to select partner A or B',
           page: CSPage.commanderCast,
+        ),
+        Hint(
+          text: "Long press on a player to open their settings",
+          page: CSPage.life,
+        ),
+        Hint(
+          text: "(Also tapping on the number circle will do!)",
+          page: CSPage.life,
         ),
       ],
     ),
@@ -142,6 +100,52 @@ class TutorialData {
         ),
       ],
     ),
+    TutorialData(
+      icon: CSIcons.counterIconOutlined,
+      title: "Counters",
+      hints: [
+        Hint(
+          text: 'Picking counters',
+          page: CSPage.counters,
+          collapsedIcon: CSIcons.poison,
+          collapsedRightSide: true,
+        ),
+      ],
+    ),
+    TutorialData(
+      icon: Icons.people_alt_outlined,
+      title: "Playgroup",
+      hints: [
+        Hint(
+          text: 'Editing the playgroup',
+          page: CSPage.life,
+          collapsedIcon: Icons.people_alt_outlined,
+          collapsedRightSide: true,
+        ),
+        Hint(
+          text: 'Editing the playgroup',
+          page: null,
+          panelPage: SettingsPage.game,
+        ),
+      ],
+    ),
+    TutorialData(
+      icon: CSIcons.arena,
+      title: "Arena mode",
+      hints: [
+        Hint(
+          text: 'Opening full-screen "Arena" mode',
+          page: null,
+          collapsedIcon: CSIcons.arena,
+          collapsedRightSide: false,
+        ),
+        Hint(
+          text: 'Opening full-screen "Arena" mode',
+          page: null,
+          panelPage: SettingsPage.game,
+        ),
+      ],
+    ),
  ];
 }
 
@@ -160,8 +164,11 @@ class Hint {
     this.collapsedRightSide,
   });
 
-  bool get needsAlert => (panelPage != null) || (collapsedIcon != null);
-  bool get needsSnackBar => !needsAlert;
   bool get needsExtended => panelPage != null;
   bool get needsCollapsed => collapsedIcon != null;
+  bool get needsAlert => needsCollapsed || needsExtended;
+  bool get needsSnackBar => !needsAlert;
+
+  String get shortPanelPageName => settingsThemes[panelPage]?.name ?? "";
+  String get shortPageName => CSPages.shortTitleOf(page) ?? null;
 }

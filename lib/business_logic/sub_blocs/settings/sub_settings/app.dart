@@ -56,12 +56,12 @@ class CSSettingsApp {
       toJson: (b) => b,
       fromJson: (j) => j,
       readCallback: (alreadyShown){
-        if(!alreadyShown){
-          Future.delayed(const Duration(seconds: 1)).then((_){
-            parent.stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height);
-            parent.settings.appSettings.tutored.setDistinct(true);
-          });
-        }
+        // if(!alreadyShown){
+        //   Future.delayed(const Duration(seconds: 1)).then((_){
+        //     parent.stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height);
+        //     parent.settings.appSettings.tutored.setDistinct(true);
+        //   });
+        // }
       } 
     ),
     lastPageBeforeArena = PersistentVar<CSPage>(

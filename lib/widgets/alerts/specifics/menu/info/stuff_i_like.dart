@@ -12,6 +12,9 @@ class StuffILikeAlert extends StatelessWidget {
       data: _CommandBros.getTheme(theme),
       child: HeaderedAlert(
         "Stuff the dev likes",
+        //////////////////////////////////////////////////
+        customTitleColor: _CommandBros.color5,
+        //////////////////////////////////////////////////
         canvasBackground: true,
         child: Column(
           mainAxisSize: MainAxisSize.min,

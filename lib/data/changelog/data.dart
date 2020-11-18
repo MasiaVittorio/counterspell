@@ -3,9 +3,23 @@ import 'package:counter_spell_new/models/changelog/model.dart';
 
 class ChangeLogData {
 
-  static const int lastBigChange = 84;
+  static const int lastBigChange = 86;
 
   static const List<Version> list = <Version>[
+    Version("3.2.4", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "New and improved interactive tutorial",
+        null,
+      ),
+    ],),
+    Version("3.2.3", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "Flat style theming option",
+        null,
+      ),
+    ],),
     Version("3.2.2", <Change>[
       Change(
         ChangeType.newFeature,

@@ -34,7 +34,7 @@ class PanelGameExtras extends StatelessWidget {
             forceExternalSize: true,
           ),),
           ExtraButton(
-            icon: CSIcons.simpleViewIcon,
+            icon: CSIcons.arena,
             iconSize: CSIcons.ideal_counterspell_size,
             iconPadding: CSIcons.ideal_counterspell_padding,
             text: "Arena",

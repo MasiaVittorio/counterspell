@@ -63,6 +63,11 @@ class _Extended extends StatelessWidget {
             => Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                AnimatedText(
+                  page == hint.panelPage  
+                    ? '"${hint.shortPanelPageName}" tab!'
+                    : 'Go to "${hint.shortPanelPageName}" tab'
+                ),
                 Icon(
                   page == hint.panelPage
                     ? Icons.check_circle_outline
@@ -72,7 +77,7 @@ class _Extended extends StatelessWidget {
                 AnimatedText(
                   page == hint.panelPage  
                     ? hint.text
-                    : "Wrong Page"
+                    : "Wrong Tab"
                 ),
               ],
             ),

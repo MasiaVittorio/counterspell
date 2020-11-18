@@ -106,7 +106,7 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
             child: Row(children: [
               Expanded(child: InfoDisplayer(
                 title: const Text("Avg damage"), 
-                background: const Icon(CSIcons.attackIconTwo), 
+                background: const Icon(CSIcons.attackTwo), 
                 value: Text("${InfoDisplayer.getString(averageDamage)}"),
                 detail: Text("Overall: $totalDamage"),
                 color: colors[CSPage.commanderDamage],
@@ -114,7 +114,7 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
               ),),
               Expanded(child: InfoDisplayer(
                 title: const Text("Avg casts"), 
-                background: const Icon(CSIcons.castIconFilled), 
+                background: const Icon(CSIcons.castFilled), 
                 value: Text("${InfoDisplayer.getString(averageCasts)}"),
                 detail: Text("Overall: $totalCasts"),
                 color: colors[CSPage.commanderCast],

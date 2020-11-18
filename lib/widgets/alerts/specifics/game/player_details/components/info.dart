@@ -27,7 +27,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                   ListTile(
                     title: Text(CSPages.shortTitleOf(CSPage.life)),
                     trailing: Text("${playerState.life}", style: body2,),
-                    leading: Icon(CSIcons.lifeIconFilled,color: colors[CSPage.life],),
+                    leading: Icon(CSIcons.lifeFilled,color: colors[CSPage.life],),
                     onTap: () => DetailsUtils.insertLife(stage, name, bloc, playerState, names),
                   ),
 
@@ -35,7 +35,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                     title: Text("${CSPages.shortTitleOf(CSPage.commanderCast)}${partner?" (A)":""}"),
                     trailing: Text("${playerState.cast.a}", style: body2,),
                     leading: Icon(
-                      CSIcons.castIconFilled, 
+                      CSIcons.castFilled, 
                       color: colors[CSPage.commanderCast],
                     ),
                     onTap: () => DetailsUtils.insertCast(partner, false, stage, name, bloc, playerState, names),
@@ -46,7 +46,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                     title: Text("${CSPages.shortTitleOf(CSPage.commanderCast)} (B)"),
                     trailing: Text("${playerState.cast.b}", style: body2,),
                     leading: Icon(
-                      CSIcons.castIconFilled, 
+                      CSIcons.castFilled, 
                       color: colors[CSPage.commanderCast],
                     ),
                     onTap: () => DetailsUtils.insertCast(partner, true, stage, name, bloc, playerState, names),

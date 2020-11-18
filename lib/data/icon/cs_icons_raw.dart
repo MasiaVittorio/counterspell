@@ -22,10 +22,31 @@ class CSIconsRaw {
   static const _kFontFam2 = 'MaterialDesignIcons';
   static const _kFontFam3 = 'ShieldIcons';
   static const _kFontFam4 = 'Dices';
-  static const _kFontFam5 = 'CastNew';
-  static const _kFontFam6 = 'CsIcon';
 
-  static const IconData counter_spell = const IconData(0xe800, fontFamily: _kFontFam6);
+  static const _kFontFam10 = 'CounterSpell6';
+
+  static const IconData counterspell = IconData(0xe800, fontFamily: _kFontFam10);
+  static const IconData damage_filled = IconData(0xe801, fontFamily: _kFontFam10);
+  static const IconData damage_outlined = IconData(0xe802, fontFamily: _kFontFam10);
+  static const IconData cast_filled = IconData(0xe803, fontFamily: _kFontFam10);
+  static const IconData cast_outlined = IconData(0xe804, fontFamily: _kFontFam10);
+
+  // new but a bit too small
+  // static const IconData cast_outlined = IconData(0xe800, fontFamily: _kFontFam8);
+  // static const IconData cast_filled = IconData(0xe801, fontFamily: _kFontFam8);
+  // static const IconData counterspell = IconData(0xe802, fontFamily: _kFontFam8);
+  // static const IconData damage_filled = IconData(0xe803, fontFamily: _kFontFam8);
+  // static const IconData damage_outlined = IconData(0xe804, fontFamily: _kFontFam8);
+
+  // new but big
+  // static const IconData counter_spell = IconData(0xe800, fontFamily: _kFontFam7);
+  // static const IconData cast_filled = IconData(0xe803, fontFamily: _kFontFam7);
+  // static const IconData cast_outlined = IconData(0xe804, fontFamily: _kFontFam7);
+  // static const IconData damage_filled = IconData(0xe806, fontFamily: _kFontFam7);
+  // static const IconData damage_outlined = IconData(0xe807, fontFamily: _kFontFam7);
+
+  //Old
+  // static const IconData counter_spell = const IconData(0xe800, fontFamily: _kFontFam6);
 
   static const IconData dice_1 = const IconData(0xf1ca, fontFamily: _kFontFam4);
   static const IconData dice_2 = const IconData(0xf1cb, fontFamily: _kFontFam4);
@@ -36,15 +57,17 @@ class CSIconsRaw {
   static const IconData dice_d20 = const IconData(0xf5ea, fontFamily: _kFontFam4);
   static const IconData coins = const IconData(0xf694, fontFamily: _kFontFam4);
 
-  static const IconData commander_damage_outlined = const IconData(0xe801, fontFamily: _kFontFam1);
   static const IconData experience_filled = const IconData(0xe802, fontFamily: _kFontFam1);
   static const IconData experience_outlined = const IconData(0xe803, fontFamily: _kFontFam1);
   static const IconData phyrexia = const IconData(0xe804, fontFamily: _kFontFam1);
 
-  static const IconData commander_damage_filled = const IconData(0xe807, fontFamily: _kFontFam1);
+  //Old
+  // static const IconData commander_damage_outlined = const IconData(0xe801, fontFamily: _kFontFam1);
+  // static const IconData commander_damage_filled = const IconData(0xe807, fontFamily: _kFontFam1);
 
-  static const IconData command_cast_filled = const IconData(0xe800, fontFamily: _kFontFam5);
-  static const IconData command_cast_outlined = const IconData(0xe801, fontFamily: _kFontFam5);
+  //Old
+  // static const IconData command_cast_filled = const IconData(0xe800, fontFamily: _kFontFam5);
+  // static const IconData command_cast_outlined = const IconData(0xe801, fontFamily: _kFontFam5);
 
   static const IconData skull_crossbones = const IconData(0xe800, fontFamily: _kFontFam2);
   static const IconData skull_crossbones_outline = const IconData(0xe801, fontFamily: _kFontFam2);

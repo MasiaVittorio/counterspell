@@ -75,7 +75,7 @@ class Achievements{
 
   static const Map<String,IconData> icons = <String,IconData>{
     Achievements.vampireShortTitle: McIcons.heart_pulse,
-    Achievements.countersShortTitle: CSIcons.counterIconFilled,
+    Achievements.countersShortTitle: CSIcons.counterFilled,
     Achievements.rollerShortTitle: McIcons.dice_multiple,
     Achievements.uiExpertShortTitle: Icons.radio_button_checked,
   };

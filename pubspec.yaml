@@ -99,6 +99,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family:  CounterSpell6
+      fonts:
+       - asset: assets/fonts/CounterSpell6.ttf
     - family:  CastNew
       fonts:
        - asset: assets/fonts/CastNew.ttf

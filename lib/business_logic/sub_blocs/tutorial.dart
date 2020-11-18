@@ -3,7 +3,8 @@ import 'package:counter_spell_new/core.dart';
 class CSTutorial {
 
   void dispose(){
-    // TODO: dispose
+    /// no bloc var or heavy resource to dispose, 
+    /// just a bool, two ints and some constants
   }
 
   final CSBloc parent;

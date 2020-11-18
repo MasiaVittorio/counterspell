@@ -146,8 +146,11 @@ class _Collapsed extends StatelessWidget {
       => Row(children: <Widget>[
         IconButton(
           icon: page == CSPage.history
-            ? Icon(Icons.timeline)
-            : Icon(CSIcons.counterSpell, size: CSIcons.ideal_counterspell_size),
+            ? const Icon(Icons.timeline)
+            : const Icon(
+              CSIcons.counterSpell, 
+              // size: CSIcons.ideal_counterspell_size,
+            ),
           onPressed: page == CSPage.history
             ? null
             : () => stage.showAlert(const _ArenaMockup(), size: _ArenaMockup.height),

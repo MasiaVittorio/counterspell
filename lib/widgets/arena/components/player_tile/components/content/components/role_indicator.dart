@@ -99,8 +99,8 @@ class AptRole extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Icon(
                   havingPartnerB==true
-                    ? CSIcons.attackIconTwo
-                    : CSIcons.attackIconOne,
+                    ? CSIcons.attackTwo
+                    : CSIcons.attackOne,
                   // color: this.pageColors[CSPage.commanderDamage],
                 ),
               ),
@@ -121,8 +121,8 @@ class AptRole extends StatelessWidget {
               alignment: Alignment.center,
               child: Icon(
                 whoIsDefending == name
-                  ? CSIcons.defenceIconFilled
-                  : CSIcons.defenceIconOutline,
+                  ? CSIcons.defenceFilled
+                  : CSIcons.defenceOutline,
                 // color: this.defenceColor,
               ),
             ),

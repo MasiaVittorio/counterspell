@@ -42,10 +42,10 @@ class CSPanelCollapsed extends StatelessWidget {
           final arenaDisplayer = gameStateBloc.gameState.build(
             (context, state) => _PanelButton(
               ArenaWidget.okNumbers.contains(state.players.length),
-              CSIcons.arena,
+              CSIcons.counterSpell,
               opener,
               1.0,
-              iconSize: 20,
+              // iconSize: 20,
             ),
           );
 

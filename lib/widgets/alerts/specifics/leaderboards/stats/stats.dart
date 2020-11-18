@@ -23,8 +23,8 @@ class LeaderboardsStats extends StatelessWidget {
         "commanders": RadioHeaderedItem(
           longTitle: "Commanders", 
           child: CommandersLeaderboards(),
-          icon: CSIcons.damageIconFilled,
-          unselectedIcon: CSIcons.damageIconOutlined,
+          icon: CSIcons.damageFilled,
+          unselectedIcon: CSIcons.damageOutlined,
           alreadyScrollableChild: true,
         ), 
         "custom": RadioHeaderedItem(

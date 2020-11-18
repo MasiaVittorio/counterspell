@@ -20,7 +20,7 @@ class ThemeColors extends StatelessWidget {
               bloc.themer.defenceColor.build((context, defenceColor)
                 => ListTile(
                   title: const Text("Defence"),
-                  leading: ColorCircleDisplayer(defenceColor, icon: CSIcons.defenceIconFilled),
+                  leading: ColorCircleDisplayer(defenceColor, icon: CSIcons.defenceFilled),
                   onTap: () => pickDefenceColor(stage, defenceColor, bloc),
                 ),
               ),

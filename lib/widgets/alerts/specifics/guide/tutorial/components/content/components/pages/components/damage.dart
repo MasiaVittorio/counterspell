@@ -18,7 +18,7 @@ class TutorialDamage extends StatelessWidget {
       children: <Widget>[
         ListTile(
           leading: Icon(McIcons.gesture_tap, color: colors[CSPage.commanderDamage],),
-          trailing: Icon(CSIcons.attackIconOne, color: colors[CSPage.commanderDamage],),
+          trailing: Icon(CSIcons.attackOne, color: colors[CSPage.commanderDamage],),
           title: RichText(
             text: TextSpan(
               style: subhead,
@@ -33,7 +33,7 @@ class TutorialDamage extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(McIcons.gesture_swipe_horizontal, color: defenceColor,),
-          trailing: Icon(CSIcons.defenceIconFilled, color: defenceColor,),
+          trailing: Icon(CSIcons.defenceFilled, color: defenceColor,),
           title: RichText(
             text: TextSpan(
               style: subhead,

@@ -67,7 +67,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                   ListTile(
                     title: Text("Dealt to ${otherName == name ? "yourself" : otherName}"),
                     subtitle: const Text("Partners"),
-                    leading: Icon(CSIcons.attackIconTwo, color: attackColor,),
+                    leading: Icon(CSIcons.attackTwo, color: attackColor,),
                     trailing: Text(
                       "A: ${gameState.players[otherName].states.last.damages[name].a} // B: ${gameState.players[otherName].states.last.damages[name].b}", 
                       style: textTheme.bodyText1.copyWith(color: attackColor),
@@ -77,7 +77,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                 else 
                   ListTile(
                     title: Text("Dealt to ${otherName == name ? "yourself" : otherName}"),
-                    leading: Icon(CSIcons.attackIconOne, color: attackColor,),
+                    leading: Icon(CSIcons.attackOne, color: attackColor,),
                     trailing: Text(
                       "${gameState.players[otherName].states.last.damages[name].a}", 
                       style: textTheme.bodyText1.copyWith(color: attackColor),
@@ -91,7 +91,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                       ListTile(
                         title: Text("Taken from ${otherName == name ? "yourself" : otherName}"),
                         subtitle: const Text("partners"),
-                        leading: Icon(CSIcons.defenceIconFilled, color: defenceColor,),
+                        leading: Icon(CSIcons.defenceFilled, color: defenceColor,),
                         trailing: Text(
                           "A: ${playerState.damages[otherName].a} // B: ${playerState.damages[otherName].b}", 
                           style: textTheme.bodyText1.copyWith(color: defenceColor),
@@ -101,7 +101,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                   else 
                     ListTile(
                       title: Text("Taken from ${otherName == name ? "yourself" : otherName}"),
-                      leading: Icon(CSIcons.defenceIconFilled, color: defenceColor,),
+                      leading: Icon(CSIcons.defenceFilled, color: defenceColor,),
                       trailing: Text(
                         "${playerState.damages[otherName].a}", 
                         style: textTheme.bodyText1.copyWith(color: defenceColor),

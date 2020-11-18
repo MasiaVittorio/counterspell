@@ -82,7 +82,7 @@ class CSThemer {
     @required Counter counter,
   }){
     if(type == DamageType.commanderDamage){
-      return attack ? CSIcons.attackIconOne : CSIcons.defenceIconFilled;
+      return attack ? CSIcons.attackOne : CSIcons.defenceFilled;
     } else if (type == DamageType.counters){
       return counter.icon;
     } else {

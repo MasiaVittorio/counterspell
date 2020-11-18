@@ -32,7 +32,7 @@ class SettingsAppearance extends StatelessWidget {
           ),
           ExtraButton(
             text: "History",
-            icon: CSIcons.historyIconFilled,
+            icon: CSIcons.historyFilled,
             onTap: () => stage.showAlert(
               const HistoryTimeAlert(),
               size: HistoryTimeAlert.size,

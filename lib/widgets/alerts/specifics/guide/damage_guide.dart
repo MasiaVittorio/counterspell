@@ -54,7 +54,7 @@ class _DefenderSection extends StatelessWidget {
       child: CSBloc.of(context).themer.defenceColor.build((_,defenceColor)=>InfoSection(
         last: true,
         icon: Icon(
-          CSIcons.defenceIconFilled,
+          CSIcons.defenceFilled,
           color: defenceColor,
         ),
         title: _defenderTitle,
@@ -79,7 +79,7 @@ class _AttackerSection extends StatelessWidget {
         => InfoSection(
           first: true,
           icon: Icon(
-            CSIcons.attackIconOne,
+            CSIcons.attackOne,
             color: map[CSPage.commanderDamage],
           ),
           title: _attackerTitle,

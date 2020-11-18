@@ -283,10 +283,10 @@ class AptCmdrDmg extends StatelessWidget {
   static const double _size = 56.0;
 
   static const Map<_CmdrMode,IconData> _icons= <_CmdrMode,IconData>{
-    _CmdrMode.outOfCommanderDamage: CSIcons.damageIconOutlined,
-    _CmdrMode.isAttacking: CSIcons.attackIconTwo,
-    _CmdrMode.isWaitingForAttack: CSIcons.defenceIconOutline,
-    _CmdrMode.isDefending: CSIcons.defenceIconFilled,
+    _CmdrMode.outOfCommanderDamage: CSIcons.damageOutlined,
+    _CmdrMode.isAttacking: CSIcons.attackTwo,
+    _CmdrMode.isWaitingForAttack: CSIcons.defenceOutline,
+    _CmdrMode.isDefending: CSIcons.defenceFilled,
   };
 
   @override

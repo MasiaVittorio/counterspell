@@ -50,7 +50,7 @@ class TutorialData {
       ],
     ),
     TutorialData(
-      icon: CSIcons.damageIconOutlined,
+      icon: CSIcons.damageOutlined,
       title: "Commanders",
       hints: [
         Hint(
@@ -80,7 +80,7 @@ class TutorialData {
       ],
     ),
     TutorialData(
-      icon: CSIcons.historyIconFilled,
+      icon: CSIcons.historyFilled,
       title: "History",
       hints: [
         Hint(
@@ -101,7 +101,7 @@ class TutorialData {
       ],
     ),
     TutorialData(
-      icon: CSIcons.counterIconOutlined,
+      icon: CSIcons.counterOutlined,
       title: "Counters",
       hints: [
         Hint(
@@ -130,13 +130,13 @@ class TutorialData {
       ],
     ),
     TutorialData(
-      icon: CSIcons.arena,
+      icon: CSIcons.counterSpell,
       title: "Arena mode",
       hints: [
         Hint(
           text: 'Opening full-screen "Arena" mode',
           page: null,
-          collapsedIcon: CSIcons.arena,
+          collapsedIcon: CSIcons.counterSpell,
           collapsedRightSide: false,
         ),
         Hint(

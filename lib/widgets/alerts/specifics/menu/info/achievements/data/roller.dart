@@ -196,7 +196,7 @@ class _Collapsed extends StatelessWidget {
           IconButton(
             icon: const Icon(
               CSIcons.counterSpell, 
-              size: CSIcons.ideal_counterspell_size,
+              // size: CSIcons.ideal_counterspell_size,
             ),
             onPressed: () => stage.showAlert(
               const _ArenaMockup(), 

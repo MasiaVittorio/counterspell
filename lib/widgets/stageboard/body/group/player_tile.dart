@@ -457,8 +457,8 @@ class PlayerTile extends StatelessWidget {
                   ),
                   child: Icon(
                     havingPartnerB==true
-                      ? CSIcons.attackIconTwo
-                      : CSIcons.attackIconOne,
+                      ? CSIcons.attackTwo
+                      : CSIcons.attackOne,
                   ),
                 ),
               ),
@@ -477,8 +477,8 @@ class PlayerTile extends StatelessWidget {
               height: coreTileSize,
               child: Icon(
                 whoIsDefending == name
-                  ? CSIcons.defenceIconFilled
-                  : CSIcons.defenceIconOutline,
+                  ? CSIcons.defenceFilled
+                  : CSIcons.defenceOutline,
               ),
             ),
           ),),

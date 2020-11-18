@@ -215,8 +215,8 @@ class _ImageSearchState extends State<ImageSearch> {
       }),
       items: [
         RadioSliderItem(
-          icon: Icon(CSIcons.damageIconOutlined),
-          selectedIcon: Icon(CSIcons.damageIconFilled),
+          icon: Icon(CSIcons.damageOutlined),
+          selectedIcon: Icon(CSIcons.damageFilled),
           title: Text("Commanders"),
         ),
         RadioSliderItem(

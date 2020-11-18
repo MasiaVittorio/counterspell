@@ -119,7 +119,7 @@ class PresetTile extends StatelessWidget {
                   child: Container(
                     width: _medalSize,
                     child: Icon(
-                      CSIcons.defenceIconFilled, 
+                      CSIcons.defenceFilled, 
                       color: scheme.colorPlace.isTexts 
                       ? scheme.defenceColor 
                       : CSColors.contrastWith(scheme.defenceColor),

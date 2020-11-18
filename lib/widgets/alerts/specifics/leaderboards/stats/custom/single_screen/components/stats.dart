@@ -93,14 +93,14 @@ class Stats extends StatelessWidget {
           ),
           if(cmdrTot != null)
           ListTile(
-            leading: const Icon(CSIcons.damageIconOutlined),
+            leading: const Icon(CSIcons.damageOutlined),
             title: Text(cmdrTotCard.name),
             subtitle: const Text("Most times overall"),
             trailing: Text("${cmdrTot.value}"),
           ),
           if(cmdrFreq != null)
           ListTile(
-            leading: const Icon(CSIcons.damageIconOutlined),
+            leading: const Icon(CSIcons.damageOutlined),
             title: Text(cmdrFreqCard.name),
             subtitle: Text("Most frequent (${cmdrFreq.value} over $cmdrFreqGames games)"),
             trailing: Text("${InfoDisplayer.getString(cmdrFreqValue * 100)}%"),

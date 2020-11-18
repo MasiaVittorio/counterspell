@@ -31,7 +31,7 @@ class ImageOpacity extends StatelessWidget {
           icon: CSIcons.counterSpell,
           longTitle: "Commander image opacity",
           title: "Arena",
-          iconSize: 21,
+          // iconSize: 21,
         ),
       },
     );

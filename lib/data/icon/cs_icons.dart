@@ -3,67 +3,68 @@ import 'package:counter_spell_new/core.dart';
 class CSIcons {
 
   static const IconData artist = ManaIcons.artist_nib;
-  static const IconData attackIconOne = McIcons.sword;
-  static const IconData attackIconTwo = McIcons.sword_cross;
+  static const IconData attackOne = McIcons.sword;
+  static const IconData attackTwo = McIcons.sword_cross;
 
-  static const IconData defenceIconOutline = McIcons.shield_outline;
-  static const IconData defenceIconFilled = McIcons.shield;
+  static const IconData defenceOutline = McIcons.shield_outline;
+  static const IconData defenceFilled = McIcons.shield;
 
-  static const IconData lifeIconOutlined = Icons.favorite_border;
-  static const IconData lifeIconFilled = Icons.favorite;
+  static const IconData lifeOutlined = Icons.favorite_border;
+  static const IconData lifeFilled = Icons.favorite;
 
-  static const IconData counterIconOutlined = McIcons.cube_outline;
-  static const IconData counterIconFilled = McIcons.cube;
+  static const IconData counterOutlined = McIcons.cube_outline;
+  static const IconData counterFilled = McIcons.cube;
 
-  static const IconData castIconOutlined = CSIconsRaw.command_cast_outlined;
-  static const IconData castIconFilled = CSIconsRaw.command_cast_filled;
+  static const IconData castOutlined = CSIconsRaw.cast_outlined;
+  static const IconData castFilled = CSIconsRaw.cast_filled;
 
-  static const IconData damageIconOutlined = CSIconsRaw.commander_damage_outlined;
-  static const IconData damageIconFilled = CSIconsRaw.commander_damage_filled;
+  static const IconData damageOutlined = CSIconsRaw.damage_outlined;
+  static const IconData damageFilled = CSIconsRaw.damage_filled;
 
-  static const IconData historyIconFilled = McIcons.timer_sand;
-  static const IconData historyIconOutlined = McIcons.timer_sand_empty;
-  static const IconData arena = CSIconsRaw.counter_spell;
+  static const IconData historyFilled = McIcons.timer_sand;
+  static const IconData historyOutlined = McIcons.timer_sand_empty;
+
+  // static const IconData arena = CSIconsRaw.counter_spell;
 
   static const IconData poison = CSIconsRaw.phyrexia;
   static const IconData experienceFilled = CSIconsRaw.experience_filled;
 
-  static const IconData counterSpell = CSIconsRaw.counter_spell;
+  static const IconData counterSpell = CSIconsRaw.counterspell;
   
   static const IconData leaderboards = McIcons.license;
 
 
-  static const double ideal_counterspell_size = 20;
-  static const double ideal_counterspell_bottom_padding_ratio = 0.09549150281;
-  static const double ideal_counterspell_bottom_padding = ideal_counterspell_size * ideal_counterspell_bottom_padding_ratio;
-  static const EdgeInsets ideal_counterspell_padding = EdgeInsets.only(bottom: ideal_counterspell_bottom_padding);
+  // static const double ideal_counterspell_size = 20;
+  // static const double ideal_counterspell_bottom_padding_ratio = 0.09549150281;
+  // static const double ideal_counterspell_bottom_padding = ideal_counterspell_size * ideal_counterspell_bottom_padding_ratio;
+  // static const EdgeInsets ideal_counterspell_padding = EdgeInsets.only(bottom: ideal_counterspell_bottom_padding);
 
   static const Map<CSPage, IconData> pageIconsOutlined = {
-    CSPage.history: historyIconOutlined,
-    CSPage.counters: counterIconOutlined,
-    CSPage.life: lifeIconOutlined,
-    CSPage.commanderDamage: damageIconOutlined,
-    CSPage.commanderCast: castIconOutlined,
+    CSPage.history: historyOutlined,
+    CSPage.counters: counterOutlined,
+    CSPage.life: lifeOutlined,
+    CSPage.commanderDamage: damageOutlined,
+    CSPage.commanderCast: castOutlined,
   }; 
   static const Map<CSPage, IconData> pageIconsFilled = {
-    CSPage.history: historyIconFilled,
-    CSPage.counters: counterIconFilled,
-    CSPage.life: lifeIconFilled,
-    CSPage.commanderDamage: damageIconFilled,
-    CSPage.commanderCast: castIconFilled,
+    CSPage.history: historyFilled,
+    CSPage.counters: counterFilled,
+    CSPage.life: lifeFilled,
+    CSPage.commanderDamage: damageFilled,
+    CSPage.commanderCast: castFilled,
   }; 
 
   static const Map<DamageType, IconData> typeIconsFilled = {
-    DamageType.counters: counterIconFilled,
-    DamageType.life: lifeIconFilled,
-    DamageType.commanderDamage: damageIconFilled,
-    DamageType.commanderCast: castIconFilled,
+    DamageType.counters: counterFilled,
+    DamageType.life: lifeFilled,
+    DamageType.commanderDamage: damageFilled,
+    DamageType.commanderCast: castFilled,
   }; 
   static const Map<DamageType, IconData> typeIconsOutlined = {
-    DamageType.counters: counterIconOutlined,
-    DamageType.life: lifeIconOutlined,
-    DamageType.commanderDamage: damageIconOutlined,
-    DamageType.commanderCast: castIconOutlined,
+    DamageType.counters: counterOutlined,
+    DamageType.life: lifeOutlined,
+    DamageType.commanderDamage: damageOutlined,
+    DamageType.commanderCast: castOutlined,
   }; 
 
 }

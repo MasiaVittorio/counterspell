@@ -13,7 +13,7 @@ description: A new Flutter project.
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 
 # RICORDA DI CAMBIARE QUESTO NUMERO IN SETTINGSBLOC STATIC VERSIONCODE
-version: 3.2.4+86
+version: 3.2.5+87
 # RICORDA DI CAMBIARE QUESTO NUMERO IN SETTINGSBLOC STATIC VERSIONCODE
 # PER IL CHANGELOG
 
@@ -99,12 +99,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family:  CounterSpell6
+    - family:  CounterSpell
       fonts:
-       - asset: assets/fonts/CounterSpell6.ttf
-    - family:  CastNew
-      fonts:
-       - asset: assets/fonts/CastNew.ttf
+       - asset: assets/fonts/CounterSpell.ttf
     - family:  Dices
       fonts:
        - asset: assets/fonts/Dices.ttf
@@ -120,9 +117,6 @@ flutter:
     - family:  Keyrune
       fonts:
       - asset: assets/fonts/keyrune.ttf
-    - family:  CsIcon
-      fonts:
-       - asset: assets/fonts/CsIcon.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

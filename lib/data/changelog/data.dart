@@ -6,6 +6,13 @@ class ChangeLogData {
   static const int lastBigChange = 86;
 
   static const List<Version> list = <Version>[
+    Version("3.2.5", <Change>[
+      Change(
+        ChangeType.change,
+        "Re-designed commander icons for the bottom bar",
+        null,
+      ),
+    ],),
     Version("3.2.4", <Change>[
       Change(
         ChangeType.newFeature,

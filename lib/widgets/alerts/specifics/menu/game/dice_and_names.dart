@@ -94,14 +94,18 @@ class _DiceThrowerState extends State<DiceThrower> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               for(final type in [_ThrowType.coin, _ThrowType.name, _ThrowType.dice])
-                Expanded(child: FlatButton.icon(
+                Expanded(child: TextButton.icon(
                   label: Text(predicates[type] ?? "?? error"),
                   icon: Icon({
                     _ThrowType.coin: McIcons.coin,
                     _ThrowType.name: Icons.person_outline,
                     _ThrowType.dice: _diceType.icon,
                   }[type] ?? McIcons.dice_multiple),
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.symmetric(vertical: 16.0),
+                    ),
+                  ),
                   onLongPress: type != _ThrowType.dice ? null : () => this.setState(() {
                     this._diceType = this._diceType.other;
                   }),

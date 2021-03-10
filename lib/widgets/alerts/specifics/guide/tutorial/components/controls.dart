@@ -20,7 +20,7 @@ class TutorialControls extends StatelessWidget {
         children: <Widget>[
           PageReactor(
             controller: controller,
-            builder: (_, page) => FlatButton(
+            builder: (_, page) => TextButton(
               child: AnimatedText(page== 0 ? "" : "Back"),
               onPressed: page== 0 ? null : () => controller.previousPage(
                 duration: CSAnimations.fast, 
@@ -41,8 +41,11 @@ class TutorialControls extends StatelessWidget {
           ),),
           PageReactor(
             controller: controller,
-            builder: (_, page) => FlatButton(
-              color: SubSection.getColor(theme),
+            builder: (_, page) => TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty
+                  .all<Color>(SubSection.getColor(theme)), 
+              ),
               child: AnimatedText(page == AdvancedTutorial.pages -1 ? "Close" : "Next"),
               onPressed: () {
                 if(page == AdvancedTutorial.pages - 1){

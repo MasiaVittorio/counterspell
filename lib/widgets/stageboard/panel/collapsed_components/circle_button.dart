@@ -69,7 +69,7 @@ class _CircleButtonState extends State<CircleButton> {
       child: Stack(
         fit: StackFit.expand,
         alignment: Alignment.center,
-        overflow: Overflow.visible,
+        clipBehavior: Clip.none,
         children: <Widget>[
           for(int i = n; i >= 0; --i)
           (){

@@ -78,10 +78,14 @@ class _DiceThrowerState extends State<DiceThrower> {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         for(final max in [2,6,20])
-                          Expanded(child: FlatButton.icon(
+                          Expanded(child: TextButton.icon(
                             label: Text(predicates[max] ?? "?? error"),
                             icon: Icon(_ThrowWidget.icons[max] ?? McIcons.dice_multiple),
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                const EdgeInsets.symmetric(vertical: 16.0),
+                              ),
+                            ),
                             onPressed: (){
                               this.setState((){
                                 this.throws.insert(0, _Throw(generator, max));

@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
+import 'package:flutter_reorderable_list/flutter_reorderable_list.dart' as rl;
+// TODO: check flutter native reorderable list
 
 class PlayGroupEditor extends StatefulWidget {
   final CSBloc bloc;
@@ -218,7 +219,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                     elevation: 2,
                     child: Align(
                       alignment: Alignment.topCenter,
-                      child: ReorderableList(
+                      child: rl.ReorderableList(
                         onReorder: (from,to){
                           final String name = group.names.value
                             .firstWhere((name)=> ValueKey(name) == from);
@@ -232,13 +233,13 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                           shrinkWrap: true,
                           children: <Widget>[
                             for(final name in names)
-                              ReorderableItem(
+                              rl.ReorderableItem(
                                 key: ValueKey(name),
                                 childBuilder: (context, state) => Material(
                                   child: Opacity(
-                                    opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
+                                    opacity: state == rl.ReorderableItemState.placeholder ? 0.0 : 1.0,
                                     child: IgnorePointer(
-                                      ignoring: state == ReorderableItemState.placeholder,
+                                      ignoring: state == rl.ReorderableItemState.placeholder,
                                       child: currentPlayer(name, textField, themeData, names.length == 1),
                                     ),
                                   ),
@@ -354,7 +355,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   Widget promptCurrentPlayer(String name, ThemeData themeData, bool last){
     return ListTile(
       onTap: () => this.start(name),
-      trailing: ReorderableListener(
+      trailing: rl.ReorderableListener(
         child: IconButton(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           icon: Icon(Icons.unfold_more, color: themeData.colorScheme.onSurface,),

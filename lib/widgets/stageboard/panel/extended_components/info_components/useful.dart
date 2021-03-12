@@ -64,8 +64,19 @@ class Useful extends StatelessWidget {
             onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
           ),
         ],
-        
       ),
+
+      CSWidgets.divider,
+      ListTile(
+        title: Text("Crazy specific stuff"),
+        subtitle: Text("Combo helpers and more"),
+        leading: Icon(ManaIcons.instant),
+        onTap: () => stage.showAlert(
+          const CrazySpecificStuff(),
+          size: CrazySpecificStuff.size, 
+        )
+      ),
+
     ]);
   }
 }

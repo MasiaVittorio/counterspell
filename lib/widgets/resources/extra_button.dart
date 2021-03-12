@@ -65,6 +65,7 @@ class ExtraButton extends StatelessWidget {
   final IconData icon;
   final String text;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
   final double iconSize;
   final EdgeInsets iconPadding;
   // if the button should not be large as its text but bound to its context, we will use autosize text
@@ -78,6 +79,7 @@ class ExtraButton extends StatelessWidget {
     @required this.icon,
     @required this.text,
     @required this.onTap,
+    this.onLongPress,
     this.forceExternalSize = false,
     this.iconPadding = EdgeInsets.zero,
     this.iconSize,
@@ -134,6 +136,7 @@ class ExtraButton extends StatelessWidget {
       ], 
       crossAxisAlignment: CrossAxisAlignment.center,
       onTap: onTap,
+      onLongPress: onLongPress,
       margin: EdgeInsets.zero,
       color: filled,
     );

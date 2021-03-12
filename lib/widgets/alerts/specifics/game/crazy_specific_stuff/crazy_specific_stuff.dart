@@ -2,8 +2,6 @@ import 'package:counter_spell_new/core.dart';
 import 'stuff/all.dart';
 
 
-/// TODO: add a new button / section in the info tab to include this crazy yet oddly and disturbingly specific stuff
-
 class CrazySpecificStuff extends StatelessWidget {
 
   static double size = 450.0;

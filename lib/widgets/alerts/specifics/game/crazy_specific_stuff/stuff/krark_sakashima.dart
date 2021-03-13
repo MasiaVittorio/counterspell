@@ -36,7 +36,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
     rng = Random(DateTime.now().millisecondsSinceEpoch);
   }
 
-  Spell spell = Spell(0, 0, 1.0);
+  _Spell spell = _Spell(0, 0, 1.0);
   bool spellInHand = true;
 
   int mana = 0;
@@ -46,7 +46,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   int howManyKrarks = 1;
   int howManyThumbs = 0;
 
-  List<Trigger> triggers = [];
+  List<_ThumbTrigger> triggers = [];
 
 
   /// Casts the spell and generates triggers
@@ -63,15 +63,15 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
 
     for(int i=0; i<howManyKrarks; i++){
-      triggers.add(Trigger(howManyThumbs, rng));
+      triggers.add(_ThumbTrigger(howManyThumbs, rng));
     }
     
     refreshIf(!automatic);
   }
 
-  void solveTrigger(Flip choice, {@required bool automatic}){
+  void solveTrigger(_Flip choice, {@required bool automatic}){
     triggers.removeLast();
-    if(choice == Flip.bounce){
+    if(choice == _Flip.bounce){
       spellInHand = true;
     } else {
 
@@ -112,19 +112,19 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
 
   void autoSolveTrigger(){
-    Trigger trigger = triggers.last;
-    Flip choice;
+    _ThumbTrigger trigger = triggers.last;
+    _Flip choice;
     if(spellInHand){
       if(trigger.containsCopy){
-        choice = Flip.copy;
+        choice = _Flip.copy;
       } else {
-        choice = Flip.bounce;
+        choice = _Flip.bounce;
       }
     } else {
       if(trigger.containsBounce){
-        choice = Flip.bounce;
+        choice = _Flip.bounce;
       } else {
-        choice = Flip.copy;
+        choice = _Flip.copy;
       }
     }
     solveTrigger(choice, automatic: true);
@@ -223,14 +223,14 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             customIcon: Text("${spell.cost}"),
             text: "Cost",
             onTap: () => this.setState(() {
-              spell = Spell(
+              spell = _Spell(
                 (spell.cost ?? 0) + 1,
                 spell.product,
                 spell.chance,
               );    
             }),
             onLongPress: () => this.setState(() {
-              spell = Spell(
+              spell = _Spell(
                 0,
                 spell.product,
                 spell.chance,
@@ -244,14 +244,14 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             customIcon: Text("${spell.product}"),
             text: "Produces",
             onTap: () => this.setState(() {
-              spell = Spell(
+              spell = _Spell(
                 spell.cost,
                 (spell.product ?? 0) + 1,
                 spell.chance,
               );    
             }),
             onLongPress: () => this.setState(() {
-              spell = Spell(
+              spell = _Spell(
                 spell.cost,
                 0,
                 spell.chance,
@@ -329,12 +329,12 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
         // const SectionTitle("Triggers"),
         Row(children: <Widget>[
           if(triggers.isNotEmpty) Expanded(flex: 6, child: SubSection(((){
-              final Trigger trigger = triggers.last;
+              final _ThumbTrigger trigger = triggers.last;
               final flips = trigger.flips;
               final howManyFlips = flips.length;
               final int copies = ([
                 for(final f in flips) 
-                  if(f == Flip.copy) "",
+                  if(f == _Flip.copy) "",
               ]).length;
               final int bounces = howManyFlips - copies;
 
@@ -347,7 +347,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                     icon: null,
                     customIcon: Text("$copies"),
                     onTap: copies > 0 
-                      ? () => solveTrigger(Flip.copy, automatic: false) 
+                      ? () => solveTrigger(_Flip.copy, automatic: false) 
                       : null,
                     text: "Heads\n(copy)",
                     twoLines: true,
@@ -358,7 +358,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                     icon: null,
                     customIcon: Text("$bounces"),
                     onTap: bounces > 0 
-                      ? () => solveTrigger(Flip.bounce, automatic: false) 
+                      ? () => solveTrigger(_Flip.bounce, automatic: false) 
                       : null,
                     text: "Tails\n(bounce)",
                     twoLines: true,
@@ -421,31 +421,31 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
 
 /// Mana burst spells cost X and give Y
-class Spell {
+class _Spell {
   final int cost;
   final int product;
   final double chance; ///spells that not always resolve 
-  const Spell(this.cost, this.product, this.chance);
+  const _Spell(this.cost, this.product, this.chance);
 
   bool get ok => cost != null && product != null && chance != null;
 }
 
-class Trigger {
+class _ThumbTrigger {
   
-  List<Flip> flips;
+  List<_Flip> flips;
 
-  Trigger(int howManyThumbs, Random rng): flips = [
+  _ThumbTrigger(int howManyThumbs, Random rng): flips = [
     for(int i=0; i<pow(2,howManyThumbs); ++i)
-      (rng.nextInt(2) == 0) ? Flip.copy : Flip.bounce,
+      (rng.nextInt(2) == 0) ? _Flip.copy : _Flip.bounce,
       /// nextInt(2) gives either 0 or 1, so this flips a coin
   ];
 
-  bool get containsCopy => this.flips.contains(Flip.copy);
-  bool get containsBounce => this.flips.contains(Flip.bounce);
+  bool get containsCopy => this.flips.contains(_Flip.copy);
+  bool get containsBounce => this.flips.contains(_Flip.bounce);
 
 }
 
-enum Flip {bounce, copy}
+enum _Flip {bounce, copy}
 
 
 

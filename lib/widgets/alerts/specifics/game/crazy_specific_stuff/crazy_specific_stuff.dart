@@ -30,6 +30,7 @@ class CrazySpecificStuff extends StatelessWidget {
 
   static const List<GenericAlert> items = [
     KrarkAndSakashima(),
+    ZndrspltOkaum(),
   ];
   
 

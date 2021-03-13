@@ -19,7 +19,7 @@ class ExtraButtons extends StatelessWidget {
   final List<int> flexes;
 
   static const defaultMargin = const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
-  static const Widget divider = _ExtraButtonDivider();
+  static const Widget divider = ExtraButtonDivider();
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +41,8 @@ class ExtraButtons extends StatelessWidget {
   }
 }
 
-class _ExtraButtonDivider extends StatelessWidget {
-  const _ExtraButtonDivider();
+class ExtraButtonDivider extends StatelessWidget {
+  const ExtraButtonDivider();
   @override
   Widget build(BuildContext context) {
     return Padding(

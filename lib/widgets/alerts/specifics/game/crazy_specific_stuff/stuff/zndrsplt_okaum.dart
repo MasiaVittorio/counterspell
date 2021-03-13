@@ -7,7 +7,7 @@ class ZndrspltOkaum extends GenericAlert {
   static const String _title = "Zndrsplt & Okaum";
 
   const ZndrspltOkaum(): super(
-    500,
+    540,
     _title,
     const <String>{"Zndrsplt","Okaum","Coins","Win","Flip","Coin"},
   );
@@ -50,12 +50,11 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
 
   /// derived
   int get draws => wins * zndrsplt;
-  int get power => 3 * pow(2,wins);
+  int get power => okaum > 0 ? 3 * pow(2,wins) : 0;
 
   void beginCombat(){
     wins = 0;
     triggers = okaum + zndrsplt;
-
     if(alwaysTryToWin){
       autoSolveTriggers();
     } else {
@@ -106,6 +105,9 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     triggers = 0;
     /// if the cycle broke at 10000 steps, that should be enough 
     /// for the player to win right?
+    refresh();
+
+    // TODO: print everything and thoroughly check how it goes
   }
 
   void toggleAuto() => this.setState(() {
@@ -119,10 +121,178 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // TODO: almost copy krark and sakashima design
+    return HeaderedAlertCustom(
+      Material(
+        elevation: 2,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AlertDrag(),
+            settingsSection,
+            CSWidgets.height10,
+          ],
+        ),
+      ),
+      titleSize: 89 + AlertDrag.height,
+      canvasBackground: true,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          statusSection,
+          triggersSection,
+        ],
+      ),
+      bottom: actions,
     );
   }
+
+  Widget get settingsSection => SubSection([
+    ExtraButtons(children: [
+      ExtraButton(
+        customCircleColor: Colors.transparent,
+        text: "Zndrsplt",
+        icon: null,
+        customIcon: Text("$zndrsplt"),
+        onTap: () => this.setState(() {
+          ++zndrsplt;
+        }),
+        onLongPress: () => this.setState(() {
+          zndrsplt = 0;        
+        }),
+      ),
+      ExtraButton(
+        customCircleColor: Colors.transparent,
+        text: "Okaum",
+        icon: null,
+        customIcon: Text("$okaum"),
+        onTap: () => this.setState(() {
+          ++okaum;
+        }),
+        onLongPress: () => this.setState(() {
+          okaum = 0;
+        }),
+      ),
+      ExtraButton(
+        customCircleColor: Colors.transparent,
+        text: "Thumbs",
+        icon: null,
+        customIcon: Text("$thumbs"),
+        onTap: () => this.setState(() {
+          ++thumbs;
+        }),
+        onLongPress: () => this.setState(() {
+          thumbs = 0;
+        }),
+      ),
+    ],),
+  ],);
+
+  Widget get statusSection => Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      const SectionTitle("Status"),
+      Padding(
+      padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0),
+        child: Row(children: [
+          Expanded(child: ExtraButton(
+            icon: null,
+            customIcon: Text("$draws"),
+            twoLines: zndrsplt > 1,
+            text: zndrsplt > 1 ? "Draws\n(total)" : "Draws",
+            onTap: null,
+          ),),
+          const ExtraButtonDivider(),
+          Expanded(child: ExtraButton(
+            icon: null,
+            customIcon: Text("$power"),
+            twoLines: okaum > 1,
+            text: okaum > 1 ? "P/T\n(/each)" : "P/T",
+            onTap: null,
+          ),),
+          Expanded(child: ExtraButton(
+            icon: null,
+            filled: true,
+            customIcon: Text("$wins"),
+            text: "Wins",
+            onTap: null,
+            onLongPress: () => this.setState(() {
+              wins = 0;
+            }),
+          ),),
+        ]),
+      ),
+    ],
+  );
+
+  Widget get triggersSection => Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        // const SectionTitle("Triggers"),
+        Row(children: <Widget>[
+          if(currentFlip != null) Expanded(flex: 6, child: SubSection(<Widget>[
+            SectionTitle("Current flip ${currentFlip.flips.length > 1 ? '(${currentFlip.flips.length} thumb-coins)' : ""}"),
+            ExtraButtons(children: <Widget>[
+              ExtraButton(
+                customCircleColor: Colors.transparent,
+                icon: null,
+                customIcon: Text("${currentFlip.howManyWins}"),
+                onTap: currentFlip.howManyWins > 0 
+                  ? () => solveFlip(true) 
+                  : null,
+                text: "Heads\n(win)",
+                twoLines: true,
+              ), 
+              ExtraButton(
+                customCircleColor: Colors.transparent,
+                icon: null,
+                customIcon: Text("${currentFlip.howManyLosses}"),
+                onTap: currentFlip.howManyLosses > 0 
+                  ? () => solveFlip(false) 
+                  : null,
+                text: "Tails\n(loss)",
+                twoLines: true,
+              ), 
+            ],),
+          ],),),
+
+          if(triggers > 0) Expanded(flex: 2, child: ExtraButton(
+            onTap: null,
+            text: "More\ntriggers",
+            twoLines: true,
+            icon: null,
+            customIcon: Text("$triggers"),
+          )),
+          
+          if(currentFlip == null) const Expanded(child: SubSection([
+            ListTile(title: Text("No trigger left"),),
+          ]),),
+        ],),
+      ],
+    ),
+  );
+
+  Widget get actions => Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          leading: Icon(CSIcons.damageOutlined),
+          title: Text(currentFlip == null ? "Begin Combat" : "Can't begin combat"),
+          subtitle: currentFlip == null ? null : Text("Solve triggers first"),
+          onTap: currentFlip == null ? beginCombat : null,
+        ),
+        SwitchListTile(
+          title: Text("Automatic"),
+          subtitle: Text("Keep trying to win"),
+          value: this.alwaysTryToWin, 
+          onChanged: (v) => this.setState(() {
+            alwaysTryToWin = v;  
+          }),
+        ),
+      ],
+    );
+
 }
 
 

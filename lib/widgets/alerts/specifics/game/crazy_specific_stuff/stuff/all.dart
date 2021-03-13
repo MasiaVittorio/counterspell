@@ -1,5 +1,8 @@
 export 'krark_sakashima.dart';
+export 'zndrsplt_okaum.dart';
+
 import 'package:flutter/material.dart';
+
 
 // TODO: migliora e implementa in stage? lol
 abstract class GenericAlert extends StatelessWidget {

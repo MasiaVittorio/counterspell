@@ -219,7 +219,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
           ExtraButton(
             icon: null,
             customCircleColor: Colors.transparent,
-            filled: true,
             customIcon: Text("${spell.cost}"),
             text: "Cost",
             onTap: () => this.setState(() {
@@ -240,7 +239,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
           ExtraButton(
             icon: null,
             customCircleColor: Colors.transparent,
-            filled: true,
             customIcon: Text("${spell.product}"),
             text: "Produces",
             onTap: () => this.setState(() {
@@ -261,7 +259,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
           ExtraButton(
             icon: spellInHand ? McIcons.cards_outline : ManaIcons.flashback,
             customCircleColor: Colors.transparent,
-            filled: true,
             text: spellInHand ? "In hand" : "In yard",
             onTap: () => this.setState((){
               spellInHand = !spellInHand;
@@ -343,7 +340,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                 ExtraButtons(children: <Widget>[
                   ExtraButton(
                     customCircleColor: Colors.transparent,
-                    filled: true,
                     icon: null,
                     customIcon: Text("$copies"),
                     onTap: copies > 0 
@@ -354,7 +350,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                   ), 
                   ExtraButton(
                     customCircleColor: Colors.transparent,
-                    filled: true,
                     icon: null,
                     customIcon: Text("$bounces"),
                     onTap: bounces > 0 
@@ -369,7 +364,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
           ),),
 
           if(triggers.length > 1) Expanded(flex: 2, child: ExtraButton(
-            filled: false,
             onTap: null,
             text: "More\ntriggers",
             twoLines: true,
@@ -377,7 +371,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             customIcon: Text("${triggers.length - 1}"),
           )),
           
-          if(triggers.isEmpty) Expanded(child: SubSection([
+          if(triggers.isEmpty) const Expanded(child: SubSection([
             ListTile(title: Text("No trigger left"),),
           ]),),
         ],),

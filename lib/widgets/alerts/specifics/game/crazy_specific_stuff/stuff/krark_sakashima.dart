@@ -37,7 +37,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   }
 
   _Spell spell = _Spell(0, 0, 1.0);
-  bool spellInHand = true;
+  _Zone spellPlace = _Zone.hand;
 
   int mana = 0;
   int totalStormCount = 0;
@@ -47,6 +47,9 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   int howManyThumbs = 0;
 
   List<_ThumbTrigger> triggers = [];
+
+  bool keepBouncing = true;
+  int maxCasts = 100;
 
 
   /// Casts the spell and generates triggers
@@ -59,7 +62,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
     ++totalStormCount;
 
-    spellInHand = false;
+    spellPlace = _Zone.stack;
 
 
     for(int i=0; i<howManyKrarks; i++){
@@ -72,7 +75,10 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   void solveTrigger(_Flip choice, {@required bool automatic}){
     triggers.removeLast();
     if(choice == _Flip.bounce){
-      spellInHand = true;
+      spellPlace = _Zone.hand;
+      /// could already be bounced in hand from another trigger, but that does not
+      /// change how the current trigger can still copy the latest known spell information
+      /// and setting spellPlace = hand more than one time has no effect
     } else {
 
       _solveSpell();
@@ -80,8 +86,9 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
       /// if this was the last trigger, and the spell was never bounced
       /// you should add one resolved spell (the orignal card) to the total 
       /// resolved count, and resolve that spell as well by producing the mana
-      if(triggers.isEmpty && !spellInHand){
+      if(triggers.isEmpty && spellPlace == _Zone.stack){
         _solveSpell();
+        spellPlace = _Zone.graveyard;
       }
     }
 
@@ -101,7 +108,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
     this.mana = 0;
     this.totalStormCount = 0;
     this.totalResolved = 0;
-    this.spellInHand = true;
+    this.spellPlace = _Zone.hand;
     this.triggers.clear();
   });
 
@@ -114,13 +121,13 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   void autoSolveTrigger(){
     _ThumbTrigger trigger = triggers.last;
     _Flip choice;
-    if(spellInHand){
+    if(spellPlace == _Zone.hand){ /// If already bounced, try to copy
       if(trigger.containsCopy){
         choice = _Flip.copy;
       } else {
         choice = _Flip.bounce;
       }
-    } else {
+    } else { /// If still on the stack, try to bounce
       if(trigger.containsBounce){
         choice = _Flip.bounce;
       } else {
@@ -156,7 +163,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
     => spell != null 
     && spell.ok 
     && mana >= spell.cost 
-    && spellInHand;
+    && spellPlace == _Zone.hand;
 
   @override
   Widget build(BuildContext context) {
@@ -166,18 +173,23 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AlertDrag(),
+            const AlertDrag(),
             krarkSection,
+            CSWidgets.height10,
           ],
         ),
       ),
-      titleSize: 79 + AlertDrag.height,
+      titleSize: 89 + AlertDrag.height,
       canvasBackground: true,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           spellSection,
+          CSWidgets.height10,
+          CSWidgets.divider,
           statusSection,
+          CSWidgets.height5,
+          CSWidgets.divider,
           triggersSection,
         ],
       ),
@@ -185,29 +197,33 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
     );
   }
 
-  Widget get krarkSection => ExtraButtons(children: [
-    ExtraButton(
-      text: "Krarks",
-      icon: null,
-      customIcon: Text("$howManyKrarks"),
-      onTap: () => this.setState(() {
-        ++howManyKrarks;
-      }),
-      onLongPress: () => this.setState(() {
-        howManyKrarks = 1;        
-      }),
-    ),
-    ExtraButton(
-      text: "Thumbs",
-      icon: null,
-      customIcon: Text("$howManyThumbs"),
-      onTap: () => this.setState(() {
-        ++howManyThumbs;
-      }),
-      onLongPress: () => this.setState(() {
-        howManyThumbs = 0;
-      }),
-    ),
+  Widget get krarkSection => SubSection([
+    ExtraButtons(children: [
+      ExtraButton(
+        text: "# of Krarks",
+        icon: null,
+        customCircleColor: Colors.transparent,
+        customIcon: Text("$howManyKrarks"),
+        onTap: () => this.setState(() {
+          ++howManyKrarks;
+        }),
+        onLongPress: () => this.setState(() {
+          howManyKrarks = 1;        
+        }),
+      ),
+      ExtraButton(
+        text: "# of Thumbs",
+        icon: null,
+        customCircleColor: Colors.transparent,
+        customIcon: Text("$howManyThumbs"),
+        onTap: () => this.setState(() {
+          ++howManyThumbs;
+        }),
+        onLongPress: () => this.setState(() {
+          howManyThumbs = 0;
+        }),
+      ),
+    ],),
   ],);
 
   Widget get spellSection => Column(
@@ -220,7 +236,8 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             icon: null,
             customCircleColor: Colors.transparent,
             customIcon: Text("${spell.cost}"),
-            text: "Cost",
+            text: "Mana\ncost",
+            twoLines: true,
             onTap: () => this.setState(() {
               spell = _Spell(
                 (spell.cost ?? 0) + 1,
@@ -240,7 +257,8 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             icon: null,
             customCircleColor: Colors.transparent,
             customIcon: Text("${spell.product}"),
-            text: "Produces",
+            text: "Mana\nproduct",
+            twoLines: true,
             onTap: () => this.setState(() {
               spell = _Spell(
                 spell.cost,
@@ -257,11 +275,24 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             }),
           ),
           ExtraButton(
-            icon: spellInHand ? McIcons.cards_outline : ManaIcons.flashback,
+            icon: <_Zone, IconData>{
+              _Zone.hand: McIcons.cards_outline,
+              _Zone.graveyard: ManaIcons.flashback,
+              _Zone.stack: ManaIcons.instant,
+            }[spellPlace] ?? Icons.error,
             customCircleColor: Colors.transparent,
-            text: spellInHand ? "In hand" : "In yard",
+            text: (const <_Zone, String>{
+              _Zone.hand: "Now\nin hand",
+              _Zone.graveyard: "Now\nin yard",
+              _Zone.stack: "On the\nstack",
+            })[spellPlace] ?? Icons.error,
+            twoLines: true,
             onTap: () => this.setState((){
-              spellInHand = !spellInHand;
+              spellPlace = (const{
+                _Zone.hand: _Zone.stack,
+                _Zone.stack: _Zone.graveyard,
+                _Zone.graveyard: _Zone.hand,
+              })[spellPlace];
             }),
           ),
           // ExtraButton(
@@ -271,10 +302,10 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
           //   customIcon: Text("${(spell.chance*100).round()}%"),
           //   text: "Chance",
           //   onTap: () {
-          //     // TODO: slider per la chance, non puoi andare su altri alert o perdi questo status
+          //     // TODO: slider per la chance, non puoi andare su altri alert o perdi questo state
           //   }
           // ),
-        ],)
+        ],),
       ]),
     ],
   );
@@ -283,10 +314,13 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
     mainAxisSize: MainAxisSize.min,
     children: [
       const SectionTitle("Status"),
-      ExtraButtons(children: [
-          ExtraButton(
+      Padding(
+        padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0),
+        child: Row(children: [
+          Expanded(child: ExtraButton(
             icon: null,
-            customIcon: Text("$mana"),
+            filled: true,
+            customIcon: AnimatedText("$mana"),
             text: "Mana Pool",
             onTap: () => this.setState(() {
               mana++;
@@ -294,36 +328,37 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             onLongPress: () => this.setState(() {
               mana = 0;
             }),
-          ),
-          ExtraButton(
+          ),),
+          Expanded(child: ExtraButton(
             icon: null,
-            customIcon: Text("$totalStormCount"),
+            customIcon: AnimatedText("$totalStormCount"),
             text: "Storm count",
             onTap: null,
             onLongPress: () => this.setState(() {
               totalStormCount = 0;
             }),
-          ),
-          ExtraButton(
+          ),),
+          const ExtraButtonDivider(),
+          Expanded(child: ExtraButton(
             icon: null,
-            customIcon: Text("$totalResolved"),
+            customIcon: AnimatedText("$totalResolved"),
             text: "Resolved",
             onTap: null,
             onLongPress: () => this.setState(() {
               totalResolved = 0;
             }),
-          ),
-      ],),
-      CSWidgets.divider,
+          ),),
+        ]),
+      ),
     ],
   );
 
   Widget get triggersSection => Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.fromLTRB(8, 2, 8, 8),
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // const SectionTitle("Triggers"),
+        const SectionTitle("Triggers"),
         Row(children: <Widget>[
           if(triggers.isNotEmpty) Expanded(flex: 6, child: SubSection(((){
               final _ThumbTrigger trigger = triggers.last;
@@ -336,8 +371,8 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               final int bounces = howManyFlips - copies;
 
               return <Widget>[
-                SectionTitle("Current trigger ($howManyFlips coin ${howManyFlips > 1 ? "flips" : "flip"})"),
-                ExtraButtons(children: <Widget>[
+                SectionTitle("Trigger #${triggers.length} ${howManyThumbs > 0 ? "($howManyThumbs thumbs)" : "(regular flip)"}"),
+                if(howManyFlips > 1) ExtraButtons(children: <Widget>[
                   ExtraButton(
                     customCircleColor: Colors.transparent,
                     icon: null,
@@ -358,17 +393,33 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                     text: "Tails\n(bounce)",
                     twoLines: true,
                   ), 
-                ],),
+                ],)
+                else ExtraButtons(children: <Widget>[
+                  ExtraButton(
+                    icon: copies > 0 ? Icons.check : Icons.close,
+                    onTap: null,
+                    text: copies > 0 ? "Heads\n(copy)" : "Tails\n(bounce)",
+                    twoLines: true,
+                  ),
+                  ExtraButton(
+                    customCircleColor: Colors.transparent,
+                    icon: Icons.keyboard_arrow_right,
+                    onTap: () => solveTrigger(flips.first, automatic: false),
+                    text: "Ok\n(${triggers.length > 1 ? "next" : "finish"})",
+                    twoLines: true,
+                  ), 
+                ],)
+ 
               ];
             }()),
           ),),
 
-          if(triggers.length > 1) Expanded(flex: 2, child: ExtraButton(
+          if(triggers.isNotEmpty) Expanded(flex: 2, child: ExtraButton(
             onTap: null,
             text: "More\ntriggers",
             twoLines: true,
             icon: null,
-            customIcon: Text("${triggers.length - 1}"),
+            customIcon: Text(triggers.length <= 1 ? "No" : "${triggers.length - 1}"),
           )),
           
           if(triggers.isEmpty) const Expanded(child: SubSection([
@@ -384,33 +435,48 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ListTile(
-          leading: Icon(ManaIcons.instant),
-          title: Text(canCast ? "Cast spell" : "Can't cast spell"),
-          subtitle: canCast ? null : 
-            mana < spell.cost ? Text("Missing mana", style: error,)
-            : !spellInHand ? Text("Spell in graveyard", style: error,)
-            : !spell.ok ? Text("Missing data", style: error,)
-            : null,
-          onTap: canCast ? () => this.cast(automatic: false) : null,
-        ),
-        if(this.howManyKrarks > 1 && canCast)
+        CSWidgets.height10,
+        SubSection([
           ListTile(
             leading: Icon(ManaIcons.instant),
-            title: Text("Keep casting/bouncing"),
-            subtitle: Text("Until no bounce or 100 casts"),
-            onTap: canCast ? () => this.keepCasting(forUpTo: 100) : null,
+            title: AnimatedText(canCast 
+              ? "Cast spell ${keepBouncing ? "(auto)" : "(manual)"}" 
+              : "Can't cast spell"
+            ),
+            subtitle: canCast ? null : 
+              mana < spell.cost ? Text("Missing mana", style: error,)
+              : !(spellPlace == _Zone.hand) ? Text("Spell out of hand", style: error,)
+              : !spell.ok ? Text("Missing data", style: error,)
+              : null,
+            onTap: canCast ? (
+              keepBouncing 
+                ? () => this.keepCasting(forUpTo: maxCasts)
+                : () => this.cast(automatic: false)
+              ) : null,
           ),
-        // ListTile(
-        //   leading: Icon(Icons.refresh),
-        //   title: Text("Reset"),
-        //   onTap: reset,
-        // ),
+        ],),
+        if(this.howManyKrarks > 1 && canCast)
+          SwitchListTile(
+            value: keepBouncing,
+            onChanged: (v) => this.setState(() {
+              keepBouncing = v;
+            }),
+            title: Text("Keep casting/bouncing"),
+            subtitle: Text("Until no bounce or $maxCasts casts"),
+          )
+        else CSWidgets.height10,
+
       ],
     );
   }
 
 
+}
+
+enum _Zone {
+  hand,
+  graveyard,
+  stack,
 }
 
 

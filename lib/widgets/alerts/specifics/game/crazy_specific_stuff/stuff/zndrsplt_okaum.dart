@@ -94,7 +94,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
   void autoSolveTriggers(){
     handleTrigger(); /// --triggers and flips
     int _steps = 0;
-    while(triggers > 0 && _steps < 100000 && currentFlip != null){
+    while(triggers > 0 && _steps < 100 && currentFlip != null){
       ++_steps; /// security check, don't want to enter an infinite loop
       solveFlip(currentFlip.containsWin);
       /// if wins, just reflip and ++wins
@@ -108,6 +108,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     refresh();
 
     // TODO: print everything and thoroughly check how it goes
+    /// TODO: per wins alte, la power va a infinito e diventa zero lol
   }
 
   void toggleAuto() => this.setState(() {
@@ -150,7 +151,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     ExtraButtons(children: [
       ExtraButton(
         customCircleColor: Colors.transparent,
-        text: "Zndrsplt",
+        text: "# of Zndrsplt",
         icon: null,
         customIcon: Text("$zndrsplt"),
         onTap: () => this.setState(() {
@@ -162,7 +163,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
       ),
       ExtraButton(
         customCircleColor: Colors.transparent,
-        text: "Okaum",
+        text: "# of Okaum",
         icon: null,
         customIcon: Text("$okaum"),
         onTap: () => this.setState(() {
@@ -174,7 +175,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
       ),
       ExtraButton(
         customCircleColor: Colors.transparent,
-        text: "Thumbs",
+        text: "# of Thumbs",
         icon: null,
         customIcon: Text("$thumbs"),
         onTap: () => this.setState(() {
@@ -192,7 +193,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     children: [
       const SectionTitle("Status"),
       Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0),
+        padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0),
         child: Row(children: [
           Expanded(child: ExtraButton(
             icon: null,
@@ -224,6 +225,8 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     ],
   );
 
+
+  // TODO: take design from krark
   Widget get triggersSection => Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
@@ -276,15 +279,18 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
   Widget get actions => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ListTile(
-          leading: Icon(CSIcons.damageOutlined),
-          title: Text(currentFlip == null ? "Begin Combat" : "Can't begin combat"),
-          subtitle: currentFlip == null ? null : Text("Solve triggers first"),
-          onTap: currentFlip == null ? beginCombat : null,
-        ),
+        CSWidgets.height10,
+        SubSection([
+          ListTile(
+            leading: Icon(CSIcons.attackTwo),
+            title: Text(currentFlip == null ? "Begin Combat" : "Can't begin combat"),
+            subtitle: currentFlip == null ? null : Text("Solve triggers first"),
+            onTap: currentFlip == null ? beginCombat : null,
+          ),
+        ],),
         SwitchListTile(
-          title: Text("Automatic"),
-          subtitle: Text("Keep trying to win"),
+          title: Text("Keep flipping"),
+          subtitle: Text("Until no win or 100 flips"),
           value: this.alwaysTryToWin, 
           onChanged: (v) => this.setState(() {
             alwaysTryToWin = v;  

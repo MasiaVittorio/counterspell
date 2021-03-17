@@ -440,7 +440,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
           ListTile(
             leading: Icon(ManaIcons.instant),
             title: AnimatedText(canCast 
-              ? "Cast spell ${keepBouncing ? "(auto)" : "(manual)"}" 
+              ? "Cast spell ${(keepBouncing && howManyKrarks > 1) ? "(auto)" : "(manual)"}" 
               : "Can't cast spell"
             ),
             subtitle: canCast ? null : 
@@ -449,22 +449,21 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               : !spell.ok ? Text("Missing data", style: error,)
               : null,
             onTap: canCast ? (
-              keepBouncing 
+              (keepBouncing && howManyKrarks > 1) 
                 ? () => this.keepCasting(forUpTo: maxCasts)
                 : () => this.cast(automatic: false)
               ) : null,
           ),
         ],),
-        if(this.howManyKrarks > 1 && canCast)
-          SwitchListTile(
-            value: keepBouncing,
-            onChanged: (v) => this.setState(() {
-              keepBouncing = v;
-            }),
-            title: Text("Keep casting/bouncing"),
-            subtitle: Text("Until no bounce or $maxCasts casts"),
-          )
-        else CSWidgets.height10,
+
+        SwitchListTile(
+          value: keepBouncing,
+          onChanged: (this.howManyKrarks > 1 && canCast) ? (v) => this.setState(() {
+            keepBouncing = v;
+          }) : null,
+          title: Text("Keep casting/bouncing"),
+          subtitle: Text("Until no bounce or $maxCasts casts"),
+        )
 
       ],
     );

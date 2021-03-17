@@ -74,6 +74,7 @@ class ExtraButton extends StatelessWidget {
   final Widget customIcon;
   final Color customCircleColor;
   final bool twoLines;
+  final bool iconOverflow;
 
   const ExtraButton({
     @required this.icon,
@@ -87,6 +88,7 @@ class ExtraButton extends StatelessWidget {
     this.filled = false,
     this.customCircleColor,
     this.twoLines = false,
+    this.iconOverflow = false,
   });
 
   static const double _iconDimension = 38.0;
@@ -113,7 +115,19 @@ class ExtraButton extends StatelessWidget {
             ),
             child: Padding(
               padding: this.iconPadding,
-              child: this.customIcon ?? Icon(icon, size: iconSize),
+              child: customIcon == null 
+                ? Icon(icon, size: iconSize)
+                : iconOverflow 
+                  ? Stack(clipBehavior: Clip.none, children: [
+                      Positioned(
+                        left: -_iconDimension,
+                        top: -_iconDimension,
+                        bottom: -_iconDimension,
+                        right: -_iconDimension,
+                        child: Center(child: customIcon),
+                      )
+                    ],)
+                  : customIcon,
             ),
           ),
         ),

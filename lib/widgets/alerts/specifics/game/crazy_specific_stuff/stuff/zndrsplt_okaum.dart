@@ -53,62 +53,84 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
   int get power => okaum > 0 ? 3 * pow(2,wins) : 0;
 
   void beginCombat(){
+    // debugPrint("enter beginCombat");
     wins = 0;
     triggers = okaum + zndrsplt;
+    // debugPrint("beginCombat: wins $wins triggers $triggers");
     if(alwaysTryToWin){
+      // debugPrint("beginCombat: alwaysTryToWin");
       autoSolveTriggers();
     } else {
+      // debugPrint("beginCombat: manual");
       handleTrigger();
       refresh();
     }
+    // debugPrint("exits beginCombat");
   }
 
   void handleTrigger(){
+    // debugPrint("enters handleTrigger");
     if(triggers < 1){
+      // debugPrint("triggers were less than one: $triggers");
       triggers = 0;
+      // debugPrint("now triggers $triggers");
+      // debugPrint("exits handleTrigger");
       return;
     }
 
+    // debugPrint("triggers were $triggers");
     --triggers;
+    // debugPrint("now triggers: $triggers");    
     _flip();
+    // debugPrint("exits handleTrigger");
   }
 
   void solveFlip(bool choice){
+    // debugPrint("enters solveFlip with choice $choice");
     assert(currentFlip.contains(choice));
-
+    // debugPrint("wins were $wins");
     if(choice){ /// win flip
       ++wins;
+      // debugPrint("now wins $wins! let's flip again");
       _flip(); /// again
     } else {
       currentFlip = null;
+      // debugPrint("now current Flip null, let's check if there are more triggers");
       handleTrigger(); /// next commander's trigger if any
     }
 
     refreshIf(!alwaysTryToWin);
+    // debugPrint("exits solveFlip");
   }
 
   void _flip(){
+    // debugPrint("enters _flip");
     currentFlip = _ThumbFlip(thumbs, rng);
+    // debugPrint("new Flip is: ${currentFlip.flips}");
+    // debugPrint("exits _flip");
   }
 
+
   void autoSolveTriggers(){
+    // debugPrint("enters autoSolveTriggers");
     handleTrigger(); /// --triggers and flips
     int _steps = 0;
-    while(triggers > 0 && _steps < 100 && currentFlip != null){
+    while(_steps < 100 && currentFlip != null){
+      // debugPrint("step $_steps");
       ++_steps; /// security check, don't want to enter an infinite loop
       solveFlip(currentFlip.containsWin);
       /// if wins, just reflip and ++wins
       /// if loses, clears the flip and start the next trigger if any
     }
 
+    // debugPrint("autoSolveTriggers: finish after step $_steps");
     currentFlip = null;
     triggers = 0;
     /// if the cycle broke at 10000 steps, that should be enough 
     /// for the player to win right?
     refresh();
 
-    // TODO: print everything and thoroughly check how it goes
-    /// TODO: per wins alte, la power va a infinito e diventa zero lol
+    // debugPrint("exits autoSolveTriggers");
   }
 
   void toggleAuto() => this.setState(() {
@@ -204,8 +226,9 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
           ),),
           const ExtraButtonDivider(),
           Expanded(child: ExtraButton(
+            iconOverflow: true,
             icon: null,
-            customIcon: Text("$power"),
+            customIcon: Text(wins > 9 ? "3*2^$wins" : "$power"),
             twoLines: okaum > 1,
             text: okaum > 1 ? "P/T\n(/each)" : "P/T",
             onTap: null,
@@ -225,18 +248,16 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     ],
   );
 
-
-  // TODO: take design from krark
   Widget get triggersSection => Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.fromLTRB(8, 2, 8, 8),
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // const SectionTitle("Triggers"),
+        const SectionTitle("Triggers"),
         Row(children: <Widget>[
           if(currentFlip != null) Expanded(flex: 6, child: SubSection(<Widget>[
             SectionTitle("Current flip ${currentFlip.flips.length > 1 ? '(${currentFlip.flips.length} thumb-coins)' : ""}"),
-            ExtraButtons(children: <Widget>[
+            if(currentFlip.flips.length > 1) ExtraButtons(children: <Widget>[
               ExtraButton(
                 customCircleColor: Colors.transparent,
                 icon: null,
@@ -257,15 +278,31 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
                 text: "Tails\n(loss)",
                 twoLines: true,
               ), 
-            ],),
-          ],),),
+            ],)
+            else ExtraButtons(children: <Widget>[
+              ExtraButton(
+                icon: currentFlip.containsWin ? Icons.check : Icons.close,
+                onTap: null,
+                text: currentFlip.containsWin ? "Heads\n(win)" : "Tails\n(loss)",
+                twoLines: true,
+              ),
+              ExtraButton(
+                customCircleColor: Colors.transparent,
+                icon: Icons.keyboard_arrow_right,
+                onTap: () => solveFlip(currentFlip.flips.first),
+                text: "Ok\n(${(currentFlip.containsWin || triggers > 0) ? "next" : "finish"})",
+                twoLines: true,
+              ), 
+            ],)
+ 
+          ]),),
 
-          if(triggers > 0) Expanded(flex: 2, child: ExtraButton(
+          if(currentFlip != null) Expanded(flex: 2, child: ExtraButton(
             onTap: null,
             text: "More\ntriggers",
             twoLines: true,
             icon: null,
-            customIcon: Text("$triggers"),
+            customIcon: Text(triggers <= 0 ? "No" : "$triggers"),
           )),
           
           if(currentFlip == null) const Expanded(child: SubSection([
@@ -283,7 +320,10 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         SubSection([
           ListTile(
             leading: Icon(CSIcons.attackTwo),
-            title: Text(currentFlip == null ? "Begin Combat" : "Can't begin combat"),
+            title: AnimatedText(
+              (currentFlip == null ? "Begin Combat" : "Can't begin combat")
+              + (this.alwaysTryToWin ? " (auto)" : " (manual)")
+            ),
             subtitle: currentFlip == null ? null : Text("Solve triggers first"),
             onTap: currentFlip == null ? beginCombat : null,
           ),
@@ -292,9 +332,9 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
           title: Text("Keep flipping"),
           subtitle: Text("Until no win or 100 flips"),
           value: this.alwaysTryToWin, 
-          onChanged: (v) => this.setState(() {
+          onChanged: currentFlip == null ? (v) => this.setState(() {
             alwaysTryToWin = v;  
-          }),
+          }) : null,
         ),
       ],
     );

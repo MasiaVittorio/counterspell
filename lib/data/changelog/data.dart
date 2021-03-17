@@ -6,6 +6,20 @@ class ChangeLogData {
   static const int lastBigChange = 86;
 
   static const List<Version> list = <Version>[
+    Version("3.2.7", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "", //TODO: document the update
+        null,
+      ),
+    ],),
+    Version("3.2.6", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "Krarkulator: the 1st crazy specific combo helper",
+        "Open the menu panel, go to the Info tab and you'll find the \"Crazy specific stuff\" section!",
+      ),
+    ],),
     Version("3.2.5", <Change>[
       Change(
         ChangeType.change,

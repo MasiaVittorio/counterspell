@@ -29,7 +29,7 @@ class __LocalState extends State<_Local> {
   @override
   void initState() {
     super.initState();
-    this.localScroller = CSScroller(this.widget.bloc, tutorialConfirm: (increment){
+    this.localScroller = CSScroller(this.widget.bloc, overrideOnConfirm: (increment){
       if(this.mounted)
         this.setState((){
           this.value += increment;

@@ -48,7 +48,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
   List<_ThumbTrigger> triggers = [];
 
-  bool keepBouncing = true;
+  bool keepBouncing = false;
   int maxCasts = 100;
 
 
@@ -457,7 +457,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
         ],),
 
         SwitchListTile(
-          value: keepBouncing,
+          value: this.howManyKrarks > 1 && keepBouncing,
           onChanged: (this.howManyKrarks > 1 && canCast) ? (v) => this.setState(() {
             keepBouncing = v;
           }) : null,

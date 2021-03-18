@@ -131,6 +131,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     refresh();
 
     // debugPrint("exits autoSolveTriggers");
+    // TODO: test if zero zndrsplt and okaums lead to some bugs
   }
 
   void toggleAuto() => this.setState(() {

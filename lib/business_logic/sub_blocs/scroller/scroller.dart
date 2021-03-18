@@ -34,15 +34,15 @@ class CSScroller {
   //==============================
   // Constructor
 
-  CSScroller(this.parent, {void Function(int) tutorialConfirm}): 
+  CSScroller(this.parent, {void Function(int) overrideOnConfirm}): 
     delayerController = DelayerController(),
     intValue = BlocVar(0),
-    justTutorial = tutorialConfirm != null //in case this is a dummy scroller for the tutorial page, it has not to interfere with the bloc 
+    justTutorial = overrideOnConfirm != null //in case this is a dummy scroller for the tutorial page, it has not to interfere with the bloc 
   {
     isScrolling = BlocVar<bool>(false, onChanged: (b){
       if(b == false){
-        if(tutorialConfirm != null){
-          tutorialConfirm(this.intValue.value);
+        if(overrideOnConfirm != null){
+          overrideOnConfirm(this.intValue.value);
           this.value = 0.0;
           this.intValue.set(0);
         } else {
@@ -85,7 +85,6 @@ class CSScroller {
       : 1.0;
 
 
-    // final double width = this.parent.scaffold.dimensions.value.globalWidth;
     final double max = scrollSettings.scrollSensitivity.value;
     final double fraction = (vertical ? - details.delta.dy : details.delta.dx) / width;
 

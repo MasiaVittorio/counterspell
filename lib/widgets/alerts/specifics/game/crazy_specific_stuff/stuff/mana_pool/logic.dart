@@ -1,3 +1,4 @@
+import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_generic.dart';
 import 'package:counter_spell_new/core.dart';
 
 
@@ -8,13 +9,12 @@ class MPLogic {
   PersistentVar<Map<Clr,bool>> show; 
   PersistentVar<List<ManaAction>> history; 
 
-  CSScroller localScroller;
+  ScrollerLogic localScroller;
 
-  BlocVar<int> delta;
   BlocVar<Clr> selected; 
 
   ManaAction get currentAction => ManaAction(
-    delta: delta.value, 
+    delta: localScroller.intValue.value, 
     color: selected.value,
   );
 
@@ -25,30 +25,36 @@ class MPLogic {
     show?.dispose();
     history?.dispose();
     localScroller?.dispose();
-    delta?.dispose();
     selected?.dispose();
     pool?.dispose();
   }
 
   MPLogic(CSBloc parentBloc) {
     mounted = true;
-    localScroller = CSScroller(parentBloc, overrideOnConfirm: (v){
-      if(!mounted) return;
-      delta.value += v;
-      delta.refresh();
-    });
-    delta = BlocVar<int>(0);
+
+    selected = BlocVar<Clr>(null);
+    
+    localScroller = ScrollerLogic(
+      okVibrate: () => parentBloc.settings.appSettings.canVibrate 
+        && parentBloc.settings.appSettings.wantVibrate.value,
+      onCancel: (_, __){
+        selected.set(null);
+      },
+      scrollSettings: parentBloc.settings.scrollSettings,
+      resetAfterConfirm: true,
+      onConfirm: (v){
+        this.apply(currentAction);
+      },
+    );
+
     show = PersistentVar<Map<Clr,bool>>(
       key: "mana_pool_state: show map",
       initVal: <Clr, bool>{
-        Clr.w: true,
-        Clr.u: true,
-        Clr.b: true,
-        Clr.r: true,
-        Clr.g: true,
+        for(final c in Clr.values)
+          c: true,
       },
       fromJson: (j) => <Clr,bool>{
-        for(final e in (j as Map<String,bool>).entries)
+        for(final e in (j as Map).entries)
           Clrs.fromName(e.key): e.value,
       },
       toJson: (v) => <String,bool>{
@@ -79,44 +85,81 @@ class MPLogic {
     if(pool.value[action.color] < 0)
       pool.value[action.color] = 0;
     pool.refresh();
-    delta.set(0);
 
-    if(history.value.contains(action)){
-      history.value.remove(action);
+    if(action.delta != 0){
+      if(history.value.contains(action)){
+        history.value.remove(action);
+      }
+      if(history.value.length >= 4){
+        int deleteAt = 0;
+        for(int i=0; i<history.value.length; ++i){
+          if(!show.value[history.value[i].color])
+            deleteAt = i;
+        }
+        history.value.removeAt(deleteAt);
+      }
+      history.value.add(action);
+      history.refresh();
     }
-    if(history.value.length >= 4){
-      history.value.removeAt(0);
-    }
-    history.value.add(action);
-    history.refresh();
   }
 
+  void onPan(Clr color){
+    if(selected.value == null){
+      selected.set(color);
+    } else {
+      if(selected.value != color){
+        if(localScroller.isScrolling.value) 
+          this.apply(this.currentAction);
+        selected.set(color);
+      } 
+    }
+  }
 
 }
 
 
 
 
-enum Clr {w,u,b,r,g}
-extension on Clr {
-  static const _map = {
+enum Clr {w,u,b,r,g,c} ///+ colorless
+extension ClrExt on Clr {
+
+  String get name => const <Clr,String>{
     Clr.w: "w",
     Clr.u: "u",
     Clr.b: "b",
     Clr.r: "r",
     Clr.g: "g",
-  };
-  String get name => _map[this]; 
+    Clr.c: "c",
+  }[this]; 
+
+  Color get color => const <Clr,Color>{
+    Clr.w: const Color(0xFFfffbd6),
+    Clr.u: const Color(0xFFaae0fa),
+    Clr.b: const Color(0xFFccc3c1),
+    Clr.r: const Color(0xFFf9aa8f),
+    Clr.g: const Color(0xFF9bd3af),
+    Clr.c: const Color(0xFFd5cece),
+  }[this];
+
+  IconData get icon => const <Clr,IconData>{
+    Clr.w: ManaIcons.w,
+    Clr.u: ManaIcons.u,
+    Clr.b: ManaIcons.b,
+    Clr.r: ManaIcons.r,
+    Clr.g: ManaIcons.g,
+    Clr.c: ManaIcons.c,
+  }[this];
+
 }
 class Clrs {
-  static const _map = {
+  static Clr fromName(String name) => const <String,Clr>{
     "w": Clr.w,
     "u": Clr.u,
     "b": Clr.b,
     "r": Clr.r,
     "g": Clr.g,
-  };
-  static Clr fromName(String name) => _map[name];
+    "c": Clr.c,
+  }[name];
 }
 
 class ManaAction {

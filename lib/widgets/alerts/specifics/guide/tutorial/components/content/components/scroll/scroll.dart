@@ -1,3 +1,4 @@
+import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_generic.dart';
 import 'package:counter_spell_new/core.dart';
 import 'components/all.dart';
 
@@ -22,19 +23,26 @@ class _Local extends StatefulWidget {
 
 class __LocalState extends State<_Local> {
 
-  CSScroller localScroller;
+  ScrollerLogic localScroller;
   int value = 40;
   bool scrolled = false;
 
   @override
   void initState() {
     super.initState();
-    this.localScroller = CSScroller(this.widget.bloc, overrideOnConfirm: (increment){
-      if(this.mounted)
-        this.setState((){
-          this.value += increment;
-        });
-    });
+    this.localScroller = ScrollerLogic(
+      okVibrate: () => widget.bloc.settings.appSettings.canVibrate 
+        && widget.bloc.settings.appSettings.wantVibrate.value,
+      onCancel: null,
+      scrollSettings: widget.bloc.settings.scrollSettings,
+      resetAfterConfirm: true,
+      onConfirm: (increment){
+        if(this.mounted)
+          this.setState((){
+            this.value += increment;
+          });
+      },
+    );
   }
 
   @override

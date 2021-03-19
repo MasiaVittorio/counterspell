@@ -9,7 +9,9 @@ class ChangeLogData {
     Version("3.2.7", <Change>[
       Change(
         ChangeType.newFeature,
-        "", //TODO: document the update
+        "", 
+        //TODO: document the update 
+        // (always leave this todo here to remind you to edit the changelog)
         null,
       ),
     ],),

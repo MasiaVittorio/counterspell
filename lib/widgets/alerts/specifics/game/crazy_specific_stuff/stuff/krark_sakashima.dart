@@ -295,16 +295,9 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               })[spellPlace];
             }),
           ),
-          // ExtraButton(
-          //   icon: null,
-          //   customCircleColor: Colors.transparent,
-          //   filled: true,
-          //   customIcon: Text("${(spell.chance*100).round()}%"),
-          //   text: "Chance",
-          //   onTap: () {
-          //     // TODO: slider per la chance, non puoi andare su altri alert o perdi questo state
-          //   }
-          // ),
+          
+          // TODO: slider per la chance, non puoi andare su altri alert o perdi questo state
+          
         ],),
       ]),
     ],

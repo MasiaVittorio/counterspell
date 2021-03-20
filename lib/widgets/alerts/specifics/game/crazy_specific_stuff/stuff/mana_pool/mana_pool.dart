@@ -54,7 +54,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
   void initController(){
     _disposeController();
     controller = AnimationController(
-      duration: CSBloc.of(context).settings.scrollSettings.confirmDelay.value,
+      duration: const Duration(milliseconds: 200),
       vsync: this,
       animationBehavior: AnimationBehavior.preserve,
     );
@@ -150,6 +150,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
 
   double calcSize(int shown) => _RecentAction.height + titleSize + shown * 64;
 
+  // TODO: maybe key su numbers per non animare cambiamenti quando cambi show
   Widget get pool => BlocVar.build3(
     logic.show,
     logic.pool,
@@ -172,14 +173,16 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
   
 
   Widget get recentActions => logic.history.build((context, history) 
-    => logic.show.build((_, show) => Row(children: [
-      for(final child in [
-        for(final action in history)
-          if(show[action.color])
-            _RecentAction(action, onTap: logic.apply),
-      ]) Expanded(child: child),
-      if(history.isEmpty) const SizedBox(height: _RecentAction.height),
-    ]),),
+    => logic.show.build((_, show) => Container(
+      height: _RecentAction.height,
+      child: Row(children: [
+        for(final child in [
+          for(final action in history)
+            if(show[action.color])
+              _RecentAction(action, onTap: logic.apply),
+        ]) Expanded(child: child),
+      ]),
+    ),),
   );
 }
 

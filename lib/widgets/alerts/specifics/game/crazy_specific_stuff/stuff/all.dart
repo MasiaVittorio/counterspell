@@ -5,7 +5,6 @@ export 'mana_pool/mana_pool.dart';
 import 'package:flutter/material.dart';
 
 
-// TODO: migliora e implementa in stage? lol
 abstract class GenericAlert extends StatelessWidget {
   final double size;
   final String title;

@@ -6,13 +6,30 @@ class ChangeLogData {
   static const int lastBigChange = 86;
 
   static const List<Version> list = <Version>[
-    Version("3.2.7", <Change>[
+    Version("3.2.8", <Change>[
       Change(
         ChangeType.newFeature,
         "", 
         //TODO: document the update 
         // (always leave this todo here to remind you to edit the changelog)
         null,
+      ),
+    ],),
+    Version("3.2.7", <Change>[
+      Change(
+        ChangeType.change,
+        "Cleaned up the Krarkulator a bit", 
+        null,
+      ),
+      Change(
+        ChangeType.change,
+        "Moved the Crazy specific stuff to the Game tab", 
+        null,
+      ),
+      Change(
+        ChangeType.newFeature,
+        "Mana Pool + Zndrsplt helper", 
+        "The Crazy specific stuff section now features 2 more handy helpers! CRAZY, RIGTH?",
       ),
     ],),
     Version("3.2.6", <Change>[

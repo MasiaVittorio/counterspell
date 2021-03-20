@@ -6,8 +6,8 @@ class MPLogic {
 
   bool mounted;
 
-  PersistentVar<Map<Clr,bool>> show; 
-  PersistentVar<List<ManaAction>> history; 
+  BlocVar<Map<Clr,bool>> show; 
+  BlocVar<List<ManaAction>> history; 
 
   ScrollerLogic localScroller;
 
@@ -47,34 +47,14 @@ class MPLogic {
       },
     );
 
-    show = PersistentVar<Map<Clr,bool>>(
-      key: "mana_pool_state: show map",
-      initVal: <Clr, bool>{
-        for(final c in Clr.values)
-          c: true,
-      },
-      fromJson: (j) => <Clr,bool>{
-        for(final e in (j as Map).entries)
-          Clrs.fromName(e.key): e.value,
-      },
-      toJson: (v) => <String,bool>{
-        for(final e in v.entries)
-          e.key.name: e.value,
-      },
-    );
-    history = PersistentVar<List<ManaAction>>(
-      key: "mana_pool_state: history list",
-      initVal: <ManaAction>[],
-      fromJson: (j) => <ManaAction>[
-        for(final jv in j)
-          ManaAction.fromJson(jv),
-      ],
-      toJson: (l) => <Map<String,dynamic>>[
-        for(final lv in l)
-          lv.toJson,
-      ],
-    );
-    pool = BlocVar<Map<Clr,int>>(<Clr,int>{
+    show = BlocVar(<Clr, bool>{
+      for(final c in Clr.values)
+        c: true,
+    },);
+
+    history = BlocVar(<ManaAction>[]);
+
+    pool = BlocVar(<Clr,int>{
       for(final v in Clr.values)
         v: 0,
     });
@@ -88,7 +68,7 @@ class MPLogic {
 
     if(action.delta != 0){
       if(history.value.contains(action)){
-        history.value.remove(action);
+        return;
       }
       if(history.value.length >= 4){
         int deleteAt = 0;

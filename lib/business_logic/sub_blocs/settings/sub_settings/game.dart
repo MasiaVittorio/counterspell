@@ -15,43 +15,43 @@ class CSSettingsGame {
   //====================================
   // Values
   final CSBloc parent;
-  final PersistentVar<int> _startingLife;
-  final PersistentVar<int> minValue;
-  final PersistentVar<int> maxValue;
+  final PersistentVar<int?> _startingLife;
+  final PersistentVar<int?> minValue;
+  final PersistentVar<int?> maxValue;
 
-  final PersistentVar<TimeMode> timeMode;
+  final PersistentVar<TimeMode?> timeMode;
 
-  final PersistentVar<bool> keepCommanderSettingsBetweenGames;
+  final PersistentVar<bool?> keepCommanderSettingsBetweenGames;
 
 
   //====================================
   // Constructor
   CSSettingsGame(this.parent):
-    _startingLife = PersistentVar<int>(
+    _startingLife = PersistentVar<int?>(
       key: "bloc_settings_blocvar_startinglife",
       initVal: 40,
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    minValue = PersistentVar<int>(
+    minValue = PersistentVar<int?>(
       key: "bloc_settings_blocvar_minvalue",
       initVal: -999,
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    maxValue = PersistentVar<int>(
+    maxValue = PersistentVar<int?>(
       key: "bloc_settings_blocvar_maxvalue",
       initVal: 9999,
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    timeMode = PersistentVar<TimeMode>(
+    timeMode = PersistentVar<TimeMode?>(
       key: "bloc_settings_blocvar_timeMode",
       initVal: TimeMode.clock,
       toJson: (mode) => TimeModes.nameOf(mode),
       fromJson: (name) => TimeModes.fromName(name),
     ),
-    keepCommanderSettingsBetweenGames = PersistentVar<bool>(
+    keepCommanderSettingsBetweenGames = PersistentVar<bool?>(
       key: "bloc_settings_blocvar_keepCommanderSettingsBetweenGames",
       initVal: false,
       toJson: (b) => b,
@@ -61,14 +61,14 @@ class CSSettingsGame {
   //==========================
   // Methods
 
-  int get currentStartingLife => _startingLife.value;
-  BlocVar<int> get startingLifeBlocVar => _startingLife;
+  int? get currentStartingLife => _startingLife.value;
+  BlocVar<int?> get startingLifeBlocVar => _startingLife;
 
-  void changeStartingLife(int newLife){
+  void changeStartingLife(int? newLife){
     if(newLife == currentStartingLife) return;
     this._startingLife.set(newLife);
-    if(parent.game.gameState.gameState.value.historyLenght <= 1){
-      parent.game.gameState.restart(null, avoidClosingPanel: true);
+    if(parent.game!.gameState!.gameState.value.historyLenght <= 1){
+      parent.game!.gameState!.restart(null, avoidClosingPanel: true);
     } 
   }
 

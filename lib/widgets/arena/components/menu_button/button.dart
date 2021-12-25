@@ -4,17 +4,17 @@ import 'package:counter_spell_new/core.dart';
 class ArenaButton extends StatelessWidget {
 
   ArenaButton({
-    @required this.indexToName,
-    @required this.isScrollingSomewhere,
-    @required this.open,
-    @required this.openMenu,
-    @required this.buttonSize,
-    @required this.exit,
-    @required this.page,
+    required this.indexToName,
+    required this.isScrollingSomewhere,
+    required this.open,
+    required this.openMenu,
+    required this.buttonSize,
+    required this.exit,
+    required this.page,
   });
 
   final CSPage page;
-  final Map<int,String> indexToName;
+  final Map<int,String?> indexToName;
   final bool isScrollingSomewhere;
   final bool open;
   final VoidCallback openMenu;
@@ -24,7 +24,7 @@ class ArenaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final CSBloc bloc = CSBloc.of(context);
+    final CSBloc? bloc = CSBloc.of(context);
 
     VoidCallback centerTap;
     bool buttonCross;
@@ -36,11 +36,11 @@ class ArenaButton extends StatelessWidget {
     } else if(this.isScrollingSomewhere){
       // action pending to be cancelled
       buttonCross = true;
-      centerTap = bloc.scroller.cancel;
+      centerTap = bloc!.scroller!.cancel;
     } 
     else if(page != CSPage.life){
       buttonCross = true;
-      centerTap = () => bloc.stage.mainPagesController.goToPage(CSPage.life);
+      centerTap = () => bloc!.stage!.mainPagesController.goToPage(CSPage.life);
     } 
     else {
       buttonCross = open;

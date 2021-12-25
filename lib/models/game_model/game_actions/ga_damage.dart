@@ -3,21 +3,21 @@ import 'package:flutter/widgets.dart';
 
 class GADamage extends GameAction{
   final int increment;
-  final int maxVal;
-  final int minLife;
+  final int? maxVal;
+  final int? minLife;
   final String attacker;
   final String defender;
-  final bool usingPartnerB;
+  final bool? usingPartnerB;
   final CommanderSettings settings;
 
   const GADamage(
     this.increment, {
-      @required this.defender,
-      @required this.attacker,
-      @required this.usingPartnerB,
+      required this.defender,
+      required this.attacker,
+      required this.usingPartnerB,
       this.maxVal,
       this.minLife,
-      @required this.settings,
+      required this.settings,
     }
   );
 

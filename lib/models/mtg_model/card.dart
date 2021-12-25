@@ -48,8 +48,8 @@ class MtgCard {
     return other.id == this.id;
   }
 
-  String imageUrl({int faceIndex = 0, String uri: "artCrop"}) {
-    ImageUris uris = this.imageUris ?? this.cardFaces[faceIndex].imageUris;
+  String? imageUrl({int faceIndex = 0, String uri: "artCrop"}) {
+    ImageUris uris = this.imageUris ?? this.cardFaces![faceIndex].imageUris!;
 
     return {
       "small": uris.small,
@@ -60,12 +60,12 @@ class MtgCard {
     }[uri];
   }
 
-  bool get isCreature => this.typeLine.contains("Creature");
-  bool get isEnchantment => this.typeLine.contains("Enchantment");
-  bool get isSorcery => this.typeLine.contains("Sorcery");
-  bool get isInstant => this.typeLine.contains("Sorcery");
-  bool get isArtifact => this.typeLine.contains("Artifact");
-  bool isType(String type) => this.typeLine.contains(type);
+  bool get isCreature => this.typeLine!.contains("Creature");
+  bool get isEnchantment => this.typeLine!.contains("Enchantment");
+  bool get isSorcery => this.typeLine!.contains("Sorcery");
+  bool get isInstant => this.typeLine!.contains("Sorcery");
+  bool get isArtifact => this.typeLine!.contains("Artifact");
+  bool isType(String type) => this.typeLine!.contains(type);
 
   // IconData get typeIcon {
   //   for(final type in ManaIcons.basicTypes.keys)
@@ -76,8 +76,8 @@ class MtgCard {
   // }
 
   bool isFaceType(String type, [int face = 0]) => this.isFaced
-    ? this.cardFaces[face ?? 0].typeLine.contains(type)
-    : this.typeLine.contains(type);
+    ? this.cardFaces![face ?? 0].typeLine!.contains(type)
+    : this.typeLine!.contains(type);
 
   // IconData faceTypeIcon([int face = 0]) {
   //   for(final type in ManaIcons.basicTypes.keys)
@@ -111,20 +111,20 @@ class MtgCard {
 
   bool get isFaced => this.cardFaces != null;
 
-  String getManaCost([int face = 0]){
-    if(this.isFaced) return this.cardFaces[face ?? 0]?.manaCost;
+  String? getManaCost([int face = 0]){
+    if(this.isFaced) return this.cardFaces![face ?? 0]?.manaCost;
     return manaCost;
   }
 
   bool isHybrid([int face = 0]) {
     for(final s in hybridSymbolsColored)
-      if(getManaCost(face ?? 0).contains(s))
+      if(getManaCost(face ?? 0)!.contains(s))
         return true;
     return false;
   }
 
-  List<Color> bkgColors([int face = 0]) {
-    final List<MtgColor> _clrs = colorIdentity;
+  List<Color?> bkgColors([int face = 0]) {
+    final List<MtgColor> _clrs = colorIdentity!;
     final int len = _clrs.length;
 
     switch (len) {
@@ -146,7 +146,7 @@ class MtgCard {
     return [GOLD_MULTICOLOR];
   } 
 
-  Color singleBkgColor([int face = 0]){
+  Color? singleBkgColor([int face = 0]){
      final cc = bkgColors(face);
      
      if(cc.length > 1) return GOLD_MULTICOLOR;
@@ -187,151 +187,151 @@ class MtgCard {
     //========================
     // Values =============
     //==================
-    CardObject object; ///A content type for this object, always card.
+    CardObject? object; ///A content type for this object, always card.
 
-    String id; ///A unique ID for this card in Scryfall’s database.
+    String? id; ///A unique ID for this card in Scryfall’s database.
 
-    String oracleId; ///A unique ID for this card’s oracle identity. This value is consistent across reprinted card editions, and unique among different cards with the same name (tokens, Unstable variants, etc).
-
-    //CAN BE NULL OR MISSING
-    List<int> multiverseIds; ///This card’s multiverse IDs on Gatherer, if any, as an array of integers. Note that Scryfall includes many promo cards, tokens, and other esoteric objects that do not have these identifiers.
+    String? oracleId; ///A unique ID for this card’s oracle identity. This value is consistent across reprinted card editions, and unique among different cards with the same name (tokens, Unstable variants, etc).
 
     //CAN BE NULL OR MISSING
-    int mtgoId; ///This card’s Magic Online ID (also known as the Catalog ID), if any. A large percentage of cards are not available on Magic Online and do not have this ID.
+    List<int>? multiverseIds; ///This card’s multiverse IDs on Gatherer, if any, as an array of integers. Note that Scryfall includes many promo cards, tokens, and other esoteric objects that do not have these identifiers.
 
     //CAN BE NULL OR MISSING
-    int mtgoFoilId; ///This card’s foil Magic Online ID (also known as the Catalog ID), if any. A large percentage of cards are not available on Magic Online and do not have this ID.
+    int? mtgoId; ///This card’s Magic Online ID (also known as the Catalog ID), if any. A large percentage of cards are not available on Magic Online and do not have this ID.
 
     //CAN BE NULL OR MISSING
-    int tcgplayerId; ///This card’s ID on TCGplayer’s API, also known as the productId.
-
-    String name; ///The name of this card. If this card has multiple faces, this field will contain both names separated by ␣//␣.
-
-    Lang lang; ///A language code for this printing.
-
-    String releasedAt; ///The date this card was first released.
-
-    String uri; ///A link to this card object on Scryfall’s API.
-
-    String scryfallUri; ///A link to this card’s permapage on Scryfall’s website.
-
-    Layout layout; ///A code for this card’s layout.
-
-    bool highresImage; ///True if this card’s imagery is high resolution.
+    int? mtgoFoilId; ///This card’s foil Magic Online ID (also known as the Catalog ID), if any. A large percentage of cards are not available on Magic Online and do not have this ID.
 
     //CAN BE NULL OR MISSING
-    ImageUris imageUris; ///An object listing available imagery for this card. See the Card Imagery article for more information.
+    int? tcgplayerId; ///This card’s ID on TCGplayer’s API, also known as the productId.
+
+    String? name; ///The name of this card. If this card has multiple faces, this field will contain both names separated by ␣//␣.
+
+    Lang? lang; ///A language code for this printing.
+
+    String? releasedAt; ///The date this card was first released.
+
+    String? uri; ///A link to this card object on Scryfall’s API.
+
+    String? scryfallUri; ///A link to this card’s permapage on Scryfall’s website.
+
+    Layout? layout; ///A code for this card’s layout.
+
+    bool? highresImage; ///True if this card’s imagery is high resolution.
 
     //CAN BE NULL OR MISSING
-    String manaCost; ///The mana cost for this card. This value will be any empty string "" if the cost is absent. Remember that per the game rules, a missing mana cost and a mana cost of {0} are different values. Multi-faced cards will report this value in card faces.
-
-    double cmc;  //The card’s converted mana cost. Note that some funny cards have fractional mana costs.
-
-    String typeLine; ///The type line of this card.
+    ImageUris? imageUris; ///An object listing available imagery for this card. See the Card Imagery article for more information.
 
     //CAN BE NULL OR MISSING
-    String oracleText; ///The Oracle text for this card, if any.
+    String? manaCost; ///The mana cost for this card. This value will be any empty string "" if the cost is absent. Remember that per the game rules, a missing mana cost and a mana cost of {0} are different values. Multi-faced cards will report this value in card faces.
+
+    double? cmc;  //The card’s converted mana cost. Note that some funny cards have fractional mana costs.
+
+    String? typeLine; ///The type line of this card.
 
     //CAN BE NULL OR MISSING
-    List<MtgColor> colors; ///This card’s colors, if the overall card has colors defined by the rules. Otherwise the colors will be on the card_faces objects, see below.
-
-    List<MtgColor> colorIdentity; ///This card’s color identity.
-
-    Legalities legalities; ///An object describing the legality of this card across play formats. Possible legalities are legal, not_legal, restricted, and banned.
-
-    List<Game> games; ///A list of games that this card print is available in, paper, arena, and/or mtgo.
-
-    bool reserved; ///True if this card is on the Reserved List.
-
-    bool foil; ///True if this printing exists in a foil version.
-
-    bool nonfoil; ///True if this printing exists in a nonfoil version.
-
-    bool oversized; ///True if this card is oversized.
-
-    bool promo; ///True if this card is a promotional print.
-
-    bool reprint; ///True if this card is a reprint.
-
-    String dbSet;//This card’s set code.
-
-    String setName; ///This card’s full set name.
-
-    String setUri; ///A link to this card’s set object on Scryfall’s API.
-
-    String setSearchUri; ///A link to where you can begin paginating this card’s set on the Scryfall API.
-
-    String scryfallSetUri; ///A link to this card’s set on Scryfall’s website.
-
-    String rulingsUri; ///A link to this card’s rulings list on Scryfall’s API.
-
-    String printsSearchUri; ///A link to where you can begin paginating all re/prints for this card on Scryfall’s API.
-
-    String collectorNumber; ///This card’s collector number. Note that collector numbers can contain non-numeric characters, such as letters or ★.
-
-    bool digital; ///True if this is a digital card on Magic Online.
-
-    Rarity rarity; ///This card’s rarity. One of common, uncommon, rare, or mythic.
+    String? oracleText; ///The Oracle text for this card, if any.
 
     //CAN BE NULL OR MISSING
-    String flavorText; ///The flavor text, if any.
+    List<MtgColor>? colors; ///This card’s colors, if the overall card has colors defined by the rules. Otherwise the colors will be on the card_faces objects, see below.
+
+    List<MtgColor>? colorIdentity; ///This card’s color identity.
+
+    Legalities? legalities; ///An object describing the legality of this card across play formats. Possible legalities are legal, not_legal, restricted, and banned.
+
+    List<Game>? games; ///A list of games that this card print is available in, paper, arena, and/or mtgo.
+
+    bool? reserved; ///True if this card is on the Reserved List.
+
+    bool? foil; ///True if this printing exists in a foil version.
+
+    bool? nonfoil; ///True if this printing exists in a nonfoil version.
+
+    bool? oversized; ///True if this card is oversized.
+
+    bool? promo; ///True if this card is a promotional print.
+
+    bool? reprint; ///True if this card is a reprint.
+
+    String? dbSet;//This card’s set code.
+
+    String? setName; ///This card’s full set name.
+
+    String? setUri; ///A link to this card’s set object on Scryfall’s API.
+
+    String? setSearchUri; ///A link to where you can begin paginating this card’s set on the Scryfall API.
+
+    String? scryfallSetUri; ///A link to this card’s set on Scryfall’s website.
+
+    String? rulingsUri; ///A link to this card’s rulings list on Scryfall’s API.
+
+    String? printsSearchUri; ///A link to where you can begin paginating all re/prints for this card on Scryfall’s API.
+
+    String? collectorNumber; ///This card’s collector number. Note that collector numbers can contain non-numeric characters, such as letters or ★.
+
+    bool? digital; ///True if this is a digital card on Magic Online.
+
+    Rarity? rarity; ///This card’s rarity. One of common, uncommon, rare, or mythic.
 
     //CAN BE NULL OR MISSING
-    String illustrationId; ///A unique identifier for the card artwork that remains consistent across reprints. Newly spoiled cards may not have this field yet.
+    String? flavorText; ///The flavor text, if any.
 
     //CAN BE NULL OR MISSING
-    String artist; ///The name of the illustrator of this card. Newly spoiled cards may not have this field yet.
-
-    BorderColor borderColor; ///This card’s border color: black, borderless, gold, silver, or white.
-
-    String frame; ///This card’s frame layout.
-
-    FrameEffect frameEffect; ///This card’s frame effect, if any.
-
-    bool fullArt; ///True if this card’s artwork is larger than normal.
-
-    bool storySpotlight; ///True if this card is a Story Spotlight.
+    String? illustrationId; ///A unique identifier for the card artwork that remains consistent across reprints. Newly spoiled cards may not have this field yet.
 
     //CAN BE NULL OR MISSING
-    int edhrecRank; ///This card’s overall rank/popularity on EDHREC. Not all cards are ranked.
+    String? artist; ///The name of the illustrator of this card. Newly spoiled cards may not have this field yet.
 
-    RelatedUris relatedUris; ///An object providing URIs to this card’s listing on other Magic: The Gathering online resources.
+    BorderColor? borderColor; ///This card’s border color: black, borderless, gold, silver, or white.
+
+    String? frame; ///This card’s frame layout.
+
+    FrameEffect? frameEffect; ///This card’s frame effect, if any.
+
+    bool? fullArt; ///True if this card’s artwork is larger than normal.
+
+    bool? storySpotlight; ///True if this card is a Story Spotlight.
 
     //CAN BE NULL OR MISSING
-    String power; ///This card’s power, if any. Note that some cards have powers that are not numeric, such as *.
+    int? edhrecRank; ///This card’s overall rank/popularity on EDHREC. Not all cards are ranked.
+
+    RelatedUris? relatedUris; ///An object providing URIs to this card’s listing on other Magic: The Gathering online resources.
 
     //CAN BE NULL OR MISSING
-    String toughness; ///This card’s toughness, if any. Note that some cards have toughnesses that are not numeric, such as *.
+    String? power; ///This card’s power, if any. Note that some cards have powers that are not numeric, such as *.
 
     //CAN BE NULL OR MISSING
-    int arenaId; /// This card’s Arena ID, if any. A large percentage of cards are not available on Arena and do not have this ID.
+    String? toughness; ///This card’s toughness, if any. Note that some cards have toughnesses that are not numeric, such as *.
 
     //CAN BE NULL OR MISSING
-    Watermark watermark; ///This card’s watermark, if any.
+    int? arenaId; /// This card’s Arena ID, if any. A large percentage of cards are not available on Arena and do not have this ID.
+
+    //CAN BE NULL OR MISSING
+    Watermark? watermark; ///This card’s watermark, if any.
     
     //CAN BE NULL OR MISSING
-    List<MtgRelatedCard> allParts; ///If this card is closely related to other cards, this property will be an array with Related Card Objects.
+    List<MtgRelatedCard>? allParts; ///If this card is closely related to other cards, this property will be an array with Related Card Objects.
 
     //CAN BE NULL OR MISSING
-    List<CardFace> cardFaces; ///An array of Card Face objects, if this card is multifaced.
+    List<CardFace>? cardFaces; ///An array of Card Face objects, if this card is multifaced.
 
     //CAN BE NULL OR MISSING
-    String lifeModifier; ///This card’s life modifier, if it is Vanguard card. This value will contain a delta, such as +2.
+    String? lifeModifier; ///This card’s life modifier, if it is Vanguard card. This value will contain a delta, such as +2.
 
     //CAN BE NULL OR MISSING
-    String handModifier; ///This card’s hand modifier, if it is Vanguard card. This value will contain a delta, such as -1.
+    String? handModifier; ///This card’s hand modifier, if it is Vanguard card. This value will contain a delta, such as -1.
 
     //CAN BE NULL OR MISSING
-    String loyalty; ///This loyalty if any. Note that some cards have loyalties that are not numeric, such as X.
+    String? loyalty; ///This loyalty if any. Note that some cards have loyalties that are not numeric, such as X.
 
     //CAN BE NULL OR MISSING
-    List<MtgColor> colorIndicator; ///The colors in this card’s color indicator, if any. A null value for this field indicates the card does not have one.
+    List<MtgColor>? colorIndicator; ///The colors in this card’s color indicator, if any. A null value for this field indicates the card does not have one.
 
     //CAN BE NULL OR MISSING
-    MtgPrices prices;
+    MtgPrices? prices;
 
     //CAN BE NULL OR MISSING
-    MtgPurchaseUris purchaseUris;
+    MtgPurchaseUris? purchaseUris;
 
     MtgCard({
         this.object, 
@@ -462,29 +462,29 @@ class MtgCard {
     );
 
     Map<String, dynamic> toJson() => {
-        "object": dbObjectValues.reverse[object],
+        "object": dbObjectValues.reverse![object!],
         "id": id,
         "oracle_id": oracleId, 
-        "multiverse_ids": List<dynamic>.from(multiverseIds.map((x) => x)),
+        "multiverse_ids": List<dynamic>.from(multiverseIds!.map((x) => x)),
         "mtgo_id": mtgoId == null ? null : mtgoId,
         "mtgo_foil_id": mtgoFoilId == null ? null : mtgoFoilId,
         "tcgplayer_id": tcgplayerId == null ? null : tcgplayerId,
         "name": name,
-        "lang": langValues.reverse[lang],
+        "lang": langValues.reverse![lang!],
         "released_at": releasedAt,
         "uri": uri,
         "scryfall_uri": scryfallUri,
-        "layout": layoutValues.reverse[layout],
+        "layout": layoutValues.reverse![layout!],
         "highres_image": highresImage,
-        "image_uris": imageUris == null ? null : imageUris.toJson(),
+        "image_uris": imageUris == null ? null : imageUris!.toJson(),
         "mana_cost": manaCost == null ? null : manaCost,
         "cmc": cmc,
         "type_line": typeLine,
         "oracle_text": oracleText == null ? null : oracleText,
-        "colors": colors == null ? null : List<dynamic>.from(colors.map((x) => colorValues.reverse[x])),
-        "color_identity": List<dynamic>.from(colorIdentity.map((x) => colorValues.reverse[x])),
-        "legalities": legalities.toJson(),
-        "games": List<dynamic>.from(games.map((x) => gameValues.reverse[x])),
+        "colors": colors == null ? null : List<dynamic>.from(colors!.map((x) => colorValues.reverse![x])),
+        "color_identity": List<dynamic>.from(colorIdentity!.map((x) => colorValues.reverse![x])),
+        "legalities": legalities!.toJson(),
+        "games": List<dynamic>.from(games!.map((x) => gameValues.reverse![x])),
         "reserved": reserved,
         "foil": foil,
         "nonfoil": nonfoil,
@@ -500,37 +500,37 @@ class MtgCard {
         "prints_search_uri": printsSearchUri,
         "collector_number": collectorNumber,
         "digital": digital,
-        "rarity": rarityValues.reverse[rarity],
+        "rarity": rarityValues.reverse![rarity!],
         "flavor_text": flavorText == null ? null : flavorText,
         "illustration_id": illustrationId == null ? null : illustrationId,
         "artist": artist,
-        "border_color": borderColorValues.reverse[borderColor],
+        "border_color": borderColorValues.reverse![borderColor!],
         "frame": frame,
-        "frame_effect": frameEffectValues.reverse[frameEffect],
+        "frame_effect": frameEffectValues.reverse![frameEffect!],
         "full_art": fullArt,
         "story_spotlight": storySpotlight,
         "edhrec_rank": edhrecRank == null ? null : edhrecRank,
-        "related_uris": relatedUris.toJson(),
+        "related_uris": relatedUris!.toJson(),
         "power": power == null ? null : power,
         "toughness": toughness == null ? null : toughness,
         "arena_id": arenaId == null ? null : arenaId,
-        "watermark": watermark == null ? null : watermarkValues.reverse[watermark],
-        "all_parts": allParts == null ? null : List<dynamic>.from(allParts.map((x) => x.toJson())),
-        "card_faces": cardFaces == null ? null : List<dynamic>.from(cardFaces.map((x) => x.toJson())),
+        "watermark": watermark == null ? null : watermarkValues.reverse![watermark!],
+        "all_parts": allParts == null ? null : List<dynamic>.from(allParts!.map((x) => x.toJson())),
+        "card_faces": cardFaces == null ? null : List<dynamic>.from(cardFaces!.map((x) => x.toJson())),
         "life_modifier": lifeModifier == null ? null : lifeModifier,
         "hand_modifier": handModifier == null ? null : handModifier,
         "loyalty": loyalty == null ? null : loyalty,
-        "color_indicator": colorIndicator == null ? null : List<dynamic>.from(colorIndicator.map((x) => colorValues.reverse[x])),
+        "color_indicator": colorIndicator == null ? null : List<dynamic>.from(colorIndicator!.map((x) => colorValues.reverse![x])),
         "prices": prices?.toJson() ?? null,
         "purchase_uris": purchaseUris?.toJson() ?? null,
     };
 }
 
 class MtgPrices {
-  String usd;
-  String usdFoil;
-  String eur;
-  String tix;
+  String? usd;
+  String? usdFoil;
+  String? eur;
+  String? tix;
   MtgPrices({
     this.usd,
     this.usdFoil,
@@ -551,9 +551,9 @@ class MtgPrices {
   };
 }
 class MtgPurchaseUris {
-  String tcgplayer;
-  String cardmarket;
-  String cardhoarder;
+  String? tcgplayer;
+  String? cardmarket;
+  String? cardhoarder;
   MtgPurchaseUris({
     this.tcgplayer,
     this.cardmarket,
@@ -572,12 +572,12 @@ class MtgPurchaseUris {
 }
 
 class MtgRelatedCard {
-    AllPartObject object;
-    String id;
-    Component component;
-    String name;
-    String typeLine;
-    String uri;
+    AllPartObject? object;
+    String? id;
+    Component? component;
+    String? name;
+    String? typeLine;
+    String? uri;
 
     MtgRelatedCard({
         this.object,
@@ -598,9 +598,9 @@ class MtgRelatedCard {
     );
 
     Map<String, dynamic> toJson() => {
-        "object": allPartObjectValues.reverse[object],
+        "object": allPartObjectValues.reverse![object!],
         "id": id,
-        "component": componentValues.reverse[component],
+        "component": componentValues.reverse![component!],
         "name": name,
         "type_line": typeLine,
         "uri": uri,
@@ -633,21 +633,21 @@ final borderColorValues = EnumValues({
 });
 
 class CardFace {
-    CardFaceObject object;
-    String name;
-    String manaCost;
-    String typeLine;
-    String oracleText;
-    List<MtgColor> colors;
-    String power;
-    String toughness;
-    String artist;
-    String illustrationId;
-    ImageUris imageUris;
-    Watermark watermark;
-    List<MtgColor> colorIndicator;
-    String flavorText;
-    String loyalty;
+    CardFaceObject? object;
+    String? name;
+    String? manaCost;
+    String? typeLine;
+    String? oracleText;
+    List<MtgColor>? colors;
+    String? power;
+    String? toughness;
+    String? artist;
+    String? illustrationId;
+    ImageUris? imageUris;
+    Watermark? watermark;
+    List<MtgColor>? colorIndicator;
+    String? flavorText;
+    String? loyalty;
 
     CardFace({
         this.object,
@@ -686,19 +686,19 @@ class CardFace {
     );
 
     Map<String, dynamic> toJson() => {
-        "object": cardFaceObjectValues.reverse[object],
+        "object": cardFaceObjectValues.reverse![object!],
         "name": name,
         "mana_cost": manaCost,
         "type_line": typeLine,
         "oracle_text": oracleText,
-        "colors": colors == null ? null : List<dynamic>.from(colors.map((x) => colorValues.reverse[x])),
+        "colors": colors == null ? null : List<dynamic>.from(colors!.map((x) => colorValues.reverse![x])),
         "power": power == null ? null : power,
         "toughness": toughness == null ? null : toughness,
         "artist": artist == null ? null : artist,
         "illustration_id": illustrationId == null ? null : illustrationId,
-        "image_uris": imageUris == null ? null : imageUris.toJson(),
-        "watermark": watermark == null ? null : watermarkValues.reverse[watermark],
-        "color_indicator": colorIndicator == null ? null : List<dynamic>.from(colorIndicator.map((x) => colorValues.reverse[x])),
+        "image_uris": imageUris == null ? null : imageUris!.toJson(),
+        "watermark": watermark == null ? null : watermarkValues.reverse![watermark!],
+        "color_indicator": colorIndicator == null ? null : List<dynamic>.from(colorIndicator!.map((x) => colorValues.reverse![x])),
         "flavor_text": flavorText == null ? null : flavorText,
         "loyalty": loyalty == null ? null : loyalty,
     };
@@ -722,12 +722,12 @@ final colorValuesCool = EnumValues({
 });
 
 class ImageUris {
-    String small;
-    String normal;
-    String large;
-    String png;
-    String artCrop;
-    String borderCrop;
+    String? small;
+    String? normal;
+    String? large;
+    String? png;
+    String? artCrop;
+    String? borderCrop;
 
     ImageUris({
         this.small,
@@ -888,17 +888,17 @@ final layoutValues = EnumValues({
 });
 
 class Legalities {
-    Legality standard;
-    Legality future;
-    Legality frontier;
-    Legality modern;
-    Legality legacy;
-    Legality pauper;
-    Legality vintage;
-    Legality penny;
-    Legality commander;
-    Legality duel;
-    Legality oldschool;
+    Legality? standard;
+    Legality? future;
+    Legality? frontier;
+    Legality? modern;
+    Legality? legacy;
+    Legality? pauper;
+    Legality? vintage;
+    Legality? penny;
+    Legality? commander;
+    Legality? duel;
+    Legality? oldschool;
 
     Legalities({
         this.standard,
@@ -929,17 +929,17 @@ class Legalities {
     );
 
     Map<String, dynamic> toJson() => {
-        "standard": commanderValues.reverse[standard],
-        "future": commanderValues.reverse[future],
-        "frontier": commanderValues.reverse[frontier],
-        "modern": commanderValues.reverse[modern],
-        "legacy": commanderValues.reverse[legacy],
-        "pauper": commanderValues.reverse[pauper],
-        "vintage": commanderValues.reverse[vintage],
-        "penny": commanderValues.reverse[penny],
-        "commander": commanderValues.reverse[commander],
-        "duel": commanderValues.reverse[duel],
-        "oldschool": commanderValues.reverse[oldschool],
+        "standard": commanderValues.reverse![standard!],
+        "future": commanderValues.reverse![future!],
+        "frontier": commanderValues.reverse![frontier!],
+        "modern": commanderValues.reverse![modern!],
+        "legacy": commanderValues.reverse![legacy!],
+        "pauper": commanderValues.reverse![pauper!],
+        "vintage": commanderValues.reverse![vintage!],
+        "penny": commanderValues.reverse![penny!],
+        "commander": commanderValues.reverse![commander!],
+        "duel": commanderValues.reverse![duel!],
+        "oldschool": commanderValues.reverse![oldschool!],
     };
 }
 
@@ -968,10 +968,10 @@ final rarityValues = EnumValues({
 });
 
 class RelatedUris {
-    String gatherer;
-    String tcgplayerDecks;
-    String edhrec;
-    String mtgtop8;
+    String? gatherer;
+    String? tcgplayerDecks;
+    String? edhrec;
+    String? mtgtop8;
 
     RelatedUris({
         this.gatherer,
@@ -997,11 +997,11 @@ class RelatedUris {
 
 class EnumValues<T> {
     Map<String, T> map;
-    Map<T, String> reverseMap;
+    Map<T, String>? reverseMap;
 
     EnumValues(this.map);
 
-    Map<T, String> get reverse {
+    Map<T, String>? get reverse {
         if (reverseMap == null) {
             reverseMap = map.map((k, v) => MapEntry(v, k));
         }

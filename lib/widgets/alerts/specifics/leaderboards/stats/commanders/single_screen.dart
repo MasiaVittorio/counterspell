@@ -15,12 +15,12 @@ class CommanderStatsScreen extends StatefulWidget {
 
 class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
 
-  bool filtering;
+  bool? filtering;
 
-  String pilot;
-  int groupSize;
-  List<String> pilots;
-  List<int> groupSizes;
+  String? pilot;
+  int? groupSize;
+  late List<String?> pilots;
+  late List<int?> groupSizes;
 
   @override
   void initState(){
@@ -109,7 +109,7 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
                 background: const Icon(CSIcons.attackTwo), 
                 value: Text("${InfoDisplayer.getString(averageDamage)}"),
                 detail: Text("Overall: $totalDamage"),
-                color: colors[CSPage.commanderDamage],
+                color: colors![CSPage.commanderDamage],
                 fill: true,
               ),),
               Expanded(child: InfoDisplayer(

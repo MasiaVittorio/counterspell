@@ -10,7 +10,7 @@ class PACast extends PlayerAction {
     this.increment, 
     { 
       this.partnerA = true,
-      int maxVal = PlayerState.kMaxValue,
+      int? maxVal = PlayerState.kMaxValue,
     }
   ):  maxVal = maxVal ?? PlayerState.kMaxValue;
 

@@ -16,45 +16,45 @@ class CSPastGames {
   // Values 
   final CSBloc parent; 
   final BlocBox<PastGame> pastGames;
-  BlocVar<Map<String,CommanderStats>> commanderStats;
-  BlocVar<Map<String,PlayerStats>> playerStats;
+  late BlocVar<Map<String,CommanderStats>?> commanderStats;
+  late BlocVar<Map<String,PlayerStats>?> playerStats;
   final PersistentVar<Set<String>> customStatTitles;
-  BlocVar<Map<String,CustomStat>> customStats;
+  late BlocVar<Map<String,CustomStat>> customStats;
 
   CSPastGames(this.parent): 
     pastGames = BlocBox<PastGame>(
       <PastGame>[],
       key: "counterspell_bloc_var_pastGames_pastGames",
-      itemToJson: (item) => item.toJson,
+      itemToJson: (item) => item!.toJson,
       jsonToItem: (json) => PastGame.fromJson(json),
     ),
     customStatTitles = PersistentVar<Set<String>>(
       initVal: <String>{...CustomStat.all},
       key: "counterspell_bloc_var_pastGames_allCustomStatTitles",
       toJson: (s) => [...s],
-      fromJson: (j) => <String>{...(j as List)},
+      fromJson: (j) => <String>{...(j as List) as Iterable<String>},
     ){
       this.commanderStats = BlocVar.fromCorrelate
-        <Map<String,CommanderStats>, List<PastGame>>
+        <Map<String?,CommanderStats>, List<PastGame?>>
       (
         from: pastGames, 
-        map: (List<PastGame> pastGames) => <String,CommanderStats>{
+        map: (List<PastGame?> pastGames) => <String?,CommanderStats>{
           for(final card in cards(pastGames)) 
             card.oracleId: CommanderStats.fromPastGames(card, pastGames),
           /// oracle Id because we want to just use one print of a commander
         },
-      );
+      ) as BlocVar<Map<String, CommanderStats>?>;
       this.playerStats = BlocVar.fromCorrelate
-        <Map<String,PlayerStats>, List<PastGame>>
+        <Map<String,PlayerStats>, List<PastGame?>>
       (
         from: pastGames, 
-        map: (List<PastGame> pastGames) => <String,PlayerStats>{
+        map: (List<PastGame?> pastGames) => <String,PlayerStats>{
           for(final name in names(pastGames))
             name: PlayerStats.fromPastGames(name, pastGames),
         },
-      );
+      ) as BlocVar<Map<String, PlayerStats>?>;
       this.customStats = BlocVar.fromCorrelateLatest2
-        <Map<String,CustomStat>, List<PastGame>, Set<String>>
+        <Map<String,CustomStat>, List<PastGame?>, Set<String>>
       (pastGames, customStatTitles, map: (pastGames, titles) => <String,CustomStat>{
         for(final title in titles)
           title: CustomStat.fromPastGames(title, pastGames),
@@ -63,9 +63,9 @@ class CSPastGames {
 
   //returns true if a prompt is shown
   bool saveGame(GameState state, {
-    @required Map<String,MtgCard> commandersA,
-    @required Map<String,MtgCard> commandersB,
-    @required bool avoidPrompt, 
+    required Map<String,MtgCard> commandersA,
+    required Map<String,MtgCard> commandersB,
+    required bool avoidPrompt, 
   }) {
 
     if(state.historyLenght <= 1) return false;
@@ -77,12 +77,12 @@ class CSPastGames {
     );
     this.pastGames.value.add(pastGame);
     this.pastGames.value.sort((one, two) 
-      => one.startingDateTime.compareTo(two.startingDateTime)
+      => one!.startingDateTime.compareTo(two!.startingDateTime)
     );
     this.pastGames.refresh();
 
-    if(!avoidPrompt && parent.payments.unlocked.value && pastGame.winner == null){
-      parent.stage.showAlert(
+    if(!avoidPrompt && parent.payments.unlocked.value! && pastGame.winner == null){
+      parent.stage!.showAlert(
         WinnerSelector(
           pastGame.state.names,
           onConfirm: (winner){
@@ -105,12 +105,12 @@ class CSPastGames {
 
 
   
-  static Iterable<MtgCard> cards(List<PastGame> pastGames){
+  static Iterable<MtgCard> cards(List<PastGame?> pastGames){
 
-    final Map<String,MtgCard> map = <String,MtgCard>{
-      for(final PastGame pastGame in pastGames)
-        for(final commander in <MtgCard>[
-          ...pastGame.commandersA.values,
+    final Map<String?,MtgCard> map = <String?,MtgCard>{
+      for(final PastGame? pastGame in pastGames)
+        for(final commander in <MtgCard?>[
+          ...pastGame!.commandersA.values,
           ...pastGame.commandersB.values,
         ])
           if(commander != null) 
@@ -122,9 +122,9 @@ class CSPastGames {
 
   }
 
-  static Set<String> names(List<PastGame> pastGames) => <String>{
-    for(final PastGame pastGame in pastGames)
-      for(final name in pastGame.state.players.keys)
+  static Set<String> names(List<PastGame?> pastGames) => <String>{
+    for(final PastGame? pastGame in pastGames)
+      for(final name in pastGame!.state.players.keys)
         name,
   };
 

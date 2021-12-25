@@ -8,8 +8,8 @@ class ImageOpacitySimple extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.imagesSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.imagesSettings;
     final opacity = settings.arenaImageOpacity;
 
     final theme = Theme.of(context);
@@ -24,8 +24,8 @@ class ImageOpacitySimple extends StatelessWidget {
       ),
     );
 
-    final Widget gradient = opacity.build((context, double opacity) => Container(
-      color: theme.canvasColor.withOpacity(opacity),
+    final Widget gradient = opacity.build((context, double? opacity) => Container(
+      color: theme.canvasColor.withOpacity(opacity!),
     ));
 
     final Widget tile = InkWell(
@@ -42,8 +42,8 @@ class ImageOpacitySimple extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Checkbox(
-                  activeColor: Stage.of(context).themeController
-                    .derived.mainPageToPrimaryColor.value[CSPage.life],
+                  activeColor: Stage.of(context)!.themeController
+                    .derived.mainPageToPrimaryColor!.value![CSPage.life],
                   value: true,
                   tristate: true,
                   onChanged: (b) {},
@@ -97,7 +97,7 @@ class ImageOpacitySimple extends StatelessWidget {
         playerTile,
         const SizedBox(height: 8,),
         opacity.build((_,value) => FullSlider(
-          value: value,
+          value: value!,
           divisions: 20,
           leading: Icon(Icons.opacity),
           onChanged: opacity.set,

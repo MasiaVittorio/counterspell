@@ -4,10 +4,10 @@ class SettingsBehavior extends StatelessWidget {
   const SettingsBehavior();
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context);
-    final CSSettings settings = bloc.settings;
+    final CSBloc bloc = CSBloc.of(context)!;
+    final CSSettings settings = bloc.settings!;
     final scrollSettings = settings.scrollSettings;
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
 
     return Section([
       const PanelTitle("Gestures", centered: false,),
@@ -25,7 +25,7 @@ class SettingsBehavior extends StatelessWidget {
           ExtraButton(
             text: "Scroll Sens",
             icon: Icons.gesture,
-            onTap: () => stage.showAlert(
+            onTap: () => stage!.showAlert(
               const ScrollSensitivity(),
               size: ScrollSensitivity.height,
             ),
@@ -48,7 +48,7 @@ class SettingsBehavior extends StatelessWidget {
         min: 500,
         max: 2000,
         divisions: 30,
-        onChangeEnd: (val) => scrollSettings.confirmDelay.set(Duration(milliseconds: val.round())),
+        onChangeEnd: (val) => scrollSettings.confirmDelay.set(Duration(milliseconds: val!.round())),
         titleBuilder: (val) => Text("Confirm delay: ${_fromMilliseconds(val.round())}"),
         defaultValue: CSSettingsScroll.confirmDelayVal.inMilliseconds.toDouble(),
       ),),

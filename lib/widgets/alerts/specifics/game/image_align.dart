@@ -3,10 +3,10 @@ import 'package:counter_spell_new/core.dart';
 
 
 class ImageAlign extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final double aspectRatio;
 
-  const ImageAlign(this.imageUrl, {@required this.aspectRatio});
+  const ImageAlign(this.imageUrl, {required this.aspectRatio});
 
   static const double _imageSize = 120.0;
   static const double _sliderSize = 56.0;
@@ -15,13 +15,13 @@ class ImageAlign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.imagesSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.imagesSettings;
     // final theme = Theme.of(context);
     
     return Material(
       child: SingleChildScrollView(
-        physics: Stage.of(context).panelController.panelScrollPhysics(),
+        physics: Stage.of(context)!.panelController.panelScrollPhysics(),
         child: settings.imageAlignments.build((_,alignments) => Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -36,7 +36,7 @@ class ImageAlign extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: CachedNetworkImageProvider(
-                          imageUrl,
+                          imageUrl!,
                         ),
                         fit: BoxFit.cover,
                         alignment: Alignment(0.0,alignments[imageUrl] ?? -0.5),

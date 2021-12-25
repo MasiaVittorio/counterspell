@@ -7,9 +7,9 @@ class TutorialData {
   final List<Hint> hints;
 
   const TutorialData({
-    @required this.icon,
-    @required this.title,
-    @required this.hints,
+    required this.icon,
+    required this.title,
+    required this.hints,
   });
 
   static const List<TutorialData> values = <TutorialData>[
@@ -151,14 +151,14 @@ class TutorialData {
 
 class Hint {
   final String text;
-  final CSPage page;
-  final SettingsPage panelPage;
-  final bool collapsedRightSide; 
-  final IconData collapsedIcon;
+  final CSPage? page;
+  final SettingsPage? panelPage;
+  final bool? collapsedRightSide; 
+  final IconData? collapsedIcon;
 
   const Hint({
-    @required this.text,
-    @required this.page,
+    required this.text,
+    required this.page,
     this.panelPage,
     this.collapsedIcon,
     this.collapsedRightSide,
@@ -169,6 +169,6 @@ class Hint {
   bool get needsAlert => needsCollapsed || needsExtended;
   bool get needsSnackBar => !needsAlert;
 
-  String get shortPanelPageName => settingsThemes[panelPage]?.name ?? "";
-  String get shortPageName => CSPages.shortTitleOf(page) ?? null;
+  String get shortPanelPageName => settingsThemes[panelPage!]?.name ?? "";
+  String? get shortPageName => CSPages.shortTitleOf(page) ?? null;
 }

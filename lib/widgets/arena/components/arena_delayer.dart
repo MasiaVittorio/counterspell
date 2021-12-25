@@ -15,12 +15,12 @@ class ArenaDelayer extends StatefulWidget {
   final AnimationStatusListener animationListener;
 
   ArenaDelayer({
-    @required this.onManualCancel,
-    @required this.onManualConfirm,
-    @required this.delayerController,
-    @required this.duration,
-    @required this.color,
-    @required this.animationListener,
+    required this.onManualCancel,
+    required this.onManualConfirm,
+    required this.delayerController,
+    required this.duration,
+    required this.color,
+    required this.animationListener,
   });
 
   @override
@@ -29,7 +29,7 @@ class ArenaDelayer extends StatefulWidget {
 
 class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMixin {
 
-  AnimationController controller;
+  AnimationController? controller;
 
   @override
   void initState() {
@@ -52,37 +52,37 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
       vsync: this,
       animationBehavior: AnimationBehavior.preserve,
     );
-    controller.addStatusListener(widget.animationListener);
+    controller!.addStatusListener(widget.animationListener);
   }
 
   @override
   void didUpdateWidget(ArenaDelayer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.duration != controller.duration){
-      controller.dispose();
+    if(widget.duration != controller!.duration){
+      controller!.dispose();
       initController();
     }
   }
 
   bool scrolling(){
     if(!mounted) return false;
-    if(controller.isAnimating && controller.velocity > 0)
+    if(controller!.isAnimating && controller!.velocity > 0)
       return true;
-    if(controller.value == 1.0)
+    if(controller!.value == 1.0)
       return true;
 
-    this.controller.fling();
+    this.controller!.fling();
     return true;
   }
 
   bool leaving() {
     if(!mounted) return false;
-    if(this.controller.value == 0.0)
+    if(this.controller!.value == 0.0)
       return true;
 
     bool fling = false;
-    if(this.controller.isAnimating){
-      if(this.controller.velocity < 0)
+    if(this.controller!.isAnimating){
+      if(this.controller!.velocity < 0)
         return true;
       fling = true;
     }
@@ -92,14 +92,14 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
 
   void _leaving(bool withFling) async {
     if(!mounted) return;
-    if(withFling) await  this.controller.fling();
+    if(withFling) await  this.controller!.fling();
     if(!mounted) return;
-    this.controller.animateBack(0.0);
+    this.controller!.animateBack(0.0);
   }
 
   @override
   void dispose() {
-    this.controller.dispose();
+    this.controller!.dispose();
     widget.delayerController.removeArenaListeners();
     super.dispose();
   }
@@ -107,13 +107,13 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
+    final bloc = CSBloc.of(context)!;
 
-    return bloc.scroller.isScrolling.build((context, scrolling) => AnimatedOpacity(
+    return bloc.scroller!.isScrolling.build((context, scrolling) => AnimatedOpacity(
       opacity: scrolling ? 1.0 : 0.0,
       duration: const Duration(milliseconds: 250),
       child: AnimatedBuilder(
-        animation: controller,
+        animation: controller!,
         builder:(_,__) => ConstrainedBox(
           constraints: BoxConstraints(
             maxHeight: ArenaWidget.buttonSize.height + 4, 
@@ -123,7 +123,7 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
             child: CircularProgressIndicator(
               strokeWidth: 10,
               valueColor: AlwaysStoppedAnimation<Color>(widget.color),
-              value: controller.value,
+              value: controller!.value,
             ),
           ),
         ),

@@ -12,11 +12,11 @@ class AchievementsAlert extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
 
     return RadioHeaderedAlert<bool>(  // true = done
-      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? initialDone ?? false,
-      onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
+      initialValue: stage.panelController.alertController!.savedStates[pageKey] ?? initialDone ?? false,
+      onPageChanged: (p) => stage.panelController.alertController!.savedStates[pageKey] = p,
       orderedValues: [false,true], 
       accentSelected: true,
       items: const <bool,RadioHeaderedItem>{

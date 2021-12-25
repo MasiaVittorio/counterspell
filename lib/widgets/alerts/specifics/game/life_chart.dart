@@ -12,13 +12,13 @@ class LifeChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context);
+    final CSBloc bloc = CSBloc.of(context)!;
     final ThemeData theme = Theme.of(context);
     final Color bkgColor = theme.scaffoldBackgroundColor;
-    final TextStyle textStyle = theme.textTheme.bodyText2; 
+    final TextStyle? textStyle = theme.textTheme.bodyText2; 
 
-    return Material(child: bloc.game.gameState.gameState.build((_, gameState){
-      final List<Player> players = gameState.players.values.toList();
+    return Material(child: bloc.game!.gameState!.gameState.build((_, gameState){
+      final List<Player?> players = gameState.players.values.toList();
 
       return Column(children: <Widget>[
         PanelTitle("Life Chart"),
@@ -42,9 +42,9 @@ class LifeChart extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2.0),
                 child: Chip(
-                  label: Text(players[i].name),
+                  label: Text(players[i]!.name),
                   backgroundColor: i < _colors.length ? _colors[i] : Colors.grey,
-                  labelStyle: textStyle.copyWith(
+                  labelStyle: textStyle!.copyWith(
                     color: (i < _colors.length ? _colors[i] : Colors.grey).contrast,
                   ),
                 ),
@@ -83,36 +83,36 @@ class _Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Color canvasColor = theme.canvasColor;
-    final TextStyle textStyle = theme.textTheme.bodyText2; 
+    final TextStyle? textStyle = theme.textTheme.bodyText2; 
 
-    final List<Player> players = [
+    final List<Player?> players = [
       for(final player in gameState.players.values)
         player,
     ];
 
-    int maxLife = players.first.states.first.life;
-    int minLife = players.first.states.last.life;
+    int? maxLife = players.first!.states.first.life;
+    int? minLife = players.first!.states.last.life;
     for(final player in players){
-      for(final state in player.states){
-        if(state.life > maxLife) maxLife = state.life;
-        if(state.life < minLife) minLife = state.life;
+      for(final state in player!.states){
+        if(state.life! > maxLife!) maxLife = state.life;
+        if(state.life! < minLife!) minLife = state.life;
       }
     }
-    double minLifeDouble = (math.min(minLife, 0.0)).closestMultipleOf(5.0, upper: false, overshoot: true);
-    double maxLifeDouble = (math.max(maxLife, 0.0)).closestMultipleOf(5.0, upper: true, overshoot: true);
+    double minLifeDouble = math.min(minLife, 0.0)!.closestMultipleOf(5.0, upper: false, overshoot: true);
+    double maxLifeDouble = math.max(maxLife, 0.0)!.closestMultipleOf(5.0, upper: true, overshoot: true);
 
     final SideTitles lifeTitles = _lifeTitles(
       minLifeDouble, maxLifeDouble, textStyle,
-      startingLife: players.first.states.first.life,
+      startingLife: players.first!.states.first.life!,
     );
 
-    final int maxSeconds = players.first.states.last.time
-        .difference(gameState.players.values.first.states.first.time)
+    final int maxSeconds = players.first!.states.last.time
+        .difference(gameState.players.values.first!.states.first.time)
         .inSeconds;
     
     final Map<String,double> maxTimeAndInterval = _maxTimeAndInterval(maxSeconds);
-    final double maxTime = maxTimeAndInterval["maxTime"];
-    final double interval = maxTimeAndInterval["interval"];
+    final double? maxTime = maxTimeAndInterval["maxTime"];
+    final double? interval = maxTimeAndInterval["interval"];
 
     final SideTitles timeTitles =  SideTitles(
       showTitles: true,
@@ -122,7 +122,7 @@ class _Chart extends StatelessWidget {
       getTitles: (double seconds) => seconds != 0.0
         ? _timeFormat(seconds.toInt())
         : "",
-      getTextStyles: (_) => textStyle,
+      getTextStyles: (_) => textStyle!,
     );
 
     return LineChart(LineChartData(
@@ -145,13 +145,13 @@ class _Chart extends StatelessWidget {
       lineBarsData: <LineChartBarData>[
         for(int i=0; i < players.length; ++i)
           LineChartBarData(
-            spots: <FlSpot>[for(final playerState in players[i].states)
+            spots: <FlSpot>[for(final playerState in players[i]!.states)
               FlSpot(
                 playerState.time.difference(gameState.firstTime)
                   .inSeconds
                   .abs()
                   .toDouble(), 
-                playerState.life
+                playerState.life!
                   .toDouble(),
               ),
             ],
@@ -169,8 +169,8 @@ class _Chart extends StatelessWidget {
     ),);
   }
 
-  static SideTitles _lifeTitles(double minLife, double maxLife, TextStyle textStyle, {
-    @required int startingLife,
+  static SideTitles _lifeTitles(double minLife, double maxLife, TextStyle? textStyle, {
+    required int startingLife,
   }){
     assert(maxLife >= minLife, "max life must be greater than min life");
 
@@ -227,7 +227,7 @@ class _Chart extends StatelessWidget {
       reservedSize: 22,
       margin: 10,
       interval: interval,
-      getTextStyles: (_) => textStyle,
+      getTextStyles: (_) => textStyle!,
       getTitles: (double life) 
         => okNumbers.contains(life) ? "${life.toInt()}" : "",
     );

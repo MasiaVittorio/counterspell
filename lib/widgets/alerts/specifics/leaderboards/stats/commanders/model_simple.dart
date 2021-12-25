@@ -27,13 +27,13 @@ class CommanderStats {
   //================================
   // Constructor(s)
   const CommanderStats(this.card, {
-    @required this.wins,
-    @required this.games,
-    @required this.totalDamage,
-    @required this.totalCasts,
+    required this.wins,
+    required this.games,
+    required this.totalDamage,
+    required this.totalCasts,
   });
 
-  factory CommanderStats.fromPastGames(MtgCard card, Iterable<PastGame> pastGames){
+  factory CommanderStats.fromPastGames(MtgCard card, Iterable<PastGame?> pastGames){
 
     int present = 0;
     int winner = 0;
@@ -41,7 +41,7 @@ class CommanderStats {
     int totalCasts = 0;
 
     for(final game in pastGames){
-      if(game.winner != null && game.commanderPlayed(card)){
+      if(game!.winner != null && game.commanderPlayed(card)){
         ++present;
         if(game.commanderPlayedBy(card, game.winner)){
           ++winner;
@@ -63,7 +63,7 @@ class CommanderStats {
         for(final pilot in pilots){
           ///could have partnerA null and partnerB not null
           final bool partnerA = game.commandersA[pilot]?.oracleId == card.oracleId;
-          averageCastsThisGame += game.state.players[pilot].states.last.cast.fromPartner(partnerA);
+          averageCastsThisGame += game.state.players[pilot]!.states.last.cast.fromPartner(partnerA);
         }
         averageCastsThisGame = averageCastsThisGame / pilots.length;
         totalCasts += averageCastsThisGame.round();

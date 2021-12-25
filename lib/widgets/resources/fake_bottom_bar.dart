@@ -4,22 +4,22 @@ class FakeBottomBar extends StatelessWidget {
 
   final double collapsedPanelSize;
   final CSPage page;
-  final Map<CSPage,Color> colors;
+  final Map<CSPage,Color?>? colors;
   final void Function(CSPage) onSelect;
   final List<CSPage> orderedValues;
   final Map<CSPage,String> leftTitles;
   final Map<CSPage,String> rightTitles;
-  final VoidCallback rightCallback;
-  final VoidCallback leftCallback;
+  final VoidCallback? rightCallback;
+  final VoidCallback? leftCallback;
 
   FakeBottomBar({
-    @required this.collapsedPanelSize,
-    @required this.page,
-    @required this.colors,
-    @required this.onSelect,
-    @required this.orderedValues,
-    @required this.leftTitles,
-    @required this.rightTitles,
+    required this.collapsedPanelSize,
+    required this.page,
+    required this.colors,
+    required this.onSelect,
+    required this.orderedValues,
+    required this.leftTitles,
+    required this.rightTitles,
     this.rightCallback,
     this.leftCallback,
   });
@@ -53,31 +53,31 @@ class FakeBottomBar extends StatelessWidget {
                     title: "History",
                     icon: CSIcons.historyFilled,
                     unselectedIcon: CSIcons.historyOutlined,
-                    color: colors[CSPage.history],
+                    color: colors![CSPage.history],
                   ),
                   CSPage.counters: RadioNavBarItem(
                     title: "Counters",
                     icon: CSIcons.counterFilled,
                     unselectedIcon: CSIcons.counterOutlined,
-                    color: colors[CSPage.counters],
+                    color: colors![CSPage.counters],
                   ),
                   CSPage.life: RadioNavBarItem(
                     title: "Life",
                     icon: CSIcons.lifeFilled,
                     unselectedIcon: CSIcons.lifeOutlined,
-                    color: colors[CSPage.life],
+                    color: colors![CSPage.life],
                   ),
                   CSPage.commanderDamage: RadioNavBarItem(
                     title: "Damage",
                     icon: CSIcons.damageFilled,
                     unselectedIcon: CSIcons.damageOutlined,
-                    color: colors[CSPage.commanderDamage],
+                    color: colors![CSPage.commanderDamage],
                   ),
                   CSPage.commanderCast: RadioNavBarItem(
                     title: "Casts",
                     icon: CSIcons.castFilled,
                     unselectedIcon: CSIcons.castOutlined,
-                    color: colors[CSPage.commanderCast],
+                    color: colors![CSPage.commanderCast],
                   ),
                 }, 
                 onSelect: this.onSelect,
@@ -104,7 +104,7 @@ class FakeBottomBar extends StatelessWidget {
                       Expanded(child: InkResponse(
                         onTap: leftCallback,
                         child: Center(
-                          child: AnimatedText(leftTitles[page]),
+                          child: AnimatedText(leftTitles[page]!),
                         ),
                       ),),
                       Container(
@@ -115,7 +115,7 @@ class FakeBottomBar extends StatelessWidget {
                       Expanded(child: InkResponse(
                         onTap: rightCallback,
                         child: Center(
-                          child: AnimatedText(rightTitles[page]),
+                          child: AnimatedText(rightTitles[page]!),
                         ),
                       ),),
                     ],

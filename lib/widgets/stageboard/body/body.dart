@@ -7,25 +7,25 @@ import 'components.dart';
 class CSBody extends StatelessWidget {
   
   const CSBody({
-    Key key,
+    Key? key,
   }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final group = bloc.game.gameGroup;
+    final bloc = CSBloc.of(context)!;
+    final group = bloc.game!.gameGroup;
     final themer = bloc.themer;
     final theme = Theme.of(context);
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
     final stageTheme = stage.themeController;
 
-    return stageTheme.derived.mainPageToPrimaryColor.build((_, pageColors)
-      => themer.flatDesign.build((_, flat) 
+    return stageTheme.derived.mainPageToPrimaryColor!.build((_, pageColors)
+      => themer!.flatDesign!.build((_, flat) 
       => themer.defenceColor.build((_, defenceColor)
       => LayoutBuilder(builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
         child: SingleChildScrollView(
-          child: group.names.build((context, names){
+          child: group!.names.build((context, names){
 
             final bool landScape = constraints.maxWidth >= constraints.maxHeight;
 
@@ -37,7 +37,7 @@ class CSBody extends StatelessWidget {
             final double tileSize = CSSizes.computeTileSize(
               constraints, 
               rowCount,
-              flat,
+              flat!,
             );
 
             final Widget bodyHistory = BodyHistory(
@@ -58,21 +58,21 @@ class CSBody extends StatelessWidget {
               child: StageBuild.offMainPagesData<CSPage>(
                 (_, enabledPages, __, currentPage){
 
-                  final historyEnabled = enabledPages[CSPage.history];
+                  final historyEnabled = enabledPages![CSPage.history];
                   if(landScape){
-                    if(historyEnabled){
-                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                    if(historyEnabled!){
+                      SchedulerBinding.instance!.addPostFrameCallback((_) {
                         //cant notify listeners during build phase lol
                         stage.mainPagesController.disablePage(CSPage.history);
                       });
                     }
                   } else {
-                    if(!historyEnabled){
-                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                    if(!historyEnabled!){
+                      SchedulerBinding.instance!.addPostFrameCallback((_) {
                         //just (dont) build lol
                         stage.mainPagesController.enablePage(CSPage.history);
-                        bloc.game.gameHistory.listController.refresh(
-                          bloc.game.gameState.gameState.value.historyLenght,
+                        bloc.game!.gameHistory!.listController.refresh(
+                          bloc.game!.gameState!.gameState.value.historyLenght,
                         );
                       });
                     }

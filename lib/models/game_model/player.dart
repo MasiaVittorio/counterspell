@@ -10,8 +10,8 @@ class Player {
   String name;
   CommanderSettings commanderSettingsA;
   CommanderSettings commanderSettingsB;
-  bool havePartnerB;
-  bool usePartnerB;
+  bool? havePartnerB;
+  bool? usePartnerB;
   
   List<PlayerState> states = [];
 
@@ -51,11 +51,11 @@ class Player {
   // Constructors
 
   Player(this.name, {
-    @required this.states, 
-    @required this.commanderSettingsA, 
-    @required this.commanderSettingsB, 
-    @required this.havePartnerB,
-    @required this.usePartnerB,
+    required this.states, 
+    required this.commanderSettingsA, 
+    required this.commanderSettingsB, 
+    required this.havePartnerB,
+    required this.usePartnerB,
   }): 
     assert(name != null),
     assert(states != null),
@@ -66,11 +66,11 @@ class Player {
   factory Player.start(
     String name, 
     Set<String> others,
-    Set<String> counters,
+    Set<String?> counters,
     {
-      int startingLife = 20,
-      CommanderSettings settingsPartnerA,
-      CommanderSettings settingsPartnerB,
+      int? startingLife = 20,
+      CommanderSettings? settingsPartnerA,
+      CommanderSettings? settingsPartnerB,
       bool havePartnerB = false,
     }
   ) => Player(
@@ -113,7 +113,7 @@ class Player {
     }
   }
 
-  PlayerAction back(Map<String,Counter> counterMap){
+  PlayerAction back(Map<String?,Counter> counterMap){
     final PlayerState outgoingState = states.removeLast();
     return PlayerAction.fromStates(
       previous: states.last,
@@ -216,7 +216,7 @@ class Player {
   int get totalLifeGained {
     int gained = 0;
     for(int i=this.states.length-1; i>0; --i){
-      final int delta = states[i].life - states[i-1].life;
+      final int delta = states[i].life! - states[i-1].life!;
       if(delta > 0) gained += delta;
     }
     return gained;
@@ -224,7 +224,7 @@ class Player {
   int get totalLifeLost {
     int lost = 0;
     for(int i=this.states.length-1; i>0; --i){
-      final int delta = states[i].life - states[i-1].life;
+      final int delta = states[i].life! - states[i-1].life!;
       if(delta < 0) lost -= delta;
     }
     return lost;

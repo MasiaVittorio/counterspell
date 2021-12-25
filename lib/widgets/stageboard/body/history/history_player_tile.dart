@@ -5,29 +5,29 @@ class HistoryPlayerTile extends StatelessWidget {
 
   //===================================
   // Data
-  final DateTime time;
-  final DateTime firstTime;
-  final List<PlayerHistoryChange> changes;
+  final DateTime? time;
+  final DateTime? firstTime;
+  final List<PlayerHistoryChange>? changes;
   final bool partnerB;
   //===================================
   // UI resources
-  final double tileSize;
+  final double? tileSize;
   // final double coreTileSize;
   final Color defenceColor;
-  final Map<String, Counter> counters;
-  final Map<CSPage,Color> pageColors;
+  final Map<String?, Counter> counters;
+  final Map<CSPage?,Color?>? pageColors;
 
   //===================================
   // Constructor
   const HistoryPlayerTile(this.changes, {
-    @required this.partnerB,
-    @required this.time,
-    @required this.firstTime,
-    @required this.pageColors,
-    @required this.tileSize,
+    required this.partnerB,
+    required this.time,
+    required this.firstTime,
+    required this.pageColors,
+    required this.tileSize,
     // @required this.coreTileSize,
-    @required this.counters,
-    @required this.defenceColor,
+    required this.counters,
+    required this.defenceColor,
   });
 
 
@@ -36,10 +36,10 @@ class HistoryPlayerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final children = <Widget>[
-      for(final change in changes)
+      for(final change in changes!)
         if(!(
           change.type == DamageType.counters 
-          && !counters.containsKey(change.counter.longName)
+          && !counters.containsKey(change.counter!.longName)
         )) _Change(
           change, 
           // counters: counters,
@@ -84,20 +84,20 @@ class _Change extends StatelessWidget {
   final bool partnerB;
 
   final Color defenceColor;
-  final Map<CSPage,Color> pageColors;
+  final Map<CSPage?,Color?>? pageColors;
   // final Map<String, Counter> counters;
   
   const _Change(this.change, {
-    @required this.partnerB,
-    @required this.defenceColor,
-    @required this.pageColors,
+    required this.partnerB,
+    required this.defenceColor,
+    required this.pageColors,
     // @required this.counters,
   });
 
   
   @override
   Widget build(BuildContext context) {
-    final int increment = change.next - change.previous;
+    final int increment = change.next! - change.previous!;
     final String text = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
     final String subText = "= ${change.next}" + (
       ( this.partnerB 
@@ -106,20 +106,20 @@ class _Change extends StatelessWidget {
           || 
           ( change.type == DamageType.commanderDamage 
             && 
-            change.attack) ) )
+            change.attack!) ) )
 
-        ? change.partnerA ? " (A)" : " (B)"
+        ? change.partnerA! ? " (A)" : " (B)"
         : "");
 
 
-    final Color color = CSThemer.getHistoryChipColor(
+    final Color? color = CSThemer.getHistoryChipColor(
       attack: change.attack,
       defenceColor: defenceColor,
       type: change.type,
       pageColors: pageColors,
     );
 
-    final IconData icon = CSThemer.getHistoryChangeIcon(
+    final IconData? icon = CSThemer.getHistoryChangeIcon(
       attack: change.attack,
       type: change.type,
       defenceColor: defenceColor,
@@ -137,15 +137,15 @@ class _Change extends StatelessWidget {
 }
 
 class _Time extends StatelessWidget {
-  final DateTime time;
-  final DateTime first;
-  const _Time(this.time, {@required this.first});
+  final DateTime? time;
+  final DateTime? first;
+  const _Time(this.time, {required this.first});
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
+    final bloc = CSBloc.of(context)!;
 
-    return bloc.settings.gameSettings.timeMode.build((_, mode) => Padding(
+    return bloc.settings!.gameSettings.timeMode.build((_, mode) => Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: Text(
         HistoryTile.timeString(time, first, mode), 

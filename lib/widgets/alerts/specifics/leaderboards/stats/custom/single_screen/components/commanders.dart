@@ -16,17 +16,17 @@ class _CommandersState extends State<Commanders> {
 
   @override
   Widget build(BuildContext context) {
-    final logic = CSBloc.of(context);
+    final logic = CSBloc.of(context)!;
     final stat = widget.stat;
     final bool absolute = absoluteIndex == 1;
     final mapStats = {
-      for(final e in logic.pastGames.commanderStats.value.entries)
+      for(final e in logic.pastGames.commanderStats.value!.entries)
         e.key: e.value,
     };
     final list = [...stat.commandersApplicable.entries]
       ..sort((e1, e2) => absolute
         ? e2.value.compareTo(e1.value)
-        : (e2.value / mapStats[e2.key].games).compareTo(e1.value / mapStats[e1.key].games)
+        : (e2.value / mapStats[e2.key!]!.games).compareTo(e1.value / mapStats[e1.key!]!.games)
       );
 
     return Column(mainAxisSize: MainAxisSize.min, children: [
@@ -47,11 +47,11 @@ class _CommandersState extends State<Commanders> {
       ),],),
       Expanded(child: ListView.builder(
         padding: EdgeInsets.zero,
-        physics: Stage.of(context).panelScrollPhysics,
+        physics: Stage.of(context)!.panelScrollPhysics,
         itemBuilder: (_, i) => _Commander(
-          mapStats[list[i].key].card,
+          mapStats[list[i].key!]!.card,
           appearances: list[i].value,
-          games: mapStats[list[i].key].games,
+          games: mapStats[list[i].key!]!.games,
         ),
         itemCount: list.length,
         itemExtent: _Commander.height,
@@ -72,15 +72,15 @@ class _Commander extends StatelessWidget {
   final int appearances;
 
   _Commander(this.card, {
-    @required this.appearances,
-    @required this.games,
+    required this.appearances,
+    required this.games,
   });
 
   @override
   Widget build(BuildContext context) {
     return SubSection([
       ListTile(
-        title: Text(card.name),
+        title: Text(card.name!),
         leading: Icon(CSIcons.damageOutlined),
         subtitle: Text("${InfoDisplayer.getString(100 * appearances/games)}% of $games games"),
         trailing: Text("$appearances"),

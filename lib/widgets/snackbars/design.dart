@@ -7,10 +7,10 @@ class DesignSnackBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
-    final bloc = CSBloc.of(context);
+    final stage = Stage.of(context)!;
+    final bloc = CSBloc.of(context)!;
     final placeVar = stage.themeController.colorPlace;
-    final themer = bloc.themer;
+    final themer = bloc.themer!;
     // final pageColorsVar = stage.themeController.derived.mainPageToPrimaryColor;
     // final color = theme.accentColor;
 
@@ -24,10 +24,10 @@ class DesignSnackBar extends StatelessWidget {
           onTap: themer.toggleGoogleLikeColors,
         ),),),
         CSWidgets.collapsedPanelDivider,
-        Expanded(child: themer.flatDesign.build((_, flat) => CenteredTile(
+        Expanded(child: themer.flatDesign!.build((_, flat) => CenteredTile(
           leading: const Icon(McIcons.android_studio),
           title: const Text("Design:"),
-          subtitle: Text(flat ? "Flat" : "Solid"),
+          subtitle: Text(flat! ? "Flat" : "Solid"),
           onTap: themer.toggleFlatDesign,
         ),),),
       ],),

@@ -6,10 +6,10 @@ import 'package:counter_spell_new/core.dart';
 class ArenaMenuActions extends StatelessWidget {
 
   const ArenaMenuActions({
-    @required this.reorderPlayers,
-    @required this.exit,
-    @required this.close,
-    @required this.names,
+    required this.reorderPlayers,
+    required this.exit,
+    required this.close,
+    required this.names,
   });
 
   final VoidCallback reorderPlayers;
@@ -20,7 +20,7 @@ class ArenaMenuActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final bloc = CSBloc.of(context);
+    final bloc = CSBloc.of(context)!;
 
     final thrower = bloc.achievements.flippedOrRolled;
     return Column(
@@ -57,12 +57,12 @@ class _Restarter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final state = bloc.game.gameState;
+    final bloc = CSBloc.of(context)!;
+    final state = bloc.game!.gameState;
 
     return ConfirmableTile(
       onConfirm: (){
-        state.restart(GameRestartedFrom.arena, avoidPrompt: true);
+        state!.restart(GameRestartedFrom.arena, avoidPrompt: true);
         closeMenu?.call();
       },
       leading: Icon(McIcons.restart),
@@ -113,11 +113,11 @@ class RandomListTile extends StatefulWidget {
     }
   );
   
-  final int max; /// 2 = coin, 6 = d6, 20 = d20
-  final List<String> values; /// If you want each number to represent a result (the lenght of this list will override the max value!)
-  final Widget leading;
-  final Widget title;
-  final VoidCallback onThrowCallback;
+  final int? max; /// 2 = coin, 6 = d6, 20 = d20
+  final List<String>? values; /// If you want each number to represent a result (the lenght of this list will override the max value!)
+  final Widget? leading;
+  final Widget? title;
+  final VoidCallback? onThrowCallback;
 
   @override
   _RandomListTileState createState() => _RandomListTileState();
@@ -125,9 +125,9 @@ class RandomListTile extends StatefulWidget {
 
 class _RandomListTileState extends State<RandomListTile> with SingleTickerProviderStateMixin {
 
-  AnimationController animation;
-  Random generator;
-  int value;
+  late AnimationController animation;
+  late Random generator;
+  int? value;
   
   @required 
   void initState(){
@@ -154,7 +154,7 @@ class _RandomListTileState extends State<RandomListTile> with SingleTickerProvid
 
   void generate() => setState(() {
     ///from 1 to max inclusive
-    value = generator.nextInt(max) + 1; 
+    value = generator.nextInt(max!) + 1; 
   });
 
   void tap(){
@@ -175,17 +175,17 @@ class _RandomListTileState extends State<RandomListTile> with SingleTickerProvid
     20: "Throw d20",
   };
 
-  List<String> get values => widget.values;
-  int get max => values?.length ?? widget.max;
-  IconData get icon => icons[max] ?? Icons.help_outline;
-  String get title => titles[max] ?? "Throw d$max";
+  List<String>? get values => widget.values;
+  int? get max => values?.length ?? widget.max;
+  IconData get icon => icons[max!] ?? Icons.help_outline;
+  String get title => titles[max!] ?? "Throw d$max";
 
-  String get valueString => value == null 
+  String? get valueString => value == null 
     ? "/" 
-    : values?.elementAt(value-1) 
-      ?? ((max == 2) ? const {1: "tails", 2: "head"}[value] : "$value");
+    : values?.elementAt(value!-1) 
+      ?? ((max == 2) ? const {1: "tails", 2: "head"}[value!] : "$value");
 
-  Widget get trailing => Text(valueString);
+  Widget get trailing => Text(valueString!);
   
   @override
   Widget build(BuildContext context) {

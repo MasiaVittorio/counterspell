@@ -18,7 +18,7 @@ class CrazySpecificStuff extends StatelessWidget {
           for(final item in items)
             ListTile(
               title: Text(item.title),
-              onTap: () => Stage.of(context).showAlert(
+              onTap: () => Stage.of(context)!.showAlert(
                 item,
                 size: item.size,
               ),

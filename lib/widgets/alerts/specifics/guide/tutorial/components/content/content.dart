@@ -5,7 +5,7 @@ class TutorialContent extends StatelessWidget {
 
   TutorialContent(this.pageController);
 
-  final PageController pageController;
+  final PageController? pageController;
 
   static const List<Widget> children = <Widget>[
     TutorialScroll(),
@@ -29,7 +29,7 @@ class TutorialContent extends StatelessWidget {
     return PageView.builder(
       itemCount: children.length,
       controller: pageController,
-      onPageChanged: (i) => Stage.of(context).panelController.alertController
+      onPageChanged: (i) => Stage.of(context)!.panelController.alertController!
         .savedStates[AdvancedTutorial.stateKey] = i,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, page)

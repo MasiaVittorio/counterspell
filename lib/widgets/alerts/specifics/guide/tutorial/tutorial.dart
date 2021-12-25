@@ -14,7 +14,7 @@ class AdvancedTutorial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedTutorial(
-      Stage.of(context).panelController.alertController
+      Stage.of(context)!.panelController.alertController!
           .savedStates[stateKey],
     );
   }
@@ -24,7 +24,7 @@ class AdvancedTutorial extends StatelessWidget {
 
 class _AdvancedTutorial extends StatefulWidget {
 
-  final int initialPage;
+  final int? initialPage;
 
   const _AdvancedTutorial(this.initialPage);
 
@@ -34,7 +34,7 @@ class _AdvancedTutorial extends StatefulWidget {
 
 class _AdvancedTutorialState extends State<_AdvancedTutorial> {
 
-  PageController pageController;
+  PageController? pageController;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _AdvancedTutorialState extends State<_AdvancedTutorial> {
 
   @override
   void dispose() {
-    this.pageController.dispose();
+    this.pageController!.dispose();
     super.dispose();
   }
 
@@ -63,7 +63,7 @@ class _AdvancedTutorialState extends State<_AdvancedTutorial> {
         top: 0.0,
         left: 0.0,
         right: 0.0,
-        child: PageReactor(controller: pageController, builder: (_,page)
+        child: PageReactor(controller: pageController!, builder: (_,page)
           => PanelTitle(TutorialContent.titles[page], animated: true),
         ),
       ),

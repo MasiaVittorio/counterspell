@@ -5,33 +5,33 @@ import 'package:counter_spell_new/core.dart';
 class BodyHistory extends StatelessWidget {
   final List<String> names;
   final int count;
-  final CSGameGroup group;
+  final CSGameGroup? group;
   final double tileSize;
   final Color defenceColor;
-  final Map<CSPage,Color> pageColors;
+  final Map<CSPage,Color?>? pageColors;
 
   const BodyHistory({
-    @required this.names,
-    @required this.count,
-    @required this.group,
-    @required this.tileSize,
-    @required this.defenceColor,
-    @required this.pageColors,
+    required this.names,
+    required this.count,
+    required this.group,
+    required this.tileSize,
+    required this.defenceColor,
+    required this.pageColors,
   });
   
   @override
   Widget build(BuildContext context) {
 
-    final game = group.parent;
+    final game = group!.parent;
     final history = game.gameHistory;
     final stage = Stage.of(context);
 
-    return game.gameState.gameState.build((context, gameState){
+    return game.gameState!.gameState.build((context, gameState){
 
-        final Map<String, Counter> counters = game.gameAction.currentCounterMap;
+        final Map<String?, Counter> counters = game.gameAction!.currentCounterMap;
 
         return SidAnimatedList(
-          listController: history.listController,
+          listController: history!.listController,
           reverse: true, //reverse to make it appear aligned to the right
           itemBuilder: (context, index, animation) 
             => SizeTransition(
@@ -50,18 +50,18 @@ class BodyHistory extends StatelessWidget {
                 pageColors: pageColors,
                 counters: counters,
                 names: names,
-                havePartnerB: <String,bool>{
+                havePartnerB: <String,bool?>{
                   for(final entry in gameState.players.entries)
-                    entry.key: entry.value.havePartnerB,
+                    entry.key: entry.value!.havePartnerB,
                 },
               ),
             ),
-          initialItemCount: game.gameState.gameState.value.historyLenght,
+          initialItemCount: game.gameState!.gameState.value.historyLenght,
           scrollDirection: Axis.horizontal,
           physics: SidereusScrollPhysics(
             topBounce: true,
             bottomBounce: false,
-            topBounceCallback: () => stage.mainPagesController.goToPage(CSPage.life),
+            topBounceCallback: () => stage!.mainPagesController.goToPage(CSPage.life),
             alwaysScrollable: true,
           ),
           shrinkWrap: false,

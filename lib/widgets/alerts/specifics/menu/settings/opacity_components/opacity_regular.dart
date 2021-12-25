@@ -12,8 +12,8 @@ class ImageOpacityRegular extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.imagesSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.imagesSettings;
     final start = settings.imageGradientStart;
     final end = settings.imageGradientEnd;
 
@@ -32,22 +32,22 @@ class ImageOpacityRegular extends StatelessWidget {
     final Widget gradient = BlocVar.build2(
       start,
       end,
-      builder: (context, double startVal, double endVal) => Container(
+      builder: (context, double? startVal, double? endVal) => Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
             colors: [
-              theme.canvasColor.withOpacity(startVal),
-              theme.canvasColor.withOpacity(endVal),
+              theme.canvasColor.withOpacity(startVal!),
+              theme.canvasColor.withOpacity(endVal!),
             ],
           ),
         ),
       ),
     );
 
-    final lifeColor = Stage.of(context).themeController
-        .derived.mainPageToPrimaryColor.value[CSPage.life];
+    final lifeColor = Stage.of(context)!.themeController
+        .derived.mainPageToPrimaryColor!.value![CSPage.life]!;
 
     final Widget tile = InkWell(
       onTap: (){},
@@ -140,7 +140,7 @@ class ImageOpacityRegular extends StatelessWidget {
         playerTile,
         const SizedBox(height: 8,),
         start.build((_,value) => FullSlider(
-          value: value,
+          value: value!,
           onChanged: start.set,
           divisions: 20,
           defaultValue: CSSettingsImages.defaultImageGradientStart,
@@ -148,7 +148,7 @@ class ImageOpacityRegular extends StatelessWidget {
           titleBuilder: (val) => Text("Start: ${val.toStringAsFixed(2)}"),
         )),
         end.build((_,value) => FullSlider(
-          value: value,
+          value: value!,
           onChanged: end.set,
           divisions: 20,
           defaultValue: CSSettingsImages.defaultImageGradientEnd,

@@ -6,19 +6,19 @@ import 'compose.dart';
 class ArenaLayout2 extends StatelessWidget {
 
   final ArenaChildBuilder childBuilder;
-  final CenterChildBuilder centerChildBuilder;
+  final CenterChildBuilder? centerChildBuilder;
   final ArenaCenterAlignment centerAlignment;
   final BoxConstraints constraints;
   final bool flipped;
-  final Widget betweenGridAndCenter;
+  final Widget? betweenGridAndCenter;
 
   const ArenaLayout2({
-    @required this.childBuilder,
-    @required this.constraints,
-    @required this.centerChildBuilder,
-    @required this.centerAlignment,
-    @required this.flipped,
-    @required this.betweenGridAndCenter,
+    required this.childBuilder,
+    required this.constraints,
+    required this.centerChildBuilder,
+    required this.centerAlignment,
+    required this.flipped,
+    required this.betweenGridAndCenter,
   });
   
   /// Landscape
@@ -56,7 +56,7 @@ class ArenaLayout2 extends StatelessWidget {
       positionedCenterChild: centerChildBuilder == null 
         ? null 
         : Positioned.fill(child: Center(
-          child: centerChildBuilder(
+          child: centerChildBuilder!(
             context,
             Axis.horizontal,
           ),

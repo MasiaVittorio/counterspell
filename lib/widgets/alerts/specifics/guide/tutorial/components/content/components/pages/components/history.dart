@@ -8,7 +8,7 @@ class TutorialHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subtitle1;
+    final TextStyle? subhead = theme.textTheme.subtitle1;
     // final TextStyle body1 = theme.textTheme.bodyText2;
 
     return Center(

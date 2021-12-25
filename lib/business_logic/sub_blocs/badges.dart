@@ -14,13 +14,13 @@ class CSBadges {
   // Values 
   final CSBloc parent; 
 
-  PersistentVar<int> versionShown;
-  bool get changelogBadge => versionShown.value < versionCode;
-  PersistentVar<int> stuffILikeShown;
-  bool get stuffILikeBadge => stuffILikeShown.value < lastStuffILike;
+  late PersistentVar<int?> versionShown;
+  bool get changelogBadge => versionShown.value! < versionCode;
+  late PersistentVar<int?> stuffILikeShown;
+  bool get stuffILikeBadge => stuffILikeShown.value! < lastStuffILike;
 
   CSBadges(this.parent){ // needs to be after stage to show badges
-    versionShown = PersistentVar<int>(
+    versionShown = PersistentVar<int?>(
       key: "bloc_badges_blocvar_versionShown",
       initVal: 0,
       toJson: (b) => b,
@@ -33,7 +33,7 @@ class CSBadges {
         });
       }
     );
-    stuffILikeShown = PersistentVar<int>(
+    stuffILikeShown = PersistentVar<int?>(
       key: "bloc_badges_blocvar_stuffILikeShown",
       initVal: 0,
       toJson: (b) => b,
@@ -52,26 +52,26 @@ class CSBadges {
   void _check(){
     if(checked) return;
     if(this.changelogBadge || this.stuffILikeBadge){
-      parent.stage.badgesController.showPanelPage(SettingsPage.info);
+      parent.stage!.badgesController.showPanelPage(SettingsPage.info);
     } else {
-      parent.stage.badgesController.clearPanelPage(SettingsPage.info);
+      parent.stage!.badgesController.clearPanelPage(SettingsPage.info);
     }
     checked = true;
   }
 
   void showChangelog(){
-    parent.stage.showAlert(const Changelog(), size: Changelog.height);
+    parent.stage!.showAlert(const Changelog(), size: Changelog.height);
     versionShown.set(versionCode);
     if(!stuffILikeBadge) {
-      parent.stage.badgesController.clearPanelPage(SettingsPage.info);
+      parent.stage!.badgesController.clearPanelPage(SettingsPage.info);
     }
   }
 
   void showStuffILike(){
-    parent.stage.showAlert(const StuffILikeAlert(), size: StuffILikeAlert.height);
+    parent.stage!.showAlert(const StuffILikeAlert(), size: StuffILikeAlert.height);
     stuffILikeShown.set(lastStuffILike);
     if(!changelogBadge) {
-      parent.stage.badgesController.clearPanelPage(SettingsPage.info);
+      parent.stage!.badgesController.clearPanelPage(SettingsPage.info);
     }
   }
 

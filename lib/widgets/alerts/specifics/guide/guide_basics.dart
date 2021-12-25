@@ -43,9 +43,9 @@ class InfoSection extends StatelessWidget {
   final String title;
   final List<String> info;
   const InfoSection({
-    @required this.icon,
-    @required this.title,
-    @required this.info,
+    required this.icon,
+    required this.title,
+    required this.info,
     this.first = false,
     this.last = false,
   });
@@ -74,9 +74,9 @@ class InfoTitle extends StatelessWidget {
   final String title;
   final bool drag;
   const InfoTitle({
-    @required this.icon,
-    @required this.title,
-    @required this.drag,
+    required this.icon,
+    required this.title,
+    required this.drag,
   });
 
   static const double height = 42.0;

@@ -8,7 +8,7 @@ class TutorialSelection extends StatefulWidget {
 }
 
 class _TutorialSelectionState extends State<TutorialSelection> {
-  Map<String,bool> state = <String,bool>{
+  Map<String,bool?> state = <String,bool?>{
     "Me": false,
     "You": true,
     "Them": false,
@@ -25,8 +25,8 @@ class _TutorialSelectionState extends State<TutorialSelection> {
 
     // final ThemeData theme = Theme.of(context);
 
-    final CSBloc bloc = CSBloc.of(context);
-    final Color color = bloc.stage.themeController.derived.mainPageToPrimaryColor.value[CSPage.life];
+    final CSBloc bloc = CSBloc.of(context)!;
+    final Color color = bloc.stage!.themeController.derived.mainPageToPrimaryColor!.value![CSPage.life]!;
 
     // final colorBright = ThemeData.estimateBrightnessForColor(color);
     // final Color textColor = 

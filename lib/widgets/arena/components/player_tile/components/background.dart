@@ -5,20 +5,20 @@ import 'package:division/division.dart';
 class AptBackGround extends StatelessWidget {
 
   AptBackGround({
-    @required this.imageApplied,
-    @required this.highlighted,
-    @required this.isAttacking,
-    @required this.isDefending,
-    @required this.pageColors,
-    @required this.defenceColor,
+    required this.imageApplied,
+    required this.highlighted,
+    required this.isAttacking,
+    required this.isDefending,
+    required this.pageColors,
+    required this.defenceColor,
   });
 
   final Widget imageApplied;
   final bool highlighted;
   final bool isAttacking;
   final bool isDefending;
-  final Map<CSPage,Color> pageColors;
-  final Color defenceColor;
+  final Map<CSPage,Color?>? pageColors;
+  final Color? defenceColor;
 
   static const double margin = 10.0;
   static const double _cmdrOpacity = 0.2;
@@ -33,13 +33,13 @@ class AptBackGround extends StatelessWidget {
     
     if(isAttacking) {
       bkgColor = Color.alphaBlend(
-        this.pageColors[CSPage.commanderDamage]
+        this.pageColors![CSPage.commanderDamage]!
             .withOpacity(_cmdrOpacity),
         bkgColor,
       );
     } else if (isDefending) {
       bkgColor = Color.alphaBlend(
-        this.defenceColor
+        this.defenceColor!
             .withOpacity(_cmdrOpacity),
         bkgColor,
       );

@@ -2,15 +2,15 @@ import '../all.dart';
 import 'package:flutter/widgets.dart';
 
 class GACast extends GameAction{
-  final Map<String,bool> selected;
+  final Map<String,bool?> selected;
   final int increment;
-  final int maxVal;
-  final Map<String,bool> usingPartnerB;
+  final int? maxVal;
+  final Map<String,bool?> usingPartnerB;
 
   const GACast(
     this.increment, {
-      @required this.selected,
-      @required this.usingPartnerB,
+      required this.selected,
+      required this.usingPartnerB,
       this.maxVal,
     }
   );

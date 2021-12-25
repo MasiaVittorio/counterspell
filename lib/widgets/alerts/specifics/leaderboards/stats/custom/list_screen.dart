@@ -14,7 +14,7 @@ class CustomStatsList extends StatelessWidget {
 class _CustomStatsList extends StatefulWidget {
 
   const _CustomStatsList(this.stage);
-  final StageData stage;
+  final StageData? stage;
 
   @override
   _CustomStatsListState createState() => _CustomStatsListState();
@@ -22,15 +22,15 @@ class _CustomStatsList extends StatefulWidget {
 
 class _CustomStatsListState extends State<_CustomStatsList> {
 
-  ScrollController controller;
+  ScrollController? controller;
 
   static const key = "custom stats list scroll controller position";
 
   @override
   void initState() {
     super.initState();
-    var saved = widget.stage.panelController
-        .alertController.savedStates[key];
+    var saved = widget.stage!.panelController
+        .alertController!.savedStates[key];
     controller = ScrollController(
       initialScrollOffset: ((saved is double) ? saved : null ) ?? 0.0,
     );
@@ -44,7 +44,7 @@ class _CustomStatsListState extends State<_CustomStatsList> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
+    final bloc = CSBloc.of(context)!;
 
     return bloc.pastGames.customStats.build((_, map){
       final list = [...map.values]
@@ -52,15 +52,15 @@ class _CustomStatsListState extends State<_CustomStatsList> {
 
       return ListView.builder(
         controller: controller,
-        physics: Stage.of(context).panelController.panelScrollPhysics(),
+        physics: Stage.of(context)!.panelController.panelScrollPhysics(),
         itemBuilder: (_, index)
           => CustomStatWidget(list[index], 
             // pastGames: bloc.pastGames.pastGames.value,
             //commanderStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
             onSingleScreenCallback: (){
-              widget.stage.panelController.alertController
-                .savedStates[key] = controller.offset;
+              widget.stage!.panelController.alertController!
+                .savedStates[key] = controller!.offset;
             },
           ),
         padding: const EdgeInsets.only(top: PanelTitle.height),

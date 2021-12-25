@@ -18,10 +18,10 @@ class CSGameAction {
 
   final CSGame parent;
 
-  StreamSubscription newNamesSub;
+  late StreamSubscription newNamesSub;
   
   //name -> true (selected) // false (unselected) // null (anti-selected)
-  final BlocVar<Map<String,bool>> selected;
+  final BlocVar<Map<String,bool?>> selected;
 
   final BlocVar<String> attackingPlayer = BlocVar("");
   final BlocVar<String> defendingPlayer = BlocVar("");
@@ -34,7 +34,7 @@ class CSGameAction {
   // Constructor
   
   CSGameAction(this.parent): 
-    selected = BlocVar(<String,bool>{}),
+    selected = BlocVar(<String,bool?>{}),
     counterSet = PersistentSet<Counter>(
       key: "bloc_game_action_blocvar_counterset_3",
       initList: Counter.defaultList,
@@ -52,12 +52,12 @@ class CSGameAction {
     //every time the ordered list of names changes
 
     /// [CSGameAction] Must be initialized after [CSGameGroup]
-    newNamesSub = this.parent.gameGroup.names.behavior
+    newNamesSub = this.parent.gameGroup!.names.behavior
       .map<String>((names) => names.toString())
       .distinct()
       .listen((s){
         this.selected.set({
-          for(final name in this.parent.gameGroup.names.value)
+          for(final name in this.parent.gameGroup!.names.value)
             name: false,
         });
       }); 
@@ -71,15 +71,15 @@ class CSGameAction {
   // Getters
 
   static GameAction action({
-    @required int scrollerValue, 
-    @required CSPage pageValue, 
-    @required Map<String,bool> selectedValue,
-    @required int minValue,
-    @required int maxValue,
-    @required String attacker,
-    @required GameState gameState,
-    @required String defender,
-    @required Counter counter,
+    required int scrollerValue, 
+    required CSPage? pageValue, 
+    required Map<String,bool?> selectedValue,
+    required int? minValue,
+    required int? maxValue,
+    required String attacker,
+    required GameState gameState,
+    required String defender,
+    required Counter counter,
   }) {
     if(scrollerValue == 0)
       return GANull.instance;
@@ -105,9 +105,9 @@ class CSGameAction {
         scrollerValue,
         selected: selectedValue,
         maxVal: maxValue,
-        usingPartnerB: <String,bool>{
+        usingPartnerB: <String,bool?>{
           for(final entry in gameState.players.entries)
-            entry.key: entry.value.usePartnerB,
+            entry.key: entry.value!.usePartnerB,
         },
       );
     }
@@ -119,11 +119,11 @@ class CSGameAction {
             scrollerValue,
             attacker: attacker,
             defender: defender,
-            usingPartnerB: gameState.players[attacker].usePartnerB,
+            usingPartnerB: gameState.players[attacker]!.usePartnerB,
             minLife: minValue,
             maxVal: maxValue,
-            settings: gameState.players[attacker].commanderSettings(
-              !gameState.players[attacker].usePartnerB
+            settings: gameState.players[attacker]!.commanderSettings(
+              !gameState.players[attacker]!.usePartnerB!
             ),
           );
         }
@@ -144,15 +144,15 @@ class CSGameAction {
     return GANull.instance;
   }
   static GameAction normalizedAction({
-    @required int scrollerValue, 
-    @required CSPage pageValue, 
-    @required Map<String,bool> selectedValue,
-    @required GameState gameState,
-    @required int minValue,
-    @required int maxValue,
-    @required String attacker,
-    @required String defender,
-    @required Counter counter,
+    required int scrollerValue, 
+    required CSPage? pageValue, 
+    required Map<String,bool?> selectedValue,
+    required GameState gameState,
+    required int? minValue,
+    required int? maxValue,
+    required String attacker,
+    required String defender,
+    required Counter counter,
   }) => action(
     pageValue: pageValue,
     scrollerValue: scrollerValue,
@@ -165,13 +165,13 @@ class CSGameAction {
     counter: counter,
   ).normalizeOnLast(gameState);
 
-  GameAction currentNormalizedAction(CSPage page) => normalizedAction(
-    scrollerValue: parent.parent.scroller.intValue.value,
+  GameAction currentNormalizedAction(CSPage? page) => normalizedAction(
+    scrollerValue: parent.parent.scroller!.intValue.value,
     pageValue: page,
     selectedValue: selected.value,
-    gameState: parent.gameState.gameState.value,
-    minValue: parent.parent.settings.gameSettings.minValue.value,
-    maxValue: parent.parent.settings.gameSettings.maxValue.value,
+    gameState: parent.gameState!.gameState.value,
+    minValue: parent.parent.settings!.gameSettings.minValue.value,
+    maxValue: parent.parent.settings!.gameSettings.maxValue.value,
     attacker: this.attackingPlayer.value,
     defender: this.defendingPlayer.value,
     counter: this.counterSet.variable.value,
@@ -181,14 +181,14 @@ class CSGameAction {
   bool get isSomeoneDefending => selected.value.keys.contains(defendingPlayer.value);
   //null means anti-selected! (so somewhat selected indeed)
   bool get isSomeoneSelected => selected.value.values.any((b) => b != false);
-  bool get isScrolling => parent.parent.scroller.isScrolling.value;
+  bool get isScrolling => parent.parent.scroller!.isScrolling.value;
   bool get actionPending 
     => isScrolling 
     || isSomeoneSelected
     || isSomeoneAttacking 
     || isSomeoneDefending;
   
-  Map<String, Counter> get currentCounterMap => {
+  Map<String?, Counter> get currentCounterMap => {
     for(final counter in counterSet.list)
       // if(parent.parent.settings.enabledCounters.value[counter.longName])
         counter.longName : counter, 
@@ -210,16 +210,16 @@ class CSGameAction {
 
   //Do not call this manually, let it be called by the isScrolling's "onChanged" method
   // -> if you want to trigger this, just call scroller.forceComplete()
-  void privateConfirm(CSPage page){
+  void privateConfirm(CSPage? page){
     final GameAction action = this.currentNormalizedAction(page);
-    this.parent.gameState.applyAction(action);
+    this.parent.gameState!.applyAction(action);
     this.clearSelection(false);
-    this.parent.parent.scroller.value = 0.0;
-    this.parent.parent.scroller.intValue.set(0);
+    this.parent.parent.scroller!.value = 0.0;
+    this.parent.parent.scroller!.intValue.set(0);
   }
 
 
-  void chooseCounterByLongName(String newCounterLongName){
+  void chooseCounterByLongName(String? newCounterLongName){
     this.counterSet.choose(
       this.counterSet.list.indexWhere((counter) => counter.longName == newCounterLongName),
     );

@@ -6,21 +6,21 @@ import 'column_of_two.dart';
 class ArenaLayout4 extends StatelessWidget {
 
   final ArenaChildBuilder childBuilder;
-  final CenterChildBuilder centerChildBuilder;
+  final CenterChildBuilder? centerChildBuilder;
   final ArenaCenterAlignment centerAlignment;
   final BoxConstraints constraints;
   final ArenaLayoutType layoutType;
   final bool flipped;
-  final Widget betweenGridAndCenter;
+  final Widget? betweenGridAndCenter;
 
   const ArenaLayout4({
-    @required this.betweenGridAndCenter,
-    @required this.flipped,
-    @required this.layoutType,
-    @required this.childBuilder,
-    @required this.constraints,
-    @required this.centerChildBuilder,
-    @required this.centerAlignment,
+    required this.betweenGridAndCenter,
+    required this.flipped,
+    required this.layoutType,
+    required this.childBuilder,
+    required this.constraints,
+    required this.centerChildBuilder,
+    required this.centerAlignment,
   });
 
   @override
@@ -95,12 +95,12 @@ class ArenaLayout4 extends StatelessWidget {
 
 
 
-    Widget positionedCenterChild;
+    Widget? positionedCenterChild;
 
     if(this.centerChildBuilder != null){
       /// No padding, intersection always at center
       positionedCenterChild = Positioned.fill(
-        child: Center(child: centerChildBuilder(
+        child: Center(child: centerChildBuilder!(
           context,
           landscape ? Axis.horizontal : Axis.vertical,
         ),),
@@ -154,12 +154,12 @@ class ArenaLayout4 extends StatelessWidget {
       ],),
     );
 
-    Widget positionedCenterChild;
+    Widget? positionedCenterChild;
 
     if(this.centerChildBuilder != null){
       /// No padding, intersection always at center
       positionedCenterChild = Positioned.fill(
-        child: Center(child: centerChildBuilder(
+        child: Center(child: centerChildBuilder!(
           context,
           landscape ? Axis.horizontal : Axis.vertical 
         )),

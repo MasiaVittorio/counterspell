@@ -14,7 +14,7 @@ class DelayedWidget extends StatefulWidget {
 
   const DelayedWidget({
     this.before = const Waiting(),
-    @required this.after,
+    required this.after,
     this.delay = defaultDelay,
     this.getBackgroundColor = background,
   }) : assert(after != null);
@@ -35,7 +35,7 @@ class DelayedWidget extends StatefulWidget {
 class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProviderStateMixin{
 
   bool after = false;
-  AnimationController barrierOpacity;
+  late AnimationController barrierOpacity;
   bool fadedIn = false;
 
   @override

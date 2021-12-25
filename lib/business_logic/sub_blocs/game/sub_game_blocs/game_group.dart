@@ -21,10 +21,10 @@ class CSGameGroup {
   //========================
   // Values
   final CSGame parent;
-  PersistentVar<List<String>> names;
-  PersistentVar<Map<int,String>> arenaNameOrder;
-  StreamSubscription newNamesSub;
-  final PersistentVar<Set<String>> savedNames;
+  late PersistentVar<List<String>> names;
+  late PersistentVar<Map<int,String?>> arenaNameOrder;
+  late StreamSubscription newNamesSub;
+  final PersistentVar<Set<String?>> savedNames;
 
   final BlocMap<String,Set<MtgCard>> savedCards;
 
@@ -35,13 +35,13 @@ class CSGameGroup {
   ///========================
   /// Constructor
   CSGameGroup(this.parent): 
-    savedNames = PersistentVar<Set<String>>(
+    savedNames = PersistentVar<Set<String?>>(
       initVal: <String>{},
       key: "bloc_game_group_blocvar_saved_names",
       toJson: (stringSet) => stringSet.toList(),
       fromJson: (json) => {
         for(final s in json)  
-          s as String,
+          s as String?,
       },
     ),
     cardsA = PersistentVar<Map<String,MtgCard>>(
@@ -72,7 +72,7 @@ class CSGameGroup {
       <String,Set<MtgCard>>{},
       key: "bloc_game_group_blocvar_savedCards",
       itemToJson: (setOfCards) => <dynamic>[
-        for(final card in setOfCards)
+        for(final card in setOfCards!)
           card.toJson(),
       ],
       jsonToItem: (json) => <MtgCard>{
@@ -83,7 +83,7 @@ class CSGameGroup {
   {
     names = PersistentVar<List<String>>(
       key: "bloc_game_group_blocvar_names_ordered_list_counterspell",
-      initVal: this.parent.gameState.gameState.value.names.toList(),
+      initVal: this.parent.gameState!.gameState.value.names.toList(),
       toJson: (list) => list,
       fromJson: (json) => [
         for(final s in json)
@@ -113,7 +113,7 @@ class CSGameGroup {
     );
 
     /// [CSGameGroup] Must be initialized after [CSGameState]
-    newNamesSub = this.parent.gameState.gameState.behavior.listen((state){
+    newNamesSub = this.parent.gameState!.gameState.behavior.listen((state){
       updateNames(state);
       updateNamesAltLayout(this.names.value);
     });
@@ -141,11 +141,11 @@ class CSGameGroup {
         arenaNameOrder.value[arenaNameOrder.value.length] = name;
       }
     }
-    final List<String> current = <String>[
+    final List<String?> current = <String?>[
       for(int i=0; i<arenaNameOrder.value.length; ++i)
         arenaNameOrder.value[i],
     ];
-    final List<String> toBeRemoved= <String>[];
+    final List<String?> toBeRemoved= <String?>[];
     for(final name in current){
       if(!newNames.contains(name))
         toBeRemoved.add(name);
@@ -153,7 +153,7 @@ class CSGameGroup {
     for(final name in toBeRemoved){
       current.remove(name);        
     }
-    arenaNameOrder.set(<int,String>{
+    arenaNameOrder.set(<int,String?>{
       for(int i=0; i<current.length; ++i)
         i:current[i],
     });
@@ -180,7 +180,7 @@ class CSGameGroup {
     this.names.value[index] = newName;
     this.names.refresh();
 
-    int altIndex;
+    int? altIndex;
     for(final entry in this.arenaNameOrder.value.entries){
       if(entry.value == oldName){
         altIndex = entry.key;
@@ -213,7 +213,7 @@ class CSGameGroup {
     if(this.savedNames.value.add(name))
       this.savedNames.refresh();
   }
-  void unSaveName(String name){
+  void unSaveName(String? name){
     if(this.savedNames.value.remove(name))
       this.savedNames.refresh();
   }

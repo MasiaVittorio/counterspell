@@ -8,7 +8,7 @@ class AboutCounterSpell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final logic = CSBloc.of(context);
+    final logic = CSBloc.of(context)!;
 
     return Section([
       const PanelTitle("About CounterSpell", centered: false,),
@@ -34,12 +34,12 @@ class AboutCounterSpell extends StatelessWidget {
           ExtraButton(
             icon: Icons.help_outline,
             text: "Tutorial",
-            onTap: () => stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height),
+            onTap: () => stage!.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height),
           ),
           ExtraButton(
             icon: McIcons.bookmark_check,
             text: "Achievements",
-            onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
+            onTap: () => stage!.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
           ),
         ],
       ),
@@ -74,7 +74,7 @@ class AboutCounterSpell extends StatelessWidget {
             ExtraButton(
               icon: McIcons.text_box_check_outline,
               text: "Licenses",
-              onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
+              onTap: () => stage!.showAlert(const AlertLicenses(), size: DamageInfo.height),
               customCircleColor: Colors.transparent,
             ),
           ],

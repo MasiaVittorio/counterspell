@@ -4,8 +4,8 @@ class BottomExtra extends StatelessWidget {
 
   final Widget text;
   final VoidCallback onTap;
-  final IconData icon;
-  const BottomExtra(this.text, {@required this.onTap, this.icon});
+  final IconData? icon;
+  const BottomExtra(this.text, {required this.onTap, this.icon});
 
   @override
   Widget build(BuildContext context) 

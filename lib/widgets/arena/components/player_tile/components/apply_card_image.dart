@@ -4,26 +4,26 @@ import 'package:counter_spell_new/core.dart';
 class AptCardImage extends StatelessWidget {
 
   AptCardImage({
-    @required this.bloc,
-    @required this.name,
-    @required this.gameState,
-    @required this.gesturesApplied,
-    @required this.isAttacking,
-    @required this.isDefending,
-    @required this.pageColors,
-    @required this.defenceColor,
-    @required this.highlighted,
-    @required this.maxWidth,
+    required this.bloc,
+    required this.name,
+    required this.gameState,
+    required this.gesturesApplied,
+    required this.isAttacking,
+    required this.isDefending,
+    required this.pageColors,
+    required this.defenceColor,
+    required this.highlighted,
+    required this.maxWidth,
   });
 
-  final GameState gameState;
+  final GameState? gameState;
   final String name;
-  final CSBloc bloc;
+  final CSBloc? bloc;
   final Widget gesturesApplied;
   final bool isAttacking;
   final bool isDefending;
-  final Map<CSPage,Color> pageColors;
-  final Color defenceColor;
+  final Map<CSPage,Color?>? pageColors;
+  final Color? defenceColor;
   final bool highlighted;
   final double maxWidth;
 
@@ -32,14 +32,14 @@ class AptCardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final player = gameState.players[name];
-    final bool haveB = player.havePartnerB;
-    final bool useB = haveB && player.usePartnerB;
-    final group = bloc.game.gameGroup;
+    final player = gameState!.players[name]!;
+    final bool haveB = player.havePartnerB!;
+    final bool useB = haveB && player.usePartnerB!;
+    final group = bloc!.game!.gameGroup!;
 
     return group.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
-      final MtgCard cardA = cardsA[name];
-      final MtgCard cardB = haveB ? cardsB[name] : null;
+      final MtgCard? cardA = cardsA[name];
+      final MtgCard? cardB = haveB ? cardsB[name] : null;
 
       if(cardB == null && cardA == null){
         return SizedBox.expand(
@@ -47,12 +47,12 @@ class AptCardImage extends StatelessWidget {
         );
       } else {
 
-        final String urlA = cardA?.imageUrl();
-        final String urlB = cardB?.imageUrl();
+        final String? urlA = cardA?.imageUrl();
+        final String? urlB = cardB?.imageUrl();
 
-        return bloc.settings.imagesSettings.imageAlignments.build((_,alignments){
+        return bloc!.settings!.imagesSettings.imageAlignments.build((_,alignments){
           
-          final Decoration decorationA = urlA == null 
+          final Decoration? decorationA = urlA == null 
             ? null 
             : BoxDecoration(image: DecorationImage(
               image: CachedNetworkImageProvider(
@@ -66,7 +66,7 @@ class AptCardImage extends StatelessWidget {
           Widget image;
 
           if(haveB){
-            final Decoration decorationB = urlB == null 
+            final Decoration? decorationB = urlB == null 
               ? null 
               : BoxDecoration(image: DecorationImage(
                 image: CachedNetworkImageProvider(
@@ -102,20 +102,20 @@ class AptCardImage extends StatelessWidget {
           
           if(isAttacking) {
             bkgColor = Color.alphaBlend(
-              this.pageColors[CSPage.commanderDamage]
+              this.pageColors![CSPage.commanderDamage]!
                   .withOpacity(_cmdrOpacity),
               bkgColor,
             );
           } else if (isDefending) {
             bkgColor = Color.alphaBlend(
-              this.defenceColor
+              this.defenceColor!
                   .withOpacity(_cmdrOpacity),
               bkgColor,
             );
           }
 
-          final Widget filterColor = bloc.settings.imagesSettings.arenaImageOpacity.build((context, double opacity) => Container(
-            color: bkgColor.withOpacity(opacity),
+          final Widget filterColor = bloc!.settings!.imagesSettings.arenaImageOpacity.build((context, double? opacity) => Container(
+            color: bkgColor.withOpacity(opacity!),
           ));
 
           return Stack(

@@ -33,7 +33,7 @@ class ScryfallApi{
 
   static void openCardOnScryfall(MtgCard card) async {
 
-    final url = card.scryfallUri; 
+    final url = card.scryfallUri!; 
 
     if (await canLaunch(url)) {
       await launch(url);
@@ -48,10 +48,10 @@ class ScryfallApi{
     + (uniqueName ? "+unique%3Aname":"");//+legal%3Acommander";
 
 
-  static Future<List<MtgCard>> searchReprints(MtgCard card) async {
+  static Future<List<MtgCard>?> searchReprints(MtgCard card) async {
     return await search('!"${card.name}" unique:prints', uniqueName: false, force: true);
   }
-  static Future<List<MtgCard>> searchArts(String name, bool commander) async {
+  static Future<List<MtgCard>?> searchArts(String name, bool commander) async {
     return await search('"$name"'+(commander?" is:commander":"")+' unique:art', uniqueName: false, force: true);
   }
 
@@ -59,14 +59,14 @@ class ScryfallApi{
 
 
 
-  static DateTime _last;
-  static Future<List<MtgCard>> search(String string, {bool force = false, bool uniqueName = true}) async {
+  static DateTime? _last;
+  static Future<List<MtgCard>?> search(String string, {bool force = false, bool uniqueName = true}) async {
     // print("api searching (force: $force)");
     final _now = DateTime.now();
 
     if(force == false){
       if(_last != null){
-        final secs = _last.difference(_now).inSeconds.abs();
+        final secs = _last!.difference(_now).inSeconds.abs();
         // print("api searching -> (secs: $secs)");
         if( secs < 10)
           return null;
@@ -81,7 +81,7 @@ class ScryfallApi{
     // print("searching: $_ss");
     final response = await http.get(Uri.parse(_ss));
 
-    Map<String,dynamic> map;
+    Map<String,dynamic>? map;
 
     switch (response.statusCode) {
       case 200:
@@ -106,7 +106,7 @@ class ScryfallApi{
 
     if(!map.containsKey('data')) return null;
 
-    List data;
+    List? data;
 
     try {
       data = List.from(map['data']);

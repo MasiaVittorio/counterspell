@@ -12,7 +12,7 @@ class CSThemer {
   final CSBloc parent;
   final PersistentVar<Color> defenceColor;
   final PersistentVar<Map<String,CSColorScheme>> savedSchemes;
-  BlocVar<bool> flatDesign; // vs material design
+  BlocVar<bool?>? flatDesign; // vs material design
 
 
   static const bool flatLinkedToColorPlace = false;
@@ -47,10 +47,10 @@ class CSThemer {
     ){
     if(flatLinkedToColorPlace){
       flatDesign = BlocVar.fromCorrelate<bool, StageColorPlace>(
-        from: parent.stage.themeController.colorPlace,
+        from: parent.stage!.themeController.colorPlace,
         map: (StageColorPlace place)
           => place.isTexts,
-      );
+      ) as BlocVar<bool?>?;
     } else {
       flatDesign = PersistentVar<bool>(
         key: "bloc_themer_blocvar_flatDesign",
@@ -62,74 +62,74 @@ class CSThemer {
   }
 
 
-  static Color getHistoryChipColor({
-    @required DamageType type,
-    @required bool attack,
-    @required Color defenceColor,
-    @required Map<CSPage,Color> pageColors,
+  static Color? getHistoryChipColor({
+    required DamageType type,
+    required bool? attack,
+    required Color defenceColor,
+    required Map<CSPage?,Color?>? pageColors,
   }){
     if(type == DamageType.commanderDamage){
-      return attack ? pageColors[CSPage.commanderDamage] : defenceColor;
+      return attack! ? pageColors![CSPage.commanderDamage] : defenceColor;
     } else {
-      return pageColors[CSPages.fromDamage(type)];
+      return pageColors![CSPages.fromDamage(type)];
     }
   }
 
-  static IconData getHistoryChangeIcon({
-    @required Color defenceColor,
-    @required DamageType type,
-    @required bool attack,
-    @required Counter counter,
+  static IconData? getHistoryChangeIcon({
+    required Color defenceColor,
+    required DamageType type,
+    required bool? attack,
+    required Counter? counter,
   }){
     if(type == DamageType.commanderDamage){
-      return attack ? CSIcons.attackOne : CSIcons.defenceFilled;
+      return attack! ? CSIcons.attackOne : CSIcons.defenceFilled;
     } else if (type == DamageType.counters){
-      return counter.icon;
+      return counter!.icon;
     } else {
       return CSIcons.typeIconsFilled[type];
     }
   }
 
   void activateFlatDesign(){
-    parent.stage.themeController.colorPlace.setDistinct(StageColorPlace.texts);
+    parent.stage!.themeController.colorPlace.setDistinct(StageColorPlace.texts);
     
     if(flatLinkedToColorPlace == false){
-      this.flatDesign.setDistinct(true);  
+      this.flatDesign!.setDistinct(true);  
     } else {
       // should get set to true automatically
     }
 
-    parent.stage.themeController.topBarElevations.set(_topFlatElevations);
-    parent.stage.dimensionsController.dimensions.set(
-      parent.stage.dimensionsController.dimensions.value.copyWith(
+    parent.stage!.themeController.topBarElevations.set(_topFlatElevations);
+    parent.stage!.dimensionsController.dimensions.set(
+      parent.stage!.dimensionsController.dimensions.value.copyWith(
         // panelHorizontalPaddingOpened: 0.0,
         panelHorizontalPaddingOpened: StageDimensions
           .defaultPanelHorizontalPaddingOpened,
       ),
     );
-    parent.stage.themeController.bottomBarShadow.setDistinct(false);
+    parent.stage!.themeController.bottomBarShadow.setDistinct(false);
   }
 
   void deactivateFlatDesign(){
     if(flatLinkedToColorPlace){
-      parent.stage.themeController.colorPlace.set(StageColorPlace.background);
+      parent.stage!.themeController.colorPlace.set(StageColorPlace.background);
       // then flat design should become false automatically
     } else {
-      this.flatDesign.setDistinct(false);  
+      this.flatDesign!.setDistinct(false);  
       // colorPlace can still be texts if the two are not hard linked
     }
-    parent.stage.themeController.topBarElevations.set(_topMaterialElevations);
-    parent.stage.dimensionsController.dimensions.set(
-      parent.stage.dimensionsController.dimensions.value.copyWith(
+    parent.stage!.themeController.topBarElevations.set(_topMaterialElevations);
+    parent.stage!.dimensionsController.dimensions.set(
+      parent.stage!.dimensionsController.dimensions.value.copyWith(
         panelHorizontalPaddingOpened: StageDimensions
           .defaultPanelHorizontalPaddingOpened,
       ),
     );
-    parent.stage.themeController.bottomBarShadow.setDistinct(true);
+    parent.stage!.themeController.bottomBarShadow.setDistinct(true);
   }
 
   void toggleFlatDesign(){
-    if(this.flatDesign.value){
+    if(this.flatDesign!.value!){
       this.deactivateFlatDesign();
     } else {
       this.activateFlatDesign();
@@ -144,19 +144,19 @@ class CSThemer {
     if(flatLinkedToColorPlace){
       activateFlatDesign();
     } else {
-      parent.stage.themeController.colorPlace
+      parent.stage!.themeController.colorPlace
         .setDistinct(StageColorPlace.texts);
     }
   }
 
   void deactivateGoogleLikeColors(){
     this.deactivateFlatDesign();
-    parent.stage.themeController
+    parent.stage!.themeController
       .colorPlace.setDistinct(StageColorPlace.background);
   }
 
   void toggleGoogleLikeColors(){
-    if(parent.stage.themeController.colorPlace.value.isTexts){
+    if(parent.stage!.themeController.colorPlace.value.isTexts){
       this.deactivateGoogleLikeColors();
     } else {
       this.activateGoogleLikeColors();

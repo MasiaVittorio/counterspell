@@ -26,10 +26,10 @@ class _SupportAlertState extends State<SupportAlert> {
 
   @override
   Widget build(BuildContext context) {
-    final pBloc = CSBloc.of(context).payments;
+    final pBloc = CSBloc.of(context)!.payments;
     return pBloc.unlocked.build((_,unlocked) 
       => HeaderedAlert(
-        refreshing ? "Refreshing data..." : unlocked ? "You are a pro!" : "Support the development",
+        refreshing ? "Refreshing data..." : unlocked! ? "You are a pro!" : "Support the development",
         child: list(pBloc),
         bottom: disclaimer(pBloc),
       ),
@@ -49,7 +49,7 @@ class _SupportAlertState extends State<SupportAlert> {
           Expanded(child: ListTile(
             title: Text("More info"),
             leading: Icon(Icons.info_outline),
-            onTap: () => Stage.of(context).showAlert(const SupportInfo(), size: SupportInfo.height,),
+            onTap: () => Stage.of(context)!.showAlert(const SupportInfo(), size: SupportInfo.height,),
           )),
           Expanded(child: ListTile(
             title: Text("Refresh"),
@@ -63,12 +63,12 @@ class _SupportAlertState extends State<SupportAlert> {
 
   Widget list(CSPayments pBloc){
     return BlocVar.build2(pBloc.donations, pBloc.purchasedIds, 
-      builder: (_, List<Donation> donations, Set<String> purchasedIds) 
+      builder: (_, List<Donation>? donations, Set<String>? purchasedIds) 
         => Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            for(final donation in donations)
-              _Donation(donation, purchased: purchasedIds.contains(donation.productID))
+            for(final donation in donations!)
+              _Donation(donation, purchased: purchasedIds!.contains(donation.productID))
           ],
         ),
     );
@@ -80,7 +80,7 @@ class _Donation extends StatelessWidget {
   final bool purchased;
   final Donation donation;
 
-  const _Donation(this.donation, {@required this.purchased});
+  const _Donation(this.donation, {required this.purchased});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class _Donation extends StatelessWidget {
       title: Text(donation.title),
       leading: Icon(purchased ? Icons.favorite : Icons.favorite_border),
       trailing: Text(donation.amount),
-      onTap: () => CSBloc.of(context).payments.purchase(donation.productID),
+      onTap: () => CSBloc.of(context)!.payments.purchase(donation.productID),
     );
   }
 }
@@ -106,7 +106,7 @@ class SupportInfo extends StatelessWidget {
         subtitle: const Text("For debugging purposes"),
         leading: const Icon(McIcons.bug_check),
         trailing: const Icon(Icons.content_copy),
-        onTap: () => Clipboard.setData(ClipboardData(text: CSBloc.of(context).payments.log)),
+        onTap: () => Clipboard.setData(ClipboardData(text: CSBloc.of(context)!.payments.log)),
       ),
       child: Column(children: <Widget>[
         const Section([

@@ -8,7 +8,7 @@ enum _OpacityPage{
 
 class ImageOpacity extends StatelessWidget {
   const ImageOpacity([this.initialArena]);
-  final bool initialArena;
+  final bool? initialArena;
 
   static const double height = 440;
 

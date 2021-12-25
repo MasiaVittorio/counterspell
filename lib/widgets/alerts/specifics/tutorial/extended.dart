@@ -24,7 +24,7 @@ class HintAlertExtended extends StatelessWidget {
         ), 
         subtitle: StageBuild.offPanelPage<SettingsPage>((_, page) 
           => AnimatedText(page != hint.panelPage
-            ? 'Go to "${settingsThemes[hint.panelPage].name}" tab'
+            ? 'Go to "${settingsThemes[hint.panelPage!]!.name}" tab'
             : "Here!"
           ),
         ), 
@@ -99,7 +99,7 @@ class _Body extends StatelessWidget {
 class _BodyInternal extends StatefulWidget {
 
   const _BodyInternal(this.stage, this.hint);
-  final StageData<CSPage,SettingsPage> stage;
+  final StageData<CSPage,SettingsPage?>? stage;
   final Hint hint;
   @override
   _BodyInternalState createState() => _BodyInternalState();
@@ -111,12 +111,12 @@ class _BodyInternalState extends State<_BodyInternal> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 1)).then((_){
-      stage.openPanel();
-      stage.panelPagesController.goToPage(hint.panelPage);
+      stage!.openPanel();
+      stage!.panelPagesController!.goToPage(hint.panelPage);
     });
   }
 
-  StageData get stage => widget.stage; 
+  StageData? get stage => widget.stage; 
   Hint get hint => widget.hint; 
 
   @override

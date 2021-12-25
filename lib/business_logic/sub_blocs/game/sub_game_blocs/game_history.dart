@@ -14,7 +14,7 @@ class CSGameHistory {
   // Values
   final CSGame parent;
   final SidAnimatedListController listController;
-  StreamSubscription stateSubscription;
+  late StreamSubscription stateSubscription;
   List<GameHistoryData> data = [];
 
 
@@ -24,7 +24,7 @@ class CSGameHistory {
     listController = SidAnimatedListController()
   {
     /// [CSGameGroup] Must be initialized after [CSGameState]
-    stateSubscription = parent.gameState.gameState.behavior.listen(
+    stateSubscription = parent.gameState!.gameState.behavior.listen(
       (state){
         final int newLen = state.historyLenght;
         final newData = [
@@ -36,7 +36,7 @@ class CSGameHistory {
                   for(final p in CSPage.values) p: true,
                 }
               ),
-              counterMap: parent.gameAction.currentCounterMap,
+              counterMap: parent.gameAction!.currentCounterMap,
             ),
           GameHistoryNull(state, newLen - 1),
         ];
@@ -59,8 +59,8 @@ class CSGameHistory {
     duration: CSAnimations.fast,
   );
 
-  void back(GameHistoryData outgoingData, DateTime firstTime) => this.forget(1, outgoingData, firstTime);
-  void forget(int index, GameHistoryData outgoingData, DateTime firstTime) => listController.remove(
+  void back(GameHistoryData outgoingData, DateTime? firstTime) => this.forget(1, outgoingData, firstTime);
+  void forget(int index, GameHistoryData outgoingData, DateTime? firstTime) => listController.remove(
     //0 = nonsense (the first column on the right is the current state)
     //1 = latest game action
     //history data lenght = first game action
@@ -77,14 +77,14 @@ class CSGameHistory {
         outgoingData,
         firstTime: firstTime,
         index: index-1,
-        counters: parent.gameAction.currentCounterMap,
+        counters: parent.gameAction!.currentCounterMap,
         tileSize: null,
-        defenceColor: parent.parent.themer.defenceColor.value,
-        pageColors: parent.parent.stageBloc.controller.themeController.derived.mainPageToPrimaryColor.value,
+        defenceColor: parent.parent.themer!.defenceColor.value,
+        pageColors: parent.parent.stageBloc!.controller!.themeController.derived.mainPageToPrimaryColor!.value,
         avoidInteraction: true,
-        names: parent.gameGroup.names.value,
-        havePartnerB: <String,bool>{for(final entry in parent.gameState.gameState.value.players.entries)
-          entry.key: entry.value.havePartnerB,
+        names: parent.gameGroup!.names.value,
+        havePartnerB: <String,bool?>{for(final entry in parent.gameState!.gameState.value.players.entries)
+          entry.key: entry.value!.havePartnerB,
         },
       )
     ),

@@ -10,8 +10,8 @@ class AnimatedLifeChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(child: CSBloc.of(context)
-      .game.gameState.gameState.build((_, gameState)
+    return Material(child: CSBloc.of(context)!
+      .game!.gameState!.gameState.build((_, gameState)
         => _LifeChartLive(gameState),
       ),
     );
@@ -27,32 +27,32 @@ class _LifeChartLive extends StatefulWidget {
     gameDuration = gameState.lastTime.difference(gameState.firstTime).abs(),
     gameLenght = gameState.historyLenght,
     names = gameState.names.toList()..sort(),
-    times = <Duration>[for(final state in gameState.players.values.first.states) 
-      state.time.difference(gameState.players.values.first.states.first.time),
+    times = <Duration>[for(final state in gameState.players.values.first!.states) 
+      state.time.difference(gameState.players.values.first!.states.first.time),
     ],
     maxValue = ((){
-      int max = gameState?.players?.values?.first?.states?.first?.life ?? 0;
+      int? max = gameState?.players?.values?.first?.states?.first?.life ?? 0;
       for(final player in gameState.players.values){
-        for(final state in player.states){
-          if(max < state.life)
+        for(final state in player!.states){
+          if(max! < state.life!)
             max = state.life;
           final int taken = state.totalDamageTaken;
-          if(max < taken)
+          if(max! < taken)
             max = taken;
           final int casts = state.totalCasts;
           if(max < casts)
             max = casts;
         }
       }
-      return max.toDouble();
+      return max!.toDouble();
     })(),
     showDamage = gameState.players.values.any(
-      (player) => player.states.any(
+      (player) => player!.states.any(
         (state) => state.totalDamageTaken != 0,
       ),
     ),
     showCasts = gameState.players.values.any(
-      (player) => player.states.any(
+      (player) => player!.states.any(
         (state) => state.totalCasts != 0,
       ),
     );
@@ -80,12 +80,12 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
   //====================================================
   // State =========================================
-  AnimationController controller;
+  late AnimationController controller;
   //these are not computed at each tick because it would be expensive
   // if we are at a new index then the states will be taken and the state updated
-  int index;
-  List<PlayerState> states; 
-  Duration swapAnimationDuration;
+  int? index;
+  late List<PlayerState> states; 
+  late Duration swapAnimationDuration;
 
 
   //====================================================
@@ -99,7 +99,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
     );
     this.index = 0;
     this.states = getStates(this.index);
-    this.swapAnimationDuration = _swapAnimationDuration(this.index);
+    this.swapAnimationDuration = _swapAnimationDuration(this.index!);
     this.listenToAnimation();
   }
 
@@ -110,7 +110,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
       if(_newIndex != this.index){
         this.index = _newIndex;
         this.states = getStates(this.index);
-        this.swapAnimationDuration = _swapAnimationDuration(this.index);
+        this.swapAnimationDuration = _swapAnimationDuration(this.index!);
         this.setState((){});
       }
     });
@@ -140,8 +140,8 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
   int get _currentIndex => widget.times.lastIndexWhere((Duration time) => time.inMilliseconds / widget.gameDuration.inMilliseconds <= controller.value);
 
-  List<PlayerState> getStates(int index) => <PlayerState>[for(final name in widget.names)
-    widget.gameState.players[name].states[index],
+  List<PlayerState> getStates(int? index) => <PlayerState>[for(final name in widget.names)
+    widget.gameState.players[name]!.states[index!],
   ];
 
   bool get isPlaying => this.controller.isAnimating;
@@ -186,8 +186,8 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
   } 
 
   Widget layoutChart(){
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
-    final CSBloc bloc = CSBloc.of(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
+    final CSBloc bloc = CSBloc.of(context)!;
     final ThemeData theme = Theme.of(context);
 
     return Padding(
@@ -196,9 +196,9 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
         vertical: 8.0,
       ),
       child: BlocVar.build2(
-        stage.themeController.derived.mainPageToPrimaryColor,
-        bloc.themer.defenceColor,
-        builder:(_, colors, defenceColor) 
+        stage.themeController.derived.mainPageToPrimaryColor!,
+        bloc.themer!.defenceColor,
+        builder:(_, dynamic colors, dynamic defenceColor) 
           =>SubSection(<Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 10.0),
@@ -218,7 +218,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
   Widget buildLegenda(
     Map<CSPage,Color> colors, 
-    Color defenceColor, 
+    Color? defenceColor, 
     ThemeData theme,
   ){
     return SingleChildScrollView(
@@ -239,11 +239,11 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
   Widget buildChart(
     Map<CSPage,Color> colors, 
-    Color defenceColor, 
+    Color? defenceColor, 
     ThemeData theme,
   ){
 
-    final TextStyle style = theme.textTheme.bodyText2.copyWith(
+    final TextStyle style = theme.textTheme.bodyText2!.copyWith(
       color: theme.colorScheme.onSurface.withOpacity(0.5),
     );
 
@@ -302,7 +302,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
     
     //result / controller.duration = nextDiff / gameDuration
 
-    return (this.controller.duration.inMilliseconds * nextDiff / widget.gameDuration.inMilliseconds)
+    return (this.controller.duration!.inMilliseconds * nextDiff / widget.gameDuration.inMilliseconds)
         .clamp(20, 200).milliseconds;
   }
 
@@ -350,7 +350,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
   }
 
   Widget buildDurationSelector(){
-    final int currently = this.controller.duration.inSeconds;
+    final int currently = this.controller.duration!.inSeconds;
     return Row(
       children: <Widget>[
         Padding(
@@ -376,29 +376,29 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
   static const double _barWidth = 10.0;
   List<BarChartGroupData> _barGroupsData(List<PlayerState> states,{
-    @required Color lifeColor,
-    @required Color defenceColor,
-    @required Color castColor,
+    required Color? lifeColor,
+    required Color? defenceColor,
+    required Color? castColor,
   }) => <BarChartGroupData>[
     for(int i=0; i<states.length; i++)
       BarChartGroupData(barsSpace: 5, x: i, barRods: [
         if(widget.showCasts)
           BarChartRodData(
             y: states[i].totalCasts.toDouble(),
-            colors: [castColor],
+            colors: [castColor!],
             width: _barWidth,
           ),
 
         BarChartRodData(
-          y: states[i].life.toDouble().clamp(0.0, double.infinity),
-          colors: [lifeColor],
+          y: states[i].life!.toDouble().clamp(0.0, double.infinity),
+          colors: [lifeColor!],
           width: _barWidth,
         ),
 
         if(widget.showDamage)
           BarChartRodData(
             y: states[i].totalDamageTaken.toDouble(),
-            colors: [defenceColor],
+            colors: [defenceColor!],
             width: _barWidth,
           ),
       ]),
@@ -409,12 +409,12 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
 
 class _LegendaItem extends StatelessWidget {
-  final Color color;
+  final Color? color;
   final String text;
   final ThemeData theme;
 
   const _LegendaItem(this.color, this.text, {
-    @required this.theme,
+    required this.theme,
   });
   
   static const double height = _LifeChartLiveState._barWidth * 2;

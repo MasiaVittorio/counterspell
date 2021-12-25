@@ -29,8 +29,8 @@ class CounterSpell extends StatefulWidget {
 }
 
 class _CounterSpellState extends State<CounterSpell> {
-  CSBloc bloc;
-  StreamSubscription<List<PurchaseDetails>>
+  late CSBloc bloc;
+  late StreamSubscription<List<PurchaseDetails>>
       _subscription; //react to new purchase
 
   @override
@@ -97,8 +97,8 @@ class _CounterSpellState extends State<CounterSpell> {
   Widget build(context) {
     return BlocProvider<CSBloc>(
       bloc: bloc,
-      child: StageProvider<CSPage, SettingsPage>(
-        data: bloc.stageBloc.controller,
+      child: StageProvider<CSPage?, SettingsPage?>(
+        data: bloc.stageBloc!.controller,
         child: const _MaterialApp(),
       ),
     );
@@ -109,8 +109,8 @@ class _MaterialApp extends StatelessWidget {
   const _MaterialApp();
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of<CSPage, SettingsPage>(context);
-    return stage.themeController.derived.themeData.build(
+    final stage = Stage.of<CSPage, SettingsPage>(context)!;
+    return stage.themeController.derived.themeData!.build(
       (_, theme) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme,

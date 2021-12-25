@@ -5,30 +5,30 @@ class PastGame{
   //=======================================
   // Values
   final GameState state;
-  String winner;
-  final Map<String,MtgCard> commandersA; /// player -> commander B
-  final Map<String,MtgCard> commandersB; /// player -> commander B
-  String notes;
+  String? winner;
+  final Map<String,MtgCard?> commandersA; /// player -> commander B
+  final Map<String,MtgCard?> commandersB; /// player -> commander B
+  String? notes;
   final DateTime startingDateTime;
-  Map<String,Set<String>> customStats; /// stat -> set of applicable players
+  Map<String,Set<String>?> customStats; /// stat -> set of applicable players
 
   //=======================================
   // Constructor(s)
   PastGame(this.winner, {
-    @required this.state,
-    @required this.notes,
-    @required Map<String,MtgCard> commandersA,
-    @required Map<String,MtgCard> commandersB,
-    @required this.startingDateTime,
-    @required this.customStats,
+    required this.state,
+    required this.notes,
+    required Map<String,MtgCard>? commandersA,
+    required Map<String,MtgCard>? commandersB,
+    required this.startingDateTime,
+    required this.customStats,
   }): 
-    this.commandersA = <String,MtgCard>{
+    this.commandersA = <String,MtgCard?>{
       for(final player in state.players.keys)
         player: commandersA != null ? commandersA[player] : null,
     },
-    this.commandersB = <String,MtgCard>{
+    this.commandersB = <String,MtgCard?>{
       for(final player in state.players.keys)
-        if(state.players[player].havePartnerB)
+        if(state.players[player]!.havePartnerB!)
           player: commandersB != null ? commandersB[player] : null
         else
           player: null,
@@ -40,10 +40,10 @@ class PastGame{
   }
 
   factory PastGame.fromState(GameState state, {
-    Map<String,MtgCard> commandersA,
-    Map<String,MtgCard> commandersB,
-    String notes,
-    @required DateTime dateTime,
+    Map<String,MtgCard>? commandersA,
+    Map<String,MtgCard>? commandersB,
+    String? notes,
+    required DateTime dateTime,
   }){
     return PastGame(state.winner, 
       state: state,
@@ -54,7 +54,7 @@ class PastGame{
         for(final stat in CustomStat.all)
           stat: <String>{},
       },
-      startingDateTime: dateTime ?? state.players.values.first.states.first.time,
+      startingDateTime: dateTime ?? state.players.values.first!.states.first.time,
     );
   }
 
@@ -66,11 +66,11 @@ class PastGame{
     "notes": this.notes,
     "state": this.state.toJson(),
     "dateTime": this.startingDateTime.millisecondsSinceEpoch,
-    "commandersA": <String,Map<String,dynamic>>{
+    "commandersA": <String,Map<String,dynamic>?>{
       for(final entry in this.commandersA.entries)
         entry.key: entry.value?.toJson() ?? null,
     },
-    "commandersB": <String,Map<String,dynamic>>{
+    "commandersB": <String,Map<String,dynamic>?>{
       for(final entry in this.commandersB.entries)
         entry.key: entry.value?.toJson() ?? null,
     },
@@ -104,7 +104,7 @@ class PastGame{
       ? <String,Set<String>>{
         for(final key in <String>{
           ...CustomStat.all,
-          ...(json["customStats"] as Map).keys,
+          ...(json["customStats"] as Map).keys as Iterable<String>,
         })
           key: <String>{
             ...(((json["customStats"] as Map)[key]) ?? const <String>[]),
@@ -125,7 +125,7 @@ class PastGame{
       if(commander?.oracleId == card.oracleId) return true;
     }
     for(final player in this.commandersB.keys){
-      if(state.players[player].havePartnerB) //a card may still be set for commanderB on a next game without partners
+      if(state.players[player]!.havePartnerB!) //a card may still be set for commanderB on a next game without partners
         if(commandersB[player]?.oracleId == card.oracleId) return true;
     }
     return false;
@@ -136,18 +136,18 @@ class PastGame{
         if(entry.value?.oracleId == card.oracleId)
           entry.key,
       for(final entry in this.commandersB.entries)
-        if(state.players[entry.key].havePartnerB)
+        if(state.players[entry.key]!.havePartnerB!)
         if(entry.value?.oracleId == card.oracleId)
           entry.key,
     };
   }
-  bool commanderPlayedBy(MtgCard card, String name){
-    if(this.commandersA[name]?.oracleId == card.oracleId) return true;
-    if(this.state.players[name].havePartnerB)
+  bool commanderPlayedBy(MtgCard card, String? name){
+    if(this.commandersA[name!]?.oracleId == card.oracleId) return true;
+    if(this.state.players[name]!.havePartnerB!)
       if(this.commandersB[name]?.oracleId == card.oracleId) return true;
     return false;
   }
-  List<MtgCard> commandersPlayedBy(String name) => <MtgCard>[
+  List<MtgCard?> commandersPlayedBy(String name) => <MtgCard?>[
     if(this.commandersA[name] != null) this.commandersA[name],
     if(this.state.players[name]?.havePartnerB ?? false) // could be no player with that name in this game
       if(this.commandersB[name] != null) this.commandersB[name],

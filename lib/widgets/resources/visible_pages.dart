@@ -8,7 +8,7 @@ class VisiblePages extends StatelessWidget {
   final double viewFraction;
 
   VisiblePages({
-    @required this.children,
+    required this.children,
     this.viewFraction = 0.7,
   }): assert(children != null && children.isNotEmpty),
       assert(viewFraction != null);

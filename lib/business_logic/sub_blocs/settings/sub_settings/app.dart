@@ -18,39 +18,39 @@ class CSSettingsApp {
   //====================================
   // Values
   final CSBloc parent;
-  final PersistentVar<bool> wantVibrate;
-  bool canVibrate;
-  final PersistentVar<bool> alwaysOnDisplay;
-  final BlocVar<CSPage> lastPageBeforeArena;
-  final PersistentVar<bool> tutored;
+  final PersistentVar<bool?> wantVibrate;
+  bool? canVibrate;
+  final PersistentVar<bool?> alwaysOnDisplay;
+  final BlocVar<CSPage?> lastPageBeforeArena;
+  final PersistentVar<bool?> tutored;
 
-  final PersistentVar<double> numberFontSizeFraction;
+  final PersistentVar<double?> numberFontSizeFraction;
 
 
   //====================================
   // Constructor
   CSSettingsApp(this.parent):
-    wantVibrate = PersistentVar<bool>(
+    wantVibrate = PersistentVar<bool?>(
       key: "bloc_settings_blocvar_wantvibrate",
       initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    numberFontSizeFraction = PersistentVar<double>(
+    numberFontSizeFraction = PersistentVar<double?>(
       key: "bloc_settings_blocvar_numberFontSizeFraction",
       initVal: 0.27,
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    alwaysOnDisplay = PersistentVar<bool>(
+    alwaysOnDisplay = PersistentVar<bool?>(
       key: "bloc_settings_blocvar_alwaysOnDisplay",
       initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j,
-      onChanged: (bool b) => Wakelock.toggle(enable: b),
-      readCallback: (bool b) => Wakelock.toggle(enable: b), 
+      onChanged: (bool? b) => Wakelock.toggle(enable: b!),
+      readCallback: (bool? b) => Wakelock.toggle(enable: b!), 
     ),
-    tutored= PersistentVar<bool>(
+    tutored= PersistentVar<bool?>(
       key: "bloc_settings_blocvar_tutorial_shown",
       initVal: false,
       toJson: (b) => b,
@@ -64,7 +64,7 @@ class CSSettingsApp {
         // }
       } 
     ),
-    lastPageBeforeArena = PersistentVar<CSPage>(
+    lastPageBeforeArena = PersistentVar<CSPage?>(
       key: "bloc_settings_blocvar_lastPageBeforeSimpleScreen",
       initVal: CSPage.life,
       toJson: (page) => CSPages.nameOf(page),

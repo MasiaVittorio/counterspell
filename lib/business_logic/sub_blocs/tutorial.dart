@@ -14,30 +14,30 @@ class CSTutorial {
   ///=============================================
   /// Values =================================
   bool fullTutorial = false;
-  int currentTutorialIndex;
-  int currentHintIndex;
+  int? currentTutorialIndex;
+  int? currentHintIndex;
 
 
   ///=============================================
   /// Getters =================================
-  TutorialData getTutorial(int index) => (
+  TutorialData? getTutorial(int? index) => (
     TutorialData.values?.checkIndex(index ?? -1) ?? false
   )
-    ? TutorialData.values[index]
+    ? TutorialData.values[index!]
     : null;
 
-  TutorialData get currentTutorial => getTutorial(currentTutorialIndex);
-  TutorialData get nextTutorial => getTutorial(currentTutorialIndex + 1);
+  TutorialData? get currentTutorial => getTutorial(currentTutorialIndex);
+  TutorialData? get nextTutorial => getTutorial(currentTutorialIndex! + 1);
 
-  Hint getHint(int index) => (
+  Hint? getHint(int? index) => (
     currentTutorial?.hints?.checkIndex(index ?? -1)
     ?? false
   )
-    ? currentTutorial.hints[index]
+    ? currentTutorial!.hints[index!]
     : null;
 
-  Hint get currentHint => getHint(currentHintIndex);
-  Hint get nextHint => getHint(currentHintIndex + 1);
+  Hint? get currentHint => getHint(currentHintIndex);
+  Hint? get nextHint => getHint(currentHintIndex! + 1);
 
   bool get thereIsANext => (nextHint != null) ||
       (fullTutorial && (nextTutorial != null));
@@ -47,9 +47,9 @@ class CSTutorial {
   /// Methods =================================
 
   /// Show =====================
-  void showTutorial(int index, {bool full}) async {
+  void showTutorial(int index, {bool? full}) async {
     print("showing tutorial index: $index");
-    await parent.stage.closePanelCompletely();
+    await parent.stage!.closePanelCompletely();
     fullTutorial = full ?? fullTutorial;
     print("full tutorial: $fullTutorial");
     currentTutorialIndex = index;
@@ -60,7 +60,7 @@ class CSTutorial {
     }
   }
 
-  void showHint(int index){
+  void showHint(int? index){
     print("showing hint index: $index");
     if(getHint(index) == null){
       quitTutorial();
@@ -68,24 +68,24 @@ class CSTutorial {
       return;
     }
     currentHintIndex = index;
-    if(currentHint.needsAlert){
-      showAlertHint(currentHint);
-    } else if(currentHint.needsSnackBar){
-      showSnackBarHint(currentHint);
+    if(currentHint!.needsAlert){
+      showAlertHint(currentHint!);
+    } else if(currentHint!.needsSnackBar){
+      showSnackBarHint(currentHint!);
     }
   }
 
   void showAlertHint(Hint hint) async {
     assert(hint.needsAlert);
     if(hint.page != null){
-      parent.stage.mainPagesController.goToPage(hint.page);
+      parent.stage!.mainPagesController.goToPage(hint.page);
     }
-    parent.stage.showAlert(
+    parent.stage!.showAlert(
       _HintAlert(hint),
       size: _HintAlert.height(hint),
       replace: true,
     );
-    parent.stage.panelController.onNextPanelClose(this._skipHint);
+    parent.stage!.panelController.onNextPanelClose(this._skipHint);
   }
 
   void showSnackBarHint(Hint hint){
@@ -93,8 +93,8 @@ class CSTutorial {
     assert(hint.page != null);
     print("showing snackBar hint: ${hint.text}");
     print("(full tutorial: $fullTutorial)");
-    parent.stage.mainPagesController.goToPage(hint.page);
-    parent.stage.showSnackBar(
+    parent.stage!.mainPagesController.goToPage(hint.page);
+    parent.stage!.showSnackBar(
       StageSnackBar(
         title: StageBuild.offMainPage<CSPage>((_, page) 
           => AnimatedText(page == hint.page 
@@ -128,7 +128,7 @@ class CSTutorial {
       print("invlid current Tutorial or current hint index");
       return;
     }
-    final int nextHintIndex = currentHintIndex + 1;
+    final int nextHintIndex = currentHintIndex! + 1;
     print("next hint index would be: $nextHintIndex");
     // calculating this here becaaause quitHint would put it to null
     if(nextHint == null){
@@ -140,7 +140,7 @@ class CSTutorial {
       } else {
         print("because there is a next tutorial, we quit the hint and start the new tutorial");
         await _quitCurrentHint();
-        showTutorial(currentTutorialIndex + 1);
+        showTutorial(currentTutorialIndex! + 1);
       }
     } else { // there is a next hint
       print("there is a next hint in this tutorial so we quit the current one");
@@ -161,10 +161,10 @@ class CSTutorial {
   Future<void> _quitCurrentHint() async {
     print("quitting current hint");
     if(currentHint?.needsAlert ?? true){
-      await parent.stage.closePanelCompletely();
+      await parent.stage!.closePanelCompletely();
     } 
     if(currentHint?.needsSnackBar ?? true){
-      await parent.stage.closeSnackBar();
+      await parent.stage!.closeSnackBar();
     }
     currentHintIndex = null;
   }
@@ -185,8 +185,8 @@ class _HintAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final logic = CSBloc.of(context);
-    final tutorialLogic = logic.tutorial;
+    final logic = CSBloc.of(context)!;
+    final tutorialLogic = logic.tutorial!;
     final bool next = tutorialLogic.thereIsANext;
 
     return HeaderedAlert(
@@ -232,13 +232,13 @@ class _HintAlert extends StatelessWidget {
             title: const Text("Got it!"),
             subtitle: const Text("Next hint"),
             leading: const Icon(Icons.keyboard_arrow_right),
-            onTap: Stage.of(context).closePanel,
+            onTap: Stage.of(context)!.closePanel,
           )]
           else CenteredTile(
             title: const Text("End of tutorial"),
             subtitle: const Text("Thank you!!"),
             leading: const Icon(Icons.check),
-            onTap: Stage.of(context).closePanel,
+            onTap: Stage.of(context)!.closePanel,
           ),
         ]) Expanded(child: child)]
           .separateWith(CSWidgets.collapsedPanelDivider),

@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 
 class SidChip extends StatelessWidget {
 
-  final IconData icon;
+  final IconData? icon;
   final String text;
-  final String subText;
-  final Color color;
-  final DecorationImage image;
-  final Color forceTextColor;
+  final String? subText;
+  final Color? color;
+  final DecorationImage? image;
+  final Color? forceTextColor;
 
   const SidChip({
     this.icon,
     this.subText,
-    @required this.text,
+    required this.text,
     this.color,
     this.image,
     this.forceTextColor,
@@ -97,7 +97,7 @@ class SidChip extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6.0),
             child: Text(
-              subText,
+              subText!,
               style: TextStyle(
                 fontSize: 12,
               ),

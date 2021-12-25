@@ -15,7 +15,7 @@ class HintAlertCollapsed extends StatelessWidget {
       wholeScreen: false,
       mainPages: StagePagesData.nullable(
         defaultPage: CSPage.life,
-        orderedPages: const <CSPage,List<CSPage>>{
+        orderedPages: const <CSPage?,List<CSPage>>{
           CSPage.history : [CSPage.history,CSPage.life,CSPage.commanderDamage],
           CSPage.counters : [CSPage.history,CSPage.counters,CSPage.commanderDamage],
           CSPage.life : [CSPage.history,CSPage.life,CSPage.commanderDamage],
@@ -46,7 +46,7 @@ class _Collapsed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final bool right = hint.collapsedRightSide;
+    final bool? right = hint.collapsedRightSide;
 
     return StageBuild.offMainColors<CSPage>((_, __, colors) 
       => StageBuild.offMainPage<CSPage>((_, page) {
@@ -56,24 +56,24 @@ class _Collapsed extends StatelessWidget {
         final Widget button = CircleButton(
           externalCircles: 3,
           sizeIncrement: 0.5,
-          color: colors[page]
+          color: colors![page]!
               .withOpacity(0.07),
           size: CSSizes.barSize,
           child: Icon(error
             ? Icons.error
             : hint.collapsedIcon,
           ),
-          onTap: error ? (){} : () => Stage.of(context).showSnackBar(
+          onTap: error ? (){} : () => Stage.of(context)!.showSnackBar(
             const StageSnackBar(
               title: Text("Yeah, like that!"),
               secondary: Icon(Icons.check),
             ),
-            rightAligned: hint.collapsedRightSide,
+            rightAligned: hint.collapsedRightSide!,
           ),
         );
 
         return Row(children: [
-          if(!right)
+          if(!right!)
             button
           else SizedBox(
             width: CSSizes.collapsedPanelSize,
@@ -135,7 +135,7 @@ class _Body extends StatelessWidget {
 class _BodyInternal extends StatefulWidget {
 
   const _BodyInternal(this.stage, this.hint);
-  final StageData<CSPage,SettingsPage> stage;
+  final StageData<CSPage?,SettingsPage>? stage;
   final Hint hint;
   @override
   _BodyInternalState createState() => _BodyInternalState();
@@ -147,11 +147,11 @@ class _BodyInternalState extends State<_BodyInternal> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 1)).then((_){
-      stage.mainPagesController.goToPage(hint.page);
+      stage!.mainPagesController.goToPage(hint.page);
     });
   }
 
-  StageData get stage => widget.stage; 
+  StageData? get stage => widget.stage; 
   Hint get hint => widget.hint; 
 
   @override

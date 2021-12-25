@@ -22,8 +22,8 @@ class CSSettingsArena {
 
   final CSBloc parent;
 
-  final PersistentVar<ArenaLayoutType> layoutType;
-  final PersistentVar<Map<ArenaLayoutType,bool>> flipped;
+  final PersistentVar<ArenaLayoutType?> layoutType;
+  final PersistentVar<Map<ArenaLayoutType?,bool>> flipped;
 
   final PersistentVar<bool> verticalScroll;
   final PersistentVar<bool> verticalTap;
@@ -42,23 +42,23 @@ class CSSettingsArena {
       key: "bloc_settings_blocvar_arenaScrollOverTap",
       initVal: false,
     ),
-    layoutType = PersistentVar<ArenaLayoutType>(
+    layoutType = PersistentVar<ArenaLayoutType?>(
       key: "bloc_settings_blocvar_arenaLayoutType",
       initVal: ArenaLayoutType.ffa,
       toJson: (t) => t.name,
       fromJson: (n) => ArenaLayoutTypes.fromName(n),
     ),
-    flipped = PersistentVar<Map<ArenaLayoutType,bool>>(
+    flipped = PersistentVar<Map<ArenaLayoutType?,bool>>(
       key: "bloc_settings_blocvar_arenaLayoutFlipped",
       initVal: {
         ArenaLayoutType.ffa: false,
         ArenaLayoutType.squad: false,
       },
-      toJson: (map) => <String,bool>{
+      toJson: (map) => <String?,bool>{
         for(final e in map.entries)
           e.key.name: e.value,
       },
-      fromJson: (json) => <ArenaLayoutType,bool>{
+      fromJson: (json) => <ArenaLayoutType?,bool>{
         for(final e in (json as Map).entries)
           ArenaLayoutTypes.fromName(e.key as String): e.value as bool,
       },

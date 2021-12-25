@@ -13,7 +13,7 @@ class PanelSettings extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     
     return SingleChildScrollView(
       physics: stage.panelController.panelScrollPhysics(),

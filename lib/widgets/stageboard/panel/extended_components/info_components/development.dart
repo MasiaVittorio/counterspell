@@ -8,7 +8,7 @@ class Development extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final logic = CSBloc.of(context);
+    final logic = CSBloc.of(context)!;
     final stage = Stage.of(context);
 
     return Section([
@@ -33,7 +33,7 @@ class Development extends StatelessWidget {
         ExtraButton(
           icon: McIcons.text_box_check_outline,
           text: "Licenses",
-          onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
+          onTap: () => stage!.showAlert(const AlertLicenses(), size: DamageInfo.height),
         ),
       ],), 
       SubSection([
@@ -41,19 +41,19 @@ class Development extends StatelessWidget {
           ExtraButton(
             text: "Discord",
             icon: McIcons.discord,
-            onTap: () => stage.showAlert(const ConfirmDiscord(), size: ConfirmDiscord.height),
+            onTap: () => stage!.showAlert(const ConfirmDiscord(), size: ConfirmDiscord.height),
             customCircleColor: Colors.transparent,
           ),
           ExtraButton(
             text: "Telegram",
             icon: McIcons.telegram,
-            onTap: () => stage.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
+            onTap: () => stage!.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
             customCircleColor: Colors.transparent,
           ),
           ExtraButton(
             text: "Email",
             icon: McIcons.gmail,
-            onTap: () => stage.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
+            onTap: () => stage!.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
             customCircleColor: Colors.transparent,
           ),
         ],), 

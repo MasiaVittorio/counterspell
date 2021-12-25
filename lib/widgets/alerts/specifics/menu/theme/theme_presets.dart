@@ -9,27 +9,27 @@ class PresetsAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final stage = Stage.of(context);
+    final bloc = CSBloc.of(context)!;
+    final stage = Stage.of(context)!;
     final theme = Theme.of(context);
 
     return Material(
       color: theme.scaffoldBackgroundColor,
       child: SingleChildScrollView(
         physics: stage.panelController.panelScrollPhysics(),
-        child: bloc.themer.savedSchemes.build((_, savedSchemes) {
+        child: bloc.themer!.savedSchemes.build((_, savedSchemes) {
           List<CSColorScheme> all = [...CSColorScheme.defaults.values, ...savedSchemes.values];
           List<CSColorScheme> lights = [
             for(final s in all)
-              if(s.light) s,
-          ]..sort((s1,s2)=>s1.name.compareTo(s2.name));
+              if(s.light!) s,
+          ]..sort((s1,s2)=>s1.name!.compareTo(s2.name!));
 
           Map<DarkStyle,List<CSColorScheme>> darks = {
             for(final style in DarkStyle.values)
               style: [
                 for(final s in all) 
-                  if((!s.light) && s.darkStyle == style) s,
-              ]..sort((s1,s2)=>s1.name.compareTo(s2.name)),
+                  if((!s.light!) && s.darkStyle == style) s,
+              ]..sort((s1,s2)=>s1.name!.compareTo(s2.name!)),
           };
 
           return Column(children: <Widget>[
@@ -39,9 +39,9 @@ class PresetsAlert extends StatelessWidget {
                 PresetTile(s),
             ]),),
             for(final style in DarkStyle.values)
-              darks[style].first.applyBaseTheme(child: Section([
+              darks[style]!.first.applyBaseTheme(child: Section([
                 SectionTitle("${style.name} themes"),
-                for(final s in darks[style])
+                for(final s in darks[style]!)
                   PresetTile(s),
               ]),),
 
@@ -62,7 +62,7 @@ class PresetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     final bloc = CSBloc.of(context);
     final bool deletable = !CSColorScheme.defaults.keys.contains(scheme.name);
 
@@ -71,7 +71,7 @@ class PresetTile extends StatelessWidget {
       child: ListTile(
         contentPadding: const EdgeInsets.all(0.0),
         title: Text(
-          scheme.name, 
+          scheme.name!, 
           style: TextStyle(color: scheme.accent),
         ),
         leading: Padding(
@@ -100,10 +100,10 @@ class PresetTile extends StatelessWidget {
                     child: Container(
                       width: _medalSize,
                       child: Icon(
-                        stage.mainPagesController.pagesData[page].icon,
+                        stage.mainPagesController.pagesData[page]!.icon,
                         color: scheme.colorPlace.isTexts 
                           ? scheme.perPage[page]
-                          : CSColors.contrastWith(scheme.perPage[page]),
+                          : CSColors.contrastWith(scheme.perPage[page]!),
                       )
                     ),
                   ),
@@ -134,42 +134,42 @@ class PresetTile extends StatelessWidget {
           ? IconButton(
             icon: const Icon(Icons.delete_forever, color: CSColors.delete,),
             onPressed: (){
-              bloc.themer.savedSchemes.value.remove(scheme.name);
-              bloc.themer.savedSchemes.refresh();
+              bloc!.themer!.savedSchemes.value.remove(scheme.name);
+              bloc.themer!.savedSchemes.refresh();
             },
           ) 
           : null,
         onTap: (){
           final themeController = stage.themeController;
-          final themer = bloc.themer;
+          final themer = bloc!.themer!;
 
-          Map<CSPage,Color> perPage = <CSPage,Color>{
+          Map<CSPage?,Color> perPage = <CSPage?,Color>{
             for(final entry in scheme.perPage.entries)
-              entry.key: Color(entry.value.value),
+              entry.key: Color(entry.value!.value),
           };  // Copy map
 
           themeController.colorPlace.set(scheme.colorPlace);
-          if(scheme.light){
-            if(themeController.brightness.autoDark.value){
+          if(scheme.light!){
+            if(themeController.brightness.autoDark.value!){
               themeController.brightness.autoDark.set(false);
             }
             themeController.brightness.brightness.setDistinct(Brightness.light);
             // need to be set before editing colors
           
-            themeController.currentColorsController.editPanelPrimary(scheme.primary);
-            themeController.currentColorsController.editMainPagedPrimaries(perPage);
-            themeController.currentColorsController.editAccent(scheme.accent);
+            themeController.currentColorsController!.editPanelPrimary(scheme.primary);
+            themeController.currentColorsController!.editMainPagedPrimaries(perPage);
+            themeController.currentColorsController!.editAccent(scheme.accent);
           } else {
-            if(themeController.brightness.autoDark.value){
+            if(themeController.brightness.autoDark.value!){
               themeController.brightness.autoDark.set(false);
             } 
             themeController.brightness.brightness.setDistinct(Brightness.dark);
-            themeController.brightness.darkStyle.setDistinct(scheme.darkStyle);
+            themeController.brightness.darkStyle.setDistinct(scheme.darkStyle!);
             // need to be set before editing colors
 
-            themeController.currentColorsController.editPanelPrimary(scheme.primary);
-            themeController.currentColorsController.editMainPagedPrimaries(perPage);
-            themeController.currentColorsController.editAccent(scheme.accent);
+            themeController.currentColorsController!.editPanelPrimary(scheme.primary);
+            themeController.currentColorsController!.editMainPagedPrimaries(perPage);
+            themeController.currentColorsController!.editAccent(scheme.accent);
           }
           themer.defenceColor.set(scheme.defenceColor);
           stage.closePanel();

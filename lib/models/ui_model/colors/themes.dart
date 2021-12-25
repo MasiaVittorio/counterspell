@@ -3,23 +3,23 @@ import 'package:counter_spell_new/core.dart';
 
 
 class CSColorScheme{
-  final String name;
+  final String? name;
   final Color primary;
   final Color accent;
-  final Map<CSPage,Color> perPage;
-  final bool light;
-  final DarkStyle darkStyle;
+  final Map<CSPage?,Color?> perPage;
+  final bool? light;
+  final DarkStyle? darkStyle;
   final Color defenceColor;
   final StageColorPlace colorPlace;
 
   const CSColorScheme(this.name,{
-    @required this.primary,
-    @required this.accent,
-    @required this.perPage,
-    @required this.light,
-    @required this.darkStyle,
-    @required this.defenceColor,
-    @required this.colorPlace,
+    required this.primary,
+    required this.accent,
+    required this.perPage,
+    required this.light,
+    required this.darkStyle,
+    required this.defenceColor,
+    required this.colorPlace,
   }): assert(primary != null),
       assert(accent != null),
       assert(defenceColor != null),
@@ -37,10 +37,10 @@ class CSColorScheme{
     defenceColor: this.defenceColor,
   );
 
-  Widget applyBaseTheme({@required Widget child,}) => Theme(
+  Widget applyBaseTheme({required Widget child,}) => Theme(
     data: StageThemeUtils.getThemeData(
       accent: this.accent,
-      brightness: this.light ? Brightness.light : Brightness.dark,
+      brightness: this.light! ? Brightness.light : Brightness.dark,
       darkStyle: this.darkStyle,
       forcedPrimaryColorBrightness: null,
       primary: this.primary,
@@ -52,9 +52,9 @@ class CSColorScheme{
     "name": this.name,
     "primary": this.primary.value,
     "accent": this.accent.value,
-    "perPage": <String,int>{
+    "perPage": <String?,int>{
       for(final entry in this.perPage.entries) 
-        CSPages.nameOf(entry.key) : entry.value.value,
+        CSPages.nameOf(entry.key) : entry.value!.value,
     },
     "light": this.light,
     "darkStyle": this.darkStyle.name,
@@ -66,7 +66,7 @@ class CSColorScheme{
     json["name"],
     primary: Color(json["primary"]),
     accent: Color(json["accent"]),
-    perPage: <CSPage,Color>{
+    perPage: <CSPage?,Color>{
       for(final entry in (json["perPage"] as Map).entries) 
         CSPages.fromName(entry.key as String): Color(entry.value as int),
     },
@@ -94,14 +94,14 @@ class CSColorScheme{
   bool equivalentTo(CSColorScheme other)
     => other.primary == this.primary
     && other.accent == this.accent
-    && (<CSPage>{
+    && (<CSPage?>{
       ...other.perPage.keys,
       ...this.perPage.keys,
     }.every((key) => this.perPage[key] == other.perPage[key]))
     && other.light == this.light
     && other.defenceColor == this.defenceColor
     && other.colorPlace == this.colorPlace
-    && (other.darkStyle == this.darkStyle || this.light);
+    && (other.darkStyle == this.darkStyle || this.light!);
 
   static const String _defaultLightName = "Light default";
   static const CSColorScheme defaultLight = CSColorScheme(
@@ -214,7 +214,7 @@ class CSColorScheme{
     colorPlace: StageColorPlace.texts,
   );
 
-  static CSColorScheme defaultScheme(
+  static CSColorScheme? defaultScheme(
     bool light, 
     DarkStyle style, 
     StageColorPlace colorPlace,

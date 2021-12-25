@@ -4,21 +4,21 @@ import 'package:counter_spell_new/core.dart';
 class PlayerGestures{
 
   static void _returnToLife(CSBloc bloc){
-    final stage = bloc.stageBloc.controller;
+    final stage = bloc.stageBloc!.controller!;
     if(stage.mainPagesController.goToPage(CSPage.life)){
-      bloc.scroller.ignoringThisPan = true;
+      bloc.scroller!.ignoringThisPan = true;
     }
   }
 
   static void pan(CSDragUpdateDetails details, String name, double width, {
-    @required CSPage page,
-    @required CSBloc bloc,
+    required CSPage? page,
+    required CSBloc bloc,
     bool vertical = false,
-    CSScroller dummyScroller,
+    CSScroller? dummyScroller,
   }){
 
-    final CSGameAction actionBloc = bloc.game.gameAction;
-    final CSScroller scrollerBloc = dummyScroller ?? bloc.scroller;
+    final CSGameAction? actionBloc = bloc.game!.gameAction;
+    final CSScroller? scrollerBloc = dummyScroller ?? bloc.scroller;
     final bool tutorial = dummyScroller != null;
     
     switch (page) {
@@ -29,10 +29,10 @@ class PlayerGestures{
       case CSPage.counters:
       case CSPage.commanderCast:
       case CSPage.life:
-        if(scrollerBloc.ignoringThisPan) 
+        if(scrollerBloc!.ignoringThisPan) 
           return;
         if(!tutorial){
-          if(actionBloc.selected.value[name] == false){
+          if(actionBloc!.selected.value[name] == false){
             actionBloc.selected.value[name] = true;
             actionBloc.selected.refresh();
           }
@@ -41,9 +41,9 @@ class PlayerGestures{
         return;
         break;
       case CSPage.commanderDamage:
-        if(actionBloc.isSomeoneAttacking){
+        if(actionBloc!.isSomeoneAttacking){
           actionBloc.defendingPlayer.set(name);
-          scrollerBloc.onDragUpdate(details, width, vertical: vertical ?? false);
+          scrollerBloc!.onDragUpdate(details, width, vertical: vertical ?? false);
         }
         return;
         break;
@@ -52,15 +52,15 @@ class PlayerGestures{
   }
 
   static void tap(String name, {
-    @required CSBloc bloc,
-    @required CSPage page,
-    @required bool rawSelected,
-    @required bool isScrollingSomewhere,
-    @required bool attacking,
-    @required bool hasPartnerB,
-    @required bool usePartnerB,
+    required CSBloc bloc,
+    required CSPage? page,
+    required bool? rawSelected,
+    required bool isScrollingSomewhere,
+    required bool attacking,
+    required bool? hasPartnerB,
+    required bool? usePartnerB,
   }){
-    final actionBloc = bloc.game.gameAction;
+    final actionBloc = bloc.game!.gameAction;
     // final gameStateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
     switch (page) {
@@ -71,10 +71,10 @@ class PlayerGestures{
       case CSPage.counters:
       case CSPage.life:
       case CSPage.commanderCast: /// recently added
-        actionBloc.selected.value[name] = (rawSelected == false);
+        actionBloc!.selected.value[name] = (rawSelected == false);
         actionBloc.selected.refresh();
         if(isScrollingSomewhere){
-          scrollerBloc.delayerController.scrolling();
+          scrollerBloc!.delayerController.scrolling();
           scrollerBloc.delayerController.leaving();
         }
         return;
@@ -93,14 +93,14 @@ class PlayerGestures{
         // break;
       case CSPage.commanderDamage:
         if(attacking){
-          actionBloc.attackingPlayer.set("");
+          actionBloc!.attackingPlayer.set("");
           actionBloc.defendingPlayer.set("");
           // if(hasPartnerB==true){
           //   gameStateBloc.gameState.value.players[name].usePartnerB = !usePartnerB;
           //   gameStateBloc.gameState.refresh();
           // }
         } else {
-          actionBloc.attackingPlayer.set(name);
+          actionBloc!.attackingPlayer.set(name);
           actionBloc.defendingPlayer.set("");
         }
         return;
@@ -111,14 +111,14 @@ class PlayerGestures{
   }
 
   static void tapOnlyArena(String name, {
-    @required CSBloc bloc,
-    @required CSPage page,
-    @required String whoIsAttacking,
-    @required bool topHalf,
-    @required String whoIsDefending,
+    required CSBloc bloc,
+    required CSPage page,
+    required String? whoIsAttacking,
+    required bool topHalf,
+    required String? whoIsDefending,
   }){
 
-    final actionBloc = bloc.game.gameAction;
+    final actionBloc = bloc.game!.gameAction;
 
     switch (page) {
       case CSPage.commanderCast:
@@ -130,8 +130,8 @@ class PlayerGestures{
       case CSPage.counters:
       case CSPage.life:
 
-        final selectedVar = actionBloc.selected;
-        final previousVal = <String,bool>{
+        final selectedVar = actionBloc!.selected;
+        final previousVal = <String,bool?>{
           for(final e in selectedVar.value.entries)
             e.key+'': e.value,
         };
@@ -139,7 +139,7 @@ class PlayerGestures{
         /// Check if there was already a selection going on
         bool othersAlreadySelected = false; /// (should not happen very often)
         for(final key in previousVal.keys){
-          if(previousVal[key] && key != name){
+          if(previousVal[key]! && key != name){
             othersAlreadySelected = true;
             break;
           }
@@ -148,7 +148,7 @@ class PlayerGestures{
         if(othersAlreadySelected){
           /// if other players were selected before, wether there was an edit or not, 
           /// confirm that edit and move on with this new selected player
-          bloc.scroller.forceComplete();
+          bloc.scroller!.forceComplete();
         } 
 
         /// now, only select this player
@@ -162,7 +162,7 @@ class PlayerGestures{
       case CSPage.commanderDamage:
         // should not happen in arena, but if theres no attacker, this player will be!
         if(whoIsAttacking == null || whoIsAttacking == ""){
-          actionBloc.attackingPlayer.set(name);
+          actionBloc!.attackingPlayer.set(name);
           return;
         }
 
@@ -172,23 +172,23 @@ class PlayerGestures{
         if(othersAlreadyDefending){
           /// if other players were defending before, wether there was a non zero damage or not, 
           /// confirm that damage and move on with this new defending player
-          bloc.scroller.forceComplete();
+          bloc.scroller!.forceComplete();
 
           // but reselect the previous attacker then
-          actionBloc.attackingPlayer.set(whoIsAttacking);
+          actionBloc!.attackingPlayer.set(whoIsAttacking);
         } 
 
         /// now, only select this player as defender
-        actionBloc.defendingPlayer.setDistinct(name);
+        actionBloc!.defendingPlayer.setDistinct(name);
         
         break;
       default:
     }
 
     /// and now edit the value
-    bloc.scroller.editVal(topHalf ? 1 : -1);
-    bloc.scroller.registerCallbackOnNextAutoConfirm("arena commander damage", (){
-      bloc.stage.mainPagesController.goToPage(CSPage.life);
+    bloc.scroller!.editVal(topHalf ? 1 : -1);
+    bloc.scroller!.registerCallbackOnNextAutoConfirm("arena commander damage", (){
+      bloc.stage!.mainPagesController.goToPage(CSPage.life);
     });
   }
 

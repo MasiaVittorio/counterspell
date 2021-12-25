@@ -36,10 +36,10 @@ class CSBackupBloc {
 
   final BlocVar<bool> ready = BlocVar<bool>(false);
 
-  String storagePath;
-  Directory csDirectory;
-  Directory pastGamesDirectory;
-  Directory preferencesDirectory;
+  String? storagePath;
+  Directory? csDirectory;
+  Directory? pastGamesDirectory;
+  Directory? preferencesDirectory;
 
   //===================================
   // Constructor
@@ -68,17 +68,17 @@ class CSBackupBloc {
       if(storagePath == null) return false;
 
       this.csDirectory = await getCSDirectory(
-        csDirPath(storagePath),
+        csDirPath(storagePath!),
       );
       if(csDirectory == null) return false;
 
       this.pastGamesDirectory = await getPastGamesDirectory(
-        this.csDirectory,
+        this.csDirectory!,
       );
       if(pastGamesDirectory == null) return false;
 
       this.preferencesDirectory = await getPreferencesDirectory(
-        this.csDirectory,
+        this.csDirectory!,
       );
       if(preferencesDirectory == null) return false;
 
@@ -91,14 +91,14 @@ class CSBackupBloc {
 
   void initPastGames() {
     if(!ready.value) return;
-    final List<File> _pastGames = jsonFilesInDirectory(pastGamesDirectory);
+    final List<File> _pastGames = jsonFilesInDirectory(pastGamesDirectory!);
     if(_pastGames == null) return;
     this.savedPastGames.set(_pastGames);
   }
 
   void initPreferences() {
     if(!ready.value) return;
-    final List<File> _preferences = jsonFilesInDirectory(preferencesDirectory);
+    final List<File> _preferences = jsonFilesInDirectory(preferencesDirectory!);
     if(_preferences == null) return;
     this.savedPreferences.set(_preferences);
   }
@@ -171,7 +171,7 @@ class CSBackupBloc {
 
     final now = DateTime.now();
     File newFile = File(path.join(
-      this.pastGamesDirectory.path,
+      this.pastGamesDirectory!.path,
       "pg_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
     ));
     
@@ -180,7 +180,7 @@ class CSBackupBloc {
       ++i;
       String withoutExt = path.basenameWithoutExtension(newFile.path);
       newFile = File(path.join(
-        this.pastGamesDirectory.path,
+        this.pastGamesDirectory!.path,
         withoutExt + "_($i).json",
       ));
       if(i == 100){
@@ -236,7 +236,7 @@ class CSBackupBloc {
 
         final List<String> oldStrings = <String>[
           for(final game in parent.pastGames.pastGames.value)
-            jsonEncode(game.toJson),
+            jsonEncode(game!.toJson),
         ];
 
         final Set<String> allStrings = <String>{
@@ -270,7 +270,7 @@ class CSBackupBloc {
 
     final now = DateTime.now();
     File newFile = File(path.join(
-      this.preferencesDirectory.path,
+      this.preferencesDirectory!.path,
       "pr_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
     ));
     
@@ -279,7 +279,7 @@ class CSBackupBloc {
       ++i;
       String withoutExt = path.basenameWithoutExtension(newFile.path);
       newFile = File(path.join(
-        this.preferencesDirectory.path,
+        this.preferencesDirectory!.path,
         withoutExt + "_($i).json",
       ));
       if(i == 100){
@@ -290,14 +290,14 @@ class CSBackupBloc {
 
     newFile.create();
 
-    final settings = parent.settings;
+    final settings = parent.settings!;
     final arena = settings.arenaSettings;
     final gameSettings = settings.gameSettings;
     final app = settings.appSettings;
     final scroll = settings.scrollSettings;
-    final game = parent.game;
-    final group = game.gameGroup;
-    final themer = parent.themer;
+    final game = parent.game!;
+    final group = game.gameGroup!;
+    final themer = parent.themer!;
 
     await newFile.writeAsString(jsonEncode(<String,dynamic>{
       themer.savedSchemes.key:
@@ -382,14 +382,14 @@ class CSBackupBloc {
 
       if(map is Map){
 
-        final settings = parent.settings;
+        final settings = parent.settings!;
         final arena = settings.arenaSettings;
         final gameSettings = settings.gameSettings;
         final app = settings.appSettings;
         final scroll = settings.scrollSettings;
-        final game = parent.game;
-        final group = game.gameGroup;
-        final themer = parent.themer;
+        final game = parent.game!;
+        final group = game.gameGroup!;
+        final themer = parent.themer!;
 
         {final blocVar = themer.savedSchemes;
         final _val = map[blocVar.key];

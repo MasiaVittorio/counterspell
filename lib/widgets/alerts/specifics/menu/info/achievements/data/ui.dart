@@ -25,7 +25,7 @@ class _Body extends StatelessWidget {
   const _Body();
   @override
   Widget build(BuildContext context) {
-    return StageBuild.offMainPage((_, page) => Container(
+    return StageBuild.offMainPage((_, dynamic page) => Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.center,
       child: Column(
@@ -71,7 +71,7 @@ class _RightPage extends StatelessWidget {
   const _RightPage();
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     return ListView(
       physics: stage.panelScrollPhysics,
       primary: false,
@@ -116,7 +116,7 @@ class _WrongPage extends StatelessWidget {
   const _WrongPage();
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     return ListView(
       physics: stage.panelScrollPhysics,
       primary: false,
@@ -142,7 +142,7 @@ class _Collapsed extends StatelessWidget {
     final stage = Stage.of(context);
 
 
-    return StageBuild.offMainPage((_, page) 
+    return StageBuild.offMainPage((_, dynamic page) 
       => Row(children: <Widget>[
         IconButton(
           icon: page == CSPage.history
@@ -153,7 +153,7 @@ class _Collapsed extends StatelessWidget {
             ),
           onPressed: page == CSPage.history
             ? null
-            : () => stage.showAlert(const _ArenaMockup(), size: _ArenaMockup.height),
+            : () => stage!.showAlert(const _ArenaMockup(), size: _ArenaMockup.height),
         ),
         Expanded(child: Center(child: page != CSPage.history
           ? Icon(Icons.keyboard_arrow_left)
@@ -174,13 +174,13 @@ class _Collapsed extends StatelessWidget {
             : (){
               switch (page) {
                 case CSPage.life:
-                  stage.showAlert(
+                  stage!.showAlert(
                     const _EditPlaygroupMockup(),
                     size: _EditPlaygroupMockup.height,
                   );
                   break;
                 case CSPage.history:
-                  stage.showSnackBar(
+                  stage!.showSnackBar(
                     ConfirmSnackbar(action: (){}, label: "Confirm restart?"),
                     rightAligned: true,
                   );

@@ -2,48 +2,48 @@ import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_utilities.dart';
 
 class ExtraInfo {
-  final Color color;
+  final Color? color;
   final int value;
-  final String note;
+  final String? note;
   final IconData icon;
 
   const ExtraInfo({
-    @required this.icon,
-    @required this.color,
-    @required this.value,
+    required this.icon,
+    required this.color,
+    required this.value,
     this.note,
   });
 
   static List<ExtraInfo> fromPlayer(String name, {
-    @required Map<String, PlayerState> ofGroup,
-    @required Map<DamageType, bool> types,
-    @required Map<String, bool> havingPartnerB,
-    @required Map<CSPage,Color> pageColors,
-    @required Color defenceColor,
-    @required Map<String,Counter> counterMap,
+    required Map<String, PlayerState> ofGroup,
+    required Map<DamageType, bool?> types,
+    required Map<String, bool?> havingPartnerB,
+    required Map<CSPage,Color?>? pageColors,
+    required Color? defenceColor,
+    required Map<String?,Counter> counterMap,
   }){
     final state = ofGroup[name];
     final iHaveB = havingPartnerB[name] == true;
     return [
-      if(types[DamageType.commanderCast])
-      if(state.cast.a != 0)
+      if(types[DamageType.commanderCast]!)
+      if(state!.cast.a != 0)
         ExtraInfo(
-          color: pageColors[CSPage.commanderCast],
+          color: pageColors![CSPage.commanderCast],
           icon: CSIcons.castFilled,
           value: state.cast.a,
           note: iHaveB ? "first" : null,
         ),
-      if(types[DamageType.commanderCast])
+      if(types[DamageType.commanderCast]!)
       if(iHaveB)
-      if(state.cast.b != 0)
+      if(state!.cast.b != 0)
         ExtraInfo(
-          color: pageColors[CSPage.commanderCast],
+          color: pageColors![CSPage.commanderCast],
           icon: CSIcons.castFilled,
           value: state.cast.a,
           note: "second",
         ),
-      if(types[DamageType.commanderDamage])
-      for(final entry in state.damages.entries)
+      if(types[DamageType.commanderDamage]!)
+      for(final entry in state!.damages.entries)
         ...[
           if(entry.value.a!=0)
             ExtraInfo(
@@ -63,14 +63,14 @@ class ExtraInfo {
               note: "${PTileUtils.subString(entry.key,4)} (B)",
             ),
         ],
-      if(types[DamageType.commanderDamage])
+      if(types[DamageType.commanderDamage]!)
       for(final otherEntry in ofGroup.entries)
         ...[
           if((otherEntry.value.damages[name]?.a ?? 0) != 0)
             ExtraInfo(
-              color: pageColors[CSPage.commanderDamage],
+              color: pageColors![CSPage.commanderDamage],
               icon: iHaveB ? CSIcons.attackTwo : CSIcons.attackOne,
-              value: otherEntry.value.damages[name].a,
+              value: otherEntry.value.damages[name]!.a,
               note: iHaveB 
                 ? "${PTileUtils.subString(otherEntry.key,4)} (A)" 
                 : "${PTileUtils.subString(otherEntry.key,5)}"
@@ -78,20 +78,20 @@ class ExtraInfo {
           if(iHaveB)
           if((otherEntry.value.damages[name]?.b ?? 0) != 0)
             ExtraInfo(
-              color: pageColors[CSPage.commanderDamage],
+              color: pageColors![CSPage.commanderDamage],
               icon: CSIcons.attackTwo,
-              value: otherEntry.value.damages[name].b,
+              value: otherEntry.value.damages[name]!.b,
               note: "${PTileUtils.subString(otherEntry.key,4)} (B)",
             ),
         ],
-      if(types[DamageType.counters])
-      for(final entry in state.counters.entries)
+      if(types[DamageType.counters]!)
+      for(final entry in state!.counters.entries)
         if(entry.value != 0)
           ExtraInfo(
-            color: pageColors[CSPage.counters],
+            color: pageColors![CSPage.counters],
             value: entry.value,
-            icon: counterMap[entry.key].icon,
-            note: counterMap[entry.key].shortName,
+            icon: counterMap[entry.key]!.icon,
+            note: counterMap[entry.key]!.shortName,
           ),
       
     ];

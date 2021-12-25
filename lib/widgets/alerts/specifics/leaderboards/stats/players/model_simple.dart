@@ -18,19 +18,19 @@ class PlayerStats {
   //================================
   // Constructor(s)
   const PlayerStats(this.name, {
-    @required this.wins,
-    @required this.games,
+    required this.wins,
+    required this.games,
   });
 
 
-  factory PlayerStats.fromPastGames(String name, Iterable<PastGame> pastGames){
+  factory PlayerStats.fromPastGames(String name, Iterable<PastGame?> pastGames){
 
     int present = 0;
     int winner = 0;
 
     for(final game in pastGames){
 
-      if(game.winner != null && game.state.players.containsKey(name)){
+      if(game!.winner != null && game.state.players.containsKey(name)){
         ++present;
         if(game.winner == name){
           ++winner;

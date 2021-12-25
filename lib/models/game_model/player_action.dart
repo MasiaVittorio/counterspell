@@ -16,15 +16,15 @@ abstract class PlayerAction{
   // Factory
 
   factory PlayerAction.fromStates({
-    @required PlayerState previous,
-    @required PlayerState next,
-    @required Map<String,Counter> counterMap,
-    int minVal, 
-    int maxVal,
+    required PlayerState previous,
+    required PlayerState next,
+    required Map<String?,Counter> counterMap,
+    int? minVal, 
+    int? maxVal,
   }){
     List<PlayerAction> detectedAcions = [];
 
-    final deltaLife = next.life - previous.life;
+    final deltaLife = next.life! - previous.life!;
     if(deltaLife != 0)
       detectedAcions.add(PALife(
         deltaLife, 
@@ -33,7 +33,7 @@ abstract class PlayerAction{
       ));
 
     for(final name in previous.damages.keys){
-      final deltaA = next.damages[name].a - previous.damages[name].a;
+      final deltaA = next.damages[name]!.a - previous.damages[name]!.a;
       if(deltaA != 0)
         detectedAcions.add(PADamage( name, deltaA,
           settings: CommanderSettings.off,
@@ -41,7 +41,7 @@ abstract class PlayerAction{
           maxVal: maxVal,
           minLife: minVal,
         ));
-      final deltaB = next.damages[name].b - previous.damages[name].b;
+      final deltaB = next.damages[name]!.b - previous.damages[name]!.b;
       if(deltaB != 0)
         detectedAcions.add(PADamage(name, deltaB,
           settings: CommanderSettings.off,
@@ -66,7 +66,7 @@ abstract class PlayerAction{
         maxVal: maxVal,
       ));
     
-    final Set<String> counters = <String>{
+    final Set<String?> counters = <String?>{
       ...next.counters.keys,
       ...previous.counters.keys,
     };

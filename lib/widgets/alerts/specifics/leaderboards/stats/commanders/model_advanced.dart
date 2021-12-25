@@ -6,14 +6,14 @@ class CommanderGame {
   /// multiple players may be playing the same commander
   final Map<String,int> damage;
   final Map<String,int> casts;
-  final String winner;
+  final String? winner;
   final int groupSize;
 
   const CommanderGame({
-    @required this.groupSize,
-    @required this.winner,
-    @required this.damage,
-    @required this.casts,
+    required this.groupSize,
+    required this.winner,
+    required this.damage,
+    required this.casts,
   });
 
   Set<String> get pilots => {
@@ -21,7 +21,7 @@ class CommanderGame {
   };
 
   bool get won => damage.containsKey(winner);
-  bool wonByPilot(String pilot) => (pilot == null) ? won : (pilot == winner);
+  bool wonByPilot(String? pilot) => (pilot == null) ? won : (pilot == winner);
 
   int get averageDamage {
     double avg = 0.0;
@@ -38,8 +38,8 @@ class CommanderGame {
     return (avg / casts.length).round();
   }
 
-  int damageByPilot(String pilot) => pilot == null ? averageDamage : damage[pilot];
-  int castsByPilot(String pilot) => pilot == null ? averageCasts : casts[pilot];
+  int? damageByPilot(String? pilot) => pilot == null ? averageDamage : damage[pilot];
+  int? castsByPilot(String? pilot) => pilot == null ? averageCasts : casts[pilot];
 
 }
 
@@ -57,8 +57,8 @@ class CommanderStatsAdvanced extends CommanderStats {
   // Getters
 
   int totalGamesFilter({
-    String pilot,
-    int groupSize,
+    String? pilot,
+    int? groupSize,
   }) => (pilot == null && groupSize == null) 
     ? super.games 
     : _totalFilter(
@@ -68,9 +68,9 @@ class CommanderStatsAdvanced extends CommanderStats {
     );
   
   int _totalFilter({
-    String pilot,
-    int groupSize,
-    @required int Function(CommanderGame) stat,
+    String? pilot,
+    int? groupSize,
+    required int Function(CommanderGame) stat,
   }){
     int val = 0;
     for(final game in this.commanderGames)
@@ -82,8 +82,8 @@ class CommanderStatsAdvanced extends CommanderStats {
   }
 
   double averageCastsFilter({
-    String pilot,
-    int groupSize,
+    String? pilot,
+    int? groupSize,
   }) => (pilot == null && groupSize == null) 
     ? super.casts 
     : _averageFilter(
@@ -93,8 +93,8 @@ class CommanderStatsAdvanced extends CommanderStats {
   );
 
   double winRateFilter({
-    String pilot,
-    int groupSize,
+    String? pilot,
+    int? groupSize,
   }) => (pilot == null && groupSize == null) 
     ? super.winRate 
     : _averageFilter(
@@ -104,8 +104,8 @@ class CommanderStatsAdvanced extends CommanderStats {
   );
 
   double averageDamageFilter({
-    String pilot,
-    int groupSize,
+    String? pilot,
+    int? groupSize,
   }) => (pilot == null && groupSize == null) 
     ? super.damage 
     : _averageFilter(
@@ -115,16 +115,16 @@ class CommanderStatsAdvanced extends CommanderStats {
     );
 
   double _averageFilter({
-    String pilot,
-    int groupSize,
-    @required num Function(CommanderGame) stat,
+    String? pilot,
+    int? groupSize,
+    required num? Function(CommanderGame) stat,
   }){
     double val = 0.0;
     int len = 0;
     for(final game in this.commanderGames)
       if(pilot == null || game.pilots.contains(pilot))
         if(groupSize == null || game.groupSize == groupSize){
-          val += stat(game);
+          val += stat(game)!;
           ++len;
         }
     return len == 0 ? 0 : val/len;
@@ -134,13 +134,13 @@ class CommanderStatsAdvanced extends CommanderStats {
   //================================
   // Constructor(s)
   const CommanderStatsAdvanced(MtgCard card, {
-    @required int wins,
-    @required int games,
-    @required int totalDamage,
-    @required int totalCasts,
-    @required this.commanderGames,
-    @required this.groupSizes,
-    @required this.pilots,
+    required int wins,
+    required int games,
+    required int totalDamage,
+    required int totalCasts,
+    required this.commanderGames,
+    required this.groupSizes,
+    required this.pilots,
   }): super(
     card, 
     wins: wins, 
@@ -153,11 +153,11 @@ class CommanderStatsAdvanced extends CommanderStats {
 
   factory CommanderStatsAdvanced.fromPastGames(
     CommanderStats simpleStats, 
-    Iterable<PastGame> pastGames,
+    Iterable<PastGame?> pastGames,
   ) {
     final _games = <CommanderGame>[
       for(final game in pastGames)
-        if(game.winner != null)
+        if(game!.winner != null)
         if(game.commanderPlayed(simpleStats.card))
           ((){
             final pilots = game.whoPlayedCommander(simpleStats.card);
@@ -166,15 +166,15 @@ class CommanderStatsAdvanced extends CommanderStats {
               groupSize: game.state.players.length,
               casts: <String,int>{
                 for(final p in pilots)
-                  p: game.state.players[p].states.last.cast.fromPartner(
-                    game.commandersA[p].oracleId == simpleStats.card.oracleId,
+                  p: game.state.players[p]!.states.last.cast.fromPartner(
+                    game.commandersA[p]!.oracleId == simpleStats.card.oracleId,
                   ),
               }, 
               damage: <String,int>{
                 for(final p in pilots)
                   p: game.state.totalDamageDealtFrom(
                     p, 
-                    partnerA: game.commandersA[p].oracleId 
+                    partnerA: game.commandersA[p]!.oracleId 
                               == simpleStats.card.oracleId,
                   ),
               },

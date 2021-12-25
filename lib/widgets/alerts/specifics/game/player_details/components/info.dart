@@ -8,14 +8,14 @@ class PlayerDetailsInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final bloc = CSBloc.of(context);
-    final stage = bloc.stage;
-    final counters = bloc.game.gameAction.counterSet.list;
+    final bloc = CSBloc.of(context)!;
+    final stage = bloc.stage!;
+    final counters = bloc.game!.gameAction!.counterSet.list;
     final body2 = theme.textTheme.bodyText1;
-    return stage.themeController.derived.mainPageToPrimaryColor.build((_, colors)
+    return stage.themeController.derived.mainPageToPrimaryColor!.build((_, colors)
         => PlayerBuilder(index, (gameState, names, name, playerState, player){
 
-          final bool partner = player.havePartnerB;
+          final bool partner = player.havePartnerB!;
 
           return Column(
             mainAxisSize: MainAxisSize.min, 
@@ -25,9 +25,9 @@ class PlayerDetailsInfo extends StatelessWidget {
                 for(final couple in partition(<Widget>[
 
                   ListTile(
-                    title: Text(CSPages.shortTitleOf(CSPage.life)),
+                    title: Text(CSPages.shortTitleOf(CSPage.life)!),
                     trailing: Text("${playerState.life}", style: body2,),
-                    leading: Icon(CSIcons.lifeFilled,color: colors[CSPage.life],),
+                    leading: Icon(CSIcons.lifeFilled,color: colors![CSPage.life],),
                     onTap: () => DetailsUtils.insertLife(stage, name, bloc, playerState, names),
                   ),
 
@@ -57,18 +57,18 @@ class PlayerDetailsInfo extends StatelessWidget {
                       if(value == 0) return []; 
                       return [
                         ListTile(
-                          title: Text(counter.shortName),
+                          title: Text(counter.shortName!),
                           leading: Icon(counter.icon, color: colors[CSPage.counters],),
                           trailing: Text("$value", style: body2,),
                           onTap: () => DetailsUtils.insertCounter(counter, stage, name, bloc, playerState, names),
                         ),
                       ];
-                    }(),
+                    }() as Iterable<Widget>,
 
 
                 ], 2))
                   Row(children: <Widget>[
-                    for(final element in couple)
+                    for(final element in couple!)
                       Expanded(child: element,)
                   ],)
               ]),

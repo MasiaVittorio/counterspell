@@ -33,7 +33,7 @@ class _CollapsedPanelDivider extends StatelessWidget {
     return Container(
       height: CSSizes.collapsedPanelSize * 0.65,
       width: 1.0,
-      color: Theme.of(context).textTheme.bodyText1.color
+      color: Theme.of(context).textTheme.bodyText1!.color!
         .withOpacity(0.5),
     );
   }

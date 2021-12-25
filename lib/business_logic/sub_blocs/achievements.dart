@@ -12,8 +12,8 @@ class CSAchievements extends BlocBase {
   //=================================
   // Values ===================
   final CSBloc parent;
-  BlocMap<String,Achievement> map;
-  PersistentVar<Set<String>> todo;
+  late BlocMap<String?,Achievement> map;
+  late PersistentVar<Set<String?>> todo;
   bool _mapReading = true;
   bool _todoReading = true;
   bool _checked = false; //if the check method is already been launched
@@ -23,26 +23,26 @@ class CSAchievements extends BlocBase {
   // Constructor ===================
   CSAchievements(this.parent){
     final bool reset = false;
-    this.map = BlocMap<String,Achievement>(
+    this.map = BlocMap<String?,Achievement>(
       Achievements.map,
       key: "counterspell_bloc_achievementsBloc_blocMap_mapOfAchievements",
-      itemToJson: (item) => item.json,
+      itemToJson: (item) => item!.json,
       jsonToItem: (json) => Achievement.fromJson(json),
       readCallback: (_){
         _mapReading = false;
         this.checkNewAchievements(reset);
       }
     );
-    this.todo = PersistentVar<Set<String>>(
-      initVal: const <String>{
+    this.todo = PersistentVar<Set<String?>>(
+      initVal: const <String?>{
         Achievements.countersShortTitle,
         Achievements.vampireShortTitle,
         Achievements.rollerShortTitle,
       },
       key: "counterspell_bloc_achievementsBloc_blocVar_todo_list",
-      toJson: (s) => <String>[...s],
-      fromJson: (j) => <String>{...(j as List)},
-      copier: (s) => <String>{...s},
+      toJson: (s) => <String?>[...s],
+      fromJson: (j) => <String?>{...(j as List) as Iterable<String?>},
+      copier: (s) => <String?>{...s},
       readCallback: (_){
         _todoReading = false;
         this.checkNewAchievements(reset);
@@ -77,7 +77,7 @@ class CSAchievements extends BlocBase {
     this.map.refresh();
 
     if(forceResetDev ?? false){
-      this.todo.set(const <String>{
+      this.todo.set(const <String?>{
         Achievements.countersShortTitle,
         Achievements.vampireShortTitle,
         Achievements.rollerShortTitle,
@@ -90,7 +90,7 @@ class CSAchievements extends BlocBase {
       bool changed = false;
       for(final a in Achievements.map.values){
         if(todo.value.length < 3
-        && !map.value[a.shortTitle].gold
+        && !map.value[a.shortTitle]!.gold
         && !todo.value.contains(a.shortTitle)
         ){
           todo.value.add(a.shortTitle);
@@ -104,12 +104,12 @@ class CSAchievements extends BlocBase {
 
   void checkSnackBar(Achievement oldOne, Achievement newOne){
     if(newOne.medal.biggerThan(oldOne.medal)){
-      this.parent.stage.showSnackBar(StageSnackBar(
-        title: Text(newOne.shortTitle),
+      this.parent.stage!.showSnackBar(StageSnackBar(
+        title: Text(newOne.shortTitle!),
         subtitle: Text("Reached: ${newOne.medal.name}"),
         secondary: MedalIcon(newOne.medal),
         scrollable: true,
-        onTap: () => parent.stage.showAlert(
+        onTap: () => parent.stage!.showAlert(
           AchievementsAlert(initialDone: newOne.gold,),
           size: AchievementsAlert.height,
         ),
@@ -118,11 +118,11 @@ class CSAchievements extends BlocBase {
   }
 
   void checkNewTODO(String achievement){
-    if(this.map.value[achievement].gold){
+    if(this.map.value[achievement]!.gold){
       this.todo.value.remove(achievement);
 
-      final Achievement newUndone = this.map.value.values.firstWhere(
-        (a) => !a.gold && !this.todo.value.contains(a.shortTitle), 
+      final Achievement? newUndone = this.map.value.values.firstWhere(
+        (a) => !a!.gold && !this.todo.value.contains(a.shortTitle), 
         orElse: () => null,
       );
 
@@ -135,11 +135,11 @@ class CSAchievements extends BlocBase {
 
 
   // ===> Interact with achievements
-  bool achieve(String shortTitle, String key){
+  bool achieve(String shortTitle, String? key){
     if(!this.todo.value.contains(shortTitle))
       return false;
 
-    final Achievement oldAchievement 
+    final Achievement? oldAchievement 
         = this.map.value[shortTitle] 
         ?? Achievements.mapQuality[shortTitle];
 
@@ -158,7 +158,7 @@ class CSAchievements extends BlocBase {
     if(!this.todo.value.contains(shortTitle))
       return false;
 
-    final Achievement oldAchievement 
+    final Achievement? oldAchievement 
         = this.map.value[shortTitle] 
         ?? Achievements.mapQuantity[shortTitle];
 
@@ -174,10 +174,10 @@ class CSAchievements extends BlocBase {
   }
   bool increment(String shortTitle) => this.incrementBy(shortTitle, 1);
 
-  bool reset(String shortTitle, {bool force = false}){
-    final Achievement achievement 
+  bool reset(String? shortTitle, {bool force = false}){
+    final Achievement? achievement 
         = this.map.value[shortTitle] 
-        ?? Achievements.map[shortTitle];
+        ?? Achievements.map[shortTitle!];
     if(achievement == null) return false;
     if(achievement.gold && !(force ?? false)) return false;
     this.map.value[shortTitle] = achievement.reset;
@@ -221,7 +221,7 @@ class CSAchievements extends BlocBase {
     }
   }
 
-  void gameRestarted(GameRestartedFrom from){
+  void gameRestarted(GameRestartedFrom? from){
     if(!todo.value.contains(Achievements.uiExpertShortTitle)) 
       return;
     if(from == null) 
@@ -236,7 +236,7 @@ class CSAchievements extends BlocBase {
     this.achieve(Achievements.uiExpertShortTitle, fromClosedPanel ? "Playgroup panel" : "Playgroup menu");
   }
 
-  void counterChosen(String newCounterLongName)
+  void counterChosen(String? newCounterLongName)
     => this.achieve(Achievements.countersShortTitle, newCounterLongName);
 
   void flippedOrRolled()

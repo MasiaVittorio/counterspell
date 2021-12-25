@@ -14,25 +14,25 @@ class PagePie extends StatelessWidget {
       theme.canvasColor,
     );
 
-    final StageData<CSPage,SettingsPage> stage 
+    final StageData<CSPage,SettingsPage>? stage 
       = Stage.of(context);
 
     return Container(
       height: 170,
       alignment: Alignment.center,
       child: StageBuild.offMainEnabledPages((_, enabled) 
-        => stage.themeController.derived.mainPageToPrimaryColor.build((_, colors)
+        => stage!.themeController.derived.mainPageToPrimaryColor!.build((_, colors)
           =>Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(bottom: 2.0),
-                child: pageLabel(CSPage.values.first, theme, stage, enabled),
+                child: pageLabel(CSPage.values.first, theme, stage, enabled as Map<CSPage, bool>),
               ),
               Expanded(
                 child: CircularLayout(
                   <Widget>[
                     for(final page in CSPage.values)
-                      pageButton(page, stage, colors, enabled, unselected),
+                      pageButton(page, stage, colors!, enabled, unselected),
                   ],
                   labels: <Widget>[
                     for(final page in CSPage.values)
@@ -56,13 +56,13 @@ class PagePie extends StatelessWidget {
     StageData<CSPage,SettingsPage> stage, 
     Map<CSPage,bool> enabled,
   ) => Text(
-    "${stage.mainPagesController.pagesData[page].name}",
+    "${stage.mainPagesController.pagesData[page]!.name}",
     style: TextStyle(
       fontWeight: !PanelSettings.disablablePages.contains(page)
         ? FontWeight.w700
         : null,
-      color: !enabled[page]
-        ? theme.textTheme.bodyText2.color.withOpacity(0.5)
+      color: !enabled[page]!
+        ? theme.textTheme.bodyText2!.color!.withOpacity(0.5)
         : null,
     ), 
   );
@@ -70,7 +70,7 @@ class PagePie extends StatelessWidget {
   Widget pageButton(
     CSPage page, 
     StageData<CSPage,SettingsPage> stage, 
-    Map<CSPage,Color> colors, 
+    Map<CSPage,Color?> colors, 
     Map<CSPage,bool> enabled,
     Color unselected,
   ) => Parent(
@@ -79,8 +79,8 @@ class PagePie extends StatelessWidget {
       ..width(50)
       ..height(50)
       ..borderRadius(all: 40)
-      ..background.color(enabled[page] ?  colors[page] : unselected)
-      ..elevation(enabled[page] && PanelSettings.disablablePages.contains(page) ? 4:0)
+      ..background.color(enabled[page]! ?  colors[page]! : unselected)
+      ..elevation(enabled[page]! && PanelSettings.disablablePages.contains(page) ? 4:0)
       // ..overflow.hidden(), 
       ,
     child: Material(
@@ -92,15 +92,15 @@ class PagePie extends StatelessWidget {
         child: Center(
           child: AnimatedCrossFade(
             firstChild: Icon(
-              stage.mainPagesController.pagesData[page].icon,
+              stage.mainPagesController.pagesData[page]!.icon,
               size: 23,
-              color: CSColors.contrastWith(colors[page]),
+              color: CSColors.contrastWith(colors[page]!),
             ),
             secondChild: Icon(
-              stage.mainPagesController.pagesData[page].unselectedIcon, 
+              stage.mainPagesController.pagesData[page]!.unselectedIcon, 
               size: 24,
             ),
-            crossFadeState: enabled[page] 
+            crossFadeState: enabled[page]! 
                 ? CrossFadeState.showFirst
                 : CrossFadeState.showSecond, 
             duration: CSAnimations.fast,

@@ -29,7 +29,7 @@ class _KrarkAndSakashima extends StatefulWidget {
 
 class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
-  Random rng;
+  Random? rng;
   @override
   void initState() {
     super.initState();
@@ -37,7 +37,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   }
 
   _Spell spell = _Spell(0, 0, 1.0);
-  _Zone spellPlace = _Zone.hand;
+  _Zone? spellPlace = _Zone.hand;
 
   int mana = 0;
   int totalStormCount = 0;
@@ -53,7 +53,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
 
   /// Casts the spell and generates triggers
-  void cast({@required bool automatic}) {
+  void cast({required bool automatic}) {
     assert(canCast);
 
     triggers.clear();
@@ -72,7 +72,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
     refreshIf(!automatic);
   }
 
-  void solveTrigger(_Flip choice, {@required bool automatic}){
+  void solveTrigger(_Flip choice, {required bool automatic}){
     triggers.removeLast();
     if(choice == _Flip.bounce){
       spellPlace = _Zone.hand;
@@ -99,7 +99,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   void _solveSpell(){
     totalResolved++;
     /// resolve
-    if(spell.chance == 1.0 || rng.nextDouble() < spell.chance){
+    if(spell.chance == 1.0 || rng!.nextDouble() < spell.chance){
       mana += spell.product;
     }
   }
@@ -138,7 +138,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   }
 
   void keepCasting({
-    @required int forUpTo,
+    required int forUpTo,
   }){
     assert(spell.cost != null);
     assert(spell.product != null);
@@ -279,20 +279,20 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               _Zone.hand: McIcons.cards_outline,
               _Zone.graveyard: ManaIcons.flashback,
               _Zone.stack: ManaIcons.instant,
-            }[spellPlace] ?? Icons.error,
+            }[spellPlace!] ?? Icons.error,
             customCircleColor: Colors.transparent,
             text: (const <_Zone, String>{
               _Zone.hand: "Now\nin hand",
               _Zone.graveyard: "Now\nin yard",
               _Zone.stack: "On the\nstack",
-            })[spellPlace] ?? Icons.error,
+            })[spellPlace!] ?? Icons.error as String?,
             twoLines: true,
             onTap: () => this.setState((){
               spellPlace = (const{
                 _Zone.hand: _Zone.stack,
                 _Zone.stack: _Zone.graveyard,
                 _Zone.graveyard: _Zone.hand,
-              })[spellPlace];
+              })[spellPlace!];
             }),
           ),
           
@@ -486,9 +486,9 @@ class _ThumbTrigger {
   
   List<_Flip> flips;
 
-  _ThumbTrigger(int howManyThumbs, Random rng): flips = [
+  _ThumbTrigger(int howManyThumbs, Random? rng): flips = [
     for(int i=0; i<pow(2,howManyThumbs); ++i)
-      (rng.nextInt(2) == 0) ? _Flip.copy : _Flip.bounce,
+      (rng!.nextInt(2) == 0) ? _Flip.copy : _Flip.bounce,
       /// nextInt(2) gives either 0 or 1, so this flips a coin
   ];
 

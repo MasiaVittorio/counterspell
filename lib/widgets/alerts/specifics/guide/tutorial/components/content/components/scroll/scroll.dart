@@ -15,7 +15,7 @@ class TutorialScroll extends StatelessWidget {
 class _Local extends StatefulWidget {
 
   _Local(this.bloc);
-  final CSBloc bloc;
+  final CSBloc? bloc;
 
   @override
   __LocalState createState() => __LocalState();
@@ -23,7 +23,7 @@ class _Local extends StatefulWidget {
 
 class __LocalState extends State<_Local> {
 
-  ScrollerLogic localScroller;
+  ScrollerLogic? localScroller;
   int value = 40;
   bool scrolled = false;
 
@@ -31,10 +31,10 @@ class __LocalState extends State<_Local> {
   void initState() {
     super.initState();
     this.localScroller = ScrollerLogic(
-      okVibrate: () => widget.bloc.settings.appSettings.canVibrate 
-        && widget.bloc.settings.appSettings.wantVibrate.value,
+      okVibrate: () => widget.bloc!.settings!.appSettings.canVibrate! 
+        && widget.bloc!.settings!.appSettings.wantVibrate.value!,
       onCancel: null,
-      scrollSettings: widget.bloc.settings.scrollSettings,
+      scrollSettings: widget.bloc!.settings!.scrollSettings,
       resetAfterConfirm: true,
       onConfirm: (increment){
         if(this.mounted)
@@ -47,7 +47,7 @@ class __LocalState extends State<_Local> {
 
   @override
   void dispose() {
-    this.localScroller.dispose();
+    this.localScroller!.dispose();
     super.dispose();
   }
 
@@ -56,7 +56,7 @@ class __LocalState extends State<_Local> {
   Widget build(BuildContext context) {
     
     final ThemeData theme = Theme.of(context); 
-    final TextStyle subhead = theme.textTheme.subtitle1;
+    final TextStyle subhead = theme.textTheme.subtitle1!;
 
     
 
@@ -70,7 +70,7 @@ class __LocalState extends State<_Local> {
               style: subhead,
               children: <TextSpan>[
                 const TextSpan(text: "Scroll "),
-                TextSpan(text: "horizontally", style: TextStyle(fontWeight: subhead.fontWeight.increment.increment)),
+                TextSpan(text: "horizontally", style: TextStyle(fontWeight: subhead.fontWeight!.increment.increment)),
                 const TextSpan(text: " to increase or decrease the number"),
               ],
             ),
@@ -79,7 +79,7 @@ class __LocalState extends State<_Local> {
         ),),),
         CSWidgets.divider,
         CSWidgets.height10,
-        LocalNumber(localScroller, widget.bloc, value, () {
+        LocalNumber(localScroller as CSScroller?, widget.bloc, value, () {
           if(this.mounted && scrolled == false)
             this.setState((){
               scrolled = true;
@@ -113,7 +113,7 @@ class __LocalState extends State<_Local> {
             // ),
             clipBehavior: Clip.antiAlias,
             borderRadius: BorderRadius.circular(120),
-            child: LocalDelayer(localScroller, widget.bloc),
+            child: LocalDelayer(localScroller as CSScroller?, widget.bloc),
           ),
         ),
         Expanded(child: Padding(

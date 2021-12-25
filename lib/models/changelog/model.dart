@@ -8,7 +8,7 @@ class Version {
 class Change {
   final ChangeType changeType;
   final String title;
-  final String description;
+  final String? description;
   final bool important;
 
   const Change(this.changeType, this.title, this.description, {
@@ -34,6 +34,6 @@ class ChangeTypes{
     "REMOVED": ChangeType.removed,
   };
 
-  static String nameOf(ChangeType type) => names[type];
-  static ChangeType fromName(String name) => inverse[name];
+  static String? nameOf(ChangeType type) => names[type];
+  static ChangeType? fromName(String name) => inverse[name];
 }

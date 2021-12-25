@@ -17,12 +17,12 @@ class ContactsAlert extends StatelessWidget {
         Alternative(
           title: "Telegram",
           icon: McIcons.telegram,
-          action: () => stage.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
+          action: () => stage!.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
         ),
         Alternative(
           title: "E-mail",
           icon: Icons.mail_outline,
-          action: () => stage.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
+          action: () => stage!.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
         ),
       ],
     );

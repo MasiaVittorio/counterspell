@@ -3,10 +3,10 @@ import 'package:counter_spell_new/core.dart';
 
 class CenteredTile extends StatelessWidget {
   const CenteredTile({
-    @required this.title,
-    @required this.subtitle,
-    @required this.leading,
-    @required this.onTap,
+    required this.title,
+    required this.subtitle,
+    required this.leading,
+    required this.onTap,
   });
 
   final Widget title;
@@ -37,12 +37,12 @@ class CenteredTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DefaultTextStyle(
-                  style: theme.textTheme.subtitle1,
+                  style: theme.textTheme.subtitle1!,
                   child: title,
                 ),
                 DefaultTextStyle(
-                  style: theme.textTheme.bodyText2
-                    .copyWith(color: theme.textTheme.caption.color),
+                  style: theme.textTheme.bodyText2!
+                    .copyWith(color: theme.textTheme.caption!.color),
                   child: subtitle,
                 ),
               ],

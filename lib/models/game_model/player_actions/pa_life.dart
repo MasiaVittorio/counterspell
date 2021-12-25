@@ -8,8 +8,8 @@ class PALife extends PlayerAction {
   const PALife(
     this.increment, 
     {
-      int minVal = PlayerState.kMinValue, 
-      int maxVal = PlayerState.kMaxValue,
+      int? minVal = PlayerState.kMinValue, 
+      int? maxVal = PlayerState.kMaxValue,
     }
   ):  minVal = minVal ?? PlayerState.kMinValue,
       maxVal = maxVal ?? PlayerState.kMaxValue;
@@ -20,16 +20,16 @@ class PALife extends PlayerAction {
 
   @override
   PlayerAction normalizeOn(PlayerState state) {
-    final clamped = this.increment.clamp(
-      this.minVal - state.life,
-      this.maxVal - state.life,
+    final num clamped = this.increment.clamp(
+      this.minVal - state.life!,
+      this.maxVal - state.life!,
     );
 
     if(clamped == 0) 
       return PANull.instance;
 
     return PALife(
-      clamped,
+      clamped as int,
       minVal: this.minVal,
       maxVal: this.maxVal,
     );

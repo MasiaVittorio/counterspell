@@ -2,34 +2,34 @@ import 'package:counter_spell_new/core.dart';
 
 class AchievementTile extends StatelessWidget {
   
-  final Achievement achievement;
+  final Achievement? achievement;
 
   const AchievementTile(this.achievement);
 
-  Achievement get a => this.achievement;
+  Achievement? get a => this.achievement;
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData? stage = Stage.of(context);
 
-    final Medal nextMedal = a.nextMedal;
-    final int nextGoal = a.target(nextMedal);
+    final Medal nextMedal = a!.nextMedal;
+    final int nextGoal = a!.target(nextMedal);
 
     return InkWell(
-      onTap: () => stage.showAlert(
-        AchievementAlert(a.shortTitle),
+      onTap: () => stage!.showAlert(
+        AchievementAlert(a!.shortTitle),
         size: AchievementAlert.height,
       ),
       child: FullSlider(
         enabled: false,
-        value: a.count.toDouble(),
+        value: a!.count!.toDouble(),
         max: nextGoal.toDouble(),
         min: 0.0,
-        leading: Achievements.icons[a.shortTitle] != null 
-          ? Icon(Achievements.icons[a.shortTitle])
+        leading: Achievements.icons[a!.shortTitle!] != null 
+          ? Icon(Achievements.icons[a!.shortTitle!])
           : null,
-        trailing: Text("${a.count}/$nextGoal"),
-        title: Text("${a.shortTitle} - (${nextMedal.name})"),
+        trailing: Text("${a!.count}/$nextGoal"),
+        title: Text("${a!.shortTitle} - (${nextMedal.name})"),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:counter_spell_new/widgets/homepage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+// import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 import 'core.dart';
 
@@ -36,6 +37,7 @@ class _CounterSpellState extends State<CounterSpell> {
   void initState() {
     super.initState();
     bloc = CSBloc();
+    // InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
     _subscription = InAppPurchase.instance.purchaseStream
         .listen((List<PurchaseDetails> purchases) {
       reactToNewPurchases(purchases);

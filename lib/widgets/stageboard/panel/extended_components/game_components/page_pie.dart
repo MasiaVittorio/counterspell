@@ -81,7 +81,8 @@ class PagePie extends StatelessWidget {
       ..borderRadius(all: 40)
       ..background.color(enabled[page] ?  colors[page] : unselected)
       ..elevation(enabled[page] && PanelSettings.disablablePages.contains(page) ? 4:0)
-      ..overflow.hidden(),
+      // ..overflow.hidden(), 
+      ,
     child: Material(
       type: MaterialType.transparency,
       child: InkWell(

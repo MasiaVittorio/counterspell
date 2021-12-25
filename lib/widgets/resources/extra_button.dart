@@ -27,7 +27,7 @@ class ExtraButtons extends StatelessWidget {
       for(int i=0; i<children.length; ++i)
         Expanded(
           child: children[i],
-          flex: flexes.checkIndex(i) ? flexes[i] : 1,
+          flex: (flexes?.checkIndex(i ?? -1) ?? false) ? flexes[i] : 1,
         ),
     ];
     return Padding(

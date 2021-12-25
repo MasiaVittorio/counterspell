@@ -13,7 +13,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:counter_spell_new/core.dart';
-import 'package:ext_storage/ext_storage.dart';
+import 'package:external_path/external_path.dart';
 import 'package:permission_handler/permission_handler.dart'; 
 import 'package:path/path.dart' as path;
 
@@ -106,7 +106,13 @@ class CSBackupBloc {
   //===================================
   // Getters
   static const String csDirName = "CounterSpell";
-  static Future<String> get getStoragePath => ExtStorage.getExternalStorageDirectory();
+  static Future<String> get getStoragePath async {
+    final List list = await  ExternalPath.getExternalStorageDirectories();
+
+    if(list.isNotEmpty) return list.first;
+    return "error";
+    // return "/storage/emulated/0";
+  }
 
   static String csDirPath(String _storagePath) => path.join(
     _storagePath,
@@ -199,7 +205,7 @@ class CSBackupBloc {
   }
 
   Future<bool> deletePastGame(int index) async {
-    if(this.savedPastGames.value.checkIndex(index)){
+    if(this.savedPastGames.value?.checkIndex(index ?? -1) ?? false){
       final file = this.savedPastGames.value.removeAt(index);
       this.savedPastGames.refresh();
       await file.delete();
@@ -356,7 +362,7 @@ class CSBackupBloc {
 
 
   Future<bool> deletePreference(int index) async {
-    if(this.savedPreferences.value.checkIndex(index)){
+    if(this.savedPreferences.value?.checkIndex(index ?? -1) ?? false){
       final file = this.savedPreferences.value.removeAt(index);
       this.savedPreferences.refresh();
       await file.delete();

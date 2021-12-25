@@ -2,7 +2,6 @@ import 'game_state.dart';
 import 'player_state.dart';
 import 'types/counters.dart';
 import 'types/damage_type.dart';
-import 'package:flutter/material.dart';
 
 class GameHistoryData{
   final Map<String, List<PlayerHistoryChange>>? changes;

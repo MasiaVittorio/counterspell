@@ -1,4 +1,3 @@
-import 'package:counter_spell_new/core.dart';
 
 
 class CommanderSettings {
@@ -14,10 +13,7 @@ class CommanderSettings {
     required this.lifelink,
     required this.damageDefendersLife,
     required this.infect,
-  }): assert(lifelink != null),
-      assert(damageDefendersLife != null),
-      assert(infect != null),
-      assert(!(damageDefendersLife && infect));
+  }): assert(!(damageDefendersLife && infect));
 
   //==============================
   // default

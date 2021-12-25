@@ -186,14 +186,12 @@ class _ThrowWidget extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: child,
         );
-        break;
       case _ThrowType.name:
         return Container(
           height: size,
           alignment: Alignment.center,
           child: Text(title),
         );
-        break;
       case _ThrowType.dice:
         return Container(
           height: size,
@@ -205,7 +203,6 @@ class _ThrowWidget extends StatelessWidget {
             ),
           ])
         );
-        break;
       default:
         return Container();
     }

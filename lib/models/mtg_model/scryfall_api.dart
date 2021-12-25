@@ -75,9 +75,8 @@ class ScryfallApi{
 
     _last = _now;
     
-    if(string == null) return null;
     if(string == "") return null;
-    final _ss = ScryfallApi._searchString(string, uniqueName: uniqueName ?? true);
+    final _ss = ScryfallApi._searchString(string, uniqueName: uniqueName);
     // print("searching: $_ss");
     final response = await http.get(Uri.parse(_ss));
 
@@ -90,7 +89,6 @@ class ScryfallApi{
 
       case 404:
         return <MtgCard>[];
-        break;
 
       default:
     }

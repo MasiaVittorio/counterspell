@@ -92,14 +92,12 @@ class CSBackupBloc {
   void initPastGames() {
     if(!ready.value) return;
     final List<File> _pastGames = jsonFilesInDirectory(pastGamesDirectory!);
-    if(_pastGames == null) return;
     this.savedPastGames.set(_pastGames);
   }
 
   void initPreferences() {
     if(!ready.value) return;
     final List<File> _preferences = jsonFilesInDirectory(preferencesDirectory!);
-    if(_preferences == null) return;
     this.savedPreferences.set(_preferences);
   }
 
@@ -205,7 +203,7 @@ class CSBackupBloc {
   }
 
   Future<bool> deletePastGame(int index) async {
-    if(this.savedPastGames.value?.checkIndex(index ?? -1) ?? false){
+    if(this.savedPastGames.value.checkIndex(index)){
       final file = this.savedPastGames.value.removeAt(index);
       this.savedPastGames.refresh();
       await file.delete();
@@ -362,7 +360,7 @@ class CSBackupBloc {
 
 
   Future<bool> deletePreference(int index) async {
-    if(this.savedPreferences.value?.checkIndex(index ?? -1) ?? false){
+    if(this.savedPreferences.value.checkIndex(index)){
       final file = this.savedPreferences.value.removeAt(index);
       this.savedPreferences.refresh();
       await file.delete();

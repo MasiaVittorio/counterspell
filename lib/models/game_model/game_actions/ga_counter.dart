@@ -1,12 +1,11 @@
 import '../all.dart';
-import 'package:flutter/widgets.dart';
 
 class GACounter extends GameAction{
   final Map<String,bool?> selected;
   final Counter counter;
   final int increment;
-  final int? minVal;
-  final int? maxVal;
+  final int minVal;
+  final int maxVal;
 
   const GACounter(
     this.increment, 
@@ -29,7 +28,7 @@ class GACounter extends GameAction{
         name: !selected.containsKey(name)
           ? PANull.instance
           : selected[name] == false 
-            ? this.counter.uniquePlayer 
+            ? this.counter.uniquePlayer // e.g. monarch
               ? PACounterReset(this.counter) 
               : PANull.instance
             : PACounter(

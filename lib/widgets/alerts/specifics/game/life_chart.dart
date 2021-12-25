@@ -90,20 +90,20 @@ class _Chart extends StatelessWidget {
         player,
     ];
 
-    int? maxLife = players.first!.states.first.life;
-    int? minLife = players.first!.states.last.life;
+    int maxLife = players.first!.states.first.life;
+    int minLife = players.first!.states.last.life;
     for(final player in players){
       for(final state in player!.states){
-        if(state.life! > maxLife!) maxLife = state.life;
-        if(state.life! < minLife!) minLife = state.life;
+        if(state.life> maxLife) maxLife = state.life;
+        if(state.life< minLife) minLife = state.life;
       }
     }
-    double minLifeDouble = math.min(minLife, 0.0)!.closestMultipleOf(5.0, upper: false, overshoot: true);
-    double maxLifeDouble = math.max(maxLife, 0.0)!.closestMultipleOf(5.0, upper: true, overshoot: true);
+    double minLifeDouble = math.min(minLife, 0.0).closestMultipleOf(5.0, upper: false, overshoot: true);
+    double maxLifeDouble = math.max(maxLife, 0.0).closestMultipleOf(5.0, upper: true, overshoot: true);
 
     final SideTitles lifeTitles = _lifeTitles(
       minLifeDouble, maxLifeDouble, textStyle,
-      startingLife: players.first!.states.first.life!,
+      startingLife: players.first!.states.first.life,
     );
 
     final int maxSeconds = players.first!.states.last.time
@@ -151,8 +151,7 @@ class _Chart extends StatelessWidget {
                   .inSeconds
                   .abs()
                   .toDouble(), 
-                playerState.life!
-                  .toDouble(),
+                playerState.life.toDouble(),
               ),
             ],
             colors: [LifeChart._colors[i].withOpacity(0.5)],
@@ -216,10 +215,6 @@ class _Chart extends StatelessWidget {
       }
     }
 
-    assert(minLife != null);
-    assert(maxLife != null);
-    assert(interval != null);
-    assert(okNumbers != null);
 
 
     return SideTitles(
@@ -267,14 +262,11 @@ class _Chart extends StatelessWidget {
       } else { // more than 10 hours 
         span = 60.0 * 60 * 2; // 2 hours span
       }
-      assert(span != null);
 
       maxTime = max.closestMultipleOf(span, upper: true, overshoot: true);
       interval = (maxTime/_nTimes).closestMultipleOf(span);
     }
 
-    assert(maxTime != null);
-    assert(interval != null);
 
     return <String,double>{
       "maxTime": maxTime,

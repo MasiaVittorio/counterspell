@@ -74,8 +74,8 @@ class CSGameAction {
     required int scrollerValue, 
     required CSPage? pageValue, 
     required Map<String,bool?> selectedValue,
-    required int? minValue,
-    required int? maxValue,
+    required int minValue,
+    required int maxValue,
     required String attacker,
     required GameState gameState,
     required String defender,
@@ -113,32 +113,29 @@ class CSGameAction {
     }
 
     if(pageValue == CSPage.commanderDamage){
-      if(attacker != null && defender != null){
-        if(attacker != "" && defender != ""){
-          return GADamage(
-            scrollerValue,
-            attacker: attacker,
-            defender: defender,
-            usingPartnerB: gameState.players[attacker]!.usePartnerB,
-            minLife: minValue,
-            maxVal: maxValue,
-            settings: gameState.players[attacker]!.commanderSettings(
-              !gameState.players[attacker]!.usePartnerB!
-            ),
-          );
-        }
+      if(attacker != "" && defender != ""){
+        return GADamage(
+          scrollerValue,
+          attacker: attacker,
+          defender: defender,
+          usingPartnerB: gameState.players[attacker]!.usePartnerB,
+          minLife: minValue,
+          maxVal: maxValue,
+          settings: gameState.players[attacker]!.commanderSettings(
+            !gameState.players[attacker]!.usePartnerB!
+          ),
+        );
       }
     }
 
     if(pageValue  == CSPage.counters){
-      if(counter != null)
-        return GACounter(
-          scrollerValue,
-          counter,
-          minVal: minValue,
-          maxVal: maxValue,
-          selected: selectedValue,
-        );
+      return GACounter(
+        scrollerValue,
+        counter,
+        minVal: minValue,
+        maxVal: maxValue,
+        selected: selectedValue,
+      );
     }
 
     return GANull.instance;
@@ -148,8 +145,8 @@ class CSGameAction {
     required CSPage? pageValue, 
     required Map<String,bool?> selectedValue,
     required GameState gameState,
-    required int? minValue,
-    required int? maxValue,
+    required int minValue,
+    required int maxValue,
     required String attacker,
     required String defender,
     required Counter counter,
@@ -188,7 +185,7 @@ class CSGameAction {
     || isSomeoneAttacking 
     || isSomeoneDefending;
   
-  Map<String?, Counter> get currentCounterMap => {
+  Map<String, Counter> get currentCounterMap => {
     for(final counter in counterSet.list)
       // if(parent.parent.settings.enabledCounters.value[counter.longName])
         counter.longName : counter, 

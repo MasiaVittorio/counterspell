@@ -27,7 +27,7 @@ class ThemeColors extends StatelessWidget {
             ],),
           ],),
 
-          if(!unlocked!) Positioned.fill(child: GestureDetector(
+          if(!unlocked) Positioned.fill(child: GestureDetector(
             onTap: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
             child: Container(
               color: theme.scaffoldBackgroundColor
@@ -41,7 +41,7 @@ class ThemeColors extends StatelessWidget {
 
   static void pickDefenceColor(StageData stage, Color defenceColor, CSBloc bloc) {
     stage.pickColor(
-      initialColor: defenceColor ?? Colors.green.shade700,
+      initialColor: defenceColor,
       onSubmitted: (color){
         bloc.themer!.defenceColor.set(color);
         stage.closePanel();

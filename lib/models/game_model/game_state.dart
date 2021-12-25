@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'all.dart';
 
 class GameState {
@@ -40,8 +39,8 @@ class GameState {
 
   factory GameState.start(
     Set<String> names, 
-    Set<String?> counters, {
-      int? startingLife = 20,
+    Set<String> counters, {
+      int startingLife = 20,
       Map<String,CommanderSettings>? settingsPartnersA = const <String,CommanderSettings>{},
       Map<String,CommanderSettings>? settingsPartnersB = const <String,CommanderSettings>{},
       Map<String,bool?>  havePartnerB = const <String,bool>{},
@@ -54,7 +53,7 @@ class GameState {
           names, 
           counters, 
           startingLife: startingLife,
-          havePartnerB: havePartnerB != null ? havePartnerB[name] ?? false : null,
+          havePartnerB: havePartnerB[name] ?? false,
           settingsPartnerA: settingsPartnersA != null ? settingsPartnersA[name] : null,
           settingsPartnerB: settingsPartnersB != null ? settingsPartnersB[name] : null,
         ),
@@ -139,7 +138,7 @@ class GameState {
   void applyAction(GameAction action)
     => action.applyTo(this);
 
-  GameAction back(Map<String?,Counter> counterMap){
+  GameAction back(Map<String,Counter> counterMap){
     final Map<String,PlayerAction> actions = {
       for(final entry in players.entries)
         entry.key: entry.value!.back(counterMap),
@@ -149,7 +148,6 @@ class GameState {
   }
 
   GameState newGame({int startingLife = 20, bool? keepCommanderSettings = false}){
-    assert(startingLife != null);
     return GameState.start(
       this.names,
       this.players.values.first!.states.last.counters.keys.toSet(),
@@ -188,7 +186,6 @@ class GameState {
   // Group Actions
 
   void renamePlayer(String oldName, String newName){
-    assert(oldName != null && newName != null);
     assert(newName != "" && oldName != "");
     assert(players.containsKey(oldName));
     assert(!players.containsKey(newName));
@@ -200,9 +197,7 @@ class GameState {
   }
 
   void addNewPlayer(String name, {int startingLife = 20}){
-    assert(startingLife != null);
     assert(!this.players.containsKey(name));
-    assert(name != null);
     assert(name != "");
 
     final Player player = Player.start(

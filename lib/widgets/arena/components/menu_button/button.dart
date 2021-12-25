@@ -46,8 +46,6 @@ class ArenaButton extends StatelessWidget {
       buttonCross = open;
       centerTap = openMenu;
     }
-    assert(buttonCross != null);
-    assert(centerTap != null);
 
     return InkWell(
       onTap: centerTap,

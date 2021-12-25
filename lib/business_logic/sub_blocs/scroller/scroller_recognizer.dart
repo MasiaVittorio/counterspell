@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'package:flutter/gestures.dart';
 
+
 enum _DragState {
   ready,
   possible,
@@ -20,8 +21,7 @@ class CSDragUpdateDetails {
     required this.globalPosition,
     required this.velocity,
     Offset? localPosition,
-  }) : assert(delta != null),
-       assert(primaryDelta == null
+  }) : assert(primaryDelta == null
            || (primaryDelta == delta.dx && delta.dy == 0.0)
            || (primaryDelta == delta.dy && delta.dx == 0.0)),
        localPosition = localPosition ?? globalPosition;
@@ -55,8 +55,7 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
     Object? debugOwner,
     Set<PointerDeviceKind>? supportedDevices,
     this.dragStartBehavior = DragStartBehavior.start,
-  }) : assert(dragStartBehavior != null),
-       super(debugOwner: debugOwner, supportedDevices: supportedDevices);
+  }) : super(debugOwner: debugOwner, supportedDevices: supportedDevices);
 
 
   DragStartBehavior dragStartBehavior;
@@ -79,7 +78,7 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
 
   _DragState _state = _DragState.ready;
   late OffsetPair _initialPosition;
-  OffsetPair? _pendingDragOffset;
+  late OffsetPair _pendingDragOffset;
   Duration? _lastPendingEventTimestamp;
   // The buttons sent by `PointerDownEvent`. If a `PointerMoveEvent` comes with a
   // different set of buttons, the gesture is canceled.
@@ -149,7 +148,6 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
     if (!event.synthesized
         && (event is PointerDownEvent || event is PointerMoveEvent)) {
       final VelocityTracker tracker = _velocityTrackers[event.pointer]!;
-      assert(tracker != null);
       tracker.addPosition(event.timeStamp, event.localPosition);
     }
 
@@ -190,17 +188,17 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
   void acceptGesture(int pointer) {
     if (_state != _DragState.accepted) {
       _state = _DragState.accepted;
-      final OffsetPair? delta = _pendingDragOffset;
+      final OffsetPair delta = _pendingDragOffset;
       final Duration? timestamp = _lastPendingEventTimestamp;
       final Matrix4? transform = _lastTransform;
       Offset? localUpdateDelta;
       switch (dragStartBehavior) {
         case DragStartBehavior.start:
-          _initialPosition = _initialPosition + delta!;
+          _initialPosition = _initialPosition + delta;
           localUpdateDelta = Offset.zero;
           break;
         case DragStartBehavior.down:
-          localUpdateDelta = _getDeltaForDetails(delta!.local);
+          localUpdateDelta = _getDeltaForDetails(delta.local);
           break;
       }
       _pendingDragOffset = OffsetPair.zero;
@@ -285,7 +283,6 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
     Offset? localPosition,
   }) {
     final VelocityTracker tracker = _velocityTrackers[pointer]!;
-    assert(tracker != null);
     assert(_initialButtons == kPrimaryButton);
     final VelocityEstimate? estimate = tracker.getVelocityEstimate();
 
@@ -328,10 +325,9 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
       return;
 
     final VelocityTracker tracker = _velocityTrackers[pointer]!;
-    assert(tracker != null);
 
     DragEndDetails details;
-    void Function() debugReport;
+    String Function() debugReport;
 
     final VelocityEstimate? estimate = tracker.getVelocityEstimate();
     if (estimate != null && _isFlingGesture(estimate)) {
@@ -355,7 +351,7 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
         return '$estimate; judged to not be a fling.';
       };
     }
-    invokeCallback<void>('onEnd', () => onEnd!(details), debugReport: debugReport as String Function()?);
+    invokeCallback<void>('onEnd', () => onEnd!(details), debugReport: debugReport);
   }
 
   void _checkCancel() {

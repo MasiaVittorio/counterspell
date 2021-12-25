@@ -157,7 +157,7 @@ class _DelayerPanel extends StatelessWidget {
     final canvasContrast = themeData.colorScheme.onSurface;
     final stage = Stage.of(context)!;
 
-    return BlocVar.build4(
+    return BlocVar.build4<bool,int,Duration,Color?>(
         scroller.isScrolling,
         scroller.intValue,
         bloc.settings!.scrollSettings.confirmDelay,

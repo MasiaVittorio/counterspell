@@ -5,21 +5,20 @@ class PACounter extends PlayerAction {
   final int increment;
   final int minVal;
   final int maxVal;
-  final Counter? counter;
+  final Counter counter;
 
   const PACounter(
     this.increment, 
     this.counter,
     {
-      int? minVal = PlayerState.kMinValue, 
-      int? maxVal = PlayerState.kMaxValue,
+      this.minVal = PlayerState.kMinValue, 
+      this.maxVal = PlayerState.kMaxValue,
     }
-  ):  minVal = minVal ?? PlayerState.kMinValue,
-      maxVal = maxVal ?? PlayerState.kMaxValue;
+  );
 
   @override
   PlayerState apply(PlayerState state) => state.incrementCounter(
-    counter!, 
+    counter, 
     increment,
     minValue: minVal,
     maxValue: maxVal,
@@ -27,10 +26,10 @@ class PACounter extends PlayerAction {
 
   @override
   PlayerAction normalizeOn(PlayerState state) {
-    final int current  = state.counters[this.counter!.longName] ?? 0;
+    final int current  = state.counters[this.counter.longName] ?? 0;
     final int clamped = this.increment.clamp(
-      max(this.minVal, counter!.minValue)! - current,
-      min(this.maxVal, counter!.maxValue)! - current,
+      max<int>(this.minVal, counter.minValue) - current,
+      min<int>(this.maxVal, counter.maxValue) - current,
     );
 
     if(clamped == 0) 

@@ -17,7 +17,7 @@ class DelayedWidget extends StatefulWidget {
     required this.after,
     this.delay = defaultDelay,
     this.getBackgroundColor = background,
-  }) : assert(after != null);
+  });
 
   final Widget after;
   final Widget before;
@@ -49,7 +49,7 @@ class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProvider
   }
 
   void wait() async {
-    await Future.delayed(widget.delay ?? DelayedWidget.defaultDelay);
+    await Future.delayed(widget.delay);
 
     if(!mounted) return;
 
@@ -73,8 +73,7 @@ class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProvider
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final background = widget.getBackgroundColor?.call(theme)
-        ?? DelayedWidget.background(theme);
+    final background = widget.getBackgroundColor.call(theme);
     return Container(
       color: background,
       child: after 
@@ -94,7 +93,7 @@ class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProvider
               ),
             ],
           ) 
-        : widget.before ?? const Waiting(),
+        : widget.before,
     );
   }
 }

@@ -15,9 +15,9 @@ class CSSettingsGame {
   //====================================
   // Values
   final CSBloc parent;
-  final PersistentVar<int?> _startingLife;
-  final PersistentVar<int?> minValue;
-  final PersistentVar<int?> maxValue;
+  final PersistentVar<int> _startingLife;
+  final PersistentVar<int> minValue;
+  final PersistentVar<int> maxValue;
 
   final PersistentVar<TimeMode?> timeMode;
 
@@ -27,19 +27,19 @@ class CSSettingsGame {
   //====================================
   // Constructor
   CSSettingsGame(this.parent):
-    _startingLife = PersistentVar<int?>(
+    _startingLife = PersistentVar<int>(
       key: "bloc_settings_blocvar_startinglife",
       initVal: 40,
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    minValue = PersistentVar<int?>(
+    minValue = PersistentVar<int>(
       key: "bloc_settings_blocvar_minvalue",
       initVal: -999,
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    maxValue = PersistentVar<int?>(
+    maxValue = PersistentVar<int>(
       key: "bloc_settings_blocvar_maxvalue",
       initVal: 9999,
       toJson: (b) => b,
@@ -61,10 +61,10 @@ class CSSettingsGame {
   //==========================
   // Methods
 
-  int? get currentStartingLife => _startingLife.value;
+  int get currentStartingLife => _startingLife.value;
   BlocVar<int?> get startingLifeBlocVar => _startingLife;
 
-  void changeStartingLife(int? newLife){
+  void changeStartingLife(int newLife){
     if(newLife == currentStartingLife) return;
     this._startingLife.set(newLife);
     if(parent.game!.gameState!.gameState.value.historyLenght <= 1){

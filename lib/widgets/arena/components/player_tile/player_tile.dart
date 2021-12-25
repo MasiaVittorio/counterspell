@@ -73,7 +73,9 @@ class ArenaPlayerTile extends StatelessWidget {
     return LayoutBuilder(
       builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
-        child: BlocVar.build7(
+        child: BlocVar.build7<
+          Map<CSPage,Color?>?, int, GameState, String,
+          String, Color, Map<String,bool?>>(
           stage!.themeController.derived.mainPageToPrimaryColor!,
           logic!.scroller!.intValue,
           stateLogic!.gameState,

@@ -29,7 +29,7 @@ class _SupportAlertState extends State<SupportAlert> {
     final pBloc = CSBloc.of(context)!.payments;
     return pBloc.unlocked.build((_,unlocked) 
       => HeaderedAlert(
-        refreshing ? "Refreshing data..." : unlocked! ? "You are a pro!" : "Support the development",
+        refreshing ? "Refreshing data..." : unlocked? "You are a pro!" : "Support the development",
         child: list(pBloc),
         bottom: disclaimer(pBloc),
       ),

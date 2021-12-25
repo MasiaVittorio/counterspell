@@ -20,7 +20,7 @@ class CSPayments {
   final CSBloc parent;
   List<ProductDetails> items = <ProductDetails>[]; //all available
 
-  final PersistentVar<bool?> unlocked; 
+  final PersistentVar<bool> unlocked; 
   final PersistentVar<Set<String>> purchasedIds; //past done purchases
   final BlocVar<List<Donation>> donations; //all available (wrapper for UI)
   String log = "";
@@ -28,11 +28,11 @@ class CSPayments {
   //===========================================
   // Constructor
   CSPayments(this.parent): 
-    unlocked = PersistentVar<bool?>(
+    unlocked = PersistentVar<bool>(
       key: "counterspell_bloc_var_payments_unlocked",
       initVal: kDebugMode,
       toJson: (b) => b,
-      fromJson: (j) => j as bool?,
+      fromJson: (j) => j as bool,
     ),
     purchasedIds = PersistentVar<Set<String>>(
       initVal: <String>{},
@@ -201,7 +201,7 @@ class CSPayments {
     logAdd("purchase: 0 -> entered with productID: $productID");
     if (this.purchasedIds.value.contains(productID)){
       logAdd("purchase: 0.contains -> we already have this one, so we should return with error. Was the app unlocked? ${unlocked.value}");
-      if(!unlocked.value!){
+      if(!unlocked.value){
         logAdd("purchase: 0.contains.locked -> strange. unlocking before returning with error");
         unlocked.set(true);
       }

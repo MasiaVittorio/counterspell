@@ -82,7 +82,7 @@ class _ImageSearchState extends State<ImageSearch> {
   }
 
   void resetResults(){
-    if(_readyCache != null && _readyCache.isNotEmpty){
+    if(_readyCache.isNotEmpty){
       results = <MtgCard>[...widget.readyCache!];
     } else {
       results = <MtgCard>[];
@@ -98,7 +98,6 @@ class _ImageSearchState extends State<ImageSearch> {
   }
 
   void syncronousSearch(){
-    if(widget.searchableCache == null) return;
     if(widget.searchableCache.isEmpty) return;
 
     final List<MtgCard> matches = <MtgCard>[];
@@ -267,12 +266,12 @@ class CardTile extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       trailing: trailing,
-      leading: (withoutImage ?? false) ? null : CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl()!,),),
-      onTap: (tapOpenCard ?? false) ? openCard : (){
+      leading: (withoutImage) ? null : CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl()!,),),
+      onTap: (tapOpenCard) ? openCard : (){
         callback?.call(card);
-        if(this.autoClose??true) stage!.closePanel();
+        if(this.autoClose) stage!.closePanel();
       },
-      onLongPress: (longPressOpenCard ?? true) ? openCard : null,
+      onLongPress: (longPressOpenCard) ? openCard : null,
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

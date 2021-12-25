@@ -7,9 +7,7 @@ class ConfirmableTile extends StatefulWidget {
     required this.titleBuilder,
     required this.subTitleBuilder,
     required this.leading,
-  }): assert(onConfirm != null),
-      assert(titleBuilder != null),
-      assert(leading != null);
+  });
 
   final VoidCallback onConfirm;
   final Widget Function(BuildContext context, bool pressed) titleBuilder;
@@ -28,7 +26,7 @@ class _ConfirmableTileState extends State<ConfirmableTile> {
     pressed = false;
   });
   void confirm() {
-    widget.onConfirm?.call();
+    widget.onConfirm.call();
     cancel();
   }
   void press() {
@@ -57,8 +55,8 @@ class _ConfirmableTileState extends State<ConfirmableTile> {
         type: MaterialType.transparency,
         child: ListTile(
           onTap: pressed ? null : press,
-          title: widget.titleBuilder?.call(context, pressed),
-          subtitle: widget.subTitleBuilder?.call(context, pressed),
+          title: widget.titleBuilder.call(context, pressed),
+          subtitle: widget.subTitleBuilder.call(context, pressed),
           leading: IconButton(
             icon: pressed ? const Icon(Icons.close) : widget.leading,
             onPressed: pressed ? cancel : press,

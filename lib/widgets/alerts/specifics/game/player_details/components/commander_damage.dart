@@ -19,7 +19,9 @@ class PlayerDetailsDamage extends StatelessWidget {
 
     return Material(
       color: theme.scaffoldBackgroundColor,
-      child: BlocVar.build6(
+      child: BlocVar.build6<
+      Color, Map<CSPage?,Color?>?, List<String>,
+      GameState, Map<String,MtgCard>, Map<String,MtgCard>>(
         bloc.themer!.defenceColor,
         stage.themeController.derived.mainPageToPrimaryColor!,
         groupBloc.names,

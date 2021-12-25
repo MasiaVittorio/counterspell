@@ -17,13 +17,13 @@ extension ClosestMultiples on num {
     final double divided = this/of;
 
     int integer;
-    if(upper ?? false) integer = divided.ceil();
-    else if(lower ?? false) integer = divided.floor();
-    else if(closerToZero ?? false) {
+    if(upper) integer = divided.ceil();
+    else if(lower) integer = divided.floor();
+    else if(closerToZero) {
       if(divided >= 0) integer = divided.floor();
       else integer = divided.ceil();
     } 
-    else if(fartherFromZero ?? false){
+    else if(fartherFromZero){
       if(divided >= 0) integer = divided.ceil();
       else integer = divided.floor();
     } 

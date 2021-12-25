@@ -68,7 +68,7 @@ class CSAchievements extends BlocBase {
     /// checks if new achievements are made by the dev and must be saved in this variable
     for(final entry in Achievements.map.entries){
       this.map.value[entry.key] 
-        = (forceResetDev ?? false) 
+        = (forceResetDev) 
           ? entry.value 
           : this.map.value[entry.key]
               ?.updateStats(entry.value) 
@@ -76,7 +76,7 @@ class CSAchievements extends BlocBase {
     }
     this.map.refresh();
 
-    if(forceResetDev ?? false){
+    if(forceResetDev){
       this.todo.set(const <String?>{
         Achievements.countersShortTitle,
         Achievements.vampireShortTitle,
@@ -164,7 +164,7 @@ class CSAchievements extends BlocBase {
 
     if(oldAchievement == null) return false;
     if(oldAchievement is QuantityAchievement){
-      final Achievement newAchievement = oldAchievement.incrementBy(by ?? 0); 
+      final Achievement newAchievement = oldAchievement.incrementBy(by); 
       this.map.value[shortTitle] = newAchievement;
       this.map.refresh(key: shortTitle);
       this.checkNewTODO(shortTitle);
@@ -179,7 +179,7 @@ class CSAchievements extends BlocBase {
         = this.map.value[shortTitle] 
         ?? Achievements.map[shortTitle!];
     if(achievement == null) return false;
-    if(achievement.gold && !(force ?? false)) return false;
+    if(achievement.gold && !(force)) return false;
     this.map.value[shortTitle] = achievement.reset;
     this.map.refresh(key: shortTitle);
     if(!todo.value.contains(shortTitle)){

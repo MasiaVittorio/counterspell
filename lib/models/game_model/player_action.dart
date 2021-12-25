@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 import 'all.dart';
 
 abstract class PlayerAction{
@@ -18,13 +16,13 @@ abstract class PlayerAction{
   factory PlayerAction.fromStates({
     required PlayerState previous,
     required PlayerState next,
-    required Map<String?,Counter> counterMap,
+    required Map<String,Counter> counterMap,
     int? minVal, 
     int? maxVal,
   }){
     List<PlayerAction> detectedAcions = [];
 
-    final deltaLife = next.life! - previous.life!;
+    final deltaLife = next.life- previous.life;
     if(deltaLife != 0)
       detectedAcions.add(PALife(
         deltaLife, 
@@ -66,7 +64,7 @@ abstract class PlayerAction{
         maxVal: maxVal,
       ));
     
-    final Set<String?> counters = <String?>{
+    final Set<String?> counters = <String>{
       ...next.counters.keys,
       ...previous.counters.keys,
     };
@@ -75,9 +73,9 @@ abstract class PlayerAction{
       if(deltaCounter != 0)
         detectedAcions.add(PACounter(
           deltaCounter,
-          counterMap[counter],
-          minVal: minVal,
-          maxVal: maxVal,
+          counterMap[counter]!,
+          minVal: minVal ?? PlayerState.kMinValue,
+          maxVal: maxVal ?? PlayerState.kMaxValue,
         ));
     }
 

@@ -55,7 +55,7 @@ class AptContent extends StatelessWidget {
     );
   }
 
-  static bool rightInfoFromButtonAlignment(Alignment al) => (al?.x ?? 0) <= 0;
+  static bool rightInfoFromButtonAlignment(Alignment al) => (al.x) <= 0;
   bool get leftButton => rightInfo;
   bool get rightInfo => rightInfoFromButtonAlignment(this.buttonAlignment);
 

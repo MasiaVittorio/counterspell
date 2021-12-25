@@ -60,7 +60,7 @@ class CSGameState {
   //====================================
   // Actions
   void applyAction(GameAction action, {bool clearFutures = true}){
-    if(_applyAction(action, clearFutures: clearFutures ?? true)){
+    if(_applyAction(action, clearFutures: clearFutures)){
       this.parent.gameHistory!.forward();
     }
     this.parent.parent.achievements.gameActionPerformed(action);
@@ -156,11 +156,11 @@ class CSGameState {
       this.gameState.value, 
       commandersA: this.parent.gameGroup!.cardsA.value, 
       commandersB: this.parent.gameGroup!.cardsB.value,
-      avoidPrompt: avoidPrompt ?? false,
+      avoidPrompt: avoidPrompt,
     );
     //actually resets the game
     _resetGame(this.gameState.value.newGame(
-      startingLife: this.parent.currentStartingLife!,
+      startingLife: this.parent.currentStartingLife,
       keepCommanderSettings: this.parent.parent.settings!.gameSettings.keepCommanderSettingsBetweenGames.value,
     ));
     //exit history page (or any other) or the menu
@@ -178,7 +178,7 @@ class CSGameState {
     this.parent.gameGroup!.newGroup(names.toList());
     _resetGame(GameState.start(
       names, 
-      <String?>{for(final counter in this.parent.gameAction!.counterSet.list) 
+      <String>{for(final counter in this.parent.gameAction!.counterSet.list) 
         counter.longName
       },
       startingLife: this.parent.currentStartingLife,
@@ -192,7 +192,7 @@ class CSGameState {
 
 
   void renamePlayer(String? oldName, String newName){
-    if(oldName == null || newName == null){
+    if(oldName == null){
       return;
     }
     if(oldName == "" || newName == ""){
@@ -223,7 +223,7 @@ class CSGameState {
     this.parent.gameHistory!.listController.rebuild();
   }
   void addNewPlayer(String name){
-    if(name == null || name == ""){
+    if(name == ""){
       return;
     }
     if(this.gameState.value.players.containsKey(name)){
@@ -231,7 +231,7 @@ class CSGameState {
     }
     this.gameState.value.addNewPlayer(
       name, 
-      startingLife: this.parent.currentStartingLife!,
+      startingLife: this.parent.currentStartingLife,
     );
     this.gameState.refresh();
     this.parent.gameGroup!.newPlayer(name);
@@ -259,7 +259,7 @@ class CSGameState {
     assert(gameState.value.players.containsKey(name));
 
     if(!gameState.value.players[name]!.havePartnerB!){
-      if(force ?? false){
+      if(force){
         this.gameState.value.players[name]!.havePartnerB = true;
         this.gameState.refresh();
         return true;

@@ -23,7 +23,7 @@ class CommanderStatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final VoidCallback onTap = () {
-      onSingleScreenCallback?.call();
+      onSingleScreenCallback.call();
       Stage.of(context)!.showAlert(
         CommanderStatsScreen(CommanderStatsAdvanced.fromPastGames(
           stat, 

@@ -46,7 +46,7 @@ class ScrollerLogic {
   {
     isScrolling = BlocVar<bool>(false, onChanged: (b){
       if(b == false){
-        onConfirm?.call(this.intValue.value);
+        onConfirm.call(this.intValue.value);
         if(resetAfterConfirm!){
           this.value = 0.0;
           this.intValue.set(0);
@@ -150,7 +150,7 @@ class ScrollerLogic {
     //not affect the gamestate's history
     bool completed = this.forceComplete();
 
-    this.onCancel?.call(completed, alsoAttacker ?? false);
+    this.onCancel?.call(completed, alsoAttacker);
 
     _clearNextAutoConfirm = true;
   }

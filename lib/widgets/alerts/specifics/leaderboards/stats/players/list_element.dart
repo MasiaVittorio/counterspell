@@ -21,7 +21,7 @@ class PlayerStatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final VoidCallback onTap = () {
-      onSingleScreenCallback?.call();
+      onSingleScreenCallback.call();
       Stage.of(context)!.showAlert(
         PlayerStatScreen(PlayerStatsAdvanced.fromPastGames(stat, pastGames)),
         size: PlayerStatScreen.height,

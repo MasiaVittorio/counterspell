@@ -37,14 +37,12 @@ class _CircleButtonState extends State<CircleButton> {
   @override
   Widget build(BuildContext context) {
 
-    final double increment = this.widget.sizeIncrement 
-      ?? defaultSizeIncrement;
-    final int n = this.widget.externalCircles ?? defaultCircles;
-    final double size = this.widget.size ?? defaultSize;
-    final Color color = this.widget.color 
-        ?? Theme.of(context).colorScheme.onSurface.withOpacity(0.2);
+    final double increment = this.widget.sizeIncrement;
+    final int n = this.widget.externalCircles;
+    final double size = this.widget.size;
+    final Color color = this.widget.color;
     // final double op = color.opacity;
-    final bool regular = widget.regularSteps ?? false;
+    final bool regular = widget.regularSteps;
 
     final double ms = getMaxSize(size, n, increment, regular);
     final double offset = 0 - ((ms - size) / 2);

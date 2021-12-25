@@ -140,7 +140,7 @@ class ImageOpacityRegular extends StatelessWidget {
         playerTile,
         const SizedBox(height: 8,),
         start.build((_,value) => FullSlider(
-          value: value!,
+          value: value,
           onChanged: start.set,
           divisions: 20,
           defaultValue: CSSettingsImages.defaultImageGradientStart,
@@ -148,7 +148,7 @@ class ImageOpacityRegular extends StatelessWidget {
           titleBuilder: (val) => Text("Start: ${val.toStringAsFixed(2)}"),
         )),
         end.build((_,value) => FullSlider(
-          value: value!,
+          value: value,
           onChanged: end.set,
           divisions: 20,
           defaultValue: CSSettingsImages.defaultImageGradientEnd,

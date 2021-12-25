@@ -50,11 +50,7 @@ class PlayerTile extends StatelessWidget {
     required this.defenceColor,
     required this.increment,
     required this.normalizedPlayerAction,
-  }): 
-    assert(!(
-      page == CSPage.counters
-      && counter == null
-    ));
+  });
 
   static const double coreTileSize = CSSizes.minTileSize;
 
@@ -138,7 +134,7 @@ class PlayerTile extends StatelessWidget {
                     playerState: playerState,
                     defending: defending,
                     stage: stage,
-                    someoneAttacking: whoIsAttacking!="" && whoIsAttacking!=null,
+                    someoneAttacking: whoIsAttacking!="",
                     group: group,
                   ),
                 ),
@@ -207,7 +203,7 @@ class PlayerTile extends StatelessWidget {
             image =  Container(decoration: decorationA);
           }
 
-          final Widget gradient = BlocVar.build2(
+          final Widget gradient = BlocVar.build2<double?,double?>(
             bloc.settings!.imagesSettings.imageGradientStart,
             bloc.settings!.imagesSettings.imageGradientEnd,
             builder: (context, double? startVal, double? endVal) => Container(
@@ -346,7 +342,7 @@ class PlayerTile extends StatelessWidget {
             whoIsDefending,
             usingPartnerB ?? false,
             playerState,
-            isAttackerUsingPartnerB ?? false,
+            isAttackerUsingPartnerB,
             counter,
           )!,
           numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
@@ -363,7 +359,6 @@ class PlayerTile extends StatelessWidget {
 
     }
 
-    assert(child != null);
 
     return Padding(
       padding: EdgeInsets.all(coreTileSize * (1 - circleFrac)/2),
@@ -468,7 +463,6 @@ class PlayerTile extends StatelessWidget {
             presented: 
               page == CSPage.commanderDamage && 
               whoIsAttacking!=name && 
-              whoIsAttacking!=null && 
               whoIsAttacking!="",
             child: Container(
               width: coreTileSize,
@@ -489,8 +483,8 @@ class PlayerTile extends StatelessWidget {
     final annotation = PTileUtils.tileAnnotation(
       name,    page,    rawSelected,    whoIsAttacking,
       havingPartnerB??false,    usingPartnerB ??false, 
-      isAttackerHavingPartnerB??false,    isAttackerUsingPartnerB??false,
-    ) ?? "";
+      isAttackerHavingPartnerB,    isAttackerUsingPartnerB,
+    );
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(

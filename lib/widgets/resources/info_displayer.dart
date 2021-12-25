@@ -61,7 +61,7 @@ class InfoDisplayer extends StatelessWidget {
           children: [
 
             Positioned.fill(child: Center(child: IconTheme.merge(
-              data: (fill ?? false)
+              data: (fill)
                 ? IconThemeData(
                   color: theme.canvasColor,
                   opacity: 1.0,

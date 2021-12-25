@@ -383,29 +383,23 @@ packages:
   sid_bloc:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "73136a708704cf1d956eb31509f1730e23c1d87c"
-      url: "https://github.com/MasiaVittorio/sid_bloc.git"
-    source: git
+      path: "../sid_bloc"
+      relative: true
+    source: path
     version: "0.0.1"
   sid_ui:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: ae26e7398100a45dfdf36b173a2ac001bfd02d9d
-      url: "https://github.com/MasiaVittorio/sid_ui.git"
-    source: git
+      path: "../sid_ui"
+      relative: true
+    source: path
     version: "0.0.1"
   sid_utils:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: f13cbfec39319c0f48cbe49ef0be325f8c912475
-      url: "https://github.com/MasiaVittorio/sid_utils.git"
-    source: git
+      path: "../sid_utils"
+      relative: true
+    source: path
     version: "0.0.1"
   sky_engine:
     dependency: transitive
@@ -457,11 +451,9 @@ packages:
   stage:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: ab08860b9e90b64c7fccd582ad83b0b94f59358f
-      url: "https://github.com/MasiaVittorio/stage_2.git"
-    source: git
+      path: "../stage_2"
+      relative: true
+    source: path
     version: "0.0.1"
   stream_channel:
     dependency: transitive

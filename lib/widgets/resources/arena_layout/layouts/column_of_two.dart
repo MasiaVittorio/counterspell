@@ -18,14 +18,14 @@ class ColumnOfTwo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       Expanded(
-        flex: flexTop ?? 1,
+        flex: flexTop,
         child: RotatedBox(
           quarterTurns: 2,
           child: top,
         ),
       ),
       Expanded(
-        flex: flexBottom ?? 1,
+        flex: flexBottom,
         child: bottom,
       ),
     ],);

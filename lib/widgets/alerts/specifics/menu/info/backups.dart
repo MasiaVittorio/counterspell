@@ -59,7 +59,7 @@ class _BackupsAlertState extends State<_BackupsAlert> {
               PermissionStatusWidget(
                 permissionStatus, 
                 onStatusChanged: (status){
-                  if(status?.isGranted ?? false){
+                  if(status.isGranted){
                     this.setState(() {
                       this.permissionStatus = status;
                     });

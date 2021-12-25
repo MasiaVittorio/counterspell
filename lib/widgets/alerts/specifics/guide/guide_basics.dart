@@ -64,7 +64,7 @@ class InfoSection extends StatelessWidget {
         ),
         for(final string in this.info)
           PieceOfInfo(string),
-      ], last: last ?? false),
+      ], last: last),
     );
   }
 }

@@ -31,7 +31,7 @@ class CSGameHistory {
           for(int i = 1; i < newLen; ++i)
             GameHistoryData.fromStates(state, i-1 , i,
               types: DamageTypes.fromPages(
-                parent.parent?.stageBloc?.controller?.mainPagesController?.currentlyEnabledPages 
+                parent.parent.stageBloc?.controller?.mainPagesController.currentlyEnabledPages 
                 ?? <CSPage,bool>{
                   for(final p in CSPage.values) p: true,
                 }

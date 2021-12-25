@@ -45,8 +45,8 @@ class AptBackGround extends StatelessWidget {
       );
     }
 
-    return Division(
-      style: StyleClass()
+    return Parent(
+      style: ParentStyle()
         ..animate(250, Curves.easeOut)
         ..margin(all: highlighted ? margin : 0.0)
         ..overflow.hidden()
@@ -55,7 +55,7 @@ class AptBackGround extends StatelessWidget {
         ..boxShadow(
           color: highlighted ? const Color(0x59000000) : Colors.transparent, 
           blur: highlighted ? 2 : 0,
-          offset: [0,0]
+          offset: Offset.zero,
         ),
       child: Stack(
         fit: StackFit.expand,

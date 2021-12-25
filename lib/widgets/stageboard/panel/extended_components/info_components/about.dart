@@ -23,7 +23,7 @@ class AboutCounterSpell extends StatelessWidget {
               toAnimate: false,
               shape: BadgeShape.circle,
               // alignment: Alignment.topRight,
-              badgeColor: Theme.of(context).accentColor,
+              badgeColor: Theme.of(context).colorScheme.secondary,
               position: BadgePosition.topEnd(),
               ignorePointer: true,
               child: const Icon(McIcons.file_document_outline),
@@ -61,7 +61,7 @@ class AboutCounterSpell extends StatelessWidget {
                 toAnimate: false,
                 shape: BadgeShape.circle,
                 // alignment: Alignment.topRight,
-                badgeColor: Theme.of(context).accentColor,
+                badgeColor: Theme.of(context).colorScheme.secondary,
                 position: BadgePosition.topEnd(),
                 ignorePointer: true,
                 child: const Icon(Icons.star_border)
@@ -72,7 +72,7 @@ class AboutCounterSpell extends StatelessWidget {
               customCircleColor: Colors.transparent,
             ),
             ExtraButton(
-              icon: McIcons.file_document_box_check_outline,
+              icon: McIcons.text_box_check_outline,
               text: "Licenses",
               onTap: () => stage.showAlert(const AlertLicenses(), size: DamageInfo.height),
               customCircleColor: Colors.transparent,

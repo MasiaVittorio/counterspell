@@ -1,3 +1,5 @@
+// import 'dart:html' hide VoidCallback;
+
 import 'package:counter_spell_new/business_logic/sub_blocs/backup_and_restore.dart';
 import 'package:counter_spell_new/core.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -107,8 +109,8 @@ class _BackupsAlertState extends State<_BackupsAlert> {
             ),),
             longTitle: "Backup preferences",
             title: "Preferences",
-            icon: McIcons.settings,
-            unselectedIcon: McIcons.settings_outline,
+            icon: McIcons.cog,
+            unselectedIcon: McIcons.cog_outline,
           ),
           BackupType.pastGames: RadioHeaderedItem(
             child: backups.savedPastGames.build((context, list) => Column(
@@ -291,7 +293,8 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
     PermissionStatus.granted: "Granted",
     PermissionStatus.permanentlyDenied: "Permanently denied",
     PermissionStatus.restricted: "Restricted",
-    PermissionStatus.undetermined: "Not asked yet",
+    PermissionStatus.limited: "Limited",
+    // PermissionStatus.undetermined: "Not asked yet",
   }[widget.status]) ?? "Not checked yet";
 
   IconData get permissionIcon => (<PermissionStatus,IconData>{
@@ -299,7 +302,7 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
     PermissionStatus.granted: Icons.check,
     PermissionStatus.permanentlyDenied: Icons.close,
     PermissionStatus.restricted: Icons.help_outline,
-    PermissionStatus.undetermined: Icons.help_outline,
+    PermissionStatus.limited: Icons.help_outline,
   }[widget.status]) ?? Icons.help_outline;
 
   @override
@@ -312,7 +315,6 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
         ? const CircularProgressIndicator()
         : null,
       onTap: [
-        PermissionStatus.undetermined,
         PermissionStatus.denied,
         null,
       ].contains(widget.status) ? () async {

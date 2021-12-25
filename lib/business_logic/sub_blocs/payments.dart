@@ -93,7 +93,7 @@ class CSPayments {
     logAdd("availableItems: 0 -> entered, checking if connection is available");
     bool available = false;
     try {
-      available = await InAppPurchaseConnection.instance.isAvailable();      
+      available = await InAppPurchase.instance.isAvailable();      
     } catch (e) {
       logAdd("availableItems: 0.error -> InAppPurchaseConnection.instance.isAvailable() thrown error $e");
       //strange that this .isAvailable() method can throw, lol?
@@ -109,7 +109,7 @@ class CSPayments {
 
     logAdd("availableItems: 2 -> available connection, now waiting for queryProductDetails from list $products");
     final ProductDetailsResponse response = 
-      await InAppPurchaseConnection.instance
+      await InAppPurchase.instance
         .queryProductDetails(products);
 
     if (response.notFoundIDs.isNotEmpty) {
@@ -148,48 +148,48 @@ class CSPayments {
 
 
   Future<void> restore() async {
-    logAdd("restore: 0 -> entered, waiting for queryPastPurchases()");
+    logAdd("restore: 0 -> entered, waiting for restorePurchases()");
 
-    final QueryPurchaseDetailsResponse pastResponse = await InAppPurchaseConnection.instance.queryPastPurchases();
-    if (pastResponse.error != null) {
-      logAdd("restore: 0.error -> queryPastPurchases() had an error: returning -> code: (${pastResponse.error.code}), details:(${pastResponse.error.details}), message:(${pastResponse.error.message})");
-      return;
-      // Handle the error.
-    }
+    await InAppPurchase.instance.restorePurchases();
+    // if (pastResponse.error != null) {
+    //   logAdd("restore: 0.error -> queryPastPurchases() had an error: returning -> code: (${pastResponse.error.code}), details:(${pastResponse.error.details}), message:(${pastResponse.error.message})");
+    //   return;
+    //   // Handle the error.
+    // }
 
-    logAdd("restore: 1 -> queryPastPurchases() found: ${pastResponse.pastPurchases.length} past purchases");
+    // logAdd("restore: 1 -> queryPastPurchases() found: ${pastResponse.pastPurchases.length} past purchases");
 
-    int i = 0;
-    for (PurchaseDetails purchase in pastResponse.pastPurchases) {
-      ++i;
-      logAdd("restore: 1.iteration_$i -> product: ${purchase.productID} // purchase: ${purchase.purchaseID} ==> status: ${purchase.status}");
+    // int i = 0;
+    // for (PurchaseDetails purchase in pastResponse.pastPurchases) {
+    //   ++i;
+    //   logAdd("restore: 1.iteration_$i -> product: ${purchase.productID} // purchase: ${purchase.purchaseID} ==> status: ${purchase.status}");
 
-      if (Platform.isIOS) {
-        logAdd("restore: 1.iteration_$i.iOS -> platform is iOS, should call completePurchase(details) (only if it is not still pending)");
-        // Mark that you've delivered the purchase. Only the App Store requires
-        // this final confirmation.
-        if(purchase.status != PurchaseStatus.pending) {
-          logAdd("restore: 1.iteration_$i.iOS -> indeed not pending, calling completePurchase(details)");
-          InAppPurchaseConnection.instance.completePurchase(purchase);
-        }
-      }
-    }
+    //   if (Platform.isIOS) {
+    //     logAdd("restore: 1.iteration_$i.iOS -> platform is iOS, should call completePurchase(details) (only if it is not still pending)");
+    //     // Mark that you've delivered the purchase. Only the App Store requires
+    //     // this final confirmation.
+    //     if(purchase.status != PurchaseStatus.pending) {
+    //       logAdd("restore: 1.iteration_$i.iOS -> indeed not pending, calling completePurchase(details)");
+    //       InAppPurchaseConnection.instance.completePurchase(purchase);
+    //     }
+    //   }
+    // }
 
-    this.purchasedIds.set(<String>{
-      for(final details in pastResponse.pastPurchases)
-        if(details.status != PurchaseStatus.pending)
-          details.productID,
-    });
-    logAdd("restore: 2 -> purchased ids are set (only not pending). number: ${purchasedIds.value.length}");
+    // this.purchasedIds.set(<String>{
+    //   for(final details in pastResponse.pastPurchases)
+    //     if(details.status != PurchaseStatus.pending)
+    //       details.productID,
+    // });
+    // logAdd("restore: 2 -> purchased ids are set (only not pending). number: ${purchasedIds.value.length}");
 
-    if(purchasedIds.value.isNotEmpty) {
-      logAdd("restore: 2.a -> unlocking since purchasedIds is not empty");
-      this.unlocked.setDistinct(true);
-    }
-    else {
-      logAdd("restore: 2.a -> locking since purchasedIds is empty indeed");
-      this.unlocked.set(false);
-    }
+    // if(purchasedIds.value.isNotEmpty) {
+    //   logAdd("restore: 2.a -> unlocking since purchasedIds is not empty");
+    //   this.unlocked.setDistinct(true);
+    // }
+    // else {
+    //   logAdd("restore: 2.a -> locking since purchasedIds is empty indeed");
+    //   this.unlocked.set(false);
+    // }
 
     logAdd("restore: 4 -> returning null without errors");
   }
@@ -221,7 +221,7 @@ class CSPayments {
       logAdd("purchase: 1.notNull -> we obviously do, so we call buyNonConsumable(productDetails) (async! to be awaited)");
     }
 
-    final result = await InAppPurchaseConnection.instance.buyNonConsumable(
+    final result = await InAppPurchase.instance.buyNonConsumable(
       purchaseParam: PurchaseParam(productDetails: productDetails)
     );
 

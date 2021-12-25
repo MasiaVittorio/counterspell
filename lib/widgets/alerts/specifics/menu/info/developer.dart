@@ -59,14 +59,14 @@ class _DeveloperState extends State<Developer> {
             ),
           ),
           ListTile(
-            leading: Icon(McIcons.visual_studio_code),
+            leading: Icon(McIcons.microsoft_visual_studio_code),
             title: Text( am
               ? "A guy who learned mobile development to make his own life counter"
               : "A freelance Flutter developer making tons of cross-platform apps",
             ),
           ),
           ListTile(
-            leading: Icon(McIcons.xbox_controller),
+            leading: Icon(McIcons.microsoft_xbox_controller),
             title: Text( am
               ? "A gamer with little time for his beloved Halo"
               : "A gamer with plenty of time for his split-screen sessions with the boys",  

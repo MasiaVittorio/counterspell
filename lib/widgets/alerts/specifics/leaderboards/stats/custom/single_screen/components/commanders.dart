@@ -60,6 +60,9 @@ class _CommandersState extends State<Commanders> {
   }
 }
 
+// TODO: mini stats gratis da mostrare quando non hai ancora sbloccato tutto
+
+
 class _Commander extends StatelessWidget {
 
   static const double height = 82.0;
@@ -88,6 +91,5 @@ class _Commander extends StatelessWidget {
 
 
 
-// TODO: mini stats gratis da mostrare quando non hai ancora sbloccato tutto
 
 

@@ -244,8 +244,8 @@ class _ColorToggle extends StatelessWidget {
         theme.canvasColor,
       );
 
-    return Division(
-      style: StyleClass()
+    return Parent(
+      style: ParentStyle()
         ..animate(150)
         ..width(50)
         ..height(50)

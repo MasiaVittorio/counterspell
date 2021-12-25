@@ -497,9 +497,10 @@ class _ThumbTrigger {
 
 }
 
+// TODO: extrabutton: fai che il contenuto possa overfloware oltre il cerchietto se è tutto filled
+
 enum _Flip {bounce, copy}
 
 
 
-// TODO: extrabutton: fai che il contenuto possa overfloware oltre il cerchietto se è tutto filled
 

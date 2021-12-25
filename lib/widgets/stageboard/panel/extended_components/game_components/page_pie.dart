@@ -73,8 +73,8 @@ class PagePie extends StatelessWidget {
     Map<CSPage,Color> colors, 
     Map<CSPage,bool> enabled,
     Color unselected,
-  ) => Division(
-    style: StyleClass()
+  ) => Parent(
+    style: ParentStyle()
       ..animate(150)
       ..width(50)
       ..height(50)

@@ -262,7 +262,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
         titlesData: FlTitlesData(
           bottomTitles: SideTitles(
             showTitles: true,
-            textStyle: style,
+            getTextStyles: (_) => style,
             margin: 20,
             reservedSize: style.fontSize,
             interval: 1.0,
@@ -272,7 +272,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
           ),
           leftTitles: SideTitles(
             showTitles: true,
-            textStyle: style,
+            getTextStyles: (_) => style,
             margin: 34,
             reservedSize: style.fontSize,
             interval: maxTitle/2,
@@ -385,20 +385,20 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
         if(widget.showCasts)
           BarChartRodData(
             y: states[i].totalCasts.toDouble(),
-            color: castColor,
+            colors: [castColor],
             width: _barWidth,
           ),
 
         BarChartRodData(
           y: states[i].life.toDouble().clamp(0.0, double.infinity),
-          color: lifeColor,
+          colors: [lifeColor],
           width: _barWidth,
         ),
 
         if(widget.showDamage)
           BarChartRodData(
             y: states[i].totalDamageTaken.toDouble(),
-            color: defenceColor,
+            colors: [defenceColor],
             width: _barWidth,
           ),
       ]),

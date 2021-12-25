@@ -53,10 +53,10 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
 
   CSDragGestureRecognizer({
     Object debugOwner,
-    PointerDeviceKind kind,
+    Set<PointerDeviceKind> supportedDevices,
     this.dragStartBehavior = DragStartBehavior.start,
   }) : assert(dragStartBehavior != null),
-       super(debugOwner: debugOwner, kind: kind);
+       super(debugOwner: debugOwner, supportedDevices: supportedDevices);
 
 
   DragStartBehavior dragStartBehavior;
@@ -384,8 +384,8 @@ class CSHorizontalDragGestureRecognizer extends CSDragGestureRecognizer {
   /// {@macro flutter.gestures.gestureRecognizer.kind}
   CSHorizontalDragGestureRecognizer({
     Object debugOwner,
-    PointerDeviceKind kind,
-  }) : super(debugOwner: debugOwner, kind: kind);
+    Set<PointerDeviceKind> supportedDevices,
+  }) : super(debugOwner: debugOwner, supportedDevices: supportedDevices);
 
   @override
   bool _isFlingGesture(VelocityEstimate estimate) {

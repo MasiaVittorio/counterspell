@@ -121,8 +121,8 @@ const settingsThemes = <SettingsPage,StagePage>{
   SettingsPage.settings: const StagePage(
     name: "Settings",
     longName: "Specify behaviors",
-    icon: McIcons.settings,
-    unselectedIcon: McIcons.settings_outline,
+    icon: McIcons.cog,
+    unselectedIcon: McIcons.cog_outline,
   ),
   SettingsPage.info: const StagePage(
     name: "Info",

@@ -154,7 +154,7 @@ class _ThrowWidget extends StatelessWidget {
   static const Map<int,IconData> icons = {
     6: McIcons.dice_3,
     20: McIcons.dice_d20,
-    2: McIcons.coin,
+    2: McIcons.bitcoin
   };  
   // static const Map<int,String> subtitles = {
   //   2: "coin",
@@ -162,7 +162,7 @@ class _ThrowWidget extends StatelessWidget {
   //   20: "d20",
   // };
   static const Map<int,IconData> coinIcons = {
-    1: McIcons.coin,
+    1: McIcons.bitcoin,
     2: McIcons.circle_outline,
   };
   static const Map<int,IconData> d6icons = {

@@ -122,13 +122,13 @@ class _Chart extends StatelessWidget {
       getTitles: (double seconds) => seconds != 0.0
         ? _timeFormat(seconds.toInt())
         : "",
-      textStyle: textStyle,
+      getTextStyles: (_) => textStyle,
     );
 
     return LineChart(LineChartData(
       borderData: FlBorderData(show: false),
       gridData: FlGridData(show: false),
-      clipToBorder: false,
+      clipData: FlClipData.none(),
       extraLinesData: ExtraLinesData(horizontalLines: [HorizontalLine(y: 0.0, strokeWidth: 1.0)]),
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(tooltipBgColor: canvasColor.withOpacity(0.9)),
@@ -159,8 +159,10 @@ class _Chart extends StatelessWidget {
             barWidth: 1.5,
             dotData: FlDotData(
               show: false,
-              dotColor: LifeChart._colors[i],
-              dotSize: 2.0,
+              getDotPainter: (_,__,___,____) => FlDotCirclePainter(
+                color: LifeChart._colors[i],
+                radius: 1,
+              ),
             ),
           ),  
       ],
@@ -225,7 +227,7 @@ class _Chart extends StatelessWidget {
       reservedSize: 22,
       margin: 10,
       interval: interval,
-      textStyle: textStyle,
+      getTextStyles: (_) => textStyle,
       getTitles: (double life) 
         => okNumbers.contains(life) ? "${life.toInt()}" : "",
     );

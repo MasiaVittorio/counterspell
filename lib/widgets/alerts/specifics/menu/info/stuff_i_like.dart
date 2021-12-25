@@ -73,7 +73,7 @@ class _CommandBros extends StatelessWidget {
         brightness: Brightness.dark,
         canvasColor: main,
         iconTheme: base.iconTheme.copyWith(color: color5),
-        accentIconTheme: base.iconTheme.copyWith(color: color5),
+        // accentIconTheme: base.iconTheme.copyWith(color: color5),
         primaryIconTheme: base.iconTheme.copyWith(color: color5),
         textTheme: base.textTheme.apply(bodyColor: color5),
         colorScheme: base.colorScheme.copyWith(

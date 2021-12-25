@@ -79,7 +79,7 @@ class ScryfallApi{
     if(string == "") return null;
     final _ss = ScryfallApi._searchString(string, uniqueName: uniqueName ?? true);
     // print("searching: $_ss");
-    final response = await http.get(_ss);
+    final response = await http.get(Uri.parse(_ss));
 
     Map<String,dynamic> map;
 

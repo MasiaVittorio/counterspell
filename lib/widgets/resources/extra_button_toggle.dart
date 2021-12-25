@@ -33,7 +33,7 @@ class ExtraButtonToggle extends StatelessWidget {
     final theme = Theme.of(context);
 
     final colorOff = this.colorOff ?? theme.colorScheme.onSurface.withOpacity(0.1);
-    final colorOn = this.colorOn ?? theme.accentColor.withOpacity(0.8);
+    final colorOn = this.colorOn ?? theme.colorScheme.secondary.withOpacity(0.8);
 
     final iconColorOn = colorOn.contrast;
     final iconColorOff = theme.colorScheme.onSurface.withOpacity(0.55);

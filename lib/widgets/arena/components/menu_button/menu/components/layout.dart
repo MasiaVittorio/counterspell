@@ -1,6 +1,5 @@
 
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/resources/arena_layout/arena_layout_picker.dart';
 
 
 class ArenaMenuLayout extends StatelessWidget {

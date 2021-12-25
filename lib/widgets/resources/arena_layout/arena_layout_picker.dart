@@ -1,6 +1,4 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/resources/arena_layout/arena_layout.dart';
-import 'package:flutter/material.dart';
 
 class ArenaLayoutAlert extends StatefulWidget {
   const ArenaLayoutAlert();

@@ -21,7 +21,7 @@ class CSTutorial {
   ///=============================================
   /// Getters =================================
   TutorialData getTutorial(int index) => (
-    TutorialData.values.checkIndex(index)
+    TutorialData.values?.checkIndex(index ?? -1) ?? false
   )
     ? TutorialData.values[index]
     : null;
@@ -30,7 +30,7 @@ class CSTutorial {
   TutorialData get nextTutorial => getTutorial(currentTutorialIndex + 1);
 
   Hint getHint(int index) => (
-    currentTutorial?.hints?.checkIndex(index)
+    currentTutorial?.hints?.checkIndex(index ?? -1)
     ?? false
   )
     ? currentTutorial.hints[index]

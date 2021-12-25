@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:screen/screen.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:vibration/vibration.dart';
 
 
@@ -47,8 +47,8 @@ class CSSettingsApp {
       initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j,
-      onChanged: (bool b) => Screen.keepOn(b),
-      readCallback: (bool b) => Screen.keepOn(b), 
+      onChanged: (bool b) => Wakelock.toggle(enable: b),
+      readCallback: (bool b) => Wakelock.toggle(enable: b), 
     ),
     tutored= PersistentVar<bool>(
       key: "bloc_settings_blocvar_tutorial_shown",

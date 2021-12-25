@@ -9,22 +9,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 class CommanderStatWidget extends StatelessWidget {
 
   final CommanderStats stat;
-  final List<PastGame> pastGames;
+  final List<PastGame?> pastGames;
   final VoidCallback onSingleScreenCallback;
 
   static const double height = 186;
   //found by trial and error
 
   CommanderStatWidget(this.stat, {
-    @required this.pastGames,
-    @required this.onSingleScreenCallback,
+    required this.pastGames,
+    required this.onSingleScreenCallback,
   });
 
   @override
   Widget build(BuildContext context) {
     final VoidCallback onTap = () {
       onSingleScreenCallback?.call();
-      Stage.of(context).showAlert(
+      Stage.of(context)!.showAlert(
         CommanderStatsScreen(CommanderStatsAdvanced.fromPastGames(
           stat, 
           pastGames,
@@ -34,12 +34,12 @@ class CommanderStatWidget extends StatelessWidget {
     };
 
     final theme = Theme.of(context);
-    final pageColors = Stage.of(context).themeController.derived
-        .mainPageToPrimaryColor.value;
+    final pageColors = Stage.of(context)!.themeController.derived
+        .mainPageToPrimaryColor!.value!;
 
-    final logic = CSBloc.of(context);
-    final imageSettings = logic.settings.imagesSettings;
-    final imageUrl = stat.card.imageUrl();
+    final logic = CSBloc.of(context)!;
+    final imageSettings = logic.settings!.imagesSettings;
+    final imageUrl = stat.card.imageUrl()!;
 
     return SizedBox(
       height: CommanderStatWidget.height,

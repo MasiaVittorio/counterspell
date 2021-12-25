@@ -9,14 +9,14 @@ class QuotesAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> cards = <String>[for(final name in FlavorTexts.map.keys) name];
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
 
     return HeaderedAlert("MtG quotes", 
       child: ListView.builder(
         physics: stage.panelController.panelScrollPhysics(),
         itemBuilder: (_, i){
           final String card = cards[i];
-          final String quote = FlavorTexts.map[card];
+          final String quote = FlavorTexts.map[card]!;
 
           return Section([
             SectionTitle(card),

@@ -7,7 +7,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 class ExtraButtons extends StatelessWidget {
 
   const ExtraButtons({
-    @required this.children,
+    required this.children,
     this.margin = defaultMargin,
     this.separate = true,
     this.flexes,
@@ -16,7 +16,7 @@ class ExtraButtons extends StatelessWidget {
   final List<Widget> children;
   final EdgeInsets margin;
   final bool separate;
-  final List<int> flexes;
+  final List<int>? flexes;
 
   static const defaultMargin = const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
   static const Widget divider = ExtraButtonDivider();
@@ -27,7 +27,7 @@ class ExtraButtons extends StatelessWidget {
       for(int i=0; i<children.length; ++i)
         Expanded(
           child: children[i],
-          flex: (flexes?.checkIndex(i ?? -1) ?? false) ? flexes[i] : 1,
+          flex: (flexes?.checkIndex(i ?? -1) ?? false) ? flexes![i] : 1,
         ),
     ];
     return Padding(
@@ -62,24 +62,24 @@ class ExtraButtonDivider extends StatelessWidget {
 
 
 class ExtraButton extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-  final double iconSize;
+  final IconData? icon;
+  final String? text;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final double? iconSize;
   final EdgeInsets iconPadding;
   // if the button should not be large as its text but bound to its context, we will use autosize text
   final bool forceExternalSize;
   final bool filled;
-  final Widget customIcon;
-  final Color customCircleColor;
+  final Widget? customIcon;
+  final Color? customCircleColor;
   final bool twoLines;
   final bool iconOverflow;
 
   const ExtraButton({
-    @required this.icon,
-    @required this.text,
-    @required this.onTap,
+    required this.icon,
+    required this.text,
+    required this.onTap,
     this.onLongPress,
     this.forceExternalSize = false,
     this.iconPadding = EdgeInsets.zero,
@@ -138,13 +138,13 @@ class ExtraButton extends StatelessWidget {
             height: twoLines ? 36 : 24,
             child: this.forceExternalSize 
               ? AutoSizeText(
-                text,
+                text!,
                 maxLines: 1,
-                maxFontSize: defaultSize,
+                maxFontSize: defaultSize!,
                 minFontSize: defaultSize / 2,
                 textAlign: TextAlign.center,
               )
-              : Text(text, textAlign: TextAlign.center),
+              : Text(text!, textAlign: TextAlign.center),
           ),
         ),
       ], 

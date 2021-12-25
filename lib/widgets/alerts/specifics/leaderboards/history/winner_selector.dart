@@ -2,14 +2,14 @@ import 'package:counter_spell_new/core.dart';
 
 class WinnerSelector extends StatefulWidget {
   final Set<String> names;
-  final String initialSelected;
-  final void Function(String) onConfirm;
-  final VoidCallback onDontSave;
+  final String? initialSelected;
+  final void Function(String?) onConfirm;
+  final VoidCallback? onDontSave;
   final bool closeCompletely;
 
   const WinnerSelector(this.names, {
     this.initialSelected, 
-    @required this.onConfirm, 
+    required this.onConfirm, 
     this.onDontSave,
     this.closeCompletely = false,
   });
@@ -23,7 +23,7 @@ class WinnerSelector extends StatefulWidget {
 
 class _WinnerSelectorState extends State<WinnerSelector> {
 
-  String selected;
+  String? selected;
 
   @override
   void initState() {
@@ -42,9 +42,9 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         leading: const Icon(Icons.close),
         onTap: (){
           if(widget.closeCompletely ?? false){
-            stage.closePanelCompletely();
+            stage!.closePanelCompletely();
           } else {
-            stage.closePanel();
+            stage!.closePanel();
           }
         }
       )),
@@ -54,9 +54,9 @@ class _WinnerSelectorState extends State<WinnerSelector> {
         onTap: (){
           widget.onConfirm(selected);
           if(widget.closeCompletely ?? false){
-            stage.closePanelCompletely();
+            stage!.closePanelCompletely();
           } else {
-            stage.closePanel();
+            stage!.closePanel();
           }
         },
       )),
@@ -70,7 +70,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
           mainAxisSize: MainAxisSize.min,
           children:<Widget>[
             for(final name in widget.names)
-              SidRadioListTile<String>(
+              SidRadioListTile<String?>(
                 value: name,
                 groupValue: selected,
                 onChanged: (name) => this.setState((){
@@ -93,11 +93,11 @@ class _WinnerSelectorState extends State<WinnerSelector> {
               leading: CSWidgets.deleteIcon,
               title: const Text("Don't save"),
               onTap: (){
-                widget.onDontSave();
+                widget.onDontSave!();
                 if(widget.closeCompletely ?? false){
-                  stage.closePanelCompletely();
+                  stage!.closePanelCompletely();
                 } else {
-                  stage.closePanel();
+                  stage!.closePanel();
                 }
               },
             ),

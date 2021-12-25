@@ -9,13 +9,13 @@ enum ArenaLayoutType {
   ffa,
 }
 
-extension ArenaLayoutTypeNames on ArenaLayoutType {
+extension ArenaLayoutTypeNames on ArenaLayoutType? {
   static const Map<ArenaLayoutType,String> names = <ArenaLayoutType,String>{
     ArenaLayoutType.ffa: "Free for all",
     ArenaLayoutType.squad: "Squad",
   };
 
-  String get name => names[this];
+  String? get name => names[this!];
 
   ArenaLayoutType get other => this == ArenaLayoutType.ffa 
     ? ArenaLayoutType.squad
@@ -27,5 +27,5 @@ class ArenaLayoutTypes {
     "Free for all": ArenaLayoutType.ffa,
     "Squad": ArenaLayoutType.squad,
   };
-  static ArenaLayoutType fromName(String name) => map[name];
+  static ArenaLayoutType? fromName(String? name) => map[name!];
 }

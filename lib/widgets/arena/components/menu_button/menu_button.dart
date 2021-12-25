@@ -5,8 +5,8 @@ import 'menu/menu.dart';
 class ArenaMenuButton extends StatelessWidget {
 
   //button
-  final CSBloc logic;
-  final Map<int,String> positions;
+  final CSBloc? logic;
+  final Map<int,String?> positions;
   final bool isScrollingSomewhere;
   final bool open;
   final VoidCallback openMenu;
@@ -14,29 +14,29 @@ class ArenaMenuButton extends StatelessWidget {
   final double buttonSize;
   final VoidCallback exit;
   final CSPage page;
-  final ArenaLayoutType layoutType;
+  final ArenaLayoutType? layoutType;
 
   //menu
   final VoidCallback reorderPlayers;
   final BoxConstraints screenConstraints;
   final List<String> names;
-  final Map<ArenaLayoutType,bool> flipped;
+  final Map<ArenaLayoutType?,bool> flipped;
 
   ArenaMenuButton({
-    @required this.page,
-    @required this.logic,
-    @required this.positions,
-    @required this.isScrollingSomewhere,
-    @required this.open,
-    @required this.openMenu,
-    @required this.closeMenu,
-    @required this.buttonSize,
-    @required this.exit,
-    @required this.reorderPlayers,
-    @required this.screenConstraints,
-    @required this.names,
-    @required this.layoutType,
-    @required this.flipped,
+    required this.page,
+    required this.logic,
+    required this.positions,
+    required this.isScrollingSomewhere,
+    required this.open,
+    required this.openMenu,
+    required this.closeMenu,
+    required this.buttonSize,
+    required this.exit,
+    required this.reorderPlayers,
+    required this.screenConstraints,
+    required this.names,
+    required this.layoutType,
+    required this.flipped,
   });
 
   @override

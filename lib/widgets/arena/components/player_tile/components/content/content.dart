@@ -4,43 +4,43 @@ import 'components/all.dart';
 class AptContent extends StatelessWidget {
 
   AptContent({
-    @required this.name,
-    @required this.pageColors,
-    @required this.buttonAlignment,
-    @required this.constraints,
-    @required this.bloc,
-    @required this.rawSelected,
-    @required this.highlighted,
-    @required this.isScrollingSomewhere,
-    @required this.gameState,
-    @required this.increment,
-    @required this.page,
-    @required this.whoIsAttacking,
-    @required this.whoIsDefending,
-    @required this.defenceColor,
-    @required this.counter,
+    required this.name,
+    required this.pageColors,
+    required this.buttonAlignment,
+    required this.constraints,
+    required this.bloc,
+    required this.rawSelected,
+    required this.highlighted,
+    required this.isScrollingSomewhere,
+    required this.gameState,
+    required this.increment,
+    required this.page,
+    required this.whoIsAttacking,
+    required this.whoIsDefending,
+    required this.defenceColor,
+    required this.counter,
   });
 
   //Business Logic
-  final CSBloc bloc;
+  final CSBloc? bloc;
 
   //Actual Game State
-  final GameState gameState;
+  final GameState? gameState;
   final String name;
 
   //Interaction information
   final bool isScrollingSomewhere;
   final bool highlighted;
-  final int increment;
-  final bool rawSelected;
+  final int? increment;
+  final bool? rawSelected;
   final CSPage page;
-  final String whoIsAttacking;
-  final String whoIsDefending;
-  final Color defenceColor;
+  final String? whoIsAttacking;
+  final String? whoIsDefending;
+  final Color? defenceColor;
   final Counter counter;
 
   //Theming
-  final Map<CSPage,Color> pageColors;
+  final Map<CSPage,Color?>? pageColors;
 
   //Layout information
   final BoxConstraints constraints;
@@ -59,7 +59,7 @@ class AptContent extends StatelessWidget {
   bool get leftButton => rightInfo;
   bool get rightInfo => rightInfoFromButtonAlignment(this.buttonAlignment);
 
-  Widget get expandedBody => Expanded(child: bloc.settings.arenaSettings.scrollOverTap.buildChild(
+  Widget get expandedBody => Expanded(child: bloc!.settings!.arenaSettings.scrollOverTap.buildChild(
     child: body,
     builder: (context, scrolls, child) => IgnorePointer(
       ignoring: !scrolls,
@@ -86,9 +86,9 @@ class AptContent extends StatelessWidget {
 
 
   Widget get number {
-    final playerState = gameState.players[name].states.last;
+    final playerState = gameState!.players[name]!.states.last;
 
-    bool scrolling;
+    bool? scrolling;
     switch (page) {
       case CSPage.history:
         scrolling = false;
@@ -115,8 +115,8 @@ class AptContent extends StatelessWidget {
       page: this.page,
       whoIsAttacking: this.whoIsAttacking,
       whoIsDefending: this.whoIsDefending,
-      isAttackerUsingPartnerB: this.gameState.players[this.whoIsAttacking]?.usePartnerB??false,
-      usingPartnerB: gameState.players[name].usePartnerB,
+      isAttackerUsingPartnerB: this.gameState!.players[this.whoIsAttacking!]?.usePartnerB??false,
+      usingPartnerB: gameState!.players[name]!.usePartnerB,
       counter: this.counter, 
     );
   }
@@ -139,7 +139,7 @@ class AptContent extends StatelessWidget {
     whoIsDefending: this.whoIsDefending,
   );
 
-  Widget get role => this.bloc.settings.arenaSettings.scrollOverTap.build((context, scroll) => scroll
+  Widget get role => this.bloc!.settings!.arenaSettings.scrollOverTap.build((context, scroll) => scroll
     ? AptRole(
       name: this.name,
       rawSelected: this.rawSelected,
@@ -149,7 +149,7 @@ class AptContent extends StatelessWidget {
       page: this.page,
       whoIsAttacking: this.whoIsAttacking,
       whoIsDefending: this.whoIsDefending,
-      havingPartnerB: this.gameState.players[this.name].havePartnerB,
+      havingPartnerB: this.gameState!.players[this.name]!.havePartnerB,
       // defenceColor: this.defenceColor,
     )
     : const SizedBox(width: AptRole.size, height: AptRole.size,),

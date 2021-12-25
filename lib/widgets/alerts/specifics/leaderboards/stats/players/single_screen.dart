@@ -18,29 +18,29 @@ class PlayerStatScreen extends StatefulWidget {
 
 class _PlayerStatScreenState extends State<PlayerStatScreen> {
 
-  String opponent;
-  List<String> opponents;
+  String? opponent;
+  late List<String?> opponents;
 
-  int groupSize;
-  List<int> groupSizes;
+  int? groupSize;
+  late List<int?> groupSizes;
 
-  MtgCard commander;
-  List<MtgCard> commanders;
+  MtgCard? commander;
+  late List<MtgCard?> commanders;
 
   @override
   void initState() {
     super.initState();
-    commanders = <MtgCard>[null, ...widget.stat.commanders,];
-    groupSizes = <int>[null, ...widget.stat.groupSizes,];
-    opponents = <String>[null, ...widget.stat.opponents,];
+    commanders = <MtgCard?>[null, ...widget.stat.commanders,];
+    groupSizes = <int?>[null, ...widget.stat.groupSizes,];
+    opponents = <String?>[null, ...widget.stat.opponents,];
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final logic = CSBloc.of(context);
+    final logic = CSBloc.of(context)!;
     final theme = Theme.of(context);
-    final imageSettings = logic.settings.imagesSettings;
+    final imageSettings = logic.settings!.imagesSettings;
 
     final int totalGames = widget.stat.totalGamesFilter(
       opponent: opponent,
@@ -130,13 +130,13 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                       alignment: Alignment.center,
                       padding: const EdgeInsets.all(8.0),
                       child: Text(c == null ? "-" : safeSubString(
-                        untilSpaceOrComma(c.name),
+                        untilSpaceOrComma(c.name!),
                         8,
                       )),
                       decoration: c != null ? BoxDecoration(
                         image: DecorationImage(
                           
-                          image: CachedNetworkImageProvider(c.imageUrl()),
+                          image: CachedNetworkImageProvider(c.imageUrl()!),
                           colorFilter: ColorFilter.mode(
                             Color.alphaBlend(
                               theme.colorScheme.secondary.

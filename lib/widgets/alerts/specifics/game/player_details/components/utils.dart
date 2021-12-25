@@ -7,17 +7,17 @@ class DetailsUtils {
       inputType: TextInputType.number,
       labelText: "Insert $name's life",
       onConfirm: (string){
-        final int val = int.tryParse(string);
+        final int? val = int.tryParse(string);
         if(val != null){
-          bloc.game.gameState.applyAction(GALife(
-            val - playerState.life,
+          bloc.game!.gameState!.applyAction(GALife(
+            val - playerState.life!,
             selected: {
               for(final n in names)
                 if(n == name) n: true
                 else n: false,
             },
-            minVal: bloc.settings.gameSettings.minValue.value,
-            maxVal: bloc.settings.gameSettings.maxValue.value,
+            minVal: bloc.settings!.gameSettings.minValue.value,
+            maxVal: bloc.settings!.gameSettings.maxValue.value,
           ));
         }
       }
@@ -28,18 +28,18 @@ class DetailsUtils {
       inputType: TextInputType.number,
       labelText: "Insert $name's ${counter.shortName}",
       onConfirm: (string){
-        final int val = int.tryParse(string);
+        final int? val = int.tryParse(string);
         if(val != null){
-          bloc.game.gameState.applyAction(GACounter(
-            val - playerState.counters[counter.longName],
+          bloc.game!.gameState!.applyAction(GACounter(
+            val - playerState.counters[counter.longName]!,
             counter,
             selected: {
               for(final n in names)
                 if(n == name) n: true
                 else n: false,
             },
-            minVal: bloc.settings.gameSettings.minValue.value,
-            maxVal: bloc.settings.gameSettings.maxValue.value,
+            minVal: bloc.settings!.gameSettings.minValue.value,
+            maxVal: bloc.settings!.gameSettings.maxValue.value,
           ));
         }
       }
@@ -54,9 +54,9 @@ class DetailsUtils {
           : "Times $name has cast their FIRST partner (A)"
         : "Times $name has cast their commander",
       onConfirm: (string){
-        final int val = int.tryParse(string);
+        final int? val = int.tryParse(string);
         if(val != null){
-          bloc.game.gameState.applyAction(GACast(
+          bloc.game!.gameState!.applyAction(GACast(
             val - playerState.cast.fromPartner(!partnerB),
             selected: {
               for(final n in names)
@@ -68,7 +68,7 @@ class DetailsUtils {
                 if(n == name) n: partnerB
                 else n: false,
             },
-            maxVal: bloc.settings.gameSettings.maxValue.value,
+            maxVal: bloc.settings!.gameSettings.maxValue.value,
           ));
         }
       }
@@ -79,7 +79,7 @@ class DetailsUtils {
     StageData stage, 
     String attacker, String defender, 
     CSBloc bloc, 
-    GameState gameState,
+    GameState? gameState,
     {bool replace = false}
   ) 
     => stage.showAlert(InsertAlert(
@@ -91,22 +91,22 @@ class DetailsUtils {
           : "Damage dealt to $defender by $attacker's FIRST partner (A)"
         : "Damage dealt to $defender by $attacker's commander",
       onConfirm: (string){
-        final int val = int.tryParse(string);
+        final int? val = int.tryParse(string);
         if(val != null){
-          bloc.game.gameState.applyAction(GADamage(
-            val - gameState.players[defender].states.last.damages[attacker].fromPartner(!partnerB),
+          bloc.game!.gameState!.applyAction(GADamage(
+            val - gameState!.players[defender]!.states.last.damages[attacker]!.fromPartner(!partnerB),
             defender: defender,
             attacker: attacker,
             usingPartnerB: partnerB,
-            maxVal: bloc.settings.gameSettings.maxValue.value,
-            minLife: bloc.settings.gameSettings.minValue.value,
-            settings: gameState.players[attacker].commanderSettings(!partnerB),
+            maxVal: bloc.settings!.gameSettings.maxValue.value,
+            minLife: bloc.settings!.gameSettings.minValue.value,
+            settings: gameState.players[attacker]!.commanderSettings(!partnerB),
           ));
         }
       }
     ),size: InsertAlert.twoLinesHeight, replace: replace ?? false);
 
-  static void partnerDamage(StageData stage, String attacker, String defender, CSBloc bloc, GameState gameState) 
+  static void partnerDamage(StageData stage, String attacker, String defender, CSBloc bloc, GameState? gameState) 
     => stage.showAlert(
       AlternativesAlert(
         label: "Which one of the two $attacker's partners is attacking?",
@@ -139,7 +139,7 @@ class DetailsUtils {
         if(string == null) return;
         if(string == "") return;
         if(names.contains(string)) return;
-        bloc.game.gameState.renamePlayer(name, string);
+        bloc.game!.gameState!.renamePlayer(name, string);
       },
       checkErrors: (string){
         if(string == null) return "Error: null string";
@@ -155,7 +155,7 @@ class DetailsUtils {
       confirmColor: CSColors.delete,
       confirmIcon: Icons.delete_forever,
       confirmText: "Yes, delete $name",
-      action: () => bloc.game.gameState.deletePlayer(name),
+      action: () => bloc.game!.gameState!.deletePlayer(name),
       completelyCloseAfterConfirm: true,
     ),size: ConfirmAlert.height);
 
@@ -170,14 +170,14 @@ class PlayerBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final gameBloc = bloc.game;
-    final groupBloc = gameBloc.gameGroup;
+    final bloc = CSBloc.of(context)!;
+    final gameBloc = bloc.game!;
+    final groupBloc = gameBloc.gameGroup!;
     final stateBloc = gameBloc.gameState;
     return groupBloc.names.build((_, names){
       final name = names[index];
-      return stateBloc.gameState.build((_, state){
-        final player = state.players[name];
+      return stateBloc!.gameState.build((_, state){
+        final player = state.players[name]!;
         return this.builder(state, names, name, player.states.last, player);
       },);
     },);

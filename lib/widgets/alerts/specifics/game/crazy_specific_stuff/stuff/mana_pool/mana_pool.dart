@@ -17,7 +17,7 @@ class ManaPool extends GenericAlert {
 }
 
 class _ManaPool extends StatefulWidget {
-  final CSBloc bloc;
+  final CSBloc? bloc;
   _ManaPool(this.bloc);
 
   @override
@@ -26,18 +26,18 @@ class _ManaPool extends StatefulWidget {
 
 class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMixin {
 
-  AnimationController controller;
+  AnimationController? controller;
 
-  MPLogic logic;
+  late MPLogic logic;
 
   @override
   void initState() {
     super.initState();
-    logic = MPLogic(widget.bloc);
+    logic = MPLogic(widget.bloc!);
 
     this.initController();
 
-    logic.localScroller.delayerController.addListenersMain(
+    logic.localScroller!.delayerController.addListenersMain(
       startListener: scrolling,
       endListener: leaving,
     );
@@ -58,28 +58,28 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
       vsync: this,
       animationBehavior: AnimationBehavior.preserve,
     );
-    controller.addStatusListener(logic.localScroller.delayerAnimationListener);
+    controller!.addStatusListener(logic.localScroller!.delayerAnimationListener);
   }
 
   bool scrolling(){
     if(!mounted) return false;
-    if(controller.isAnimating && controller.velocity > 0)
+    if(controller!.isAnimating && controller!.velocity > 0)
       return true;
-    if(controller.value == 1.0)
+    if(controller!.value == 1.0)
       return true;
 
-    this.controller.fling();
+    this.controller!.fling();
     return true;
   }
 
   bool leaving() {
     if(!mounted) return false;
-    if(this.controller.value == 0.0)
+    if(this.controller!.value == 0.0)
       return true;
 
     bool fling = false;
-    if(this.controller.isAnimating){
-      if(this.controller.velocity < 0)
+    if(this.controller!.isAnimating){
+      if(this.controller!.velocity < 0)
         return true;
       fling = true;
     }
@@ -89,9 +89,9 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
 
   void _leaving(bool withFling) async {
     if(!mounted) return;
-    if(withFling) await  this.controller.fling();
+    if(withFling) await  this.controller!.fling();
     if(!mounted) return;
-    this.controller.animateBack(0.0);
+    this.controller!.animateBack(0.0);
   }
 
   void _disposeController(){
@@ -120,7 +120,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
         const AlertDrag(),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: logic.show.build((_, show) => Row(
+          child: logic.show!.build((_, show) => Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               for(final color in Clr.values)
@@ -129,13 +129,13 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
                   child: _ColorToggle(
                     color,
                     onChanged: (v){
-                      logic.show.edit((map) {
+                      logic.show!.edit((map) {
                         map[color] = v;
                       });
-                      Stage.of(context).panelController.alertController
+                      Stage.of(context)!.panelController.alertController!
                         .recalcAlertSize(calcSize([
                           for(final c in Clr.values)
-                            if(show[c]) c,
+                            if(show[c]!) c,
                         ].length));
                     },
                     value: show[color],
@@ -152,10 +152,10 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
 
   // TODO: maybe key su numbers per non animare cambiamenti quando cambi show
   Widget get pool => BlocVar.build3(
-    logic.show,
-    logic.pool,
-    logic.selected,
-    builder: (_, show, pool, selected) => Column(
+    logic.show!,
+    logic.pool!,
+    logic.selected!,
+    builder: (_, dynamic show, dynamic pool, dynamic selected) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         for(final color in Clr.values)
@@ -172,13 +172,13 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
   );
   
 
-  Widget get recentActions => logic.history.build((context, history) 
-    => logic.show.build((_, show) => Container(
+  Widget get recentActions => logic.history!.build((context, history) 
+    => logic.show!.build((_, show) => Container(
       height: _RecentAction.height,
       child: Row(children: [
         for(final child in [
           for(final action in history)
-            if(show[action.color])
+            if(show[action.color!]!)
               _RecentAction(action, onTap: logic.apply),
         ]) Expanded(child: child),
       ]),
@@ -193,7 +193,7 @@ class _RecentAction extends StatelessWidget {
   final ManaAction action;
   final void Function(ManaAction) onTap;
 
-  _RecentAction(this.action, {@required this.onTap});
+  _RecentAction(this.action, {required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -206,11 +206,11 @@ class _RecentAction extends StatelessWidget {
           children: [
             Icon(
               action.color.icon,
-              color: action.color.color.withOpacity(0.4),
+              color: action.color.color!.withOpacity(0.4),
               size: 35,
             ),
             Center(child: Text(
-              "${action.delta >= 0 ? '+' : ''}${action.delta}",
+              "${action.delta! >= 0 ? '+' : ''}${action.delta}",
             ),),
           ],
         ),
@@ -227,18 +227,18 @@ class _ColorToggle extends StatelessWidget {
 
   final Clr color;
   final void Function(bool v) onChanged;
-  final bool value;
+  final bool? value;
 
   _ColorToggle(this.color, {
-    @required this.onChanged,
-    @required this.value,
+    required this.onChanged,
+    required this.value,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final Color c = value 
-      ? color.color 
+    final Color c = value! 
+      ? color.color! 
       : Color.alphaBlend(
         theme.scaffoldBackgroundColor.withOpacity(0.5), 
         theme.canvasColor,
@@ -251,12 +251,12 @@ class _ColorToggle extends StatelessWidget {
         ..height(50)
         ..borderRadius(all: 40)
         ..background.color(c)
-        ..elevation(value ? 4:0)
+        ..elevation(value! ? 4:0)
         ..overflow.hidden(),
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          onTap: () => onChanged(!value),
+          onTap: () => onChanged(!value!),
           child: Center(
             child: Icon(
               color.icon,
@@ -273,16 +273,16 @@ class _ColorToggle extends StatelessWidget {
 class _ColorNumber extends StatelessWidget {
 
   final Clr color;
-  final ScrollerLogic scroller;
-  final int value;
+  final ScrollerLogic? scroller;
+  final int? value;
   final void Function(Clr) onPan;
   final bool selected;
 
   _ColorNumber(this.color, {
-    @required this.scroller,
-    @required this.value,
-    @required this.onPan,
-    @required this.selected,
+    required this.scroller,
+    required this.value,
+    required this.onPan,
+    required this.selected,
   });
 
 
@@ -292,21 +292,21 @@ class _ColorNumber extends StatelessWidget {
       builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
         child: VelocityPanDetector(
-          onPanEnd: (_) => scroller.onDragEnd(),
-          onPanCancel: scroller.onDragEnd,
+          onPanEnd: (_) => scroller!.onDragEnd(),
+          onPanCancel: scroller!.onDragEnd,
           onPanUpdate: (details) {
-            if(scroller.ignoringThisPan) return;
+            if(scroller!.ignoringThisPan) return;
             onPan(color);
-            scroller.onDragUpdate(
+            scroller!.onDragUpdate(
               details, 
               constraints.maxWidth, 
               vertical: false
             );
           },
-          child: scroller.isScrolling.build((_, scrolling) 
-            => scroller.intValue.build((_, increment){
+          child: scroller!.isScrolling.build((_, scrolling) 
+            => scroller!.intValue.build((_, increment){
               final textStyle = TextStyle(
-                color: color.color.brightness.contrast, 
+                color: color.color!.brightness.contrast, 
                 fontSize: 0.26 * CSSizes.minTileSize,
               );
 
@@ -320,12 +320,12 @@ class _ColorNumber extends StatelessWidget {
                       Icon(Icons.keyboard_arrow_left),
                       Expanded(child: Center(child: CircleNumber(
                         size: 56,
-                        value: value,
+                        value: value!,
                         numberOpacity: 1.0,
                         open: scrolling && selected,
                         style: textStyle,
                         duration: CSAnimations.fast,
-                        color: color.color,
+                        color: color.color!,
                         increment: scrolling && selected ? increment : 0,
                         borderRadiusFraction: 1.0,
                         extraIcon: Icon(

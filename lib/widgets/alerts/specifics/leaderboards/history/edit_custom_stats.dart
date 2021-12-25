@@ -6,17 +6,17 @@ class EditCustomStats extends StatelessWidget {
 
   final int index;
 
-  const EditCustomStats({@required this.index});
+  const EditCustomStats({required this.index});
 
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final logic = CSBloc.of(context);
+    final logic = CSBloc.of(context)!;
     final gamesVar = logic.pastGames.pastGames;
     final titlesVar = logic.pastGames.customStatTitles;
 
     return titlesVar.build((_, titles) => gamesVar.build((_, games){
-      final game = games[index];
+      final game = games[index]!;
       final names = [...game.state.players.keys];
       final stats = game.customStats;
 
@@ -56,8 +56,8 @@ class EditCustomStats extends StatelessWidget {
                       isSelected: [for(final n in names) stats[title]?.contains(n) ?? false],
                       onPressed: (i){
                         final n = names[i];
-                        gamesVar.value[index].customStats[title]
-                          = gamesVar.value[index].customStats[title].toggled(n);
+                        gamesVar.value[index]!.customStats[title]
+                          = gamesVar.value[index]!.customStats[title].toggled(n);
                         gamesVar.refresh();
                       },
                     ),
@@ -65,7 +65,7 @@ class EditCustomStats extends StatelessWidget {
                       IconButton(
                         icon: Icon(Icons.delete_forever),
                         color: CSColors.delete,
-                        onPressed: () => stage.showAlert(
+                        onPressed: () => stage!.showAlert(
                           ConfirmAlert(
                             action: () => titlesVar.edit((s) => s.remove(title)),
                             warningText: 'Delete "$title" stats?',
@@ -85,7 +85,7 @@ class EditCustomStats extends StatelessWidget {
             SubSection([ListTile(
               title: const Text("New custom stat"),
               leading: const Icon(Icons.add),
-              onTap: () => stage.showAlert(
+              onTap: () => stage!.showAlert(
                 InsertAlert(
                   labelText: "New custom stat",
                   onConfirm: (nT) => titlesVar.edit((sT) => sT.add(nT)),
@@ -104,7 +104,7 @@ class EditCustomStats extends StatelessWidget {
               titleBuilder: (_,__) => const Text("Clear all"),
               onConfirm: (){
                 for(final title in titles){
-                  gamesVar.value[index].customStats[title] = <String>{};
+                  gamesVar.value[index]!.customStats[title] = <String>{};
                 }
                 gamesVar.refresh();
               },
@@ -118,12 +118,12 @@ class EditCustomStats extends StatelessWidget {
   }
 }
 
-extension _SetToggle<E> on Set<E> {
-  Set<E> toggled(E v) {
+extension _SetToggle<E> on Set<E>? {
+  Set<E>? toggled(E v) {
     if(this == null){
       return<E>{v};
     } else {
-      if(this.contains(v)){
+      if(this!.contains(v)){
         return this..remove(v);
       } else {
         return this..add(v);

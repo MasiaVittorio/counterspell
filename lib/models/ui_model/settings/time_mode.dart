@@ -8,8 +8,8 @@ enum TimeMode{
 }
 
 class TimeModes{
-  static String nameOf(TimeMode mode) => map[mode];
-  static TimeMode fromName(String name) => reversed[name];
+  static String? nameOf(TimeMode? mode) => map[mode!];
+  static TimeMode? fromName(String? name) => reversed[name!];
 
   static const Map<TimeMode,String> map = <TimeMode,String>{
     TimeMode.inGame: "In game",

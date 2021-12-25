@@ -5,13 +5,13 @@ import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/
 import 'collapsed_components/circle_button.dart';
 
 class CSPanelCollapsed extends StatelessWidget {
-  const CSPanelCollapsed({Key key}) : super(key: key);
+  const CSPanelCollapsed({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context);
-    final gameStateBloc = bloc.game.gameState;
-    final StageData<CSPage, SettingsPage> stage = Stage.of(context);
+    final CSBloc bloc = CSBloc.of(context)!;
+    final gameStateBloc = bloc.game!.gameState!;
+    final StageData<CSPage, SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
 
     final Widget backButton = gameStateBloc.gameState.build(
       (context, state) => _PanelButton(
@@ -48,17 +48,17 @@ class CSPanelCollapsed extends StatelessWidget {
             ),
           );
 
-          final rightButton =  bloc.scroller.isScrolling.build(
+          final rightButton =  bloc.scroller!.isScrolling.build(
             (context, scrolling) => CircleButton(
               externalCircles: 3,
               sizeIncrement: scrolling ? 0.0 : 0.5,
-              color: colors[currentPage]
+              color: colors![currentPage]!
                   .withOpacity(0.07),
               size: CSSizes.barSize,
               child: <CSPage,Widget>{
                 CSPage.history: const Icon(McIcons.restart),
                 CSPage.life: const Icon(McIcons.account_multiple_outline),
-                CSPage.counters: bloc.game.gameAction.counterSet.build(
+                CSPage.counters: bloc.game!.gameAction!.counterSet.build(
                   (context, counter) => Icon(counter.icon),
                 ),
                 CSPage.commanderCast: const Icon(Icons.info_outline),
@@ -77,7 +77,7 @@ class CSPanelCollapsed extends StatelessWidget {
                       fromClosedPanel: true,
                     ),
                     size: PlayGroupEditor.sizeCalc(
-                      bloc.game.gameGroup.names.value.length
+                      bloc.game!.gameGroup!.names.value.length
                     ),
                   );
                 } else if (currentPage == CSPage.commanderCast){
@@ -145,44 +145,44 @@ class CSPanelCollapsed extends StatelessWidget {
 
 class _DelayerPanel extends StatelessWidget {
 
-  _DelayerPanel({@required this.bloc});
+  _DelayerPanel({required this.bloc});
 
   final CSBloc bloc;
 
   @override
   Widget build(BuildContext context) {
-    final scroller = bloc.scroller;
+    final scroller = bloc.scroller!;
     final themeData = Theme.of(context);
     final canvas = themeData.canvasColor;
     final canvasContrast = themeData.colorScheme.onSurface;
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
 
     return BlocVar.build4(
         scroller.isScrolling,
         scroller.intValue,
-        bloc.settings.scrollSettings.confirmDelay,
-        stage.themeController.derived.currentPrimaryColor,
+        bloc.settings!.scrollSettings.confirmDelay,
+        stage.themeController.derived.currentPrimaryColor!,
         distinct: true, builder: (
       BuildContext context,
-      bool scrolling,
-      int increment,
-      Duration confirmDelay,
-      Color currentPrimaryColor,
+      bool? scrolling,
+      int? increment,
+      Duration? confirmDelay,
+      Color? currentPrimaryColor,
     ) {
       final accentColor = Color.alphaBlend(
-        currentPrimaryColor
+        currentPrimaryColor!
           .withOpacity(0.85),
         canvas,
       );
       return AnimatedOpacity(
         duration: CSAnimations.veryFast,
         curve: Curves.decelerate,
-        opacity: scrolling ? 1.0 : 0.0,
+        opacity: scrolling! ? 1.0 : 0.0,
         child: IgnorePointer(
           ignoring: scrolling ? false : true,
           child: Delayer(
             half: false,
-            message: increment >= 0 ? '+ $increment' : '- ${-increment}',
+            message: increment! >= 0 ? '+ $increment' : '- ${-increment}',
 
             delayerController: scroller.delayerController,
             animationListener: scroller.delayerAnimationListener,
@@ -210,13 +210,13 @@ class _PanelButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback action;
   final double factor;
-  final double iconSize;
+  final double? iconSize;
   const _PanelButton(
     this.active,
     this.icon,
     this.action,
     this.factor, {
-    Key key,
+    Key? key,
     this.iconSize,
   }) : super(key: key);
 

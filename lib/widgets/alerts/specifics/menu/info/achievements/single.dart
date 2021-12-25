@@ -4,7 +4,7 @@ import 'data/all.dart';
 
 class AchievementAlert extends StatelessWidget {
 
-  final String shortTitle;
+  final String? shortTitle;
 
   static const double height = 900.0;
 
@@ -13,10 +13,10 @@ class AchievementAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return CSBloc.of(context).achievements.map.build((_,map){
-      final Achievement achievement = map[shortTitle];
+    return CSBloc.of(context)!.achievements.map.build((_,map){
+      final Achievement achievement = map[shortTitle]!;
       return HeaderedAlert(
-        achievement.shortTitle,
+        achievement.shortTitle!,
         canvasBackground: true,
         alreadyScrollableChild: true,
         child: Padding(
@@ -30,7 +30,7 @@ class AchievementAlert extends StatelessWidget {
               removeRight: true,
               context: context,
               child: SubSection(<Widget>[
-                Expanded(child: achieveHints[achievement.shortTitle] ?? Container(),),
+                Expanded(child: achieveHints[achievement.shortTitle!] ?? Container(),),
               ]),
             )),
           ].separateWith(CSWidgets.height10, alsoLast: true),),
@@ -46,19 +46,19 @@ class AchievementAgnosticSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context);
-    final StageData stage = Stage.of(context);
+    final CSBloc? bloc = CSBloc.of(context);
+    final StageData? stage = Stage.of(context);
 
     return SubSection(<Widget>[
       ListTile(
-        leading: Icon(Achievements.icons[achievement.shortTitle]),
-        title: Text(achievement.title),
+        leading: Icon(Achievements.icons[achievement.shortTitle!]),
+        title: Text(achievement.title!),
         subtitle: Text("(${achievement.text})", style: TextStyle(fontStyle: FontStyle.italic),),
         trailing: IconButton(
           icon: Icon(McIcons.restart),
-          onPressed: () => stage.showAlert(
+          onPressed: () => stage!.showAlert(
             ConfirmAlert(
-              action: () => bloc.achievements.reset(achievement.shortTitle, force: true),
+              action: () => bloc!.achievements.reset(achievement.shortTitle, force: true),
               warningText: "Reset this achievement's progress?",
             ),
             size: ConfirmAlert.height,

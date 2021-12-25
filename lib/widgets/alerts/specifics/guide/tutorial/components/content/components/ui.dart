@@ -68,7 +68,7 @@ class _UICollapsed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     return stage.dimensionsController.dimensions.build((_, dimensions) 
       => Row(children: <Widget>[
         SizedBox(width: dimensions.barSize),
@@ -148,20 +148,20 @@ class _UITopBar extends StatelessWidget {
 
 class SubExplanation extends StatelessWidget {
   final List<Widget> children;
-  final Widget separator;
+  final Widget? separator;
   final String title;
 
   const SubExplanation(this.title, {
-    @required this.children,
+    required this.children,
     this.separator,
   });
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subtitle1;
+    final TextStyle? subhead = theme.textTheme.subtitle1;
 
-    List<Widget> rowChildren = <Widget>[
+    List<Widget?> rowChildren = <Widget>[
       for(final child in children)
         Expanded(child: child,)
     ];
@@ -180,7 +180,7 @@ class SubExplanation extends StatelessWidget {
         Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(children: rowChildren,),
+            child: Row(children: rowChildren as List<Widget>,),
           ),
         ),
       ),

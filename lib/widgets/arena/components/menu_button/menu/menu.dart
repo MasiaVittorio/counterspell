@@ -11,14 +11,14 @@ enum ArenaMenuPage{
 class ArenaMenu extends StatelessWidget {
 
   const ArenaMenu({
-    @required this.names,
-    @required this.reorderPlayers,
-    @required this.exit,
-    @required this.close,
-    @required this.height,
-    @required this.layoutType,
-    @required this.flipped,
-    @required this.positions,
+    required this.names,
+    required this.reorderPlayers,
+    required this.exit,
+    required this.close,
+    required this.height,
+    required this.layoutType,
+    required this.flipped,
+    required this.positions,
   });
 
   final List<String> names;
@@ -26,9 +26,9 @@ class ArenaMenu extends StatelessWidget {
   final VoidCallback reorderPlayers;
   final VoidCallback exit;
   final VoidCallback close;
-  final ArenaLayoutType layoutType;
-  final Map<ArenaLayoutType,bool> flipped;
-  final Map<int,String> positions;
+  final ArenaLayoutType? layoutType;
+  final Map<ArenaLayoutType?,bool> flipped;
+  final Map<int,String?> positions;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class ArenaMenu extends StatelessWidget {
       initialValue: ArenaMenuPage.game,
       customScrollPhysics: SidereusScrollPhysics(
         topBounce: true,
-        topBounceCallback: () => SchedulerBinding.instance.addPostFrameCallback((_) {
+        topBounceCallback: () => SchedulerBinding.instance!.addPostFrameCallback((_) {
           close();
         }),
         alwaysScrollable: true,

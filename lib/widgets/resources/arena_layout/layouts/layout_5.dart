@@ -8,23 +8,23 @@ import 'column_of_two.dart';
 class ArenaLayout5 extends StatelessWidget {
 
   final ArenaChildBuilder childBuilder;
-  final CenterChildBuilder centerChildBuilder;
+  final CenterChildBuilder? centerChildBuilder;
   final ArenaCenterAlignment centerAlignment;
   final BoxConstraints constraints;
   final ArenaLayoutType layoutType;
   final bool flipped;
   final bool animateCenterWidget;
-  final Widget betweenGridAndCenter;
+  final Widget? betweenGridAndCenter;
 
   const ArenaLayout5({
-    @required this.betweenGridAndCenter,
-    @required this.flipped,
-    @required this.layoutType,
-    @required this.childBuilder,
-    @required this.constraints,
-    @required this.centerChildBuilder,
-    @required this.centerAlignment,
-    @required this.animateCenterWidget,
+    required this.betweenGridAndCenter,
+    required this.flipped,
+    required this.layoutType,
+    required this.childBuilder,
+    required this.constraints,
+    required this.centerChildBuilder,
+    required this.centerAlignment,
+    required this.animateCenterWidget,
   });
   
   @override
@@ -103,7 +103,7 @@ class ArenaLayout5 extends StatelessWidget {
 
 
 
-    Widget positionedCenterChild;
+    Widget? positionedCenterChild;
 
     if(this.centerChildBuilder != null){
 
@@ -145,7 +145,7 @@ class ArenaLayout5 extends StatelessWidget {
           top: portrait & normal ? centerPadding : 0.0,
           bottom: portrait & flipped ? centerPadding : 0.0,
 
-          child: Center(child: centerChildBuilder(
+          child: Center(child: centerChildBuilder!(
             context,
             landscape ? Axis.horizontal : Axis.vertical,
           ),),
@@ -157,7 +157,7 @@ class ArenaLayout5 extends StatelessWidget {
           top: portrait & normal ? centerPadding : 0.0,
           bottom: portrait & flipped ? centerPadding : 0.0,
 
-          child: Center(child: centerChildBuilder(
+          child: Center(child: centerChildBuilder!(
             context,
             landscape ? Axis.horizontal : Axis.vertical,
           ),),
@@ -215,7 +215,7 @@ class ArenaLayout5 extends StatelessWidget {
 
     final int gridQuarterTurns = (flipped ? 2 : 0) + (landscape ? 0 : 1);
 
-    Widget positionedCenterChild;
+    Widget? positionedCenterChild;
 
     if(this.centerChildBuilder != null){
       /// No padding, intersection always at center
@@ -227,14 +227,14 @@ class ArenaLayout5 extends StatelessWidget {
           bottom: 0.0,
           right: 0.0,
           left: 0.0,
-          child: Center(child: centerChildBuilder(
+          child: Center(child: centerChildBuilder!(
             context,
             landscape ? Axis.horizontal : Axis.vertical,
           ),),
         );
       } else {
         positionedCenterChild = Positioned.fill(
-          child: Center(child: centerChildBuilder(
+          child: Center(child: centerChildBuilder!(
             context,
             landscape ? Axis.horizontal : Axis.vertical,
           ),),

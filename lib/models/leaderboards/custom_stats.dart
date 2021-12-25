@@ -25,23 +25,23 @@ class CustomStat {
 
   final Map<String,int> playersApplicable;
 
-  final Map<String,int> commandersApplicable; /// commander card oracleId => number
+  final Map<String?,int> commandersApplicable; /// commander card oracleId => number
 
   final int appearances;
   final int wins;
   
   CustomStat({
-    @required this.title,
-    @required this.appearances,
-    @required this.wins,
+    required this.title,
+    required this.appearances,
+    required this.wins,
 
-    @required this.commandersApplicable,
+    required this.commandersApplicable,
 
-    @required this.playersApplicable,
+    required this.playersApplicable,
   });
 
-  static CustomStat fromPastGames(String _title, List<PastGame> pastGames){
-    Map<String,int> _cmdrApply = <String,int>{};
+  static CustomStat fromPastGames(String _title, List<PastGame?> pastGames){
+    Map<String?,int> _cmdrApply = <String?,int>{};
     Map<String,int> _plrApply = <String,int>{};
 
     int _appearances = 0;
@@ -52,11 +52,11 @@ class CustomStat {
       bool _appeared = false;
       bool _won = false;
 
-      for(final e in [...g.commandersA.entries, ...g.commandersB.entries]){
-        final MtgCard card = e.value;
+      for(final e in [...g!.commandersA.entries, ...g.commandersB.entries]){
+        final MtgCard? card = e.value;
         final String pilot = e.key;
         if(card != null){
-          final String id = card.oracleId;
+          final String? id = card.oracleId;
           if(g.customStats[_title]?.contains(pilot) ?? false){
             _cmdrApply[id] = (_cmdrApply[id] ?? 0) + 1;
           }

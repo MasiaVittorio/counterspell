@@ -7,8 +7,8 @@ class ScrollSensitivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!;
     final scrollSettings = settings.scrollSettings;
     final _sens = scrollSettings.scrollSensitivity;
     final _speed = scrollSettings.scrollDynamicSpeed;
@@ -27,7 +27,7 @@ class ScrollSensitivity extends StatelessWidget {
         max: 14.0,
         divisions: 100,
         onChangeEnd: _sens.set,
-        value: sens,
+        value: sens!,
         leading: Icon(Icons.gesture),
         defaultValue: CSSettingsScroll.sensVal,
       ),),
@@ -39,7 +39,7 @@ class ScrollSensitivity extends StatelessWidget {
 
           _speed.build((_,speed) => Section([
             SwitchListTile(
-              value: speed,
+              value: speed!,
               onChanged: _speed.set,
               title: const Text("Dynamic sensitivity"),
               subtitle: const Text("Adjust sens to the speed of your finger"),
@@ -53,7 +53,7 @@ class ScrollSensitivity extends StatelessWidget {
               return FullSlider(
                 onChangeEnd: _speedValue.set,
                 enabled: speed,
-                value: speedValue,
+                value: speedValue!,
                 min: 0.1,
                 max: 0.95,
                 divisions: 17,
@@ -73,7 +73,7 @@ class ScrollSensitivity extends StatelessWidget {
 
           _preBoost.build((_,preBoost) => Section([
             SwitchListTile(
-              value: preBoost,
+              value: preBoost!,
               onChanged: _preBoost.set,
               title: const Text("Sens boost before 1"),
               subtitle: const Text("Avoid being stuck around 0"),
@@ -81,7 +81,7 @@ class ScrollSensitivity extends StatelessWidget {
             _preBoostValue.build((_, preBoostValue) => FullSlider(
               onChangeEnd: _preBoostValue.set,
               enabled: preBoost,
-              value: preBoostValue,
+              value: preBoostValue!,
               min: 1.2,
               max: 3.5,
               divisions: 23,
@@ -95,7 +95,7 @@ class ScrollSensitivity extends StatelessWidget {
 
           _oneStatic.build((_,oneStatic) => Section([
             SwitchListTile(
-              value: oneStatic,
+              value: oneStatic!,
               onChanged: _oneStatic.set,
               title: const Text("Sens dampening around 1"),
               subtitle: const Text("Slow down in the range [1,2]"),
@@ -103,7 +103,7 @@ class ScrollSensitivity extends StatelessWidget {
             _oneStaticValue.build((_, oneStaticValue) => FullSlider(
               onChangeEnd: _oneStaticValue.set,
               enabled: oneStatic,
-              value: oneStaticValue,
+              value: oneStaticValue!,
               min: 0.1,
               max: 0.95,
               divisions: 17,

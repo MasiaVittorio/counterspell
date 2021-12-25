@@ -5,38 +5,38 @@ class LocalNumber extends StatelessWidget {
 
   LocalNumber(this.localScroller, this.bloc, this.value, this.callback);
 
-  final CSScroller localScroller;
-  final CSBloc bloc;
+  final CSScroller? localScroller;
+  final CSBloc? bloc;
   final int value;
   final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
 
-    final StageData stage = Stage.of(context);
+    final StageData? stage = Stage.of(context);
 
     return LayoutBuilder(
       builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
         child: VelocityPanDetector(
-          onPanEnd: (_details) => localScroller.onDragEnd(),
+          onPanEnd: (_details) => localScroller!.onDragEnd(),
           onPanUpdate: (details) {
             this.callback();
             PlayerGestures.pan(
               details,
               "",
               constraints.maxWidth,
-              bloc: bloc,
+              bloc: bloc!,
               page: CSPage.life,
               dummyScroller: localScroller,
             );
           },
-          onPanCancel: localScroller.onDragEnd,
+          onPanCancel: localScroller!.onDragEnd,
           child: BlocVar.build3(
-            localScroller.isScrolling,
-            localScroller.intValue,
-            stage.themeController.derived.mainPageToPrimaryColor, 
-            builder: (_, scrolling, increment, pageColors){
+            localScroller!.isScrolling,
+            localScroller!.intValue,
+            stage!.themeController.derived.mainPageToPrimaryColor!, 
+            builder: (_, dynamic scrolling, dynamic increment, dynamic pageColors){
               final Color color = pageColors[CSPage.life];
               final colorBright = ThemeData.estimateBrightnessForColor(color);
               final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;

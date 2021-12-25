@@ -6,7 +6,7 @@ class TutorialControls extends StatelessWidget {
 
   TutorialControls(this.controller);
 
-  final PageController controller;
+  final PageController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,10 @@ class TutorialControls extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           PageReactor(
-            controller: controller,
+            controller: controller!,
             builder: (_, page) => TextButton(
               child: AnimatedText(page== 0 ? "" : "Back"),
-              onPressed: page== 0 ? null : () => controller.previousPage(
+              onPressed: page== 0 ? null : () => controller!.previousPage(
                 duration: CSAnimations.fast, 
                 curve: Curves.easeOut,
               ),
@@ -30,7 +30,7 @@ class TutorialControls extends StatelessWidget {
           ),
           Expanded(child: Center(
             child: SmoothPageIndicator(
-              controller: controller, 
+              controller: controller!, 
               count: AdvancedTutorial.pages,
               effect: ExpandingDotsEffect(
                 dotWidth: 12,
@@ -40,7 +40,7 @@ class TutorialControls extends StatelessWidget {
             ),
           ),),
           PageReactor(
-            controller: controller,
+            controller: controller!,
             builder: (_, page) => TextButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty
@@ -49,9 +49,9 @@ class TutorialControls extends StatelessWidget {
               child: AnimatedText(page == AdvancedTutorial.pages -1 ? "Close" : "Next"),
               onPressed: () {
                 if(page == AdvancedTutorial.pages - 1){
-                  Stage.of(context).closePanel();
+                  Stage.of(context)!.closePanel();
                 } else {
-                  controller.nextPage(
+                  controller!.nextPage(
                     duration: CSAnimations.fast, 
                     curve: Curves.easeOut,
                   );

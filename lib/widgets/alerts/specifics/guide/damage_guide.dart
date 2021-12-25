@@ -19,7 +19,7 @@ class DamageInfo extends StatelessWidget {
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: SingleChildScrollView(
-        physics: Stage.of(context).panelController.panelScrollPhysics(),
+        physics: Stage.of(context)!.panelController.panelScrollPhysics(),
         primary: true,
         child: Container(
           height: height,
@@ -51,7 +51,7 @@ class _DefenderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
-      child: CSBloc.of(context).themer.defenceColor.build((_,defenceColor)=>InfoSection(
+      child: CSBloc.of(context)!.themer!.defenceColor.build((_,defenceColor)=>InfoSection(
         last: true,
         icon: Icon(
           CSIcons.defenceFilled,
@@ -71,16 +71,16 @@ class _AttackerSection extends StatelessWidget {
   const _AttackerSection();
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
-      child: stage.themeController.derived.mainPageToPrimaryColor.build((_,map)
+      child: stage.themeController.derived.mainPageToPrimaryColor!.build((_,map)
         => InfoSection(
           first: true,
           icon: Icon(
             CSIcons.attackOne,
-            color: map[CSPage.commanderDamage],
+            color: map![CSPage.commanderDamage],
           ),
           title: _attackerTitle,
           info: [

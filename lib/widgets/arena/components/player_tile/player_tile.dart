@@ -5,17 +5,17 @@ import 'components/all.dart';
 class ArenaPlayerTile extends StatelessWidget {
 
   ArenaPlayerTile(this.index, {
-    @required this.indexToName,
-    @required this.buttonAlignment,
+    required this.indexToName,
+    required this.buttonAlignment,
     // @required this.constraints,
-    @required this.logic,
-    @required this.isScrollingSomewhere,
-    @required this.page,
+    required this.logic,
+    required this.isScrollingSomewhere,
+    required this.page,
   });
 
 
   //Business Logic
-  final CSBloc logic;
+  final CSBloc? logic;
 
   //Interaction information
   final bool isScrollingSomewhere;
@@ -27,17 +27,17 @@ class ArenaPlayerTile extends StatelessWidget {
   final Alignment buttonAlignment;
 
   //Reordering stuff
-  final Map<int,String> indexToName;
+  final Map<int,String?> indexToName;
   final int index;
 
-  CSSettings get settings => logic.settings;
-  CSSettingsArena get arenaSettings => settings.arenaSettings;
-  CSGame get gameLogic => logic.game;
-  CSGameState get stateLogic => gameLogic.gameState;
-  CSGameAction get actionLogic => gameLogic.gameAction;
-  CSGameGroup get groupLogic => gameLogic.gameGroup;
+  CSSettings? get settings => logic!.settings;
+  CSSettingsArena get arenaSettings => settings!.arenaSettings;
+  CSGame? get gameLogic => logic!.game;
+  CSGameState? get stateLogic => gameLogic!.gameState;
+  CSGameAction? get actionLogic => gameLogic!.gameAction;
+  CSGameGroup? get groupLogic => gameLogic!.gameGroup;
 
-  String firstUnpositionedName(Map<int,String> indexToName, GameState gameState) {
+  String? firstUnpositionedName(Map<int,String?> indexToName, GameState gameState) {
     for(final name in gameState.names){
       if(!indexToName.values.contains(name)){
         return name;
@@ -46,15 +46,15 @@ class ArenaPlayerTile extends StatelessWidget {
     return null;
   }
 
-  void positionName(String name, int position){
-    groupLogic.arenaNameOrder.value[position] = name;
-    groupLogic.arenaNameOrder.refresh();
+  void positionName(String? name, int position){
+    groupLogic!.arenaNameOrder.value[position] = name;
+    groupLogic!.arenaNameOrder.refresh();
   }
 
   void playerCallback(
     int index, 
     GameState gameState, 
-    Map<int,String> indexToName,
+    Map<int,String?> indexToName,
   ) => this.positionName(
     firstUnpositionedName(indexToName, gameState), 
     index,
@@ -66,35 +66,35 @@ class ArenaPlayerTile extends StatelessWidget {
 
 
     final themeData = Theme.of(context);
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
 
-    final String name = indexToName[index];
+    final String? name = indexToName[index];
 
     return LayoutBuilder(
       builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
         child: BlocVar.build7(
-          stage.themeController.derived.mainPageToPrimaryColor,
-          logic.scroller.intValue,
-          stateLogic.gameState,
-          actionLogic.attackingPlayer,
-          actionLogic.defendingPlayer,
-          logic.themer.defenceColor,
-          actionLogic.selected,
+          stage!.themeController.derived.mainPageToPrimaryColor!,
+          logic!.scroller!.intValue,
+          stateLogic!.gameState,
+          actionLogic!.attackingPlayer,
+          actionLogic!.defendingPlayer,
+          logic!.themer!.defenceColor,
+          actionLogic!.selected,
           builder: (
             BuildContext context, 
-            Map<CSPage,Color> pageColors,
-            int increment, 
-            GameState gameState, 
-            String whoIsAttacking, 
-            String whoIsDefending, 
-            Color defenceColor,
-            Map<String,bool> selectedNames,
+            Map<CSPage,Color?>? pageColors,
+            int? increment, 
+            GameState? gameState, 
+            String? whoIsAttacking, 
+            String? whoIsDefending, 
+            Color? defenceColor,
+            Map<String,bool?>? selectedNames,
           ) {
 
-            if(name == null) return buildPositioner(themeData, gameState);
+            if(name == null) return buildPositioner(themeData, gameState!);
 
-            final bool rawSelected = selectedNames[name];
+            final bool? rawSelected = selectedNames![name];
             final bool highlighted = selectedNames[name] != false || whoIsAttacking == name || whoIsDefending == name;
 
             final Widget content = AptContent(
@@ -125,8 +125,8 @@ class ArenaPlayerTile extends StatelessWidget {
               constraints: constraints,
               isScrollingSomewhere: this.isScrollingSomewhere,
               page: this.page,
-              havingPartnerB: gameState.players[name].havePartnerB,
-              usingPartnerB: gameState.players[name].usePartnerB,
+              havingPartnerB: gameState!.players[name]!.havePartnerB,
+              usingPartnerB: gameState.players[name]!.usePartnerB,
               defenceColor: defenceColor,
               whoIsAttacking: whoIsAttacking,
               whoIsDefending: whoIsDefending,

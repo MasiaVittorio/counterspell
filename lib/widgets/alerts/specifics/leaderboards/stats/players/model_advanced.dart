@@ -7,13 +7,13 @@ class PlayerGame {
   final bool won;
   final Set<String> opponents;
   final int groupSize;
-  final Set<String> commandersOracleIds;
+  final Set<String?> commandersOracleIds;
 
   const PlayerGame({
-    @required this.groupSize,
-    @required this.won,
-    @required this.opponents,
-    @required this.commandersOracleIds,
+    required this.groupSize,
+    required this.won,
+    required this.opponents,
+    required this.commandersOracleIds,
   });
 
   bool playedCommander(String oracleIds) => this.commandersOracleIds.contains(oracleIds);
@@ -35,9 +35,9 @@ class PlayerStatsAdvanced extends PlayerStats {
   // Getters
 
   int totalGamesFilter({
-    String commanderOracleId,
-    String opponent,
-    int groupSize,
+    String? commanderOracleId,
+    String? opponent,
+    int? groupSize,
   }) => (commanderOracleId == null && opponent == null && groupSize == null) 
     ? super.games 
     : _totalFilter(
@@ -48,9 +48,9 @@ class PlayerStatsAdvanced extends PlayerStats {
     );
   
   int totalWinsFilter({
-    String commanderOracleId,
-    String opponent,
-    int groupSize,
+    String? commanderOracleId,
+    String? opponent,
+    int? groupSize,
   }) => (commanderOracleId == null && opponent == null && groupSize == null) 
     ? super.wins 
     : _totalFilter(
@@ -61,10 +61,10 @@ class PlayerStatsAdvanced extends PlayerStats {
     );
 
   int _totalFilter({
-    String commanderOracleId,
-    String opponent,
-    int groupSize,
-    @required int Function(PlayerGame) stat,
+    String? commanderOracleId,
+    String? opponent,
+    int? groupSize,
+    required int Function(PlayerGame) stat,
   }){
     int val = 0;
     for(final game in this.playerGames)
@@ -77,9 +77,9 @@ class PlayerStatsAdvanced extends PlayerStats {
   }
 
   double winRateFilter({
-    String opponent,
-    String commanderOracleId,
-    int groupSize,
+    String? opponent,
+    String? commanderOracleId,
+    int? groupSize,
   }) => (opponent == null && commanderOracleId == null && groupSize == null) 
     ? super.winRate 
     : _averageFilter(
@@ -91,10 +91,10 @@ class PlayerStatsAdvanced extends PlayerStats {
 
 
   double _averageFilter({
-    String commanderOracleId,
-    String opponent,
-    int groupSize,
-    @required num Function(PlayerGame) stat,
+    String? commanderOracleId,
+    String? opponent,
+    int? groupSize,
+    required num Function(PlayerGame) stat,
   }){
     double val = 0.0;
     int len = 0;
@@ -112,12 +112,12 @@ class PlayerStatsAdvanced extends PlayerStats {
   //================================
   // Constructor(s)
   const PlayerStatsAdvanced(String name, {
-    @required int wins,
-    @required int games,
-    @required this.playerGames,
-    @required this.groupSizes,
-    @required this.commanders,
-    @required this.opponents,
+    required int wins,
+    required int games,
+    required this.playerGames,
+    required this.groupSizes,
+    required this.commanders,
+    required this.opponents,
   }): super(
     name,
     wins: wins, 
@@ -128,16 +128,16 @@ class PlayerStatsAdvanced extends PlayerStats {
 
   factory PlayerStatsAdvanced.fromPastGames(
     PlayerStats simple, 
-    Iterable<PastGame> pastGames,
+    Iterable<PastGame?> pastGames,
   ) {
     Set<MtgCard> _commanders = <MtgCard>{};
 
     final _games = <PlayerGame>[
       for(final game in pastGames)
-        if(game.winner != null)
+        if(game!.winner != null)
         if(game.state.players.containsKey(simple.name))
           ((){
-            Set<String> _oracleIds = <String>{};
+            Set<String?> _oracleIds = <String?>{};
             final a = game.commandersA[simple.name];
             if(a != null){
               _oracleIds.add(a.oracleId);

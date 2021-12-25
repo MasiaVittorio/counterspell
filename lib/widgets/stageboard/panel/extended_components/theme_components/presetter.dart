@@ -6,26 +6,26 @@ class ThemePResetter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final themer = bloc.themer;
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final bloc = CSBloc.of(context)!;
+    final themer = bloc.themer!;
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
     final themeController = stage.themeController;
     final derived = themeController.derived;
     final brightnessController = themeController.brightness;
 
     return themer.savedSchemes.build((_, savedSchemes) 
       => themer.defenceColor.build((_, defenceColor)
-      => derived.currentPrimaryColor.build((_, primary)
-      => derived.accentColor.build((_, accent)
-      => derived.mainPageToPrimaryColor.build((_, perPage)
+      => derived.currentPrimaryColor!.build((_, primary)
+      => derived.accentColor!.build((_, accent)
+      => derived.mainPageToPrimaryColor!.build((_, perPage)
       => brightnessController.brightness.build((_, brightness)
       => themeController.colorPlace.build((_, colorPlace)
       => brightnessController.darkStyle.build((_, darkStyle) {
         
         final derivedScheme = CSColorScheme("",
-          primary: primary,
-          accent: accent,
-          perPage: perPage,
+          primary: primary!,
+          accent: accent!,
+          perPage: perPage!,
           light: brightness.isLight,
           darkStyle: darkStyle,
           defenceColor: defenceColor,

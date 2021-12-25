@@ -8,7 +8,7 @@ class DesignPatterns extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final bloc = CSBloc.of(context);
+    final bloc = CSBloc.of(context)!;
     final theme = Theme.of(context);
     // final placeVar = stage.themeController.colorPlace;
     // final themer = bloc.themer;
@@ -154,7 +154,7 @@ class DesignPatterns extends StatelessWidget {
               leading: const Icon(McIcons.material_design),
               trailing: const Icon(Icons.keyboard_arrow_right),
               onTap: (){
-                stage.panelController.close();
+                stage!.panelController.close();
                 stage.showSnackBar(
                   const DesignSnackBar(),
                   duration: null,
@@ -166,8 +166,8 @@ class DesignPatterns extends StatelessWidget {
 
           ]),
 
-          if(!unlocked) Positioned.fill(child: GestureDetector(
-            onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
+          if(!unlocked!) Positioned.fill(child: GestureDetector(
+            onTap: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
             child: Container(
               color: theme.scaffoldBackgroundColor
                   .withOpacity(0.5),

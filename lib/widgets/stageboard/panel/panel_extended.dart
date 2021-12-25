@@ -3,7 +3,7 @@ import 'extended_components/all.dart';
 
 
 class CSPanelExtended extends StatelessWidget {
-  const CSPanelExtended({Key key}): super(key: key);
+  const CSPanelExtended({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -11,25 +11,25 @@ typedef CenterChildBuilder = Widget Function(
 typedef ArenaChildBuilder = Widget Function(
   BuildContext, 
   int index, 
-  Alignment intersectionAlignment,
+  Alignment? intersectionAlignment,
 );
 
 class ArenaLayout extends StatelessWidget {
 
   final ArenaChildBuilder childBuilder;
   final int howManyChildren;
-  final CenterChildBuilder centerChildBuilder;
+  final CenterChildBuilder? centerChildBuilder;
   final ArenaCenterAlignment centerAlignment;
-  final Widget ifNumberNotSupported;
+  final Widget? ifNumberNotSupported;
   final ArenaLayoutType layoutType;
-  final bool flipped;
+  final bool? flipped;
   final bool animateCenterWidget;
-  final Widget betweenGridAndCenter;
+  final Widget? betweenGridAndCenter;
 
   const ArenaLayout({
-    @required this.layoutType,
-    @required this.childBuilder,
-    @required this.howManyChildren,
+    required this.layoutType,
+    required this.childBuilder,
+    required this.howManyChildren,
     this.centerChildBuilder,
     this.centerAlignment = ArenaCenterAlignment.intersection,
     this.betweenGridAndCenter,
@@ -73,24 +73,24 @@ class _ArenaLayout extends StatelessWidget {
 
   final ArenaChildBuilder childBuilder;
   final int howManyChildren;
-  final CenterChildBuilder centerChildBuilder;
+  final CenterChildBuilder? centerChildBuilder;
   final ArenaCenterAlignment centerAlignment;
   final BoxConstraints constraints;
   final ArenaLayoutType layoutType;
   final bool flipped;
   final bool animateCenterWidget;
-  final Widget betweenGridAndCenter;
+  final Widget? betweenGridAndCenter;
 
   const _ArenaLayout({
-    @required this.betweenGridAndCenter,
-    @required this.flipped,
-    @required this.layoutType,
-    @required this.childBuilder,
-    @required this.howManyChildren,
-    @required this.constraints,
-    @required this.centerChildBuilder,
-    @required this.centerAlignment,
-    @required this.animateCenterWidget,
+    required this.betweenGridAndCenter,
+    required this.flipped,
+    required this.layoutType,
+    required this.childBuilder,
+    required this.howManyChildren,
+    required this.constraints,
+    required this.centerChildBuilder,
+    required this.centerAlignment,
+    required this.animateCenterWidget,
   });
   
 

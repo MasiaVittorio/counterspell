@@ -31,8 +31,8 @@ class ArenaScrollOverTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.arenaSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.arenaSettings;
 
     return settings.scrollOverTap.build((context, scrollOverTap) 
       => RadioSliderOf<bool>(
@@ -52,8 +52,8 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
   const ArenaScrollDirectionSelector();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.arenaSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.arenaSettings;
 
     final content = settings.verticalScroll.build((_, vertical)
       => Column(
@@ -102,8 +102,8 @@ class Gestures extends StatelessWidget {
   const Gestures();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.arenaSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.arenaSettings;
 
     return settings.scrollOverTap.build((context, scroll) 
       => settings.verticalScroll.build((context, verticalScroll) 
@@ -165,8 +165,8 @@ class ArenaTapDirectionSelector extends StatelessWidget {
   const ArenaTapDirectionSelector();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.arenaSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.arenaSettings;
 
     final content = settings.verticalTap.build((_, vertical)
       => Column(
@@ -204,11 +204,11 @@ class ArenaOpacityTile extends StatelessWidget {
   const ArenaOpacityTile();
   @override
   Widget build(BuildContext context) {
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
     return ListTile(
       title: const Text("Image Opacity"),
       leading: const Icon(Icons.invert_colors),
-      onTap: () => stage.showAlert(
+      onTap: () => stage!.showAlert(
         ImageOpacity(true),
         size: ImageOpacity.height,
       ),
@@ -224,8 +224,8 @@ class ArenaFullScreenToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.arenaSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.arenaSettings;
     return settings.fullScreen.build((_, fullScreen) => SwitchListTile(
       onChanged: settings.fullScreen.set,
       value: fullScreen,
@@ -240,8 +240,8 @@ class ArenaHideNamesWithImageToggle extends StatelessWidget {
   const ArenaHideNamesWithImageToggle();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final settings = bloc.settings.arenaSettings;
+    final bloc = CSBloc.of(context)!;
+    final settings = bloc.settings!.arenaSettings;
     return settings.hideNameWhenImages.build((_, hide) => SwitchListTile(
       onChanged: settings.hideNameWhenImages.set,
       value: hide,

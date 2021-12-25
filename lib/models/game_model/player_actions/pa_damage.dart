@@ -14,10 +14,10 @@ class PADamage extends PlayerAction {
     this.from,
     this.increment, 
     { 
-      @required this.settings,
+      required this.settings,
       this.partnerA = true,
-      int maxVal = PlayerState.kMaxValue,
-      int minLife = PlayerState.kMinValue,
+      int? maxVal = PlayerState.kMaxValue,
+      int? minLife = PlayerState.kMinValue,
     }
   ):  maxVal = maxVal ?? PlayerState.kMaxValue,
       minLife = minLife ?? PlayerState.kMinValue;
@@ -33,7 +33,7 @@ class PADamage extends PlayerAction {
 
   @override
   PlayerAction normalizeOn(PlayerState state) {
-    final int alreadyThere = state.damages[this.from].fromPartner(this.partnerA);
+    final int alreadyThere = state.damages[this.from]!.fromPartner(this.partnerA);
     final int clamped = this.increment.clamp(
       0 - alreadyThere,
       this.maxVal - alreadyThere,

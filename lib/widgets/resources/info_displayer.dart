@@ -8,10 +8,10 @@ class InfoDisplayer extends StatelessWidget {
   final Widget title;
   final Widget background;
   final Widget value;
-  final Widget detail;
-  final Color color;
+  final Widget? detail;
+  final Color? color;
   final bool fill;
-  final BorderRadius radius;
+  final BorderRadius? radius;
 
   static String getString(double val){
     final ret = val.toStringAsFixed(1);
@@ -26,9 +26,9 @@ class InfoDisplayer extends StatelessWidget {
   }
 
   const InfoDisplayer({
-    @required this.title,
-    @required this.background,
-    @required this.value,
+    required this.title,
+    required this.background,
+    required this.value,
     this.detail,
     this.color,
     this.radius,
@@ -40,7 +40,7 @@ class InfoDisplayer extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    final Color textColor 
+    final Color? textColor 
       = (color?.brightness ?? theme.brightness) == (theme.brightness) 
         ? theme.brightness.contrast
         : color;

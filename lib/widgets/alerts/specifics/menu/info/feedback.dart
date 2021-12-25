@@ -15,7 +15,7 @@ class FeedbackAlert extends StatelessWidget {
         Alternative(
           title: "I love it!",
           icon: McIcons.thumb_up_outline,
-          action: () => Stage.of(context).showAlert(
+          action: () => Stage.of(context)!.showAlert(
             PositiveFeedback(), 
             size: PositiveFeedback.height,
           ),
@@ -24,7 +24,7 @@ class FeedbackAlert extends StatelessWidget {
         Alternative(
           title: "Meh, it has some issues...",
           icon: McIcons.thumb_down_outline,
-          action: () => Stage.of(context).showAlert(
+          action: () => Stage.of(context)!.showAlert(
             NegativeFeedback(), 
             size: NegativeFeedback.height,
           ),
@@ -41,7 +41,7 @@ class PositiveFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData? stage = Stage.of(context);
     return AlternativesAlert(
       label: "Glad to hear that! Maybe you can help me out :)",
       twoLinesLabel: false,
@@ -55,12 +55,12 @@ class PositiveFeedback extends StatelessWidget {
           title: "Support the development",
           icon: Icons.attach_money,
           autoClose: false,
-          action: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
+          action: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
         ),
         Alternative(
           title: "Share your ideas",
           icon: McIcons.telegram,
-          action: () => stage.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
+          action: () => stage!.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
         ),
       ],
     );
@@ -73,7 +73,7 @@ class NegativeFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StageData stage = Stage.of(context);
+    final StageData? stage = Stage.of(context);
     return AlternativesAlert(
       label: "Let me know how I can improve!",
       twoLinesLabel: false,
@@ -81,12 +81,12 @@ class NegativeFeedback extends StatelessWidget {
         Alternative(
           title: "Send feedback",
           icon: Icons.mail_outline,
-          action: () => stage.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
+          action: () => stage!.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
         ),
         Alternative(
           title: "Get in touch in real time",
           icon: McIcons.telegram,
-          action: () => stage.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
+          action: () => stage!.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
           autoClose: false,
         ),
       ],

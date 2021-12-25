@@ -23,23 +23,23 @@ class ScrollerLogic {
   double value = 0.0;
   final BlocVar<int> intValue;
   final DelayerController delayerController;
-  BlocVar<bool> isScrolling; 
+  late BlocVar<bool> isScrolling; 
   bool ignoringThisPan = false;
   final Map<String,VoidCallback> _onNextAutoConfirm = <String,VoidCallback>{};
   bool _clearNextAutoConfirm = false;
 
-  final void Function(bool completed, bool alsoAttacker) onCancel;
+  final void Function(bool completed, bool alsoAttacker)? onCancel;
 
 
   //==============================
   // Constructor
 
   ScrollerLogic({
-    @required this.scrollSettings,
-    @required this.okVibrate,
-    @required void Function(int) onConfirm,
-    @required this.onCancel,
-    bool resetAfterConfirm,
+    required this.scrollSettings,
+    required this.okVibrate,
+    required void Function(int) onConfirm,
+    required this.onCancel,
+    bool? resetAfterConfirm,
   }): 
     delayerController = DelayerController(),
     intValue = BlocVar(0)
@@ -47,7 +47,7 @@ class ScrollerLogic {
     isScrolling = BlocVar<bool>(false, onChanged: (b){
       if(b == false){
         onConfirm?.call(this.intValue.value);
-        if(resetAfterConfirm){
+        if(resetAfterConfirm!){
           this.value = 0.0;
           this.intValue.set(0);
         }
@@ -72,20 +72,20 @@ class ScrollerLogic {
       ? details.velocity.pixelsPerSecond.dy 
       : details.velocity.pixelsPerSecond.dx;
 
-    final double maxSpeedWeight = scrollSettings.scrollDynamicSpeedValue.value.clamp(0.0, 1.0);
-    final double multiplierVel = scrollSettings.scrollDynamicSpeed.value 
+    final double maxSpeedWeight = scrollSettings.scrollDynamicSpeedValue.value!.clamp(0.0, 1.0);
+    final double multiplierVel = scrollSettings.scrollDynamicSpeed.value! 
       ? (vx / _maxVel).abs().clamp(0.0, 1.0) * maxSpeedWeight + (1-maxSpeedWeight)
       : 1.0;
 
-    final double multiplierPreBoost = (scrollSettings.scrollPreBoost.value && this.value > -1.0 && this.value < 1.0)
-      ? scrollSettings.scrollPreBoostValue.value.clamp(1.0, 4.0)
+    final double multiplierPreBoost = (scrollSettings.scrollPreBoost.value! && this.value > -1.0 && this.value < 1.0)
+      ? scrollSettings.scrollPreBoostValue.value!.clamp(1.0, 4.0)
       : 1.0;
-    final double multiplier1Static = (scrollSettings.scroll1Static.value && this.value.abs() > 1.0 && this.value.abs() < 2.0)
-      ? scrollSettings.scroll1StaticValue.value.clamp(0.0, 1.0)
+    final double multiplier1Static = (scrollSettings.scroll1Static.value! && this.value.abs() > 1.0 && this.value.abs() < 2.0)
+      ? scrollSettings.scroll1StaticValue.value!.clamp(0.0, 1.0)
       : 1.0;
 
 
-    final double max = scrollSettings.scrollSensitivity.value;
+    final double max = scrollSettings.scrollSensitivity.value!;
     final double fraction = (vertical ? - details.delta.dy : details.delta.dx) / width;
 
     this.value += fraction * max * multiplierVel * multiplier1Static * multiplierPreBoost;

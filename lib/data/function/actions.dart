@@ -14,7 +14,7 @@ class CSActions{
   static void review() async {
     _launchUrl(Platform.isAndroid ? CSUris.playStore: CSUris.appStore);
   }
-  static void mailMe([String body]) async {
+  static void mailMe([String? body]) async {
     _launchUrl(CSUris.mailAction + (body == null ? "" : "&body=$body"));
   }
   static void chatWithMe() async {

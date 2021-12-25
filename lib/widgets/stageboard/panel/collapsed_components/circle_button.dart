@@ -14,9 +14,9 @@ class CircleButton extends StatefulWidget {
 
   const CircleButton({
     this.size = _CircleButtonState.defaultSize,
-    @required this.child,
-    @required this.onTap,
-    @required this.color,
+    required this.child,
+    required this.onTap,
+    required this.color,
     this.regularSteps = false,
     this.sizeIncrement = _CircleButtonState.defaultSizeIncrement,
     this.externalCircles = _CircleButtonState.defaultCircles,

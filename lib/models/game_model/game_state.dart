@@ -6,7 +6,7 @@ class GameState {
   //===================================
   // Values
 
-  Map<String,Player> players;
+  Map<String,Player?> players;
 
 
 
@@ -17,7 +17,7 @@ class GameState {
   Map<String, dynamic> toJson() => {
     "players": {
       for(final entry in players.entries)
-        entry.key : entry.value.toJson(),
+        entry.key : entry.value!.toJson(),
     },
   };
 
@@ -35,16 +35,16 @@ class GameState {
   // Constructors
 
   GameState({
-    @required this.players
+    required this.players
   });
 
   factory GameState.start(
     Set<String> names, 
-    Set<String> counters, {
-      int startingLife = 20,
-      Map<String,CommanderSettings> settingsPartnersA = const <String,CommanderSettings>{},
-      Map<String,CommanderSettings> settingsPartnersB = const <String,CommanderSettings>{},
-      Map<String,bool>  havePartnerB = const <String,bool>{},
+    Set<String?> counters, {
+      int? startingLife = 20,
+      Map<String,CommanderSettings>? settingsPartnersA = const <String,CommanderSettings>{},
+      Map<String,CommanderSettings>? settingsPartnersB = const <String,CommanderSettings>{},
+      Map<String,bool?>  havePartnerB = const <String,bool>{},
     }
   ) => GameState(
     players: {
@@ -74,7 +74,7 @@ class GameState {
 
     final ls = [
       for(final player in players.values)
-        player.states.length,
+        player!.states.length,
     ];
 
     final result = ls.first;
@@ -87,13 +87,13 @@ class GameState {
   
   int get historyLenght{
     assert(players.isNotEmpty);
-    return players.values.first.states.length;
+    return players.values.first!.states.length;
   }
 
-  String get winner {
+  String? get winner {
     final List<String> alives = [
       for(final player in this.players.values)
-        if(player.states.last.isAlive) 
+        if(player!.states.last.isAlive) 
           player.name,
     ];
     if(alives.length == 1){
@@ -106,27 +106,27 @@ class GameState {
   int totalDamageDealtFrom(String attacker, {bool partnerA = true}){
     int total = 0;
     for(final defender in players.values){
-      total += defender.states.last.damages[attacker].fromPartner(partnerA);
+      total += defender!.states.last.damages[attacker]!.fromPartner(partnerA);
     }
     return total;
   }
 
   Map<String,PlayerState> get lastPlayerStates => {
     for(final entry in this.players.entries)
-      entry.key: entry.value.states.last,
+      entry.key: entry.value!.states.last,
   };
 
   GameState get frozen {
     return GameState(
       players: {for(final player in this.players.values)
-        player.name: player.frozen,
+        player!.name: player.frozen,
       },
     );
   }
 
   // Duration get duration => firstTime.difference(lastTime).abs();
-  DateTime get firstTime => this.players.values.first.states.first.time;
-  DateTime get lastTime => this.players.values.first.states.last.time;
+  DateTime get firstTime => this.players.values.first!.states.first.time;
+  DateTime get lastTime => this.players.values.first!.states.last.time;
 
   
 
@@ -139,35 +139,35 @@ class GameState {
   void applyAction(GameAction action)
     => action.applyTo(this);
 
-  GameAction back(Map<String,Counter> counterMap){
+  GameAction back(Map<String?,Counter> counterMap){
     final Map<String,PlayerAction> actions = {
       for(final entry in players.entries)
-        entry.key: entry.value.back(counterMap),
+        entry.key: entry.value!.back(counterMap),
     };
 
     return GameAction.fromPlayerActions(actions);
   }
 
-  GameState newGame({int startingLife = 20, bool keepCommanderSettings = false}){
+  GameState newGame({int startingLife = 20, bool? keepCommanderSettings = false}){
     assert(startingLife != null);
     return GameState.start(
       this.names,
-      this.players.values.first.states.last.counters.keys.toSet(),
+      this.players.values.first!.states.last.counters.keys.toSet(),
       startingLife: startingLife,
-      havePartnerB: <String,bool>{
+      havePartnerB: <String,bool?>{
         for(final player in this.players.values)
-          player.name : player.havePartnerB,
+          player!.name : player.havePartnerB,
       },
       settingsPartnersA: (keepCommanderSettings ?? false) 
         ? <String,CommanderSettings>{
           for(final player in this.players.values)
-            player.name : player.commanderSettingsA,
+            player!.name : player.commanderSettingsA,
         }
         : null,
       settingsPartnersB: (keepCommanderSettings ?? false) 
         ? <String,CommanderSettings>{
           for(final player in this.players.values)
-            player.name : player.commanderSettingsB,
+            player!.name : player.commanderSettingsB,
         }
         : null,
     );
@@ -177,7 +177,7 @@ class GameState {
 
     final Map<String,PlayerAction> actions = {
       for(final entry in players.entries)
-        entry.key: entry.value.cancelAction(stateIndex, counterMap),
+        entry.key: entry.value!.cancelAction(stateIndex, counterMap),
     };
 
     return GameAction.fromPlayerActions(actions);
@@ -194,7 +194,7 @@ class GameState {
     assert(!players.containsKey(newName));
 
     for(final player in players.values){
-      player.renamePlayer(oldName, newName);
+      player!.renamePlayer(oldName, newName);
     }
     players[newName] = players.remove(oldName); 
   }
@@ -208,7 +208,7 @@ class GameState {
     final Player player = Player.start(
       name, 
       {...this.names, name},
-      this.players.values.first.states.last.counters.keys.toSet(),
+      this.players.values.first!.states.last.counters.keys.toSet(),
       startingLife: startingLife
     );
 
@@ -218,7 +218,7 @@ class GameState {
     }
 
     for(final player in players.values){
-      player.addPlayerReferences(name);
+      player!.addPlayerReferences(name);
     }
 
 
@@ -229,7 +229,7 @@ class GameState {
     assert(players.containsKey(name));
     this.players.remove(name);
     for(final player in this.players.values){
-      player.deletePlayerReferences(name);
+      player!.deletePlayerReferences(name);
     }
   }
 

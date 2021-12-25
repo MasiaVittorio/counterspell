@@ -9,7 +9,7 @@ class CustomStatWidget extends StatelessWidget {
   final VoidCallback onSingleScreenCallback;
 
   const CustomStatWidget(this.stat, {
-    @required this.onSingleScreenCallback,
+    required this.onSingleScreenCallback,
   });
 
   @override
@@ -34,7 +34,7 @@ class CustomStatWidget extends StatelessWidget {
         ]),
       ], onTap: (){
         this.onSingleScreenCallback?.call();
-        Stage.of(context).showAlert(
+        Stage.of(context)!.showAlert(
           CustomStatSingleScreen(stat),
           size: CustomStatSingleScreen.height,
         );

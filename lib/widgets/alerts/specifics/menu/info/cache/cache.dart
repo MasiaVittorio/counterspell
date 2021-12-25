@@ -20,7 +20,7 @@ class CacheAlert extends StatelessWidget {
             title: const Text("Clear cache"),
             subtitle: const Text("This will delete all the cached image files you used for the players' backgrounds"),
             leading: CSWidgets.deleteIcon,
-            onTap: () => stage.showAlert(
+            onTap: () => stage!.showAlert(
               ConfirmAlert(
                 warningText: "Delete cached images?",
                 confirmColor: CSColors.delete,
@@ -45,13 +45,13 @@ class CacheAlert extends StatelessWidget {
               Expanded(child: ExtraButton(
                 text: "Clear all",
                 icon: Icons.delete_forever,
-                onTap: () => stage.showAlert(
+                onTap: () => stage!.showAlert(
                   ConfirmAlert(
                     warningText: "Clear commander cards suggestions?",
                     confirmColor: CSColors.delete,
                     confirmIcon: Icons.delete_forever,
                     action: (){
-                      bloc.game.gameGroup.savedCards.removeAll();
+                      bloc!.game!.gameGroup!.savedCards.removeAll();
                     },
                   ), 
                   size: ConfirmAlert.height
@@ -60,7 +60,7 @@ class CacheAlert extends StatelessWidget {
               Expanded(child: ExtraButton(
                 text: "View",
                 icon: McIcons.cards_outline,
-                onTap: () => stage.showAlert(const SavedCardsCache(), size: SavedCardsCache.height),
+                onTap: () => stage!.showAlert(const SavedCardsCache(), size: SavedCardsCache.height),
               )),
             ].separateWith(CSWidgets.extraButtonsDivider)),
           ),
@@ -77,10 +77,10 @@ class SavedCardsCache extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     return RadioHeaderedAlert<bool>(
-      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? true,
-      onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
+      initialValue: stage.panelController.alertController!.savedStates[pageKey] ?? true,
+      onPageChanged: (p) => stage.panelController.alertController!.savedStates[pageKey] = p,
       orderedValues: [true, false],
       items: const <bool, RadioHeaderedItem>{
         true: RadioHeaderedItem(

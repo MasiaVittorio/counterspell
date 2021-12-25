@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 class VelocityPanDetector extends StatelessWidget {
 
   VelocityPanDetector({
-    Key key,
+    Key? key,
     this.child,
 
     this.onPanDown,
@@ -25,16 +25,16 @@ class VelocityPanDetector extends StatelessWidget {
   /// The widget below this widget in the tree.
   ///
   /// {@macro flutter.widgets.child}
-  final Widget child;
+  final Widget? child;
 
 
-  final GestureDragDownCallback onPanDown;
-  final GestureDragStartCallback onPanStart;
-  final CSGestureDragUpdateCallback onPanUpdate;
-  final GestureDragEndCallback onPanEnd;
-  final GestureDragCancelCallback onPanCancel;
+  final GestureDragDownCallback? onPanDown;
+  final GestureDragStartCallback? onPanStart;
+  final CSGestureDragUpdateCallback? onPanUpdate;
+  final GestureDragEndCallback? onPanEnd;
+  final GestureDragCancelCallback? onPanCancel;
 
-  final HitTestBehavior behavior;
+  final HitTestBehavior? behavior;
   final bool excludeFromSemantics;
   final DragStartBehavior dragStartBehavior;
 

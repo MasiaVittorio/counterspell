@@ -19,7 +19,7 @@ class BackupsAlert extends StatelessWidget {
 
 class _BackupsAlert extends StatefulWidget {
 
-  final CSBloc logic;
+  final CSBloc? logic;
 
   _BackupsAlert(this.logic);
 
@@ -29,7 +29,7 @@ class _BackupsAlert extends StatefulWidget {
 
 class _BackupsAlertState extends State<_BackupsAlert> {
 
-  PermissionStatus permissionStatus;
+  PermissionStatus? permissionStatus;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _BackupsAlertState extends State<_BackupsAlert> {
   @override
   Widget build(BuildContext context) {
 
-    final CSBackupBloc backups = widget.logic.backups;
+    final CSBackupBloc backups = widget.logic!.backups;
 
     return backups.ready.build((context, ready){
 
@@ -77,13 +77,13 @@ class _BackupsAlertState extends State<_BackupsAlert> {
         );
       }
 
-      final stage = Stage.of(context);
+      final stage = Stage.of(context)!;
 
       return RadioHeaderedAlert<BackupType>(
-        initialValue: stage.panelController.alertController.savedStates[
+        initialValue: stage.panelController.alertController!.savedStates[
           "backups radio headered alert"
         ] ?? BackupType.pastGames,
-        onPageChanged: (p) => stage.panelController.alertController.savedStates[
+        onPageChanged: (p) => stage.panelController.alertController!.savedStates[
           "backups radio headered alert"
         ] = p,
         orderedValues: <BackupType>[BackupType.pastGames, BackupType.preferences],
@@ -142,13 +142,13 @@ class _BackupsAlertState extends State<_BackupsAlert> {
 
 
 class DoOneTime extends StatefulWidget {
-  final Future<bool> Function() futureTap;
-  final void Function(VoidCallback tapped) delegateTap;
-  final Widget leading;
+  final Future<bool> Function()? futureTap;
+  final void Function(VoidCallback tapped)? delegateTap;
+  final Widget? leading;
   final Widget title;
 
   const DoOneTime({
-    @required this.title,
+    required this.title,
     this.leading,
     this.futureTap,
     this.delegateTap,
@@ -179,7 +179,7 @@ class _DoOneTimeState extends State<DoOneTime> {
             waiting = true;
             done = false;
           });
-          widget.delegateTap(() {
+          widget.delegateTap!(() {
             if(!mounted) return;
             this.setState(() {
               waiting = false;
@@ -193,7 +193,7 @@ class _DoOneTimeState extends State<DoOneTime> {
               done = false;
               waiting = true;
             });
-            if(await widget.futureTap()){
+            if(await widget.futureTap!()){
               if(!mounted) return;
               this.setState(() {
                 done = true;
@@ -219,9 +219,9 @@ class FileListTile extends StatelessWidget {
   final BackupType type;
 
   FileListTile({
-    @required this.index,
-    @required this.file,
-    @required this.type,
+    required this.index,
+    required this.file,
+    required this.type,
   });
 
   @override
@@ -233,12 +233,12 @@ class FileListTile extends StatelessWidget {
       leading: Icon(McIcons.file_document_outline),
       trailing: IconButton(
         icon: CSWidgets.deleteIcon,
-        onPressed: () => stage.showAlert(
+        onPressed: () => stage!.showAlert(
         ConfirmAlert(
           action: <BackupType,VoidCallback>{
-            BackupType.preferences: () => logic.backups.deletePreference(index),
-            BackupType.pastGames: () => logic.backups.deletePastGame(index),
-          }[type],
+            BackupType.preferences: () => logic!.backups.deletePreference(index),
+            BackupType.pastGames: () => logic!.backups.deletePastGame(index),
+          }[type]!,
           warningText: "Delete file?",
           confirmIcon: Icons.delete_forever,
           confirmColor: CSColors.delete,
@@ -246,12 +246,12 @@ class FileListTile extends StatelessWidget {
         size: ConfirmAlert.height,
       ),
       ),
-      onTap: () => stage.showAlert(
+      onTap: () => stage!.showAlert(
         ConfirmAlert(
           action: <BackupType,VoidCallback>{
-            BackupType.preferences: () => logic.backups.loadPreferences(file),
-            BackupType.pastGames: () => logic.backups.loadPastGame(file),
-          }[type],
+            BackupType.preferences: () => logic!.backups.loadPreferences(file),
+            BackupType.pastGames: () => logic!.backups.loadPastGame(file),
+          }[type]!,
           warningText: <BackupType,String>{
             BackupType.preferences: "Merge preferences from file?",
             BackupType.pastGames: "Merge games from file?",
@@ -273,10 +273,10 @@ class FileListTile extends StatelessWidget {
 class PermissionStatusWidget extends StatefulWidget {
 
   const PermissionStatusWidget(this.status, {
-    @required this.onStatusChanged,
+    required this.onStatusChanged,
   });
 
-  final PermissionStatus status;
+  final PermissionStatus? status;
   final ValueChanged<PermissionStatus> onStatusChanged;
 
   @override
@@ -294,7 +294,7 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
     PermissionStatus.restricted: "Restricted",
     PermissionStatus.limited: "Limited",
     // PermissionStatus.undetermined: "Not asked yet",
-  }[widget.status]) ?? "Not checked yet";
+  }[widget.status!]) ?? "Not checked yet";
 
   IconData get permissionIcon => (<PermissionStatus,IconData>{
     PermissionStatus.denied: Icons.close,
@@ -302,7 +302,7 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
     PermissionStatus.permanentlyDenied: Icons.close,
     PermissionStatus.restricted: Icons.help_outline,
     PermissionStatus.limited: Icons.help_outline,
-  }[widget.status]) ?? Icons.help_outline;
+  }[widget.status!]) ?? Icons.help_outline;
 
   @override
   Widget build(BuildContext context) {

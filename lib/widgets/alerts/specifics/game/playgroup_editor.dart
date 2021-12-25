@@ -7,7 +7,7 @@ class PlayGroupEditor extends StatefulWidget {
   final CSBloc bloc;
   final bool fromClosedPanel;
   const PlayGroupEditor(this.bloc,{
-    @required this.fromClosedPanel,
+    required this.fromClosedPanel,
   });
 
   static const double playerTileSize = 56.0;
@@ -21,9 +21,9 @@ class PlayGroupEditor extends StatefulWidget {
 }
 
 class _PlayGroupEditorState extends State<PlayGroupEditor> {
-  TextEditingController controller;
-  FocusNode focusNode;
-  String edited;
+  TextEditingController? controller;
+  FocusNode? focusNode;
+  String? edited;
   //"" => newPlayer
   bool newGrouping = false;
 
@@ -36,42 +36,42 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   }
   @override
   void dispose() {
-    this.focusNode.dispose();
-    this.controller.dispose();
+    this.focusNode!.dispose();
+    this.controller!.dispose();
     super.dispose();
   }
 
   CSBloc get bloc => widget.bloc;
-  CSGame get game => bloc.game;
-  CSGameState get state => game.gameState;
-  CSGameGroup get group => game.gameGroup;
+  CSGame? get game => bloc.game;
+  CSGameState? get state => game!.gameState;
+  CSGameGroup? get group => game!.gameGroup;
 
   void _reCalcSize(){
-    final int howMany = state.gameState.value.players.length;
-    final stage = Stage.of(context);
-    stage.panelController.alertController.recalcAlertSize(PlayGroupEditor.sizeCalc(howMany));
+    final int howMany = state!.gameState.value.players.length;
+    final stage = Stage.of(context)!;
+    stage.panelController.alertController!.recalcAlertSize(PlayGroupEditor.sizeCalc(howMany));
   }
 
   void startEditing(String who){
     this.setState((){
       this.edited = who;
     });
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      this.focusNode.requestFocus();
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      this.focusNode!.requestFocus();
     });
   }
   void _endEditing(){
-    this.controller.clear();
+    this.controller!.clear();
     this.setState((){
       this.edited = null;
-      this.focusNode.unfocus();
+      this.focusNode!.unfocus();
     });
   }
   void confirm(){
     if(edited == ""){
-      state.addNewPlayer(controller.text);
+      state!.addNewPlayer(controller!.text);
     } else {
-      state.renamePlayer(edited, controller.text);
+      state!.renamePlayer(edited, controller!.text);
     }
     this._endEditing();
     this._reCalcSize();
@@ -84,21 +84,21 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     this.setState((){
       this.newGrouping = true;
     });
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      this.focusNode.requestFocus();
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      this.focusNode!.requestFocus();
     });
   }
   void _endNewGrouping(){
-    this.controller.clear();
+    this.controller!.clear();
     this.setState((){
       this.newGrouping = false;
-      this.focusNode.unfocus();
+      this.focusNode!.unfocus();
     });
   }
-  int validateNumber(){
-    int result;
+  int? validateNumber(){
+    int? result;
     try {
-      final int howMany = int.parse(this.controller.text);
+      final int howMany = int.parse(this.controller!.text);
       if(howMany > 0 && howMany <= maxNumberOfPlayers){
         result = howMany;
       }
@@ -108,9 +108,9 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     return result;
   }
   void confirmNewGroup(){
-    final int howMany = validateNumber();
+    final int? howMany = validateNumber();
     if(howMany != null){
-      this.state.startNew({
+      this.state!.startNew({
         for(int i=1; i<=howMany; ++i)
           "Player $i",
       });
@@ -121,11 +121,11 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   void cancelNewGroup(){
     this._endNewGrouping();
   }
-  void start(String who){
+  void start(String? who){
     if(who != null){
       if(newGrouping){
         this._endNewGrouping();
-        SchedulerBinding.instance.addPostFrameCallback((_) {
+        SchedulerBinding.instance!.addPostFrameCallback((_) {
           this.startEditing(who);
         });
       } else if(edited != null){
@@ -133,7 +133,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
           return;
         } else {
           this._endEditing();
-          SchedulerBinding.instance.addPostFrameCallback((_) {
+          SchedulerBinding.instance!.addPostFrameCallback((_) {
             this.startEditing(who);
           });
         }
@@ -145,7 +145,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
         return;
       } else if(edited != null){
         this._endEditing();
-        SchedulerBinding.instance.addPostFrameCallback((_) {
+        SchedulerBinding.instance!.addPostFrameCallback((_) {
           this.startNewGroup();
         });
       } else {
@@ -176,7 +176,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
         },
         child: Material(
           color: backgroundColor,
-          child: group.names.build((context, names) {
+          child: group!.names.build((context, names) {
 
             final Widget textField = TextField(
               key: const ValueKey("counterspell_key_widget_textfield_groupeditor"),
@@ -205,7 +205,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                       : null,
                 errorText: (newGrouping && validateNumber() == null) 
                   ? "Insert a number between 2 and $maxNumberOfPlayers" 
-                  : (edited == "" && names.contains(this.controller.text))
+                  : (edited == "" && names.contains(this.controller!.text))
                     ? "Name a different player"
                     : null,
               ),
@@ -221,11 +221,11 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                       alignment: Alignment.topCenter,
                       child: rl.ReorderableList(
                         onReorder: (from,to){
-                          final String name = group.names.value
+                          final String name = group!.names.value
                             .firstWhere((name)=> ValueKey(name) == from);
-                          final int newIndex = group.names.value
+                          final int newIndex = group!.names.value
                             .indexWhere((name)=> ValueKey(name) == to);
-                          group.moveName(name, newIndex);
+                          group!.moveName(name, newIndex);
                           return true;
                         },
                         child: ListView(
@@ -265,17 +265,17 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   Widget hints(ThemeData themeData, List<String> currentNames){
     return SizedBox(
       height: PlayGroupEditor.hintSize,
-      child: group.savedNames.build((context, savedNames) {
+      child: group!.savedNames.build((context, savedNames) {
         return ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           scrollDirection: Axis.horizontal,
           children: <Widget>[
             for(final savedName in savedNames)
               if(
-                controller.text != null && 
-                savedName.toLowerCase().contains(controller.text.toLowerCase()) && 
-                controller.text != "" &&
-                controller.text != savedName &&
+                controller!.text != null && 
+                savedName!.toLowerCase().contains(controller!.text.toLowerCase()) && 
+                controller!.text != "" &&
+                controller!.text != savedName &&
                 !currentNames.contains(savedName)
               )
                 Padding(
@@ -283,11 +283,11 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                   child: InkResponse(
                     splashColor: Colors.transparent,
                     onTap: (){
-                      this.controller.text = savedName;
+                      this.controller!.text = savedName;
                       this.confirm();
                     },
                     child: Chip(
-                      onDeleted: () => group.unSaveName(savedName),
+                      onDeleted: () => group!.unSaveName(savedName),
                       backgroundColor: themeData.canvasColor,
                       elevation: 1,
                       label: Text(savedName),
@@ -369,7 +369,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
           color: CSColors.delete,
         ),
         onPressed: last ? null : () {
-          widget.bloc.game.gameState.deletePlayer(name);
+          widget.bloc.game!.gameState!.deletePlayer(name);
           this._reCalcSize();
         },
       ),

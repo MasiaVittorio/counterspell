@@ -10,13 +10,13 @@ enum CSPage{
 
 class CSPages{
   
-  static String nameOf(CSPage page) => _pageToStringMap[page];
+  static String? nameOf(CSPage? page) => _pageToStringMap[page!];
 
-  static CSPage fromName(String name) => _stringToPageMap[name];
+  static CSPage? fromName(String? name) => _stringToPageMap[name!];
 
-  static String longTitleOf(CSPage page) => _pageToLongTitlesMap[page];
+  static String? longTitleOf(CSPage page) => _pageToLongTitlesMap[page];
 
-  static String shortTitleOf(CSPage page) => _pageToShortTitle[page];
+  static String? shortTitleOf(CSPage? page) => _pageToShortTitle[page!];
 
   static const Map<CSPage, String> _pageToStringMap = {
     CSPage.history: "CSPage.history",
@@ -55,7 +55,7 @@ class CSPages{
     DamageType.commanderCast : CSPage.commanderCast,
     DamageType.commanderDamage: CSPage.commanderDamage,
   };
-  static CSPage fromDamage(DamageType type) => damageToPage[type];
+  static CSPage? fromDamage(DamageType type) => damageToPage[type];
 
 }
 
@@ -67,8 +67,8 @@ enum SettingsPage{
 }
 
 class SettingsPages {
-  static String nameOf(SettingsPage page) => _SETTINGS_PAGE_TO_STRING[page];
-  static SettingsPage fromName(String name) => _STRING_TO_SETTINGS_PAGE[name];
+  static String? nameOf(SettingsPage? page) => _SETTINGS_PAGE_TO_STRING[page!];
+  static SettingsPage? fromName(String? name) => _STRING_TO_SETTINGS_PAGE[name!];
 
   static const Map<SettingsPage,String> _SETTINGS_PAGE_TO_STRING = <SettingsPage,String>{
     SettingsPage.game: "SettingsPage.game",

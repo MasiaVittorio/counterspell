@@ -13,7 +13,7 @@ class Changelog extends StatefulWidget {
 
 class _ChangelogState extends State<Changelog> {
 
-  Change change;
+  Change? change;
   bool showing = false;
 
   @override
@@ -73,7 +73,7 @@ class _ChangelogState extends State<Changelog> {
 
 class _Description extends StatelessWidget {
 
-  final Change change;
+  final Change? change;
 
   const _Description(this.change);
 
@@ -87,8 +87,8 @@ class _Description extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(10.0),
       child: ListTile(
-        title: Text(change.title),
-        subtitle: Text(change.description),
+        title: Text(change!.title),
+        subtitle: Text(change!.description!),
       ),
     );
   }

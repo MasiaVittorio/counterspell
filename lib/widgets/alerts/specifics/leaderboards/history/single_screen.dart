@@ -6,18 +6,18 @@ class PastGameScreen extends StatelessWidget {
 
   final int index;
 
-  const PastGameScreen({@required this.index});
+  const PastGameScreen({required this.index});
 
   static const double height = 500.0;
 
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final bloc = CSBloc.of(context);
+    final bloc = CSBloc.of(context)!;
     final titlesVar = bloc.pastGames.customStatTitles;
     final gamesVar = bloc.pastGames.pastGames;
     return gamesVar.build((_,pastGames) {
-      final PastGame game = pastGames[this.index];
+      final PastGame game = pastGames[this.index]!;
       return HeaderedAlertCustom(
 
         Column(
@@ -41,18 +41,18 @@ class PastGameScreen extends StatelessWidget {
                 leading: const Icon(McIcons.trophy),
                 title: Text("${game.winner ?? "not detected"}"),
               ),
-            ], onTap: () => selectWinner(game, stage, bloc),),
+            ], onTap: () => selectWinner(game, stage!, bloc),),
 
             SubSection([
               const SectionTitle("Notes"),
               ListTile(
                 leading: const Icon(McIcons.fountain_pen_tip),
                 title: Text(
-                  game.notes.or("[...]"), 
+                  game.notes.or("[...]")!, 
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
-            ], onTap: () => insertNotes(game, stage, bloc)),
+            ], onTap: () => insertNotes(game, stage!, bloc)),
 
             SubSection(
               [
@@ -64,7 +64,7 @@ class PastGameScreen extends StatelessWidget {
                     child: Row(children: ((){
                       final children = <Widget>[
                         for(final title in titles)
-                          for(final n in game.customStats[title] ?? [])
+                          for(final n in (game.customStats[title] ?? []) as Iterable<_>)
                             SidChip(text: title,subText: n,),
                       ];
                       if(children.isEmpty){
@@ -81,7 +81,7 @@ class PastGameScreen extends StatelessWidget {
                 )],),),
 
               ], 
-              onTap: () => stage.showAlert(
+              onTap: () => stage!.showAlert(
                 EditCustomStats(index: index),
                 size: EditCustomStats.height,
               ),
@@ -113,7 +113,7 @@ class PastGameScreen extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         maxLenght: null,
         onConfirm: (notes){
-          bloc.pastGames.pastGames.value[this.index].notes = notes;
+          bloc.pastGames.pastGames.value[this.index]!.notes = notes;
           bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
@@ -127,7 +127,7 @@ class PastGameScreen extends StatelessWidget {
         game.state.names, 
         initialSelected: game.winner, 
         onConfirm: (selected){
-          bloc.pastGames.pastGames.value[this.index].winner = selected;
+          bloc.pastGames.pastGames.value[this.index]!.winner = selected;
           bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
@@ -136,8 +136,8 @@ class PastGameScreen extends StatelessWidget {
   }
 }
 
-extension on String {
-  String or(String s) => this == null || this == "" ? s : this;
+extension on String? {
+  String? or(String s) => this == null || this == "" ? s : this;
 }
 
 class CommanderSubSection extends StatelessWidget {
@@ -145,7 +145,7 @@ class CommanderSubSection extends StatelessWidget {
   final int index;
   final String player;
 
-  const CommanderSubSection(this.game, this.player, {@required this.index});
+  const CommanderSubSection(this.game, this.player, {required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -153,37 +153,37 @@ class CommanderSubSection extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final stage = Stage.of(context);
 
-    final MtgCard first = game.commandersA[player];
-    final MtgCard second = game.commandersB[player];
-    final bool partner = game.state.players[player].havePartnerB;
+    final MtgCard? first = game.commandersA[player];
+    final MtgCard? second = game.commandersB[player];
+    final bool partner = game.state.players[player]!.havePartnerB!;
 
     return SubSection(<Widget>[
       SectionTitle(player),
       if(first != null) CardTile(
         first, 
-        callback: (_) => pick(true, bloc, stage),
+        callback: (_) => pick(true, bloc, stage!),
         autoClose: false,
         trailing: IconButton(
           icon: CSWidgets.deleteIcon,
           onPressed: (){
-            bloc.pastGames.pastGames.value[this.index].commandersA[this.player] = null;
+            bloc!.pastGames.pastGames.value[this.index]!.commandersA[this.player] = null;
             bloc.pastGames.pastGames.refresh(index: this.index);
           }
         ),
       ) else ListTile(
         leading: const Icon(McIcons.cards_outline),
         title: Text(partner ? "Select first partner": "Select commander") ,
-        onTap: () => pick(true, bloc, stage),
+        onTap: () => pick(true, bloc, stage!),
       ),
       AnimatedListed(listed: partner, child: second != null 
         ? CardTile(
           second, 
           autoClose: false,
-          callback: (_) => pick(false, bloc, stage),
+          callback: (_) => pick(false, bloc, stage!),
           trailing: IconButton(
             icon: CSWidgets.deleteIcon,
             onPressed: (){
-              bloc.pastGames.pastGames.value[this.index].commandersB[this.player] = null;
+              bloc!.pastGames.pastGames.value[this.index]!.commandersB[this.player] = null;
               bloc.pastGames.pastGames.refresh(index: this.index);
             }
           ),
@@ -191,13 +191,13 @@ class CommanderSubSection extends StatelessWidget {
         : ListTile(
           leading: const Icon(McIcons.cards_outline),
           title: const Text("Select second partner") ,
-          onTap: () => pick(false, bloc, stage),
+          onTap: () => pick(false, bloc, stage!),
         ),
       ),
       BottomExtra(
         Text(partner ? "Merge into one commander" : "Split into two partners"), 
         onTap: (){
-          bloc.pastGames.pastGames.value[this.index].state.players[this.player].havePartnerB = !partner;
+          bloc!.pastGames.pastGames.value[this.index]!.state.players[this.player]!.havePartnerB = !partner;
           bloc.pastGames.pastGames.refresh(index: this.index);
         },
         icon: partner ? Icons.unfold_less : Icons.unfold_more,
@@ -205,13 +205,13 @@ class CommanderSubSection extends StatelessWidget {
     ]);
   }
 
-  void pick(bool first, CSBloc bloc, StageData stage){
+  void pick(bool first, CSBloc? bloc, StageData stage){
     stage.showAlert(
       ImageSearch((card){
         if(first){
-          bloc.pastGames.pastGames.value[this.index].commandersA[this.player] = card;
+          bloc!.pastGames.pastGames.value[this.index]!.commandersA[this.player] = card;
         } else {
-          bloc.pastGames.pastGames.value[this.index].commandersB[this.player] = card;
+          bloc!.pastGames.pastGames.value[this.index]!.commandersB[this.player] = card;
         }
         bloc.pastGames.pastGames.refresh(index: this.index);
       }),

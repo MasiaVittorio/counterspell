@@ -28,7 +28,7 @@ class _ZndrspltOkaum extends StatefulWidget {
 
 class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
 
-  Random rng;
+  Random? rng;
   @override
   void initState() {
     super.initState();
@@ -42,7 +42,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
 
   /// status
   int triggers = 0;
-  _ThumbFlip currentFlip;
+  _ThumbFlip? currentFlip;
   int wins = 0;
 
   /// flip settings
@@ -50,7 +50,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
 
   /// derived
   int get draws => wins * zndrsplt;
-  int get power => okaum > 0 ? 3 * pow(2,wins) : 0;
+  int get power => okaum > 0 ? 3 * (pow(2,wins) as int) : 0;
 
   void beginCombat(){
     // debugPrint("enter beginCombat");
@@ -87,7 +87,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
 
   void solveFlip(bool choice){
     // debugPrint("enters solveFlip with choice $choice");
-    assert(currentFlip.contains(choice));
+    assert(currentFlip!.contains(choice));
     // debugPrint("wins were $wins");
     if(choice){ /// win flip
       ++wins;
@@ -118,7 +118,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     while(_steps < 100 && currentFlip != null){
       // debugPrint("step $_steps");
       ++_steps; /// security check, don't want to enter an infinite loop
-      solveFlip(currentFlip.containsWin);
+      solveFlip(currentFlip!.containsWin);
       /// if wins, just reflip and ++wins
       /// if loses, clears the flip and start the next trigger if any
     }
@@ -257,13 +257,13 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         const SectionTitle("Triggers"),
         Row(children: <Widget>[
           if(currentFlip != null) Expanded(flex: 6, child: SubSection(<Widget>[
-            SectionTitle("Current flip ${currentFlip.flips.length > 1 ? '(${currentFlip.flips.length} thumb-coins)' : ""}"),
-            if(currentFlip.flips.length > 1) ExtraButtons(children: <Widget>[
+            SectionTitle("Current flip ${currentFlip!.flips.length > 1 ? '(${currentFlip!.flips.length} thumb-coins)' : ""}"),
+            if(currentFlip!.flips.length > 1) ExtraButtons(children: <Widget>[
               ExtraButton(
                 customCircleColor: Colors.transparent,
                 icon: null,
-                customIcon: Text("${currentFlip.howManyWins}"),
-                onTap: currentFlip.howManyWins > 0 
+                customIcon: Text("${currentFlip!.howManyWins}"),
+                onTap: currentFlip!.howManyWins > 0 
                   ? () => solveFlip(true) 
                   : null,
                 text: "Heads\n(win)",
@@ -272,8 +272,8 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
               ExtraButton(
                 customCircleColor: Colors.transparent,
                 icon: null,
-                customIcon: Text("${currentFlip.howManyLosses}"),
-                onTap: currentFlip.howManyLosses > 0 
+                customIcon: Text("${currentFlip!.howManyLosses}"),
+                onTap: currentFlip!.howManyLosses > 0 
                   ? () => solveFlip(false) 
                   : null,
                 text: "Tails\n(loss)",
@@ -282,16 +282,16 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
             ],)
             else ExtraButtons(children: <Widget>[
               ExtraButton(
-                icon: currentFlip.containsWin ? Icons.check : Icons.close,
+                icon: currentFlip!.containsWin ? Icons.check : Icons.close,
                 onTap: null,
-                text: currentFlip.containsWin ? "Heads\n(win)" : "Tails\n(loss)",
+                text: currentFlip!.containsWin ? "Heads\n(win)" : "Tails\n(loss)",
                 twoLines: true,
               ),
               ExtraButton(
                 customCircleColor: Colors.transparent,
                 icon: Icons.keyboard_arrow_right,
-                onTap: () => solveFlip(currentFlip.flips.first),
-                text: "Ok\n(${(currentFlip.containsWin || triggers > 0) ? "next" : "finish"})",
+                onTap: () => solveFlip(currentFlip!.flips.first),
+                text: "Ok\n(${(currentFlip!.containsWin || triggers > 0) ? "next" : "finish"})",
                 twoLines: true,
               ), 
             ],)
@@ -348,9 +348,9 @@ class _ThumbFlip {
   
   List<bool> flips;
 
-  _ThumbFlip(int howManyThumbs, Random rng): flips = [
+  _ThumbFlip(int howManyThumbs, Random? rng): flips = [
     for(int i=0; i<pow(2,howManyThumbs); ++i)
-      (rng.nextInt(2) == 0),
+      (rng!.nextInt(2) == 0),
       /// nextInt(2) gives either 0 or 1, so this flips a coin
   ];
 

@@ -2,18 +2,18 @@ import '../all.dart';
 import 'package:flutter/widgets.dart';
 
 class GACounter extends GameAction{
-  final Map<String,bool> selected;
+  final Map<String,bool?> selected;
   final Counter counter;
   final int increment;
-  final int minVal;
-  final int maxVal;
+  final int? minVal;
+  final int? maxVal;
 
   const GACounter(
     this.increment, 
     this.counter, {
-      @required this.selected,
-      @required this.minVal,
-      @required this.maxVal,
+      required this.selected,
+      required this.minVal,
+      required this.maxVal,
     }
   );
 

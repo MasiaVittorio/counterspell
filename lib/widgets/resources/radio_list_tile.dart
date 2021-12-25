@@ -7,19 +7,19 @@ class SidRadioListTile<T> extends StatelessWidget {
 
   final T groupValue;
 
-  final ValueChanged<T> onChanged;
+  final ValueChanged<T?> onChanged;
 
-  final Color activeColor;
+  final Color? activeColor;
 
-  final Widget title;
-  final Widget subtitle;
+  final Widget? title;
+  final Widget? subtitle;
 
-  final Widget secondary;
+  final Widget? secondary;
 
   SidRadioListTile({
-    @required this.value,
-    @required this.groupValue,
-    @required this.onChanged,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
     this.title,
     this.subtitle,
     this.secondary,

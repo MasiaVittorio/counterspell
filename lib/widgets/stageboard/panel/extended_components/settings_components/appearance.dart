@@ -4,9 +4,9 @@ class SettingsAppearance extends StatelessWidget {
   const SettingsAppearance();
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context);
-    final CSSettings settings = bloc.settings;
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final CSBloc bloc = CSBloc.of(context)!;
+    final CSSettings settings = bloc.settings!;
+    final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
 
     return Section([
       const SectionTitle("Appearance"),
@@ -25,7 +25,7 @@ class SettingsAppearance extends StatelessWidget {
           ExtraButton(
             text: "Images",
             icon: Icons.invert_colors,
-            onTap: () => stage.showAlert(
+            onTap: () => stage!.showAlert(
               const ImageOpacity(),
               size: ImageOpacity.height,
             ),
@@ -33,7 +33,7 @@ class SettingsAppearance extends StatelessWidget {
           ExtraButton(
             text: "History",
             icon: CSIcons.historyFilled,
-            onTap: () => stage.showAlert(
+            onTap: () => stage!.showAlert(
               const HistoryTimeAlert(),
               size: HistoryTimeAlert.size,
             )
@@ -43,7 +43,7 @@ class SettingsAppearance extends StatelessWidget {
 
       settings.appSettings.numberFontSizeFraction.build(
         (context, val) => FullSlider(
-          value: val,
+          value: val!,
           onChangeEnd: settings.appSettings.numberFontSizeFraction.set,
           titleBuilder: (v) {
             final mapped = v.mapToRangeLoose(

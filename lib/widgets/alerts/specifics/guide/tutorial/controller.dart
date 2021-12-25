@@ -15,7 +15,7 @@ class TutorialPageController {
     return registered;
   }
 
-  void unregister(int key){
+  void unregister(int? key){
     this._reactors.remove(key);
   }
 
@@ -38,8 +38,8 @@ class TutorialPageController {
 class TutorialPageReactor extends StatefulWidget {
 
   TutorialPageReactor({
-    @required this.controller, 
-    @required this.builder,
+    required this.controller, 
+    required this.builder,
   });
 
   final TutorialPageController controller;
@@ -52,7 +52,7 @@ class TutorialPageReactor extends StatefulWidget {
 class _TutorialPageReactorState extends State<TutorialPageReactor> {
 
   int page = 0;
-  int registeredKey;
+  int? registeredKey;
 
   @override
   void initState() {

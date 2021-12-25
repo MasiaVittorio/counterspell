@@ -4,9 +4,9 @@ abstract class Achievement {
 
   //=================================
   // Values =====================
-  final String shortTitle;
-  final String title;
-  final String text;
+  final String? shortTitle;
+  final String? title;
+  final String? text;
   final int targetBronze;
   final int targetSilver;
   final int targetGold;
@@ -15,21 +15,21 @@ abstract class Achievement {
   //=====================================
   // Constructor =====================
   const Achievement(this.shortTitle,{
-    @required this.title,
-    @required this.text,
-    @required this.targetBronze,
-    @required this.targetSilver,
-    @required this.targetGold,
+    required this.title,
+    required this.text,
+    required this.targetBronze,
+    required this.targetSilver,
+    required this.targetGold,
   }): assert(targetGold >= targetSilver),
       assert(targetSilver >= targetBronze);
 
   //=====================================
   // Getters ========================
-  int get count;
-  bool get bronze => count >= targetBronze;
-  bool get silver => count >= targetSilver;
-  bool get gold => count >= targetGold;
-  Medal get medal => gold ? Medal.gold : silver ? Medal.silver : bronze ? Medal.bronze : null;
+  int? get count;
+  bool get bronze => count! >= targetBronze;
+  bool get silver => count! >= targetSilver;
+  bool get gold => count! >= targetGold;
+  Medal? get medal => gold ? Medal.gold : silver ? Medal.silver : bronze ? Medal.bronze : null;
   int target(Medal m) => m == Medal.bronze 
     ? targetBronze
     : m == Medal.silver 
@@ -89,18 +89,18 @@ class QuantityAchievement extends Achievement {
 
   //=================================
   // Values =====================
-  final int currentCount;
+  final int? currentCount;
 
 
   // =====================================
   // Constructor =====================
-  const QuantityAchievement(String shortTitle, {
-    @required String title,
-    @required String text,
-    @required this.currentCount,
-    @required int targetBronze,
-    @required int targetSilver,
-    @required int targetGold,
+  const QuantityAchievement(String? shortTitle, {
+    required String? title,
+    required String? text,
+    required this.currentCount,
+    required int targetBronze,
+    required int targetSilver,
+    required int targetGold,
   }) : super(
     shortTitle, 
     title: title, 
@@ -114,9 +114,9 @@ class QuantityAchievement extends Achievement {
   //=====================================
   // Getters ========================
   @override 
-  int get count => this.currentCount;
+  int? get count => this.currentCount;
 
-  QuantityAchievement withCount(int newCount) => QuantityAchievement(
+  QuantityAchievement withCount(int? newCount) => QuantityAchievement(
     this.shortTitle,
     title: this.title,
     text: this.text,
@@ -126,7 +126,7 @@ class QuantityAchievement extends Achievement {
     currentCount: newCount,
   );
 
-  QuantityAchievement incrementBy(int by) => withCount((this.count + by).clamp(0, this.targetGold));
+  QuantityAchievement incrementBy(int by) => withCount((this.count! + by).clamp(0, this.targetGold));
   QuantityAchievement get increment => this.incrementBy(1);
   QuantityAchievement get decrement => this.incrementBy(-1);
 
@@ -177,13 +177,13 @@ class QualityAchievement extends Achievement {
 
   // =====================================
   // Constructor =====================
-  const QualityAchievement(String shortTitle, {
-    String title,
-    String text,
-    @required this.targets,
-    int targetBronze,
-    int targetSilver,
-    int targetGold,
+  const QualityAchievement(String? shortTitle, {
+    String? title,
+    String? text,
+    required this.targets,
+    required int targetBronze,
+    required int targetSilver,
+    required int targetGold,
   }) : super(
     shortTitle, 
     title: title, 
@@ -207,7 +207,7 @@ class QualityAchievement extends Achievement {
     return c;
   }
 
-  QualityAchievement achieve(String key) => withTargets(<String,bool>{
+  QualityAchievement achieve(String? key) => withTargets(<String,bool>{
     for(final entry in this.targets.entries)
       entry.key: entry.value || (entry.key == key),
   });

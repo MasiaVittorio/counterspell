@@ -37,9 +37,9 @@ extension on _DiceType {
 
 class _DiceThrowerState extends State<DiceThrower> {
 
-  Random generator;
+  late Random generator;
   _DiceType _diceType = _DiceType.d20;
-  SidAnimatedListController controller;
+  SidAnimatedListController? controller;
   final List<_Throw> throws = <_Throw>[];
 
 
@@ -60,9 +60,9 @@ class _DiceThrowerState extends State<DiceThrower> {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final CSBloc bloc = CSBloc.of(context);
+    final CSBloc bloc = CSBloc.of(context)!;
 
-    return bloc.game.gameState.gameState.build((_,state){
+    return bloc.game!.gameState!.gameState.build((_,state){
       final List<String> names = state.names.toList();
       return HeaderedAlert(
         "",
@@ -70,7 +70,7 @@ class _DiceThrowerState extends State<DiceThrower> {
         child: SidAnimatedList(
           physics: SidereusScrollPhysics(
             bottomBounce: true,
-            bottomBounceCallback: stage.closePanel,
+            bottomBounceCallback: stage!.closePanel,
             alwaysScrollable: false,
             neverScrollable: false,
           ),
@@ -118,10 +118,10 @@ class _DiceThrowerState extends State<DiceThrower> {
                           _ThrowType.coin: 2, 
                           _ThrowType.name: names.length, 
                           _ThrowType.dice: _diceType.max,
-                        }[type],
+                        }[type]!,
                         _diceType,
                       ),);
-                      this.controller.insert(0, duration: duration);
+                      this.controller!.insert(0, duration: duration);
                       bloc.achievements.flippedOrRolled();
                     });
                   },

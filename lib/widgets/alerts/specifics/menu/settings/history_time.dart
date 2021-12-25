@@ -11,18 +11,18 @@ class HistoryTimeAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final timeMode = CSBloc.of(context).settings.gameSettings.timeMode;
+    final timeMode = CSBloc.of(context)!.settings!.gameSettings.timeMode;
 
     return timeMode.build((_, mode) => HeaderedAlert(
       "History screen time mode",
       canvasBackground: true,
       child: RadioSlider(
         onTap: (i) => timeMode.set(TimeMode.values[i]),
-        selectedIndex: TimeMode.values.indexOf(mode),
+        selectedIndex: TimeMode.values.indexOf(mode!),
         items: [for(final timeMode in TimeMode.values)
           RadioSliderItem(
             icon: Icon(TimeModes.icons[timeMode]),
-            title: Text(TimeModes.nameOf(timeMode)),
+            title: Text(TimeModes.nameOf(timeMode)!),
           ),
         ],
       ),
@@ -32,7 +32,7 @@ class HistoryTimeAlert extends StatelessWidget {
             TimeMode.clock: "(Tells you that a change happened at: 21:45)",
             TimeMode.inGame: "(Tells you that a change happened 37 minutes into a game)",
             TimeMode.none: "(Doesn't tell you when a change happened in the history screen)",
-          }[mode],
+          }[mode]!,
           style: TextStyle(fontStyle: FontStyle.italic),
           textAlign: TextAlign.center,
         ),

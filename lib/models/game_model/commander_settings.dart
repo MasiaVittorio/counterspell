@@ -11,9 +11,9 @@ class CommanderSettings {
   //==============================
   // Constructor
   const CommanderSettings({
-    @required this.lifelink,
-    @required this.damageDefendersLife,
-    @required this.infect,
+    required this.lifelink,
+    required this.damageDefendersLife,
+    required this.infect,
   }): assert(lifelink != null),
       assert(damageDefendersLife != null),
       assert(infect != null),
@@ -35,9 +35,9 @@ class CommanderSettings {
   //==============================
   // Methods
   CommanderSettings copyWith({
-    bool lifelink,
-    bool damageDefendersLife,
-    bool infect,
+    bool? lifelink,
+    bool? damageDefendersLife,
+    bool? infect,
   }) => CommanderSettings(
     lifelink: lifelink ?? this.lifelink,
     damageDefendersLife: damageDefendersLife ?? this.damageDefendersLife,

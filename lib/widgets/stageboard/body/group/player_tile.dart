@@ -13,8 +13,8 @@ class PlayerTile extends StatelessWidget {
   final double tileSize;
   final double bottom;
   final bool first;
-  final CSPage page;
-  final bool selected;
+  final CSPage? page;
+  final bool? selected;
   final bool isScrollingSomewhere;
   final String whoIsAttacking;
   final String whoIsDefending;
@@ -22,34 +22,34 @@ class PlayerTile extends StatelessWidget {
   final PlayerState playerState;
   final Color defenceColor;
   final int increment;
-  final PlayerAction normalizedPlayerAction;
+  final PlayerAction? normalizedPlayerAction;
   final double maxWidth;
-  final Color pageColor;
-  final bool usingPartnerB;
+  final Color? pageColor;
+  final bool? usingPartnerB;
   final bool isAttackerUsingPartnerB;
-  final bool havingPartnerB;
+  final bool? havingPartnerB;
   final bool isAttackerHavingPartnerB;
 
   const PlayerTile(this.name, {
-    @required this.usingPartnerB,
-    @required this.isAttackerUsingPartnerB,
-    @required this.havingPartnerB,
-    @required this.isAttackerHavingPartnerB,
-    @required this.maxWidth,
-    @required this.tileSize,
-    @required this.bottom,
-    @required this.first,
-    @required this.page,
-    @required this.pageColor,
-    @required this.selected,
-    @required this.isScrollingSomewhere,
-    @required this.whoIsAttacking,
-    @required this.whoIsDefending,
-    @required this.counter,
-    @required this.playerState,
-    @required this.defenceColor,
-    @required this.increment,
-    @required this.normalizedPlayerAction,
+    required this.usingPartnerB,
+    required this.isAttackerUsingPartnerB,
+    required this.havingPartnerB,
+    required this.isAttackerHavingPartnerB,
+    required this.maxWidth,
+    required this.tileSize,
+    required this.bottom,
+    required this.first,
+    required this.page,
+    required this.pageColor,
+    required this.selected,
+    required this.isScrollingSomewhere,
+    required this.whoIsAttacking,
+    required this.whoIsDefending,
+    required this.counter,
+    required this.playerState,
+    required this.defenceColor,
+    required this.increment,
+    required this.normalizedPlayerAction,
   }): 
     assert(!(
       page == CSPage.counters
@@ -61,19 +61,19 @@ class PlayerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context);
-    final group = bloc.game.gameGroup;
-    final stateBloc = bloc.game.gameState;
+    final bloc = CSBloc.of(context)!;
+    final group = bloc.game!.gameGroup;
+    final stateBloc = bloc.game!.gameState;
     final scrollerBloc = bloc.scroller;
-    final actionBloc = bloc.game.gameAction;
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final actionBloc = bloc.game!.gameAction;
+    final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
     final ThemeData theme = Theme.of(context);
 
     final bool attacking = whoIsAttacking == name;
     final bool defending = whoIsDefending == name;
     final bool highlighted = selected != false;
 
-    bool scrolling;
+    bool? scrolling;
     switch (page) {
       case CSPage.history:
         scrolling = false;
@@ -101,15 +101,15 @@ class PlayerTile extends StatelessWidget {
         hasPartnerB: havingPartnerB,
         usePartnerB: usingPartnerB,
       ),
-      onLongPress: () => stage.showAlert(
+      onLongPress: () => stage!.showAlert(
         PlayerDetails(
-          bloc.game.gameGroup.names.value.indexOf(name), 
+          bloc.game!.gameGroup!.names.value.indexOf(name), 
           this.maxWidth/(this.tileSize + this.bottom),
         ), 
         size: PlayerDetails.height,
       ),
       child: VelocityPanDetector(
-        onPanEnd: (_details) => scrollerBloc.onDragEnd(),
+        onPanEnd: (_details) => scrollerBloc!.onDragEnd(),
         onPanUpdate: (details) => PlayerGestures.pan(
           details,
           name,
@@ -117,7 +117,7 @@ class PlayerTile extends StatelessWidget {
           bloc: bloc,
           page: page,
         ),
-        onPanCancel: scrollerBloc.onDragEnd,
+        onPanCancel: scrollerBloc!.onDragEnd,
         child: Container(
           //to make the pan callback working, the color cannot be just null
           color: Colors.transparent,
@@ -128,9 +128,9 @@ class PlayerTile extends StatelessWidget {
             child: SizedBox(
               height: coreTileSize,
               child: Row(children: <Widget>[
-                bloc.settings.appSettings.numberFontSizeFraction.build(
+                bloc.settings!.appSettings.numberFontSizeFraction.build(
                   (context, val) => buildLeading(
-                    numberFontSizeFraction: val,
+                    numberFontSizeFraction: val!,
                     theme: theme,
                     rawSelected: selected,
                     scrolling: scrolling,
@@ -151,9 +151,9 @@ class PlayerTile extends StatelessWidget {
       ),
     );
 
-    return group.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
-      final MtgCard cardA = cardsA[name];
-      final MtgCard cardB = havingPartnerB ? cardsB[name] : null;
+    return group!.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
+      final MtgCard? cardA = cardsA[name];
+      final MtgCard? cardB = havingPartnerB! ? cardsB[name] : null;
 
       if(cardB == null && cardA == null){
         return Material(
@@ -161,12 +161,12 @@ class PlayerTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         );
       } else {
-        final String urlA = cardA?.imageUrl();
-        final String urlB = cardB?.imageUrl();
+        final String? urlA = cardA?.imageUrl();
+        final String? urlB = cardB?.imageUrl();
 
-        return bloc.settings.imagesSettings.imageAlignments.build((_,alignments){
+        return bloc.settings!.imagesSettings.imageAlignments.build((_,alignments){
           
-          final Decoration decorationA = urlA == null 
+          final Decoration? decorationA = urlA == null 
             ? null 
             : BoxDecoration(image: DecorationImage(
               image: CachedNetworkImageProvider(
@@ -178,8 +178,8 @@ class PlayerTile extends StatelessWidget {
 
           Widget image;
 
-          if(havingPartnerB){
-            final Decoration decorationB = urlB == null 
+          if(havingPartnerB!){
+            final Decoration? decorationB = urlB == null 
               ? null 
               : BoxDecoration(image: DecorationImage(
                 image: CachedNetworkImageProvider(
@@ -195,7 +195,7 @@ class PlayerTile extends StatelessWidget {
                 AnimatedContainer(
                   duration: Duration(milliseconds: 350),
                   curve: Curves.easeOut,
-                  width: maxWidth * (usingPartnerB ? 0.25 : 0.75),
+                  width: maxWidth * (usingPartnerB! ? 0.25 : 0.75),
                   decoration: decorationA,
                 ),
                 Expanded(child: Container(
@@ -208,16 +208,16 @@ class PlayerTile extends StatelessWidget {
           }
 
           final Widget gradient = BlocVar.build2(
-            bloc.settings.imagesSettings.imageGradientStart,
-            bloc.settings.imagesSettings.imageGradientEnd,
-            builder: (context, double startVal, double endVal) => Container(
+            bloc.settings!.imagesSettings.imageGradientStart,
+            bloc.settings!.imagesSettings.imageGradientEnd,
+            builder: (context, double? startVal, double? endVal) => Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: [
-                    theme.canvasColor.withOpacity(startVal),
-                    theme.canvasColor.withOpacity(endVal),
+                    theme.canvasColor.withOpacity(startVal!),
+                    theme.canvasColor.withOpacity(endVal!),
                   ],
                 ),
               ),
@@ -226,9 +226,9 @@ class PlayerTile extends StatelessWidget {
 
           return SizedBox(
             height: tileSize + bottom,
-            child: bloc.themer.flatDesign.build((context, flat) => Container(
+            child: bloc.themer!.flatDesign!.build((context, flat) => Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(flat ? 12 : 0.0),
+                borderRadius: BorderRadius.circular(flat! ? 12 : 0.0),
               ),
               clipBehavior: Clip.antiAlias,
               child: Stack(
@@ -262,16 +262,16 @@ class PlayerTile extends StatelessWidget {
 
   static const circleFrac = 0.7;
   Widget buildLeading({
-    @required ThemeData theme,
-    @required PlayerState playerState,
-    @required bool rawSelected,
-    @required bool scrolling,
-    @required bool attacking,
-    @required bool defending,
-    @required StageData<CSPage,SettingsPage> stage,
-    @required bool someoneAttacking,
-    @required CSGameGroup group,
-    @required double numberFontSizeFraction,
+    required ThemeData theme,
+    required PlayerState playerState,
+    required bool? rawSelected,
+    required bool? scrolling,
+    required bool attacking,
+    required bool defending,
+    required StageData<CSPage,SettingsPage>? stage,
+    required bool someoneAttacking,
+    required CSGameGroup? group,
+    required double numberFontSizeFraction,
   }){
     Widget child;
     final Color color = PTileUtils.cnColor(
@@ -281,7 +281,7 @@ class PlayerTile extends StatelessWidget {
       pageColor, 
       defenceColor, 
       someoneAttacking,
-    );
+    )!;
 
     // final colorBright = ThemeData.estimateBrightnessForColor(color);
     // final Color textColor = colorBright == Brightness.light ? Colors.black : Colors.white;
@@ -330,9 +330,9 @@ class PlayerTile extends StatelessWidget {
         key: ValueKey("$name circle number"),
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
-        onTap: () => stage.showAlert(
+        onTap: () => stage!.showAlert(
           PlayerDetails(
-            group.names.value.indexOf(name), 
+            group!.names.value.indexOf(name), 
             this.maxWidth/(this.tileSize + this.bottom),
           ), 
           size: PlayerDetails.height,
@@ -348,9 +348,9 @@ class PlayerTile extends StatelessWidget {
             playerState,
             isAttackerUsingPartnerB ?? false,
             counter,
-          ),
+          )!,
           numberOpacity: PTileUtils.cnNumberOpacity(page, whoIsAttacking),
-          open: scrolling,
+          open: scrolling!,
           style: textStyle,
           duration: const Duration(milliseconds: 360),
           color: selected 
@@ -371,7 +371,7 @@ class PlayerTile extends StatelessWidget {
     );
   }
   
-  Widget buildTrailing(bool rawSelected, CSGameAction actionBloc, CSGameState stateBloc){
+  Widget buildTrailing(bool? rawSelected, CSGameAction? actionBloc, CSGameState? stateBloc){
     return SizedBox(
       width: coreTileSize,
       height: coreTileSize,
@@ -384,7 +384,7 @@ class PlayerTile extends StatelessWidget {
             presented: page == CSPage.life || page == CSPage.counters,
             child: InkWell(
               onLongPress: (){
-                actionBloc.selected.value[name]= rawSelected == null ? true : null;
+                actionBloc!.selected.value[name]= rawSelected == null ? true : null;
                 actionBloc.selected.refresh();
               },
               child: Container(
@@ -395,7 +395,7 @@ class PlayerTile extends StatelessWidget {
                   activeColor: pageColor,
                   tristate: true,
                   onChanged: (b) {
-                    actionBloc.selected.value[name] = rawSelected == false ? true : false;
+                    actionBloc!.selected.value[name] = rawSelected == false ? true : false;
                     actionBloc.selected.refresh();
                   },
                 ),
@@ -407,13 +407,13 @@ class PlayerTile extends StatelessWidget {
             duration: CSAnimations.fast,
             presented: page == CSPage.commanderCast,
             child: InkWell(
-              onLongPress: () => stateBloc.toggleHavePartner(name),
-              onTap: () => stateBloc.toggleUsePartner(name, force: true),
+              onLongPress: () => stateBloc!.toggleHavePartner(name),
+              onTap: () => stateBloc!.toggleUsePartner(name, force: true),
               child: Container(
                 width: coreTileSize,
                 height: coreTileSize,
                 child: Transform(
-                  transform: Matrix4.rotationY(usingPartnerB  
+                  transform: Matrix4.rotationY(usingPartnerB!  
                     ? pi
                     : 0.0
                   ),
@@ -439,13 +439,13 @@ class PlayerTile extends StatelessWidget {
             duration: CSAnimations.fast,
             presented: page == CSPage.commanderDamage && whoIsAttacking==name,
             child: InkWell(
-              onLongPress: () => stateBloc.toggleHavePartner(name),
-              onTap: () => stateBloc.toggleUsePartner(name, force: true),
+              onLongPress: () => stateBloc!.toggleHavePartner(name),
+              onTap: () => stateBloc!.toggleUsePartner(name, force: true),
               child: Container(
                 width: coreTileSize,
                 height: coreTileSize,
                 child: Transform(
-                  transform: Matrix4.rotationY(usingPartnerB  
+                  transform: Matrix4.rotationY(usingPartnerB!  
                     ? pi
                     : 0.0
                   ),
@@ -485,7 +485,7 @@ class PlayerTile extends StatelessWidget {
     );
   }
 
-  Widget buildBody(bool rawSelected, ThemeData theme){
+  Widget buildBody(bool? rawSelected, ThemeData theme){
     final annotation = PTileUtils.tileAnnotation(
       name,    page,    rawSelected,    whoIsAttacking,
       havingPartnerB??false,    usingPartnerB ??false, 

@@ -44,7 +44,7 @@ class _DeveloperState extends State<Developer> {
           FloatingActionButton(
             backgroundColor: theme.primaryColor,
             child: Icon(Icons.mail_outline, color: theme.primaryIconTheme.color),
-            onPressed: () => Stage.of(context).showAlert(ConfirmEmail(), size: ConfirmEmail.height),
+            onPressed: () => Stage.of(context)!.showAlert(ConfirmEmail(), size: ConfirmEmail.height),
           ),
         ],),
       ),

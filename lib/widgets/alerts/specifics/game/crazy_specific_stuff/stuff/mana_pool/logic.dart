@@ -4,21 +4,21 @@ import 'package:counter_spell_new/core.dart';
 
 class MPLogic {
 
-  bool mounted;
+  bool? mounted;
 
-  BlocVar<Map<Clr,bool>> show; 
-  BlocVar<List<ManaAction>> history; 
+  BlocVar<Map<Clr,bool>>? show; 
+  BlocVar<List<ManaAction>>? history; 
 
-  ScrollerLogic localScroller;
+  ScrollerLogic? localScroller;
 
-  BlocVar<Clr> selected; 
+  BlocVar<Clr?>? selected; 
 
   ManaAction get currentAction => ManaAction(
-    delta: localScroller.intValue.value, 
-    color: selected.value,
+    delta: localScroller!.intValue.value, 
+    color: selected!.value,
   );
 
-  BlocVar<Map<Clr,int>> pool;
+  BlocVar<Map<Clr?,int>>? pool;
 
   void dispose() {
     mounted = false;
@@ -32,15 +32,15 @@ class MPLogic {
   MPLogic(CSBloc parentBloc) {
     mounted = true;
 
-    selected = BlocVar<Clr>(null);
+    selected = BlocVar<Clr?>(null);
     
     localScroller = ScrollerLogic(
-      okVibrate: () => parentBloc.settings.appSettings.canVibrate 
-        && parentBloc.settings.appSettings.wantVibrate.value,
+      okVibrate: () => parentBloc.settings!.appSettings.canVibrate! 
+        && parentBloc.settings!.appSettings.wantVibrate.value!,
       onCancel: (_, __){
-        selected.set(null);
+        selected!.set(null);
       },
-      scrollSettings: parentBloc.settings.scrollSettings,
+      scrollSettings: parentBloc.settings!.scrollSettings,
       resetAfterConfirm: true,
       onConfirm: (v){
         this.apply(currentAction);
@@ -54,43 +54,43 @@ class MPLogic {
 
     history = BlocVar(<ManaAction>[]);
 
-    pool = BlocVar(<Clr,int>{
+    pool = BlocVar(<Clr?,int>{
       for(final v in Clr.values)
         v: 0,
     });
   }
 
   void apply(ManaAction action){
-    pool.value[action.color] += action.delta;
-    if(pool.value[action.color] < 0)
-      pool.value[action.color] = 0;
-    pool.refresh();
+    pool!.value[action.color] += action.delta!;
+    if(pool!.value[action.color]! < 0)
+      pool!.value[action.color] = 0;
+    pool!.refresh();
 
     if(action.delta != 0){
-      if(history.value.contains(action)){
+      if(history!.value.contains(action)){
         return;
       }
-      if(history.value.length >= 4){
+      if(history!.value.length >= 4){
         int deleteAt = 0;
-        for(int i=0; i<history.value.length; ++i){
-          if(!show.value[history.value[i].color])
+        for(int i=0; i<history!.value.length; ++i){
+          if(!show!.value[history!.value[i].color!]!)
             deleteAt = i;
         }
-        history.value.removeAt(deleteAt);
+        history!.value.removeAt(deleteAt);
       }
-      history.value.add(action);
-      history.refresh();
+      history!.value.add(action);
+      history!.refresh();
     }
   }
 
   void onPan(Clr color){
-    if(selected.value == null){
-      selected.set(color);
+    if(selected!.value == null){
+      selected!.set(color);
     } else {
-      if(selected.value != color){
-        if(localScroller.isScrolling.value) 
+      if(selected!.value != color){
+        if(localScroller!.isScrolling.value) 
           this.apply(this.currentAction);
-        selected.set(color);
+        selected!.set(color);
       } 
     }
   }
@@ -101,55 +101,55 @@ class MPLogic {
 
 
 enum Clr {w,u,b,r,g,c} ///+ colorless
-extension ClrExt on Clr {
+extension ClrExt on Clr? {
 
-  String get name => const <Clr,String>{
+  String? get name => const <Clr,String>{
     Clr.w: "w",
     Clr.u: "u",
     Clr.b: "b",
     Clr.r: "r",
     Clr.g: "g",
     Clr.c: "c",
-  }[this]; 
+  }[this!]; 
 
-  Color get color => const <Clr,Color>{
+  Color? get color => const <Clr,Color>{
     Clr.w: const Color(0xFFfffbd6),
     Clr.u: const Color(0xFFaae0fa),
     Clr.b: const Color(0xFFccc3c1),
     Clr.r: const Color(0xFFf9aa8f),
     Clr.g: const Color(0xFF9bd3af),
     Clr.c: const Color(0xFFd5cece),
-  }[this];
+  }[this!];
 
-  IconData get icon => const <Clr,IconData>{
+  IconData? get icon => const <Clr,IconData>{
     Clr.w: ManaIcons.w,
     Clr.u: ManaIcons.u,
     Clr.b: ManaIcons.b,
     Clr.r: ManaIcons.r,
     Clr.g: ManaIcons.g,
     Clr.c: ManaIcons.c,
-  }[this];
+  }[this!];
 
 }
 class Clrs {
-  static Clr fromName(String name) => const <String,Clr>{
+  static Clr? fromName(String? name) => const <String,Clr>{
     "w": Clr.w,
     "u": Clr.u,
     "b": Clr.b,
     "r": Clr.r,
     "g": Clr.g,
     "c": Clr.c,
-  }[name];
+  }[name!];
 }
 
 class ManaAction {
 
-  final int delta;
-  final Clr color;
+  final int? delta;
+  final Clr? color;
 
   const ManaAction({
-    @required this.delta,
-    @required this.color,
+    required this.delta,
+    required this.color,
   });
 
   Map<String,dynamic> get toJson => <String,dynamic>{

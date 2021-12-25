@@ -4,18 +4,18 @@ import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_util
 class APTNumber extends StatelessWidget {
 
   APTNumber({
-    @required this.constraints,
-    @required this.increment,
-    @required this.playerState,
-    @required this.rawSelected,
-    @required this.scrolling,
-    @required this.name,
-    @required this.page,
-    @required this.counter,
-    @required this.isAttackerUsingPartnerB,
-    @required this.usingPartnerB,
-    @required this.whoIsAttacking,
-    @required this.whoIsDefending,
+    required this.constraints,
+    required this.increment,
+    required this.playerState,
+    required this.rawSelected,
+    required this.scrolling,
+    required this.name,
+    required this.page,
+    required this.counter,
+    required this.isAttackerUsingPartnerB,
+    required this.usingPartnerB,
+    required this.whoIsAttacking,
+    required this.whoIsDefending,
   });
 
   //Player information
@@ -53,7 +53,7 @@ class APTNumber extends StatelessWidget {
       playerState,
       isAttackerUsingPartnerB ?? false,
       counter,
-    );
+    )!;
 
 
     return Row(
@@ -92,18 +92,18 @@ class APTNumber extends StatelessWidget {
 class APTNumberAlt extends StatelessWidget {
 
   APTNumberAlt({
-    @required this.constraints,
-    @required this.increment,
-    @required this.playerState,
-    @required this.rawSelected,
-    @required this.scrolling,
-    @required this.name,
-    @required this.page,
-    @required this.counter,
-    @required this.isAttackerUsingPartnerB,
-    @required this.usingPartnerB,
-    @required this.whoIsAttacking,
-    @required this.whoIsDefending,
+    required this.constraints,
+    required this.increment,
+    required this.playerState,
+    required this.rawSelected,
+    required this.scrolling,
+    required this.name,
+    required this.page,
+    required this.counter,
+    required this.isAttackerUsingPartnerB,
+    required this.usingPartnerB,
+    required this.whoIsAttacking,
+    required this.whoIsDefending,
   });
 
   //Player information
@@ -111,13 +111,13 @@ class APTNumberAlt extends StatelessWidget {
   final String name;
 
   //Interaction information
-  final bool rawSelected;
-  final int increment;
-  final bool scrolling;
+  final bool? rawSelected;
+  final int? increment;
+  final bool? scrolling;
   final CSPage page;
-  final String whoIsAttacking;
-  final String whoIsDefending;
-  final bool usingPartnerB;
+  final String? whoIsAttacking;
+  final String? whoIsDefending;
+  final bool? usingPartnerB;
   final bool isAttackerUsingPartnerB;
   final Counter counter;
 
@@ -129,7 +129,7 @@ class APTNumberAlt extends StatelessWidget {
     
     final double fontSize = constraints.maxHeight * 0.4;
     const double scale = 0.9;
-    final int increment = rawSelected == null ? - this.increment : this.increment;
+    final int increment = rawSelected == null ? - this.increment! : this.increment!;
     final String incrementString = increment >= 0 ? " + $increment" : " - ${increment.abs()}";
     
     final int count = PTileUtils.cnValue(
@@ -141,7 +141,7 @@ class APTNumberAlt extends StatelessWidget {
       playerState,
       isAttackerUsingPartnerB ?? false,
       counter,
-    );
+    )!;
 
 
     return Row(
@@ -151,7 +151,7 @@ class APTNumberAlt extends StatelessWidget {
       children: <Widget>[
         AnimatedScale(
           alsoAlign: true,
-          scale: scrolling ? scale : 1.0,
+          scale: scrolling! ? scale : 1.0,
           duration: CSAnimations.fast,
           child: AnimatedCount(
             count: count, 
@@ -164,7 +164,7 @@ class APTNumberAlt extends StatelessWidget {
           // ),
         ),
         AnimatedListed(
-          listed: scrolling ? true : false,
+          listed: scrolling! ? true : false,
           duration: CSAnimations.fast,
           axis: Axis.horizontal,
           overlapSizeAndOpacity: 0.9,

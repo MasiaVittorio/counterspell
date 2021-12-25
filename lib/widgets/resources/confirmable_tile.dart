@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class ConfirmableTile extends StatefulWidget {
   const ConfirmableTile({
-    @required this.onConfirm,
-    this.titleBuilder,
-    @required this.subTitleBuilder,
-    @required this.leading,
+    required this.onConfirm,
+    required this.titleBuilder,
+    required this.subTitleBuilder,
+    required this.leading,
   }): assert(onConfirm != null),
       assert(titleBuilder != null),
       assert(leading != null);

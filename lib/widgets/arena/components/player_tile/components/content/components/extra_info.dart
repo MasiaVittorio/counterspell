@@ -4,22 +4,22 @@ import '../../../models/extra_info.dart';
 class AptInfo extends StatelessWidget {
 
   const AptInfo({
-    @required this.pageColors,
-    @required this.name,
-    @required this.bloc,
-    @required this.gameState,
-    @required this.defenceColor,
+    required this.pageColors,
+    required this.name,
+    required this.bloc,
+    required this.gameState,
+    required this.defenceColor,
   });
 
   //Theming
-  final Map<CSPage,Color> pageColors;
-  final Color defenceColor;
+  final Map<CSPage,Color?>? pageColors;
+  final Color? defenceColor;
 
   //Business Logic
-  final CSBloc bloc;
+  final CSBloc? bloc;
 
   //Actual Game State
-  final GameState gameState;
+  final GameState? gameState;
   final String name;
 
 
@@ -28,18 +28,18 @@ class AptInfo extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
 
     return StageBuild.offMainEnabledPages<CSPage>((_, enabledPages) 
-      => bloc.game.gameAction.counterSet.variable.build((context, _){
+      => bloc!.game!.gameAction!.counterSet.variable.build((context, _){
 
         final List<ExtraInfo> list = ExtraInfo.fromPlayer(name,
-          ofGroup: gameState.lastPlayerStates,
+          ofGroup: gameState!.lastPlayerStates,
           pageColors: pageColors,
-          havingPartnerB: <String,bool>{
-            for(final entry in this.gameState.players.entries)
-              entry.key: entry.value.havePartnerB,
+          havingPartnerB: <String,bool?>{
+            for(final entry in this.gameState!.players.entries)
+              entry.key: entry.value!.havePartnerB,
           },
           defenceColor: defenceColor,
           types: DamageTypes.fromPages(enabledPages),
-          counterMap: bloc.game.gameAction.currentCounterMap,
+          counterMap: bloc!.game!.gameAction!.currentCounterMap,
         );
 
         if(list.isEmpty) return SizedBox();

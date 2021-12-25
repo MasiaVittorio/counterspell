@@ -17,13 +17,13 @@ class SettingsData extends StatelessWidget {
         ExtraButton(
           text: "Cache manager",
           icon: McIcons.memory,
-          onTap: () => stage.showAlert(const CacheAlert(), size: CacheAlert.height),
+          onTap: () => stage!.showAlert(const CacheAlert(), size: CacheAlert.height),
         ),
         if(Platform.isAndroid)
           ExtraButton(
             text: "Backup & restore",
             icon: McIcons.content_save_outline,
-            onTap: () => stage.showAlert(BackupsAlert(), size: 500),
+            onTap: () => stage!.showAlert(BackupsAlert(), size: 500),
           )
         else
           const ExtraButton(

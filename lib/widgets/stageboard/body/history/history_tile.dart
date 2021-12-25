@@ -3,36 +3,36 @@ import 'package:counter_spell_new/widgets/stageboard/body/history/current_state_
 import 'package:counter_spell_new/widgets/stageboard/body/history/history_player_tile.dart';
 
 class HistoryTile extends StatelessWidget {
-  final double tileSize;
+  final double? tileSize;
   final GameHistoryData data;
-  final DateTime firstTime;
+  final DateTime? firstTime;
   final bool avoidInteraction;
   final Color defenceColor;
-  final Map<CSPage,Color> pageColors;
-  final Map<String, Counter> counters;
+  final Map<CSPage?,Color?>? pageColors;
+  final Map<String?, Counter> counters;
   final List<String> names;
-  final Map<String,bool> havePartnerB;
+  final Map<String,bool?> havePartnerB;
   final int index;
 
   const HistoryTile(this.data, {
-    @required this.firstTime,
-    @required this.index,
-    @required this.havePartnerB,
-    @required this.tileSize,
-    @required this.avoidInteraction,
-    @required this.defenceColor,
-    @required this.pageColors,
-    @required this.counters,
-    @required this.names,
+    required this.firstTime,
+    required this.index,
+    required this.havePartnerB,
+    required this.tileSize,
+    required this.avoidInteraction,
+    required this.defenceColor,
+    required this.pageColors,
+    required this.counters,
+    required this.names,
   });
 
-  static String timeString(DateTime time, DateTime first, TimeMode mode){
+  static String timeString(DateTime? time, DateTime? first, TimeMode? mode){
     switch (mode) {
       case TimeMode.clock:
-        return clockString(time);
+        return clockString(time!);
         break;
       case TimeMode.inGame:
-        return distanceString(time, first);
+        return distanceString(time!, first!);
         break;
       default:
         return "";
@@ -60,14 +60,14 @@ class HistoryTile extends StatelessWidget {
     if(tileSize == null){
       final howManyPlayers = data is GameHistoryNull
         ? (data as GameHistoryNull).gameState.players.length
-        : data.changes.length;
+        : data.changes!.length;
       return LayoutBuilder(builder: (_, constraints) => ConstrainedBox(
         constraints: constraints, 
-        child: bloc.themer.flatDesign.build((_, flat) => buildKnowingSize(
+        child: bloc!.themer!.flatDesign!.build((_, flat) => buildKnowingSize(
           CSSizes.computeTileSize(
             constraints, 
             howManyPlayers,
-            flat,
+            flat!,
           ),
           stage, 
           bloc,
@@ -78,7 +78,7 @@ class HistoryTile extends StatelessWidget {
     return buildKnowingSize(tileSize, stage, bloc);
   }
 
-  Widget buildKnowingSize(double knownTileSize, StageData stage, CSBloc bloc){
+  Widget buildKnowingSize(double? knownTileSize, StageData? stage, CSBloc? bloc){
 
     if(data is GameHistoryNull){
       return CurrentStateTile(
@@ -92,30 +92,30 @@ class HistoryTile extends StatelessWidget {
       );
     }
 
-    return bloc.themer.flatDesign.build((context, flat) => Material(
+    return bloc!.themer!.flatDesign!.build((context, flat) => Material(
       type: MaterialType.transparency,
       child: InkWell(
         onLongPress: index > 0 
           ? () {
-            final timeMode = bloc.settings.gameSettings.timeMode.value;
+            final timeMode = bloc.settings!.gameSettings.timeMode.value;
             final bool none = timeMode == TimeMode.none;
             final realMode = none ? TimeMode.clock : timeMode;
             final bool inGame = realMode == TimeMode.inGame;
-            stage.showAlert(ConfirmAlert(
+            stage!.showAlert(ConfirmAlert(
               confirmColor: CSColors.delete,
               twoLinesWarning: true,
               warningText: "Delete action happened at ${timeString(data.time, firstTime, realMode)}${inGame?" (in game)":""}? This cannot be undone",
               confirmText: "Yes, Delete action",
               confirmIcon: Icons.delete_forever,
-              action: () => bloc.game.gameState.forgetPast(index-1),
+              action: () => bloc.game!.gameState!.forgetPast(index-1),
             ), size: ConfirmAlert.twoLinesheight);
           } 
           : null,
         child: Container(
           height: CSSizes.computeTotalSize(
-            knownTileSize, 
-            data.changes.length, 
-            flat,
+            knownTileSize!, 
+            data.changes!.length, 
+            flat!,
           ),
           constraints: BoxConstraints(minWidth: 20),
           child: Column(
@@ -124,7 +124,7 @@ class HistoryTile extends StatelessWidget {
             children: CSSizes.separateColumn(flat, <Widget>[
               for(final name in names)
                 HistoryPlayerTile(
-                  data.changes[name],
+                  data.changes![name],
                   time: data.time,
                   firstTime: firstTime,
                   pageColors: pageColors,

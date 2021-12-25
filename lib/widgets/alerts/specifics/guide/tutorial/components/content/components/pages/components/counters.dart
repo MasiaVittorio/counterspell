@@ -8,7 +8,7 @@ class TutorialCounters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subtitle1;
+    final TextStyle subhead = theme.textTheme.subtitle1!;
 
     return IconTheme.merge(
       data: IconThemeData(opacity: 0.63),
@@ -20,7 +20,7 @@ class TutorialCounters extends StatelessWidget {
               text: TextSpan(
                 style: subhead,
                 children: <TextSpan>[
-                  TextSpan(text: "Independently", style: TextStyle(fontWeight: subhead.fontWeight.increment.increment)),
+                  TextSpan(text: "Independently", style: TextStyle(fontWeight: subhead.fontWeight!.increment.increment)),
                   const TextSpan(text: " tracks a variety of different counters"),
                 ],
               ),

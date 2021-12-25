@@ -9,8 +9,8 @@ class ImageSearch extends StatefulWidget {
 
   final void Function(MtgCard) onSelect;
   final Set<MtgCard> searchableCache;
-  final Set<MtgCard> readyCache;
-  final void Function(MtgCard) readyCacheDeleter;
+  final Set<MtgCard>? readyCache;
+  final void Function(MtgCard)? readyCacheDeleter;
 
   const ImageSearch(this.onSelect, {
     this.searchableCache = const <MtgCard>{},
@@ -30,9 +30,9 @@ class ImageSearch extends StatefulWidget {
 
 class _ImageSearchState extends State<ImageSearch> {
 
-  TextEditingController controller;
-  BehaviorSubject<String> behavior;
-  StreamSubscription subscription;
+  TextEditingController? controller;
+  late BehaviorSubject<String> behavior;
+  late StreamSubscription subscription;
   List<MtgCard> results = [];
   bool searching = false;
   bool started = false;
@@ -62,14 +62,14 @@ class _ImageSearchState extends State<ImageSearch> {
     this.setState((){
       this.searching = true;
     });
-    List<MtgCard> res = await ScryfallApi.searchArts(name, commander);
+    List<MtgCard>? res = await ScryfallApi.searchArts(name, commander);
     if(res == null){
       res = <MtgCard>[];
       print("results were null lol, error that should not happen");
     } 
     res = res.sublist(0,min(20, res.length));
 
-    if(name == controller.text){
+    if(name == controller!.text){
       //you may have changed the text since the search was launched, we do not want these results to overwrite
       // other results that may have been found quicker
       this.results = res;
@@ -83,7 +83,7 @@ class _ImageSearchState extends State<ImageSearch> {
 
   void resetResults(){
     if(_readyCache != null && _readyCache.isNotEmpty){
-      results = <MtgCard>[...widget.readyCache];
+      results = <MtgCard>[...widget.readyCache!];
     } else {
       results = <MtgCard>[];
     }
@@ -93,7 +93,7 @@ class _ImageSearchState extends State<ImageSearch> {
   void dispose() {
     subscription.cancel();
     behavior.close();
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -104,7 +104,7 @@ class _ImageSearchState extends State<ImageSearch> {
     final List<MtgCard> matches = <MtgCard>[];
 
     for(final cached in widget.searchableCache){
-      if(cached.name.toLowerCase().contains(controller.text.toLowerCase())){
+      if(cached.name!.toLowerCase().contains(controller!.text.toLowerCase())){
         matches.add(cached);
       }
     }
@@ -136,7 +136,7 @@ class _ImageSearchState extends State<ImageSearch> {
   Widget get list {
     if (results.isNotEmpty) {
       return SingleChildScrollView(
-        physics: Stage.of(context).panelController.panelScrollPhysics(),
+        physics: Stage.of(context)!.panelController.panelScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -149,7 +149,7 @@ class _ImageSearchState extends State<ImageSearch> {
                   ? IconButton(
                     icon: Icon(Icons.clear_all, color: CSColors.delete),
                     onPressed: (){
-                      widget.readyCacheDeleter(result);
+                      widget.readyCacheDeleter!(result);
                       this.setState((){
                         this._readyCache.removeWhere((c) => c.id == result.id);
                       });
@@ -209,8 +209,8 @@ class _ImageSearchState extends State<ImageSearch> {
       selectedIndex: commander ? 0 : 1,
       onTap: (i)=>this.setState((){
         commander = (i == 0);
-        if(controller.text!=""){
-          this.behavior.add(this.controller.text);
+        if(controller!.text!=""){
+          this.behavior.add(this.controller!.text);
         }
       }),
       items: [
@@ -232,8 +232,8 @@ class _ImageSearchState extends State<ImageSearch> {
 
 class CardTile extends StatelessWidget {
   final MtgCard card;
-  final void Function(MtgCard) callback;
-  final Widget trailing;
+  final void Function(MtgCard)? callback;
+  final Widget? trailing;
   final bool autoClose;
   final bool longPressOpenCard;
   final bool tapOpenCard;
@@ -253,7 +253,7 @@ class CardTile extends StatelessWidget {
     final stage = Stage.of(context);
 
     final openCard = (){
-      final dimensions = stage.dimensionsController.dimensions.value;
+      final dimensions = stage!.dimensionsController.dimensions.value;
       final width = MediaQuery.of(context).size.width;
       final cardWidth = width - dimensions.panelHorizontalPaddingOpened * 2;
       stage.showAlert(
@@ -262,22 +262,22 @@ class CardTile extends StatelessWidget {
       );
     };
     return ListTile(
-      title: Text(card.name,
+      title: Text(card.name!,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: trailing,
-      leading: (withoutImage ?? false) ? null : CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl(),),),
+      leading: (withoutImage ?? false) ? null : CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl()!,),),
       onTap: (tapOpenCard ?? false) ? openCard : (){
         callback?.call(card);
-        if(this.autoClose??true) stage.closePanel();
+        if(this.autoClose??true) stage!.closePanel();
       },
       onLongPress: (longPressOpenCard ?? true) ? openCard : null,
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Icon(CSIcons.artist, size: 15.0),
-          Expanded(child: Text(card.artist, overflow: TextOverflow.ellipsis, maxLines: 1,),),
+          Expanded(child: Text(card.artist!, overflow: TextOverflow.ellipsis, maxLines: 1,),),
         ],
       ),
     );

@@ -14,7 +14,7 @@ abstract class GameAction{
     final normalizedMap = {
       for(final entry in map.entries)
         entry.key : entry.value.normalizeOn(
-          state.players[entry.key].states.last,
+          state.players[entry.key]!.states.last,
         )
     };
     return GameAction.fromPlayerActions(normalizedMap);
@@ -45,8 +45,8 @@ abstract class GameAction{
     );
 
     for(final entry in state.players.entries){
-      entry.value.applyAction(
-        _actions[entry.key]
+      entry.value!.applyAction(
+        _actions[entry.key]!
       );
     }
 

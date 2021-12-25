@@ -8,25 +8,25 @@ enum DelayerListenerType {
 }
 
 class DelayerController {
-  Map<DelayerListenerType,bool Function()> _starts = <DelayerListenerType, bool Function()>{
+  Map<DelayerListenerType,bool Function()?> _starts = <DelayerListenerType, bool Function()?>{
     DelayerListenerType.mainScreen: null,
     DelayerListenerType.arena: null,
   };
-  Map<DelayerListenerType,bool Function()> _ends = <DelayerListenerType, bool Function()>{
+  Map<DelayerListenerType,bool Function()?> _ends = <DelayerListenerType, bool Function()?>{
     DelayerListenerType.mainScreen: null,
     DelayerListenerType.arena: null,
   };
 
   void addListenersMain({
-    @required bool Function() startListener,
-    @required bool Function() endListener,
+    required bool Function() startListener,
+    required bool Function() endListener,
   }){
     this._starts[DelayerListenerType.mainScreen] = startListener;
     this._ends[DelayerListenerType.mainScreen] = endListener;
   }
   void addListenersArena({
-    @required bool Function() startListener,
-    @required bool Function() endListener,
+    required bool Function() startListener,
+    required bool Function() endListener,
   }){
     this._starts[DelayerListenerType.arena] = startListener;
     this._ends[DelayerListenerType.arena] = endListener;
@@ -53,41 +53,41 @@ class DelayerController {
 
 
 class Delayer extends StatefulWidget {
-  final Duration duration;
+  final Duration? duration;
 
   final double height;
 
   final Color primaryColor;
   final Color onPrimaryColor;
-  final Color accentColor;
+  final Color? accentColor;
   final Color onAccentColor;
 
   final void Function(AnimationStatus) animationListener;
-  final void Function() onManualCancel;
-  final void Function() onManualConfirm;
+  final void Function()? onManualCancel;
+  final void Function()? onManualConfirm;
   final DelayerController delayerController;
 
   final String message;
-  final TextStyle style;
+  final TextStyle? style;
   final double circleOffset;
   final bool half;
 
 
   Delayer({
-    @required this.half,
-    @required this.animationListener,
-    @required this.onManualCancel,
-    @required this.onManualConfirm,
-    @required this.delayerController,
-    @required this.circleOffset,
-    @required this.duration,
-    @required this.height,
-    @required this.primaryColor,
-    @required this.onPrimaryColor,
-    @required this.accentColor,
-    @required this.onAccentColor,
-    @required this.message,
-    @required this.style,
+    required this.half,
+    required this.animationListener,
+    required this.onManualCancel,
+    required this.onManualConfirm,
+    required this.delayerController,
+    required this.circleOffset,
+    required this.duration,
+    required this.height,
+    required this.primaryColor,
+    required this.onPrimaryColor,
+    required this.accentColor,
+    required this.onAccentColor,
+    required this.message,
+    required this.style,
   });
 
   @override
@@ -96,7 +96,7 @@ class Delayer extends StatefulWidget {
 
 class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
 
-  AnimationController controller;
+  AnimationController? controller;
 
   @override
   void initState() {
@@ -119,36 +119,36 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
       vsync: this,
       animationBehavior: AnimationBehavior.preserve,
     );
-    controller.addStatusListener(widget.animationListener);
+    controller!.addStatusListener(widget.animationListener);
   }
 
   @override
   void didUpdateWidget(Delayer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.duration != controller.duration){
+    if(widget.duration != controller!.duration){
       initController();
     }
   }
 
   bool scrolling(){
     if(!mounted) return false;
-    if(controller.isAnimating && controller.velocity > 0)
+    if(controller!.isAnimating && controller!.velocity > 0)
       return true;
-    if(controller.value == 1.0)
+    if(controller!.value == 1.0)
       return true;
 
-    this.controller.fling();
+    this.controller!.fling();
     return true;
   }
 
   bool leaving() {
     if(!mounted) return false;
-    if(this.controller.value == 0.0)
+    if(this.controller!.value == 0.0)
       return true;
 
     bool fling = false;
-    if(this.controller.isAnimating){
-      if(this.controller.velocity < 0)
+    if(this.controller!.isAnimating){
+      if(this.controller!.velocity < 0)
         return true;
       fling = true;
     }
@@ -158,9 +158,9 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
 
   void _leaving(bool withFling) async {
     if(!mounted) return;
-    if(withFling) await  this.controller.fling();
+    if(withFling) await  this.controller!.fling();
     if(!mounted) return;
-    this.controller.animateBack(0.0);
+    this.controller!.animateBack(0.0);
   }
 
   void _disposeController(){
@@ -202,7 +202,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
             height: widget.height,
           ),
           AnimatedBuilder(
-            animation: controller,
+            animation: controller!,
             child: _Content(
               half: widget.half,
               message: widget.message,
@@ -212,8 +212,8 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
               width: width,
               height: widget.height,
             ),
-            builder: (BuildContext context, Widget childA) {
-              double s = controller.value;
+            builder: (BuildContext context, Widget? childA) {
+              double s = controller!.value;
               return ClipOval(
                 child: Container(
                   width: width,
@@ -245,21 +245,21 @@ class _Content extends StatelessWidget{
   final double width;
   final double height;
 
-  final Color color;
+  final Color? color;
   final Color contrast;
 
   final String message;
-  final TextStyle style;
+  final TextStyle? style;
   final bool half;
 
   _Content({
-    @required this.half,
-    @required this.width,
-    @required this.height,
-    @required this.color,
-    @required this.contrast,
-    @required this.message,
-    @required this.style,
+    required this.half,
+    required this.width,
+    required this.height,
+    required this.color,
+    required this.contrast,
+    required this.message,
+    required this.style,
   });
 
   @override
@@ -288,7 +288,7 @@ class _Content extends StatelessWidget{
               child: Center(
                 child: Text(
                   this.message,
-                  style: this.style.copyWith(color: this.contrast),
+                  style: this.style!.copyWith(color: this.contrast),
                 ),
               ),
             ),
@@ -315,15 +315,15 @@ class _ContentTappable extends StatelessWidget{
   final double height;
   final bool half;
 
-  final void Function() onConfirm;
-  final void Function() onCancel;
+  final void Function()? onConfirm;
+  final void Function()? onCancel;
 
   _ContentTappable({
-    @required this.half,
-    @required this.width,
-    @required this.height,
-    @required this.onConfirm,
-    @required this.onCancel,
+    required this.half,
+    required this.width,
+    required this.height,
+    required this.onConfirm,
+    required this.onCancel,
   });
 
   @override
@@ -345,14 +345,14 @@ class _ContentTappable extends StatelessWidget{
               InkResponse(
                 onTap: this.onCancel,
                 child: Container(
-                  width: buttonWidth,
+                  width: buttonWidth as double?,
                   height: buttonHeight,
                 ),
               ),
               InkResponse(
                 onTap: this.onConfirm,
                 child: Container(
-                  width: buttonWidth,
+                  width: buttonWidth as double?,
                   height: buttonHeight,
                 ),
               ),
@@ -367,12 +367,12 @@ class _ContentTappable extends StatelessWidget{
 class _CircleClipper extends CustomClipper<Rect> {
   _CircleClipper({this.center, this.radius});
 
-  final Offset center;
-  final double radius;
+  final Offset? center;
+  final double? radius;
 
   @override
   Rect getClip(Size size) {
-    var rect = Rect.fromCircle(radius: radius, center: center);
+    var rect = Rect.fromCircle(radius: radius!, center: center!);
 
     return rect;
   }

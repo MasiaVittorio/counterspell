@@ -5,9 +5,9 @@ import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 class ArenaUndo extends StatelessWidget {
 
   const ArenaUndo({
-    @required this.undoRedoAxis, 
-    @required this.open,
-    @required this.scrollingSomewhere,
+    required this.undoRedoAxis, 
+    required this.open,
+    required this.scrollingSomewhere,
   });
   
   final Axis undoRedoAxis;
@@ -23,7 +23,7 @@ class ArenaUndo extends StatelessWidget {
     final bool horizontal = undoRedoAxis == Axis.horizontal;
     final bool vertical = !horizontal;
 
-    final logic = CSBloc.of(context).game.gameState;
+    final logic = CSBloc.of(context)!.game!.gameState!;
 
     final radius = Radius.circular(halfSize);
 

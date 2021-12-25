@@ -21,12 +21,12 @@ class _TutorialPagesState extends State<TutorialPages> {
   @override
   Widget build(BuildContext context) {
 
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
-    final Map<CSPage,Color> colors = stage.themeController.derived.mainPageToPrimaryColor.value;
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
+    final Map<CSPage,Color?>? colors = stage.themeController.derived.mainPageToPrimaryColor!.value;
 
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subtitle1;
-    final TextStyle subheadBold = subhead.copyWith(fontWeight: subhead.fontWeight.increment.increment);
+    final TextStyle subhead = theme.textTheme.subtitle1!;
+    final TextStyle subheadBold = subhead.copyWith(fontWeight: subhead.fontWeight!.increment.increment);
 
     final double collapsedPanelSize = stage.dimensionsController.dimensions.value.collapsedPanelSize;
 
@@ -61,7 +61,7 @@ class _TutorialPagesState extends State<TutorialPages> {
                 CSPage.history: "History page",
                 CSPage.counters: "Counters page",
                 CSPage.commanderDamage: "Commander Damage page",
-              }[page],
+              }[page]!,
               style: subhead,
             ),
           ),
@@ -71,7 +71,7 @@ class _TutorialPagesState extends State<TutorialPages> {
               CSPage.history: TutorialHistory(),
               CSPage.counters: TutorialCounters(),
               CSPage.commanderDamage: TutorialDamage(),
-            }[page],
+            }[page]!,
           ),
         ], crossAxisAlignment: CrossAxisAlignment.center,),),
 
@@ -95,7 +95,7 @@ class _TutorialPagesState extends State<TutorialPages> {
     );
   }
 
-  Widget bottomBar(Map<CSPage,Color> colors, double collapsedPanelSize, ThemeData theme) => FakeBottomBar(
+  Widget bottomBar(Map<CSPage,Color?>? colors, double collapsedPanelSize, ThemeData theme) => FakeBottomBar(
     collapsedPanelSize: collapsedPanelSize, 
     page: page, 
     colors: colors, 

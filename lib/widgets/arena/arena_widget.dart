@@ -4,12 +4,12 @@ import 'package:counter_spell_new/widgets/arena/components/all.dart';
 class ArenaWidget extends StatefulWidget {
 
   const ArenaWidget({
-    @required this.logic,
+    required this.logic,
   });
 
   static const Set<int> okNumbers = <int>{2,3,4,5,6};
 
-  final CSBloc logic;
+  final CSBloc? logic;
 
   @override
   _ArenaWidgetState createState() => _ArenaWidgetState();
@@ -23,13 +23,13 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
   bool open = false;
 
-  CSBloc get logic => widget.logic;
-  CSSettings get settings => logic.settings;
-  CSSettingsArena get arenaSettings => settings.arenaSettings;
-  CSGame get gameLogic => logic.game;
-  CSGameState get stateLogic => gameLogic.gameState;
-  CSGameAction get actionLogic => gameLogic.gameAction;
-  CSGameGroup get groupLogic => gameLogic.gameGroup;
+  CSBloc? get logic => widget.logic;
+  CSSettings? get settings => logic!.settings;
+  CSSettingsArena get arenaSettings => settings!.arenaSettings;
+  CSGame? get gameLogic => logic!.game;
+  CSGameState? get stateLogic => gameLogic!.gameState;
+  CSGameAction? get actionLogic => gameLogic!.gameAction;
+  CSGameGroup? get groupLogic => gameLogic!.gameGroup;
 
   void exit() => Navigator.of(context).pop();
   
@@ -52,10 +52,10 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context);
+    final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
     final theme = Theme.of(context);
-    final arenaBloc = logic.settings.arenaSettings;
-    final scrollerBloc = logic.scroller;
+    final arenaBloc = logic!.settings!.arenaSettings;
+    final scrollerBloc = logic!.scroller;
 
     return Container(
       color: theme.scaffoldBackgroundColor,
@@ -67,15 +67,15 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           => ConstrainedBox(
             constraints: constraints,
             child: arenaBloc.layoutType   .build((context, layoutType) 
-              => groupLogic.arenaNameOrder.build((context, positions) 
-              => groupLogic.names         .build((context, names) 
+              => groupLogic!.arenaNameOrder.build((context, positions) 
+              => groupLogic!.names         .build((context, names) 
               => arenaBloc.flipped        .build((context, flipped) 
               => StageBuild.offMainPage<CSPage>((_, page) 
-              => scrollerBloc.isScrolling .build((context, scrolling) 
+              => scrollerBloc!.isScrolling .build((context, scrolling) 
               => ArenaLayout(
                   flipped: flipped[layoutType],
                   howManyChildren: names.length,
-                  layoutType: layoutType,
+                  layoutType: layoutType!,
                   animateCenterWidget: true,
                   centerAlignment: open 
                     ? ArenaCenterAlignment.screen
@@ -109,11 +109,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   }
 
 
-  Future<bool> decidePop(StageData<CSPage,SettingsPage> stage) async {
+  Future<bool> decidePop(StageData<CSPage,SettingsPage>? stage) async {
             
-    if (logic.game.gameAction.actionPending) {
-      logic.scroller.cancel(true);
-      stage.mainPagesController.goToPage(CSPage.life);
+    if (logic!.game!.gameAction!.actionPending) {
+      logic!.scroller!.cancel(true);
+      stage!.mainPagesController.goToPage(CSPage.life);
       return false;
     } 
 
@@ -132,11 +132,11 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     BoxConstraints screenConstraints, 
     CSPage page, 
     Axis undoRedoAxis,
-    Map<int,String> indexToName,
+    Map<int,String?> indexToName,
     bool isScrollingSomewhere,
     List<String> names,
-    ArenaLayoutType layoutType,
-    Map<ArenaLayoutType,bool> flipped,
+    ArenaLayoutType? layoutType,
+    Map<ArenaLayoutType?,bool> flipped,
   ){
     final Widget button = ArenaMenuButton(
       names: names,
@@ -148,8 +148,8 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       open: open, 
       layoutType: layoutType,
       openMenu: () {
-        logic.stage.mainPagesController.goToPage(CSPage.life);
-        logic.scroller.cancel(true);
+        logic!.stage!.mainPagesController.goToPage(CSPage.life);
+        logic!.scroller!.cancel(true);
         this.setState((){
           open = true;
         });
@@ -161,8 +161,8 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       exit: exit,
       reorderPlayers: () => this.setState((){
         open = false;
-        groupLogic.arenaNameOrder.set(<int,String>{
-          for(final key in groupLogic.arenaNameOrder.value.keys)
+        groupLogic!.arenaNameOrder.set(<int,String?>{
+          for(final key in groupLogic!.arenaNameOrder.value.keys)
             key: null,
         });
       }),
@@ -170,14 +170,14 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     );
 
 
-    final Widget delayer = logic.settings.scrollSettings.confirmDelay.build((context, delay) 
+    final Widget delayer = logic!.settings!.scrollSettings.confirmDelay.build((context, delay) 
       => ArenaDelayer(
-        onManualCancel: logic.scroller.cancel, 
-        onManualConfirm: logic.scroller.forceComplete, 
-        delayerController: logic.scroller.delayerController, 
+        onManualCancel: logic!.scroller!.cancel, 
+        onManualConfirm: logic!.scroller!.forceComplete, 
+        delayerController: logic!.scroller!.delayerController, 
         duration: delay, 
         color: Theme.of(context).colorScheme.onSurface,
-        animationListener: logic.scroller.delayerAnimationListener,
+        animationListener: logic!.scroller!.delayerAnimationListener,
       ),
     );
 

@@ -5,7 +5,7 @@ class SubList extends StatelessWidget {
   final String title;
   final List<Widget> children;
 
-  const SubList(this.title,{@required this.children});
+  const SubList(this.title,{required this.children});
 
   @override
   Widget build(BuildContext context) {

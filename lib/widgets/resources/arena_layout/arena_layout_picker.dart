@@ -81,7 +81,7 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     1: "Stan",
   };
 
-  Set<String> get realNames => <int,Set<String>>{
+  Set<String>? get realNames => <int,Set<String>>{
     2: names2,
     3: names3,
     4: names4,
@@ -89,7 +89,7 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     6: names6,
   }[len];
 
-  Map<int,String> get realPositions => <int,Map<int,String>>{
+  Map<int,String>? get realPositions => <int,Map<int,String>>{
     2: positions2,
     3: positions3,
     4: positions4,
@@ -167,22 +167,22 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
 
 class ArenaLayoutPicker extends StatefulWidget {
   const ArenaLayoutPicker({
-    @required this.type,
-    @required this.onTypeChanged,
-    @required this.flipped,
-    @required this.onFlippedChanged,
-    @required this.names,
-    @required this.positions,
-    @required this.onPositionsChange,
+    required this.type,
+    required this.onTypeChanged,
+    required this.flipped,
+    required this.onFlippedChanged,
+    required this.names,
+    required this.positions,
+    required this.onPositionsChange,
   });
 
-  final Set<String> names;
-  final Map<int,String> positions;
-  final void Function(Map<int,String>) onPositionsChange;
-  final ArenaLayoutType type;
+  final Set<String>? names;
+  final Map<int,String?>? positions;
+  final void Function(Map<int,String?>) onPositionsChange;
+  final ArenaLayoutType? type;
   final void Function(ArenaLayoutType) onTypeChanged;
 
-  final Map<ArenaLayoutType,bool> flipped;
+  final Map<ArenaLayoutType?,bool> flipped;
   final void Function(ArenaLayoutType, bool) onFlippedChanged;
 
   @override
@@ -191,20 +191,20 @@ class ArenaLayoutPicker extends StatefulWidget {
 
 class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
 
-  PageController controller;
+  PageController? controller;
 
   @override
   void initState(){
     super.initState();
     controller = PageController(
       viewportFraction: 0.8,
-      initialPage: ArenaLayoutType.values.indexOf(widget.type),
+      initialPage: ArenaLayoutType.values.indexOf(widget.type!),
     );
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -212,9 +212,9 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
   void didUpdateWidget(ArenaLayoutPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
     if(oldWidget.type != widget.type){
-      final int target = ArenaLayoutType.values.indexOf(widget.type);
-      if(controller.page != target.toDouble()){
-        controller.animateToPage(
+      final int target = ArenaLayoutType.values.indexOf(widget.type!);
+      if(controller!.page != target.toDouble()){
+        controller!.animateToPage(
           target,
           duration: const Duration(milliseconds: 300), 
           curve: Curves.easeOut,
@@ -223,21 +223,21 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
     }
   } 
 
-  Map<int,String> get positions => widget.positions;
+  Map<int,String?>? get positions => widget.positions;
 
-  bool unpositionedName(Map<int,String> map, String name) => !map.containsValue(name);
+  bool unpositionedName(Map<int,String?> map, String name) => !map.containsValue(name);
 
-  List<String> unpositionedNames(Map<int,String> map) => [
-    for(final name in widget.names)
-      if(unpositionedName(map,name))
+  List<String> unpositionedNames(Map<int,String?>? map) => [
+    for(final name in widget.names!)
+      if(unpositionedName(map!,name))
         name,
   ];
 
-  bool unpositionedKey(int key, Map<int,String> map) => map[key] == null;
+  bool unpositionedKey(int key, Map<int,String?> map) => map[key] == null;
 
   
-  Map<int,String> positionName(String name, int key, Map<int,String> oldMap){
-    Map<int,String> newMap = <int,String>{
+  Map<int,String?> positionName(String name, int key, Map<int,String?> oldMap){
+    Map<int,String?> newMap = <int,String?>{
       for(final e in oldMap.entries)
         e.key: e.value,
     };
@@ -248,7 +248,7 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
     return newMap;
   }
 
-  Map<int,String> checkAutoChoice(Map<int,String> oldMap){
+  Map<int,String?> checkAutoChoice(Map<int,String?> oldMap){
     final List<String> unn = unpositionedNames(oldMap);
     if(unn.length == 1){
       for(final k in oldMap.keys)
@@ -277,7 +277,7 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
               layoutType: type, 
               flipped: widget.flipped[type],
               centerChildBuilder: (_,__) => FloatingActionButton(
-                onPressed: () => widget.onFlippedChanged(type, !widget.flipped[type]),
+                onPressed: () => widget.onFlippedChanged(type, !widget.flipped[type]!),
                 backgroundColor: theme.canvasColor,
                 child: Icon(Icons.rotate_right, color: theme.colorScheme.onSurface),
               ),
@@ -293,16 +293,16 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                 child: InkWell(
                   onTap: widget.type == type && mustPosition
                     ? () => widget.onPositionsChange(
-                      positionName(_unpositionedNames.first, i, positions)
+                      positionName(_unpositionedNames.first, i, positions!)
                     )
                     : null,
                   child: Material(
                     type: MaterialType.transparency,
-                    child: Center(child: Text("$i. ${positions[i] ?? "-"}"),),
+                    child: Center(child: Text("$i. ${positions![i] ?? "-"}"),),
                   ),
                 ),
               ),
-              howManyChildren: widget.names.length,
+              howManyChildren: widget.names!.length,
             ),
           ),
         ),
@@ -357,8 +357,8 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                       ),
                       onTap: mustPosition
                         ? null
-                        : () => widget.onPositionsChange(<int,String>{
-                          for(final key in positions.keys)
+                        : () => widget.onPositionsChange(<int,String?>{
+                          for(final key in positions!.keys)
                             key: null,
                         }),
                     ),

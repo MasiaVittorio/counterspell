@@ -15,23 +15,23 @@ String mtgSetToJson(MtgSet data) {
 }
 
 class MtgSet {
-    String object;
-    String id;
-    String code;
-    String mtgoCode;
-    int tcgplayerId;
-    String name;
-    String uri;
-    String scryfallUri;
-    String searchUri;
-    String releasedAt;
-    String setType;
-    int cardCount;
-    bool digital;
-    bool foilOnly;
-    String blockCode;
-    String block;
-    String iconSvgUri;
+    String? object;
+    String? id;
+    String? code;
+    String? mtgoCode;
+    int? tcgplayerId;
+    String? name;
+    String? uri;
+    String? scryfallUri;
+    String? searchUri;
+    String? releasedAt;
+    String? setType;
+    int? cardCount;
+    bool? digital;
+    bool? foilOnly;
+    String? blockCode;
+    String? block;
+    String? iconSvgUri;
 
     MtgSet({
         this.object,

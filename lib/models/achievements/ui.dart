@@ -7,7 +7,7 @@ enum Medal {
   gold,
 }
 
-extension Names on Medal{
+extension Names on Medal?{
   static const Map<Medal,String> names = <Medal,String>{
     Medal.bronze: "Bronze",
     Medal.silver: "Silver",
@@ -18,25 +18,25 @@ extension Names on Medal{
     "Silver": Medal.silver,
     "Gold": Medal.gold,
   };
-  String get name => names[this];
-  static Medal fromName(String name) => reverse[name];
+  String? get name => names[this!];
+  static Medal? fromName(String name) => reverse[name];
 }
 
-extension Compare on Medal{
-  static const Map<Medal,Set<Medal>> biggers = <Medal,Set<Medal>>{
+extension Compare on Medal?{
+  static const Map<Medal?,Set<Medal>> biggers = <Medal?,Set<Medal>>{
     null: <Medal>{Medal.bronze,Medal.silver,Medal.gold},
     Medal.bronze: <Medal>{Medal.silver, Medal.gold},
     Medal.silver: <Medal>{Medal.gold},
     Medal.gold: <Medal>{},
   };
-  static const Map<Medal,Set<Medal>> smallers = <Medal,Set<Medal>>{
+  static const Map<Medal?,Set<Medal?>> smallers = <Medal?,Set<Medal?>>{
     null: <Medal>{},
-    Medal.bronze: <Medal>{null},
-    Medal.silver: <Medal>{Medal.bronze, null},
-    Medal.gold: <Medal>{Medal.bronze, Medal.silver, null},
+    Medal.bronze: <Medal?>{null},
+    Medal.silver: <Medal?>{Medal.bronze, null},
+    Medal.gold: <Medal?>{Medal.bronze, Medal.silver, null},
   };
-  bool biggerThan(Medal other) => smallers[this].contains(other);
-  bool smallerThan(Medal other) => biggers[this].contains(other);
+  bool biggerThan(Medal? other) => smallers[this]!.contains(other);
+  bool smallerThan(Medal other) => biggers[this]!.contains(other);
 }
 
 class _UI {
@@ -71,21 +71,21 @@ class _UI {
 
 }
 
-extension MedalColors on Medal {
-  Color colorOnBrightness(Brightness brightness) => _UI.brightnessMap[brightness][this];
+extension MedalColors on Medal? {
+  Color? colorOnBrightness(Brightness brightness) => _UI.brightnessMap[brightness]![this!];
 
-  Color colorOnTheme(ThemeData theme) => colorOnBrightness(theme.brightness);
+  Color? colorOnTheme(ThemeData theme) => colorOnBrightness(theme.brightness);
 }
 
 extension MedalIcons on Medal {
-  IconData get podiumIcon => _UI.icons[this];
+  IconData? get podiumIcon => _UI.icons[this];
 
   static const IconData icon = McIcons.medal;
 }
 
 class MedalIcon extends StatelessWidget {
-  final Medal medal;
-  final double size;
+  final Medal? medal;
+  final double? size;
   const MedalIcon(this.medal, {this.size});
 
   @override
@@ -100,7 +100,7 @@ class MedalIcon extends StatelessWidget {
 
 class PodiumIcon extends StatelessWidget {
   final Medal medal;
-  final double size;
+  final double? size;
   final bool colored;
   const PodiumIcon(this.medal, {this.size, this.colored = true});
 

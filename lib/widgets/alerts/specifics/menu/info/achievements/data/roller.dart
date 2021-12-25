@@ -35,7 +35,7 @@ class _Body extends StatelessWidget {
   const _Body();
   @override
   Widget build(BuildContext context) {
-    return StageBuild.offMainPage((_, page) => Container(
+    return StageBuild.offMainPage((_, dynamic page) => Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.center,
       child: AnimatedText(
@@ -74,7 +74,7 @@ class _RightPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     return ListView(
       physics: stage.panelScrollPhysics,
       primary: false,
@@ -158,7 +158,7 @@ class _WrongPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     return ListView(
       physics: stage.panelScrollPhysics,
       primary: false,
@@ -186,11 +186,11 @@ class _Collapsed extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
 
-    return StageBuild.offMainPage((_, page) => Row(children: <Widget>[
+    return StageBuild.offMainPage((_, dynamic page) => Row(children: <Widget>[
         if(page == CSPage.history) 
           IconButton(
             icon: const Icon(Icons.keyboard_arrow_right),
-            onPressed: () => stage.mainPagesController.goToPage(CSPage.counters),
+            onPressed: () => stage!.mainPagesController.goToPage(CSPage.counters),
           )
         else 
           IconButton(
@@ -198,7 +198,7 @@ class _Collapsed extends StatelessWidget {
               CSIcons.counterSpell, 
               // size: CSIcons.ideal_counterspell_size,
             ),
-            onPressed: () => stage.showAlert(
+            onPressed: () => stage!.showAlert(
               const _ArenaMockup(), 
               size: _ArenaMockup.height,
             ),

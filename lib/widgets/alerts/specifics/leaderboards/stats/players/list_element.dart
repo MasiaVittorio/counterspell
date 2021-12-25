@@ -7,12 +7,12 @@ import 'model_simple.dart';
 class PlayerStatTile extends StatelessWidget {
 
   final PlayerStats stat;
-  final List<PastGame> pastGames;
+  final List<PastGame?> pastGames;
   final VoidCallback onSingleScreenCallback;
 
   PlayerStatTile(this.stat, {
-    @required this.pastGames,
-    @required this.onSingleScreenCallback,
+    required this.pastGames,
+    required this.onSingleScreenCallback,
   });
 
   static const double height = 142.0;
@@ -22,7 +22,7 @@ class PlayerStatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final VoidCallback onTap = () {
       onSingleScreenCallback?.call();
-      Stage.of(context).showAlert(
+      Stage.of(context)!.showAlert(
         PlayerStatScreen(PlayerStatsAdvanced.fromPastGames(stat, pastGames)),
         size: PlayerStatScreen.height,
       );

@@ -25,7 +25,7 @@ class _Body extends StatelessWidget {
   const _Body();
   @override
   Widget build(BuildContext context) {
-    return StageBuild.offMainPage((_, page) => Container(
+    return StageBuild.offMainPage((_, dynamic page) => Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.center,
       child: AnimatedText(
@@ -67,8 +67,8 @@ class _Collapsed extends StatelessWidget {
 
     final logic = CSBloc.of(context);
 
-    return StageBuild.offMainPage((_, page) 
-      => logic.game.gameAction.counterSet.build((context, counter) 
+    return StageBuild.offMainPage((_, dynamic page) 
+      => logic!.game!.gameAction!.counterSet.build((context, counter) 
         => Row(children: <Widget>[
           Expanded(child: Center(child: AnimatedText(
             page == CSPage.counters
@@ -84,7 +84,7 @@ class _Collapsed extends StatelessWidget {
               }[page] ?? Icons.error_outline
             ),
             onPressed: page == CSPage.counters 
-              ? () => stage.showSnackBar(
+              ? () => stage!.showSnackBar(
                 SnackCounterSelector(),
                 rightAligned: true,
               )

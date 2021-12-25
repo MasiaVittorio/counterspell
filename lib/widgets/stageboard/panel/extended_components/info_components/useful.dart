@@ -6,7 +6,7 @@ class Useful extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = CSBloc.of(context);
+    final logic = CSBloc.of(context)!;
     final stage = Stage.of(context);
 
     return Section([
@@ -17,7 +17,7 @@ class Useful extends StatelessWidget {
             icon: Icons.help_outline,
             text: "Tutorial",
             onTap: (){
-              logic.tutorial.showTutorial(0, full: true);
+              logic.tutorial!.showTutorial(0, full: true);
             }, 
             customCircleColor: Colors.transparent,
           ),
@@ -25,7 +25,7 @@ class Useful extends StatelessWidget {
           ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
             ExtraButton(
               onTap: (){
-                logic.tutorial.showTutorial(i, full: false);
+                logic.tutorial!.showTutorial(i, full: false);
               }, 
               icon: TutorialData.values[i].icon,
               text: TutorialData.values[i].title,
@@ -40,7 +40,7 @@ class Useful extends StatelessWidget {
           ExtraButton(
             text: "Support",
             icon: Icons.attach_money,
-            onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
+            onTap: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
           ),
           ExtraButton(
             customIcon: logic.badges.stuffILikeShown.build((_, __) => Badge(
@@ -61,7 +61,7 @@ class Useful extends StatelessWidget {
           ExtraButton(
             icon: McIcons.bookmark_check,
             text: "Achievements",
-            onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
+            onTap: () => stage!.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
           ),
         ],
       ),

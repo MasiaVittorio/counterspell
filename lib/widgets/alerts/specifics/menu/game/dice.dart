@@ -19,8 +19,8 @@ class DiceThrower extends StatefulWidget {
 
 class _DiceThrowerState extends State<DiceThrower> {
 
-  Random generator;
-  SidAnimatedListController controller;
+  late Random generator;
+  SidAnimatedListController? controller;
   final List<_Throw> throws = <_Throw>[];
 
   @override
@@ -34,7 +34,7 @@ class _DiceThrowerState extends State<DiceThrower> {
 
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
 
     return Material(
       child: SizedBox(
@@ -89,7 +89,7 @@ class _DiceThrowerState extends State<DiceThrower> {
                             onPressed: (){
                               this.setState((){
                                 this.throws.insert(0, _Throw(generator, max));
-                                this.controller.insert(0, duration: duration);
+                                this.controller!.insert(0, duration: duration);
                               });
                             },
                           )),

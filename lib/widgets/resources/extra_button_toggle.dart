@@ -3,20 +3,20 @@ import 'package:counter_spell_new/core.dart';
 
 class ExtraButtonToggle extends StatelessWidget {
 
-  final bool value;
+  final bool? value;
   final ValueChanged<bool> onChanged;
   final IconData icon;
-  final IconData iconOff;
-  final String text;
-  final Color colorOn;
-  final Color colorOff;
-  final double iconSize;
+  final IconData? iconOff;
+  final String? text;
+  final Color? colorOn;
+  final Color? colorOff;
+  final double? iconSize;
   final bool twoLines;
 
   ExtraButtonToggle({
-    @required this.value,
-    @required this.onChanged,
-    @required this.icon,
+    required this.value,
+    required this.onChanged,
+    required this.icon,
     this.iconOff,
     this.text,
     this.colorOn,
@@ -38,12 +38,12 @@ class ExtraButtonToggle extends StatelessWidget {
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
       child: AnimatedDouble(
-        value: value ? 1.0 : 0.0, 
+        value: value! ? 1.0 : 0.0, 
         duration: const Duration(milliseconds: 300),
         builder: (_, val){
           return ExtraButton(
             customIcon: Icon(
-              value ? icon : iconOff ?? icon,
+              value! ? icon : iconOff ?? icon,
               size: iconSize,
               color: Color.lerp(iconColorOff, iconColorOn, val),
             ),

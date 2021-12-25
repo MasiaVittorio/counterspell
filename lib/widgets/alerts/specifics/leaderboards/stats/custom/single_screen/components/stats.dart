@@ -9,7 +9,7 @@ class Stats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final logic = CSBloc.of(context);
+    final logic = CSBloc.of(context)!;
 
     final cmdrs = logic.pastGames.commanderStats.value;
     final players = logic.pastGames.playerStats.value;
@@ -20,32 +20,32 @@ class Stats extends StatelessWidget {
       ) : null;
     final plFreq = stat.playersApplicable.isNotEmpty 
       ? stat.playersApplicable.entries.reduce(
-        (a,b) => (a.value/players[a.key].games) > (b.value/players[b.key].games)
+        (a,b) => (a.value/players![a.key]!.games) > (b.value/players[b.key]!.games)
           ? a : b,
       ) : null;
-    final int plFreqGames = plFreq != null 
-      ? players[plFreq.key].games : null;
-    final double plFreqValue = plFreq != null 
-      ? plFreq.value / plFreqGames : null;
+    final int? plFreqGames = plFreq != null 
+      ? players![plFreq.key]!.games : null;
+    final double? plFreqValue = plFreq != null 
+      ? plFreq.value / plFreqGames! : null;
 
     final cmdrTot = stat.commandersApplicable.isNotEmpty 
       ? stat.commandersApplicable.entries.reduce(
         (a, b) => a.value > b.value ? a : b,
       ) : null;
     final cmdrTotCard = cmdrTot != null 
-      ? cmdrs[cmdrTot?.key]?.card : null;
+      ? cmdrs![cmdrTot?.key!]?.card : null;
 
     final cmdrFreq = stat.commandersApplicable.isNotEmpty 
       ? stat.commandersApplicable.entries.reduce(
-        (a, b) => (a.value/cmdrs[a.key].games) > (b.value/cmdrs[b.key].games)
+        (a, b) => (a.value/cmdrs![a.key!]!.games) > (b.value/cmdrs[b.key!]!.games)
           ? a : b,
       ) : null;
     final cmdrFreqCard = cmdrFreq != null 
-      ? cmdrs[cmdrFreq.key].card : null;
-    final int cmdrFreqGames = cmdrFreq != null 
-      ? cmdrs[cmdrFreq.key].games : null;
-    final double cmdrFreqValue = cmdrFreq != null 
-      ? cmdrFreq.value / cmdrFreqGames : null;
+      ? cmdrs![cmdrFreq.key!]!.card : null;
+    final int? cmdrFreqGames = cmdrFreq != null 
+      ? cmdrs![cmdrFreq.key!]!.games : null;
+    final double? cmdrFreqValue = cmdrFreq != null 
+      ? cmdrFreq.value / cmdrFreqGames! : null;
 
     final double rate = stat.appearances == 0 
       ? 0 : 100 * stat.wins/stat.appearances;
@@ -89,21 +89,21 @@ class Stats extends StatelessWidget {
             leading: const Icon(Icons.person_outline),
             title: Text(plFreq.key),
             subtitle: Text("Most frequent (${plFreq.value} over $plFreqGames games)"),
-            trailing: Text("${InfoDisplayer.getString(plFreqValue * 100)}%"),
+            trailing: Text("${InfoDisplayer.getString(plFreqValue! * 100)}%"),
           ),
           if(cmdrTot != null)
           ListTile(
             leading: const Icon(CSIcons.damageOutlined),
-            title: Text(cmdrTotCard.name),
+            title: Text(cmdrTotCard!.name!),
             subtitle: const Text("Most times overall"),
             trailing: Text("${cmdrTot.value}"),
           ),
           if(cmdrFreq != null)
           ListTile(
             leading: const Icon(CSIcons.damageOutlined),
-            title: Text(cmdrFreqCard.name),
+            title: Text(cmdrFreqCard!.name!),
             subtitle: Text("Most frequent (${cmdrFreq.value} over $cmdrFreqGames games)"),
-            trailing: Text("${InfoDisplayer.getString(cmdrFreqValue * 100)}%"),
+            trailing: Text("${InfoDisplayer.getString(cmdrFreqValue! * 100)}%"),
           ),
         ], margin: margin,),
 

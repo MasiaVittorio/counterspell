@@ -65,12 +65,12 @@ class Achievements{
     rollerShortTitle: roller,
   };
   static const Map<String,QualityAchievement> mapQuality = <String,QualityAchievement>{
-    countersShortTitle: counters,
-    uiExpertShortTitle: uiExpert,
+    countersShortTitle: counters as QualityAchievement,
+    uiExpertShortTitle: uiExpert as QualityAchievement,
   };
   static const Map<String,QuantityAchievement> mapQuantity = <String,QuantityAchievement>{
-    vampireShortTitle: vampire,
-    rollerShortTitle: roller,
+    vampireShortTitle: vampire as QuantityAchievement,
+    rollerShortTitle: roller as QuantityAchievement,
   };
 
   static const Map<String,IconData> icons = <String,IconData>{
@@ -99,5 +99,5 @@ extension GameRestartedFromNames on GameRestartedFrom {
     GameRestartedFrom.historyPage : GameRestartedFromNames._gameRestartedFromHistoryPage,
   };
 
-  String get name => names[this];
+  String? get name => names[this];
 }

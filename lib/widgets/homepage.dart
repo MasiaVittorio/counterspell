@@ -3,18 +3,18 @@ import 'package:counter_spell_new/widgets/stageboard/stageboard_components.dart'
 
 class CSHomePage extends StatelessWidget {
   const CSHomePage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final CSBloc bloc = CSBloc.of(context);
+    final CSBloc bloc = CSBloc.of(context)!;
     
     return WillPopScope(
-      onWillPop: bloc.scroller.decidePop,
-      child: Stage<CSPage,SettingsPage>(
-        controller: bloc.stageBloc.controller,
+      onWillPop: bloc.scroller!.decidePop,
+      child: Stage<CSPage?,SettingsPage?>(
+        controller: bloc.stageBloc!.controller,
 
         collapsedPanel: const CSPanelCollapsed(key: WidgetsKeys.collapsed,),
 
@@ -25,7 +25,7 @@ class CSHomePage extends StatelessWidget {
         topBarContent: StageTopBarContent(
           title: const CSTopBarTitle(key: WidgetsKeys.animatedAppTitle,),
           subtitle: StageTopBarSubtitle<SettingsPage>(
-            (settingsPage) => settingsThemes[settingsPage].longName,
+            (settingsPage) => settingsThemes[settingsPage]!.longName,
           ),
           elevations: <StageColorPlace,double>{
             StageColorPlace.texts: 4,

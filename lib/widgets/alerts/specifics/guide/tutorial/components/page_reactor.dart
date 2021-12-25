@@ -7,9 +7,9 @@ class PageReactor extends AnimatedWidget {
   final Widget Function(BuildContext, int) builder;
 
   PageReactor({
-    @required this.controller,
-    @required this.builder,
-    Key key,
+    required this.controller,
+    required this.builder,
+    Key? key,
   })  : assert(controller != null),
         super(listenable: controller, key: key);
 

@@ -3,18 +3,18 @@ import 'package:counter_spell_new/core.dart';
 class CSGame {
 
   void dispose(){
-    gameState.dispose();
-    gameAction.dispose();
+    gameState!.dispose();
+    gameAction!.dispose();
   }
 
 
   //===============================
   // Values
   final CSBloc parent;
-  CSGameState gameState;
-  CSGameAction gameAction;
-  CSGameGroup gameGroup;
-  CSGameHistory gameHistory;
+  CSGameState? gameState;
+  CSGameAction? gameAction;
+  CSGameGroup? gameGroup;
+  CSGameHistory? gameHistory;
 
 
 
@@ -22,7 +22,7 @@ class CSGame {
   //===============================
   // Getters
 
-  int get currentStartingLife => this.parent.settings.gameSettings.currentStartingLife;
+  int? get currentStartingLife => this.parent.settings!.gameSettings.currentStartingLife;
 
 
   //===============================

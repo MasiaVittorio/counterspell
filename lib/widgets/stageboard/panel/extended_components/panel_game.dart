@@ -11,7 +11,7 @@ class PanelGame extends StatelessWidget {
 
     return ArenaTransformer(
       builder: (_, opener) => SingleChildScrollView(
-        physics: stage.panelController.panelScrollPhysics(),
+        physics: stage!.panelController.panelScrollPhysics(),
         child: Column(
           children: <Widget>[
             const Section([

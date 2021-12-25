@@ -15,7 +15,7 @@ class CastInfo extends StatelessWidget {
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: SingleChildScrollView(
-        physics: Stage.of(context).panelController.panelScrollPhysics(),
+        physics: Stage.of(context)!.panelController.panelScrollPhysics(),
         child: Container(
           height: height,
           child: Column(

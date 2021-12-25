@@ -52,7 +52,7 @@ class QuoteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Stage.of(context).showAlert(
+      onTap: () => Stage.of(context)!.showAlert(
         const QuotesAlert(),
         size: QuotesAlert.height,
       ),

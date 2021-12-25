@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 
 class ComposeArenaLayout extends StatelessWidget {
   final Widget grid;
-  final Widget positionedCenterChild;
+  final Widget? positionedCenterChild;
   final int gridQuarterTurns;
-  final Widget betweenGridAndCenter;
+  final Widget? betweenGridAndCenter;
 
   const ComposeArenaLayout({
-    @required this.gridQuarterTurns,
-    @required this.grid,
-    @required this.positionedCenterChild,
-    @required this.betweenGridAndCenter,
+    required this.gridQuarterTurns,
+    required this.grid,
+    required this.positionedCenterChild,
+    required this.betweenGridAndCenter,
   });
 
   @override
@@ -24,11 +24,11 @@ class ComposeArenaLayout extends StatelessWidget {
 
       if(betweenGridAndCenter != null)
         Positioned.fill(
-          child: betweenGridAndCenter,
+          child: betweenGridAndCenter!,
         ),
 
       if(positionedCenterChild != null)
-        positionedCenterChild,
+        positionedCenterChild!,
     ],);
   }
 }

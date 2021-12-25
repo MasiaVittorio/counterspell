@@ -5,12 +5,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class PastGameTile extends StatelessWidget {
 
-  final PastGame game;
+  final PastGame? game;
   final int index;
   final VoidCallback onSingleScreenCallback;
 
   PastGameTile(this.game, this.index, {
-    @required this.onSingleScreenCallback,
+    required this.onSingleScreenCallback,
   });
 
   static const double height = 182.0;
@@ -21,7 +21,7 @@ class PastGameTile extends StatelessWidget {
 
     final VoidCallback show = () {
       onSingleScreenCallback?.call();
-      stage.showAlert(
+      stage!.showAlert(
         PastGameScreen(index: index,),
         size: PastGameScreen.height
       );
@@ -35,31 +35,31 @@ class PastGameTile extends StatelessWidget {
         GameTimeTile(game, index: index, open: show,),
         Expanded(child: SubSection(
           <Widget>[
-            SectionTitle("Winner: ${game.winner ?? 'not detected'}"),
+            SectionTitle("Winner: ${game!.winner ?? 'not detected'}"),
             Expanded(child: SingleChildScrollView(
               scrollDirection: Axis.horizontal, 
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12.0, 2.0, 8.0, 8.0),
                 child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  for(final player in game.state.players.values)
+                  for(final player in game!.state.players.values)
                     (){
-                      final name = player.name;
-                      final commanders = game.commandersPlayedBy(name);
+                      final name = player!.name;
+                      final commanders = game!.commandersPlayedBy(name);
                       return SidChip(
                         color: theme.colorScheme.secondary,
                         text: "$name",
-                        icon: game.winner == name ? McIcons.trophy : null,
+                        icon: game!.winner == name ? McIcons.trophy : null,
                         forceTextColor: commanders.isNotEmpty ? Colors.white : null,
                         subText: commanders.isNotEmpty 
                           ? safeSubString(
-                            untilSpaceOrComma(commanders.first.name),
+                            untilSpaceOrComma(commanders.first!.name!),
                             8,
                           )
                           : null,
                         image: commanders.isNotEmpty 
                           ? DecorationImage(
                             image: CachedNetworkImageProvider(
-                              commanders.first.imageUrl()
+                              commanders.first!.imageUrl()!
                             ),
                             fit: BoxFit.cover,
                             colorFilter: ColorFilter.mode(
@@ -104,7 +104,7 @@ class PastGameTile extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         maxLenght: null,
         onConfirm: (notes){
-          bloc.pastGames.pastGames.value[this.index].notes = notes;
+          bloc.pastGames.pastGames.value[this.index]!.notes = notes;
           bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
@@ -118,7 +118,7 @@ class PastGameTile extends StatelessWidget {
         game.state.names, 
         initialSelected: game.winner, 
         onConfirm: (selected){
-          bloc.pastGames.pastGames.value[this.index].winner = selected;
+          bloc.pastGames.pastGames.value[this.index]!.winner = selected;
           bloc.pastGames.pastGames.refresh(index: this.index);
         },
       ),
@@ -130,24 +130,24 @@ class PastGameTile extends StatelessWidget {
 
 
 class GameTimeTile extends StatelessWidget {
-  final PastGame game;
+  final PastGame? game;
   final int index;
   final bool delete;
-  final VoidCallback open;
+  final VoidCallback? open;
 
   const GameTimeTile(this.game, {
-    @required this.index, 
+    required this.index, 
     this.delete = true, 
     this.open,
   });
 
   @override
   Widget build(BuildContext context) {
-    final duration = game.duration;
-    final day = game.startingDateTime.day;
-    final month = monthsShort[game.startingDateTime.month];
-    final hour = game.startingDateTime.hour.toString().padLeft(2, '0');
-    final minute = game.startingDateTime.minute.toString().padLeft(2, '0');
+    final duration = game!.duration;
+    final day = game!.startingDateTime.day;
+    final month = monthsShort[game!.startingDateTime.month];
+    final hour = game!.startingDateTime.hour.toString().padLeft(2, '0');
+    final minute = game!.startingDateTime.minute.toString().padLeft(2, '0');
     final stage = Stage.of(context);
     final bloc = CSBloc.of(context);
 
@@ -158,9 +158,9 @@ class GameTimeTile extends StatelessWidget {
       subtitle: Text("Lasted ${duration.inMinutes} minutes"),
       trailing: delete ? IconButton(
         icon: const Icon(Icons.delete_forever, color: CSColors.delete),
-        onPressed: () => stage.showAlert(
+        onPressed: () => stage!.showAlert(
           ConfirmAlert(
-            action: () => bloc.pastGames.pastGames.removeAt(index),
+            action: () => bloc!.pastGames.pastGames.removeAt(index),
             warningText: "Delete game played $month $day, $hour:$minute?",
             confirmColor: CSColors.delete,
             confirmText: "Yes, delete",

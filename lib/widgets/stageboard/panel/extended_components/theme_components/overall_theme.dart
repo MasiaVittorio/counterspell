@@ -4,8 +4,8 @@ class OverallTheme extends StatelessWidget {
   const OverallTheme();
   @override
   Widget build(BuildContext context) {
-    final stage = Stage.of(context);
-    final bloc = CSBloc.of(context);
+    final stage = Stage.of(context)!;
+    final bloc = CSBloc.of(context)!;
     final themeController = stage.themeController;
     final theme = Theme.of(context);
 
@@ -15,7 +15,7 @@ class OverallTheme extends StatelessWidget {
       themeController.brightness.darkStyle,
       themeController.brightness.autoDarkMode,
       bloc.payments.unlocked,
-      builder: (_, bool autoDark, Brightness brightness, DarkStyle darkStyle, AutoDarkMode autoDarkMode, bool unlocked)
+      builder: (_, bool? autoDark, Brightness? brightness, DarkStyle? darkStyle, AutoDarkMode? autoDarkMode, bool? unlocked)
       => Stack(
         fit: StackFit.loose,
         children: <Widget>[
@@ -40,7 +40,7 @@ class OverallTheme extends StatelessWidget {
               ),
             ],
           ),
-          if(!unlocked)
+          if(!unlocked!)
             Positioned.fill(child: GestureDetector(
               onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
               child: Container(

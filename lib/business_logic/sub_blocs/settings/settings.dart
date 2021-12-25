@@ -1,7 +1,5 @@
 import 'package:counter_spell_new/core.dart';
 
-
-import 'sub_settings/all.dart';
 export 'sub_settings/all.dart';
 
 class CSSettings {

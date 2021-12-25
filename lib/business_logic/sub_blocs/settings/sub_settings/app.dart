@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:screen/screen.dart';
-import 'package:vibrate/vibrate.dart';
+import 'package:vibration/vibration.dart';
 
 
 class CSSettingsApp {
@@ -71,8 +71,8 @@ class CSSettingsApp {
       fromJson: (name) => CSPages.fromName(name),
     )
   {
-    Vibrate.canVibrate.then(
-      (canIt) => canVibrate = canIt
+    Vibration.hasVibrator().then(
+      (hasIt) => canVibrate = hasIt
     );
   }
 

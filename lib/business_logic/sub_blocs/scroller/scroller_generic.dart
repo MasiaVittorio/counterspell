@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/core.dart';
 
 import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
-import 'package:vibrate/vibrate.dart';
+import 'package:vibration/vibration.dart';
 
 
 class ScrollerLogic {
@@ -133,9 +133,13 @@ class ScrollerLogic {
   } 
 
 
-  void feedBack(){
+  void feedBack() {
     if(okVibrate())
-      Vibrate.feedback(FeedbackType.success);
+      // Vibrate.feedback(FeedbackType.success);
+      Vibration.vibrate(
+        amplitude: 177,
+        duration: 50,
+      );
   }
 
   void cancel([bool alsoAttacker = false]){

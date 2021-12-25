@@ -36,7 +36,7 @@ class _CounterSpellState extends State<CounterSpell> {
   void initState() {
     super.initState();
     bloc = CSBloc();
-    _subscription = InAppPurchaseConnection.instance.purchaseUpdatedStream
+    _subscription = InAppPurchase.instance.purchaseStream
         .listen((List<PurchaseDetails> purchases) {
       reactToNewPurchases(purchases);
     });
@@ -62,12 +62,10 @@ class _CounterSpellState extends State<CounterSpell> {
         logAdd("react: 1.iteration$i.null -> NULL purchase, skipping");
         continue;
       }
-      logAdd(
-          "react: 1.iteration$i -> product: ${detail.productID}, purchase: ${detail.purchaseID}, status: ${detail.status}");
+      logAdd("react: 1.iteration$i -> product: ${detail.productID}, purchase: ${detail.purchaseID}, status: ${detail.status}");
 
       if (detail.status == PurchaseStatus.pending) {
-        logAdd(
-            "react: 1.iteration$i.pending -> this product status was still pending, so we skip it and continue the for cycle");
+        logAdd("react: 1.iteration$i.pending -> this product status was still pending, so we skip it and continue the for cycle");
         continue;
       }
 
@@ -75,24 +73,21 @@ class _CounterSpellState extends State<CounterSpell> {
           !bloc.payments.purchasedIds.value.contains(detail.productID)) {
         bloc.payments.purchasedIds.value.add(detail.productID);
         found = true;
-        logAdd(
-            "react: 1.iteration$i.notFound -> this purchase was not previously saved! (we should unlock later)");
+        logAdd("react: 1.iteration$i.notFound -> this purchase was not previously saved! (we should unlock later)");
       }
       if (Platform.isIOS) {
-        logAdd(
-            "react: 1.iteration$i.iOS -> platform is iOS, we call completePurchase(detail)");
+        logAdd("react: 1.iteration$i.iOS -> platform is iOS, we call completePurchase(detail)");
         // Mark that you've delivered the purchase. Only the App Store requires
         // this final confirmation.
-        InAppPurchaseConnection.instance.completePurchase(detail);
+        InAppPurchase.instance.completePurchase(detail);
       }
     }
 
-    logAdd(
-        "react: 2 -> for cycle ended, found a new (non pending) purchase? $found");
+    logAdd("react: 2 -> for cycle ended, found a new (non pending) purchase? $found");
     if (found) {
       logAdd("react: 2.true -> refresh purchasedIds and unlock");
       bloc.payments.purchasedIds.refresh();
-      bloc.payments.unlocked.set(true);
+      bloc.payments.unlocked.setDistinct(true);
     }
   }
 

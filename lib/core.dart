@@ -6,11 +6,10 @@ export 'widgets/alerts/all.dart';
 export 'widgets/snackbars/all.dart';
 export 'models/all.dart';
 
-export 'package:flutter/material.dart';
+// TODO: BIG BUG: WINNER NOT DETECTED ON LAST GAME UPON RESTARTING APP
+
+export 'package:flutter/material.dart' hide AnimatedScale;
 export 'package:stage/stage.dart';
 export 'package:sid_ui/sid_ui.dart';
 export 'package:sid_bloc/sid_bloc.dart';
 export 'package:sid_utils/sid_utils.dart';
-
-
-// TODO: BIG BUG: WINNER NOT DETECTED ON LAST GAME UPON RESTARTING APP

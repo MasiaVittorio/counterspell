@@ -139,7 +139,7 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                           image: CachedNetworkImageProvider(c.imageUrl()),
                           colorFilter: ColorFilter.mode(
                             Color.alphaBlend(
-                              theme.accentColor.
+                              theme.colorScheme.secondary.
                                 withOpacity(c?.oracleId == commander?.oracleId ? 0.2 : 0.0),
                               theme.canvasColor
                                 .withOpacity(c?.oracleId == commander?.oracleId ? 0.8: 0.7)

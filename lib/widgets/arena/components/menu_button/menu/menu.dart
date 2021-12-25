@@ -82,8 +82,8 @@ class ArenaMenu extends StatelessWidget {
           child: ArenaMenuSettings(
             players: names.length,
           ), 
-          icon: McIcons.settings,
-          unselectedIcon: McIcons.settings_outline,
+          icon: McIcons.cog,
+          unselectedIcon: McIcons.cog_outline,
           title: "Settings"
         ),
       },

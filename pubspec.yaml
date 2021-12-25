@@ -13,7 +13,7 @@ description: A new Flutter project.
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 
 # RICORDA DI CAMBIARE QUESTO NUMERO IN SETTINGSBLOC STATIC VERSIONCODE
-version: 3.2.7+89
+version: 3.2.8+90
 # RICORDA DI CAMBIARE QUESTO NUMERO IN SETTINGSBLOC STATIC VERSIONCODE
 # PER IL CHANGELOG
 
@@ -24,32 +24,32 @@ publish_to: none
 
 dependencies:
   sid_ui:
-    path: ../sid_ui
+    git: https://github.com/MasiaVittorio/sid_ui.git
   sid_utils:
-    path: ../sid_utils
+    git: https://github.com/MasiaVittorio/sid_utils.git
   sid_bloc:
-    path: ../sid_bloc
+    git: https://github.com/MasiaVittorio/sid_bloc.git
   stage:
-    path: ../stage_2
-  animations: ^1.1.1
-  auto_size_text: ^2.1.0
-  badges: ^1.1.4
-  cached_network_image: ^2.0.0-rc
-  division: ^0.7.0
-  equatable: ^1.0.0
+    git: https://github.com/MasiaVittorio/stage_2.git
+  animations: ^2.0.0
+  auto_size_text: ^3.0.0-nullsafety.0
+  badges: ^2.0.1
+  cached_network_image: ^3.0.0
+  division: ^0.9.0
+  equatable: ^2.0.3
   ext_storage: ^1.0.3
-  fl_chart: ^0.8.1
+  fl_chart: ^0.36.2
   flutter_reorderable_list: ^1.0.0
-  flutter_vector_icons: ^0.2.1
-  http: ^0.12.0+2
-  in_app_purchase: ^0.2.2+4
-  permission_handler: ^5.0.1+1
-  rxdart: ^0.22.6
-  screen: ^0.0.4
-  sleek_circular_slider: ^1.1.0
-  smooth_page_indicator: ^0.1.4
-  time: ^1.2.0
-  url_launcher: ^5.2.5
+  flutter_vector_icons: ^1.0.0
+  http: ^0.13.3
+  in_app_purchase: ^1.0.6
+  permission_handler: ^8.1.2
+  rxdart: ^0.27.1
+  screen: ^0.0.5
+  sleek_circular_slider: ^2.0.1
+  smooth_page_indicator: ^0.3.0-nullsafety.0
+  time: ^2.0.0
+  url_launcher: ^6.0.8
   vibrate: ^0.0.4
   # flutter_statusbarcolor: ^0.2.0
   flutter:
@@ -57,12 +57,12 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.7.0
+  flutter_launcher_icons: ^0.9.0
 
 flutter_icons:
   image_path: "assets/images/android_legacy.png"

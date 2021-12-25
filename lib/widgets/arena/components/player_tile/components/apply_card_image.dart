@@ -57,7 +57,7 @@ class AptCardImage extends StatelessWidget {
             : BoxDecoration(image: DecorationImage(
               image: CachedNetworkImageProvider(
                 urlA,
-                errorListener: (){},
+                // errorListener: (){},
               ),
               fit: BoxFit.cover,
               alignment: Alignment(0, alignments[urlA] ?? -0.5),
@@ -71,7 +71,7 @@ class AptCardImage extends StatelessWidget {
               : BoxDecoration(image: DecorationImage(
                 image: CachedNetworkImageProvider(
                   urlB,
-                  errorListener: (){},
+                  // errorListener: (){},
                 ),
                 fit: BoxFit.cover,
                 alignment: Alignment(0, alignments[urlB] ?? -0.5),

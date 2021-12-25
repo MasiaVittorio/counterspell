@@ -35,7 +35,7 @@ class TutorialControls extends StatelessWidget {
               effect: ExpandingDotsEffect(
                 dotWidth: 12,
                 dotHeight: 12,
-                activeDotColor: theme.accentColor,
+                activeDotColor: theme.colorScheme.secondary,
               ),
             ),
           ),),

@@ -164,7 +164,7 @@ class _RandomListTileState extends State<RandomListTile> with SingleTickerProvid
   }
 
   static const Map<int,IconData> icons = <int,IconData>{
-    2: McIcons.coin,
+    2: McIcons.bitcoin,
     6: McIcons.dice_d6,
     20: McIcons.dice_d20,
   };

@@ -49,7 +49,7 @@ class Useful extends StatelessWidget {
               toAnimate: false,
               shape: BadgeShape.circle,
               // alignment: Alignment.topRight,
-              badgeColor: Theme.of(context).accentColor,
+              badgeColor: Theme.of(context).colorScheme.secondary,
               position: BadgePosition.topEnd(),
               ignorePointer: true,
               child: const Icon(Icons.star_border)

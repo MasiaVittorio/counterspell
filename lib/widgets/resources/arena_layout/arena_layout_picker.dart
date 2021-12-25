@@ -288,7 +288,7 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
                   color: widget.type == type 
-                    ? theme.accentColor.withOpacity(0.35)
+                    ? theme.colorScheme.secondary.withOpacity(0.35)
                     : SubSection.getColor(theme),
                   borderRadius: BorderRadius.circular(10),                          
                 ),

@@ -67,7 +67,7 @@ class ArenaTransformer extends StatelessWidget {
         logic.game.gameAction.clearSelection();
 
         if(logic.settings.arenaSettings.fullScreen.value){
-          SystemChrome.setEnabledSystemUIOverlays([]);
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
         }
 
         openArena();
@@ -77,8 +77,9 @@ class ArenaTransformer extends StatelessWidget {
         stage.mainPagesController.goToPage(
           logic.settings.appSettings.lastPageBeforeArena.value,
         );
-        SystemChrome.setEnabledSystemUIOverlays(
-          [SystemUiOverlay.top, SystemUiOverlay.bottom]
+        SystemChrome.setEnabledSystemUIMode(
+          SystemUiMode.manual, 
+          overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
         );
       },
       transitionType: ContainerTransitionType.fadeThrough,

@@ -97,7 +97,7 @@ class _DiceThrowerState extends State<DiceThrower> {
                 Expanded(child: TextButton.icon(
                   label: Text(predicates[type] ?? "?? error"),
                   icon: Icon({
-                    _ThrowType.coin: McIcons.coin,
+                    _ThrowType.coin: McIcons.bitcoin,
                     _ThrowType.name: Icons.person_outline,
                     _ThrowType.dice: _diceType.icon,
                   }[type] ?? McIcons.dice_multiple),
@@ -212,7 +212,7 @@ class _ThrowWidget extends StatelessWidget {
 
   }
   static const Map<int,IconData> coinIcons = {
-    1: McIcons.coin,
+    1: McIcons.bitcoin,
     2: McIcons.circle_outline,
   };
   static const Map<int,IconData> d6icons = {

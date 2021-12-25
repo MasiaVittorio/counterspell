@@ -77,7 +77,7 @@ class ThemePResetter extends StatelessWidget {
                     return true;
                   },
                   checkErrors: (name){
-                    if(name == null || name == "") return "Insert name";
+                    if(name == "") return "Insert name";
                     if(CSColorScheme.defaults.keys.contains(name)) return "Avoid default names";
                     return null;
                   },

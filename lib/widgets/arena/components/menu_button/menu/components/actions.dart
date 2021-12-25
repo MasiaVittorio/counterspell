@@ -63,7 +63,7 @@ class _Restarter extends StatelessWidget {
     return ConfirmableTile(
       onConfirm: (){
         state!.restart(GameRestartedFrom.arena, avoidPrompt: true);
-        closeMenu?.call();
+        closeMenu.call();
       },
       leading: Icon(McIcons.restart),
       titleBuilder: (_,__) => Text("New game"),

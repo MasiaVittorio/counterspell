@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'all.dart';
 
-import 'package:flutter/widgets.dart';
 
 class PlayerState {
 
@@ -12,14 +11,14 @@ class PlayerState {
   // Values
   final DateTime time;
 
-  final int? life;
+  final int life;
 
   //damage TAKEN
   final Map<String,CommanderDamage> damages;
 
   final CommanderCast cast;
 
-  final Map<String?,int> counters;
+  final Map<String,int> counters;
 
 
   //===================================
@@ -35,7 +34,7 @@ class PlayerState {
   }
 
   bool get isAlive {
-    if(life! < 1) return false;
+    if(life< 1) return false;
     for(final damage in this.damages.values){
       if(damage.a >= 21) return false;
       if(damage.b >= 21) return false;
@@ -54,11 +53,11 @@ class PlayerState {
   static const kMinValue = -99999999999999;
   static const kMaxValue = 999999999999999;
   PlayerState hardCopy() => PlayerState(
-    life: this.life! + 0, 
+    life: this.life+ 0, 
     time: DateTime.fromMillisecondsSinceEpoch(this.time.millisecondsSinceEpoch + 0), 
     damages: <String,CommanderDamage>{for(final entry in this.damages.entries) entry.key + "": entry.value.copy(),}, 
     cast: this.cast.copy(), 
-    counters: <String,int>{for(final entry in this.counters.entries) entry.key! + "": entry.value + 0,},
+    counters: <String,int>{for(final entry in this.counters.entries) entry.key+ "": entry.value + 0,},
   );
 
   PlayerState updateTime([DateTime? newTime]) => newTime == null
@@ -82,7 +81,7 @@ class PlayerState {
       int maxVal = kMaxValue,
     }
   ) => PlayerState.now(
-    life: life.clamp(minVal ?? kMinValue, maxVal ?? kMaxValue),
+    life: life.clamp(minVal, maxVal),
     cast: this.cast,
     damages: this.damages,
     counters: this.counters,
@@ -92,7 +91,7 @@ class PlayerState {
       int minVal = kMinValue, 
       int maxVal = kMaxValue,
     }
-  ) => this.withLife(this.life! + increment, minVal: minVal, maxVal: maxVal);
+  ) => this.withLife(this.life+ increment, minVal: minVal, maxVal: maxVal);
 
   PlayerState withDamageFrom(String from, int damage, {
       bool partnerA = true,
@@ -122,8 +121,8 @@ class PlayerState {
     );
     if(settings.damageDefendersLife){
       result = result.incrementLife(-howMuch, 
-        minVal: minLife ?? kMinValue, 
-        maxVal: maxDamage ?? kMaxValue,
+        minVal: minLife, 
+        maxVal: maxDamage,
       );
     } else if(settings.infect){
       result = result.incrementCounter(Counter.poison, howMuch);
@@ -150,10 +149,10 @@ class PlayerState {
     life: this.life,
     damages: this.damages,
     counters: (){
-      Map<String?,int> copy = Map.from(this.counters ?? <String,int>{});
+      Map<String,int> copy = Map.from(this.counters);
       copy[counter.longName] = value.clamp(
-        max(minValue, counter.minValue!), 
-        min(maxValue, counter.maxValue!),
+        max(minValue, counter.minValue), 
+        min(maxValue, counter.maxValue),
       );
       return copy;
     }(),
@@ -165,8 +164,8 @@ class PlayerState {
   }) => this.withCounter(
     counter, 
     (this.counters[counter.longName] ?? 0) + increment,
-    minValue: minValue ?? kMinValue,
-    maxValue: maxValue ?? kMaxValue,
+    minValue: minValue,
+    maxValue: maxValue,
   );
 
 
@@ -227,10 +226,10 @@ class PlayerState {
   });
   
   factory PlayerState.now({
-    required int? life,
+    required int life,
     required CommanderCast cast,
     required Map<String,CommanderDamage> damages,
-    required Map<String?,int> counters,
+    required Map<String,int> counters,
    }) => PlayerState(
     life: life,
     time: DateTime.now(),
@@ -240,9 +239,9 @@ class PlayerState {
   );
 
   factory PlayerState.start({
-    required int? life,
+    required int life,
     required Set<String> others,
-    required Set<String?> counters,
+    required Set<String> counters,
   }) => PlayerState.now(
     life: life,
     damages: {

@@ -64,7 +64,7 @@ class PastGameScreen extends StatelessWidget {
                     child: Row(children: ((){
                       final children = <Widget>[
                         for(final title in titles)
-                          for(final n in (game.customStats[title] ?? []) as Iterable<_>)
+                          for(final n in (game.customStats[title] ?? []) as Iterable)
                             SidChip(text: title,subText: n,),
                       ];
                       if(children.isEmpty){
@@ -111,7 +111,7 @@ class PastGameScreen extends StatelessWidget {
         labelText: "Insert notes",
         initialText: game.notes ?? "",
         textCapitalization: TextCapitalization.sentences,
-        maxLenght: null,
+        maxLenght: TextField.noMaxLength,
         onConfirm: (notes){
           bloc.pastGames.pastGames.value[this.index]!.notes = notes;
           bloc.pastGames.pastGames.refresh(index: this.index);

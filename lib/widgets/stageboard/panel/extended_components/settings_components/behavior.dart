@@ -48,7 +48,7 @@ class SettingsBehavior extends StatelessWidget {
         min: 500,
         max: 2000,
         divisions: 30,
-        onChangeEnd: (val) => scrollSettings.confirmDelay.set(Duration(milliseconds: val!.round())),
+        onChangeEnd: (val) => scrollSettings.confirmDelay.set(Duration(milliseconds: val.round())),
         titleBuilder: (val) => Text("Confirm delay: ${_fromMilliseconds(val.round())}"),
         defaultValue: CSSettingsScroll.confirmDelayVal.inMilliseconds.toDouble(),
       ),),

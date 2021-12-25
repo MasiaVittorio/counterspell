@@ -140,16 +140,16 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                           colorFilter: ColorFilter.mode(
                             Color.alphaBlend(
                               theme.colorScheme.secondary.
-                                withOpacity(c?.oracleId == commander?.oracleId ? 0.2 : 0.0),
+                                withOpacity(c.oracleId == commander?.oracleId ? 0.2 : 0.0),
                               theme.canvasColor
-                                .withOpacity(c?.oracleId == commander?.oracleId ? 0.8: 0.7)
+                                .withOpacity(c.oracleId == commander?.oracleId ? 0.8: 0.7)
                             ), 
                             BlendMode.srcOver,
                           ),
                           alignment: Alignment(
                             0.0, 
                             imageSettings.imageAlignments
-                              .value[c?.imageUrl()] ?? 0.0,
+                              .value[c.imageUrl()] ?? 0.0,
                           ),
                           fit: BoxFit.cover,
                         ),

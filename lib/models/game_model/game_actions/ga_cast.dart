@@ -1,5 +1,4 @@
 import '../all.dart';
-import 'package:flutter/widgets.dart';
 
 class GACast extends GameAction{
   final Map<String,bool?> selected;

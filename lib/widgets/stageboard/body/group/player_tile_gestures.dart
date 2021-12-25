@@ -25,7 +25,6 @@ class PlayerGestures{
       case CSPage.history:
         _returnToLife(bloc);
         return;
-        break;
       case CSPage.counters:
       case CSPage.commanderCast:
       case CSPage.life:
@@ -37,16 +36,14 @@ class PlayerGestures{
             actionBloc.selected.refresh();
           }
         }
-        scrollerBloc.onDragUpdate(details, width, vertical: vertical ?? false);
+        scrollerBloc.onDragUpdate(details, width, vertical: vertical);
         return;
-        break;
       case CSPage.commanderDamage:
         if(actionBloc!.isSomeoneAttacking){
           actionBloc.defendingPlayer.set(name);
-          scrollerBloc!.onDragUpdate(details, width, vertical: vertical ?? false);
+          scrollerBloc!.onDragUpdate(details, width, vertical: vertical);
         }
         return;
-        break;
       default:
     }
   }
@@ -67,7 +64,6 @@ class PlayerGestures{
       case CSPage.history:
         _returnToLife(bloc);
         return;
-        break;
       case CSPage.counters:
       case CSPage.life:
       case CSPage.commanderCast: /// recently added
@@ -78,7 +74,6 @@ class PlayerGestures{
           scrollerBloc.delayerController.leaving();
         }
         return;
-        break;
       // case CSPage.commanderCast:
         // if(hasPartnerB==true){
         //   //toggling used partners
@@ -104,7 +99,6 @@ class PlayerGestures{
           actionBloc.defendingPlayer.set("");
         }
         return;
-        break;
       default:
     }
 
@@ -126,7 +120,6 @@ class PlayerGestures{
         //history and commander cast are not implemented in arena yet
         _returnToLife(bloc);
         return;
-        break;
       case CSPage.counters:
       case CSPage.life:
 

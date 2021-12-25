@@ -10,7 +10,7 @@ class DetailsUtils {
         final int? val = int.tryParse(string);
         if(val != null){
           bloc.game!.gameState!.applyAction(GALife(
-            val - playerState.life!,
+            val - playerState.life,
             selected: {
               for(final n in names)
                 if(n == name) n: true
@@ -48,7 +48,7 @@ class DetailsUtils {
   static void insertCast(bool havePartner, bool partnerB, StageData stage, String name, CSBloc bloc, PlayerState playerState, List<String> names) 
     => stage.showAlert(InsertAlert(
       inputType: TextInputType.number,
-      labelText: havePartner??false 
+      labelText: havePartner 
         ? partnerB
           ? "Times $name has cast their SECOND partner (B)"
           : "Times $name has cast their FIRST partner (A)"
@@ -85,7 +85,7 @@ class DetailsUtils {
     => stage.showAlert(InsertAlert(
       inputType: TextInputType.number,
       twoLinesLabel: true,
-      labelText: havePartner??false 
+      labelText: havePartner 
         ? partnerB
           ? "Damage dealt to $defender by $attacker's SECOND partner (B)"
           : "Damage dealt to $defender by $attacker's FIRST partner (A)"
@@ -104,7 +104,7 @@ class DetailsUtils {
           ));
         }
       }
-    ),size: InsertAlert.twoLinesHeight, replace: replace ?? false);
+    ),size: InsertAlert.twoLinesHeight, replace: replace);
 
   static void partnerDamage(StageData stage, String attacker, String defender, CSBloc bloc, GameState? gameState) 
     => stage.showAlert(
@@ -136,13 +136,11 @@ class DetailsUtils {
       inputType: TextInputType.text,
       labelText: "Rename $name",
       onConfirm: (string){
-        if(string == null) return;
         if(string == "") return;
         if(names.contains(string)) return;
         bloc.game!.gameState!.renamePlayer(name, string);
       },
       checkErrors: (string){
-        if(string == null) return "Error: null string";
         if(string == "") return "Error: empty string";
         if(names.contains(string)) return "This name is already Taken";
         return null;

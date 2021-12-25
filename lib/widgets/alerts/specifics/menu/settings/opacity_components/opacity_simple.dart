@@ -97,7 +97,7 @@ class ImageOpacitySimple extends StatelessWidget {
         playerTile,
         const SizedBox(height: 8,),
         opacity.build((_,value) => FullSlider(
-          value: value!,
+          value: value,
           divisions: 20,
           leading: Icon(Icons.opacity),
           onChanged: opacity.set,

@@ -51,7 +51,7 @@ class ExtraButtonToggle extends StatelessWidget {
             text: text,
             customCircleColor: Color.lerp(colorOff, colorOn, val),
             onTap: () => onChanged(!(value ?? false)),
-            twoLines: twoLines ?? false,
+            twoLines: twoLines,
           );
         },
       ),

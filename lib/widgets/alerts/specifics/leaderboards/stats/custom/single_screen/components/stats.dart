@@ -33,7 +33,7 @@ class Stats extends StatelessWidget {
         (a, b) => a.value > b.value ? a : b,
       ) : null;
     final cmdrTotCard = cmdrTot != null 
-      ? cmdrs![cmdrTot?.key!]?.card : null;
+      ? cmdrs![cmdrTot.key!]?.card : null;
 
     final cmdrFreq = stat.commandersApplicable.isNotEmpty 
       ? stat.commandersApplicable.entries.reduce(

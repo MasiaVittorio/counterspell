@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'all.dart';
 import 'package:time/time.dart';
 
@@ -56,19 +55,14 @@ class Player {
     required this.commanderSettingsB, 
     required this.havePartnerB,
     required this.usePartnerB,
-  }): 
-    assert(name != null),
-    assert(states != null),
-    assert(commanderSettingsA != null),
-    assert(commanderSettingsB != null),
-    assert(states.isNotEmpty);
+  }): assert(states.isNotEmpty);
 
   factory Player.start(
     String name, 
     Set<String> others,
-    Set<String?> counters,
+    Set<String> counters,
     {
-      int? startingLife = 20,
+      required int startingLife,
       CommanderSettings? settingsPartnerA,
       CommanderSettings? settingsPartnerB,
       bool havePartnerB = false,
@@ -77,7 +71,7 @@ class Player {
       name, 
       commanderSettingsA: settingsPartnerA ?? CommanderSettings.defaultSettings,
       commanderSettingsB: settingsPartnerB ?? CommanderSettings.defaultSettings,
-      havePartnerB: havePartnerB ?? false,
+      havePartnerB: havePartnerB,
       usePartnerB: false,
       states: [
         PlayerState.start(
@@ -113,7 +107,7 @@ class Player {
     }
   }
 
-  PlayerAction back(Map<String?,Counter> counterMap){
+  PlayerAction back(Map<String,Counter> counterMap){
     final PlayerState outgoingState = states.removeLast();
     return PlayerAction.fromStates(
       previous: states.last,
@@ -216,7 +210,7 @@ class Player {
   int get totalLifeGained {
     int gained = 0;
     for(int i=this.states.length-1; i>0; --i){
-      final int delta = states[i].life! - states[i-1].life!;
+      final int delta = states[i].life- states[i-1].life;
       if(delta > 0) gained += delta;
     }
     return gained;
@@ -224,7 +218,7 @@ class Player {
   int get totalLifeLost {
     int lost = 0;
     for(int i=this.states.length-1; i>0; --i){
-      final int delta = states[i].life! - states[i-1].life!;
+      final int delta = states[i].life- states[i-1].life;
       if(delta < 0) lost -= delta;
     }
     return lost;

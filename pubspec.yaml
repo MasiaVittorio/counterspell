@@ -29,13 +29,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
   sid_ui:
-    git: https://github.com/MasiaVittorio/sid_ui.git
+    path: ../sid_ui
+    # git: https://github.com/MasiaVittorio/sid_ui.git
   sid_utils:
-    git: https://github.com/MasiaVittorio/sid_utils.git
+    path: ../sid_utils
+    # git: https://github.com/MasiaVittorio/sid_utils.git
   sid_bloc:
-    git: https://github.com/MasiaVittorio/sid_bloc.git
+    path: ../sid_bloc
+    # git: https://github.com/MasiaVittorio/sid_bloc.git
   stage:
-    git: https://github.com/MasiaVittorio/stage_2.git
+    path: ../stage_2
+    # git: https://github.com/MasiaVittorio/stage_2.git
   animations: ^2.0.0
   auto_size_text: ^3.0.0-nullsafety.0
   badges: ^2.0.1

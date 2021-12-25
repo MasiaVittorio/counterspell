@@ -82,12 +82,12 @@ class _UICollapsed extends StatelessWidget {
                 label: "This is an alert",
                 alternatives: <Alternative>[
                   Alternative(
-                    action: null,
+                    action: (){},
                     icon: Icons.space_bar,
                     title: "Alerts like this are shown in the panel",
                   ),
                   Alternative(
-                    action: null,
+                    action: (){},
                     icon: McIcons.gesture_swipe_down,
                     title: "You can close them by scrolling down",
                   ),

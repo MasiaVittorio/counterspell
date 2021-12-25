@@ -140,9 +140,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   void keepCasting({
     required int forUpTo,
   }){
-    assert(spell.cost != null);
-    assert(spell.product != null);
-    assert(forUpTo != null);
     assert(forUpTo > 0);
     assert(forUpTo < 1000000000);
 
@@ -160,9 +157,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   }
 
   bool get canCast 
-    => spell != null 
-    && spell.ok 
-    && mana >= spell.cost 
+    => mana >= spell.cost 
     && spellPlace == _Zone.hand;
 
   @override
@@ -240,7 +235,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             twoLines: true,
             onTap: () => this.setState(() {
               spell = _Spell(
-                (spell.cost ?? 0) + 1,
+                (spell.cost) + 1,
                 spell.product,
                 spell.chance,
               );    
@@ -262,7 +257,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             onTap: () => this.setState(() {
               spell = _Spell(
                 spell.cost,
-                (spell.product ?? 0) + 1,
+                (spell.product) + 1,
                 spell.chance,
               );    
             }),
@@ -439,7 +434,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             subtitle: canCast ? null : 
               mana < spell.cost ? Text("Missing mana", style: error,)
               : !(spellPlace == _Zone.hand) ? Text("Spell out of hand", style: error,)
-              : !spell.ok ? Text("Missing data", style: error,)
               : null,
             onTap: canCast ? (
               (keepBouncing && howManyKrarks > 1) 
@@ -479,7 +473,6 @@ class _Spell {
   final double chance; ///spells that not always resolve 
   const _Spell(this.cost, this.product, this.chance);
 
-  bool get ok => cost != null && product != null && chance != null;
 }
 
 class _ThumbTrigger {

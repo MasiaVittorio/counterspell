@@ -36,9 +36,7 @@ class ArenaLayout extends StatelessWidget {
     this.ifNumberNotSupported,
     this.flipped = false,
     this.animateCenterWidget = true,
-  }): assert(childBuilder != null),
-      assert(howManyChildren != null),
-      assert(layoutType != null);
+  });
   
   static const Set<int> howManyChildrenOk = <int>{
     2,3,4,5,6,
@@ -56,13 +54,12 @@ class ArenaLayout extends StatelessWidget {
       child: _ArenaLayout(
         childBuilder: childBuilder,
         howManyChildren: howManyChildren,
-        centerAlignment: centerAlignment 
-          ?? ArenaCenterAlignment.intersection,
+        centerAlignment: centerAlignment,
         centerChildBuilder: centerChildBuilder,
         constraints: constraints,
         layoutType: layoutType,
         flipped: flipped ?? false,
-        animateCenterWidget: animateCenterWidget ?? true,
+        animateCenterWidget: animateCenterWidget,
         betweenGridAndCenter: betweenGridAndCenter,
       ),
     ),);
@@ -106,7 +103,6 @@ class _ArenaLayout extends StatelessWidget {
           flipped: flipped,
           betweenGridAndCenter: betweenGridAndCenter,
         );
-        break;
       case 3:
         return ArenaLayout3(
           centerAlignment: centerAlignment,
@@ -118,7 +114,6 @@ class _ArenaLayout extends StatelessWidget {
           animateCenterWidget: animateCenterWidget,
           betweenGridAndCenter: betweenGridAndCenter,
         );
-        break;
       case 4:
         return ArenaLayout4(
           centerAlignment: centerAlignment,
@@ -129,7 +124,6 @@ class _ArenaLayout extends StatelessWidget {
           flipped: flipped,
           betweenGridAndCenter: betweenGridAndCenter,
         );
-        break;
       case 5:
         return ArenaLayout5(
           centerAlignment: centerAlignment,
@@ -141,7 +135,6 @@ class _ArenaLayout extends StatelessWidget {
           animateCenterWidget: animateCenterWidget,
           betweenGridAndCenter: betweenGridAndCenter,
         );
-        break;
       case 6:
         return ArenaLayout6(
           centerAlignment: centerAlignment,
@@ -152,7 +145,6 @@ class _ArenaLayout extends StatelessWidget {
           flipped: flipped,
           betweenGridAndCenter: betweenGridAndCenter,
         );
-        break;
       default:
         return Container();
     }

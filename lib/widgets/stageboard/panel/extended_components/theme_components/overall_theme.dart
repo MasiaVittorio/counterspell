@@ -9,7 +9,7 @@ class OverallTheme extends StatelessWidget {
     final themeController = stage.themeController;
     final theme = Theme.of(context);
 
-    return BlocVar.build5(
+    return BlocVar.build5<bool?,Brightness,DarkStyle,AutoDarkMode?,bool?>(
       themeController.brightness.autoDark, 
       themeController.brightness.brightness,
       themeController.brightness.darkStyle,

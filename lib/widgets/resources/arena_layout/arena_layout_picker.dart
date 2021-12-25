@@ -50,7 +50,7 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     "Stan",
   };
 
-  Map<int,String> positions6 = <int,String>{
+  Map<int,String?> positions6 = <int,String>{
     0: "Tony",
     1: "Stan",
     2: "Peter",
@@ -58,25 +58,25 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     4: "Natasha",
     5: "Logan",
   };
-  Map<int,String> positions5 = <int,String>{
+  Map<int,String?> positions5 = <int,String>{
     0: "Tony",
     1: "Stan",
     2: "Peter",
     3: "Bruce",
     4: "Natasha",
   };
-  Map<int,String> positions4 = <int,String>{
+  Map<int,String?> positions4 = <int,String>{
     0: "Tony",
     1: "Stan",
     2: "Peter",
     3: "Bruce",
   };
-  Map<int,String> positions3 = <int,String>{
+  Map<int,String?> positions3 = <int,String>{
     0: "Tony",
     1: "Stan",
     2: "Peter",
   };
-  Map<int,String> positions2 = <int,String>{
+  Map<int,String?> positions2 = <int,String>{
     0: "Tony",
     1: "Stan",
   };
@@ -89,7 +89,7 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     6: names6,
   }[len];
 
-  Map<int,String>? get realPositions => <int,Map<int,String>>{
+  Map<int,String?>? get realPositions => <int,Map<int,String?>>{
     2: positions2,
     3: positions3,
     4: positions4,
@@ -97,7 +97,7 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     6: positions6,
   }[len];
 
-  void changePositions(Map<int,String> newMap) => setState((){
+  void changePositions(Map<int,String?> newMap) => setState((){
     switch (len) {
       case 2:
         positions2 = newMap;

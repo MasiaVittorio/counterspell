@@ -37,7 +37,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
 
     this.initController();
 
-    logic.localScroller!.delayerController.addListenersMain(
+    logic.localScroller.delayerController.addListenersMain(
       startListener: scrolling,
       endListener: leaving,
     );
@@ -58,7 +58,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
       vsync: this,
       animationBehavior: AnimationBehavior.preserve,
     );
-    controller!.addStatusListener(logic.localScroller!.delayerAnimationListener);
+    controller!.addStatusListener(logic.localScroller.delayerAnimationListener);
   }
 
   bool scrolling(){
@@ -120,7 +120,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
         const AlertDrag(),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: logic.show!.build((_, show) => Row(
+          child: logic.show.build((_, show) => Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               for(final color in Clr.values)
@@ -129,7 +129,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
                   child: _ColorToggle(
                     color,
                     onChanged: (v){
-                      logic.show!.edit((map) {
+                      logic.show.edit((map) {
                         map[color] = v;
                       });
                       Stage.of(context)!.panelController.alertController!
@@ -152,9 +152,9 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
 
   // TODO: maybe key su numbers per non animare cambiamenti quando cambi show
   Widget get pool => BlocVar.build3(
-    logic.show!,
-    logic.pool!,
-    logic.selected!,
+    logic.show,
+    logic.pool,
+    logic.selected,
     builder: (_, dynamic show, dynamic pool, dynamic selected) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -172,13 +172,13 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
   );
   
 
-  Widget get recentActions => logic.history!.build((context, history) 
-    => logic.show!.build((_, show) => Container(
+  Widget get recentActions => logic.history.build((context, history) 
+    => logic.show.build((_, show) => Container(
       height: _RecentAction.height,
       child: Row(children: [
         for(final child in [
           for(final action in history)
-            if(show[action.color!]!)
+            if(show[action.color]!)
               _RecentAction(action, onTap: logic.apply),
         ]) Expanded(child: child),
       ]),
@@ -210,7 +210,7 @@ class _RecentAction extends StatelessWidget {
               size: 35,
             ),
             Center(child: Text(
-              "${action.delta! >= 0 ? '+' : ''}${action.delta}",
+              "${action.delta>= 0 ? '+' : ''}${action.delta}",
             ),),
           ],
         ),

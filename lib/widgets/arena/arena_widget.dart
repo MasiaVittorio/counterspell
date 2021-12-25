@@ -83,7 +83,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
                   childBuilder: (_, i, al) => ArenaPlayerTile(
                     i,
                     page: page,
-                    buttonAlignment: al,
+                    buttonAlignment: al ?? Alignment.topCenter,
                     indexToName: positions,
                     isScrollingSomewhere: scrolling,
                     logic: logic,

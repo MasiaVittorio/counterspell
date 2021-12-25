@@ -20,7 +20,7 @@ class PastGameTile extends StatelessWidget {
     final stage = Stage.of(context);
 
     final VoidCallback show = () {
-      onSingleScreenCallback?.call();
+      onSingleScreenCallback.call();
       stage!.showAlert(
         PastGameScreen(index: index,),
         size: PastGameScreen.height
@@ -102,7 +102,7 @@ class PastGameTile extends StatelessWidget {
         labelText: "Insert notes",
         initialText: game.notes ?? "",
         textCapitalization: TextCapitalization.sentences,
-        maxLenght: null,
+        maxLenght: TextField.noMaxLength,
         onConfirm: (notes){
           bloc.pastGames.pastGames.value[this.index]!.notes = notes;
           bloc.pastGames.pastGames.refresh(index: this.index);

@@ -19,7 +19,7 @@ class LocalDelayer extends StatelessWidget {
 
     final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
 
-    return BlocVar.build4(
+    return BlocVar.build4<bool, int, Duration, Map<CSPage,Color?>?>(
       localScroller!.isScrolling,
       localScroller!.intValue,
       bloc!.settings!.scrollSettings.confirmDelay,

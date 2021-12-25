@@ -16,9 +16,9 @@ class CSSettingsImages {
 
   final CSBloc parent;
   final PersistentVar<Map<String?,double>> imageAlignments;
-  final PersistentVar<double?> imageGradientStart;
-  final PersistentVar<double?> imageGradientEnd;
-  final PersistentVar<double?> arenaImageOpacity;
+  final PersistentVar<double> imageGradientStart;
+  final PersistentVar<double> imageGradientEnd;
+  final PersistentVar<double> arenaImageOpacity;
 
   //====================================
   // Default values
@@ -39,19 +39,19 @@ class CSSettingsImages {
           entry.key: entry.value,          
       },
     ),
-    imageGradientStart = PersistentVar<double?>(
+    imageGradientStart = PersistentVar<double>(
       key: "bloc_settings_blocvar_imageGradientStart",
       initVal: defaultImageGradientStart,
       toJson: (d) => d,
       fromJson: (j) => j,
     ),
-    imageGradientEnd = PersistentVar<double?>(
+    imageGradientEnd = PersistentVar<double>(
       key: "bloc_settings_blocvar_imageGradientEnd",
       initVal: defaultImageGradientEnd,
       toJson: (d) => d,
       fromJson: (j) => j,
     ),
-    arenaImageOpacity = PersistentVar<double?>(
+    arenaImageOpacity = PersistentVar<double>(
       key: "bloc_settings_blocvar_simpleImageOpacity",
       initVal: defaultSimpleImageOpacity,
       toJson: (d) => d,

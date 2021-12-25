@@ -33,7 +33,7 @@ class CustomStatWidget extends StatelessWidget {
           ),
         ]),
       ], onTap: (){
-        this.onSingleScreenCallback?.call();
+        this.onSingleScreenCallback.call();
         Stage.of(context)!.showAlert(
           CustomStatSingleScreen(stat),
           size: CustomStatSingleScreen.height,

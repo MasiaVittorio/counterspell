@@ -27,13 +27,13 @@ class ExtraButtons extends StatelessWidget {
       for(int i=0; i<children.length; ++i)
         Expanded(
           child: children[i],
-          flex: (flexes?.checkIndex(i ?? -1) ?? false) ? flexes![i] : 1,
+          flex: (flexes?.checkIndex(i) ?? false) ? flexes![i] : 1,
         ),
     ];
     return Padding(
-      padding: margin ?? defaultMargin,
+      padding: margin,
       child: Row(
-        children: (separate ?? true) 
+        children: (separate) 
           ? expanded.separateWith(divider)
           : expanded,
       ),
@@ -109,7 +109,7 @@ class ExtraButton extends StatelessWidget {
             width: _iconDimension,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(filled ? 10 : 50),
-              color: (filled ?? false) 
+              color: (filled) 
                 ? null 
                 : customCircleColor ?? theme.colorScheme.onSurface.withOpacity(0.1),
             ),

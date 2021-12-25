@@ -1,5 +1,4 @@
 import '../all.dart';
-import 'package:flutter/widgets.dart';
 
 class GALife extends GameAction{
   final Map<String,bool?> selected;

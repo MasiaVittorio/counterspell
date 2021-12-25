@@ -32,7 +32,6 @@ class ArenaLayout5 extends StatelessWidget {
     switch (layoutType) {
       case ArenaLayoutType.ffa:
         return buildFFA(context);
-        break;
       case ArenaLayoutType.squad:
         return buildSquad(context);
       default:

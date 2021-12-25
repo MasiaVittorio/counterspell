@@ -21,8 +21,8 @@ class PALife extends PlayerAction {
   @override
   PlayerAction normalizeOn(PlayerState state) {
     final num clamped = this.increment.clamp(
-      this.minVal - state.life!,
-      this.maxVal - state.life!,
+      this.minVal - state.life,
+      this.maxVal - state.life,
     );
 
     if(clamped == 0) 

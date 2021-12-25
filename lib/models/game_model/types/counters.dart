@@ -8,10 +8,10 @@ const int MAX_LIFE = 9999;
 const int MIN_LIFE = -999;
 
 class Counter{
-  final String? shortName;
-  final String? longName;
-  final int? minValue;
-  final int? maxValue;
+  final String shortName;
+  final String longName;
+  final int minValue;
+  final int maxValue;
   final IconData icon;
   final bool uniquePlayer;
   
@@ -25,8 +25,8 @@ class Counter{
   });
 
   factory Counter.custom({
-    String? shortName,
-    String? longName,
+    required String shortName,
+    required String longName,
     required int minValue,
     required int maxValue,
     bool uniquePlayer = false,

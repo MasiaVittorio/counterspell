@@ -23,7 +23,6 @@ class AnimatedLifeChart extends StatelessWidget {
 class _LifeChartLive extends StatefulWidget {
   
   _LifeChartLive(this.gameState):
-    assert(gameState != null),
     gameDuration = gameState.lastTime.difference(gameState.firstTime).abs(),
     gameLenght = gameState.historyLenght,
     names = gameState.names.toList()..sort(),
@@ -31,13 +30,13 @@ class _LifeChartLive extends StatefulWidget {
       state.time.difference(gameState.players.values.first!.states.first.time),
     ],
     maxValue = ((){
-      int? max = gameState?.players?.values?.first?.states?.first?.life ?? 0;
+      int? max = gameState.players.values.first?.states.first.life ?? 0;
       for(final player in gameState.players.values){
         for(final state in player!.states){
-          if(max! < state.life!)
+          if(max! < state.life)
             max = state.life;
           final int taken = state.totalDamageTaken;
-          if(max! < taken)
+          if(max< taken)
             max = taken;
           final int casts = state.totalCasts;
           if(max < casts)
@@ -390,7 +389,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
           ),
 
         BarChartRodData(
-          y: states[i].life!.toDouble().clamp(0.0, double.infinity),
+          y: states[i].life.toDouble().clamp(0.0, double.infinity),
           colors: [lifeColor!],
           width: _barWidth,
         ),

@@ -112,7 +112,7 @@ class PodiumIcon extends StatelessWidget {
       child: Icon(
         medal.podiumIcon,
         size: this.size,
-        color: (colored??true) 
+        color: (colored) 
           ? medal.colorOnTheme(Theme.of(context))
           : null,
       ),

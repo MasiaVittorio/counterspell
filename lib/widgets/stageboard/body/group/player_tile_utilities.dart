@@ -55,7 +55,7 @@ class PTileUtils {
   }
 
   static double cnNumberOpacity(CSPage? page, String whoIsAttacking,){
-    if(page == CSPage.commanderDamage && (whoIsAttacking==null || whoIsAttacking==""))
+    if(page == CSPage.commanderDamage && (whoIsAttacking==""))
       return 0.0;
     return 1.0;
   }
@@ -73,13 +73,10 @@ class PTileUtils {
     switch (page) {
       case CSPage.life:
         return playerState.life;
-        break;
       case CSPage.counters:
         return playerState.counters[counter.longName] ?? 0;
-        break;
       case CSPage.commanderCast:
         return playerState.cast.fromPartner(!usingPartnerB);
-        break;
       case CSPage.commanderDamage:
         if(attackingName!=null && attackingName!=""){
           if(playerState.damages.containsKey(attackingName)){
@@ -87,10 +84,8 @@ class PTileUtils {
           }
         }
         return 0; //will be opaque anyway
-        break;
       case CSPage.history:
         return 0;
-        break;
       default:
     }
     return 0;
@@ -113,7 +108,6 @@ class PTileUtils {
           return "Anti - Selected";
         }
         return "";
-        break;
       case CSPage.commanderDamage:
         if(attacker==name){
           if(havingPartnerB){
@@ -148,7 +142,6 @@ class PTileUtils {
         } else {
           return "Single Commander";
         }
-        break;
       default:
     }
     return "";

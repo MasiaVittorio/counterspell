@@ -10,8 +10,7 @@ class PageReactor extends AnimatedWidget {
     required this.controller,
     required this.builder,
     Key? key,
-  })  : assert(controller != null),
-        super(listenable: controller, key: key);
+  })  : super(listenable: controller, key: key);
 
   @override
   Widget build(BuildContext context) {

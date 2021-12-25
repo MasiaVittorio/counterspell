@@ -45,7 +45,7 @@ class HistoryPlayerTile extends StatelessWidget {
           // counters: counters,
           pageColors: pageColors,
           defenceColor: defenceColor,
-          partnerB: this.partnerB ?? false,
+          partnerB: this.partnerB,
         ),
     ];
 

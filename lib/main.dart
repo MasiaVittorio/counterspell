@@ -60,10 +60,7 @@ class _CounterSpellState extends State<CounterSpell> {
     int i = 0;
     for (final detail in purchases) {
       ++i;
-      if (detail == null) {
-        logAdd("react: 1.iteration$i.null -> NULL purchase, skipping");
-        continue;
-      }
+
       logAdd("react: 1.iteration$i -> product: ${detail.productID}, purchase: ${detail.purchaseID}, status: ${detail.status}");
 
       if (detail.status == PurchaseStatus.pending) {
@@ -71,8 +68,7 @@ class _CounterSpellState extends State<CounterSpell> {
         continue;
       }
 
-      if (detail.productID != null &&
-          !bloc.payments.purchasedIds.value.contains(detail.productID)) {
+      if (!bloc.payments.purchasedIds.value.contains(detail.productID)) {
         bloc.payments.purchasedIds.value.add(detail.productID);
         found = true;
         logAdd("react: 1.iteration$i.notFound -> this purchase was not previously saved! (we should unlock later)");

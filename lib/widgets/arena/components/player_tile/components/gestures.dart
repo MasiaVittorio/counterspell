@@ -86,9 +86,9 @@ class AptGestures extends StatelessWidget {
               
               return Flex(
                 direction: verticalScroll ? Axis.vertical : Axis.horizontal,
-                children: <Widget?>[
-                  if(verticalScroll) ...[children[true], children[false]] /// top + bottom -
-                  else ...[children[false], children[true]], /// left - right +
+                children: <Widget>[
+                  if(verticalScroll) ...[children[true]!, children[false]!] /// top + bottom -
+                  else ...[children[false]!, children[true]!], /// left - right +
                 ],
               );
             },);
@@ -119,9 +119,9 @@ class AptGestures extends StatelessWidget {
 
             return Flex(
               direction: verticalTap ? Axis.vertical : Axis.horizontal,
-              children: <Widget?>[
-                if(verticalTap) ...[children[true], children[false]] /// top + bottom -
-                else ...[children[false], children[true]], /// left - right +
+              children: <Widget>[
+                if(verticalTap) ...[children[true]!, children[false]!] /// top + bottom -
+                else ...[children[false]!, children[true]!], /// left - right +
               ],
             );
           },);

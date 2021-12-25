@@ -30,10 +30,8 @@ class HistoryTile extends StatelessWidget {
     switch (mode) {
       case TimeMode.clock:
         return clockString(time!);
-        break;
       case TimeMode.inGame:
         return distanceString(time!, first!);
-        break;
       default:
         return "";
     }

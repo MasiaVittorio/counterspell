@@ -272,7 +272,6 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
           children: <Widget>[
             for(final savedName in savedNames)
               if(
-                controller!.text != null && 
                 savedName!.toLowerCase().contains(controller!.text.toLowerCase()) && 
                 controller!.text != "" &&
                 controller!.text != savedName &&

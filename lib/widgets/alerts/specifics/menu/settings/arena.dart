@@ -230,7 +230,7 @@ class ArenaFullScreenToggle extends StatelessWidget {
       onChanged: settings.fullScreen.set,
       value: fullScreen,
       title: const Text("Full screen"),
-      subtitle: (disclaimer ?? false) ? const Text("Exit and re-enter to apply") : null,
+      subtitle: (disclaimer) ? const Text("Exit and re-enter to apply") : null,
       secondary: const Icon(McIcons.fullscreen),
     ),);
   }

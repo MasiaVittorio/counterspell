@@ -76,7 +76,7 @@ class MtgCard {
   // }
 
   bool isFaceType(String type, [int face = 0]) => this.isFaced
-    ? this.cardFaces![face ?? 0].typeLine!.contains(type)
+    ? this.cardFaces![face].typeLine!.contains(type)
     : this.typeLine!.contains(type);
 
   // IconData faceTypeIcon([int face = 0]) {
@@ -112,13 +112,13 @@ class MtgCard {
   bool get isFaced => this.cardFaces != null;
 
   String? getManaCost([int face = 0]){
-    if(this.isFaced) return this.cardFaces![face ?? 0]?.manaCost;
+    if(this.isFaced) return this.cardFaces![face].manaCost;
     return manaCost;
   }
 
   bool isHybrid([int face = 0]) {
     for(final s in hybridSymbolsColored)
-      if(getManaCost(face ?? 0)!.contains(s))
+      if(getManaCost(face)!.contains(s))
         return true;
     return false;
   }
@@ -130,10 +130,8 @@ class MtgCard {
     switch (len) {
       case 0:
         return [Colors.grey];
-        break;
       case 1:
         return [MTG_TO_COLORS_BKG[_clrs[0]]];
-        break;
       case 2:
         if(isHybrid(face)) return [
           MTG_TO_COLORS_BKG[_clrs[0]],

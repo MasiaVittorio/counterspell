@@ -17,8 +17,8 @@ class PastGame{
   PastGame(this.winner, {
     required this.state,
     required this.notes,
-    required Map<String,MtgCard>? commandersA,
-    required Map<String,MtgCard>? commandersB,
+    required Map<String,MtgCard?>? commandersA,
+    required Map<String,MtgCard?>? commandersB,
     required this.startingDateTime,
     required this.customStats,
   }): 
@@ -54,7 +54,8 @@ class PastGame{
         for(final stat in CustomStat.all)
           stat: <String>{},
       },
-      startingDateTime: dateTime ?? state.players.values.first!.states.first.time,
+      startingDateTime: dateTime 
+      // ?? state.players.values.first!.states.first.time,
     );
   }
 
@@ -89,11 +90,11 @@ class PastGame{
     json["winner"],
     notes: json["notes"] ?? "",
     state: GameState.fromJson(json["state"]),
-    commandersA: <String,MtgCard>{
+    commandersA: <String,MtgCard?>{
       for(final entry in (json["commandersA"] as Map).entries)
         entry.key as String : entry.value == null ? null : MtgCard.fromJson(entry.value),
     },
-    commandersB: <String,MtgCard>{
+    commandersB: <String,MtgCard?>{
       for(final entry in (json["commandersB"] as Map).entries)
         entry.key as String : entry.value == null ? null : MtgCard.fromJson(entry.value),
     },

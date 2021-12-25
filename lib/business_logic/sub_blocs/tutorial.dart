@@ -21,7 +21,7 @@ class CSTutorial {
   ///=============================================
   /// Getters =================================
   TutorialData? getTutorial(int? index) => (
-    TutorialData.values?.checkIndex(index ?? -1) ?? false
+    TutorialData.values.checkIndex(index ?? -1)
   )
     ? TutorialData.values[index!]
     : null;
@@ -30,7 +30,7 @@ class CSTutorial {
   TutorialData? get nextTutorial => getTutorial(currentTutorialIndex! + 1);
 
   Hint? getHint(int? index) => (
-    currentTutorial?.hints?.checkIndex(index ?? -1)
+    currentTutorial?.hints.checkIndex(index ?? -1)
     ?? false
   )
     ? currentTutorial!.hints[index!]
@@ -53,7 +53,7 @@ class CSTutorial {
     fullTutorial = full ?? fullTutorial;
     print("full tutorial: $fullTutorial");
     currentTutorialIndex = index;
-    if(currentTutorial?.hints?.isNotEmpty ?? false){
+    if(currentTutorial?.hints.isNotEmpty ?? false){
       showHint(0);
     } else {
       print("tutorial was empty!");
@@ -112,7 +112,6 @@ class CSTutorial {
         ),
       ),
       rightAligned: false,
-      duration: null,
       pagePersistent: true,
       onManualClose: quitTutorial,
     );

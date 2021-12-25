@@ -23,7 +23,7 @@ class APTNumber extends StatelessWidget {
   final String name;
 
   //Interaction information
-  final bool rawSelected;
+  final bool? rawSelected;
   final int increment;
   final bool scrolling;
   final CSPage page;
@@ -49,9 +49,9 @@ class APTNumber extends StatelessWidget {
       page, 
       whoIsAttacking, 
       whoIsDefending,
-      usingPartnerB ?? false,
+      usingPartnerB,
       playerState,
-      isAttackerUsingPartnerB ?? false,
+      isAttackerUsingPartnerB,
       counter,
     )!;
 
@@ -139,7 +139,7 @@ class APTNumberAlt extends StatelessWidget {
       whoIsDefending,
       usingPartnerB ?? false,
       playerState,
-      isAttackerUsingPartnerB ?? false,
+      isAttackerUsingPartnerB,
       counter,
     )!;
 

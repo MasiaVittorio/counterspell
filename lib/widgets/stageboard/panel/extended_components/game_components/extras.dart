@@ -25,7 +25,7 @@ class PanelGameExtras extends StatelessWidget {
           icon: McIcons.license,
           text: "Leaderboards",
           onTap: () {
-            if(unlocked!){
+            if(unlocked){
               stage!.showAlert(const Leaderboards(), size: Leaderboards.height);
             } else {
               stage!.showAlert(const SupportAlert(), size: SupportAlert.height);

@@ -57,7 +57,7 @@ class EditCustomStats extends StatelessWidget {
                       onPressed: (i){
                         final n = names[i];
                         gamesVar.value[index]!.customStats[title]
-                          = gamesVar.value[index]!.customStats[title].toggled(n);
+                          = gamesVar.value[index]!.customStats[title]?.toggled(n);
                         gamesVar.refresh();
                       },
                     ),
@@ -118,18 +118,12 @@ class EditCustomStats extends StatelessWidget {
   }
 }
 
-extension _SetToggle<E> on Set<E>? {
+extension _SetToggle<E> on Set<E> {
   Set<E>? toggled(E v) {
-    if(this == null){
-      return<E>{v};
+  if(this.contains(v)){
+      return this..remove(v);
     } else {
-      if(this!.contains(v)){
-        return this..remove(v);
-      } else {
-        return this..add(v);
-      }
+      return this..add(v);
     }
   } 
-
-  // void toggle(E v) => contains(v) ? remove(v) : add(v);
 }

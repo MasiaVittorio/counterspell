@@ -20,11 +20,7 @@ class CSColorScheme{
     required this.darkStyle,
     required this.defenceColor,
     required this.colorPlace,
-  }): assert(primary != null),
-      assert(accent != null),
-      assert(defenceColor != null),
-      assert(colorPlace != null),
-      assert(perPage != null);
+  });
 
   CSColorScheme renamed(String newName) => CSColorScheme(
     newName,

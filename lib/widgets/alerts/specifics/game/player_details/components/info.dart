@@ -57,7 +57,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                       if(value == 0) return []; 
                       return [
                         ListTile(
-                          title: Text(counter.shortName!),
+                          title: Text(counter.shortName),
                           leading: Icon(counter.icon, color: colors[CSPage.counters],),
                           trailing: Text("$value", style: body2,),
                           onTap: () => DetailsUtils.insertCounter(counter, stage, name, bloc, playerState, names),

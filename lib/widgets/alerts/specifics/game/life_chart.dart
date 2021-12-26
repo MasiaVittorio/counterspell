@@ -107,7 +107,7 @@ class _Chart extends StatelessWidget {
     );
 
     final int maxSeconds = players.first!.states.last.time
-        .difference(gameState.players.values.first!.states.first.time)
+        .difference(gameState.players.values.first.states.first.time)
         .inSeconds;
     
     final Map<String,double> maxTimeAndInterval = _maxTimeAndInterval(maxSeconds);

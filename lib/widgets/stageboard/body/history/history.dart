@@ -52,7 +52,7 @@ class BodyHistory extends StatelessWidget {
                 names: names,
                 havePartnerB: <String,bool?>{
                   for(final entry in gameState.players.entries)
-                    entry.key: entry.value!.havePartnerB,
+                    entry.key: entry.value.havePartnerB,
                 },
               ),
             ),

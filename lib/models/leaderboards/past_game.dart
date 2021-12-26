@@ -86,7 +86,7 @@ class PastGame{
     },
   };
 
-  factory PastGame.fromJson(dynamic json) => PastGame(
+  factory PastGame.fromJson(Map<String,dynamic> json) => PastGame(
     json["winner"],
     notes: json["notes"] ?? "",
     state: GameState.fromJson(json["state"]),

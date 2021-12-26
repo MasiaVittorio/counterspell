@@ -107,7 +107,7 @@ class CSGameAction {
         maxVal: maxValue,
         usingPartnerB: <String,bool?>{
           for(final entry in gameState.players.entries)
-            entry.key: entry.value!.usePartnerB,
+            entry.key: entry.value.usePartnerB,
         },
       );
     }

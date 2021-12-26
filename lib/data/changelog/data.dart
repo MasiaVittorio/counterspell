@@ -6,15 +6,15 @@ class ChangeLogData {
   static const int lastBigChange = 86;
 
   static const List<Version> list = <Version>[
-    Version("3.2.8", <Change>[
-      Change(
-        ChangeType.newFeature,
-        "", 
-        //TODO: document the update 
-        // (always leave this todo here to remind you to edit the changelog)
-        null,
-      ),
-    ],),
+    // Version("3.2.8", <Change>[
+    //   Change(
+    //     ChangeType.newFeature,
+    //     "", 
+    //     //TODO: document the update 
+    //     // (always leave this todo here to remind you to edit the changelog)
+    //     null,
+    //   ),
+    // ],),
     Version("3.2.7", <Change>[
       Change(
         ChangeType.change,

@@ -12,14 +12,14 @@ class BackupsAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _BackupsAlert(CSBloc.of(context));
+    return _BackupsAlert(CSBloc.of(context)!);
   }
 }
 
 
 class _BackupsAlert extends StatefulWidget {
 
-  final CSBloc? logic;
+  final CSBloc logic;
 
   _BackupsAlert(this.logic);
 
@@ -46,7 +46,7 @@ class _BackupsAlertState extends State<_BackupsAlert> {
   @override
   Widget build(BuildContext context) {
 
-    final CSBackupBloc backups = widget.logic!.backups;
+    final CSBackupBloc backups = widget.logic.backups;
 
     return backups.ready.build((context, ready){
 
@@ -80,10 +80,10 @@ class _BackupsAlertState extends State<_BackupsAlert> {
       final stage = Stage.of(context)!;
 
       return RadioHeaderedAlert<BackupType>(
-        initialValue: stage.panelController.alertController!.savedStates[
+        initialValue: stage.panelController.alertController.savedStates[
           "backups radio headered alert"
         ] ?? BackupType.pastGames,
-        onPageChanged: (p) => stage.panelController.alertController!.savedStates[
+        onPageChanged: (p) => stage.panelController.alertController.savedStates[
           "backups radio headered alert"
         ] = p,
         orderedValues: <BackupType>[BackupType.pastGames, BackupType.preferences],
@@ -287,22 +287,23 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
 
   bool waiting = false;
 
-  String get permissionString => (<PermissionStatus,String>{
+  String get permissionString => (<PermissionStatus?,String>{
     PermissionStatus.denied: "Denied",
     PermissionStatus.granted: "Granted",
     PermissionStatus.permanentlyDenied: "Permanently denied",
     PermissionStatus.restricted: "Restricted",
     PermissionStatus.limited: "Limited",
     // PermissionStatus.undetermined: "Not asked yet",
-  }[widget.status!]) ?? "Not checked yet";
+  }[widget.status]) ?? "Not checked yet";
 
-  IconData get permissionIcon => (<PermissionStatus,IconData>{
+  IconData get permissionIcon => (<PermissionStatus?,IconData>{
     PermissionStatus.denied: Icons.close,
     PermissionStatus.granted: Icons.check,
     PermissionStatus.permanentlyDenied: Icons.close,
     PermissionStatus.restricted: Icons.help_outline,
     PermissionStatus.limited: Icons.help_outline,
-  }[widget.status!]) ?? Icons.help_outline;
+    null: Icons.help_outline,
+  }[widget.status]) ?? Icons.help_outline;
 
   @override
   Widget build(BuildContext context) {

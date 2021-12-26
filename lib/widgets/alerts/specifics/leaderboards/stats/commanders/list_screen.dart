@@ -30,7 +30,7 @@ class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
   void initState() {
     super.initState();
     var saved = widget.stage!.panelController
-        .alertController!.savedStates[key];
+        .alertController.savedStates[key];
     controller = ScrollController(
       initialScrollOffset: ((saved is double) ? saved : null ) ?? 0.0,
     );
@@ -47,7 +47,7 @@ class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
     final bloc = CSBloc.of(context)!;
 
     return bloc.pastGames.commanderStats.build((_, map){
-      final list = [...map!.values]
+      final list = [...map.values]
         ..sort((one,two) => two.games.compareTo(one.games));
 
       return ListView.builder(
@@ -59,8 +59,7 @@ class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
             //commanderStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
             onSingleScreenCallback: (){
-              widget.stage!.panelController.alertController!
-                .savedStates[key] = controller!.offset;
+              widget.stage!.panelController.alertController.savedStates[key] = controller!.offset;
             },
           ),
         padding: const EdgeInsets.only(top: PanelTitle.height),

@@ -14,8 +14,7 @@ class AdvancedTutorial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedTutorial(
-      Stage.of(context)!.panelController.alertController!
-          .savedStates[stateKey],
+      Stage.of(context)!.panelController.alertController.savedStates[stateKey],
     );
   }
 

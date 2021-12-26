@@ -20,11 +20,11 @@ class Stats extends StatelessWidget {
       ) : null;
     final plFreq = stat.playersApplicable.isNotEmpty 
       ? stat.playersApplicable.entries.reduce(
-        (a,b) => (a.value/players![a.key]!.games) > (b.value/players[b.key]!.games)
+        (a,b) => (a.value/players[a.key]!.games) > (b.value/players[b.key]!.games)
           ? a : b,
       ) : null;
     final int? plFreqGames = plFreq != null 
-      ? players![plFreq.key]!.games : null;
+      ? players[plFreq.key]!.games : null;
     final double? plFreqValue = plFreq != null 
       ? plFreq.value / plFreqGames! : null;
 
@@ -33,17 +33,17 @@ class Stats extends StatelessWidget {
         (a, b) => a.value > b.value ? a : b,
       ) : null;
     final cmdrTotCard = cmdrTot != null 
-      ? cmdrs![cmdrTot.key!]?.card : null;
+      ? cmdrs[cmdrTot.key!]?.card : null;
 
     final cmdrFreq = stat.commandersApplicable.isNotEmpty 
       ? stat.commandersApplicable.entries.reduce(
-        (a, b) => (a.value/cmdrs![a.key!]!.games) > (b.value/cmdrs[b.key!]!.games)
+        (a, b) => (a.value/cmdrs[a.key!]!.games) > (b.value/cmdrs[b.key!]!.games)
           ? a : b,
       ) : null;
     final cmdrFreqCard = cmdrFreq != null 
-      ? cmdrs![cmdrFreq.key!]!.card : null;
+      ? cmdrs[cmdrFreq.key!]!.card : null;
     final int? cmdrFreqGames = cmdrFreq != null 
-      ? cmdrs![cmdrFreq.key!]!.games : null;
+      ? cmdrs[cmdrFreq.key!]!.games : null;
     final double? cmdrFreqValue = cmdrFreq != null 
       ? cmdrFreq.value / cmdrFreqGames! : null;
 

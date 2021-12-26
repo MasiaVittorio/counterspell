@@ -19,7 +19,7 @@ class CSScroller extends ScrollerLogic {
       && parent.settings!.appSettings.wantVibrate.value!,
 
     onConfirm: (_) => parent.game!.gameAction!.privateConfirm(
-      parent.stageBloc!.controller!.mainPagesController.currentPage
+      parent.stageBloc!.controller.mainPagesController.currentPage
     ),
     resetAfterConfirm: false,
 

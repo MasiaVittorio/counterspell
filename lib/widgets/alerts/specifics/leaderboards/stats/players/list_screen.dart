@@ -31,7 +31,7 @@ class _PlayersStatsListsState extends State<_PlayersStatsLists> {
   void initState() {
     super.initState();
     var saved = widget.stage!.panelController
-        .alertController!.savedStates[key];
+        .alertController.savedStates[key];
     controller = ScrollController(
       initialScrollOffset: ((saved is double) ? saved : null ) ?? 0.0,
     );
@@ -48,7 +48,7 @@ class _PlayersStatsListsState extends State<_PlayersStatsLists> {
     final bloc = CSBloc.of(context)!;
 
     return bloc.pastGames.playerStats.build((_, map){
-      final list = [...map!.values]
+      final list = [...map.values]
         ..sort((one,two) => two.games.compareTo(one.games));
       return ListView.builder(
         controller: controller,
@@ -59,8 +59,7 @@ class _PlayersStatsListsState extends State<_PlayersStatsLists> {
             //playerStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
             onSingleScreenCallback: (){
-              widget.stage!.panelController.alertController!
-                .savedStates[key] = controller!.offset;
+              widget.stage!.panelController.alertController.savedStates[key] = controller!.offset;
             },
           ),
         padding: const EdgeInsets.only(top: PanelTitle.height),

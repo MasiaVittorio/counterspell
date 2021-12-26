@@ -20,7 +20,7 @@ class _PlayersState extends State<Players> {
     final stat = widget.stat;
     final bool absolute = absoluteIndex == 1;
     final mapTotals = <String,int>{
-      for(final e in logic.pastGames.playerStats.value!.entries)
+      for(final e in logic.pastGames.playerStats.value.entries)
         e.key: e.value.games,
     };
     final list = [...stat.playersApplicable.entries]

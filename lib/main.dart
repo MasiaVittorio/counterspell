@@ -93,7 +93,7 @@ class _CounterSpellState extends State<CounterSpell> {
   Widget build(context) {
     return BlocProvider<CSBloc>(
       bloc: bloc,
-      child: StageProvider<CSPage?, SettingsPage?>(
+      child: StageProvider<CSPage, SettingsPage>(
         data: bloc.stageBloc!.controller,
         child: const _MaterialApp(),
       ),

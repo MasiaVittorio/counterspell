@@ -132,8 +132,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
                       logic.show.edit((map) {
                         map[color] = v;
                       });
-                      Stage.of(context)!.panelController.alertController!
-                        .recalcAlertSize(calcSize([
+                      Stage.of(context)!.panelController.alertController.recalcAlertSize(calcSize([
                           for(final c in Clr.values)
                             if(show[c]!) c,
                         ].length));

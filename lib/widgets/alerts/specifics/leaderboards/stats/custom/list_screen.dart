@@ -30,7 +30,7 @@ class _CustomStatsListState extends State<_CustomStatsList> {
   void initState() {
     super.initState();
     var saved = widget.stage!.panelController
-        .alertController!.savedStates[key];
+        .alertController.savedStates[key];
     controller = ScrollController(
       initialScrollOffset: ((saved is double) ? saved : null ) ?? 0.0,
     );
@@ -59,8 +59,7 @@ class _CustomStatsListState extends State<_CustomStatsList> {
             //commanderStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
             onSingleScreenCallback: (){
-              widget.stage!.panelController.alertController!
-                .savedStates[key] = controller!.offset;
+              widget.stage!.panelController.alertController.savedStates[key] = controller!.offset;
             },
           ),
         padding: const EdgeInsets.only(top: PanelTitle.height),

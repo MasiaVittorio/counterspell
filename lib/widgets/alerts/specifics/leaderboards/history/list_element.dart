@@ -52,7 +52,7 @@ class PastGameTile extends StatelessWidget {
                         forceTextColor: commanders.isNotEmpty ? Colors.white : null,
                         subText: commanders.isNotEmpty 
                           ? safeSubString(
-                            untilSpaceOrComma(commanders.first!.name!),
+                            untilSpaceOrComma(commanders.first!.name),
                             8,
                           )
                           : null,

@@ -103,7 +103,7 @@ class _ImageSearchState extends State<ImageSearch> {
     final List<MtgCard> matches = <MtgCard>[];
 
     for(final cached in widget.searchableCache){
-      if(cached.name!.toLowerCase().contains(controller!.text.toLowerCase())){
+      if(cached.name.toLowerCase().contains(controller!.text.toLowerCase())){
         matches.add(cached);
       }
     }
@@ -261,7 +261,7 @@ class CardTile extends StatelessWidget {
       );
     };
     return ListTile(
-      title: Text(card.name!,
+      title: Text(card.name,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

@@ -19,7 +19,7 @@ class CacheCards extends StatelessWidget {
         }
       }
       final List<MtgCard> cards = <MtgCard>[...cardsSet]
-        ..sort((a,b) => a.name!.compareTo(b.name!));
+        ..sort((a,b) => a.name.compareTo(b.name));
 
       return ListView.builder(
         padding: const EdgeInsets.only(top: PanelTitle.height),

@@ -130,7 +130,7 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                       alignment: Alignment.center,
                       padding: const EdgeInsets.all(8.0),
                       child: Text(c == null ? "-" : safeSubString(
-                        untilSpaceOrComma(c.name!),
+                        untilSpaceOrComma(c.name),
                         8,
                       )),
                       decoration: c != null ? BoxDecoration(

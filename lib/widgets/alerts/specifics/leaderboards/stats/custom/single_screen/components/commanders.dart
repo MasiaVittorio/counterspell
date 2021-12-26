@@ -80,7 +80,7 @@ class _Commander extends StatelessWidget {
   Widget build(BuildContext context) {
     return SubSection([
       ListTile(
-        title: Text(card.name!),
+        title: Text(card.name),
         leading: Icon(CSIcons.damageOutlined),
         subtitle: Text("${InfoDisplayer.getString(100 * appearances/games)}% of $games games"),
         trailing: Text("$appearances"),

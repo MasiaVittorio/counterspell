@@ -18,26 +18,26 @@ class GameHistoryData{
   ) {
     final allNext = {
       for(final eEntry in gameState.players.entries)
-        eEntry.key : eEntry.value!.states[next],
+        eEntry.key : eEntry.value.states[next],
     };
     final allPrevs = {
       for(final eEntry in gameState.players.entries)
-        eEntry.key : eEntry.value!.states[previous],
+        eEntry.key : eEntry.value.states[previous],
     };
     return GameHistoryData(
-      gameState.players.values.first!.states[next].time,
+      gameState.players.values.first.states[next].time,
       {
         for(final entry in gameState.players.entries)
           entry.key : PlayerHistoryChange.changesFromStates(
             playerName: entry.key,
             nextOthers: allNext,
             previousOthers: allPrevs,
-            previous: entry.value!.states[previous],
-            next: entry.value!.states[next],
+            previous: entry.value.states[previous],
+            next: entry.value.states[next],
             types: types,
             havingPartnerB: <String,bool?>{
               for(final entry in gameState.players.entries)
-                entry.key: entry.value!.havePartnerB,
+                entry.key: entry.value.havePartnerB,
             },
             counterMap: counterMap,
           ),

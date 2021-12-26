@@ -43,7 +43,7 @@ class PastGameTile extends StatelessWidget {
                 child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   for(final player in game!.state.players.values)
                     (){
-                      final name = player!.name;
+                      final name = player.name;
                       final commanders = game!.commandersPlayedBy(name);
                       return SidChip(
                         color: theme.colorScheme.secondary,

@@ -162,7 +162,7 @@ class MtgCard {
 
   String? scryfallUri; ///A link to this card’s permapage on Scryfall’s website.
 
-  Layout layout; ///A code for this card’s layout.
+  String layout; ///A code for this card’s layout.
 
   bool? highresImage; ///True if this card’s imagery is high resolution.
 
@@ -359,7 +359,7 @@ class MtgCard {
     releasedAt: json["released_at"],
     uri: json["uri"],
     scryfallUri: json["scryfall_uri"],
-    layout: layoutValues.map[json["layout"]]!,
+    layout: json["layout"] ?? "",
     highresImage: json["highres_image"],
     imageUris: json["image_uris"] == null ? null : ImageUris.fromJson(json["image_uris"]),
     manaCost: json["mana_cost"] == null ? null : json["mana_cost"],
@@ -426,7 +426,7 @@ class MtgCard {
     "released_at": releasedAt,
     "uri": uri,
     "scryfall_uri": scryfallUri,
-    "layout": layoutValues.reverse[layout],
+    "layout": layout,
     "highres_image": highresImage,
     "image_uris": imageUris?.toJson(),
     "mana_cost": manaCost == null ? null : manaCost,
@@ -830,26 +830,6 @@ final gameValues = EnumValues({
     "paper": Game.PAPER
 });
 
-enum Layout { NORMAL, TOKEN, SCHEME, DOUBLE_FACED_TOKEN, VANGUARD, TRANSFORM, EMBLEM, SPLIT, AUGMENT, PLANAR, HOST, LEVELER, MELD, SAGA, FLIP }
-
-final layoutValues = EnumValues({
-    "augment": Layout.AUGMENT,
-    "double_faced_token": Layout.DOUBLE_FACED_TOKEN,
-    "emblem": Layout.EMBLEM,
-    "flip": Layout.FLIP,
-    "host": Layout.HOST,
-    "leveler": Layout.LEVELER,
-    "meld": Layout.MELD,
-    "normal": Layout.NORMAL,
-    "planar": Layout.PLANAR,
-    "saga": Layout.SAGA,
-    "scheme": Layout.SCHEME,
-    "split": Layout.SPLIT,
-    "token": Layout.TOKEN,
-    "transform": Layout.TRANSFORM,
-    "vanguard": Layout.VANGUARD
-});
-
 enum CardObject { CARD }
 
 final dbObjectValues = EnumValues({
@@ -895,7 +875,7 @@ class RelatedUris {
 
 class EnumValues<T> {
   Map<String, T> map;
-  late Map<T, String>? _reverseMap;
+  Map<T, String>? _reverseMap;
 
   EnumValues(this.map);
 

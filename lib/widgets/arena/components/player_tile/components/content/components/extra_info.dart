@@ -35,7 +35,7 @@ class AptInfo extends StatelessWidget {
           pageColors: pageColors,
           havingPartnerB: <String,bool?>{
             for(final entry in this.gameState!.players.entries)
-              entry.key: entry.value!.havePartnerB,
+              entry.key: entry.value.havePartnerB,
           },
           defenceColor: defenceColor,
           types: DamageTypes.fromPages(enabledPages),

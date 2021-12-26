@@ -84,7 +84,7 @@ class CSGameHistory {
         avoidInteraction: true,
         names: parent.gameGroup!.names.value,
         havePartnerB: <String,bool?>{for(final entry in parent.gameState!.gameState.value.players.entries)
-          entry.key: entry.value!.havePartnerB,
+          entry.key: entry.value.havePartnerB,
         },
       )
     ),

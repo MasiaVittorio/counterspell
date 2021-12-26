@@ -45,7 +45,7 @@ abstract class GameAction{
     );
 
     for(final entry in state.players.entries){
-      entry.value!.applyAction(
+      entry.value.applyAction(
         _actions[entry.key]!
       );
     }

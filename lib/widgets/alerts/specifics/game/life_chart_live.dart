@@ -26,13 +26,13 @@ class _LifeChartLive extends StatefulWidget {
     gameDuration = gameState.lastTime.difference(gameState.firstTime).abs(),
     gameLenght = gameState.historyLenght,
     names = gameState.names.toList()..sort(),
-    times = <Duration>[for(final state in gameState.players.values.first!.states) 
-      state.time.difference(gameState.players.values.first!.states.first.time),
+    times = <Duration>[for(final state in gameState.players.values.first.states) 
+      state.time.difference(gameState.players.values.first.states.first.time),
     ],
     maxValue = ((){
-      int? max = gameState.players.values.first?.states.first.life ?? 0;
+      int? max = gameState.players.values.first.states.first.life;
       for(final player in gameState.players.values){
-        for(final state in player!.states){
+        for(final state in player.states){
           if(max! < state.life)
             max = state.life;
           final int taken = state.totalDamageTaken;
@@ -46,12 +46,12 @@ class _LifeChartLive extends StatefulWidget {
       return max!.toDouble();
     })(),
     showDamage = gameState.players.values.any(
-      (player) => player!.states.any(
+      (player) => player.states.any(
         (state) => state.totalDamageTaken != 0,
       ),
     ),
     showCasts = gameState.players.values.any(
-      (player) => player!.states.any(
+      (player) => player.states.any(
         (state) => state.totalCasts != 0,
       ),
     );

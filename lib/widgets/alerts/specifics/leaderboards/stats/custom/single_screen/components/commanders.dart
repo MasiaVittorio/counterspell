@@ -20,7 +20,7 @@ class _CommandersState extends State<Commanders> {
     final stat = widget.stat;
     final bool absolute = absoluteIndex == 1;
     final mapStats = {
-      for(final e in logic.pastGames.commanderStats.value!.entries)
+      for(final e in logic.pastGames.commanderStats.value.entries)
         e.key: e.value,
     };
     final list = [...stat.commandersApplicable.entries]

@@ -370,7 +370,7 @@ class MtgCard {
     colorIdentity: List<MtgColor>.from(json["color_identity"].map((x) => colorValues.map[x])),
     legalities: <String,String>{
       for(final entry in ((json["legalities"] ?? <String,String>{}) as Map).entries)
-        entry.key as String: entry.value as String, 
+        (entry.key as String?) ?? '': (entry.value as String?) ?? '', 
     },
     games: List<Game>.from(json["games"].map((x) => gameValues.map[x])),
     reserved: json["reserved"],

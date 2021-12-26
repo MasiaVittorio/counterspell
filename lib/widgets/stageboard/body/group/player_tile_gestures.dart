@@ -4,7 +4,7 @@ import 'package:counter_spell_new/core.dart';
 class PlayerGestures{
 
   static void _returnToLife(CSBloc bloc){
-    final stage = bloc.stageBloc!.controller!;
+    final stage = bloc.stageBloc!.controller;
     if(stage.mainPagesController.goToPage(CSPage.life)){
       bloc.scroller!.ignoringThisPan = true;
     }

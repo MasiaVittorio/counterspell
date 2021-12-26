@@ -25,8 +25,8 @@ class PlayerDetails extends StatelessWidget {
 
     return groupBloc.names.build((_, names) 
       => RadioHeaderedAlert<PlayerDetailsPage>(
-        initialValue: stage!.panelController.alertController!.savedStates[pageKey] ?? PlayerDetailsPage.info,
-        onPageChanged: (p) => stage.panelController.alertController!.savedStates[pageKey] = p,
+        initialValue: stage!.panelController.alertController.savedStates[pageKey] ?? PlayerDetailsPage.info,
+        onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
         orderedValues: PlayerDetailsPage.values,
         items: <PlayerDetailsPage,RadioHeaderedItem>{
           PlayerDetailsPage.info: RadioHeaderedItem(

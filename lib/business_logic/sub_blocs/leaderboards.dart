@@ -16,8 +16,8 @@ class CSPastGames {
   // Values 
   final CSBloc parent; 
   final BlocBox<PastGame> pastGames;
-  late BlocVar<Map<String,CommanderStats>?> commanderStats;
-  late BlocVar<Map<String,PlayerStats>?> playerStats;
+  late BlocVar<Map<String,CommanderStats>> commanderStats;
+  late BlocVar<Map<String,PlayerStats>> playerStats;
   final PersistentVar<Set<String>> customStatTitles;
   late BlocVar<Map<String,CustomStat>> customStats;
 
@@ -35,15 +35,15 @@ class CSPastGames {
       fromJson: (j) => <String>{...(j as List) as Iterable<String>},
     ){
       this.commanderStats = BlocVar.fromCorrelate
-        <Map<String?,CommanderStats>, List<PastGame?>>
+        <Map<String,CommanderStats>, List<PastGame?>>
       (
         from: pastGames, 
-        map: (List<PastGame?> pastGames) => <String?,CommanderStats>{
+        map: (List<PastGame?> pastGames) => <String,CommanderStats>{
           for(final card in cards(pastGames)) 
             card.oracleId: CommanderStats.fromPastGames(card, pastGames),
           /// oracle Id because we want to just use one print of a commander
         },
-      ) as BlocVar<Map<String, CommanderStats>?>;
+      ) as BlocVar<Map<String,CommanderStats>>;
       this.playerStats = BlocVar.fromCorrelate
         <Map<String,PlayerStats>, List<PastGame?>>
       (
@@ -52,7 +52,7 @@ class CSPastGames {
           for(final name in names(pastGames))
             name: PlayerStats.fromPastGames(name, pastGames),
         },
-      ) as BlocVar<Map<String, PlayerStats>?>;
+      ) as BlocVar<Map<String, PlayerStats>>;
       this.customStats = BlocVar.fromCorrelateLatest2
         <Map<String,CustomStat>, List<PastGame?>, Set<String>>
       (pastGames, customStatTitles, map: (pastGames, titles) => <String,CustomStat>{
@@ -109,8 +109,9 @@ class CSPastGames {
 
     final Map<String?,MtgCard> map = <String?,MtgCard>{
       for(final PastGame? pastGame in pastGames)
+        if(pastGame != null)
         for(final commander in <MtgCard?>[
-          ...pastGame!.commandersA.values,
+          ...pastGame.commandersA.values,
           ...pastGame.commandersB.values,
         ])
           if(commander != null) 

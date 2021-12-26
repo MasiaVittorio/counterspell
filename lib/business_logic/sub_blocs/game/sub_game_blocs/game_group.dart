@@ -141,22 +141,16 @@ class CSGameGroup {
         arenaNameOrder.value[arenaNameOrder.value.length] = name;
       }
     }
-    final List<String?> current = <String?>[
+    final List<String> current = <String>[
       for(int i=0; i<arenaNameOrder.value.length; ++i)
-        arenaNameOrder.value[i],
+        if(newNames.contains(arenaNameOrder.value[i]))
+          arenaNameOrder.value[i]!,
     ];
-    final List<String?> toBeRemoved= <String?>[];
-    for(final name in current){
-      if(!newNames.contains(name))
-        toBeRemoved.add(name);
-    }
-    for(final name in toBeRemoved){
-      current.remove(name);        
-    }
-    arenaNameOrder.set(<int,String?>{
+    // ignore: unnecessary_cast
+    arenaNameOrder.set(<int,String>{
       for(int i=0; i<current.length; ++i)
-        i:current[i],
-    });
+        i: current[i],
+    } as Map<int,String?>);
     names.refreshDistinct();
   }
 

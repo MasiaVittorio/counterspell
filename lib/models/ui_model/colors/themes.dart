@@ -6,7 +6,7 @@ class CSColorScheme{
   final String? name;
   final Color primary;
   final Color accent;
-  final Map<CSPage?,Color?> perPage;
+  final Map<CSPage,Color?> perPage;
   final bool? light;
   final DarkStyle? darkStyle;
   final Color defenceColor;
@@ -48,9 +48,9 @@ class CSColorScheme{
     "name": this.name,
     "primary": this.primary.value,
     "accent": this.accent.value,
-    "perPage": <String?,int>{
+    "perPage": <String,int?>{
       for(final entry in this.perPage.entries) 
-        CSPages.nameOf(entry.key) : entry.value!.value,
+        CSPages.nameOf(entry.key)! : entry.value?.value,
     },
     "light": this.light,
     "darkStyle": this.darkStyle.name,
@@ -62,9 +62,10 @@ class CSColorScheme{
     json["name"],
     primary: Color(json["primary"]),
     accent: Color(json["accent"]),
-    perPage: <CSPage?,Color>{
+    perPage: <CSPage,Color>{
       for(final entry in (json["perPage"] as Map).entries) 
-        CSPages.fromName(entry.key as String): Color(entry.value as int),
+        CSPages.fromName(entry.key as String)!
+          : Color((entry.value ?? 0) as int),
     },
     light: json["light"],
     darkStyle: DarkStyles.fromName(json["darkStyle"]),

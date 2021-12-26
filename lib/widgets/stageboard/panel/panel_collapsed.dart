@@ -99,14 +99,14 @@ class CSPanelCollapsed extends StatelessWidget {
           final Widget row = Row(children: <Widget>[
             currentPage == CSPage.history
               ? _PanelButton(
-                  true,
-                  Icons.timeline,
-                  () => stage.showAlert(
-                    const AnimatedLifeChart(),
-                    size: AnimatedLifeChart.height,
-                  ),
-                  1.0,
-                )
+                true,
+                Icons.timeline,
+                () => stage.showAlert(
+                  const AnimatedLifeChart(),
+                  size: AnimatedLifeChart.height,
+                ),
+                1.0,
+              )
               : arenaDisplayer,
             const Spacer(),
             backButton,

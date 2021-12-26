@@ -31,7 +31,7 @@ class _PastGamesListState extends State<_PastGamesList> {
   void initState() {
     super.initState();
     var saved = widget.stage!.panelController
-        .alertController!.savedStates[key];
+        .alertController.savedStates[key];
     controller = ScrollController(
       initialScrollOffset: ((saved is double) ? saved : null ) ?? 0.0,
     );
@@ -59,8 +59,7 @@ class _PastGamesListState extends State<_PastGamesList> {
             pastGames[gameIndex], 
             gameIndex,
             onSingleScreenCallback: (){
-              widget.stage!.panelController.alertController!
-                .savedStates[key] = controller!.offset;
+              widget.stage!.panelController.alertController.savedStates[key] = controller!.offset;
             },
           );
         },

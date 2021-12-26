@@ -41,34 +41,35 @@ class CommanderStats {
     int totalCasts = 0;
 
     for(final game in pastGames){
-      if(game!.winner != null && game.commanderPlayed(card)){
-        ++present;
-        if(game.commanderPlayedBy(card, game.winner)){
-          ++winner;
-        }
+      if(game != null){
+        if(game.winner != null && game.commanderPlayed(card)){
+          ++present;
+          if(game.commanderPlayedBy(card, game.winner)){
+            ++winner;
+          }
 
-        final Set<String> pilots = game.whoPlayedCommander(card);
+          final Set<String> pilots = game.whoPlayedCommander(card);
 
-        //average from pilots of the same commander this single same game
-        double averageDamageThisGame = 0.0; 
-        for(final pilot in pilots){
-          ///could have partnerA null and partnerB not null
-          final bool partnerA = game.commandersA[pilot]?.oracleId == card.oracleId;
-          averageDamageThisGame += game.state.totalDamageDealtFrom(pilot, partnerA: partnerA);
-        }
-        averageDamageThisGame = averageDamageThisGame / pilots.length;
-        totalDamage += averageDamageThisGame.round();
+          //average from pilots of the same commander this single same game
+          double averageDamageThisGame = 0.0; 
+          for(final pilot in pilots){
+            ///could have partnerA null and partnerB not null
+            final bool partnerA = game.commandersA[pilot]?.oracleId == card.oracleId;
+            averageDamageThisGame += game.state.totalDamageDealtFrom(pilot, partnerA: partnerA);
+          }
+          averageDamageThisGame = averageDamageThisGame / pilots.length;
+          totalDamage += averageDamageThisGame.round();
 
-        double averageCastsThisGame = 0.0; 
-        for(final pilot in pilots){
-          ///could have partnerA null and partnerB not null
-          final bool partnerA = game.commandersA[pilot]?.oracleId == card.oracleId;
-          averageCastsThisGame += game.state.players[pilot]!.states.last.cast.fromPartner(partnerA);
+          double averageCastsThisGame = 0.0; 
+          for(final pilot in pilots){
+            ///could have partnerA null and partnerB not null
+            final bool partnerA = game.commandersA[pilot]?.oracleId == card.oracleId;
+            averageCastsThisGame += game.state.players[pilot]!.states.last.cast.fromPartner(partnerA);
+          }
+          averageCastsThisGame = averageCastsThisGame / pilots.length;
+          totalCasts += averageCastsThisGame.round();
         }
-        averageCastsThisGame = averageCastsThisGame / pilots.length;
-        totalCasts += averageCastsThisGame.round();
       }
-
     }
 
     return CommanderStats(card,

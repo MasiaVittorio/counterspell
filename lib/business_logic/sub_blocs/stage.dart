@@ -5,15 +5,15 @@ class CSStage {
 
 
   void dispose(){
-    controller!.dispose();
+    controller.dispose();
   }
 
-  StageData<CSPage?,SettingsPage?>? controller;
+  late StageData<CSPage,SettingsPage> controller;
   final CSBloc parent;
 
   /// Needs the parent to have scroller initialized
   CSStage(this.parent){
-    controller = StageData<CSPage?,SettingsPage?>(
+    controller = StageData<CSPage,SettingsPage>(
       storeKey: "MvSidereus_CounterSpell_Stage",
       panelData: StagePanelData(
         onPanelOpen: (){
@@ -41,7 +41,7 @@ class CSStage {
     
       // closed pages
       mainPageToJson: (page) => CSPages.nameOf(page),
-      jsonToMainPage: (json) => CSPages.fromName(json as String?),
+      jsonToMainPage: (json) => CSPages.fromName(json as String)!,
       initialMainPagesData: StagePagesData.nullable(
         defaultPage: CSPage.life,
         pagesData: <CSPage,StagePage>{
@@ -54,10 +54,10 @@ class CSStage {
             ),
         },
         orderedPages: CSPage.values.toList(),
-      ).complete as StagePagesData<CSPage?>,
+      ).complete,
       onMainPageChanged: (_) => parent.scroller!.cancel(true),
 
-      jsonToPanelPage: (json) => SettingsPages.fromName(json as String?),
+      jsonToPanelPage: (json) => SettingsPages.fromName(json as String)!,
       panelPageToJson: (page) => SettingsPages.nameOf(page),
       initialPanelPagesData: StagePagesData.nullable(
         defaultPage: SettingsPage.game,
@@ -68,7 +68,7 @@ class CSStage {
           SettingsPage.theme,
           SettingsPage.info,
         ],
-      ).complete as StagePagesData<SettingsPage?>?,
+      ).complete,
 
       initialThemeData: StageThemeData.nullable(
         forceSystemNavBarStyle: true,
@@ -82,7 +82,7 @@ class CSStage {
           darkStyle: DarkStyle.nightBlue,
         ),
         colorPlace: StageColorPlace.background,
-        backgroundColors: StageColorsData<CSPage?,SettingsPage>.nullable(
+        backgroundColors: StageColorsData<CSPage,SettingsPage>.nullable(
           lightAccent: CSColorScheme.defaultLight.accent,
           darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},
 
@@ -94,7 +94,7 @@ class CSStage {
           lightPanelPrimary: CSColorScheme.defaultLight.primary,
           darkPanelPrimaries: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.primary},
         ),
-        textsColors: StageColorsData<CSPage?,SettingsPage>.nullable(
+        textsColors: StageColorsData<CSPage,SettingsPage>.nullable(
           lightAccent: CSColorScheme.defaultGoogleLight.accent,
           darkAccents: {for(final e in CSColorScheme.darkSchemesGoogle.entries) e.key: e.value.accent},
 

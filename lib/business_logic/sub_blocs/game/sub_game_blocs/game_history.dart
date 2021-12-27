@@ -24,7 +24,7 @@ class CSGameHistory {
     listController = SidAnimatedListController()
   {
     /// [CSGameGroup] Must be initialized after [CSGameState]
-    stateSubscription = parent.gameState!.gameState.behavior.listen(
+    stateSubscription = parent.gameState.gameState.behavior.listen(
       (state){
         final int newLen = state.historyLenght;
         final newData = [
@@ -36,7 +36,7 @@ class CSGameHistory {
                   for(final p in CSPage.values) p: true,
                 }
               ),
-              counterMap: parent.gameAction!.currentCounterMap,
+              counterMap: parent.gameAction.currentCounterMap,
             ),
           GameHistoryNull(state, newLen - 1),
         ];
@@ -77,13 +77,13 @@ class CSGameHistory {
         outgoingData,
         firstTime: firstTime,
         index: index-1,
-        counters: parent.gameAction!.currentCounterMap,
+        counters: parent.gameAction.currentCounterMap,
         tileSize: null,
         defenceColor: parent.parent.themer!.defenceColor.value,
         pageColors: parent.parent.stageBloc!.controller.themeController.derived.mainPageToPrimaryColor!.value,
         avoidInteraction: true,
-        names: parent.gameGroup!.names.value,
-        havePartnerB: <String,bool?>{for(final entry in parent.gameState!.gameState.value.players.entries)
+        names: parent.gameGroup.names.value,
+        havePartnerB: <String,bool?>{for(final entry in parent.gameState.gameState.value.players.entries)
           entry.key: entry.value.havePartnerB,
         },
       )

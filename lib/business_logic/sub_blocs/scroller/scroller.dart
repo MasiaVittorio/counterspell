@@ -18,17 +18,17 @@ class CSScroller extends ScrollerLogic {
     okVibrate: () => parent.settings!.appSettings.canVibrate! 
       && parent.settings!.appSettings.wantVibrate.value!,
 
-    onConfirm: (_) => parent.game!.gameAction!.privateConfirm(
+    onConfirm: (_) => parent.game!.gameAction.privateConfirm(
       parent.stageBloc!.controller.mainPagesController.currentPage
     ),
     resetAfterConfirm: false,
 
     onCancel: (completed, alsoAttacker){
       if(!completed){
-        parent.game!.gameAction!.clearSelection(true);
+        parent.game!.gameAction.clearSelection(true);
       } else {
         if(alsoAttacker) 
-          parent.game!.gameAction!.attackingPlayer.set("");
+          parent.game!.gameAction.attackingPlayer.set("");
       }
     },
   );
@@ -41,9 +41,9 @@ class CSScroller extends ScrollerLogic {
       cancel = true;
     } else if (this.intValue.value != 0) {
       cancel = true;
-    } else if (parent.game!.gameAction!.isSomeoneSelected) {
+    } else if (parent.game!.gameAction.isSomeoneSelected) {
       cancel = true;
-    } else if (alsoAttacker && parent.game!.gameAction!.attackingPlayer.value != "") {
+    } else if (alsoAttacker && parent.game!.gameAction.attackingPlayer.value != "") {
       cancel = true;
     }
 

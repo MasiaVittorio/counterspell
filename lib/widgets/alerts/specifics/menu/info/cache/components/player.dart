@@ -14,7 +14,7 @@ class CachePlayer extends StatelessWidget {
 
     return HeaderedAlert(player, 
       alreadyScrollableChild: true,
-      child: bloc.game!.gameGroup!.savedCards.build((_, map) {
+      child: bloc.game!.gameGroup.savedCards.build((_, map) {
         final List<MtgCard> cards = <MtgCard>[...map[this.player]!];
 
         return ListView.builder(
@@ -34,8 +34,8 @@ class CachePlayer extends StatelessWidget {
                     confirmColor: CSColors.delete,
                     confirmIcon: Icons.delete_forever,
                     action: (){
-                      bloc.game!.gameGroup!.savedCards.value[this.player]!.removeWhere((c) => c.id == card.id);
-                      bloc.game!.gameGroup!.savedCards.refresh(key: this.player);
+                      bloc.game!.gameGroup.savedCards.value[this.player]!.removeWhere((c) => c.id == card.id);
+                      bloc.game!.gameGroup.savedCards.refresh(key: this.player);
                     },
                   ),
                   size: ConfirmAlert.twoLinesheight,

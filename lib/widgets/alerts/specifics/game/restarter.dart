@@ -8,7 +8,7 @@ class RestarterAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
     return ConfirmAlert(
-      action: () => bloc!.game!.gameState!.restart(from),
+      action: () => bloc!.game!.gameState.restart(from),
       warningText: "This action cannot be undone.",
       confirmText: "Restart the game",
       confirmIcon: McIcons.restart,

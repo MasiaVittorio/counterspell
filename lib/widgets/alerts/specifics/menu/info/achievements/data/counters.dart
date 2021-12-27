@@ -68,7 +68,7 @@ class _Collapsed extends StatelessWidget {
     final logic = CSBloc.of(context);
 
     return StageBuild.offMainPage((_, dynamic page) 
-      => logic!.game!.gameAction!.counterSet.build((context, counter) 
+      => logic!.game!.gameAction.counterSet.build((context, counter) 
         => Row(children: <Widget>[
           Expanded(child: Center(child: AnimatedText(
             page == CSPage.counters

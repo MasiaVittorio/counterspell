@@ -297,7 +297,7 @@ class CSBackupBloc {
     final app = settings.appSettings;
     final scroll = settings.scrollSettings;
     final game = parent.game!;
-    final group = game.gameGroup!;
+    final group = game.gameGroup;
     final themer = parent.themer!;
 
     await newFile.writeAsString(jsonEncode(<String,dynamic>{
@@ -389,7 +389,7 @@ class CSBackupBloc {
         final app = settings.appSettings;
         final scroll = settings.scrollSettings;
         final game = parent.game!;
-        final group = game.gameGroup!;
+        final group = game.gameGroup;
         final themer = parent.themer!;
 
         {final blocVar = themer.savedSchemes;

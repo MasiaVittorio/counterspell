@@ -193,7 +193,7 @@ class AptGestures extends StatelessWidget {
       page == CSPage.commanderDamage 
       && !(whoIsAttacking == name && havingPartnerB!)
     ){
-      bloc!.game!.gameAction!.clearSelection();
+      bloc!.game!.gameAction.clearSelection();
       stage!.mainPagesController.goToPage(CSPage.life);
     } else {
       PlayerGestures.tap(
@@ -217,8 +217,8 @@ class AptGestures extends StatelessWidget {
       stage!.mainPagesController.goToPage(CSPage.life);
     } else {
       stage!.mainPagesController.goToPage(CSPage.commanderDamage);
-      bloc!.game!.gameAction!.attackingPlayer.set(this.name);
-      bloc!.game!.gameAction!.defendingPlayer.set("");
+      bloc!.game!.gameAction.attackingPlayer.set(this.name);
+      bloc!.game!.gameAction.defendingPlayer.set("");
     } 
   }
 
@@ -307,8 +307,8 @@ class AptCmdrDmg extends StatelessWidget {
         switch (mode) {
           case _CmdrMode.outOfCommanderDamage:
             bloc!.stage!.mainPagesController.goToPage(CSPage.commanderDamage);
-            bloc!.game!.gameAction!.attackingPlayer.set(this.name);
-            bloc!.game!.gameAction!.defendingPlayer.set("");
+            bloc!.game!.gameAction.attackingPlayer.set(this.name);
+            bloc!.game!.gameAction.defendingPlayer.set("");
             break;
           default:
             bloc!.stage!.mainPagesController.goToPage(CSPage.life);
@@ -317,8 +317,8 @@ class AptCmdrDmg extends StatelessWidget {
       onLongPress: mode == _CmdrMode.isAttacking && hasPartnerB!
         ? (){
           //toggling used partners
-          bloc!.game!.gameState!.gameState.value.players[name]!.usePartnerB = !usePartnerB!;
-          bloc!.game!.gameState!.gameState.refresh();
+          bloc!.game!.gameState.gameState.value.players[name]!.usePartnerB = !usePartnerB!;
+          bloc!.game!.gameState.gameState.refresh();
         }
         : null,
       child: Container(

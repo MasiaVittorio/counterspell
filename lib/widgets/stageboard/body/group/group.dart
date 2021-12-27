@@ -39,11 +39,11 @@ class BodyGroup extends StatelessWidget {
     // Also, finishing a scroll on the panel makes some of these rebuild lol, wtf
     return bloc.scroller!.isScrolling.build((_, isScrolling) 
       => bloc.scroller!.intValue.build((_, increment) 
-      => actionBloc!.selected.build((_, selected) 
+      => actionBloc.selected.build((_, selected) 
       => actionBloc.attackingPlayer.build((_, attackingPlayer) 
       => actionBloc.defendingPlayer.build((_, defendingPlayer) 
       => actionBloc.counterSet.build((_, counter) 
-      => bloc.game!.gameState!.gameState.build((_, gameState) {
+      => bloc.game!.gameState.gameState.build((_, gameState) {
 
         final normalizedPlayerActions = CSGameAction.normalizedAction(
           pageValue: currentPage,

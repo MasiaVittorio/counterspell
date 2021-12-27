@@ -52,12 +52,12 @@ class CSGameAction {
     //every time the ordered list of names changes
 
     /// [CSGameAction] Must be initialized after [CSGameGroup]
-    newNamesSub = this.parent.gameGroup!.names.behavior
+    newNamesSub = this.parent.gameGroup.names.behavior
       .map<String>((names) => names.toString())
       .distinct()
       .listen((s){
         this.selected.set({
-          for(final name in this.parent.gameGroup!.names.value)
+          for(final name in this.parent.gameGroup.names.value)
             name: false,
         });
       }); 
@@ -166,7 +166,7 @@ class CSGameAction {
     scrollerValue: parent.parent.scroller!.intValue.value,
     pageValue: page,
     selectedValue: selected.value,
-    gameState: parent.gameState!.gameState.value,
+    gameState: parent.gameState.gameState.value,
     minValue: parent.parent.settings!.gameSettings.minValue.value,
     maxValue: parent.parent.settings!.gameSettings.maxValue.value,
     attacker: this.attackingPlayer.value,
@@ -209,7 +209,7 @@ class CSGameAction {
   // -> if you want to trigger this, just call scroller.forceComplete()
   void privateConfirm(CSPage? page){
     final GameAction action = this.currentNormalizedAction(page);
-    this.parent.gameState!.applyAction(action);
+    this.parent.gameState.applyAction(action);
     this.clearSelection(false);
     this.parent.parent.scroller!.value = 0.0;
     this.parent.parent.scroller!.intValue.set(0);

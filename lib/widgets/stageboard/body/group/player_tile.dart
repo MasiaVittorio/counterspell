@@ -99,7 +99,7 @@ class PlayerTile extends StatelessWidget {
       ),
       onLongPress: () => stage!.showAlert(
         PlayerDetails(
-          bloc.game!.gameGroup!.names.value.indexOf(name), 
+          bloc.game!.gameGroup.names.value.indexOf(name), 
           this.maxWidth/(this.tileSize + this.bottom),
         ), 
         size: PlayerDetails.height,
@@ -147,7 +147,7 @@ class PlayerTile extends StatelessWidget {
       ),
     );
 
-    return group!.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
+    return group.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
       final MtgCard? cardA = cardsA[name];
       final MtgCard? cardB = havingPartnerB! ? cardsB[name] : null;
 

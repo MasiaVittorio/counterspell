@@ -67,7 +67,7 @@ class PlayerGestures{
       case CSPage.counters:
       case CSPage.life:
       case CSPage.commanderCast: /// recently added
-        actionBloc!.selected.value[name] = (rawSelected == false);
+        actionBloc.selected.value[name] = (rawSelected == false);
         actionBloc.selected.refresh();
         if(isScrollingSomewhere){
           scrollerBloc!.delayerController.scrolling();
@@ -88,14 +88,14 @@ class PlayerGestures{
         // break;
       case CSPage.commanderDamage:
         if(attacking){
-          actionBloc!.attackingPlayer.set("");
+          actionBloc.attackingPlayer.set("");
           actionBloc.defendingPlayer.set("");
           // if(hasPartnerB==true){
           //   gameStateBloc.gameState.value.players[name].usePartnerB = !usePartnerB;
           //   gameStateBloc.gameState.refresh();
           // }
         } else {
-          actionBloc!.attackingPlayer.set(name);
+          actionBloc.attackingPlayer.set(name);
           actionBloc.defendingPlayer.set("");
         }
         return;
@@ -123,7 +123,7 @@ class PlayerGestures{
       case CSPage.counters:
       case CSPage.life:
 
-        final selectedVar = actionBloc!.selected;
+        final selectedVar = actionBloc.selected;
         final previousVal = <String,bool?>{
           for(final e in selectedVar.value.entries)
             e.key+'': e.value,
@@ -155,7 +155,7 @@ class PlayerGestures{
       case CSPage.commanderDamage:
         // should not happen in arena, but if theres no attacker, this player will be!
         if(whoIsAttacking == null || whoIsAttacking == ""){
-          actionBloc!.attackingPlayer.set(name);
+          actionBloc.attackingPlayer.set(name);
           return;
         }
 
@@ -168,11 +168,11 @@ class PlayerGestures{
           bloc.scroller!.forceComplete();
 
           // but reselect the previous attacker then
-          actionBloc!.attackingPlayer.set(whoIsAttacking);
+          actionBloc.attackingPlayer.set(whoIsAttacking);
         } 
 
         /// now, only select this player as defender
-        actionBloc!.defendingPlayer.setDistinct(name);
+        actionBloc.defendingPlayer.setDistinct(name);
         
         break;
       default:

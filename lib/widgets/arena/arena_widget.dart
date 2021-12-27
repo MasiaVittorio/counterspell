@@ -111,7 +111,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
   Future<bool> decidePop(StageData<CSPage,SettingsPage>? stage) async {
             
-    if (logic!.game!.gameAction!.actionPending) {
+    if (logic!.game!.gameAction.actionPending) {
       logic!.scroller!.cancel(true);
       stage!.mainPagesController.goToPage(CSPage.life);
       return false;

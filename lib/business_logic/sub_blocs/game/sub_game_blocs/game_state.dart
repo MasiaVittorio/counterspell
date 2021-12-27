@@ -49,7 +49,7 @@ class CSGameState {
       // },
       fromJson: (j) => GameState.fromJson(j),
       readCallback: (afterReadState) 
-        => parent.gameHistory!.listController.refresh(
+        => parent.gameHistory.listController.refresh(
           afterReadState.historyLenght
         ),
     ),
@@ -61,7 +61,7 @@ class CSGameState {
   // Actions
   void applyAction(GameAction action, {bool clearFutures = true}){
     if(_applyAction(action, clearFutures: clearFutures)){
-      this.parent.gameHistory!.forward();
+      this.parent.gameHistory.forward();
     }
     this.parent.parent.achievements.gameActionPerformed(action);
   }
@@ -78,19 +78,19 @@ class CSGameState {
 
   void back(){
     if(backable){
-      final dataList = this.parent.gameHistory!.data;
+      final dataList = this.parent.gameHistory.data;
       //this reversed index is due to the list UI: it goes from right to 
       //left so it needs to be reversed. also, since the last data is always a null data
       //(the current state without changes), we start at 1 instead of 0
       final outgoingData = dataList[dataList.length - 2];
       this._back();
-      this.parent.gameHistory!.back(outgoingData, dataList.first.time);
+      this.parent.gameHistory.back(outgoingData, dataList.first.time);
     }
   }
   void _back(){
     assert(backable);
     this.futureActions.value.add(
-      this.gameState.value.back(this.parent.gameAction!.currentCounterMap)
+      this.gameState.value.back(this.parent.gameAction.currentCounterMap)
     );
     this.gameState.refresh();
     this.futureActions.refresh();
@@ -98,7 +98,7 @@ class CSGameState {
   void forward(){
     if(forwardable){
       this._forward();
-      this.parent.gameHistory!.forward();
+      this.parent.gameHistory.forward();
     }
   }
   void _forward(){
@@ -117,13 +117,13 @@ class CSGameState {
   void forgetPast(int index){
     //index = 0 -> as if was back
     if(forgettable(index)){
-      final dataList = this.parent.gameHistory!.data;
+      final dataList = this.parent.gameHistory.data;
       //this reversed index is due to the list UI: it goes from right to 
       //left so it needs to be reversed. also, since the last data is always a null data
       //(the current state without changes), we start at 1 instead of 0
       final outgoingData = dataList[dataList.length - 2 - index];
       _forgetPast(index);
-      this.parent.gameHistory!.forget(index+1, outgoingData, dataList.first.time);
+      this.parent.gameHistory.forget(index+1, outgoingData, dataList.first.time);
     }
   }
 
@@ -154,8 +154,8 @@ class CSGameState {
     //check if the game is to be saved and the prompt to chose the winner is displayed
     final bool promptShown = this.parent.parent.pastGames.saveGame(
       this.gameState.value, 
-      commandersA: this.parent.gameGroup!.cardsA.value, 
-      commandersB: this.parent.gameGroup!.cardsB.value,
+      commandersA: this.parent.gameGroup.cardsA.value, 
+      commandersB: this.parent.gameGroup.cardsB.value,
       avoidPrompt: avoidPrompt,
     );
     //actually resets the game
@@ -175,10 +175,10 @@ class CSGameState {
   }
 
   void startNew(Set<String> names){
-    this.parent.gameGroup!.newGroup(names.toList());
+    this.parent.gameGroup.newGroup(names.toList());
     _resetGame(GameState.start(
       names, 
-      <String>{for(final counter in this.parent.gameAction!.counterSet.list) 
+      <String>{for(final counter in this.parent.gameAction.counterSet.list) 
         counter.longName
       },
       startingLife: this.parent.currentStartingLife,
@@ -186,7 +186,7 @@ class CSGameState {
   }
   void _resetGame(GameState newGameState){
     this.gameState.set(newGameState);
-    this.parent.gameHistory!.listController.refresh(1);
+    this.parent.gameHistory.listController.refresh(1);
     this.futureActions.set(<GameAction>[]);
   }
 
@@ -205,9 +205,9 @@ class CSGameState {
       return;
     }
     this.gameState.value.renamePlayer(oldName, newName);
-    this.parent.gameGroup!.rename(oldName, newName);
+    this.parent.gameGroup.rename(oldName, newName);
     this.gameState.refresh();
-    this.parent.gameHistory!.listController.rebuild();
+    this.parent.gameHistory.listController.rebuild();
   }
   void deletePlayer(String name){
     if(!gameState.value.players.containsKey(name)){
@@ -217,10 +217,10 @@ class CSGameState {
       return;
     }
     this.gameState.value.deletePlayer(name);
-    this.parent.gameGroup!.deletePlayer(name);
+    this.parent.gameGroup.deletePlayer(name);
     // this.parent.gameHistory.deletePlayerReferences(name);
     this.gameState.refresh();
-    this.parent.gameHistory!.listController.rebuild();
+    this.parent.gameHistory.listController.rebuild();
   }
   void addNewPlayer(String name){
     if(name == ""){
@@ -234,8 +234,8 @@ class CSGameState {
       startingLife: this.parent.currentStartingLife,
     );
     this.gameState.refresh();
-    this.parent.gameGroup!.newPlayer(name);
-    this.parent.gameHistory!.listController.rebuild();
+    this.parent.gameGroup.newPlayer(name);
+    this.parent.gameHistory.listController.rebuild();
   }
 
   void toggleHavePartner(String name){

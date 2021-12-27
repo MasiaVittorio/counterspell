@@ -21,7 +21,7 @@ class PlayerDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
     final stage = Stage.of(context);
-    final groupBloc = bloc.game!.gameGroup!;
+    final groupBloc = bloc.game!.gameGroup;
 
     return groupBloc.names.build((_, names) 
       => RadioHeaderedAlert<PlayerDetailsPage>(

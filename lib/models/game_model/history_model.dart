@@ -105,7 +105,7 @@ class PlayerHistoryChange{
           //first player to have damaged our player is shown
           for(final damageEntry in previous.damages.entries){
             if(damageEntry.value.a != next.damages[damageEntry.key]!.a){
-              return [PlayerHistoryChange(
+              return <PlayerHistoryChange>[PlayerHistoryChange(
                 previous: damageEntry.value.a,
                 next: next.damages[damageEntry.key]!.a,
                 type: DamageType.commanderDamage,
@@ -114,7 +114,7 @@ class PlayerHistoryChange{
             }
             if(havingPartnerB[damageEntry.key]==true){
               if(damageEntry.value.b != next.damages[damageEntry.key]!.b){
-                return [PlayerHistoryChange(
+                return <PlayerHistoryChange>[PlayerHistoryChange(
                   previous: damageEntry.value.b,
                   next: next.damages[damageEntry.key]!.b,
                   type: DamageType.commanderDamage,
@@ -123,8 +123,8 @@ class PlayerHistoryChange{
               }
             }
           }
-          return [];
-        }() as Iterable<PlayerHistoryChange>,
+          return <PlayerHistoryChange>[];
+        }(),
       if(types[DamageType.commanderDamage]!)
         ...(){
           //first player to be damaged by our player is shown
@@ -151,9 +151,8 @@ class PlayerHistoryChange{
               }
             }
           }
-          return [];
-
-        }() as Iterable<PlayerHistoryChange>,
+          return <PlayerHistoryChange>[];
+        }(),
       if(types[DamageType.counters]!)
         ...(){
           final Set<String?> counters = {

@@ -83,7 +83,7 @@ class CSGameGroup {
   {
     names = PersistentVar<List<String>>(
       key: "bloc_game_group_blocvar_names_ordered_list_counterspell",
-      initVal: this.parent.gameState!.gameState.value.names.toList(),
+      initVal: this.parent.gameState.gameState.value.names.toList(),
       toJson: (list) => list,
       fromJson: (json) => [
         for(final s in json)
@@ -113,7 +113,7 @@ class CSGameGroup {
     );
 
     /// [CSGameGroup] Must be initialized after [CSGameState]
-    newNamesSub = this.parent.gameState!.gameState.behavior.listen((state){
+    newNamesSub = this.parent.gameState.gameState.behavior.listen((state){
       updateNames(state);
       updateNamesAltLayout(this.names.value);
     });

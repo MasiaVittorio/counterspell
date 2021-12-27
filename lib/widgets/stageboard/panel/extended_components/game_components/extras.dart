@@ -58,7 +58,7 @@ class PanelGameExtras extends StatelessWidget {
               onTap: () => stage!.showAlert(
                 PlayGroupEditor(bloc, fromClosedPanel: false,), 
                 size: PlayGroupEditor.sizeCalc(
-                  bloc.game!.gameState!.gameState.value.players.length,
+                  bloc.game!.gameState.gameState.value.players.length,
                 ),
               ),
               customCircleColor: Colors.transparent,

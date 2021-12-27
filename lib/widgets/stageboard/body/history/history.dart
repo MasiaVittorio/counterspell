@@ -26,19 +26,19 @@ class BodyHistory extends StatelessWidget {
     final history = game.gameHistory;
     final stage = Stage.of(context);
 
-    return game.gameState!.gameState.build((context, gameState){
+    return game.gameState.gameState.build((context, gameState){
 
-        final Map<String?, Counter> counters = game.gameAction!.currentCounterMap;
+        final Map<String?, Counter> counters = game.gameAction.currentCounterMap;
 
         return SidAnimatedList(
-          listController: history!.listController,
+          listController: history.listController,
           reverse: true, //reverse to make it appear aligned to the right
           itemBuilder: (context, index, animation) 
             => SizeTransition(
               axisAlignment: -1.0,
               axis: Axis.horizontal,
               sizeFactor: animation,
-              child: HistoryTile(
+              child: history.data.length -1 - index < 0 ? Container() : HistoryTile(
                 //but you must reverse the list to keep the last state on its "top"
                 history.data[history.data.length -1 - index],
                 firstTime: history.data.first.time,
@@ -56,7 +56,7 @@ class BodyHistory extends StatelessWidget {
                 },
               ),
             ),
-          initialItemCount: game.gameState!.gameState.value.historyLenght,
+          initialItemCount: game.gameState.gameState.value.historyLenght,
           scrollDirection: Axis.horizontal,
           physics: SidereusScrollPhysics(
             topBounce: true,

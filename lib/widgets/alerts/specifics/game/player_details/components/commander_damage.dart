@@ -14,8 +14,8 @@ class PlayerDetailsDamage extends StatelessWidget {
     final CSBloc bloc = CSBloc.of(context)!;
     final StageData<CSPage?,SettingsPage?> stage = bloc.stage!;
     final CSGame gameBloc = bloc.game!;
-    final CSGameGroup groupBloc = gameBloc.gameGroup!;
-    final CSGameState stateBloc = gameBloc.gameState!;
+    final CSGameGroup groupBloc = gameBloc.gameGroup;
+    final CSGameState stateBloc = gameBloc.gameState;
 
     return Material(
       color: theme.scaffoldBackgroundColor,

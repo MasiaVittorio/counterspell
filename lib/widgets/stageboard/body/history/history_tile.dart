@@ -105,7 +105,7 @@ class HistoryTile extends StatelessWidget {
               warningText: "Delete action happened at ${timeString(data.time, firstTime, realMode)}${inGame?" (in game)":""}? This cannot be undone",
               confirmText: "Yes, Delete action",
               confirmIcon: Icons.delete_forever,
-              action: () => bloc.game!.gameState!.forgetPast(index-1),
+              action: () => bloc.game!.gameState.forgetPast(index-1),
             ), size: ConfirmAlert.twoLinesheight);
           } 
           : null,

@@ -10,7 +10,7 @@ class CSPanelCollapsed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context)!;
-    final gameStateBloc = bloc.game!.gameState!;
+    final gameStateBloc = bloc.game!.gameState;
     final StageData<CSPage, SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
 
     final Widget backButton = gameStateBloc.gameState.build(
@@ -58,7 +58,7 @@ class CSPanelCollapsed extends StatelessWidget {
               child: <CSPage,Widget>{
                 CSPage.history: const Icon(McIcons.restart),
                 CSPage.life: const Icon(McIcons.account_multiple_outline),
-                CSPage.counters: bloc.game!.gameAction!.counterSet.build(
+                CSPage.counters: bloc.game!.gameAction.counterSet.build(
                   (context, counter) => Icon(counter.icon),
                 ),
                 CSPage.commanderCast: const Icon(Icons.info_outline),
@@ -77,7 +77,7 @@ class CSPanelCollapsed extends StatelessWidget {
                       fromClosedPanel: true,
                     ),
                     size: PlayGroupEditor.sizeCalc(
-                      bloc.game!.gameGroup!.names.value.length
+                      bloc.game!.gameGroup.names.value.length
                     ),
                   );
                 } else if (currentPage == CSPage.commanderCast){

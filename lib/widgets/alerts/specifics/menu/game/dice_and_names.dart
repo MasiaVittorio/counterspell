@@ -62,7 +62,7 @@ class _DiceThrowerState extends State<DiceThrower> {
     final stage = Stage.of(context);
     final CSBloc bloc = CSBloc.of(context)!;
 
-    return bloc.game!.gameState!.gameState.build((_,state){
+    return bloc.game!.gameState.gameState.build((_,state){
       final List<String> names = state.names.toList();
       return HeaderedAlert(
         "",

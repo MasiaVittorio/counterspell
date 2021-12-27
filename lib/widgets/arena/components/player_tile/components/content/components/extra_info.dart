@@ -28,7 +28,7 @@ class AptInfo extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
 
     return StageBuild.offMainEnabledPages<CSPage>((_, enabledPages) 
-      => bloc!.game!.gameAction!.counterSet.variable.build((context, _){
+      => bloc!.game!.gameAction.counterSet.variable.build((context, _){
 
         final List<ExtraInfo> list = ExtraInfo.fromPlayer(name,
           ofGroup: gameState!.lastPlayerStates,
@@ -39,7 +39,7 @@ class AptInfo extends StatelessWidget {
           },
           defenceColor: defenceColor,
           types: DamageTypes.fromPages(enabledPages),
-          counterMap: bloc!.game!.gameAction!.currentCounterMap,
+          counterMap: bloc!.game!.gameAction.currentCounterMap,
         );
 
         if(list.isEmpty) return SizedBox();

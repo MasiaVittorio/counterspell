@@ -12,14 +12,14 @@ class CSTopBarTitle extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final stage = Stage.of(context);
     return StageBuild.offMainPage((_, dynamic page) => BlocVar.build2<Counter,bool>(
-      bloc!.game!.gameAction!.counterSet.variable,
+      bloc!.game!.gameAction.counterSet.variable,
       stage!.panelController.isMostlyOpenedNonAlert,
       builder: (_, counter, openNonAlert,){
         String? text = "";
-        if(openNonAlert!){
+        if(openNonAlert){
           text = "CounterSpell";
         } else if(page == CSPage.counters){
-          text = counter!.longName;
+          text = counter.longName;
         } else {
           text = CSPages.longTitleOf(page);
         }

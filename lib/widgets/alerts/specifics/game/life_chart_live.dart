@@ -11,7 +11,7 @@ class AnimatedLifeChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(child: CSBloc.of(context)!
-      .game!.gameState!.gameState.build((_, gameState)
+      .game!.gameState.gameState.build((_, gameState)
         => _LifeChartLive(gameState),
       ),
     );

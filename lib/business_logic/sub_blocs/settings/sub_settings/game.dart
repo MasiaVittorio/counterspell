@@ -67,8 +67,8 @@ class CSSettingsGame {
   void changeStartingLife(int newLife){
     if(newLife == currentStartingLife) return;
     this._startingLife.set(newLife);
-    if(parent.game!.gameState!.gameState.value.historyLenght <= 1){
-      parent.game!.gameState!.restart(null, avoidClosingPanel: true);
+    if(parent.game!.gameState.gameState.value.historyLenght <= 1){
+      parent.game!.gameState.restart(null, avoidClosingPanel: true);
     } 
   }
 

@@ -9,7 +9,7 @@ class CacheCards extends StatelessWidget {
     final bloc = CSBloc.of(context)!;
     final stage = Stage.of(context);
 
-    return bloc.game!.gameGroup!.savedCards.build((_, map) {
+    return bloc.game!.gameGroup.savedCards.build((_, map) {
       final Set<MtgCard> cardsSet = <MtgCard>{};
       final Map<MtgCard, Set<String>> players = <MtgCard,Set<String>>{};
       for(final playerEntry in map.entries){
@@ -34,8 +34,8 @@ class CacheCards extends StatelessWidget {
               icon: CSWidgets.deleteIcon,
               onPressed: (){
                 for(final String player in players[card]!){
-                  bloc.game!.gameGroup!.savedCards.value[player]!.removeWhere((c) => card == c);
-                  bloc.game!.gameGroup!.savedCards.refresh(key: player);
+                  bloc.game!.gameGroup.savedCards.value[player]!.removeWhere((c) => card == c);
+                  bloc.game!.gameGroup.savedCards.refresh(key: player);
                 }
               }, 
             ),

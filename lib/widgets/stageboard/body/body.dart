@@ -25,7 +25,7 @@ class CSBody extends StatelessWidget {
       => LayoutBuilder(builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
         child: SingleChildScrollView(
-          child: group!.names.build((context, names){
+          child: group.names.build((context, names){
 
             final bool landScape = constraints.maxWidth >= constraints.maxHeight;
 
@@ -71,8 +71,8 @@ class CSBody extends StatelessWidget {
                       SchedulerBinding.instance!.addPostFrameCallback((_) {
                         //just (dont) build lol
                         stage.mainPagesController.enablePage(CSPage.history);
-                        bloc.game!.gameHistory!.listController.refresh(
-                          bloc.game!.gameState!.gameState.value.historyLenght,
+                        bloc.game!.gameHistory.listController.refresh(
+                          bloc.game!.gameState.gameState.value.historyLenght,
                         );
                       });
                     }

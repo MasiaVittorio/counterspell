@@ -3,18 +3,18 @@ import 'package:counter_spell_new/core.dart';
 class CSGame {
 
   void dispose(){
-    gameState!.dispose();
-    gameAction!.dispose();
+    gameState.dispose();
+    gameAction.dispose();
   }
 
 
   //===============================
   // Values
   final CSBloc parent;
-  CSGameState? gameState;
-  CSGameAction? gameAction;
-  CSGameGroup? gameGroup;
-  CSGameHistory? gameHistory;
+  late CSGameState gameState;
+  late CSGameAction gameAction;
+  late CSGameGroup gameGroup;
+  late CSGameHistory gameHistory;
 
 
 

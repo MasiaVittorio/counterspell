@@ -22,7 +22,7 @@ class StartingLifeTile extends StatelessWidget {
 
     return BlocVar.build2(
       gameSettings.startingLifeBlocVar,
-      stage.themeController.derived.mainPageToPrimaryColor!,
+      stage.themeController.derived.mainPageToPrimaryColor,
       builder: (_, dynamic life, dynamic colorMap)
         => Section(<Widget>[
             SectionTitle("Starting Life: ${lifeNames[life] ?? life}", animated: true),

@@ -161,7 +161,7 @@ class _DelayerPanel extends StatelessWidget {
         scroller.isScrolling,
         scroller.intValue,
         bloc.settings.scrollSettings.confirmDelay,
-        stage.themeController.derived.currentPrimaryColor!,
+        stage.themeController.derived.currentPrimaryColor,
         distinct: true, builder: (
       BuildContext context,
       bool? scrolling,

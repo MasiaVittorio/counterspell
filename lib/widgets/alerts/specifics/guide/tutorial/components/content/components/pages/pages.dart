@@ -22,7 +22,7 @@ class _TutorialPagesState extends State<TutorialPages> {
   Widget build(BuildContext context) {
 
     final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
-    final Map<CSPage,Color?>? colors = stage.themeController.derived.mainPageToPrimaryColor!.value;
+    final Map<CSPage,Color?>? colors = stage.themeController.derived.mainPageToPrimaryColor.value;
 
     final ThemeData theme = Theme.of(context);
     final TextStyle subhead = theme.textTheme.subtitle1!;

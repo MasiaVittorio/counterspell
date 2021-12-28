@@ -195,7 +195,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
         vertical: 8.0,
       ),
       child: BlocVar.build2(
-        stage.themeController.derived.mainPageToPrimaryColor!,
+        stage.themeController.derived.mainPageToPrimaryColor,
         bloc.themer.defenceColor,
         builder:(_, dynamic colors, dynamic defenceColor) 
           =>SubSection(<Widget>[

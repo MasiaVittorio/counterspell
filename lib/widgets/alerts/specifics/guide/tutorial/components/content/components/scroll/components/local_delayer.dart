@@ -23,7 +23,7 @@ class LocalDelayer extends StatelessWidget {
       localScroller!.isScrolling,
       localScroller!.intValue,
       bloc!.settings.scrollSettings.confirmDelay,
-      stage.themeController.derived.mainPageToPrimaryColor!,
+      stage.themeController.derived.mainPageToPrimaryColor,
       distinct: true,
       builder: (
         BuildContext context, 

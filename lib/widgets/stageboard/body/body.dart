@@ -19,7 +19,7 @@ class CSBody extends StatelessWidget {
     final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
     final stageTheme = stage.themeController;
 
-    return stageTheme.derived.mainPageToPrimaryColor!.build((_, pageColors)
+    return stageTheme.derived.mainPageToPrimaryColor.build((_, pageColors)
       => themer.flatDesign.build((_, flat) 
       => themer.defenceColor.build((_, defenceColor)
       => LayoutBuilder(builder: (_, constraints) => ConstrainedBox(

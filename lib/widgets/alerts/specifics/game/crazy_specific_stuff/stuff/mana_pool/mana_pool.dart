@@ -205,7 +205,7 @@ class _RecentAction extends StatelessWidget {
           children: [
             Icon(
               action.color.icon,
-              color: action.color.color!.withOpacity(0.4),
+              color: action.color.color.withOpacity(0.4),
               size: 35,
             ),
             Center(child: Text(
@@ -237,8 +237,7 @@ class _ColorToggle extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final Color c = value
-      ? color.color! 
-      : Color.alphaBlend(
+      ? color.color: Color.alphaBlend(
         theme.scaffoldBackgroundColor.withOpacity(0.5), 
         theme.canvasColor,
       );
@@ -304,7 +303,7 @@ class _ColorNumber extends StatelessWidget {
           child: scroller!.isScrolling.build((_, scrolling) 
             => scroller!.intValue.build((_, increment){
               final textStyle = TextStyle(
-                color: color.color!.brightness.contrast, 
+                color: color.color.brightness.contrast, 
                 fontSize: 0.26 * CSSizes.minTileSize,
               );
 
@@ -323,12 +322,14 @@ class _ColorNumber extends StatelessWidget {
                         open: scrolling && selected,
                         style: textStyle,
                         duration: CSAnimations.fast,
-                        color: color.color!,
+                        color: color.color,
                         increment: scrolling && selected ? increment : 0,
                         borderRadiusFraction: 1.0,
                         extraIcon: Icon(
                           color.icon,
-                          color: Theme.of(context).canvasColor.withOpacity(0.7),
+                          color: color.color.contrast.withOpacity(0.1),
+                          // color: color.color.isDark 
+                          //   ? Colors.black : Colors.white,
                           size: 30,
                         ),
                       ),),),

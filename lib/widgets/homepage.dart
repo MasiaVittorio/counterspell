@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/stageboard_components.dart';
+import 'package:counter_spell_new/widgets/stage/stageboard_components.dart';
 
 class CSHomePage extends StatelessWidget {
   const CSHomePage({

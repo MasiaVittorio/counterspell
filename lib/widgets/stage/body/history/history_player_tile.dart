@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/history/history_tile.dart';
+import 'package:counter_spell_new/widgets/stage/body/history/history_tile.dart';
 
 class HistoryPlayerTile extends StatelessWidget {
 

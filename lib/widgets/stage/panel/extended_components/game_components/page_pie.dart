@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/extended_components/all.dart';
+import 'package:counter_spell_new/widgets/stage/panel/extended_components/all.dart';
 import 'package:division/division.dart';
 
 

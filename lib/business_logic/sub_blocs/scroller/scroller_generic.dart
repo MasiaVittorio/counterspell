@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 
-import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/delayer.dart';
+import 'package:counter_spell_new/widgets/stage/panel/collapsed_components/delayer.dart';
 import 'package:vibration/vibration.dart';
 
 

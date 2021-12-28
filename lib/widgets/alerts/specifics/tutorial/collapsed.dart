@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/panel/collapsed_components/circle_button.dart';
+import 'package:counter_spell_new/widgets/stage/panel/collapsed_components/circle_button.dart';
 
 
 

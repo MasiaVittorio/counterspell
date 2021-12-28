@@ -1,6 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/arena/components/player_tile/components/all.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
+import 'package:counter_spell_new/widgets/stage/body/group/player_tile_gestures.dart';
 
 class AptGestures extends StatelessWidget {
 

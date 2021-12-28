@@ -9,15 +9,15 @@ class DetailsUtils {
       onConfirm: (string){
         final int? val = int.tryParse(string);
         if(val != null){
-          bloc.game!.gameState.applyAction(GALife(
+          bloc.game.gameState.applyAction(GALife(
             val - playerState.life,
             selected: {
               for(final n in names)
                 if(n == name) n: true
                 else n: false,
             },
-            minVal: bloc.settings!.gameSettings.minValue.value,
-            maxVal: bloc.settings!.gameSettings.maxValue.value,
+            minVal: bloc.settings.gameSettings.minValue.value,
+            maxVal: bloc.settings.gameSettings.maxValue.value,
           ));
         }
       }
@@ -30,7 +30,7 @@ class DetailsUtils {
       onConfirm: (string){
         final int? val = int.tryParse(string);
         if(val != null){
-          bloc.game!.gameState.applyAction(GACounter(
+          bloc.game.gameState.applyAction(GACounter(
             val - playerState.counters[counter.longName]!,
             counter,
             selected: {
@@ -38,8 +38,8 @@ class DetailsUtils {
                 if(n == name) n: true
                 else n: false,
             },
-            minVal: bloc.settings!.gameSettings.minValue.value,
-            maxVal: bloc.settings!.gameSettings.maxValue.value,
+            minVal: bloc.settings.gameSettings.minValue.value,
+            maxVal: bloc.settings.gameSettings.maxValue.value,
           ));
         }
       }
@@ -56,7 +56,7 @@ class DetailsUtils {
       onConfirm: (string){
         final int? val = int.tryParse(string);
         if(val != null){
-          bloc.game!.gameState.applyAction(GACast(
+          bloc.game.gameState.applyAction(GACast(
             val - playerState.cast.fromPartner(!partnerB),
             selected: {
               for(final n in names)
@@ -68,7 +68,7 @@ class DetailsUtils {
                 if(n == name) n: partnerB
                 else n: false,
             },
-            maxVal: bloc.settings!.gameSettings.maxValue.value,
+            maxVal: bloc.settings.gameSettings.maxValue.value,
           ));
         }
       }
@@ -93,13 +93,13 @@ class DetailsUtils {
       onConfirm: (string){
         final int? val = int.tryParse(string);
         if(val != null){
-          bloc.game!.gameState.applyAction(GADamage(
+          bloc.game.gameState.applyAction(GADamage(
             val - gameState!.players[defender]!.states.last.damages[attacker]!.fromPartner(!partnerB),
             defender: defender,
             attacker: attacker,
             usingPartnerB: partnerB,
-            maxVal: bloc.settings!.gameSettings.maxValue.value,
-            minLife: bloc.settings!.gameSettings.minValue.value,
+            maxVal: bloc.settings.gameSettings.maxValue.value,
+            minLife: bloc.settings.gameSettings.minValue.value,
             settings: gameState.players[attacker]!.commanderSettings(!partnerB),
           ));
         }
@@ -138,7 +138,7 @@ class DetailsUtils {
       onConfirm: (string){
         if(string == "") return;
         if(names.contains(string)) return;
-        bloc.game!.gameState.renamePlayer(name, string);
+        bloc.game.gameState.renamePlayer(name, string);
       },
       checkErrors: (string){
         if(string == "") return "Error: empty string";
@@ -153,7 +153,7 @@ class DetailsUtils {
       confirmColor: CSColors.delete,
       confirmIcon: Icons.delete_forever,
       confirmText: "Yes, delete $name",
-      action: () => bloc.game!.gameState.deletePlayer(name),
+      action: () => bloc.game.gameState.deletePlayer(name),
       completelyCloseAfterConfirm: true,
     ),size: ConfirmAlert.height);
 
@@ -169,7 +169,7 @@ class PlayerBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final gameBloc = bloc.game!;
+    final gameBloc = bloc.game;
     final groupBloc = gameBloc.gameGroup;
     final stateBloc = gameBloc.gameState;
     return groupBloc.names.build((_, names){

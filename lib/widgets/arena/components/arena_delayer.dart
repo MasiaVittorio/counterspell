@@ -109,7 +109,7 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
 
-    return bloc.scroller!.isScrolling.build((context, scrolling) => AnimatedOpacity(
+    return bloc.scroller.isScrolling.build((context, scrolling) => AnimatedOpacity(
       opacity: scrolling ? 1.0 : 0.0,
       duration: const Duration(milliseconds: 250),
       child: AnimatedBuilder(

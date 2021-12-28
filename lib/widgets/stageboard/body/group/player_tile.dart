@@ -58,10 +58,10 @@ class PlayerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final group = bloc.game!.gameGroup;
-    final stateBloc = bloc.game!.gameState;
+    final group = bloc.game.gameGroup;
+    final stateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
-    final actionBloc = bloc.game!.gameAction;
+    final actionBloc = bloc.game.gameAction;
     final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
     final ThemeData theme = Theme.of(context);
 
@@ -99,13 +99,13 @@ class PlayerTile extends StatelessWidget {
       ),
       onLongPress: () => stage!.showAlert(
         PlayerDetails(
-          bloc.game!.gameGroup.names.value.indexOf(name), 
+          bloc.game.gameGroup.names.value.indexOf(name), 
           this.maxWidth/(this.tileSize + this.bottom),
         ), 
         size: PlayerDetails.height,
       ),
       child: VelocityPanDetector(
-        onPanEnd: (_details) => scrollerBloc!.onDragEnd(),
+        onPanEnd: (_details) => scrollerBloc.onDragEnd(),
         onPanUpdate: (details) => PlayerGestures.pan(
           details,
           name,
@@ -113,7 +113,7 @@ class PlayerTile extends StatelessWidget {
           bloc: bloc,
           page: page,
         ),
-        onPanCancel: scrollerBloc!.onDragEnd,
+        onPanCancel: scrollerBloc.onDragEnd,
         child: Container(
           //to make the pan callback working, the color cannot be just null
           color: Colors.transparent,
@@ -124,7 +124,7 @@ class PlayerTile extends StatelessWidget {
             child: SizedBox(
               height: coreTileSize,
               child: Row(children: <Widget>[
-                bloc.settings!.appSettings.numberFontSizeFraction.build(
+                bloc.settings.appSettings.numberFontSizeFraction.build(
                   (context, val) => buildLeading(
                     numberFontSizeFraction: val!,
                     theme: theme,
@@ -160,7 +160,7 @@ class PlayerTile extends StatelessWidget {
         final String? urlA = cardA?.imageUrl();
         final String? urlB = cardB?.imageUrl();
 
-        return bloc.settings!.imagesSettings.imageAlignments.build((_,alignments){
+        return bloc.settings.imagesSettings.imageAlignments.build((_,alignments){
           
           final Decoration? decorationA = urlA == null 
             ? null 
@@ -204,8 +204,8 @@ class PlayerTile extends StatelessWidget {
           }
 
           final Widget gradient = BlocVar.build2<double?,double?>(
-            bloc.settings!.imagesSettings.imageGradientStart,
-            bloc.settings!.imagesSettings.imageGradientEnd,
+            bloc.settings.imagesSettings.imageGradientStart,
+            bloc.settings.imagesSettings.imageGradientEnd,
             builder: (context, double? startVal, double? endVal) => Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -222,7 +222,7 @@ class PlayerTile extends StatelessWidget {
 
           return SizedBox(
             height: tileSize + bottom,
-            child: bloc.themer!.flatDesign!.build((context, flat) => Container(
+            child: bloc.themer.flatDesign.build((context, flat) => Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(flat! ? 12 : 0.0),
               ),

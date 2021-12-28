@@ -61,7 +61,7 @@ class HistoryTile extends StatelessWidget {
         : data.changes!.length;
       return LayoutBuilder(builder: (_, constraints) => ConstrainedBox(
         constraints: constraints, 
-        child: bloc!.themer!.flatDesign!.build((_, flat) => buildKnowingSize(
+        child: bloc!.themer.flatDesign.build((_, flat) => buildKnowingSize(
           CSSizes.computeTileSize(
             constraints, 
             howManyPlayers,
@@ -90,12 +90,12 @@ class HistoryTile extends StatelessWidget {
       );
     }
 
-    return bloc!.themer!.flatDesign!.build((context, flat) => Material(
+    return bloc!.themer.flatDesign.build((context, flat) => Material(
       type: MaterialType.transparency,
       child: InkWell(
         onLongPress: index > 0 
           ? () {
-            final timeMode = bloc.settings!.gameSettings.timeMode.value;
+            final timeMode = bloc.settings.gameSettings.timeMode.value;
             final bool none = timeMode == TimeMode.none;
             final realMode = none ? TimeMode.clock : timeMode;
             final bool inGame = realMode == TimeMode.inGame;
@@ -105,7 +105,7 @@ class HistoryTile extends StatelessWidget {
               warningText: "Delete action happened at ${timeString(data.time, firstTime, realMode)}${inGame?" (in game)":""}? This cannot be undone",
               confirmText: "Yes, Delete action",
               confirmIcon: Icons.delete_forever,
-              action: () => bloc.game!.gameState.forgetPast(index-1),
+              action: () => bloc.game.gameState.forgetPast(index-1),
             ), size: ConfirmAlert.twoLinesheight);
           } 
           : null,

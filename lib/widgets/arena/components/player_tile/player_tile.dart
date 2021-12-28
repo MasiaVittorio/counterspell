@@ -77,11 +77,11 @@ class ArenaPlayerTile extends StatelessWidget {
           Map<CSPage,Color?>?, int, GameState, String,
           String, Color, Map<String,bool?>>(
           stage!.themeController.derived.mainPageToPrimaryColor!,
-          logic!.scroller!.intValue,
+          logic!.scroller.intValue,
           stateLogic!.gameState,
           actionLogic!.attackingPlayer,
           actionLogic!.defendingPlayer,
-          logic!.themer!.defenceColor,
+          logic!.themer.defenceColor,
           actionLogic!.selected,
           builder: (
             BuildContext context, 

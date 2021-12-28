@@ -54,7 +54,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget build(BuildContext context) {
     final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
     final theme = Theme.of(context);
-    final arenaBloc = logic!.settings!.arenaSettings;
+    final arenaBloc = logic!.settings.arenaSettings;
     final scrollerBloc = logic!.scroller;
 
     return Container(
@@ -71,7 +71,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
               => groupLogic!.names         .build((context, names) 
               => arenaBloc.flipped        .build((context, flipped) 
               => StageBuild.offMainPage<CSPage>((_, page) 
-              => scrollerBloc!.isScrolling .build((context, scrolling) 
+              => scrollerBloc.isScrolling .build((context, scrolling) 
               => ArenaLayout(
                   flipped: flipped[layoutType],
                   howManyChildren: names.length,
@@ -111,8 +111,8 @@ class _ArenaWidgetState extends State<ArenaWidget> {
 
   Future<bool> decidePop(StageData<CSPage,SettingsPage>? stage) async {
             
-    if (logic!.game!.gameAction.actionPending) {
-      logic!.scroller!.cancel(true);
+    if (logic!.game.gameAction.actionPending) {
+      logic!.scroller.cancel(true);
       stage!.mainPagesController.goToPage(CSPage.life);
       return false;
     } 
@@ -149,7 +149,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       layoutType: layoutType,
       openMenu: () {
         logic!.stage!.mainPagesController.goToPage(CSPage.life);
-        logic!.scroller!.cancel(true);
+        logic!.scroller.cancel(true);
         this.setState((){
           open = true;
         });
@@ -170,14 +170,14 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     );
 
 
-    final Widget delayer = logic!.settings!.scrollSettings.confirmDelay.build((context, delay) 
+    final Widget delayer = logic!.settings.scrollSettings.confirmDelay.build((context, delay) 
       => ArenaDelayer(
-        onManualCancel: logic!.scroller!.cancel, 
-        onManualConfirm: logic!.scroller!.forceComplete, 
-        delayerController: logic!.scroller!.delayerController, 
+        onManualCancel: logic!.scroller.cancel, 
+        onManualConfirm: logic!.scroller.forceComplete, 
+        delayerController: logic!.scroller.delayerController, 
         duration: delay, 
         color: Theme.of(context).colorScheme.onSurface,
-        animationListener: logic!.scroller!.delayerAnimationListener,
+        animationListener: logic!.scroller.delayerAnimationListener,
       ),
     );
 

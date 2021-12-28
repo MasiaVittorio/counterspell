@@ -4,9 +4,9 @@ import 'package:counter_spell_new/core.dart';
 class PlayerGestures{
 
   static void _returnToLife(CSBloc bloc){
-    final stage = bloc.stageBloc!.controller;
+    final stage = bloc.stageBloc.controller;
     if(stage.mainPagesController.goToPage(CSPage.life)){
-      bloc.scroller!.ignoringThisPan = true;
+      bloc.scroller.ignoringThisPan = true;
     }
   }
 
@@ -17,7 +17,7 @@ class PlayerGestures{
     CSScroller? dummyScroller,
   }){
 
-    final CSGameAction? actionBloc = bloc.game!.gameAction;
+    final CSGameAction? actionBloc = bloc.game.gameAction;
     final CSScroller? scrollerBloc = dummyScroller ?? bloc.scroller;
     final bool tutorial = dummyScroller != null;
     
@@ -57,7 +57,7 @@ class PlayerGestures{
     required bool? hasPartnerB,
     required bool? usePartnerB,
   }){
-    final actionBloc = bloc.game!.gameAction;
+    final actionBloc = bloc.game.gameAction;
     // final gameStateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
     switch (page) {
@@ -70,7 +70,7 @@ class PlayerGestures{
         actionBloc.selected.value[name] = (rawSelected == false);
         actionBloc.selected.refresh();
         if(isScrollingSomewhere){
-          scrollerBloc!.delayerController.scrolling();
+          scrollerBloc.delayerController.scrolling();
           scrollerBloc.delayerController.leaving();
         }
         return;
@@ -112,7 +112,7 @@ class PlayerGestures{
     required String? whoIsDefending,
   }){
 
-    final actionBloc = bloc.game!.gameAction;
+    final actionBloc = bloc.game.gameAction;
 
     switch (page) {
       case CSPage.commanderCast:
@@ -141,7 +141,7 @@ class PlayerGestures{
         if(othersAlreadySelected){
           /// if other players were selected before, wether there was an edit or not, 
           /// confirm that edit and move on with this new selected player
-          bloc.scroller!.forceComplete();
+          bloc.scroller.forceComplete();
         } 
 
         /// now, only select this player
@@ -165,7 +165,7 @@ class PlayerGestures{
         if(othersAlreadyDefending){
           /// if other players were defending before, wether there was a non zero damage or not, 
           /// confirm that damage and move on with this new defending player
-          bloc.scroller!.forceComplete();
+          bloc.scroller.forceComplete();
 
           // but reselect the previous attacker then
           actionBloc.attackingPlayer.set(whoIsAttacking);
@@ -179,8 +179,8 @@ class PlayerGestures{
     }
 
     /// and now edit the value
-    bloc.scroller!.editVal(topHalf ? 1 : -1);
-    bloc.scroller!.registerCallbackOnNextAutoConfirm("arena commander damage", (){
+    bloc.scroller.editVal(topHalf ? 1 : -1);
+    bloc.scroller.registerCallbackOnNextAutoConfirm("arena commander damage", (){
       bloc.stage!.mainPagesController.goToPage(CSPage.life);
     });
   }

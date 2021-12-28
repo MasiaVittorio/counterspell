@@ -36,7 +36,7 @@ class ArenaButton extends StatelessWidget {
     } else if(this.isScrollingSomewhere){
       // action pending to be cancelled
       buttonCross = true;
-      centerTap = bloc!.scroller!.cancel;
+      centerTap = bloc!.scroller.cancel;
     } 
     else if(page != CSPage.life){
       buttonCross = true;

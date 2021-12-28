@@ -21,8 +21,8 @@ class AptName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return bloc!.settings!.arenaSettings.hideNameWhenImages.build((_, hideNameWithImage){
-      bool hideName = hideNameWithImage && (bloc!.game!.gameGroup.cards(!usingPartnerB).value[name] != null);
+    return bloc!.settings.arenaSettings.hideNameWhenImages.build((_, hideNameWithImage){
+      bool hideName = hideNameWithImage && (bloc!.game.gameGroup.cards(!usingPartnerB).value[name] != null);
       /// check if an image is there for this player
 
       String text = hideName ? "" : "$name ";

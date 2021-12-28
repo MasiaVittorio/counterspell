@@ -22,8 +22,8 @@ class ArenaMenuLayout extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final bloc = CSBloc.of(context)!;
-    final arenaBloc = bloc.settings!.arenaSettings;
-    final groupBloc = bloc.game!.gameGroup;
+    final arenaBloc = bloc.settings.arenaSettings;
+    final groupBloc = bloc.game.gameGroup;
     
     return ConstrainedBox(
       constraints: BoxConstraints(

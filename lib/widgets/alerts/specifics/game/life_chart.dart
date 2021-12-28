@@ -17,7 +17,7 @@ class LifeChart extends StatelessWidget {
     final Color bkgColor = theme.scaffoldBackgroundColor;
     final TextStyle? textStyle = theme.textTheme.bodyText2; 
 
-    return Material(child: bloc.game!.gameState.gameState.build((_, gameState){
+    return Material(child: bloc.game.gameState.gameState.build((_, gameState){
       final List<Player?> players = gameState.players.values.toList();
 
       return Column(children: <Widget>[

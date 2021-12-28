@@ -17,7 +17,7 @@ class PresetsAlert extends StatelessWidget {
       color: theme.scaffoldBackgroundColor,
       child: SingleChildScrollView(
         physics: stage.panelController.panelScrollPhysics(),
-        child: bloc.themer!.savedSchemes.build((_, savedSchemes) {
+        child: bloc.themer.savedSchemes.build((_, savedSchemes) {
           List<CSColorScheme> all = [...CSColorScheme.defaults.values, ...savedSchemes.values];
           List<CSColorScheme> lights = [
             for(final s in all)
@@ -134,14 +134,14 @@ class PresetTile extends StatelessWidget {
           ? IconButton(
             icon: const Icon(Icons.delete_forever, color: CSColors.delete,),
             onPressed: (){
-              bloc!.themer!.savedSchemes.value.remove(scheme.name);
-              bloc.themer!.savedSchemes.refresh();
+              bloc!.themer.savedSchemes.value.remove(scheme.name);
+              bloc.themer.savedSchemes.refresh();
             },
           ) 
           : null,
         onTap: (){
           final themeController = stage.themeController;
-          final themer = bloc!.themer!;
+          final themer = bloc!.themer;
 
           Map<CSPage?,Color> perPage = <CSPage?,Color>{
             for(final entry in scheme.perPage.entries)

@@ -9,7 +9,7 @@ class ImageOpacitySimple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.imagesSettings;
+    final settings = bloc.settings.imagesSettings;
     final opacity = settings.arenaImageOpacity;
 
     final theme = Theme.of(context);

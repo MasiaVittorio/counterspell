@@ -59,7 +59,7 @@ class AptContent extends StatelessWidget {
   bool get leftButton => rightInfo;
   bool get rightInfo => rightInfoFromButtonAlignment(this.buttonAlignment);
 
-  Widget get expandedBody => Expanded(child: bloc!.settings!.arenaSettings.scrollOverTap.buildChild(
+  Widget get expandedBody => Expanded(child: bloc!.settings.arenaSettings.scrollOverTap.buildChild(
     child: body,
     builder: (context, scrolls, child) => IgnorePointer(
       ignoring: !scrolls,
@@ -139,7 +139,7 @@ class AptContent extends StatelessWidget {
     whoIsDefending: this.whoIsDefending,
   );
 
-  Widget get role => this.bloc!.settings!.arenaSettings.scrollOverTap.build((context, scroll) => scroll
+  Widget get role => this.bloc!.settings.arenaSettings.scrollOverTap.build((context, scroll) => scroll
     ? AptRole(
       name: this.name,
       rawSelected: this.rawSelected,

@@ -58,7 +58,7 @@ class _Restarter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final state = bloc.game!.gameState;
+    final state = bloc.game.gameState;
 
     return ConfirmableTile(
       onConfirm: (){

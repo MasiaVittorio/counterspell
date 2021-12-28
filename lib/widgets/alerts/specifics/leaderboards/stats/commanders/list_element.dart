@@ -38,7 +38,7 @@ class CommanderStatWidget extends StatelessWidget {
         .mainPageToPrimaryColor!.value!;
 
     final logic = CSBloc.of(context)!;
-    final imageSettings = logic.settings!.imagesSettings;
+    final imageSettings = logic.settings.imagesSettings;
     final imageUrl = stat.card.imageUrl()!;
 
     return SizedBox(

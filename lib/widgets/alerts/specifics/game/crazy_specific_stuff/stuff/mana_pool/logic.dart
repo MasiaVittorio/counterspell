@@ -37,12 +37,12 @@ class MPLogic {
     selected = BlocVar<Clr?>(null);
     
     localScroller = ScrollerLogic(
-      okVibrate: () => parentBloc.settings!.appSettings.canVibrate! 
-        && parentBloc.settings!.appSettings.wantVibrate.value!,
+      okVibrate: () => parentBloc.settings.appSettings.canVibrate! 
+        && parentBloc.settings.appSettings.wantVibrate.value!,
       onCancel: (_, __){
         selected.set(null);
       },
-      scrollSettings: parentBloc.settings!.scrollSettings,
+      scrollSettings: parentBloc.settings.scrollSettings,
       resetAfterConfirm: true,
       onConfirm: (v){
         this.apply(currentAction);
@@ -106,14 +106,14 @@ class MPLogic {
 enum Clr {w,u,b,r,g,c} ///+ colorless
 extension ClrExt on Clr {
 
-  String? get name => const <Clr,String>{
+  String get name => const <Clr,String>{
     Clr.w: "w",
     Clr.u: "u",
     Clr.b: "b",
     Clr.r: "r",
     Clr.g: "g",
     Clr.c: "c",
-  }[this]; 
+  }[this]!; 
 
   Color? get color => const <Clr,Color>{
     Clr.w: const Color(0xFFfffbd6),

@@ -10,14 +10,14 @@ class CSBloc extends BlocBase {
     print("disposing all counterspell logic from inside");
     this.tutorial!.dispose();
     this.achievements.dispose();
-    this.game!.dispose();
+    this.game.dispose();
     this.backups.dispose();
     this.pastGames.dispose();
     this.payments.dispose();
-    this.stageBloc!.dispose();
-    this.scroller!.dispose();
-    this.settings!.dispose();
-    this.themer!.dispose();
+    this.stageBloc.dispose();
+    this.scroller.dispose();
+    this.settings.dispose();
+    this.themer.dispose();
   }
 
 
@@ -28,15 +28,15 @@ class CSBloc extends BlocBase {
 
   CSTutorial? tutorial; // Needs stage just to show, not to initialize
   late CSAchievements achievements;
-  CSGame? game;
+  late CSGame game;
   late CSPastGames pastGames;
   late CSPayments payments;
   late CSBackupBloc backups;
-  CSStage? stageBloc; // Needs scroller
+  late CSSettings settings;
+  late CSScroller scroller;
+  late CSStage stageBloc; // Needs scroller
   late CSBadges badges; // Needs stage 
-  CSScroller? scroller;
-  CSSettings? settings;
-  CSThemer? themer; // Needs stage
+  late CSThemer themer; // Needs stage
 
 
   //=============================
@@ -59,7 +59,7 @@ class CSBloc extends BlocBase {
 
   //=============================
   // Getters 
-  StageData<CSPage?,SettingsPage?>? get stage => this.stageBloc!.controller;
+  StageData<CSPage?,SettingsPage?>? get stage => this.stageBloc.controller;
 
 
 }

@@ -7,7 +7,7 @@ class ThemePResetter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final themer = bloc.themer!;
+    final themer = bloc.themer;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
     final themeController = stage.themeController;
     final derived = themeController.derived;

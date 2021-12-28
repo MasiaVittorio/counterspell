@@ -291,7 +291,6 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             }),
           ),
           
-          // TODO: slider per la chance, non puoi andare su altri alert o perdi questo state
           
         ],),
       ]),

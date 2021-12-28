@@ -40,7 +40,7 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
 
     final logic = CSBloc.of(context)!;
     final theme = Theme.of(context);
-    final imageSettings = logic.settings!.imagesSettings;
+    final imageSettings = logic.settings.imagesSettings;
 
     final int totalGames = widget.stat.totalGamesFilter(
       opponent: opponent,

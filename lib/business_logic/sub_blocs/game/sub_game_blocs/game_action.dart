@@ -163,12 +163,12 @@ class CSGameAction {
   ).normalizeOnLast(gameState);
 
   GameAction currentNormalizedAction(CSPage? page) => normalizedAction(
-    scrollerValue: parent.parent.scroller!.intValue.value,
+    scrollerValue: parent.parent.scroller.intValue.value,
     pageValue: page,
     selectedValue: selected.value,
     gameState: parent.gameState.gameState.value,
-    minValue: parent.parent.settings!.gameSettings.minValue.value,
-    maxValue: parent.parent.settings!.gameSettings.maxValue.value,
+    minValue: parent.parent.settings.gameSettings.minValue.value,
+    maxValue: parent.parent.settings.gameSettings.maxValue.value,
     attacker: this.attackingPlayer.value,
     defender: this.defendingPlayer.value,
     counter: this.counterSet.variable.value,
@@ -178,7 +178,7 @@ class CSGameAction {
   bool get isSomeoneDefending => selected.value.keys.contains(defendingPlayer.value);
   //null means anti-selected! (so somewhat selected indeed)
   bool get isSomeoneSelected => selected.value.values.any((b) => b != false);
-  bool get isScrolling => parent.parent.scroller!.isScrolling.value;
+  bool get isScrolling => parent.parent.scroller.isScrolling.value;
   bool get actionPending 
     => isScrolling 
     || isSomeoneSelected
@@ -211,8 +211,8 @@ class CSGameAction {
     final GameAction action = this.currentNormalizedAction(page);
     this.parent.gameState.applyAction(action);
     this.clearSelection(false);
-    this.parent.parent.scroller!.value = 0.0;
-    this.parent.parent.scroller!.intValue.set(0);
+    this.parent.parent.scroller.value = 0.0;
+    this.parent.parent.scroller.intValue.set(0);
   }
 
 

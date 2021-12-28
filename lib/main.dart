@@ -94,7 +94,7 @@ class _CounterSpellState extends State<CounterSpell> {
     return BlocProvider<CSBloc>(
       bloc: bloc,
       child: StageProvider<CSPage, SettingsPage>(
-        data: bloc.stageBloc!.controller,
+        data: bloc.stageBloc.controller,
         child: const _MaterialApp(),
       ),
     );

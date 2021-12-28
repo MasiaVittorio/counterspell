@@ -13,7 +13,7 @@ class ImageOpacityRegular extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.imagesSettings;
+    final settings = bloc.settings.imagesSettings;
     final start = settings.imageGradientStart;
     final end = settings.imageGradientEnd;
 

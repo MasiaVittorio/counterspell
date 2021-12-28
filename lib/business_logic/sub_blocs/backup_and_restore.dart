@@ -291,14 +291,14 @@ class CSBackupBloc {
 
     newFile.create();
 
-    final settings = parent.settings!;
+    final settings = parent.settings;
     final arena = settings.arenaSettings;
     final gameSettings = settings.gameSettings;
     final app = settings.appSettings;
     final scroll = settings.scrollSettings;
-    final game = parent.game!;
+    final game = parent.game;
     final group = game.gameGroup;
-    final themer = parent.themer!;
+    final themer = parent.themer;
 
     await newFile.writeAsString(jsonEncode(<String,dynamic>{
       themer.savedSchemes.key:
@@ -383,14 +383,14 @@ class CSBackupBloc {
 
       if(map is Map){
 
-        final settings = parent.settings!;
+        final settings = parent.settings;
         final arena = settings.arenaSettings;
         final gameSettings = settings.gameSettings;
         final app = settings.appSettings;
         final scroll = settings.scrollSettings;
-        final game = parent.game!;
+        final game = parent.game;
         final group = game.gameGroup;
-        final themer = parent.themer!;
+        final themer = parent.themer;
 
         {final blocVar = themer.savedSchemes;
         final _val = map[blocVar.key];

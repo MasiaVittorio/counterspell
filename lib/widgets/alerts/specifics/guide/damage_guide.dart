@@ -51,7 +51,7 @@ class _DefenderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
-      child: CSBloc.of(context)!.themer!.defenceColor.build((_,defenceColor)=>InfoSection(
+      child: CSBloc.of(context)!.themer.defenceColor.build((_,defenceColor)=>InfoSection(
         last: true,
         icon: Icon(
           CSIcons.defenceFilled,

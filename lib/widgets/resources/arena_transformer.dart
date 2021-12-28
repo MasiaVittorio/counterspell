@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 import 'package:flutter/services.dart';
-
+import 'package:animations/animations.dart';
 
 /// Transform the collapsed panel in the arena, fuck it
 class ArenaTransformer extends StatelessWidget {
@@ -26,11 +26,12 @@ class ArenaTransformer extends StatelessWidget {
     return OpenContainer(
       closedColor: backgroundColor ?? theme.canvasColor,
       openColor: theme.scaffoldBackgroundColor,
-      intermediateColor: theme.canvasColor,
+      middleColor: theme.canvasColor,
+      // intermediateColor: theme.canvasColor,
       openBuilder: (context, exitArena){
         final Widget child = ArenaWidget(logic: logic); 
 
-        if (logic!.settings!.arenaSettings.fullScreen.value){
+        if (logic!.settings.arenaSettings.fullScreen.value){
           return  MediaQuery.removePadding(
             context: context, 
             removeTop: true, 
@@ -46,7 +47,7 @@ class ArenaTransformer extends StatelessWidget {
       closedElevation: 0.0,
       openElevation: 0.0,
       closedBuilder: (context, openArena) => builder(context, (){
-        if(!ArenaWidget.okNumbers.contains(logic!.game!.gameState.gameState.value.players.length)){
+        if(!ArenaWidget.okNumbers.contains(logic!.game.gameState.gameState.value.players.length)){
           stage!.showAlert(
             AlternativesAlert(
               twoLinesLabel: true,
@@ -62,11 +63,11 @@ class ArenaTransformer extends StatelessWidget {
           return null;
         }
         
-        logic.settings!.appSettings.lastPageBeforeArena.set(stage!.mainPagesController.currentPage);
+        logic.settings.appSettings.lastPageBeforeArena.set(stage!.mainPagesController.currentPage);
         stage.mainPagesController.goToPage(CSPage.life);
-        logic.game!.gameAction.clearSelection();
+        logic.game.gameAction.clearSelection();
 
-        if(logic.settings!.arenaSettings.fullScreen.value){
+        if(logic.settings.arenaSettings.fullScreen.value){
           SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
         }
 
@@ -75,7 +76,7 @@ class ArenaTransformer extends StatelessWidget {
       tappable: false,
       onClosed: (dynamic _) {
         stage!.mainPagesController.goToPage(
-          logic!.settings!.appSettings.lastPageBeforeArena.value,
+          logic!.settings.appSettings.lastPageBeforeArena.value,
         );
         SystemChrome.setEnabledSystemUIMode(
           SystemUiMode.manual, 

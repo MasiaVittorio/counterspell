@@ -31,10 +31,10 @@ class __LocalState extends State<_Local> {
   void initState() {
     super.initState();
     this.localScroller = ScrollerLogic(
-      okVibrate: () => widget.bloc!.settings!.appSettings.canVibrate! 
-        && widget.bloc!.settings!.appSettings.wantVibrate.value!,
+      okVibrate: () => widget.bloc!.settings.appSettings.canVibrate! 
+        && widget.bloc!.settings.appSettings.wantVibrate.value!,
       onCancel: null,
-      scrollSettings: widget.bloc!.settings!.scrollSettings,
+      scrollSettings: widget.bloc!.settings.scrollSettings,
       resetAfterConfirm: true,
       onConfirm: (increment){
         if(this.mounted)

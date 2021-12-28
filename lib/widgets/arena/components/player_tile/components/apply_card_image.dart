@@ -35,7 +35,7 @@ class AptCardImage extends StatelessWidget {
     final player = gameState!.players[name]!;
     final bool haveB = player.havePartnerB!;
     final bool useB = haveB && player.usePartnerB!;
-    final group = bloc!.game!.gameGroup;
+    final group = bloc!.game.gameGroup;
 
     return group.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
       final MtgCard? cardA = cardsA[name];
@@ -50,7 +50,7 @@ class AptCardImage extends StatelessWidget {
         final String? urlA = cardA?.imageUrl();
         final String? urlB = cardB?.imageUrl();
 
-        return bloc!.settings!.imagesSettings.imageAlignments.build((_,alignments){
+        return bloc!.settings.imagesSettings.imageAlignments.build((_,alignments){
           
           final Decoration? decorationA = urlA == null 
             ? null 
@@ -114,7 +114,7 @@ class AptCardImage extends StatelessWidget {
             );
           }
 
-          final Widget filterColor = bloc!.settings!.imagesSettings.arenaImageOpacity.build((context, double? opacity) => Container(
+          final Widget filterColor = bloc!.settings.imagesSettings.arenaImageOpacity.build((context, double? opacity) => Container(
             color: bkgColor.withOpacity(opacity!),
           ));
 

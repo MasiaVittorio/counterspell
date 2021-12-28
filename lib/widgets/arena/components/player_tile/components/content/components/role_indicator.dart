@@ -32,8 +32,8 @@ class AptRole extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final Color? pageColor = pageColors![page];
-    final CSGameState? stateBloc = bloc!.game!.gameState;
-    final CSGameAction? actionBloc = bloc!.game!.gameAction;
+    final CSGameState? stateBloc = bloc!.game.gameState;
+    final CSGameAction? actionBloc = bloc!.game.gameAction;
 
     return  SizedBox(
       width: size,

@@ -12,7 +12,7 @@ class CSThemer {
   final CSBloc parent;
   final PersistentVar<Color> defenceColor;
   final PersistentVar<Map<String,CSColorScheme>> savedSchemes;
-  BlocVar<bool?>? flatDesign; // vs material design
+  late BlocVar<bool?> flatDesign; // vs material design
 
 
   static const bool flatLinkedToColorPlace = false;
@@ -50,14 +50,13 @@ class CSThemer {
         from: parent.stage!.themeController.colorPlace,
         map: (StageColorPlace place)
           => place.isTexts,
-      ) as BlocVar<bool?>?;
+      );
     } else {
       flatDesign = PersistentVar<bool>(
         key: "bloc_themer_blocvar_flatDesign",
         initVal: false,
       );
     }
-    assert(flatDesign != null);
 
   }
 
@@ -94,7 +93,7 @@ class CSThemer {
     parent.stage!.themeController.colorPlace.setDistinct(StageColorPlace.texts);
     
     if(flatLinkedToColorPlace == false){
-      this.flatDesign!.setDistinct(true);  
+      this.flatDesign.setDistinct(true);  
     } else {
       // should get set to true automatically
     }
@@ -115,7 +114,7 @@ class CSThemer {
       parent.stage!.themeController.colorPlace.set(StageColorPlace.background);
       // then flat design should become false automatically
     } else {
-      this.flatDesign!.setDistinct(false);  
+      this.flatDesign.setDistinct(false);  
       // colorPlace can still be texts if the two are not hard linked
     }
     parent.stage!.themeController.topBarElevations.set(_topMaterialElevations);
@@ -129,7 +128,7 @@ class CSThemer {
   }
 
   void toggleFlatDesign(){
-    if(this.flatDesign!.value!){
+    if(this.flatDesign.value!){
       this.deactivateFlatDesign();
     } else {
       this.activateFlatDesign();

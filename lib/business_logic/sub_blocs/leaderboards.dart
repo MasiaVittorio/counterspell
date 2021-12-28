@@ -43,7 +43,7 @@ class CSPastGames {
             card.oracleId: CommanderStats.fromPastGames(card, pastGames),
           /// oracle Id because we want to just use one print of a commander
         },
-      ) as BlocVar<Map<String,CommanderStats>>;
+      );
       this.playerStats = BlocVar.fromCorrelate
         <Map<String,PlayerStats>, List<PastGame?>>
       (
@@ -52,7 +52,7 @@ class CSPastGames {
           for(final name in names(pastGames))
             name: PlayerStats.fromPastGames(name, pastGames),
         },
-      ) as BlocVar<Map<String, PlayerStats>>;
+      );
       this.customStats = BlocVar.fromCorrelateLatest2
         <Map<String,CustomStat>, List<PastGame?>, Set<String>>
       (pastGames, customStatTitles, map: (pastGames, titles) => <String,CustomStat>{

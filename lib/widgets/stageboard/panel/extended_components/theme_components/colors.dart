@@ -17,7 +17,7 @@ class ThemeColors extends StatelessWidget {
           Section(<Widget>[
             const SectionTitle("CounterSpell Colors"),
             StageMainColorsPerPage(extraChildren: <Widget>[
-              bloc.themer!.defenceColor.build((context, defenceColor)
+              bloc.themer.defenceColor.build((context, defenceColor)
                 => ListTile(
                   title: const Text("Defence"),
                   leading: ColorCircleDisplayer(defenceColor, icon: CSIcons.defenceFilled),
@@ -43,7 +43,7 @@ class ThemeColors extends StatelessWidget {
     stage.pickColor(
       initialColor: defenceColor,
       onSubmitted: (color){
-        bloc.themer!.defenceColor.set(color);
+        bloc.themer.defenceColor.set(color);
         stage.closePanel();
       },
     );

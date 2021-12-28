@@ -13,14 +13,14 @@ class CSBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final group = bloc.game!.gameGroup;
+    final group = bloc.game.gameGroup;
     final themer = bloc.themer;
     final theme = Theme.of(context);
     final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
     final stageTheme = stage.themeController;
 
     return stageTheme.derived.mainPageToPrimaryColor!.build((_, pageColors)
-      => themer!.flatDesign!.build((_, flat) 
+      => themer.flatDesign.build((_, flat) 
       => themer.defenceColor.build((_, defenceColor)
       => LayoutBuilder(builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
@@ -71,8 +71,8 @@ class CSBody extends StatelessWidget {
                       SchedulerBinding.instance!.addPostFrameCallback((_) {
                         //just (dont) build lol
                         stage.mainPagesController.enablePage(CSPage.history);
-                        bloc.game!.gameHistory.listController.refresh(
-                          bloc.game!.gameState.gameState.value.historyLenght,
+                        bloc.game.gameHistory.listController.refresh(
+                          bloc.game.gameState.gameState.value.historyLenght,
                         );
                       });
                     }

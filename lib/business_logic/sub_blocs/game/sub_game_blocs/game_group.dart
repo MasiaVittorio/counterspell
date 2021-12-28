@@ -96,19 +96,19 @@ class CSGameGroup {
         return true;
       }
     );
-    arenaNameOrder = PersistentVar<Map<int,String>>(
+    arenaNameOrder = PersistentVar<Map<int,String?>>(
       key: "bloc_game_group_blocvar_alternative_layout_name_order",
-      initVal: {
+      initVal: <int,String?>{
         for(int i=0; i<this.names.value.length; ++i)
           i: this.names.value[i],
       },
-      toJson: (map) => {
+      toJson: (map) => <String,dynamic>{
         for(final entry in map.entries)
           entry.key.toString(): entry.value, 
       },
-      fromJson: (json) => {
+      fromJson: (json) => <int,String?>{
         for(final entry in (json as Map<String,dynamic>).entries)
-          int.parse(entry.key): entry.value,
+          int.parse(entry.key): entry.value as String?,
       },
     );
 

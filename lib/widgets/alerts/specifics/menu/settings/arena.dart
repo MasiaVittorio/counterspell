@@ -32,7 +32,7 @@ class ArenaScrollOverTap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.arenaSettings;
+    final settings = bloc.settings.arenaSettings;
 
     return settings.scrollOverTap.build((context, scrollOverTap) 
       => RadioSliderOf<bool>(
@@ -53,7 +53,7 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.arenaSettings;
+    final settings = bloc.settings.arenaSettings;
 
     final content = settings.verticalScroll.build((_, vertical)
       => Column(
@@ -103,7 +103,7 @@ class Gestures extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.arenaSettings;
+    final settings = bloc.settings.arenaSettings;
 
     return settings.scrollOverTap.build((context, scroll) 
       => settings.verticalScroll.build((context, verticalScroll) 
@@ -166,7 +166,7 @@ class ArenaTapDirectionSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.arenaSettings;
+    final settings = bloc.settings.arenaSettings;
 
     final content = settings.verticalTap.build((_, vertical)
       => Column(
@@ -225,7 +225,7 @@ class ArenaFullScreenToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.arenaSettings;
+    final settings = bloc.settings.arenaSettings;
     return settings.fullScreen.build((_, fullScreen) => SwitchListTile(
       onChanged: settings.fullScreen.set,
       value: fullScreen,
@@ -241,7 +241,7 @@ class ArenaHideNamesWithImageToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.arenaSettings;
+    final settings = bloc.settings.arenaSettings;
     return settings.hideNameWhenImages.build((_, hide) => SwitchListTile(
       onChanged: settings.hideNameWhenImages.set,
       value: hide,

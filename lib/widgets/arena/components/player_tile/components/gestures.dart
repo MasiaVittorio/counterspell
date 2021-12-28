@@ -50,12 +50,12 @@ class AptGestures extends StatelessWidget {
     final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
 
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.arenaSettings;
+    final settings = bloc.settings.arenaSettings;
 
     return Material(
       type: MaterialType.transparency,
       child: StageBuild.offMainEnabledPages((_, enabled) 
-        => bloc.settings!.arenaSettings.scrollOverTap.build((context, scrollOverTap) {
+        => bloc.settings.arenaSettings.scrollOverTap.build((context, scrollOverTap) {
 
           if(scrollOverTap){
             final Widget interactiveContent = InkResponse(
@@ -66,7 +66,7 @@ class AptGestures extends StatelessWidget {
               child: VelocityPanDetector(
                 onPanUpdate: onPanUpdate,
                 onPanEnd: onPanEnd,
-                onPanCancel: bloc.scroller!.onDragEnd,
+                onPanCancel: bloc.scroller.onDragEnd,
                 child: Container(
                   /// Transparent color (not just null) unless the empty part would not be interactive
                   color: Colors.transparent,
@@ -193,7 +193,7 @@ class AptGestures extends StatelessWidget {
       page == CSPage.commanderDamage 
       && !(whoIsAttacking == name && havingPartnerB!)
     ){
-      bloc!.game!.gameAction.clearSelection();
+      bloc!.game.gameAction.clearSelection();
       stage!.mainPagesController.goToPage(CSPage.life);
     } else {
       PlayerGestures.tap(
@@ -217,8 +217,8 @@ class AptGestures extends StatelessWidget {
       stage!.mainPagesController.goToPage(CSPage.life);
     } else {
       stage!.mainPagesController.goToPage(CSPage.commanderDamage);
-      bloc!.game!.gameAction.attackingPlayer.set(this.name);
-      bloc!.game!.gameAction.defendingPlayer.set("");
+      bloc!.game.gameAction.attackingPlayer.set(this.name);
+      bloc!.game.gameAction.defendingPlayer.set("");
     } 
   }
 
@@ -228,10 +228,10 @@ class AptGestures extends StatelessWidget {
     constraints.maxWidth,
     bloc: bloc!,
     page: page,
-    vertical: bloc!.settings!.arenaSettings.verticalScroll.value,
+    vertical: bloc!.settings.arenaSettings.verticalScroll.value,
   );
 
-  void onPanEnd(DragEndDetails _) => bloc!.scroller!.onDragEnd();
+  void onPanEnd(DragEndDetails _) => bloc!.scroller.onDragEnd();
 
 
   /// with only taps, we need the relative position to be able to determimne if the
@@ -307,8 +307,8 @@ class AptCmdrDmg extends StatelessWidget {
         switch (mode) {
           case _CmdrMode.outOfCommanderDamage:
             bloc!.stage!.mainPagesController.goToPage(CSPage.commanderDamage);
-            bloc!.game!.gameAction.attackingPlayer.set(this.name);
-            bloc!.game!.gameAction.defendingPlayer.set("");
+            bloc!.game.gameAction.attackingPlayer.set(this.name);
+            bloc!.game.gameAction.defendingPlayer.set("");
             break;
           default:
             bloc!.stage!.mainPagesController.goToPage(CSPage.life);
@@ -317,8 +317,8 @@ class AptCmdrDmg extends StatelessWidget {
       onLongPress: mode == _CmdrMode.isAttacking && hasPartnerB!
         ? (){
           //toggling used partners
-          bloc!.game!.gameState.gameState.value.players[name]!.usePartnerB = !usePartnerB!;
-          bloc!.game!.gameState.gameState.refresh();
+          bloc!.game.gameState.gameState.value.players[name]!.usePartnerB = !usePartnerB!;
+          bloc!.game.gameState.gameState.refresh();
         }
         : null,
       child: Container(

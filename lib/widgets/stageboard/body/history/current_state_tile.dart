@@ -24,7 +24,7 @@ class CurrentStateTile extends StatelessWidget {
       child: Material(
         elevation: 4,
         color: Theme.of(context).scaffoldBackgroundColor,
-        child: CSBloc.of(context)!.themer!.flatDesign!.build((context, flat) 
+        child: CSBloc.of(context)!.themer.flatDesign.build((context, flat) 
           => Column(children: CSSizes.separateColumn(flat!, <Widget>[
             for(final name in names)
               CurrentStatePlayerTile(

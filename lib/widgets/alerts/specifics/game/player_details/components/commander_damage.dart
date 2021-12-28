@@ -13,7 +13,7 @@ class PlayerDetailsDamage extends StatelessWidget {
     final TextTheme textTheme = theme.textTheme;
     final CSBloc bloc = CSBloc.of(context)!;
     final StageData<CSPage?,SettingsPage?> stage = bloc.stage!;
-    final CSGame gameBloc = bloc.game!;
+    final CSGame gameBloc = bloc.game;
     final CSGameGroup groupBloc = gameBloc.gameGroup;
     final CSGameState stateBloc = gameBloc.gameState;
 
@@ -22,7 +22,7 @@ class PlayerDetailsDamage extends StatelessWidget {
       child: BlocVar.build6<
       Color, Map<CSPage?,Color?>?, List<String>,
       GameState, Map<String,MtgCard>, Map<String,MtgCard>>(
-        bloc.themer!.defenceColor,
+        bloc.themer.defenceColor,
         stage.themeController.derived.mainPageToPrimaryColor!,
         groupBloc.names,
         stateBloc.gameState,

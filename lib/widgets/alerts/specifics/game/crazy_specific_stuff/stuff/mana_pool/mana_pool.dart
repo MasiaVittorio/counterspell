@@ -165,6 +165,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
               value: pool[color],
               onPan: logic.onPan,
               selected: selected == color,
+              key: ValueKey<String>(color.name),
             ),
       ],
     ),
@@ -282,7 +283,8 @@ class _ColorNumber extends StatelessWidget {
     required this.value,
     required this.onPan,
     required this.selected,
-  });
+    Key? key,
+  }): super(key: key);
 
 
   @override

@@ -10,7 +10,7 @@ class CachePlayers extends StatelessWidget {
     final bloc = CSBloc.of(context)!;
     final stage = Stage.of(context);
 
-    return bloc.game!.gameGroup.savedCards.build((_, cards) {
+    return bloc.game.gameGroup.savedCards.build((_, cards) {
       final List<String> players = cards.keys.toList()
         ..sort((a,b) => cards[b]!.length - cards[a]!.length);
 
@@ -30,7 +30,7 @@ class CachePlayers extends StatelessWidget {
                   confirmText: "Clear $player's cache",
                   confirmColor: CSColors.delete,
                   confirmIcon: Icons.delete_forever,
-                  action: () => bloc.game!.gameGroup.savedCards.removeKey(player),
+                  action: () => bloc.game.gameGroup.savedCards.removeKey(player),
                 ),
                 size: ConfirmAlert.height,
               ),

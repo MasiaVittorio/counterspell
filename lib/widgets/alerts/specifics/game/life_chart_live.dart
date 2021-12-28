@@ -11,7 +11,7 @@ class AnimatedLifeChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(child: CSBloc.of(context)!
-      .game!.gameState.gameState.build((_, gameState)
+      .game.gameState.gameState.build((_, gameState)
         => _LifeChartLive(gameState),
       ),
     );
@@ -196,7 +196,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
       ),
       child: BlocVar.build2(
         stage.themeController.derived.mainPageToPrimaryColor!,
-        bloc.themer!.defenceColor,
+        bloc.themer.defenceColor,
         builder:(_, dynamic colors, dynamic defenceColor) 
           =>SubSection(<Widget>[
             Padding(

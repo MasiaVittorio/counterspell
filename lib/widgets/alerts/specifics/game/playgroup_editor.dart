@@ -368,7 +368,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
           color: CSColors.delete,
         ),
         onPressed: last ? null : () {
-          widget.bloc.game!.gameState.deletePlayer(name);
+          widget.bloc.game.gameState.deletePlayer(name);
           this._reCalcSize();
         },
       ),

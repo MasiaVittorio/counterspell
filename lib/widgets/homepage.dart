@@ -12,9 +12,9 @@ class CSHomePage extends StatelessWidget {
     final CSBloc bloc = CSBloc.of(context)!;
     
     return WillPopScope(
-      onWillPop: bloc.scroller!.decidePop,
+      onWillPop: bloc.scroller.decidePop,
       child: Stage<CSPage?,SettingsPage?>(
-        controller: bloc.stageBloc!.controller,
+        controller: bloc.stageBloc.controller,
 
         collapsedPanel: const CSPanelCollapsed(key: WidgetsKeys.collapsed,),
 

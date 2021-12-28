@@ -31,7 +31,7 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
                 title: Text("Partners"),
               ),
             }, 
-            onSelect: (val) => bloc!.game!.gameState.setHavePartner(name, val),
+            onSelect: (val) => bloc!.game.gameState.setHavePartner(name, val),
           ),
 
 
@@ -58,7 +58,7 @@ class _KeepSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final settings = bloc.settings!.gameSettings;
+    final settings = bloc.settings.gameSettings;
     
     return settings.keepCommanderSettingsBetweenGames.build((context, keep) 
       => Column(
@@ -110,8 +110,8 @@ class _Section extends StatelessWidget {
           SwitchListTile(
             value: player.damageDefendersLife(partnerA), 
             onChanged: (lifelink){
-              bloc!.game!.gameState.gameState.value.players[name]!.toggleDamageDefendersLife(partnerA);
-              bloc.game!.gameState.gameState.refresh();
+              bloc!.game.gameState.gameState.value.players[name]!.toggleDamageDefendersLife(partnerA);
+              bloc.game.gameState.gameState.refresh();
             },
             title: const Text("Damage to life"),
             secondary: const Icon(Icons.favorite_border),
@@ -119,8 +119,8 @@ class _Section extends StatelessWidget {
           SwitchListTile(
             value: player.infect(partnerA), 
             onChanged: (lifelink){
-              bloc!.game!.gameState.gameState.value.players[name]!.toggleInfect(partnerA);
-              bloc.game!.gameState.gameState.refresh();
+              bloc!.game.gameState.gameState.value.players[name]!.toggleInfect(partnerA);
+              bloc.game.gameState.gameState.refresh();
             },
             title: const Text("Infect"),
             secondary: Icon(Counter.poison.icon),
@@ -128,8 +128,8 @@ class _Section extends StatelessWidget {
           SwitchListTile(
             value: player.lifelink(partnerA), 
             onChanged: (lifelink){
-              bloc!.game!.gameState.gameState.value.players[name]!.toggleLifelink(partnerA);
-              bloc.game!.gameState.gameState.refresh();
+              bloc!.game.gameState.gameState.value.players[name]!.toggleLifelink(partnerA);
+              bloc.game.gameState.gameState.refresh();
             },
             title: const Text("Lifelink"),
             secondary: const Icon(McIcons.needle),
@@ -152,9 +152,9 @@ class _CommanderTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context)!;
-    final group = bloc.game!.gameGroup;
+    final group = bloc.game.gameGroup;
     final stage = Stage.of(context);
-    final state = bloc.game!.gameState;
+    final state = bloc.game.gameState;
 
 
     return group.names.build((_, names){

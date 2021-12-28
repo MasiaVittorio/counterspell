@@ -30,20 +30,20 @@ class BodyGroup extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final bloc = group!.parent.parent;
-    final actionBloc = bloc.game!.gameAction;
+    final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
 
     // Apparently, having BlocVar.build7() have the effect of the builder being called twice as many times.
     // Meh... Will have to look into StreamBuilder :/
 
     // Also, finishing a scroll on the panel makes some of these rebuild lol, wtf
-    return bloc.scroller!.isScrolling.build((_, isScrolling) 
-      => bloc.scroller!.intValue.build((_, increment) 
+    return bloc.scroller.isScrolling.build((_, isScrolling) 
+      => bloc.scroller.intValue.build((_, increment) 
       => actionBloc.selected.build((_, selected) 
       => actionBloc.attackingPlayer.build((_, attackingPlayer) 
       => actionBloc.defendingPlayer.build((_, defendingPlayer) 
       => actionBloc.counterSet.build((_, counter) 
-      => bloc.game!.gameState.gameState.build((_, gameState) {
+      => bloc.game.gameState.gameState.build((_, gameState) {
 
         final normalizedPlayerActions = CSGameAction.normalizedAction(
           pageValue: currentPage,
@@ -55,7 +55,7 @@ class BodyGroup extends StatelessWidget {
           //these three values are so rarely updated that all the actual
           //reactive variables make this rebuild so often that min and max
           //will basically always be correct. no need to add 2 streambuilders
-          minValue: settings!.gameSettings.minValue.value,
+          minValue: settings.gameSettings.minValue.value,
           maxValue: settings.gameSettings.maxValue.value,
           counter: counter,
         ).actions(gameState.names);
@@ -92,7 +92,7 @@ class BodyGroup extends StatelessWidget {
             ),
         ];
 
-        return bloc.themer!.flatDesign!.build((context, flat){
+        return bloc.themer.flatDesign.build((context, flat){
           
           final List<Widget> realChildren = landScape 
             ? [

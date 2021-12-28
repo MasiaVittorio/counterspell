@@ -10,7 +10,7 @@ class CSPanelCollapsed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CSBloc bloc = CSBloc.of(context)!;
-    final gameStateBloc = bloc.game!.gameState;
+    final gameStateBloc = bloc.game.gameState;
     final StageData<CSPage, SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
 
     final Widget backButton = gameStateBloc.gameState.build(
@@ -48,7 +48,7 @@ class CSPanelCollapsed extends StatelessWidget {
             ),
           );
 
-          final rightButton =  bloc.scroller!.isScrolling.build(
+          final rightButton =  bloc.scroller.isScrolling.build(
             (context, scrolling) => CircleButton(
               externalCircles: 3,
               sizeIncrement: scrolling ? 0.0 : 0.5,
@@ -58,7 +58,7 @@ class CSPanelCollapsed extends StatelessWidget {
               child: <CSPage,Widget>{
                 CSPage.history: const Icon(McIcons.restart),
                 CSPage.life: const Icon(McIcons.account_multiple_outline),
-                CSPage.counters: bloc.game!.gameAction.counterSet.build(
+                CSPage.counters: bloc.game.gameAction.counterSet.build(
                   (context, counter) => Icon(counter.icon),
                 ),
                 CSPage.commanderCast: const Icon(Icons.info_outline),
@@ -77,7 +77,7 @@ class CSPanelCollapsed extends StatelessWidget {
                       fromClosedPanel: true,
                     ),
                     size: PlayGroupEditor.sizeCalc(
-                      bloc.game!.gameGroup.names.value.length
+                      bloc.game.gameGroup.names.value.length
                     ),
                   );
                 } else if (currentPage == CSPage.commanderCast){
@@ -151,7 +151,7 @@ class _DelayerPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scroller = bloc.scroller!;
+    final scroller = bloc.scroller;
     final themeData = Theme.of(context);
     final canvas = themeData.canvasColor;
     final canvasContrast = themeData.colorScheme.onSurface;
@@ -160,7 +160,7 @@ class _DelayerPanel extends StatelessWidget {
     return BlocVar.build4<bool,int,Duration,Color?>(
         scroller.isScrolling,
         scroller.intValue,
-        bloc.settings!.scrollSettings.confirmDelay,
+        bloc.settings.scrollSettings.confirmDelay,
         stage.themeController.derived.currentPrimaryColor!,
         distinct: true, builder: (
       BuildContext context,

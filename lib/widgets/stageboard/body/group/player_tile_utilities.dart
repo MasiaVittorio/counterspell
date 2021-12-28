@@ -147,11 +147,9 @@ class PTileUtils {
     return "";
   }
   static String subString(String string, int len){
-    final slen = string.length;
-    if(slen > len){
-      return string.substring(0,(len-1).clamp(0,double.infinity as int))+".";
-    }
-    return string;
-}
+    if(len < 1) return "";
+    if(len > string.length) return string;
+    return string.substring(0,len-1)+".";
+  }
 }
 

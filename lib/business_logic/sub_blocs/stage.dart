@@ -17,7 +17,7 @@ class CSStage {
       storeKey: "MvSidereus_CounterSpell_Stage",
       panelData: StagePanelData(
         onPanelOpen: (){
-          parent.scroller!.cancel();
+          parent.scroller.cancel();
           if(
             parent.tutorial!.currentHint != null &&
             parent.tutorial!.currentHint!.needsSnackBar
@@ -55,7 +55,7 @@ class CSStage {
         },
         orderedPages: CSPage.values.toList(),
       ).complete,
-      onMainPageChanged: (_) => parent.scroller!.cancel(true),
+      onMainPageChanged: (_) => parent.scroller.cancel(true),
 
       jsonToPanelPage: (json) => SettingsPages.fromName(json as String)!,
       panelPageToJson: (page) => SettingsPages.nameOf(page),

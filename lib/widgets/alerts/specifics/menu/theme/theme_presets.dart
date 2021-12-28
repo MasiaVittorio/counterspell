@@ -52,6 +52,9 @@ class PresetsAlert extends StatelessWidget {
   }
 }
 
+// TODO: when selecting a preset to load, the margin around the player tiles 
+//  doens't update between flat and solid design language
+
 class PresetTile extends StatelessWidget {
   final CSColorScheme scheme;
   const PresetTile(this.scheme);
@@ -143,7 +146,7 @@ class PresetTile extends StatelessWidget {
           final themeController = stage.themeController;
           final themer = bloc!.themer;
 
-          Map<CSPage?,Color> perPage = <CSPage?,Color>{
+          Map<CSPage,Color> perPage = <CSPage,Color>{
             for(final entry in scheme.perPage.entries)
               entry.key: Color(entry.value!.value),
           };  // Copy map

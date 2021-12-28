@@ -4,8 +4,8 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_gestures.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_utilities.dart';
+import 'package:counter_spell_new/widgets/stage/body/group/player_tile_gestures.dart';
+import 'package:counter_spell_new/widgets/stage/body/group/player_tile_utilities.dart';
 
 class PlayerTile extends StatelessWidget {
   final String name;

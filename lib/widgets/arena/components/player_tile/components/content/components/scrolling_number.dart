@@ -1,5 +1,5 @@
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile_utilities.dart';
+import 'package:counter_spell_new/widgets/stage/body/group/player_tile_utilities.dart';
 
 class APTNumber extends StatelessWidget {
 

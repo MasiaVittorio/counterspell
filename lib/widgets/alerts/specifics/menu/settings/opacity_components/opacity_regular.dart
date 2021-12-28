@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stageboard/body/group/player_tile.dart';
+import 'package:counter_spell_new/widgets/stage/body/group/player_tile.dart';
 
 
 

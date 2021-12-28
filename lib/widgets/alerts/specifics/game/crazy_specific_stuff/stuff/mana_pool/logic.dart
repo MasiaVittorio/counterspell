@@ -115,14 +115,14 @@ extension ClrExt on Clr {
     Clr.c: "c",
   }[this]!; 
 
-  Color? get color => const <Clr,Color>{
+  Color get color => const <Clr,Color>{
     Clr.w: const Color(0xFFfffbd6),
     Clr.u: const Color(0xFFaae0fa),
     Clr.b: const Color(0xFFccc3c1),
     Clr.r: const Color(0xFFf9aa8f),
     Clr.g: const Color(0xFF9bd3af),
     Clr.c: const Color(0xFFd5cece),
-  }[this];
+  }[this]!;
 
   IconData? get icon => const <Clr,IconData>{
     Clr.w: ManaIcons.w,

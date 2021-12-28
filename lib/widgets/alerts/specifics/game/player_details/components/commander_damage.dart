@@ -23,7 +23,7 @@ class PlayerDetailsDamage extends StatelessWidget {
       Color, Map<CSPage?,Color?>?, List<String>,
       GameState, Map<String,MtgCard>, Map<String,MtgCard>>(
         bloc.themer.defenceColor,
-        stage.themeController.derived.mainPageToPrimaryColor!,
+        stage.themeController.derived.mainPageToPrimaryColor,
         groupBloc.names,
         stateBloc.gameState,
         groupBloc.cardsA,
@@ -61,7 +61,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                           radius: 12,
                         ),
                       )];
-                    }() as Iterable<Widget>,
+                    }(),
                     Expanded(child: SectionTitle(otherName == name ? "$otherName (yourself)": otherName)),
                   ],
                 ),

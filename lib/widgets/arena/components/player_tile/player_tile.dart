@@ -76,7 +76,7 @@ class ArenaPlayerTile extends StatelessWidget {
         child: BlocVar.build7<
           Map<CSPage,Color?>?, int, GameState, String,
           String, Color, Map<String,bool?>>(
-          stage!.themeController.derived.mainPageToPrimaryColor!,
+          stage!.themeController.derived.mainPageToPrimaryColor,
           logic!.scroller.intValue,
           stateLogic!.gameState,
           actionLogic!.attackingPlayer,

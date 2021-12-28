@@ -47,7 +47,7 @@ class ImageOpacityRegular extends StatelessWidget {
     );
 
     final lifeColor = Stage.of(context)!.themeController
-        .derived.mainPageToPrimaryColor!.value![CSPage.life]!;
+        .derived.mainPageToPrimaryColor.value![CSPage.life]!;
 
     final Widget tile = InkWell(
       onTap: (){},

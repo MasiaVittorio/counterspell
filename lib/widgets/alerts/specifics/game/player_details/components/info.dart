@@ -12,7 +12,7 @@ class PlayerDetailsInfo extends StatelessWidget {
     final stage = bloc.stage!;
     final counters = bloc.game.gameAction.counterSet.list;
     final body2 = theme.textTheme.bodyText1;
-    return stage.themeController.derived.mainPageToPrimaryColor!.build((_, colors)
+    return stage.themeController.derived.mainPageToPrimaryColor.build((_, colors)
         => PlayerBuilder(index, (gameState, names, name, playerState, player){
 
           final bool partner = player.havePartnerB!;
@@ -63,7 +63,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                           onTap: () => DetailsUtils.insertCounter(counter, stage, name, bloc, playerState, names),
                         ),
                       ];
-                    }() as Iterable<Widget>,
+                    }(),
 
 
                 ], 2))

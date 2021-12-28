@@ -75,7 +75,7 @@ class _AttackerSection extends StatelessWidget {
     
     return IconTheme.merge(
       data: IconThemeData(opacity: 1.0),
-      child: stage.themeController.derived.mainPageToPrimaryColor!.build((_,map)
+      child: stage.themeController.derived.mainPageToPrimaryColor.build((_,map)
         => InfoSection(
           first: true,
           icon: Icon(

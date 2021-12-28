@@ -106,7 +106,7 @@ class _MaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of<CSPage, SettingsPage>(context)!;
-    return stage.themeController.derived.themeData!.build(
+    return stage.themeController.derived.themeData.build(
       (_, theme) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme,

@@ -2,8 +2,8 @@ import 'package:counter_spell_new/core.dart';
 import 'components/all.dart';
 
 enum PlayerDetailsPage {
-  commanderSettings,
   info,
+  commanderSettings,
   commanderDamage,
 }
 
@@ -20,12 +20,13 @@ class PlayerDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
     final groupBloc = bloc.game.gameGroup;
 
     return groupBloc.names.build((_, names) 
       => RadioHeaderedAlert<PlayerDetailsPage>(
-        initialValue: stage!.panelController.alertController.savedStates[pageKey] ?? PlayerDetailsPage.info,
+        initialValue: stage.panelController.alertController
+          .savedStates[pageKey] ?? PlayerDetailsPage.commanderSettings,
         onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
         orderedValues: PlayerDetailsPage.values,
         items: <PlayerDetailsPage,RadioHeaderedItem>{

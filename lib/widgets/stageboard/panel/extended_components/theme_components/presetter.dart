@@ -15,9 +15,9 @@ class ThemePResetter extends StatelessWidget {
 
     return themer.savedSchemes.build((_, savedSchemes) 
       => themer.defenceColor.build((_, defenceColor)
-      => derived.currentPrimaryColor!.build((_, primary)
-      => derived.accentColor!.build((_, accent)
-      => derived.mainPageToPrimaryColor!.build((_, perPage)
+      => derived.currentPrimaryColor.build((_, primary)
+      => derived.accentColor.build((_, accent)
+      => derived.mainPageToPrimaryColor.build((_, perPage)
       => brightnessController.brightness.build((_, brightness)
       => themeController.colorPlace.build((_, colorPlace)
       => brightnessController.darkStyle.build((_, darkStyle) {

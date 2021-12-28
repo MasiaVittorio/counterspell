@@ -21,7 +21,7 @@ class PagePie extends StatelessWidget {
       height: 170,
       alignment: Alignment.center,
       child: StageBuild.offMainEnabledPages((_, enabled) 
-        => stage!.themeController.derived.mainPageToPrimaryColor!.build((_, colors)
+        => stage!.themeController.derived.mainPageToPrimaryColor.build((_, colors)
           =>Column(
             children: <Widget>[
               Padding(

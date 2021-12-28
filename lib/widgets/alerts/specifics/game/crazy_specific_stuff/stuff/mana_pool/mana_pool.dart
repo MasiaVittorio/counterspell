@@ -1,6 +1,5 @@
 import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_generic.dart';
 import 'package:counter_spell_new/core.dart';
-import 'package:division/division.dart';
 import '../all.dart';
 import 'logic.dart';
 
@@ -137,7 +136,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
                             if(show[c]!) c,
                         ].length));
                     },
-                    value: show[color],
+                    value: show[color]!,
                   ),
                 ),
             ],
@@ -227,7 +226,7 @@ class _ColorToggle extends StatelessWidget {
 
   final Clr color;
   final void Function(bool v) onChanged;
-  final bool? value;
+  final bool value;
 
   _ColorToggle(this.color, {
     required this.onChanged,
@@ -237,33 +236,31 @@ class _ColorToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final Color c = value! 
+    final Color c = value
       ? color.color! 
       : Color.alphaBlend(
         theme.scaffoldBackgroundColor.withOpacity(0.5), 
         theme.canvasColor,
       );
 
-    return Parent(
-      style: ParentStyle()
-        ..animate(150)
-        ..width(50)
-        ..height(50)
-        ..borderRadius(all: 40)
-        ..background.color(c)
-        ..elevation(value! ? 4:0)
-        ..overflow.hidden(),
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () => onChanged(!value!),
-          child: Center(
-            child: Icon(
-              color.icon,
-              size: 23,
-              color: CSColors.contrastWith(c),
-            ),
-          ),
+    return Material(
+      animationDuration: Duration(milliseconds: 150),
+      elevation: value ? 4 : 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(40),
+      ),
+      color: c,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => onChanged(!value),
+        child: SizedBox(
+          width: 50,
+          height: 50,
+          child: Center(child: Icon(
+            color.icon,
+            size: 23,
+            color: CSColors.contrastWith(c),
+          ),),
         ),
       ),
     );

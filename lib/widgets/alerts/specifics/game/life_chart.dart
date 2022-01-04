@@ -122,7 +122,7 @@ class _Chart extends StatelessWidget {
       getTitles: (double seconds) => seconds != 0.0
         ? _timeFormat(seconds.toInt())
         : "",
-      getTextStyles: (_) => textStyle!,
+      getTextStyles: (_,__) => textStyle!,
     );
 
     return LineChart(LineChartData(
@@ -222,7 +222,7 @@ class _Chart extends StatelessWidget {
       reservedSize: 22,
       margin: 10,
       interval: interval,
-      getTextStyles: (_) => textStyle!,
+      getTextStyles: (_,__) => textStyle!,
       getTitles: (double life) 
         => okNumbers.contains(life) ? "${life.toInt()}" : "",
     );

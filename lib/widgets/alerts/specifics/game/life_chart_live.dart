@@ -261,7 +261,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
         titlesData: FlTitlesData(
           bottomTitles: SideTitles(
             showTitles: true,
-            getTextStyles: (_) => style,
+            getTextStyles: (_,__) => style,
             margin: 20,
             reservedSize: style.fontSize,
             interval: 1.0,
@@ -271,7 +271,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
           ),
           leftTitles: SideTitles(
             showTitles: true,
-            getTextStyles: (_) => style,
+            getTextStyles: (_, __) => style,
             margin: 34,
             reservedSize: style.fontSize,
             interval: maxTitle/2,

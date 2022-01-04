@@ -10,7 +10,7 @@ class PanelGameExtras extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
 
     return Section(<Widget>[
       const SectionTitle("Extras"),
@@ -18,7 +18,7 @@ class PanelGameExtras extends StatelessWidget {
         ExtraButton(
           icon: McIcons.dice_multiple,
           text: "Random",
-          onTap: () => stage!.showAlert(DiceThrower(), size: DiceThrower.height),
+          onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
           forceExternalSize: true,
         ),
         bloc.payments.unlocked.build((_, unlocked) => ExtraButton(
@@ -26,9 +26,9 @@ class PanelGameExtras extends StatelessWidget {
           text: "Leaderboards",
           onTap: () {
             if(unlocked){
-              stage!.showAlert(const Leaderboards(), size: Leaderboards.height);
+              stage.showAlert(const Leaderboards(), size: Leaderboards.height);
             } else {
-              stage!.showAlert(const SupportAlert(), size: SupportAlert.height);
+              stage.showAlert(const SupportAlert(), size: SupportAlert.height);
             }
           },
           forceExternalSize: true,
@@ -49,17 +49,26 @@ class PanelGameExtras extends StatelessWidget {
             ExtraButton(
               icon: McIcons.restart,
               text: "New Game",
-              onTap: () => stage!.showAlert(const RestarterAlert(GameRestartedFrom.menu), size: ConfirmAlert.height),
+              onTap: () => stage.showAlert(const RestarterAlert(GameRestartedFrom.menu), size: ConfirmAlert.height),
               customCircleColor: Colors.transparent,
             ),
             ExtraButton(
               icon: McIcons.account_multiple_outline,
               text: "Playgroup",
-              onTap: () => stage!.showAlert(
+              onTap: () => stage.showAlert(
                 PlayGroupEditor(bloc, fromClosedPanel: false,), 
                 size: PlayGroupEditor.sizeCalc(
                   bloc.game.gameState.gameState.value.players.length,
                 ),
+              ),
+              customCircleColor: Colors.transparent,
+            ),
+            ExtraButton(
+              icon: ManaIcons.instant,
+              text: "Helpers", 
+              onTap: () => stage.showAlert(
+                const CrazySpecificStuff(),
+                size: CrazySpecificStuff.size, 
               ),
               customCircleColor: Colors.transparent,
             ),
@@ -68,15 +77,15 @@ class PanelGameExtras extends StatelessWidget {
         ),
       ],margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),),
 
-      ListTile(
-        title: const Text("Crazy specific stuff"),
-        subtitle: const Text("Combo helpers and more"),
-        leading: const Icon(ManaIcons.instant),
-        onTap: () => stage!.showAlert(
-          const CrazySpecificStuff(),
-          size: CrazySpecificStuff.size, 
-        )
-      ),
+      // ListTile(
+      //   title: const Text("Crazy specific stuff"),
+      //   subtitle: const Text("Combo helpers and more"),
+      //   leading: const Icon(ManaIcons.instant),
+      //   onTap: () => stage!.showAlert(
+      //     const CrazySpecificStuff(),
+      //     size: CrazySpecificStuff.size, 
+      //   )
+      // ),
     ],);
 
   }

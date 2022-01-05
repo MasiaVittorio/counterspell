@@ -181,7 +181,7 @@ class PlayerGestures{
     /// and now edit the value
     bloc.scroller.editVal(topHalf ? 1 : -1);
     bloc.scroller.registerCallbackOnNextAutoConfirm("arena commander damage", (){
-      bloc.stage!.mainPagesController.goToPage(CSPage.life);
+      bloc.stage.mainPagesController.goToPage(CSPage.life);
     });
   }
 

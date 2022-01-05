@@ -82,7 +82,7 @@ class CSPastGames {
     this.pastGames.refresh();
 
     if(!avoidPrompt && parent.payments.unlocked.value&& pastGame.winner == null){
-      parent.stage!.showAlert(
+      parent.stage.showAlert(
         WinnerSelector(
           pastGame.state.names,
           onConfirm: (winner){

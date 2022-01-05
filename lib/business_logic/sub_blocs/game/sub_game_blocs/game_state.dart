@@ -164,10 +164,10 @@ class CSGameState {
       keepCommanderSettings: this.parent.parent.settings.gameSettings.keepCommanderSettingsBetweenGames.value,
     ));
     //exit history page (or any other) or the menu
-    this.parent.parent.stage!.mainPagesController.goToPage(CSPage.life);
+    this.parent.parent.stage.mainPagesController.goToPage(CSPage.life);
     if(!promptShown) {
       if(!avoidClosingPanel){
-        this.parent.parent.stage!.closePanelCompletely();
+        this.parent.parent.stage.closePanelCompletely();
       }
     }
 

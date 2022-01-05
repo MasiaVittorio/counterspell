@@ -17,7 +17,7 @@ class Useful extends StatelessWidget {
             icon: Icons.help_outline,
             text: "Tutorial",
             onTap: (){
-              logic.tutorial!.showTutorial(0, full: true);
+              logic.tutorial.showTutorial(0, full: true);
             }, 
             customCircleColor: Colors.transparent,
           ),
@@ -25,7 +25,7 @@ class Useful extends StatelessWidget {
           ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
             ExtraButton(
               onTap: (){
-                logic.tutorial!.showTutorial(i, full: false);
+                logic.tutorial.showTutorial(i, full: false);
               }, 
               icon: TutorialData.values[i].icon,
               text: TutorialData.values[i].title,

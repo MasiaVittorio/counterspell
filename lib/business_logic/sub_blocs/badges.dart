@@ -52,26 +52,26 @@ class CSBadges {
   void _check(){
     if(checked) return;
     if(this.changelogBadge || this.stuffILikeBadge){
-      parent.stage!.badgesController.showPanelPage(SettingsPage.info);
+      parent.stage.badgesController.showPanelPage(SettingsPage.info);
     } else {
-      parent.stage!.badgesController.clearPanelPage(SettingsPage.info);
+      parent.stage.badgesController.clearPanelPage(SettingsPage.info);
     }
     checked = true;
   }
 
   void showChangelog(){
-    parent.stage!.showAlert(const Changelog(), size: Changelog.height);
+    parent.stage.showAlert(const Changelog(), size: Changelog.height);
     versionShown.set(versionCode);
     if(!stuffILikeBadge) {
-      parent.stage!.badgesController.clearPanelPage(SettingsPage.info);
+      parent.stage.badgesController.clearPanelPage(SettingsPage.info);
     }
   }
 
   void showStuffILike(){
-    parent.stage!.showAlert(const StuffILikeAlert(), size: StuffILikeAlert.height);
+    parent.stage.showAlert(const StuffILikeAlert(), size: StuffILikeAlert.height);
     stuffILikeShown.set(lastStuffILike);
     if(!changelogBadge) {
-      parent.stage!.badgesController.clearPanelPage(SettingsPage.info);
+      parent.stage.badgesController.clearPanelPage(SettingsPage.info);
     }
   }
 

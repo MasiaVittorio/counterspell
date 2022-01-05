@@ -49,7 +49,7 @@ class CSTutorial {
   /// Show =====================
   void showTutorial(int index, {bool? full}) async {
     print("showing tutorial index: $index");
-    await parent.stage!.closePanelCompletely();
+    await parent.stage.closePanelCompletely();
     fullTutorial = full ?? fullTutorial;
     print("full tutorial: $fullTutorial");
     currentTutorialIndex = index;
@@ -62,30 +62,31 @@ class CSTutorial {
 
   void showHint(int? index){
     print("showing hint index: $index");
-    if(getHint(index) == null){
+    final Hint? hint = getHint(index); 
+    if(hint == null){
       quitTutorial();
       print("invalid hint index to be shown");
       return;
     }
     currentHintIndex = index;
-    if(currentHint!.needsAlert){
-      showAlertHint(currentHint!);
-    } else if(currentHint!.needsSnackBar){
-      showSnackBarHint(currentHint!);
+    if(hint.needsAlert){
+      showAlertHint(hint);
+    } else if(hint.needsSnackBar){
+      showSnackBarHint(hint);
     }
   }
 
   void showAlertHint(Hint hint) async {
     assert(hint.needsAlert);
     if(hint.page != null){
-      parent.stage!.mainPagesController.goToPage(hint.page);
+      parent.stage.mainPagesController.goToPage(hint.page);
     }
-    parent.stage!.showAlert(
+    parent.stage.showAlert(
       _HintAlert(hint),
       size: _HintAlert.height(hint),
       replace: true,
     );
-    parent.stage!.panelController.onNextPanelClose(this._skipHint);
+    parent.stage.panelController.onNextPanelClose(this._skipHint);
   }
 
   void showSnackBarHint(Hint hint){
@@ -93,8 +94,8 @@ class CSTutorial {
     assert(hint.page != null);
     print("showing snackBar hint: ${hint.text}");
     print("(full tutorial: $fullTutorial)");
-    parent.stage!.mainPagesController.goToPage(hint.page);
-    parent.stage!.showSnackBar(
+    parent.stage.mainPagesController.goToPage(hint.page);
+    parent.stage.showSnackBar(
       StageSnackBar(
         title: StageBuild.offMainPage<CSPage>((_, page) 
           => AnimatedText(page == hint.page 
@@ -114,6 +115,7 @@ class CSTutorial {
       rightAligned: false,
       pagePersistent: true,
       onManualClose: quitTutorial,
+      duration: null,
     );
   }
 
@@ -160,10 +162,10 @@ class CSTutorial {
   Future<void> _quitCurrentHint() async {
     print("quitting current hint");
     if(currentHint?.needsAlert ?? true){
-      await parent.stage!.closePanelCompletely();
+      await parent.stage.closePanelCompletely();
     } 
     if(currentHint?.needsSnackBar ?? true){
-      await parent.stage!.closeSnackBar();
+      await parent.stage.closeSnackBar();
     }
     currentHintIndex = null;
   }
@@ -185,7 +187,7 @@ class _HintAlert extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final logic = CSBloc.of(context)!;
-    final tutorialLogic = logic.tutorial!;
+    final tutorialLogic = logic.tutorial;
     final bool next = tutorialLogic.thereIsANext;
 
     return HeaderedAlert(

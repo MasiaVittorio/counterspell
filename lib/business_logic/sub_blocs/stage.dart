@@ -19,11 +19,11 @@ class CSStage {
         onPanelOpen: (){
           parent.scroller.cancel();
           if(
-            parent.tutorial!.currentHint != null &&
-            parent.tutorial!.currentHint!.needsSnackBar
-          ) parent.stage?.panelController.onNextPanelClose(() {
-              parent.tutorial?.showHint(
-                parent.tutorial!.currentHintIndex,  
+            parent.tutorial.currentHint != null &&
+            parent.tutorial.currentHint!.needsSnackBar
+          ) parent.stage.panelController.onNextPanelClose(() {
+              parent.tutorial.showHint(
+                parent.tutorial.currentHintIndex,  
               );
             });
         },

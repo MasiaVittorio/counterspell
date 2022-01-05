@@ -47,7 +47,7 @@ class CSThemer {
     ){
     if(flatLinkedToColorPlace){
       flatDesign = BlocVar.fromCorrelate<bool, StageColorPlace>(
-        from: parent.stage!.themeController.colorPlace,
+        from: parent.stage.themeController.colorPlace,
         map: (StageColorPlace place)
           => place.isTexts,
       );
@@ -90,7 +90,7 @@ class CSThemer {
   }
 
   void activateFlatDesign(){
-    parent.stage!.themeController.colorPlace.setDistinct(StageColorPlace.texts);
+    parent.stage.themeController.colorPlace.setDistinct(StageColorPlace.texts);
     
     if(flatLinkedToColorPlace == false){
       this.flatDesign.setDistinct(true);  
@@ -98,33 +98,33 @@ class CSThemer {
       // should get set to true automatically
     }
 
-    parent.stage!.themeController.topBarElevations.set(_topFlatElevations);
-    parent.stage!.dimensionsController.dimensions.set(
-      parent.stage!.dimensionsController.dimensions.value.copyWith(
+    parent.stage.themeController.topBarElevations.set(_topFlatElevations);
+    parent.stage.dimensionsController.dimensions.set(
+      parent.stage.dimensionsController.dimensions.value.copyWith(
         // panelHorizontalPaddingOpened: 0.0,
         panelHorizontalPaddingOpened: StageDimensions
           .defaultPanelHorizontalPaddingOpened,
       ),
     );
-    parent.stage!.themeController.bottomBarShadow.setDistinct(false);
+    parent.stage.themeController.bottomBarShadow.setDistinct(false);
   }
 
   void deactivateFlatDesign(){
     if(flatLinkedToColorPlace){
-      parent.stage!.themeController.colorPlace.set(StageColorPlace.background);
+      parent.stage.themeController.colorPlace.set(StageColorPlace.background);
       // then flat design should become false automatically
     } else {
       this.flatDesign.setDistinct(false);  
       // colorPlace can still be texts if the two are not hard linked
     }
-    parent.stage!.themeController.topBarElevations.set(_topMaterialElevations);
-    parent.stage!.dimensionsController.dimensions.set(
-      parent.stage!.dimensionsController.dimensions.value.copyWith(
+    parent.stage.themeController.topBarElevations.set(_topMaterialElevations);
+    parent.stage.dimensionsController.dimensions.set(
+      parent.stage.dimensionsController.dimensions.value.copyWith(
         panelHorizontalPaddingOpened: StageDimensions
           .defaultPanelHorizontalPaddingOpened,
       ),
     );
-    parent.stage!.themeController.bottomBarShadow.setDistinct(true);
+    parent.stage.themeController.bottomBarShadow.setDistinct(true);
   }
 
   void toggleFlatDesign(){
@@ -143,19 +143,19 @@ class CSThemer {
     if(flatLinkedToColorPlace){
       activateFlatDesign();
     } else {
-      parent.stage!.themeController.colorPlace
+      parent.stage.themeController.colorPlace
         .setDistinct(StageColorPlace.texts);
     }
   }
 
   void deactivateGoogleLikeColors(){
     this.deactivateFlatDesign();
-    parent.stage!.themeController
+    parent.stage.themeController
       .colorPlace.setDistinct(StageColorPlace.background);
   }
 
   void toggleGoogleLikeColors(){
-    if(parent.stage!.themeController.colorPlace.value.isTexts){
+    if(parent.stage.themeController.colorPlace.value.isTexts){
       this.deactivateGoogleLikeColors();
     } else {
       this.activateGoogleLikeColors();

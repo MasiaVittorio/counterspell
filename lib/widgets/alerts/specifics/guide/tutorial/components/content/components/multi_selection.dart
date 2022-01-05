@@ -26,7 +26,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
     // final ThemeData theme = Theme.of(context);
 
     final CSBloc bloc = CSBloc.of(context)!;
-    final Color color = bloc.stage!.themeController.derived.mainPageToPrimaryColor.value![CSPage.life]!;
+    final Color color = bloc.stage.themeController.derived.mainPageToPrimaryColor.value![CSPage.life]!;
 
     // final colorBright = ThemeData.estimateBrightnessForColor(color);
     // final Color textColor = 

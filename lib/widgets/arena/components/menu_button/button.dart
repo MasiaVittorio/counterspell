@@ -40,7 +40,7 @@ class ArenaButton extends StatelessWidget {
     } 
     else if(page != CSPage.life){
       buttonCross = true;
-      centerTap = () => bloc!.stage!.mainPagesController.goToPage(CSPage.life);
+      centerTap = () => bloc!.stage.mainPagesController.goToPage(CSPage.life);
     } 
     else {
       buttonCross = open;

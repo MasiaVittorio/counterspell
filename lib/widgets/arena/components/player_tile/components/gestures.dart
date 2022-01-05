@@ -306,12 +306,12 @@ class AptCmdrDmg extends StatelessWidget {
       onTap: (){
         switch (mode) {
           case _CmdrMode.outOfCommanderDamage:
-            bloc!.stage!.mainPagesController.goToPage(CSPage.commanderDamage);
+            bloc!.stage.mainPagesController.goToPage(CSPage.commanderDamage);
             bloc!.game.gameAction.attackingPlayer.set(this.name);
             bloc!.game.gameAction.defendingPlayer.set("");
             break;
           default:
-            bloc!.stage!.mainPagesController.goToPage(CSPage.life);
+            bloc!.stage.mainPagesController.goToPage(CSPage.life);
         }
       },
       onLongPress: mode == _CmdrMode.isAttacking && hasPartnerB!

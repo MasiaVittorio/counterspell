@@ -148,7 +148,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       open: open, 
       layoutType: layoutType,
       openMenu: () {
-        logic!.stage!.mainPagesController.goToPage(CSPage.life);
+        logic!.stage.mainPagesController.goToPage(CSPage.life);
         logic!.scroller.cancel(true);
         this.setState((){
           open = true;

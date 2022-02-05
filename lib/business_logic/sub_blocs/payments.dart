@@ -7,56 +7,52 @@ import 'dart:async';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class CSPayments {
-
-  void dispose(){
+  void dispose() {
     this.unlocked.dispose();
     this.purchasedIds.dispose();
     this.donations.dispose();
   }
-
 
   //===========================================
   // Values
   final CSBloc parent;
   List<ProductDetails> items = <ProductDetails>[]; //all available
 
-  final PersistentVar<bool> unlocked; 
+  final PersistentVar<bool> unlocked;
   final PersistentVar<Set<String>> purchasedIds; //past done purchases
   final BlocVar<List<Donation>> donations; //all available (wrapper for UI)
   String log = "";
 
   //===========================================
   // Constructor
-  CSPayments(this.parent): 
-    unlocked = PersistentVar<bool>(
-      key: "counterspell_bloc_var_payments_unlocked",
-      initVal: kDebugMode,
-      toJson: (b) => b,
-      fromJson: (j) => j as bool,
-    ),
-    purchasedIds = PersistentVar<Set<String>>(
-      initVal: <String>{},
-      key: 'counterspell_bloc_var_payments_purchaseIds',
-      fromJson: (json) => <String>{for(final s in json as List) s as String},
-      toJson: (sset) => [for(final s in sset) s],
-    ),
-    donations = BlocVar<List<Donation>>(<Donation>[])
-  {
+  CSPayments(this.parent)
+      : unlocked = PersistentVar<bool>(
+          key: "counterspell_bloc_var_payments_unlocked",
+          initVal: kDebugMode,
+          toJson: (b) => b,
+          fromJson: (j) => j as bool,
+        ),
+        purchasedIds = PersistentVar<Set<String>>(
+          initVal: <String>{},
+          key: 'counterspell_bloc_var_payments_purchaseIds',
+          fromJson: (json) =>
+              <String>{for (final s in json as List) s as String},
+          toJson: (sset) => [for (final s in sset) s],
+        ),
+        donations = BlocVar<List<Donation>>(<Donation>[]) {
     //IMPORTANT: moved all the subscription handling in the main stateful witget's initState, so it will intercept any past purchase before.
     // (strange to think that is needed, since the whole BLoC constructor is syncronous, but we will still try this way)
 
     check();
   }
 
-
   //===========================================
   // Methods
-  void logAdd(String newLine){
+  void logAdd(String newLine) {
     final now = DateTime.now();
-    log += "\n(${now.hour.toString().padLeft(2, "0")}:${now.hour.toString().padLeft(2, "0")}:${now.second.toString().padLeft(2, "0")}) $newLine";
+    log +=
+        "\n(${now.hour.toString().padLeft(2, "0")}:${now.hour.toString().padLeft(2, "0")}:${now.second.toString().padLeft(2, "0")}) $newLine";
   }
-
-
 
   void check() async {
     logAdd("check: 0 -> entered");
@@ -64,20 +60,25 @@ class CSPayments {
 
     logAdd("check: 1 -> available items retrieved");
 
-    if(this.unlocked.reading){
-      logAdd("check: 2.a -> unlocked var is still reading, adding restore to read callback");
-      this.unlocked.readCallback = (result){
-        logAdd("read callback (set during check 2.a): 0 -> entered, unlocked: $result");
-        if(result == false){
-          logAdd("read callback (set during check 2.a): 1.a -> it was locked, so we call restore");
+    if (this.unlocked.reading) {
+      logAdd(
+          "check: 2.a -> unlocked var is still reading, adding restore to read callback");
+      this.unlocked.readCallback = (result) {
+        logAdd(
+            "read callback (set during check 2.a): 0 -> entered, unlocked: $result");
+        if (result == false) {
+          logAdd(
+              "read callback (set during check 2.a): 1.a -> it was locked, so we call restore");
           this.restore();
         } else {
-          logAdd("read callback (set during check 2.a): 1.b -> it was unlocked already, so we call nothing");
+          logAdd(
+              "read callback (set during check 2.a): 1.b -> it was unlocked already, so we call nothing");
         }
       };
     } else {
-      logAdd("check: 2.b -> unlocked var is ready: NOT still reading. value: ${this.unlocked.value}");
-      if(this.unlocked.value == false){
+      logAdd(
+          "check: 2.b -> unlocked var is ready: NOT still reading. value: ${this.unlocked.value}");
+      if (this.unlocked.value == false) {
         logAdd("check: 2.b.a -> it was locked, so we call restore");
         this.restore();
       } else {
@@ -86,66 +87,80 @@ class CSPayments {
     }
   }
 
-
-
-
   Future<void> availableItems() async {
     logAdd("availableItems: 0 -> entered, checking if connection is available");
     bool available = false;
     try {
-      available = await InAppPurchase.instance.isAvailable();      
+      available = await InAppPurchase.instance.isAvailable();
     } catch (e) {
-      logAdd("availableItems: 0.error -> InAppPurchaseConnection.instance.isAvailable() thrown error $e");
+      logAdd(
+          "availableItems: 0.error -> InAppPurchaseConnection.instance.isAvailable() thrown error $e");
       //strange that this .isAvailable() method can throw, lol?
       return;
     }
 
     logAdd("availableItems: 1 -> available result: $available");
     if (!available) {
-      logAdd("availableItems: 1.a -> unavailable connection, returning null (rip)");
+      logAdd(
+          "availableItems: 1.a -> unavailable connection, returning null (rip)");
       // The store cannot be reached or accessed. Update the UI accordingly.
       return;
     }
 
-    logAdd("availableItems: 2 -> available connection, now waiting for queryProductDetails from list $products");
-    final ProductDetailsResponse response = 
-      await InAppPurchase.instance
-        .queryProductDetails(products);
+    logAdd(
+        "availableItems: 2 -> available connection, now waiting for queryProductDetails from list $products");
+    final ProductDetailsResponse response =
+        await InAppPurchase.instance.queryProductDetails(products);
 
     if (response.notFoundIDs.isNotEmpty) {
-      logAdd("availableItems: 3.a -> some ids were NOT found: ${response.notFoundIDs}");
+      logAdd(
+          "availableItems: 3.a -> some ids were NOT found: ${response.notFoundIDs}");
     }
 
     this.items = response.productDetails;
-    logAdd("availableItems: 4 -> number of items retrieved: ${this.items.length}, creating the Donation objects");
-    
+    logAdd(
+        "availableItems: 4 -> number of items retrieved: ${this.items.length}, creating the Donation objects");
+
     this.donations.set(<Donation>[
-      for(final item in this.items)
-        Donation(
-          productID: item.id,
-          amount: item.price,
-          title: _titleCleaner(item.title),
-          amountNum: double.tryParse(<String>[
-            for(final char in item.price.split(""))
-              if(["0","1","2","3","4","5","6","7","8","9","."].contains(char))
-                 char,
-          ].join()) ?? 0.0,
-        ),
-    ]..sort((d1,d2) => ((d1.amountNum - d2.amountNum)*100).round()));
+          for (final item in this.items)
+            Donation(
+              productID: item.id,
+              amount: item.price,
+              title: _titleCleaner(item.title),
+              amountNum: double.tryParse(<String>[
+                    for (final char in item.price.split(""))
+                      if ([
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        "6",
+                        "7",
+                        "8",
+                        "9",
+                        "."
+                      ].contains(char))
+                        char,
+                  ].join()) ??
+                  0.0,
+            ),
+        ]..sort((d1, d2) => ((d1.amountNum - d2.amountNum) * 100).round()));
 
     logAdd("availableItems: 5 -> returning null without errors");
   }
-  String _titleCleaner(String s){
+
+  String _titleCleaner(String s) {
     String ret = '';
-    for(final x in s.split('')){
-      if(x != '(') ret += x;
-      else break;
+    for (final x in s.split('')) {
+      if (x != '(')
+        ret += x;
+      else
+        break;
     }
     return ret;
   }
-
-
-
 
   Future<void> restore() async {
     logAdd("restore: 0 -> entered, waiting for restorePurchases()");
@@ -194,43 +209,39 @@ class CSPayments {
     logAdd("restore: 4 -> returning null without errors");
   }
 
-
-
-
   void purchase(String productID) async {
     logAdd("purchase: 0 -> entered with productID: $productID");
-    if (this.purchasedIds.value.contains(productID)){
-      logAdd("purchase: 0.contains -> we already have this one, so we should return with error. Was the app unlocked? ${unlocked.value}");
-      if(!unlocked.value){
-        logAdd("purchase: 0.contains.locked -> strange. unlocking before returning with error");
+    if (this.purchasedIds.value.contains(productID)) {
+      logAdd(
+          "purchase: 0.contains -> we already have this one, so we should return with error. Was the app unlocked? ${unlocked.value}");
+      if (!unlocked.value) {
+        logAdd(
+            "purchase: 0.contains.locked -> strange. unlocking before returning with error");
         unlocked.set(true);
       }
       return;
     }
 
-
-    logAdd("purchase: 1 -> do we have a ProductDetail corresponding to this id?");
+    logAdd(
+        "purchase: 1 -> do we have a ProductDetail corresponding to this id?");
     ProductDetails? productDetails;
-    for(final item in this.items){
-      if(item.id == productID) productDetails = item;
+    for (final item in this.items) {
+      if (item.id == productID) productDetails = item;
     }
-    if(productDetails == null){
+    if (productDetails == null) {
       logAdd("purchase: 1.null -> strangely, we don't");
       return;
     } else {
-      logAdd("purchase: 1.notNull -> we obviously do, so we call buyNonConsumable(productDetails) (async! to be awaited)");
+      logAdd(
+          "purchase: 1.notNull -> we obviously do, so we call buyNonConsumable(productDetails) (async! to be awaited)");
     }
 
     final result = await InAppPurchase.instance.buyNonConsumable(
-      purchaseParam: PurchaseParam(productDetails: productDetails)
-    );
+        purchaseParam: PurchaseParam(productDetails: productDetails));
 
-    logAdd("purchase: 2 -> buyNonConsumable(productDetails) awaited, its return should mean nothing but here it is: $result. also, returning this method without errors.");
+    logAdd(
+        "purchase: 2 -> buyNonConsumable(productDetails) awaited, its return should mean nothing but here it is: $result. also, returning this method without errors.");
   }
-
-
-
-
 
   static const Set<String> androidProducts = <String>{
     'com.mvsidereusart.counterspell.cultivate',
@@ -255,22 +266,18 @@ class CSPayments {
     }
     return <String>{};
   }
-
 }
 
-
-
-class Donation{
+class Donation {
   final String title;
   final String amount;
   final String productID;
   final double amountNum;
 
   Donation({
-    required this.productID, 
-    required this.amount, 
-    required this.title, 
+    required this.productID,
+    required this.amount,
+    required this.title,
     required this.amountNum,
   });
-
 }

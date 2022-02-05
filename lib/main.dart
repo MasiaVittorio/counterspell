@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'dart:io';
+import 'dart:async';
 
 import 'package:counter_spell_new/widgets/homepage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -61,27 +61,32 @@ class _CounterSpellState extends State<CounterSpell> {
     for (final detail in purchases) {
       ++i;
 
-      logAdd("react: 1.iteration$i -> product: ${detail.productID}, purchase: ${detail.purchaseID}, status: ${detail.status}");
+      logAdd(
+          "react: 1.iteration$i -> product: ${detail.productID}, purchase: ${detail.purchaseID}, status: ${detail.status}");
 
       if (detail.status == PurchaseStatus.pending) {
-        logAdd("react: 1.iteration$i.pending -> this product status was still pending, so we skip it and continue the for cycle");
+        logAdd(
+            "react: 1.iteration$i.pending -> this product status was still pending, so we skip it and continue the for cycle");
         continue;
       }
 
       if (!bloc.payments.purchasedIds.value.contains(detail.productID)) {
         bloc.payments.purchasedIds.value.add(detail.productID);
         found = true;
-        logAdd("react: 1.iteration$i.notFound -> this purchase was not previously saved! (we should unlock later)");
+        logAdd(
+            "react: 1.iteration$i.notFound -> this purchase was not previously saved! (we should unlock later)");
       }
       if (Platform.isIOS) {
-        logAdd("react: 1.iteration$i.iOS -> platform is iOS, we call completePurchase(detail)");
+        logAdd(
+            "react: 1.iteration$i.iOS -> platform is iOS, we call completePurchase(detail)");
         // Mark that you've delivered the purchase. Only the App Store requires
         // this final confirmation.
         InAppPurchase.instance.completePurchase(detail);
       }
     }
 
-    logAdd("react: 2 -> for cycle ended, found a new (non pending) purchase? $found");
+    logAdd(
+        "react: 2 -> for cycle ended, found a new (non pending) purchase? $found");
     if (found) {
       logAdd("react: 2.true -> refresh purchasedIds and unlock");
       bloc.payments.purchasedIds.refresh();

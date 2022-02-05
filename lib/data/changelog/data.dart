@@ -1,79 +1,108 @@
 import 'package:counter_spell_new/models/changelog/model.dart';
 
-
 class ChangeLogData {
-
   static const int lastBigChange = 86;
 
   static const List<Version> list = <Version>[
-    // Version("3.2.8", <Change>[
+    // Version("3.2.9", <Change>[
     //   Change(
     //     ChangeType.newFeature,
-    //     "", 
-    //     //TODO: document the update 
+    //     "",
+    //     //TODO: document the update
     //     // (always leave this todo here to remind you to edit the changelog)
     //     null,
     //   ),
     // ],),
-    Version("3.2.7", <Change>[
-      Change(
-        ChangeType.change,
-        "Cleaned up the Krarkulator a bit", 
-        null,
-      ),
-      Change(
-        ChangeType.change,
-        "Moved the Crazy specific stuff to the Game tab", 
-        null,
-      ),
-      Change(
-        ChangeType.newFeature,
-        "Mana Pool + Zndrsplt helper", 
-        "The Crazy specific stuff section now features 2 more handy helpers! CRAZY, RIGTH?",
-      ),
-    ],),
-    Version("3.2.6", <Change>[
-      Change(
-        ChangeType.newFeature,
-        "Krarkulator: the 1st crazy specific combo helper",
-        "Open the menu panel, go to the Info tab and you'll find the \"Crazy specific stuff\" section!",
-      ),
-    ],),
-    Version("3.2.5", <Change>[
-      Change(
-        ChangeType.change,
-        "Re-designed commander icons for the bottom bar",
-        null,
-      ),
-    ],),
-    Version("3.2.4", <Change>[
-      Change(
-        ChangeType.newFeature,
-        "New and improved interactive tutorial",
-        null,
-      ),
-    ],),
-    Version("3.2.3", <Change>[
-      Change(
-        ChangeType.newFeature,
-        "Flat style theming option",
-        null,
-      ),
-    ],),
-    Version("3.2.2", <Change>[
-      Change(
-        ChangeType.newFeature,
-        "Custom statistics",
-        "Track the winrate of the good old Turn 1 Sol Ring and who play it more frequently!",
-      ),
-    ],),
-    Version("3.2.1", <Change>[
-      Change(
-        ChangeType.change,
-        "Split partner images",
-        null,
-      ),
-    ],),
+    Version(
+      "3.2.8",
+      <Change>[
+        Change(
+          ChangeType.change,
+          "Changed internal storage directory for ",
+          null,
+        ),
+      ],
+    ),
+    Version(
+      "3.2.7",
+      <Change>[
+        Change(
+          ChangeType.change,
+          "Cleaned up the Krarkulator a bit",
+          null,
+        ),
+        Change(
+          ChangeType.change,
+          "Moved the Crazy specific stuff to the Game tab",
+          null,
+        ),
+        Change(
+          ChangeType.newFeature,
+          "Mana Pool + Zndrsplt helper",
+          "The Crazy specific stuff section now features 2 more handy helpers! CRAZY, RIGTH?",
+        ),
+      ],
+    ),
+    Version(
+      "3.2.6",
+      <Change>[
+        Change(
+          ChangeType.newFeature,
+          "Krarkulator: the 1st crazy specific combo helper",
+          "Open the menu panel, go to the Info tab and you'll find the \"Crazy specific stuff\" section!",
+        ),
+      ],
+    ),
+    Version(
+      "3.2.5",
+      <Change>[
+        Change(
+          ChangeType.change,
+          "Re-designed commander icons for the bottom bar",
+          null,
+        ),
+      ],
+    ),
+    Version(
+      "3.2.4",
+      <Change>[
+        Change(
+          ChangeType.newFeature,
+          "New and improved interactive tutorial",
+          null,
+        ),
+      ],
+    ),
+    Version(
+      "3.2.3",
+      <Change>[
+        Change(
+          ChangeType.newFeature,
+          "Flat style theming option",
+          null,
+        ),
+      ],
+    ),
+    Version(
+      "3.2.2",
+      <Change>[
+        Change(
+          ChangeType.newFeature,
+          "Custom statistics",
+          "Track the winrate of the good old Turn 1 Sol Ring and who play it more frequently!",
+        ),
+      ],
+    ),
+    Version(
+      "3.2.1",
+      <Change>[
+        Change(
+          ChangeType.change,
+          "Split partner images",
+          null,
+        ),
+      ],
+    ),
     Version("3.2.0", <Change>[
       Change(
         ChangeType.newFeature,
@@ -159,8 +188,8 @@ class ChangeLogData {
 
     Version("3.0.8", <Change>[
       Change(
-        ChangeType.newFeature, 
-        "Past games notes", 
+        ChangeType.newFeature,
+        "Past games notes",
         "You can now note some text along with each past game to record interesting stuff about that game. Just open a game from the list of past games in the leaderboards screen and you'll find a dedicated field to fill with your annotations.",
       ),
       Change(
@@ -169,18 +198,18 @@ class ChangeLogData {
         null,
       ),
       Change(
-        ChangeType.newFeature, 
-        "Arena Mode advanced settings", 
+        ChangeType.newFeature,
+        "Arena Mode advanced settings",
         null,
       ),
       Change(
-        ChangeType.newFeature, 
-        "Arena Mode up to 6 players, plus a new menu", 
+        ChangeType.newFeature,
+        "Arena Mode up to 6 players, plus a new menu",
         null,
       ),
       Change(
-        ChangeType.newFeature, 
-        "Arena Mode now handles commander damage too!", 
+        ChangeType.newFeature,
+        "Arena Mode now handles commander damage too!",
         "Long press on one player to declare it as the attacker, scroll on the defender to deal damage. Any single tap will return to life mode",
       ),
       Change(
@@ -189,16 +218,15 @@ class ChangeLogData {
         "On the bottom left on the screen, when you're on the history screen, you'll now find a button to bring up a chart with the life of each player plotted over time.",
       ),
       Change(
-        ChangeType.change, 
-        "Adaptive system nav bar color", 
+        ChangeType.change,
+        "Adaptive system nav bar color",
         null,
       ),
       Change(
-        ChangeType.newFeature, 
-        "Cache manager", 
+        ChangeType.newFeature,
+        "Cache manager",
         'Go into the "info" section of the menu and find a way to delete cached images or saved card search suggestions!',
       ),
     ]),
   ];
 }
-

@@ -50,7 +50,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                     ...(){
 
                       final otherPlayer = gameState.players[otherName]!;
-                      final card = otherPlayer.usePartnerB!
+                      final card = otherPlayer.usePartnerB
                         ? cardsB![otherName]
                         : cardsA![otherName];
                       if(card == null) return [];
@@ -65,7 +65,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                     Expanded(child: SectionTitle(otherName == name ? "$otherName (yourself)": otherName)),
                   ],
                 ),
-                if(player.havePartnerB ?? false)
+                if(player.havePartnerB)
                   ListTile(
                     title: Text("Dealt to ${otherName == name ? "yourself" : otherName}"),
                     subtitle: const Text("Partners"),
@@ -89,7 +89,7 @@ class PlayerDetailsDamage extends StatelessWidget {
 
                 if(otherName != name)...[
 
-                  if(gameState.players[otherName]!.havePartnerB!)
+                  if(gameState.players[otherName]!.havePartnerB)
                       ListTile(
                         title: Text("Taken from ${otherName == name ? "yourself" : otherName}"),
                         subtitle: const Text("partners"),

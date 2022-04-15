@@ -9,8 +9,8 @@ class Player {
   String name;
   CommanderSettings commanderSettingsA;
   CommanderSettings commanderSettingsB;
-  bool? havePartnerB;
-  bool? usePartnerB;
+  bool havePartnerB;
+  bool usePartnerB;
   
   List<PlayerState> states = [];
 

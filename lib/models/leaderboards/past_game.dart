@@ -28,7 +28,7 @@ class PastGame{
     },
     this.commandersB = <String,MtgCard?>{
       for(final player in state.players.keys)
-        if(state.players[player]!.havePartnerB!)
+        if(state.players[player]!.havePartnerB)
           player: commandersB != null ? commandersB[player] : null
         else
           player: null,
@@ -126,7 +126,7 @@ class PastGame{
       if(commander?.oracleId == card.oracleId) return true;
     }
     for(final player in this.commandersB.keys){
-      if(state.players[player]!.havePartnerB!) //a card may still be set for commanderB on a next game without partners
+      if(state.players[player]!.havePartnerB) //a card may still be set for commanderB on a next game without partners
         if(commandersB[player]?.oracleId == card.oracleId) return true;
     }
     return false;
@@ -137,14 +137,14 @@ class PastGame{
         if(entry.value?.oracleId == card.oracleId)
           entry.key,
       for(final entry in this.commandersB.entries)
-        if(state.players[entry.key]!.havePartnerB!)
+        if(state.players[entry.key]!.havePartnerB)
         if(entry.value?.oracleId == card.oracleId)
           entry.key,
     };
   }
   bool commanderPlayedBy(MtgCard card, String? name){
     if(this.commandersA[name!]?.oracleId == card.oracleId) return true;
-    if(this.state.players[name]!.havePartnerB!)
+    if(this.state.players[name]!.havePartnerB)
       if(this.commandersB[name]?.oracleId == card.oracleId) return true;
     return false;
   }

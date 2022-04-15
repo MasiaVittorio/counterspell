@@ -15,7 +15,7 @@ class ArenaPlayerTile extends StatelessWidget {
 
 
   //Business Logic
-  final CSBloc? logic;
+  final CSBloc logic;
 
   //Interaction information
   final bool isScrollingSomewhere;
@@ -30,12 +30,12 @@ class ArenaPlayerTile extends StatelessWidget {
   final Map<int,String?> indexToName;
   final int index;
 
-  CSSettings? get settings => logic!.settings;
-  CSSettingsArena get arenaSettings => settings!.arenaSettings;
-  CSGame? get gameLogic => logic!.game;
-  CSGameState? get stateLogic => gameLogic!.gameState;
-  CSGameAction? get actionLogic => gameLogic!.gameAction;
-  CSGameGroup? get groupLogic => gameLogic!.gameGroup;
+  CSSettings get settings => logic.settings;
+  CSSettingsArena get arenaSettings => settings.arenaSettings;
+  CSGame get gameLogic => logic.game;
+  CSGameState get stateLogic => gameLogic.gameState;
+  CSGameAction get actionLogic => gameLogic.gameAction;
+  CSGameGroup get groupLogic => gameLogic.gameGroup;
 
   String? firstUnpositionedName(Map<int,String?> indexToName, GameState gameState) {
     for(final name in gameState.names){
@@ -47,8 +47,8 @@ class ArenaPlayerTile extends StatelessWidget {
   }
 
   void positionName(String? name, int position){
-    groupLogic!.arenaNameOrder.value[position] = name;
-    groupLogic!.arenaNameOrder.refresh();
+    groupLogic.arenaNameOrder.value[position] = name;
+    groupLogic.arenaNameOrder.refresh();
   }
 
   void playerCallback(
@@ -77,24 +77,24 @@ class ArenaPlayerTile extends StatelessWidget {
           Map<CSPage,Color?>?, int, GameState, String,
           String, Color, Map<String,bool?>>(
           stage!.themeController.derived.mainPageToPrimaryColor,
-          logic!.scroller.intValue,
-          stateLogic!.gameState,
-          actionLogic!.attackingPlayer,
-          actionLogic!.defendingPlayer,
-          logic!.themer.defenceColor,
-          actionLogic!.selected,
+          logic.scroller.intValue,
+          stateLogic.gameState,
+          actionLogic.attackingPlayer,
+          actionLogic.defendingPlayer,
+          logic.themer.defenceColor,
+          actionLogic.selected,
           builder: (
             BuildContext context, 
             Map<CSPage,Color?>? pageColors,
             int? increment, 
-            GameState? gameState, 
+            GameState gameState, 
             String? whoIsAttacking, 
             String? whoIsDefending, 
             Color? defenceColor,
             Map<String,bool?>? selectedNames,
           ) {
 
-            if(name == null) return buildPositioner(themeData, gameState!);
+            if(name == null) return buildPositioner(themeData, gameState);
 
             final bool? rawSelected = selectedNames![name];
             final bool highlighted = selectedNames[name] != false || whoIsAttacking == name || whoIsDefending == name;
@@ -127,9 +127,8 @@ class ArenaPlayerTile extends StatelessWidget {
               constraints: constraints,
               isScrollingSomewhere: this.isScrollingSomewhere,
               page: this.page,
-              havingPartnerB: gameState!.players[name]!.havePartnerB,
+              havingPartnerB: gameState.players[name]!.havePartnerB,
               usingPartnerB: gameState.players[name]!.usePartnerB,
-              defenceColor: defenceColor,
               whoIsAttacking: whoIsAttacking,
               whoIsDefending: whoIsDefending,
             );

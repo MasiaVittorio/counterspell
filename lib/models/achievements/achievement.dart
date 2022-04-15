@@ -4,9 +4,9 @@ abstract class Achievement {
 
   //=================================
   // Values =====================
-  final String? shortTitle;
-  final String? title;
-  final String? text;
+  final String shortTitle;
+  final String title;
+  final String text;
   final int targetBronze;
   final int targetSilver;
   final int targetGold;
@@ -94,9 +94,9 @@ class QuantityAchievement extends Achievement {
 
   // =====================================
   // Constructor =====================
-  const QuantityAchievement(String? shortTitle, {
-    required String? title,
-    required String? text,
+  const QuantityAchievement(String shortTitle, {
+    required String title,
+    required String text,
     required this.currentCount,
     required int targetBronze,
     required int targetSilver,
@@ -177,9 +177,9 @@ class QualityAchievement extends Achievement {
 
   // =====================================
   // Constructor =====================
-  const QualityAchievement(String? shortTitle, {
-    String? title,
-    String? text,
+  const QualityAchievement(String shortTitle, {
+    required String title,
+    required String text,
     required this.targets,
     required int targetBronze,
     required int targetSilver,

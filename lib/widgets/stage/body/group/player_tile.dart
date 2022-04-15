@@ -30,7 +30,8 @@ class PlayerTile extends StatelessWidget {
   final bool? havingPartnerB;
   final bool isAttackerHavingPartnerB;
 
-  const PlayerTile(this.name, {
+  const PlayerTile(
+    this.name, {
     required this.usingPartnerB,
     required this.isAttackerUsingPartnerB,
     required this.havingPartnerB,
@@ -54,7 +55,6 @@ class PlayerTile extends StatelessWidget {
 
   static const double coreTileSize = CSSizes.minTileSize;
 
-
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context)!;
@@ -62,7 +62,7 @@ class PlayerTile extends StatelessWidget {
     final stateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
     final actionBloc = bloc.game.gameAction;
-    final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
+    final StageData<CSPage, SettingsPage>? stage = Stage.of(context);
     final ThemeData theme = Theme.of(context);
 
     final bool attacking = whoIsAttacking == name;
@@ -99,9 +99,9 @@ class PlayerTile extends StatelessWidget {
       ),
       onLongPress: () => stage!.showAlert(
         PlayerDetails(
-          bloc.game.gameGroup.names.value.indexOf(name), 
-          this.maxWidth/(this.tileSize + this.bottom),
-        ), 
+          bloc.game.gameGroup.names.value.indexOf(name),
+          this.maxWidth / (this.tileSize + this.bottom),
+        ),
         size: PlayerDetails.height,
       ),
       child: VelocityPanDetector(
@@ -134,7 +134,7 @@ class PlayerTile extends StatelessWidget {
                     playerState: playerState,
                     defending: defending,
                     stage: stage,
-                    someoneAttacking: whoIsAttacking!="",
+                    someoneAttacking: whoIsAttacking != "",
                     group: group,
                   ),
                 ),
@@ -147,113 +147,126 @@ class PlayerTile extends StatelessWidget {
       ),
     );
 
-    return group.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {
-      final MtgCard? cardA = cardsA[name];
-      final MtgCard? cardB = havingPartnerB! ? cardsB[name] : null;
+    return group.cardsA.build(
+      (_, cardsA) => group.cardsB.build(
+        (_, cardsB) {
+          final MtgCard? cardA = cardsA[name];
+          final MtgCard? cardB = havingPartnerB! ? cardsB[name] : null;
 
-      if(cardB == null && cardA == null){
-        return Material(
-          child: tile,
-          borderRadius: BorderRadius.circular(12),
-        );
-      } else {
-        final String? urlA = cardA?.imageUrl();
-        final String? urlB = cardB?.imageUrl();
-
-        return bloc.settings.imagesSettings.imageAlignments.build((_,alignments){
-          
-          final Decoration? decorationA = urlA == null 
-            ? null 
-            : BoxDecoration(image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                urlA,
-              ),
-              fit: BoxFit.cover,
-              alignment: Alignment(0, alignments[urlA] ?? -0.5),
-            ),);
-
-          Widget image;
-
-          if(havingPartnerB!){
-            final Decoration? decorationB = urlB == null 
-              ? null 
-              : BoxDecoration(image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  urlB,
-                  // errorListener: (){},
-                ),
-                fit: BoxFit.cover,
-                alignment: Alignment(0, alignments[urlB] ?? -0.5),
-              ),);
-
-            image = Row(
-              children: <Widget>[
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 350),
-                  curve: Curves.easeOut,
-                  width: maxWidth * (usingPartnerB! ? 0.25 : 0.75),
-                  decoration: decorationA,
-                ),
-                Expanded(child: Container(
-                  decoration: decorationB,
-                ),),
-              ],
+          if (cardB == null && cardA == null) {
+            return Material(
+              child: tile,
+              borderRadius: BorderRadius.circular(12),
             );
           } else {
-            image =  Container(decoration: decorationA);
-          }
+            final String? urlA = cardA?.imageUrl();
+            final String? urlB = cardB?.imageUrl();
 
-          final Widget gradient = BlocVar.build2<double?,double?>(
-            bloc.settings.imagesSettings.imageGradientStart,
-            bloc.settings.imagesSettings.imageGradientEnd,
-            builder: (context, double? startVal, double? endVal) => Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    theme.canvasColor.withOpacity(startVal!),
-                    theme.canvasColor.withOpacity(endVal!),
-                  ],
-                ),
-              ),
-            ),
-          );
+            return bloc.settings.imagesSettings.imageAlignments
+                .build((_, alignments) {
+              final Decoration? decorationA = urlA == null
+                  ? null
+                  : BoxDecoration(
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          urlA,
+                        ),
+                        fit: BoxFit.cover,
+                        alignment: Alignment(0, alignments[urlA] ?? -0.5),
+                      ),
+                    );
 
-          return SizedBox(
-            height: tileSize + bottom,
-            child: bloc.themer.flatDesign.build((context, flat) => Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(flat! ? 12 : 0.0),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Positioned.fill(
-                    child: image,
-                  ),
-                  Positioned.fill(
-                    child: gradient,
-                  ),
-                  Positioned.fill(
-                    bottom: bottom,
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: Theme(
-                        data: theme.copyWith(splashColor: Colors.white.withAlpha(0x66)),
-                        child: tile,
+              Widget image;
+
+              if (havingPartnerB!) {
+                final Decoration? decorationB = urlB == null
+                    ? null
+                    : BoxDecoration(
+                        image: DecorationImage(
+                          image: CachedNetworkImageProvider(
+                            urlB,
+                            // errorListener: (){},
+                          ),
+                          fit: BoxFit.cover,
+                          alignment: Alignment(0, alignments[urlB] ?? -0.5),
+                        ),
+                      );
+
+                image = Row(
+                  children: <Widget>[
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 350),
+                      curve: Curves.easeOut,
+                      width: maxWidth * (usingPartnerB! ? 0.25 : 0.75),
+                      decoration: decorationA,
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: decorationB,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),),
-          );
-        });
-      }
-    },),);
+                  ],
+                );
+              } else {
+                image = Container(decoration: decorationA);
+              }
 
+              final Widget gradient = BlocVar.build2<double?, double?>(
+                bloc.settings.imagesSettings.imageGradientStart,
+                bloc.settings.imagesSettings.imageGradientEnd,
+                builder: (context, double? startVal, double? endVal) =>
+                    Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        theme.canvasColor.withOpacity(startVal!),
+                        theme.canvasColor.withOpacity(endVal!),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+
+              return SizedBox(
+                height: tileSize + bottom,
+                child: bloc.themer.flatDesign.build(
+                  (context, flat) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(flat! ? 12 : 0.0),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                        Positioned.fill(
+                          child: image,
+                        ),
+                        Positioned.fill(
+                          child: gradient,
+                        ),
+                        Positioned.fill(
+                          bottom: bottom,
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Theme(
+                              data: theme.copyWith(
+                                  splashColor: Colors.white.withAlpha(0x66)),
+                              child: tile,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            });
+          }
+        },
+      ),
+    );
   }
 
   static const circleFrac = 0.7;
@@ -264,18 +277,18 @@ class PlayerTile extends StatelessWidget {
     required bool? scrolling,
     required bool attacking,
     required bool defending,
-    required StageData<CSPage,SettingsPage>? stage,
+    required StageData<CSPage, SettingsPage>? stage,
     required bool someoneAttacking,
     required CSGameGroup? group,
     required double numberFontSizeFraction,
-  }){
+  }) {
     Widget child;
     final Color color = PTileUtils.cnColor(
-      page, 
-      attacking, 
-      defending, 
-      pageColor, 
-      defenceColor, 
+      page,
+      attacking,
+      defending,
+      pageColor,
+      defenceColor,
       someoneAttacking,
     )!;
 
@@ -296,31 +309,28 @@ class PlayerTile extends StatelessWidget {
       theme.canvasColor,
     ).withOpacity(0.8);
 
-    if(page == CSPage.history){
-
+    if (page == CSPage.history) {
       child = Material(
         key: ValueKey("$name circle name"),
         color: selectedColor,
         // elevation: playerState.isAlive ? 2.0 : 0.0,
         borderRadius: BorderRadius.circular(coreTileSize),
         child: Container(
-          width: coreTileSize*circleFrac,
-          height: coreTileSize*circleFrac,
+          width: coreTileSize * circleFrac,
+          height: coreTileSize * circleFrac,
           alignment: Alignment.center,
           child: Text(
-            name.length > 2 ? name.substring(0,2) : name,
+            name.length > 2 ? name.substring(0, 2) : name,
             style: textStyle,
           ),
         ),
       );
-
     } else {
-
       final int _increment = PTileUtils.cnIncrement(normalizedPlayerAction);
 
-      final bool selected = page == CSPage.commanderDamage 
-        ? attacking || defending
-        : rawSelected != false;
+      final bool selected = page == CSPage.commanderDamage
+          ? attacking || defending
+          : rawSelected != false;
 
       child = InkWell(
         key: ValueKey("$name circle number"),
@@ -328,17 +338,17 @@ class PlayerTile extends StatelessWidget {
         splashColor: Colors.transparent,
         onTap: () => stage!.showAlert(
           PlayerDetails(
-            group!.names.value.indexOf(name), 
-            this.maxWidth/(this.tileSize + this.bottom),
-          ), 
+            group!.names.value.indexOf(name),
+            this.maxWidth / (this.tileSize + this.bottom),
+          ),
           size: PlayerDetails.height,
         ),
         child: CircleNumber(
           size: coreTileSize * circleFrac,
           value: PTileUtils.cnValue(
-            name, 
-            page, 
-            whoIsAttacking, 
+            name,
+            page,
+            whoIsAttacking,
             whoIsDefending,
             usingPartnerB ?? false,
             playerState,
@@ -349,24 +359,20 @@ class PlayerTile extends StatelessWidget {
           open: scrolling!,
           style: textStyle,
           duration: const Duration(milliseconds: 360),
-          color: selected 
-            ? selectedColor
-            : subColor,
+          color: selected ? selectedColor : subColor,
           increment: _increment,
           borderRadiusFraction: attacking ? 0.1 : 1.0,
         ),
       );
-
     }
 
-
     return Padding(
-      padding: EdgeInsets.all(coreTileSize * (1 - circleFrac)/2),
-      child: child
-    );
+        padding: EdgeInsets.all(coreTileSize * (1 - circleFrac) / 2),
+        child: child);
   }
-  
-  Widget buildTrailing(bool? rawSelected, CSGameAction? actionBloc, CSGameState? stateBloc){
+
+  Widget buildTrailing(
+      bool? rawSelected, CSGameAction actionBloc, CSGameState stateBloc) {
     return SizedBox(
       width: coreTileSize,
       height: coreTileSize,
@@ -374,116 +380,125 @@ class PlayerTile extends StatelessWidget {
         fit: StackFit.expand,
         children: <Widget>[
           //normal selector (+anti selector) for life screen
-          Positioned.fill(child: AnimatedPresented(
-            duration: CSAnimations.fast,
-            presented: page == CSPage.life || page == CSPage.counters,
-            child: InkWell(
-              onLongPress: (){
-                actionBloc!.selected.value[name]= rawSelected == null ? true : null;
-                actionBloc.selected.refresh();
-              },
-              child: Container(
-                width: coreTileSize,
-                height: coreTileSize,
-                child: Checkbox(
-                  value: rawSelected,
-                  activeColor: pageColor,
-                  tristate: true,
-                  onChanged: (b) {
-                    actionBloc!.selected.value[name] = rawSelected == false ? true : false;
-                    actionBloc.selected.refresh();
-                  },
+          Positioned.fill(
+            child: AnimatedPresented(
+              duration: CSAnimations.fast,
+              presented: page == CSPage.life || page == CSPage.counters,
+              child: InkWell(
+                onLongPress: () {
+                  actionBloc.selected.value[name] =
+                      rawSelected == null ? true : null;
+                  actionBloc.selected.refresh();
+                },
+                child: Container(
+                  width: coreTileSize,
+                  height: coreTileSize,
+                  child: Checkbox(
+                    value: rawSelected,
+                    activeColor: pageColor,
+                    tristate: true,
+                    onChanged: (b) {
+                      actionBloc.selected.value[name] =
+                          rawSelected == false ? true : false;
+                      actionBloc.selected.refresh();
+                    },
+                  ),
                 ),
               ),
             ),
-          ),),
+          ),
           //double partner // single partner for cast screen
-          Positioned.fill(child: AnimatedPresented(
-            duration: CSAnimations.fast,
-            presented: page == CSPage.commanderCast,
-            child: InkWell(
-              onLongPress: () => stateBloc!.toggleHavePartner(name),
-              onTap: () => stateBloc!.toggleUsePartner(name, force: true),
-              child: Container(
-                width: coreTileSize,
-                height: coreTileSize,
-                child: Transform(
-                  transform: Matrix4.rotationY(usingPartnerB!  
-                    ? pi
-                    : 0.0
-                  ),
-                  origin: Offset(
-                    coreTileSize / 2,
-                    coreTileSize / 2,
-                  ),
-                  child: Icon(
-                    havingPartnerB==true
-                      ? rawSelected == true 
-                        ? McIcons.account_multiple
-                        : McIcons.account_multiple_outline
-                      : rawSelected == true 
-                        ? McIcons.account
-                        : McIcons.account_outline,
+          Positioned.fill(
+            child: AnimatedPresented(
+              duration: CSAnimations.fast,
+              presented: page == CSPage.commanderCast,
+              child: InkWell(
+                onLongPress: () => stateBloc.toggleHavePartner(name),
+                onTap: () => stateBloc.toggleUsePartner(name, force: true),
+                child: Container(
+                  width: coreTileSize,
+                  height: coreTileSize,
+                  child: Transform(
+                    transform: Matrix4.rotationY(usingPartnerB! ? pi : 0.0),
+                    origin: Offset(
+                      coreTileSize / 2,
+                      coreTileSize / 2,
+                    ),
+                    child: Icon(
+                      havingPartnerB == true
+                          ? rawSelected == true
+                              ? McIcons.account_multiple
+                              : McIcons.account_multiple_outline
+                          : rawSelected == true
+                              ? McIcons.account
+                              : McIcons.account_outline,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),),
+          ),
           //attacking icon for commander damage screen
-          Positioned.fill(child: AnimatedPresented(
-            duration: CSAnimations.fast,
-            presented: page == CSPage.commanderDamage && whoIsAttacking==name,
-            child: InkWell(
-              onLongPress: () => stateBloc!.toggleHavePartner(name),
-              onTap: () => stateBloc!.toggleUsePartner(name, force: true),
-              child: Container(
-                width: coreTileSize,
-                height: coreTileSize,
-                child: Transform(
-                  transform: Matrix4.rotationY(usingPartnerB!  
-                    ? pi
-                    : 0.0
-                  ),
-                  origin: Offset(
-                    coreTileSize / 2,
-                    coreTileSize / 2,
-                  ),
-                  child: Icon(
-                    havingPartnerB==true
-                      ? CSIcons.attackTwo
-                      : CSIcons.attackOne,
+          Positioned.fill(
+            child: AnimatedPresented(
+              duration: CSAnimations.fast,
+              presented:
+                  page == CSPage.commanderDamage && whoIsAttacking == name,
+              child: InkWell(
+                onLongPress: () => stateBloc.toggleHavePartner(name),
+                onTap: () => stateBloc.toggleUsePartner(name, force: true),
+                child: Container(
+                  width: coreTileSize,
+                  height: coreTileSize,
+                  child: Transform(
+                    transform: Matrix4.rotationY(usingPartnerB! ? pi : 0.0),
+                    origin: Offset(
+                      coreTileSize / 2,
+                      coreTileSize / 2,
+                    ),
+                    child: Icon(
+                      havingPartnerB == true
+                          ? CSIcons.attackTwo
+                          : CSIcons.attackOne,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),),
+          ),
           //defending icon for commander damage screen
-          Positioned.fill(child: AnimatedPresented(
-            duration: CSAnimations.fast,
-            presented: 
-              page == CSPage.commanderDamage && 
-              whoIsAttacking!=name && 
-              whoIsAttacking!="",
-            child: Container(
-              width: coreTileSize,
-              height: coreTileSize,
-              child: Icon(
-                whoIsDefending == name
-                  ? CSIcons.defenceFilled
-                  : CSIcons.defenceOutline,
+          Positioned.fill(
+            child: AnimatedPresented(
+              duration: CSAnimations.fast,
+              presented: page == CSPage.commanderDamage &&
+                  whoIsAttacking != name &&
+                  whoIsAttacking != "",
+              child: Container(
+                width: coreTileSize,
+                height: coreTileSize,
+                child: Icon(
+                  whoIsDefending == name
+                      ? CSIcons.defenceFilled
+                      : CSIcons.defenceOutline,
+                ),
               ),
             ),
-          ),),
+          ),
         ],
       ),
     );
   }
 
-  Widget buildBody(bool? rawSelected, ThemeData theme){
+  Widget buildBody(bool? rawSelected, ThemeData theme) {
     final annotation = PTileUtils.tileAnnotation(
-      name,    page,    rawSelected,    whoIsAttacking,
-      havingPartnerB??false,    usingPartnerB ??false, 
-      isAttackerHavingPartnerB,    isAttackerUsingPartnerB,
+      name,
+      page,
+      rawSelected,
+      whoIsAttacking,
+      havingPartnerB ?? false,
+      usingPartnerB ?? false,
+      isAttackerHavingPartnerB,
+      isAttackerUsingPartnerB,
     );
     return Align(
       alignment: Alignment.centerLeft,
@@ -503,7 +518,7 @@ class PlayerTile extends StatelessWidget {
               overflow: TextOverflow.clip,
             ),
             AnimatedListed(
-              listed: annotation!="", 
+              listed: annotation != "",
               child: Padding(
                 padding: const EdgeInsets.only(top: 4.0),
                 child: AnimatedText(
@@ -521,5 +536,4 @@ class PlayerTile extends StatelessWidget {
       ),
     );
   }
-
 }

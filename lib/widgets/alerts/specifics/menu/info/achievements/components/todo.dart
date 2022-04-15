@@ -14,7 +14,7 @@ class TodoAchievements extends StatelessWidget {
         final children = <Widget>[
           for(final shortTitle in todo!)
             if(map![shortTitle]!= null) 
-              AchievementTile(map[shortTitle]),
+              AchievementTile(map[shortTitle]!),
         ];
 
         if(children.isEmpty){

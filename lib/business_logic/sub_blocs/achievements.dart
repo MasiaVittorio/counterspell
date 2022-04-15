@@ -13,7 +13,7 @@ class CSAchievements extends BlocBase {
   // Values ===================
   final CSBloc parent;
   late BlocMap<String?,Achievement> map;
-  late PersistentVar<Set<String?>> todo;
+  late PersistentVar<Set<String>> todo;
   bool _mapReading = true;
   bool _todoReading = true;
   bool _checked = false; //if the check method is already been launched
@@ -33,16 +33,16 @@ class CSAchievements extends BlocBase {
         this.checkNewAchievements(reset);
       }
     );
-    this.todo = PersistentVar<Set<String?>>(
-      initVal: const <String?>{
+    this.todo = PersistentVar<Set<String>>(
+      initVal: const <String>{
         Achievements.countersShortTitle,
         Achievements.vampireShortTitle,
         Achievements.rollerShortTitle,
       },
       key: "counterspell_bloc_achievementsBloc_blocVar_todo_list",
-      toJson: (s) => <String?>[...s],
-      fromJson: (j) => <String?>{...(j as List) as Iterable<String?>},
-      copier: (s) => <String?>{...s},
+      toJson: (s) => <String>[...s],
+      fromJson: (j) => <String>{for(final s in (j as List)) s as String},
+      copier: (s) => <String>{...s},
       readCallback: (_){
         _todoReading = false;
         this.checkNewAchievements(reset);
@@ -77,7 +77,7 @@ class CSAchievements extends BlocBase {
     this.map.refresh();
 
     if(forceResetDev){
-      this.todo.set(const <String?>{
+      this.todo.set(const <String>{
         Achievements.countersShortTitle,
         Achievements.vampireShortTitle,
         Achievements.rollerShortTitle,
@@ -105,7 +105,7 @@ class CSAchievements extends BlocBase {
   void checkSnackBar(Achievement oldOne, Achievement newOne){
     if(newOne.medal.biggerThan(oldOne.medal)){
       this.parent.stage.showSnackBar(StageSnackBar(
-        title: Text(newOne.shortTitle!),
+        title: Text(newOne.shortTitle),
         subtitle: Text("Reached: ${newOne.medal.name}"),
         secondary: MedalIcon(newOne.medal),
         scrollable: true,
@@ -174,10 +174,10 @@ class CSAchievements extends BlocBase {
   }
   bool increment(String shortTitle) => this.incrementBy(shortTitle, 1);
 
-  bool reset(String? shortTitle, {bool force = false}){
+  bool reset(String shortTitle, {bool force = false}){
     final Achievement? achievement 
         = this.map.value[shortTitle] 
-        ?? Achievements.map[shortTitle!];
+        ?? Achievements.map[shortTitle];
     if(achievement == null) return false;
     if(achievement.gold && !(force)) return false;
     this.map.value[shortTitle] = achievement.reset;

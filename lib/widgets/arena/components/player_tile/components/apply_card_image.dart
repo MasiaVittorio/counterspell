@@ -33,8 +33,8 @@ class AptCardImage extends StatelessWidget {
   Widget build(BuildContext context) {
     
     final player = gameState!.players[name]!;
-    final bool haveB = player.havePartnerB!;
-    final bool useB = haveB && player.usePartnerB!;
+    final bool haveB = player.havePartnerB;
+    final bool useB = haveB && player.usePartnerB;
     final group = bloc!.game.gameGroup;
 
     return group.cardsA.build((_, cardsA) => group.cardsB.build((_, cardsB) {

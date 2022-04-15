@@ -16,7 +16,7 @@ class AchievementAlert extends StatelessWidget {
     return CSBloc.of(context)!.achievements.map.build((_,map){
       final Achievement achievement = map[shortTitle]!;
       return HeaderedAlert(
-        achievement.shortTitle!,
+        achievement.shortTitle,
         canvasBackground: true,
         alreadyScrollableChild: true,
         child: Padding(
@@ -30,7 +30,7 @@ class AchievementAlert extends StatelessWidget {
               removeRight: true,
               context: context,
               child: SubSection(<Widget>[
-                Expanded(child: achieveHints[achievement.shortTitle!] ?? Container(),),
+                Expanded(child: achieveHints[achievement.shortTitle] ?? Container(),),
               ]),
             )),
           ].separateWith(CSWidgets.height10, alsoLast: true),),
@@ -51,8 +51,8 @@ class AchievementAgnosticSection extends StatelessWidget {
 
     return SubSection(<Widget>[
       ListTile(
-        leading: Icon(Achievements.icons[achievement.shortTitle!]),
-        title: Text(achievement.title!),
+        leading: Icon(Achievements.icons[achievement.shortTitle]),
+        title: Text(achievement.title),
         subtitle: Text("(${achievement.text})", style: TextStyle(fontStyle: FontStyle.italic),),
         trailing: IconButton(
           icon: Icon(McIcons.restart),

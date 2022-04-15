@@ -155,7 +155,7 @@ class CommanderSubSection extends StatelessWidget {
 
     final MtgCard? first = game.commandersA[player];
     final MtgCard? second = game.commandersB[player];
-    final bool partner = game.state.players[player]!.havePartnerB!;
+    final bool partner = game.state.players[player]!.havePartnerB;
 
     return SubSection(<Widget>[
       SectionTitle(player),

@@ -12,7 +12,7 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
 
     return PlayerBuilder(index, (gameState, names, name, playerState, player){
 
-      final bool partner = player.havePartnerB ?? false;
+      final bool partner = player.havePartnerB;
 
       return Column(
         mainAxisSize: MainAxisSize.min, 

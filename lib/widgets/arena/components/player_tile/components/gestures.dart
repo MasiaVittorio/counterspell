@@ -16,7 +16,6 @@ class AptGestures extends StatelessWidget {
     required this.whoIsDefending,
     required this.havingPartnerB,
     required this.usingPartnerB,
-    required this.defenceColor,
     required this.buttonAlignment,
   });
 
@@ -25,7 +24,7 @@ class AptGestures extends StatelessWidget {
   final Widget content;
 
   //Business Logic
-  final CSBloc? bloc;
+  final CSBloc bloc;
 
   //Actual Game State
   final String name;
@@ -36,7 +35,6 @@ class AptGestures extends StatelessWidget {
   final CSPage page;
   final String? whoIsAttacking;
   final String? whoIsDefending;
-  final Color? defenceColor;
   final bool? havingPartnerB;
   final bool? usingPartnerB;
 
@@ -47,7 +45,7 @@ class AptGestures extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
+    final StageData<CSPage,SettingsPage> stage = Stage.of(context)!;
 
     final bloc = CSBloc.of(context)!;
     final settings = bloc.settings.arenaSettings;
@@ -188,20 +186,20 @@ class AptGestures extends StatelessWidget {
 
 
   /// With scroll settings, taps are used to select
-  void tapWithScrollSettings(StageData? stage) {
+  void tapWithScrollSettings(StageData stage) {
     if(
       page == CSPage.commanderDamage 
-      && !(whoIsAttacking == name && havingPartnerB!)
+      // && !(whoIsAttacking == name && havingPartnerB!)
     ){
-      bloc!.game.gameAction.clearSelection();
-      stage!.mainPagesController.goToPage(CSPage.life);
+      bloc.game.gameAction.clearSelection();
+      stage.mainPagesController.goToPage(CSPage.life);
     } else {
       PlayerGestures.tap(
         name,
         page: page,
         attacking: whoIsAttacking == name,
         rawSelected: rawSelected,
-        bloc: bloc!,
+        bloc: bloc,
         isScrollingSomewhere: isScrollingSomewhere,
         hasPartnerB: havingPartnerB,
         usePartnerB: usingPartnerB,
@@ -217,8 +215,8 @@ class AptGestures extends StatelessWidget {
       stage!.mainPagesController.goToPage(CSPage.life);
     } else {
       stage!.mainPagesController.goToPage(CSPage.commanderDamage);
-      bloc!.game.gameAction.attackingPlayer.set(this.name);
-      bloc!.game.gameAction.defendingPlayer.set("");
+      bloc.game.gameAction.attackingPlayer.set(this.name);
+      bloc.game.gameAction.defendingPlayer.set("");
     } 
   }
 
@@ -226,12 +224,12 @@ class AptGestures extends StatelessWidget {
     details,
     name,
     constraints.maxWidth,
-    bloc: bloc!,
+    bloc: bloc,
     page: page,
-    vertical: bloc!.settings.arenaSettings.verticalScroll.value,
+    vertical: bloc.settings.arenaSettings.verticalScroll.value,
   );
 
-  void onPanEnd(DragEndDetails _) => bloc!.scroller.onDragEnd();
+  void onPanEnd(DragEndDetails _) => bloc.scroller.onDragEnd();
 
 
   /// with only taps, we need the relative position to be able to determimne if the
@@ -240,7 +238,7 @@ class AptGestures extends StatelessWidget {
   void tapOnly(bool topHalf, StageData? stage){
     PlayerGestures.tapOnlyArena(
       this.name, 
-      bloc: this.bloc!, 
+      bloc: this.bloc, 
       page: this.page, 
       whoIsAttacking: this.whoIsAttacking,
       topHalf: topHalf,

@@ -15,7 +15,7 @@ class PlayerDetailsInfo extends StatelessWidget {
     return stage.themeController.derived.mainPageToPrimaryColor.build((_, colors)
         => PlayerBuilder(index, (gameState, names, name, playerState, player){
 
-          final bool partner = player.havePartnerB!;
+          final bool partner = player.havePartnerB;
 
           return Column(
             mainAxisSize: MainAxisSize.min, 

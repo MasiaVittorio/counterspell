@@ -38,7 +38,7 @@ class ArenaMenu extends StatelessWidget {
       initialValue: ArenaMenuPage.game,
       customScrollPhysics: SidereusScrollPhysics(
         topBounce: true,
-        topBounceCallback: () => SchedulerBinding.instance!.addPostFrameCallback((_) {
+        topBounceCallback: () => SchedulerBinding.instance.addPostFrameCallback((_) {
           close();
         }),
         alwaysScrollable: true,

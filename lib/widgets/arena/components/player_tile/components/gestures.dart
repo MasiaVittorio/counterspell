@@ -41,6 +41,7 @@ class AptGestures extends StatelessWidget {
   //Layout information
   final BoxConstraints constraints;
 
+  static const double aptCmdrDamageExtraPadding = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -131,18 +132,24 @@ class AptGestures extends StatelessWidget {
             Positioned.fill(child: content),
 
             if(enabled[CSPage.commanderDamage]!)
-              Align(
-                alignment: AptContent.rightInfoFromButtonAlignment(buttonAlignment)
-                  ? Alignment.bottomLeft
-                  : Alignment.bottomRight,
-                child: AptCmdrDmg(
-                  bloc: this.bloc, 
-                  name: this.name, 
-                  page: this.page, 
-                  whoIsAttacking: this.whoIsAttacking,
-                  whoIsDefending: this.whoIsDefending,
-                  usePartnerB: this.usingPartnerB,
-                  hasPartnerB: this.havingPartnerB,
+              Positioned(
+                bottom: - aptCmdrDamageExtraPadding,
+                right: - aptCmdrDamageExtraPadding,
+                left: - aptCmdrDamageExtraPadding,
+                top: 0,
+                child: Align(
+                  alignment: AptContent.rightInfoFromButtonAlignment(buttonAlignment)
+                    ? Alignment.bottomLeft
+                    : Alignment.bottomRight,
+                  child: AptCmdrDmg(
+                    bloc: this.bloc, 
+                    name: this.name, 
+                    page: this.page, 
+                    whoIsAttacking: this.whoIsAttacking,
+                    whoIsDefending: this.whoIsDefending,
+                    usePartnerB: this.usingPartnerB,
+                    hasPartnerB: this.havingPartnerB,
+                  ),
                 ),
               ),
           ],);
@@ -278,7 +285,12 @@ class AptCmdrDmg extends StatelessWidget {
   final bool? hasPartnerB;
   final bool? usePartnerB;
 
-  static const double _size = 56.0;
+  static const double _size = 56.0 
+    + 2 * AptGestures.aptCmdrDamageExtraPadding;
+  // + 40 because it's used on a positioned(
+  // left: -20, right: -20, bottom: -20
+  // ) and makes the tappable part bigger 
+  // without affecting the layout
 
   static const Map<_CmdrMode,IconData> _icons= <_CmdrMode,IconData>{
     _CmdrMode.outOfCommanderDamage: CSIcons.damageOutlined,
@@ -301,6 +313,7 @@ class AptCmdrDmg extends StatelessWidget {
     }
 
     return InkWell(
+      borderRadius: BorderRadius.circular(_size / 2),
       onTap: (){
         switch (mode) {
           case _CmdrMode.outOfCommanderDamage:

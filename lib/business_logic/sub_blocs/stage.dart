@@ -54,7 +54,7 @@ class CSStage {
             ),
         },
         orderedPages: CSPage.values.toList(),
-      ).complete,
+      ).complete!,
       onMainPageChanged: (_) => parent.scroller.cancel(true),
 
       jsonToPanelPage: (json) => SettingsPages.fromName(json as String)!,

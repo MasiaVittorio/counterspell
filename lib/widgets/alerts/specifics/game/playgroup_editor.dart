@@ -60,7 +60,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     this.setState(() {
       this.edited = who;
     });
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       this.focusNode!.requestFocus();
     });
   }
@@ -91,7 +91,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     this.setState(() {
       this.newGrouping = true;
     });
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       this.focusNode!.requestFocus();
     });
   }
@@ -136,7 +136,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     if (who != null) {
       if (newGrouping) {
         this._endNewGrouping();
-        SchedulerBinding.instance!.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           this.startEditing(who);
         });
       } else if (edited != null) {
@@ -144,7 +144,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
           return;
         } else {
           this._endEditing();
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
             this.startEditing(who);
           });
         }
@@ -156,7 +156,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
         return;
       } else if (edited != null) {
         this._endEditing();
-        SchedulerBinding.instance!.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           this.startNewGroup();
         });
       } else {

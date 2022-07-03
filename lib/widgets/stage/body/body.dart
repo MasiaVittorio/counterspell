@@ -61,14 +61,14 @@ class CSBody extends StatelessWidget {
                   final historyEnabled = enabledPages![CSPage.history];
                   if(landScape){
                     if(historyEnabled!){
-                      SchedulerBinding.instance!.addPostFrameCallback((_) {
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
                         //cant notify listeners during build phase lol
                         stage.mainPagesController.disablePage(CSPage.history);
                       });
                     }
                   } else {
                     if(!historyEnabled!){
-                      SchedulerBinding.instance!.addPostFrameCallback((_) {
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
                         //just (dont) build lol
                         stage.mainPagesController.enablePage(CSPage.history);
                         bloc.game.gameHistory.listController.refresh(

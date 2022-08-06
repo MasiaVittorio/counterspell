@@ -160,7 +160,21 @@ class CSGameGroup {
   //========================
   // Actions
 
+  void onReorder(int from, int to){
+    final list = <String?>[...names.value];
+    final removed = list[from]!;
+    list[from] = null;
+    list.insert(to, removed);
+    names.value = <String>[
+      for(final String? e in list)
+        if(e != null)
+          e,
+    ];
+    names.refresh();
+  }
+
   void moveIndex(int oldIndex, int newIndex){
+    debugPrint("from $oldIndex to $newIndex");
     names.value.insert(
       newIndex, 
       names.value.removeAt(oldIndex)

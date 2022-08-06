@@ -6,22 +6,23 @@ class PanelInfo extends StatelessWidget {
 
   const PanelInfo();
 
+  static const double quoteSize = 70;
+
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context)!;
 
-    return SingleChildScrollView(
+    return ModalBottomList(
+      bottom: const QuoteTile(), 
+      bottomHeight: quoteSize,
       physics: stage.panelController.panelScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const <Widget>[
-          Useful(),
-          Development(),
-          // const AboutCounterSpell(),
-          // const CounterSpellActions(),
-          QuoteTile(),
-        ],
-      ),
+      children: const <Widget>[
+        Useful(),
+        Divider(height: 25,),
+        Development(),
+        // const AboutCounterSpell(),
+        // const CounterSpellActions(),
+      ],
     );
   }
 }

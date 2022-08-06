@@ -7,66 +7,73 @@ class Useful extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = CSBloc.of(context)!;
-    final stage = Stage.of(context);
+    final stage = Stage.of(context)!;
 
-    return Section([
-      const PanelTitle("Useful", centered: false,),
-      SubSection([SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-          ExtraButton(
-            icon: Icons.help_outline,
-            text: "Tutorial",
-            onTap: (){
-              logic.tutorial.showTutorial(0, full: true);
-            }, 
-            customCircleColor: Colors.transparent,
-          ),
-          const Icon(Icons.keyboard_arrow_right),
-          ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
-            ExtraButton(
-              onTap: (){
-                logic.tutorial.showTutorial(i, full: false);
-              }, 
-              icon: TutorialData.values[i].icon,
-              text: TutorialData.values[i].title,
-              customCircleColor: Colors.transparent,
-            ),].separateWith(CSWidgets.width5)),
-        ],),
-      )]),
-      CSWidgets.height5,
-      ExtraButtons(
-        children: [
-          ExtraButton(
-            text: "Support",
-            icon: Icons.attach_money,
-            onTap: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
-          ),
-          ExtraButton(
-            customIcon: logic.badges.stuffILikeShown.build((_, __) => Badge(
-              showBadge: logic.badges.stuffILikeBadge,
-              badgeContent: null,
-              toAnimate: false,
-              shape: BadgeShape.circle,
-              // alignment: Alignment.topRight,
-              badgeColor: Theme.of(context).colorScheme.secondary,
-              position: BadgePosition.topEnd(),
-              ignorePointer: true,
-              child: const Icon(Icons.star_border)
-            ),),
-            icon: null,
-            text: "Stuff I like",
-            onTap: logic.badges.showStuffILike,
-          ),
-          ExtraButton(
-            icon: McIcons.bookmark_check,
-            text: "Achievements",
-            onTap: () => stage!.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
-          ),
-        ],
-      ),
-
-    ]);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const PanelTitle("Useful", centered: false,),
+        buttons(stage, logic, context),
+        CSWidgets.height5,
+        tutorial(logic),
+      ],
+    );
   }
+
+  ExtraButtons buttons(StageData stage, CSBloc logic, BuildContext context) 
+    => ExtraButtons(
+      children: [
+        ExtraButton(
+          text: "Support",
+          icon: Icons.attach_money,
+          onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
+        ),
+        ExtraButton(
+          customIcon: logic.badges.stuffILikeShown.build((_, __) => Badge(
+            showBadge: logic.badges.stuffILikeBadge,
+            badgeContent: null,
+            toAnimate: false,
+            shape: BadgeShape.circle,
+            // alignment: Alignment.topRight,
+            badgeColor: Theme.of(context).colorScheme.secondary,
+            position: BadgePosition.topEnd(),
+            ignorePointer: true,
+            child: const Icon(Icons.star_border)
+          ),),
+          icon: null,
+          text: "Stuff I like",
+          onTap: logic.badges.showStuffILike,
+        ),
+        ExtraButton(
+          icon: McIcons.bookmark_check,
+          text: "Achievements",
+          onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
+        ),
+      ],
+    );
+
+  SubSection tutorial(CSBloc logic) => SubSection([SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(mainAxisSize: MainAxisSize.min, children: [
+      ExtraButton(
+        icon: Icons.help_outline,
+        text: "Tutorial",
+        onTap: (){
+          logic.tutorial.showTutorial(0, full: true);
+        }, 
+        customCircleColor: Colors.transparent,
+      ),
+      const Icon(Icons.keyboard_arrow_right),
+      ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
+        ExtraButton(
+          onTap: (){
+            logic.tutorial.showTutorial(i, full: false);
+          }, 
+          icon: TutorialData.values[i].icon,
+          text: TutorialData.values[i].title,
+          customCircleColor: Colors.transparent,
+        ),].separateWith(CSWidgets.width5)),
+    ],),
+  )]);
 }
 

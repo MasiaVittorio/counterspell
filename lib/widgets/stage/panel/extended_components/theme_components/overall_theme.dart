@@ -21,22 +21,22 @@ class OverallTheme extends StatelessWidget {
         children: <Widget>[
           Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Section([
-                const PanelTitle("Base Theme", centered: false),
+              const PanelTitle("Base Theme", centered: false),
+              SubSection([
                 Row(children: const <Widget>[
                   Expanded(child: StagePanelSingleColor()),
                   Expanded(child: StageAccentColor()),
                 ],),
               ]),
+              const SectionTitle("Brightness"),
               RadioSliderTheme.merge(
                 data: RadioSliderThemeData(
-                  height: 48.0,
                 ),
-                child: const Section([
-                  SectionTitle("Brightness"),
-                  StageBrightnessToggle(),
-                ]),
+                child: const StageBrightnessToggle(
+                  showDarkStylesOnlyIfDark: true,
+                ),
               ),
             ],
           ),

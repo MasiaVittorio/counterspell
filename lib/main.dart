@@ -118,6 +118,8 @@ class _MaterialApp extends StatelessWidget {
         home: const DividerTheme(
           data: DividerThemeData(
             endIndent: 16, indent: 16, space: 2,
+            // color: theme.colorScheme.onSurface,
+            // TODO: check divider color
           ),
           child: CSHomePage(key: WidgetsKeys.homePage),
         ),

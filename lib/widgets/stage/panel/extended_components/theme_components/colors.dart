@@ -14,7 +14,7 @@ class ThemeColors extends StatelessWidget {
       => Stack(
         fit: StackFit.loose,
         children: <Widget>[
-          Section(<Widget>[
+          SubSection(<Widget>[
             const SectionTitle("CounterSpell Colors"),
             StageMainColorsPerPage(extraChildren: <Widget>[
               bloc.themer.defenceColor.build((context, defenceColor)

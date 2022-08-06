@@ -13,7 +13,7 @@ class PlayerStatScreen extends StatefulWidget {
   static const height = 377.0; 
 
   @override
-  _PlayerStatScreenState createState() => _PlayerStatScreenState();
+  State createState() => _PlayerStatScreenState();
 }
 
 class _PlayerStatScreenState extends State<PlayerStatScreen> {
@@ -91,23 +91,23 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
           const SectionTitle("Filters"),
 
           Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 14.0, right: 6.0),
-              child: const Text("Against:"),
+            const Padding(
+              padding: EdgeInsets.only(left: 14.0, right: 6.0),
+              child: Text("Against:"),
             ),
             Expanded(child: Align(
               alignment: Alignment.centerLeft,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: ToggleButtons(
-                  children: [for(final o in opponents) Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(o ?? "-"),
-                  )],
                   isSelected: [for(final o in opponents) opponent == o],
                   onPressed: (i) => setState((){
                     opponent = opponents[i];
                   }),
+                  children: [for(final o in opponents) Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(o ?? "-"),
+                  )],
                 ),
               ),
             )),
@@ -116,23 +116,23 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
           CSWidgets.height5,
 
           Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 14.0, right: 6.0),
-              child: const Text("Piloting:"),
+            const Padding(
+              padding: EdgeInsets.only(left: 14.0, right: 6.0),
+              child: Text("Piloting:"),
             ),
             Expanded(child: Align(
               alignment: Alignment.centerLeft,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: ToggleButtons(
+                  isSelected: [for(final c in commanders) commander?.oracleId == c?.oracleId],
+                  onPressed: (i) => setState((){
+                    commander = commanders[i];
+                  }),
                   children: [for(final c in commanders) Column(children: [
                     Expanded(child: Container(
                       alignment: Alignment.center,
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(c == null ? "-" : safeSubString(
-                        untilSpaceOrComma(c.name),
-                        8,
-                      )),
                       decoration: c != null ? BoxDecoration(
                         image: DecorationImage(
                           
@@ -154,12 +154,12 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                           fit: BoxFit.cover,
                         ),
                       ) : null,
+                      child: Text(c == null ? "-" : safeSubString(
+                        untilSpaceOrComma(c.name),
+                        8,
+                      )),
                     ),),
                   ],),],
-                  isSelected: [for(final c in commanders) commander?.oracleId == c?.oracleId],
-                  onPressed: (i) => setState((){
-                    commander = commanders[i];
-                  }),
                 ),
               ),
             )),
@@ -168,23 +168,23 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
           CSWidgets.height5,
 
           Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 14.0, right: 6.0),
-              child: const Text("Group size:"),
+            const Padding(
+              padding: EdgeInsets.only(left: 14.0, right: 6.0),
+              child: Text("Group size:"),
             ),
             Expanded(child: Align(
               alignment: Alignment.centerLeft,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: ToggleButtons(
-                  children: [for(final s in groupSizes) Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("${s ?? "-"}"),
-                  )],
                   isSelected: [for(final s in groupSizes) groupSize == s],
                   onPressed: (i) => setState((){
                     groupSize = groupSizes[i];
                   }),
+                  children: [for(final s in groupSizes) Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("${s ?? "-"}"),
+                  )],
                   ),
               ),
             ),),
@@ -197,8 +197,11 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
   }
 
   static String safeSubString(String start, int len){
-    if(start.length >  len) return start.substring(0,len-1)+'.';
-    else return start; 
+    if(start.length >  len) {
+      return '${start.substring(0,len-1)}.';
+    } else {
+      return start;
+    } 
   }
 
   static String untilSpaceOrComma(String from){

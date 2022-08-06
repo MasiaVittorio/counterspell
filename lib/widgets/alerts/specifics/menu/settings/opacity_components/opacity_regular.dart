@@ -20,7 +20,7 @@ class ImageOpacityRegular extends StatelessWidget {
     final theme = Theme.of(context);
 
     final Widget image = Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: CachedNetworkImageProvider(CSUris.featherArt),
           fit: BoxFit.cover,
@@ -74,16 +74,16 @@ class ImageOpacityRegular extends StatelessWidget {
                   borderRadius: BorderRadius.circular(CSSizes.minTileSize),
                 ),
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "40",
                   style: TextStyle(fontSize: 0.26 * CSSizes.minTileSize),
                 ),
               ),
             ),
-            Expanded(child: Align(
+            const Expanded(child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: 16.0),
+                padding: EdgeInsets.only(left: 16.0),
                 child: Text(
                   "Example",
                   style: TextStyle(
@@ -144,7 +144,7 @@ class ImageOpacityRegular extends StatelessWidget {
           onChanged: start.set,
           divisions: 20,
           defaultValue: CSSettingsImages.defaultImageGradientStart,
-          leading: Icon(Icons.keyboard_arrow_left),
+          leading: const Icon(Icons.keyboard_arrow_left),
           titleBuilder: (val) => Text("Start: ${val.toStringAsFixed(2)}"),
         )),
         end.build((_,value) => FullSlider(
@@ -152,7 +152,7 @@ class ImageOpacityRegular extends StatelessWidget {
           onChanged: end.set,
           divisions: 20,
           defaultValue: CSSettingsImages.defaultImageGradientEnd,
-          leading: Icon(Icons.keyboard_arrow_right),
+          leading: const Icon(Icons.keyboard_arrow_right),
           titleBuilder: (val) => Text("End: ${val.toStringAsFixed(2)}"),
         )),
       ],

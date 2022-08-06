@@ -9,7 +9,7 @@ class PieceOfInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconTheme.merge(
-      data: IconThemeData(opacity: 0.4),
+      data: const IconThemeData(opacity: 0.4),
       child: Container(
         height: height,
         alignment: Alignment.center,
@@ -51,7 +51,7 @@ class InfoSection extends StatelessWidget {
   });
 
   static heightCalc(int infoNumber) => InfoTitle.height + infoNumber * PieceOfInfo.height + 14;
-  double get height => heightCalc(this.info.length);
+  double get height => heightCalc(info.length);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -62,7 +62,7 @@ class InfoSection extends StatelessWidget {
           icon: icon,
           title: title,
         ),
-        for(final string in this.info)
+        for(final string in info)
           PieceOfInfo(string),
       ], last: last),
     );
@@ -95,11 +95,11 @@ class InfoTitle extends StatelessWidget {
               width: width,
               height: height,
               alignment: Alignment.center,
-              child: this.icon,
+              child: icon,
             ),
             Expanded(
               child: Text(
-                this.title,
+                title,
                 style: Theme.of(context).textTheme.bodyText1, 
                 maxLines: 2, 
                 overflow: TextOverflow.ellipsis,

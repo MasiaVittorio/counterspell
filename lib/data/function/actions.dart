@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:counter_spell_new/core.dart';
@@ -5,8 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class CSActions {
   static void _launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       print('Could not launch $url');
     }

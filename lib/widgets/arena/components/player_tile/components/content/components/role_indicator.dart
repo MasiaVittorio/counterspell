@@ -2,7 +2,7 @@ import 'package:counter_spell_new/core.dart';
 
 class AptRole extends StatelessWidget {
 
-  AptRole({
+  const AptRole({
     required this.bloc,
     required this.name,
     required this.pageColors,

@@ -100,7 +100,7 @@ class PresetTile extends StatelessWidget {
                     color: scheme.colorPlace.isTexts 
                       ? null 
                       : scheme.perPage[page],
-                    child: Container(
+                    child: SizedBox(
                       width: _medalSize,
                       child: Icon(
                         stage.mainPagesController.pagesData[page]!.icon,
@@ -119,7 +119,7 @@ class PresetTile extends StatelessWidget {
                   color: scheme.colorPlace.isTexts 
                     ? null 
                     : scheme.defenceColor,
-                  child: Container(
+                  child: SizedBox(
                     width: _medalSize,
                     child: Icon(
                       CSIcons.defenceFilled, 

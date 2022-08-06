@@ -7,13 +7,13 @@ class CSSettingsArena {
   //======================================
   // Disposer
   void dispose(){
-    this.scrollOverTap.dispose();
-    this.layoutType.dispose();
-    this.flipped.dispose();
-    this.verticalScroll.dispose();
-    this.verticalTap.dispose();
-    this.hideNameWhenImages.dispose();
-    this.fullScreen.dispose();
+    scrollOverTap.dispose();
+    layoutType.dispose();
+    flipped.dispose();
+    verticalScroll.dispose();
+    verticalTap.dispose();
+    hideNameWhenImages.dispose();
+    fullScreen.dispose();
   }
 
 

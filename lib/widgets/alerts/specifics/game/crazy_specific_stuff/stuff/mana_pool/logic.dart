@@ -38,14 +38,14 @@ class MPLogic {
     
     localScroller = ScrollerLogic(
       okVibrate: () => parentBloc.settings.appSettings.canVibrate! 
-        && parentBloc.settings.appSettings.wantVibrate.value!,
+        && parentBloc.settings.appSettings.wantVibrate.value,
       onCancel: (_, __){
         selected.set(null);
       },
       scrollSettings: parentBloc.settings.scrollSettings,
       resetAfterConfirm: true,
       onConfirm: (v){
-        this.apply(currentAction);
+        apply(currentAction);
       },
     );
 
@@ -65,8 +65,9 @@ class MPLogic {
   void apply(ManaAction? action){
     if(action == null) return;
     pool.value[action.color] = pool.value[action.color]! + action.delta;
-    if(pool.value[action.color]! < 0)
+    if(pool.value[action.color]! < 0) {
       pool.value[action.color] = 0;
+    }
     pool.refresh();
 
     if(action.delta != 0){
@@ -76,8 +77,9 @@ class MPLogic {
       if(history.value.length >= 4){
         int deleteAt = 0;
         for(int i=0; i<history.value.length; ++i){
-          if(!show.value[history.value[i].color]!)
+          if(!show.value[history.value[i].color]!) {
             deleteAt = i;
+          }
         }
         history.value.removeAt(deleteAt);
       }
@@ -91,8 +93,9 @@ class MPLogic {
       selected.set(color);
     } else {
       if(selected.value != color){
-        if(localScroller.isScrolling.value) 
-          this.apply(this.currentAction);
+        if(localScroller.isScrolling.value) {
+          apply(currentAction);
+        }
         selected.set(color);
       } 
     }
@@ -116,12 +119,12 @@ extension ClrExt on Clr {
   }[this]!; 
 
   Color get color => const <Clr,Color>{
-    Clr.w: const Color(0xFFfffbd6),
-    Clr.u: const Color(0xFFaae0fa),
-    Clr.b: const Color(0xFFccc3c1),
-    Clr.r: const Color(0xFFf9aa8f),
-    Clr.g: const Color(0xFF9bd3af),
-    Clr.c: const Color(0xFFd5cece),
+    Clr.w: Color(0xFFfffbd6),
+    Clr.u: Color(0xFFaae0fa),
+    Clr.b: Color(0xFFccc3c1),
+    Clr.r: Color(0xFFf9aa8f),
+    Clr.g: Color(0xFF9bd3af),
+    Clr.c: Color(0xFFd5cece),
   }[this]!;
 
   IconData? get icon => const <Clr,IconData>{
@@ -171,10 +174,12 @@ class ManaAction {
       if(other.delta != delta) return false;
       if(other.color != color) return false;
       return true;
-    } else return false;
+    } else {
+      return false;
+    }
   }
 
   @override 
-  int get hashCode => this.toJson.hashCode;
+  int get hashCode => toJson.hashCode;
 
 }

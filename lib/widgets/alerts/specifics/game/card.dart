@@ -7,7 +7,7 @@ class CardAlert extends StatefulWidget {
   const CardAlert(this.card);
 
   @override
-  _CardAlertState createState() => _CardAlertState();
+  State<CardAlert> createState() => _CardAlertState();
 }
 
 class _CardAlertState extends State<CardAlert> {
@@ -18,7 +18,7 @@ class _CardAlertState extends State<CardAlert> {
     return InkWell(
       onTap: (){
         if(widget.card.isFaced){
-          this.setState((){
+          setState((){
             firstFace = !firstFace;
           });
         }
@@ -28,9 +28,9 @@ class _CardAlertState extends State<CardAlert> {
         child: AspectRatio(
           aspectRatio: MtgCard.cardAspectRatio,
           child: CachedNetworkImage(
-            errorWidget: (_,__,___) => Center(child: Icon(Icons.error_outline)),
+            errorWidget: (_,__,___) => const Center(child: Icon(Icons.error_outline)),
             imageUrl: widget.card.imageUrl(faceIndex: firstFace ? 0 : 1, uri: "borderCrop")!,
-            placeholder: (_,__) => Center(child: CircularProgressIndicator()),
+            placeholder: (_,__) => const Center(child: CircularProgressIndicator()),
             fit: BoxFit.cover,
           ),
         ),

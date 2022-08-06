@@ -42,8 +42,8 @@ class ThemePResetter extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                               child: ListTile(
-                                title: Text("Load"),
-                                leading: Icon(McIcons.file_outline),
+                                title: const Text("Load"),
+                                leading: const Icon(McIcons.file_outline),
                                 onTap: () => stage.showAlert(
                                   const PresetsAlert(),
                                   size: PresetsAlert.height,
@@ -92,11 +92,13 @@ class ThemePResetter extends StatelessWidget {
                                               return true;
                                             },
                                             checkErrors: (name) {
-                                              if (name == "")
+                                              if (name == "") {
                                                 return "Insert name";
+                                              }
                                               if (CSColorScheme.defaults.keys
-                                                  .contains(name))
+                                                  .contains(name)) {
                                                 return "Avoid default names";
+                                              }
                                               return null;
                                             },
                                             labelText:

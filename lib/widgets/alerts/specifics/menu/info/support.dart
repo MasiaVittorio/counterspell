@@ -7,7 +7,7 @@ class SupportAlert extends StatefulWidget {
   static const double height = 450.0;
 
   @override
-  _SupportAlertState createState() => _SupportAlertState();
+  State<SupportAlert> createState() => _SupportAlertState();
 }
 
 class _SupportAlertState extends State<SupportAlert> {
@@ -30,8 +30,8 @@ class _SupportAlertState extends State<SupportAlert> {
     return pBloc.unlocked.build((_,unlocked) 
       => HeaderedAlert(
         refreshing ? "Refreshing data..." : unlocked? "You are a pro!" : "Support the development",
-        child: list(pBloc),
         bottom: disclaimer(pBloc),
+        child: list(pBloc),
       ),
     );
   }
@@ -42,19 +42,19 @@ class _SupportAlertState extends State<SupportAlert> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         const Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: const Text("You can support the developer by making any donation from this list. If you do, you'll unlock all the \"pro\" features no matter the amount of the donation."),
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Text("You can support the developer by making any donation from this list. If you do, you'll unlock all the \"pro\" features no matter the amount of the donation."),
         ),
         Row(children: <Widget>[
           Expanded(child: ListTile(
-            title: Text("More info"),
-            leading: Icon(Icons.info_outline),
+            title: const Text("More info"),
+            leading: const Icon(Icons.info_outline),
             onTap: () => Stage.of(context)!.showAlert(const SupportInfo(), size: SupportInfo.height,),
           )),
           Expanded(child: ListTile(
-            title: Text("Refresh"),
-            leading: Icon(McIcons.restart),
-            onTap: () => this.restore(pBloc),
+            title: const Text("Refresh"),
+            leading: const Icon(McIcons.restart),
+            onTap: () => restore(pBloc),
           )),
         ],),
       ],

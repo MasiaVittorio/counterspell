@@ -16,8 +16,8 @@ class PlayerGame {
     required this.commandersOracleIds,
   });
 
-  bool playedCommander(String oracleIds) => this.commandersOracleIds.contains(oracleIds);
-  bool playedWith(String opponent) => this.opponents.contains(opponent);
+  bool playedCommander(String oracleIds) => commandersOracleIds.contains(oracleIds);
+  bool playedWith(String opponent) => opponents.contains(opponent);
 }
 
 
@@ -67,12 +67,15 @@ class PlayerStatsAdvanced extends PlayerStats {
     required int Function(PlayerGame) stat,
   }){
     int val = 0;
-    for(final game in this.playerGames)
-      if(commanderOracleId == null || game.playedCommander(commanderOracleId))
-        if(groupSize == null || game.groupSize == groupSize)
+    for(final game in playerGames) {
+      if(commanderOracleId == null || game.playedCommander(commanderOracleId)){
+        if(groupSize == null || game.groupSize == groupSize) {
           if(opponent == null || game.opponents.contains(opponent)){
             val += stat(game);
           }
+        }
+      }
+    }
     return val;
   }
 
@@ -98,13 +101,16 @@ class PlayerStatsAdvanced extends PlayerStats {
   }){
     double val = 0.0;
     int len = 0;
-    for(final game in this.playerGames)
-      if(commanderOracleId == null || game.playedCommander(commanderOracleId))
-        if(groupSize == null || game.groupSize == groupSize)
+    for(final game in playerGames) {
+      if(commanderOracleId == null || game.playedCommander(commanderOracleId)){
+        if(groupSize == null || game.groupSize == groupSize) {
           if(opponent == null || game.opponents.contains(opponent)){
             val += stat(game);
             ++len;
           }
+        }
+      }
+    }
     return len == 0 ? 0 : val/len;
   }
 
@@ -130,28 +136,28 @@ class PlayerStatsAdvanced extends PlayerStats {
     PlayerStats simple, 
     Iterable<PastGame?> pastGames,
   ) {
-    Set<MtgCard> _commanders = <MtgCard>{};
+    Set<MtgCard> commanders = <MtgCard>{};
 
-    final _games = <PlayerGame>[
+    final games = <PlayerGame>[
       for(final game in pastGames)
         if(game!.winner != null)
         if(game.state.players.containsKey(simple.name))
           ((){
-            Set<String?> _oracleIds = <String?>{};
+            Set<String?> oracleIds = <String?>{};
             final a = game.commandersA[simple.name];
             if(a != null){
-              _oracleIds.add(a.oracleId);
-              _commanders.add(a);
+              oracleIds.add(a.oracleId);
+              commanders.add(a);
             }
             final b = game.commandersB[simple.name];
             if(b != null){
-              _oracleIds.add(b.oracleId);
-              _commanders.add(b);
+              oracleIds.add(b.oracleId);
+              commanders.add(b);
             }
             return PlayerGame(
               won: simple.name == game.winner,
               groupSize: game.state.players.length,
-              commandersOracleIds: _oracleIds,
+              commandersOracleIds: oracleIds,
               opponents: <String>{
                 for(final k in game.state.players.keys)
                   if(k != simple.name) k,
@@ -163,16 +169,16 @@ class PlayerStatsAdvanced extends PlayerStats {
     return PlayerStatsAdvanced(simple.name,
       wins: simple.wins,
       games: simple.games,
-      playerGames: _games,
+      playerGames: games,
       groupSizes: <int>{
-        for(final g in _games)
+        for(final g in games)
           g.groupSize,
       },
       opponents: <String>{
-        for(final g in _games)
+        for(final g in games)
           ...g.opponents,
       },
-      commanders: _commanders,
+      commanders: commanders,
     );
   }
 

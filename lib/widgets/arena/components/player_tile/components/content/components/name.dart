@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 
 class AptName extends StatelessWidget {
 
-  AptName({
+  const AptName({
     required this.bloc,
     required this.gameState,
     required this.name,
@@ -27,10 +27,13 @@ class AptName extends StatelessWidget {
 
       String text = hideName ? "" : "$name ";
       if(whoIsAttacking != null && whoIsAttacking != ""){
-        if(whoIsAttacking == name) text += "(attacking)";
-        else text += "(dmg taken)";
+        if(whoIsAttacking == name) {
+          text += "(attacking)";
+        } else {
+          text += "(dmg taken)";
+        }
       }
-      return AnimatedText("$text", style: const TextStyle(fontSize: 16),);
+      return AnimatedText(text, style: const TextStyle(fontSize: 16),);
     },);
   }
 }

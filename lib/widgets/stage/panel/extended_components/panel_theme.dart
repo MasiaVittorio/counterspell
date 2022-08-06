@@ -5,10 +5,10 @@ import 'theme_components/all.dart';
 class PanelTheme extends StatelessWidget {
   const PanelTheme();
 
-  static const Widget _overallTheme = const OverallTheme();
-  static const Widget _themeColors = const ThemeColors();
-  static const Widget _designPatterns = const DesignPatterns();
-  static const Widget _presets = const ThemePResetter();
+  static const Widget _overallTheme = OverallTheme();
+  static const Widget _themeColors = ThemeColors();
+  static const Widget _designPatterns = DesignPatterns();
+  static const Widget _presets = ThemePResetter();
 
   @override
   Widget build(BuildContext context) {

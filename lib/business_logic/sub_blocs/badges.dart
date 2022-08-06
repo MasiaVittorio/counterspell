@@ -6,8 +6,8 @@ class CSBadges {
   //================================
   // Dispose resources 
   void dispose(){
-    this.versionShown.dispose();
-    this.stuffILikeShown.dispose();
+    versionShown.dispose();
+    stuffILikeShown.dispose();
   }
 
   //================================
@@ -26,7 +26,7 @@ class CSBadges {
       toJson: (b) => b,
       fromJson: (j) => j,
       readCallback: (shown){
-        Future.delayed(Duration(seconds: 2)).then((_){
+        Future.delayed(const Duration(seconds: 2)).then((_){
           if(!stuffILikeShown.reading){
             _check();
           }
@@ -39,7 +39,7 @@ class CSBadges {
       toJson: (b) => b,
       fromJson: (j) => j,
       readCallback: (shown){
-        Future.delayed(Duration(seconds: 2)).then((_){
+        Future.delayed(const Duration(seconds: 2)).then((_){
           if(!versionShown.reading){
             _check();
           }
@@ -51,7 +51,7 @@ class CSBadges {
   bool checked = false;
   void _check(){
     if(checked) return;
-    if(this.changelogBadge || this.stuffILikeBadge){
+    if(changelogBadge || stuffILikeBadge){
       parent.stage.badgesController.showPanelPage(SettingsPage.info);
     } else {
       parent.stage.badgesController.clearPanelPage(SettingsPage.info);

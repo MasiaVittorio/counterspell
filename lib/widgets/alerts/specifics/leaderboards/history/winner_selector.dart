@@ -18,7 +18,7 @@ class WinnerSelector extends StatefulWidget {
   static double heightCalc(int lenght, [bool promptDontSave = false]) => PanelTitle.height + 56.0 * (lenght + 1 + ((promptDontSave) ? 1 : 0)) + _bottomPadding;
 
   @override
-  _WinnerSelectorState createState() => _WinnerSelectorState();
+  State createState() => _WinnerSelectorState();
 }
 
 class _WinnerSelectorState extends State<WinnerSelector> {
@@ -64,25 +64,6 @@ class _WinnerSelectorState extends State<WinnerSelector> {
 
     return HeaderedAlert(
       "Who won this game?",
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children:<Widget>[
-            for(final name in widget.names)
-              SidRadioListTile<String?>(
-                value: name,
-                groupValue: selected,
-                onChanged: (name) => this.setState((){
-                  if(selected == name) selected = null;
-                  else selected = name;
-                }),
-                title: Text(name),
-              ),
-            const SizedBox(height: WinnerSelector._bottomPadding,)
-          ],
-        ),
-      ),
       canvasBackground: true,
       bottom: autoSavingPrompt 
         ? Column(
@@ -104,6 +85,28 @@ class _WinnerSelectorState extends State<WinnerSelector> {
           ],
         )
         : row,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children:<Widget>[
+            for(final name in widget.names)
+              SidRadioListTile<String?>(
+                value: name,
+                groupValue: selected,
+                onChanged: (name) => setState((){
+                  if(selected == name) {
+                    selected = null;
+                  } else {
+                    selected = name;
+                  }
+                }),
+                title: Text(name),
+              ),
+            const SizedBox(height: WinnerSelector._bottomPadding,)
+          ],
+        ),
+      ),
     );
   }
 }

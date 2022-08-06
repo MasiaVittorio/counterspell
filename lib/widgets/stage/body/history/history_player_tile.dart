@@ -45,13 +45,13 @@ class HistoryPlayerTile extends StatelessWidget {
           // counters: counters,
           pageColors: pageColors,
           defenceColor: defenceColor,
-          partnerB: this.partnerB,
+          partnerB: partnerB,
         ),
     ];
 
     if(children.isEmpty) return SizedBox(height: tileSize,);
 
-    return Container(
+    return SizedBox(
       height: tileSize,
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -69,7 +69,7 @@ class HistoryPlayerTile extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: children.separateWith(SizedBox(width: 4.0,)),
+                children: children.separateWith(const SizedBox(width: 4.0,)),
               ),
             ),
           ),
@@ -99,8 +99,7 @@ class _Change extends StatelessWidget {
   Widget build(BuildContext context) {
     final int increment = change.next! - change.previous!;
     final String text = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
-    final String subText = "= ${change.next}" + (
-      ( this.partnerB 
+    final String subText = "= ${change.next}${( partnerB 
         &&
         ( change.type == DamageType.commanderCast 
           || 
@@ -109,7 +108,7 @@ class _Change extends StatelessWidget {
             change.attack!) ) )
 
         ? change.partnerA! ? " (A)" : " (B)"
-        : "");
+        : ""}";
 
 
     final Color? color = CSThemer.getHistoryChipColor(
@@ -149,7 +148,7 @@ class _Time extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8.0),
       child: Text(
         HistoryTile.timeString(time, first, mode), 
-        style: TextStyle(fontSize: 10),
+        style: const TextStyle(fontSize: 10),
       ),
     ));
   }

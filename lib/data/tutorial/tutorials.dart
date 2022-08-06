@@ -170,5 +170,5 @@ class Hint {
   bool get needsSnackBar => !needsAlert;
 
   String get shortPanelPageName => settingsThemes[panelPage!]?.name ?? "";
-  String? get shortPageName => CSPages.shortTitleOf(page) ?? null;
+  String? get shortPageName => CSPages.shortTitleOf(page);
 }

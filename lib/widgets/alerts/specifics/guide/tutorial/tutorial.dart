@@ -38,7 +38,7 @@ class _AdvancedTutorialState extends State<_AdvancedTutorial> {
   @override
   void initState() {
     super.initState();
-    this.pageController = PageController(
+    pageController = PageController(
       viewportFraction: 0.9,
       initialPage: widget.initialPage ?? 0,
     );
@@ -46,7 +46,7 @@ class _AdvancedTutorialState extends State<_AdvancedTutorial> {
 
   @override
   void dispose() {
-    this.pageController!.dispose();
+    pageController!.dispose();
     super.dispose();
   }
 

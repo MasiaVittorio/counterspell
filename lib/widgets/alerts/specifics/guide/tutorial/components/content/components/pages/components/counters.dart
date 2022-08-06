@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 
 class TutorialCounters extends StatelessWidget {
 
-  const TutorialCounters();
+  const TutorialCounters({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +11,9 @@ class TutorialCounters extends StatelessWidget {
     final TextStyle subhead = theme.textTheme.subtitle1!;
 
     return IconTheme.merge(
-      data: IconThemeData(opacity: 0.63),
+      data: const IconThemeData(opacity: 0.63),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -30,15 +31,14 @@ class TutorialCounters extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 for(final counter in Counter.defaultList)
                   Icon(counter.icon)
               ],
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
             ),
           ),
         ],
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
       ),
     );
   }

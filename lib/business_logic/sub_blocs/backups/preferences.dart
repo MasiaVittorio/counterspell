@@ -10,8 +10,8 @@ import 'package:path/path.dart' as path;
 extension CSBackupPreferences on CSBackupBloc {
   void initPreferences() {
     if (!ready.value) return;
-    final List<File> _preferences = jsonFilesInDirectory(preferencesDirectory!);
-    this.savedPreferences.set(_preferences);
+    final List<File> preferences = jsonFilesInDirectory(preferencesDirectory!);
+    savedPreferences.set(preferences);
   }
 
   //===================================
@@ -22,7 +22,7 @@ extension CSBackupPreferences on CSBackupBloc {
 
     final now = DateTime.now();
     File newFile = File(path.join(
-      this.preferencesDirectory!.path,
+      preferencesDirectory!.path,
       "pr_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
     ));
 
@@ -31,11 +31,11 @@ extension CSBackupPreferences on CSBackupBloc {
       ++i;
       String withoutExt = path.basenameWithoutExtension(newFile.path);
       newFile = File(path.join(
-        this.preferencesDirectory!.path,
-        withoutExt + "_($i).json",
+        preferencesDirectory!.path,
+        "${withoutExt}_($i).json",
       ));
       if (i == 100) {
-        print("100 files in the same second? wtf??");
+        // print("100 files in the same second? wtf??");
         return false;
       }
     }
@@ -96,20 +96,21 @@ extension CSBackupPreferences on CSBackupBloc {
       }),
     );
 
-    this.savedPreferences.value.add(newFile);
-    this.savedPreferences.refresh();
+    savedPreferences.value.add(newFile);
+    savedPreferences.refresh();
 
     return true;
   }
 
   Future<bool> deletePreference(int index) async {
-    if (this.savedPreferences.value.checkIndex(index)) {
-      final file = this.savedPreferences.value.removeAt(index);
-      this.savedPreferences.refresh();
+    if (savedPreferences.value.checkIndex(index)) {
+      final file = savedPreferences.value.removeAt(index);
+      savedPreferences.refresh();
       await file.delete();
       return true;
-    } else
+    } else {
       return false;
+    }
   }
 
   Future<bool> loadPreferences(File file) async {
@@ -133,11 +134,12 @@ extension CSBackupPreferences on CSBackupBloc {
 
         {
           final blocVar = themer.savedSchemes;
-          final _val = map[blocVar.key];
-          if (_val is Map) {
-            for (final e in _val.entries) {
-              if (e.key is String) if (e.value is Map)
+          final val = map[blocVar.key];
+          if (val is Map) {
+            for (final e in val.entries) {
+              if (e.key is String && e.value is Map) {
                 blocVar.value[e.key] = CSColorScheme.fromJson(e.value);
+              }
             }
             blocVar.refresh();
           }
@@ -145,9 +147,9 @@ extension CSBackupPreferences on CSBackupBloc {
 
         {
           final blocVar = group.savedNames;
-          final _val = map[blocVar.key];
-          if (_val is List) {
-            for (final name in _val) {
+          final val = map[blocVar.key];
+          if (val is List) {
+            for (final name in val) {
               if (name is String) blocVar.value.add(name);
             }
             blocVar.refresh();
@@ -156,119 +158,120 @@ extension CSBackupPreferences on CSBackupBloc {
 
         {
           final blocVar = gameSettings.timeMode;
-          final _val = map[blocVar.key];
-          if (_val is String) {
-            if (TimeModes.reversed.containsKey(_val)) {
-              blocVar.set(TimeModes.fromName(_val));
+          final val = map[blocVar.key];
+          if (val is String) {
+            if (TimeModes.reversed.containsKey(val)) {
+              blocVar.set(TimeModes.fromName(val));
             }
           }
         }
 
         {
           final blocVar = app.alwaysOnDisplay;
-          final _val = map[blocVar.key];
-          if (_val is bool) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is bool) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = app.wantVibrate;
-          final _val = map[blocVar.key];
-          if (_val is bool) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is bool) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = arena.scrollOverTap;
-          final _val = map[blocVar.key];
-          if (_val is bool) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is bool) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = arena.verticalScroll;
-          final _val = map[blocVar.key];
-          if (_val is bool) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is bool) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = arena.verticalTap;
-          final _val = map[blocVar.key];
-          if (_val is bool) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is bool) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = scroll.confirmDelay;
-          final _val = map[blocVar.key];
-          if (_val is int) {
-            blocVar.set(Duration(milliseconds: _val));
+          final val = map[blocVar.key];
+          if (val is int) {
+            blocVar.set(Duration(milliseconds: val));
           }
         }
 
         {
           final blocVar = scroll.scrollSensitivity;
-          final _val = map[blocVar.key];
-          if (_val is double) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is double) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = scroll.scroll1StaticValue;
-          final _val = map[blocVar.key];
-          if (_val is double) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is double) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = scroll.scrollDynamicSpeedValue;
-          final _val = map[blocVar.key];
-          if (_val is double) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is double) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = scroll.scrollPreBoostValue;
-          final _val = map[blocVar.key];
-          if (_val is double) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is double) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = scroll.scroll1Static;
-          final _val = map[blocVar.key];
-          if (_val is bool) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is bool) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = scroll.scrollDynamicSpeed;
-          final _val = map[blocVar.key];
-          if (_val is bool) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is bool) {
+            blocVar.set(val);
           }
         }
 
         {
           final blocVar = scroll.scrollPreBoost;
-          final _val = map[blocVar.key];
-          if (_val is bool) {
-            blocVar.set(_val);
+          final val = map[blocVar.key];
+          if (val is bool) {
+            blocVar.set(val);
           }
         }
-      } else
+      } else {
         return false;
+      }
     } catch (e) {
       return false;
     }

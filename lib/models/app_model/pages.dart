@@ -67,16 +67,16 @@ enum SettingsPage{
 }
 
 class SettingsPages {
-  static String? nameOf(SettingsPage? page) => _SETTINGS_PAGE_TO_STRING[page!];
-  static SettingsPage? fromName(String? name) => _STRING_TO_SETTINGS_PAGE[name!];
+  static String? nameOf(SettingsPage? page) => _names[page!];
+  static SettingsPage? fromName(String? name) => _pages[name!];
 
-  static const Map<SettingsPage,String> _SETTINGS_PAGE_TO_STRING = <SettingsPage,String>{
+  static const Map<SettingsPage,String> _names = <SettingsPage,String>{
     SettingsPage.game: "SettingsPage.game",
     SettingsPage.settings: "SettingsPage.settings",
     SettingsPage.info: "SettingsPage.info",
     SettingsPage.theme: "SettingsPage.theme",
   };
-  static const Map<String,SettingsPage> _STRING_TO_SETTINGS_PAGE = <String,SettingsPage>{
+  static const Map<String,SettingsPage> _pages = <String,SettingsPage>{
     "SettingsPage.game": SettingsPage.game,
     "SettingsPage.settings": SettingsPage.settings,
     "SettingsPage.info": SettingsPage.info,

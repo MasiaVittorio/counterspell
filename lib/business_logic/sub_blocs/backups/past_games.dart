@@ -9,8 +9,8 @@ import 'package:permission_handler/permission_handler.dart';
 extension CSBackupPastGames on CSBackupBloc {
   void initPastGames() {
     if (!ready.value) return;
-    final List<File> _pastGames = jsonFilesInDirectory(pastGamesDirectory!);
-    this.savedPastGames.set(_pastGames);
+    final List<File> pastGames = jsonFilesInDirectory(pastGamesDirectory!);
+    savedPastGames.set(pastGames);
   }
 
   //===================================
@@ -20,7 +20,7 @@ extension CSBackupPastGames on CSBackupBloc {
 
     final now = DateTime.now();
     File newFile = File(path.join(
-      this.pastGamesDirectory!.path,
+      pastGamesDirectory!.path,
       "pg_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
     ));
 
@@ -29,11 +29,11 @@ extension CSBackupPastGames on CSBackupBloc {
       ++i;
       String withoutExt = path.basenameWithoutExtension(newFile.path);
       newFile = File(path.join(
-        this.pastGamesDirectory!.path,
-        withoutExt + "_($i).json",
+        pastGamesDirectory!.path,
+        "${withoutExt}_($i).json",
       ));
       if (i == 100) {
-        print("100 files in the same second? wtf??");
+        // print("100 files in the same second? wtf??");
         return false;
       }
     }
@@ -51,20 +51,21 @@ extension CSBackupPastGames on CSBackupBloc {
       ),
     );
 
-    this.savedPastGames.value.add(newFile);
-    this.savedPastGames.refresh();
+    savedPastGames.value.add(newFile);
+    savedPastGames.refresh();
 
     return true;
   }
 
   Future<bool> deletePastGame(int index) async {
-    if (this.savedPastGames.value.checkIndex(index)) {
-      final file = this.savedPastGames.value.removeAt(index);
-      this.savedPastGames.refresh();
+    if (savedPastGames.value.checkIndex(index)) {
+      final file = savedPastGames.value.removeAt(index);
+      savedPastGames.refresh();
       await file.delete();
       return true;
-    } else
+    } else {
       return false;
+    }
   }
 
   Future<bool> loadPastGame(File file) async {
@@ -109,8 +110,9 @@ extension CSBackupPastGames on CSBackupBloc {
         );
 
       parent.pastGames.pastGames.set(allNewGames);
-    } else
+    } else {
       return false;
+    }
 
     return true;
   }

@@ -11,7 +11,7 @@ class HintAlertExtended extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stage<CSPage,SettingsPage>(
       wholeScreen: false,
-      mainPages: StagePagesData.nullable(
+      mainPages: const StagePagesData.nullable(
         defaultPage: CSPage.life,
         orderedPages: <CSPage>[CSPage.history, CSPage.life, CSPage.commanderDamage],
       ),
@@ -19,7 +19,7 @@ class HintAlertExtended extends StatelessWidget {
       body: _Body(hint),
       extendedPanel: _Extended(hint),
       topBarContent: StageTopBarContent(
-        title: StageTopBarTitle(
+        title: const StageTopBarTitle(
           panelTitle: "CounterSpell",
         ), 
         subtitle: StageBuild.offPanelPage<SettingsPage>((_, page) 
@@ -50,7 +50,7 @@ class _Collapsed extends StatelessWidget {
 
 class _Extended extends StatelessWidget {
 
-  _Extended(this.hint);
+  const _Extended(this.hint);
   final Hint hint;
 
   @override
@@ -89,7 +89,7 @@ class _Extended extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  _Body(this.hint);
+  const _Body(this.hint);
   final Hint hint;
   @override
   Widget build(BuildContext context) 
@@ -110,7 +110,7 @@ class _BodyInternalState extends State<_BodyInternal> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1)).then((_){
+    Future.delayed(const Duration(seconds: 1)).then((_){
       stage!.openPanel();
       stage!.panelPagesController!.goToPage(hint.panelPage);
     });

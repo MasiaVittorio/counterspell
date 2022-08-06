@@ -19,7 +19,7 @@ class PACombined extends PlayerAction {
   @override
   PlayerAction normalizeOn(PlayerState state) 
     => PACombined([
-      for(final action in this.actions)
+      for(final action in actions)
         action.normalizeOn(state),
     ]);
 }

@@ -24,8 +24,8 @@ class Player {
     "name": name,
     "havePartnerB": havePartnerB,
     "usePartnerB": usePartnerB,
-    "commanderSettingsA": this.commanderSettingsA.toJson(),
-    "commanderSettingsB": this.commanderSettingsB.toJson(),
+    "commanderSettingsA": commanderSettingsA.toJson(),
+    "commanderSettingsB": commanderSettingsB.toJson(),
     "states": [
       for(final state in states)
         state.toJson(),
@@ -121,13 +121,13 @@ class Player {
 
     List<PlayerAction> actions = [
       for(int i=states.length-1; i>=stateIndex; --i)
-        this.back(counterMap),
+        back(counterMap),
     ];
 
-    this.applyAction(action);
+    applyAction(action);
 
     while(actions.isNotEmpty){
-      this.applyAction(actions.removeLast());
+      applyAction(actions.removeLast());
     }
 
   }
@@ -137,13 +137,13 @@ class Player {
 
     List<PlayerAction> actions = [
       for(int i=states.length-1; i>=stateIndex; --i)
-        this.back(counterMap),
+        back(counterMap),
     ];
 
     final result = actions.removeLast();
 
     while(actions.isNotEmpty){
-      this.applyAction(actions.removeLast());
+      applyAction(actions.removeLast());
     }
 
     return result;
@@ -183,23 +183,23 @@ class Player {
   // Settings action
   void toggleLifelink(bool partnerA){
     if(partnerA){
-      this.commanderSettingsA = this.commanderSettingsA.toggleLifelink();
+      commanderSettingsA = commanderSettingsA.toggleLifelink();
     } else {
-      this.commanderSettingsB = this.commanderSettingsB.toggleLifelink();
+      commanderSettingsB = commanderSettingsB.toggleLifelink();
     }
   }
   void toggleDamageDefendersLife(bool partnerA){
     if(partnerA){
-      this.commanderSettingsA = this.commanderSettingsA.toggleDamageDefendersLife();
+      commanderSettingsA = commanderSettingsA.toggleDamageDefendersLife();
     } else {
-      this.commanderSettingsB = this.commanderSettingsB.toggleDamageDefendersLife();
+      commanderSettingsB = commanderSettingsB.toggleDamageDefendersLife();
     }
   }
   void toggleInfect(bool partnerA){
     if(partnerA){
-      this.commanderSettingsA = this.commanderSettingsA.toggleInfect();
+      commanderSettingsA = commanderSettingsA.toggleInfect();
     } else {
-      this.commanderSettingsB = this.commanderSettingsB.toggleInfect();
+      commanderSettingsB = commanderSettingsB.toggleInfect();
     }
   }
 
@@ -209,7 +209,7 @@ class Player {
   // Info getters
   int get totalLifeGained {
     int gained = 0;
-    for(int i=this.states.length-1; i>0; --i){
+    for(int i=states.length-1; i>0; --i){
       final int delta = states[i].life- states[i-1].life;
       if(delta > 0) gained += delta;
     }
@@ -217,7 +217,7 @@ class Player {
   }
   int get totalLifeLost {
     int lost = 0;
-    for(int i=this.states.length-1; i>0; --i){
+    for(int i=states.length-1; i>0; --i){
       final int delta = states[i].life- states[i-1].life;
       if(delta < 0) lost -= delta;
     }
@@ -225,21 +225,21 @@ class Player {
   }
 
   Player get frozen {
-    return Player(this.name,
-      havePartnerB: this.havePartnerB,
-      usePartnerB: this.usePartnerB,
-      commanderSettingsA: this.commanderSettingsA,
-      commanderSettingsB: this.commanderSettingsB,
-      states: [this.states.last],
+    return Player(name,
+      havePartnerB: havePartnerB,
+      usePartnerB: usePartnerB,
+      commanderSettingsA: commanderSettingsA,
+      commanderSettingsB: commanderSettingsB,
+      states: [states.last],
     );
   }
 
   CommanderSettings commanderSettings(bool partnerA) 
-    => partnerA ? this.commanderSettingsA : this.commanderSettingsB; 
+    => partnerA ? commanderSettingsA : commanderSettingsB; 
 
-  bool lifelink(bool partnerA) => this.commanderSettings(partnerA).lifelink;
-  bool infect(bool partnerA) => this.commanderSettings(partnerA).infect;
-  bool damageDefendersLife(bool partnerA) => this.commanderSettings(partnerA).damageDefendersLife;
+  bool lifelink(bool partnerA) => commanderSettings(partnerA).lifelink;
+  bool infect(bool partnerA) => commanderSettings(partnerA).infect;
+  bool damageDefendersLife(bool partnerA) => commanderSettings(partnerA).damageDefendersLife;
 
 
 }

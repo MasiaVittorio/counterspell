@@ -18,7 +18,7 @@ class ExtraButtons extends StatelessWidget {
   final bool separate;
   final List<int>? flexes;
 
-  static const defaultMargin = const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
+  static const defaultMargin = EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
   static const Widget divider = ExtraButtonDivider();
 
   @override
@@ -26,8 +26,8 @@ class ExtraButtons extends StatelessWidget {
     final expanded = <Widget>[
       for(int i=0; i<children.length; ++i)
         Expanded(
-          child: children[i],
           flex: (flexes?.checkIndex(i) ?? false) ? flexes![i] : 1,
+          child: children[i],
         ),
     ];
     return Padding(
@@ -63,7 +63,7 @@ class ExtraButtonDivider extends StatelessWidget {
 
 class ExtraButton extends StatelessWidget {
   final IconData? icon;
-  final String? text;
+  final String text;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final double? iconSize;
@@ -114,7 +114,7 @@ class ExtraButton extends StatelessWidget {
                 : customCircleColor ?? theme.colorScheme.onSurface.withOpacity(0.1),
             ),
             child: Padding(
-              padding: this.iconPadding,
+              padding: iconPadding,
               child: customIcon == null 
                 ? Icon(icon, size: iconSize)
                 : iconOverflow 
@@ -136,15 +136,15 @@ class ExtraButton extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             height: twoLines ? 36 : 24,
-            child: this.forceExternalSize 
+            child: forceExternalSize 
               ? AutoSizeText(
-                text!,
-                maxLines: 1,
+                text,
+                maxLines: twoLines ? 2 : 1,
                 maxFontSize: defaultSize!,
                 minFontSize: defaultSize / 2,
                 textAlign: TextAlign.center,
               )
-              : Text(text!, textAlign: TextAlign.center),
+              : Text(text, textAlign: TextAlign.center),
           ),
         ),
       ], 

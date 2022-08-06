@@ -52,7 +52,7 @@ class ExtraInfo {
               value: entry.value.a,
               note: havingPartnerB[entry.key] == true
                 ? "${PTileUtils.subString(entry.key,4)} (A)"
-                : "${PTileUtils.subString(entry.key,5)}"
+                : PTileUtils.subString(entry.key,5)
             ),
           if(havingPartnerB[entry.key] == true)
           if(entry.value.b!=0)
@@ -73,7 +73,7 @@ class ExtraInfo {
               value: otherEntry.value.damages[name]!.a,
               note: iHaveB 
                 ? "${PTileUtils.subString(otherEntry.key,4)} (A)" 
-                : "${PTileUtils.subString(otherEntry.key,5)}"
+                : PTileUtils.subString(otherEntry.key,5)
             ),
           if(iHaveB)
           if((otherEntry.value.damages[name]?.b ?? 0) != 0)

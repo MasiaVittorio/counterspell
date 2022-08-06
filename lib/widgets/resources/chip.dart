@@ -48,7 +48,7 @@ class SidChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if(icon != null)
-            Container(
+            SizedBox(
               height: height,
               width: height,
               child: IconTheme(
@@ -85,7 +85,7 @@ class SidChip extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor(theme),
-        borderRadius: BorderRadius.vertical(
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(height / 2),
           bottom: Radius.circular(height / 2),
         ),
@@ -98,7 +98,7 @@ class SidChip extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 6.0),
             child: Text(
               subText!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
               ),
             ),

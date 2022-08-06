@@ -33,14 +33,17 @@ class _LifeChartLive extends StatefulWidget {
       int? max = gameState.players.values.first.states.first.life;
       for(final player in gameState.players.values){
         for(final state in player.states){
-          if(max! < state.life)
+          if(max! < state.life) {
             max = state.life;
+          }
           final int taken = state.totalDamageTaken;
-          if(max< taken)
+          if(max< taken) {
             max = taken;
+          }
           final int casts = state.totalCasts;
-          if(max < casts)
+          if(max < casts) {
             max = casts;
+          }
         }
       }
       return max!.toDouble();
@@ -92,32 +95,32 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
   @override
   void initState() {
     super.initState();
-    this.controller = AnimationController(
+    controller = AnimationController(
       vsync: this,
       duration: _idealDuration,
     );
-    this.index = 0;
-    this.states = getStates(this.index);
-    this.swapAnimationDuration = _swapAnimationDuration(this.index!);
-    this.listenToAnimation();
+    index = 0;
+    states = getStates(index);
+    swapAnimationDuration = _swapAnimationDuration(index!);
+    listenToAnimation();
   }
 
   void listenToAnimation(){
-    this.controller.addListener((){
-      final _newIndex = _currentIndex;
+    controller.addListener((){
+      final newIndex = _currentIndex;
 
-      if(_newIndex != this.index){
-        this.index = _newIndex;
-        this.states = getStates(this.index);
-        this.swapAnimationDuration = _swapAnimationDuration(this.index!);
-        this.setState((){});
+      if(newIndex != index){
+        index = newIndex;
+        states = getStates(index);
+        swapAnimationDuration = _swapAnimationDuration(index!);
+        setState((){});
       }
     });
   }
 
   @override
   void dispose(){
-    this.controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -131,8 +134,9 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
   Duration get _idealDuration {
     final int d = _secondsMean;
     return _okSeconds.reduce((a, b){
-      if((a-d).abs() < (b-d).abs())
+      if((a-d).abs() < (b-d).abs()) {
         return a;
+      }
       return  b;
     }).seconds;
   }
@@ -143,26 +147,29 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
     widget.gameState.players[name]!.states[index!],
   ];
 
-  bool get isPlaying => this.controller.isAnimating;
+  bool get isPlaying => controller.isAnimating;
 
 
   //====================================================
   // Actions =========================================
   void play() {
-    if(this.controller.value == 1.0) reset();
-    this.controller.forward();
+    if(controller.value == 1.0) reset();
+    controller.forward();
   }
-  void pause() => this.controller.stop();
-  void reset() => this.controller.reset();
+  void pause() => controller.stop();
+  void reset() => controller.reset();
   void playPause(){
-    if(isPlaying) pause();
-    else play();
-    this.setState((){});
+    if(isPlaying) {
+      pause();
+    } else {
+      play();
+    }
+    setState((){});
   }
   void selectDuration(Duration newDuration){
-    this.controller.duration = newDuration;
+    controller.duration = newDuration;
     reset();
-    this.setState((){});
+    setState((){});
   }
 
   //====================================================
@@ -251,7 +258,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
     return  BarChart(
       BarChartData(
         barGroups: _barGroupsData(
-          this.states,
+          states,
           lifeColor: colors[CSPage.life],
           defenceColor: defenceColor,
           castColor: colors[CSPage.commanderCast],
@@ -290,18 +297,21 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
   }
 
   static String safeSubString(String start, int len){
-    if(start.length >  len) return start.substring(0,len-1)+'.';
-    else return start; 
+    if(start.length >  len) {
+      return '${start.substring(0,len-1)}.';
+    } else {
+      return start;
+    } 
   }
 
   Duration _swapAnimationDuration(int i){
-    if(i >= widget.times.length - 1) return Duration(milliseconds: 200);
+    if(i >= widget.times.length - 1) return const Duration(milliseconds: 200);
 
     final double nextDiff = (widget.times[i + 1] - widget.times[i]).inMilliseconds.abs() * 0.70; //milliseconds
     
     //result / controller.duration = nextDiff / gameDuration
 
-    return (this.controller.duration!.inMilliseconds * nextDiff / widget.gameDuration.inMilliseconds)
+    return (controller.duration!.inMilliseconds * nextDiff / widget.gameDuration.inMilliseconds)
         .clamp(20, 200).milliseconds;
   }
 
@@ -311,20 +321,20 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
       height: _controlsHeight,
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: AnimatedBuilder(
-        animation: this.controller,
+        animation: controller,
         builder: (_,__) => Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               alignment: Alignment.center,
               width: 60,
-              child: Text("-${(widget.gameDuration * (1.0 - this.controller.value)).textFormat}"),
+              child: Text("-${(widget.gameDuration * (1.0 - controller.value)).textFormat}"),
             ),
             Expanded(child: Slider(
-              onChanged: (val) => this.setState((){
-                this.controller.value = val;
+              onChanged: (val) => setState((){
+                controller.value = val;
               }),
-              value: this.controller.value,
+              value: controller.value,
             ),
             ),
             InkResponse(
@@ -349,11 +359,11 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
   }
 
   Widget buildDurationSelector(){
-    final int currently = this.controller.duration!.inSeconds;
+    final int currently = controller.duration!.inSeconds;
     return Row(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+        const Padding(
+          padding: EdgeInsets.only(left: 16.0, right: 8.0),
           child: Text("Play over:"),
         ),
         Expanded(child: Center(child: ToggleButtons(
@@ -363,7 +373,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
           children: <Widget>[for(final s in _okSeconds)
             Text("${s}s"),
           ],
-          onPressed: (i) => this.selectDuration(_okSeconds[i].seconds),
+          onPressed: (i) => selectDuration(_okSeconds[i].seconds),
         ),),),
       ],
     );

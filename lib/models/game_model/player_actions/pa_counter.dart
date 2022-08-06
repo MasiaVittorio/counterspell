@@ -26,20 +26,21 @@ class PACounter extends PlayerAction {
 
   @override
   PlayerAction normalizeOn(PlayerState state) {
-    final int current  = state.counters[this.counter.longName] ?? 0;
-    final int clamped = this.increment.clamp(
-      max<int>(this.minVal, counter.minValue) - current,
-      min<int>(this.maxVal, counter.maxValue) - current,
+    final int current  = state.counters[counter.longName] ?? 0;
+    final int clamped = increment.clamp(
+      max<int>(minVal, counter.minValue) - current,
+      min<int>(maxVal, counter.maxValue) - current,
     );
 
-    if(clamped == 0) 
+    if(clamped == 0) {
       return PANull.instance;
+    }
 
     return PACounter(
       clamped,
-      this.counter,
-      minVal: this.minVal,
-      maxVal: this.maxVal,
+      counter,
+      minVal: minVal,
+      maxVal: maxVal,
     );
   }
 }
@@ -60,6 +61,6 @@ class PACounterReset extends PlayerAction {
 
   @override
   PlayerAction normalizeOn(PlayerState state) {
-    return PACounterReset(this.counter);
+    return PACounterReset(counter);
   }
 }

@@ -46,8 +46,9 @@ class ArenaLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(!numberSupported) 
+    if(!numberSupported) {
       return ifNumberNotSupported ?? Container();
+    }
 
     return LayoutBuilder(builder: (_,constraints) => ConstrainedBox(
       constraints: constraints,

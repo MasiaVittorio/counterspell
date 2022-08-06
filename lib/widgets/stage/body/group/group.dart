@@ -60,7 +60,7 @@ class BodyGroup extends StatelessWidget {
           counter: counter,
         ).actions(gameState.names);
 
-        final _children = <Widget>[
+        final children = <Widget>[
           for(final name in names)
             PlayerTile(
               name, 
@@ -96,17 +96,20 @@ class BodyGroup extends StatelessWidget {
           
           final List<Widget> realChildren = landScape 
             ? [
-              for(final couple in partition(_children,2))
+              for(final couple in partition(children,2))
                 Row(children: (){
                   final cpl = <Widget>[
                     Expanded(child: couple![0]),
                     if(couple.length == 2)
                       Expanded(child: couple[1],)
                   ];
-                  if(flat!) return cpl.separateWith(CSSizes.flatPaddingX);
-                  else return cpl;
+                  if(flat!) {
+                    return cpl.separateWith(CSSizes.flatPaddingX);
+                  } else {
+                    return cpl;
+                  }
                 }() ),
-            ] : _children; 
+            ] : children; 
 
           
           return Padding(

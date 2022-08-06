@@ -7,17 +7,17 @@ class TheRoller extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stage<CSPage,SettingsPage>(
-      body: _Body(), 
+      body: const _Body(), 
       collapsedPanel: const _Collapsed(), 
-      extendedPanel: _Extended(), 
+      extendedPanel: const _Extended(), 
       topBarContent: StageTopBarContent(
         title: StageBuild.offOpenNonAlert((_, open) => AnimatedText(
           open ? "That's nice" : "< Open Menu",
         )),
       ),
-      mainPages: StagePagesData.nullable(
+      mainPages: const StagePagesData.nullable(
         defaultPage: CSPage.counters,
-        orderedPages: const [
+        orderedPages: [
           CSPage.history, 
           CSPage.counters, 
           CSPage.commanderCast,
@@ -55,7 +55,7 @@ class _Extended extends StatelessWidget {
   const _Extended();
   @override
   Widget build(BuildContext context) {
-    return StageExtendedPanel(children: const <SettingsPage,Widget>{
+    return const StageExtendedPanel(children: <SettingsPage,Widget>{
       SettingsPage.game: _RightPage(),
       SettingsPage.info: _WrongPage(),
       SettingsPage.settings: _WrongPage(),
@@ -95,11 +95,12 @@ class _RightPage extends StatelessWidget {
                   icon: McIcons.dice_multiple, 
                   text: "Random", 
                   onTap: () => stage.showAlert(
-                    _RandomAlert(),
+                    const _RandomAlert(),
                     size: _RandomAlert.height,
                   ),
                 ),
               ),
+              // ignore: no_leading_underscores_for_local_identifiers
               for(final _ in [0,1])
                 Expanded(child: ExtraButton(
                   icon: Icons.remove_circle_outline, 
@@ -109,9 +110,9 @@ class _RightPage extends StatelessWidget {
           ].separateWith(CSWidgets.extraButtonsDivider),),
         ], last: true,),
 
-        ListTile(subtitle: Text(
+        const ListTile(subtitle: Text(
           "(^ Press the button up here)", 
-          style: const TextStyle(fontStyle: FontStyle.italic),
+          style: TextStyle(fontStyle: FontStyle.italic),
         ),)
       ],
     );
@@ -128,10 +129,6 @@ class _RandomAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return HeaderedAlert(
       "Dice & Coins Mockup",
-      child: ListTile(
-        title: Text("Random generators"),
-        subtitle: Text("You'll be able to flip coins, pick random names from the current playgroup, and throw dice (switch between d20 and d6 by long pressing on the dice button)"),
-      ),
       bottom: SizedBox(
         height: 56,
         child: Row(
@@ -144,6 +141,10 @@ class _RandomAlert extends StatelessWidget {
               ),),),
           ],
         ),
+      ),
+      child: const ListTile(
+        title: Text("Random generators"),
+        subtitle: Text("You'll be able to flip coins, pick random names from the current playgroup, and throw dice (switch between d20 and d6 by long pressing on the dice button)"),
       ),
     );
   }
@@ -162,8 +163,8 @@ class _WrongPage extends StatelessWidget {
     return ListView(
       physics: stage.panelScrollPhysics,
       primary: false,
-      children: <Widget>[
-        const Section(<Widget>[
+      children: const <Widget>[
+        Section(<Widget>[
           PanelTitle("Wrong page"),
           ListTile(
             title: Text('Go to the "Game" tab!'),
@@ -251,7 +252,7 @@ class _ArenaMockup extends StatelessWidget {
             ],),
           ),
 
-          Center(child: FloatingActionButton(
+          const Center(child: FloatingActionButton(
             onPressed: null, 
             child: Icon(Icons.menu),
           ),),

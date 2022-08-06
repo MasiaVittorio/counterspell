@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 
 class TutorialDamage extends StatelessWidget {
 
-  const TutorialDamage();
+  const TutorialDamage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +15,7 @@ class TutorialDamage extends StatelessWidget {
     final Color defenceColor = bloc.themer.defenceColor.value;
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         ListTile(
           leading: Icon(McIcons.gesture_tap, color: colors[CSPage.commanderDamage],),
@@ -47,7 +48,6 @@ class TutorialDamage extends StatelessWidget {
           ),
         ),
       ],
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
     );
   }
 }

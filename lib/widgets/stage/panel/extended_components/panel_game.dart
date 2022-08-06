@@ -3,28 +3,44 @@ import 'game_components/all.dart';
 
 
 class PanelGame extends StatelessWidget {
-  const PanelGame();
+  const PanelGame({super.key});
 
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
 
-    return ArenaTransformer(
-      builder: (_, opener) => SingleChildScrollView(
-        physics: stage!.panelController.panelScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-            const Section([
-              PanelTitle("Enabled Screens", centered: false),
-              PagePie(),
-            ]),
-            const StartingLifeTile(),
-            PanelGameExtras(opener),
-          ],
-        )
-      ),
-      closedRadiusSize: 0.0,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return ConstrainedBox(
+          constraints: constraints,
+          child: ArenaTransformer(
+            builder: (_, opener) => SingleChildScrollView(
+              physics: stage!.panelController.panelScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const PanelTitle("Enabled Screens", centered: false),
+                  const SubSection([
+                    Space.vertical(10),
+                    PagePie(),
+                    Space.vertical(7),
+                  ]),
+                  const Space.vertical(8),
+                  const StartingLifeTile(),
+                  const Divider(height: 7,),
+                  const Space.vertical(8),
+                  PanelGameExtras(
+                    opener, 
+                    compact: constraints.maxHeight < 610,
+                  ),
+                  const Space.vertical(15),
+                ],
+              )
+            ),
+            closedRadiusSize: 0.0,
+          ),
+        );
+      }
     );
   }
 }

@@ -7,7 +7,7 @@ class Developer extends StatefulWidget {
   static const double height = 400;
 
   @override
-  _DeveloperState createState() => _DeveloperState();
+  State<Developer> createState() => _DeveloperState();
 }
 
 class _DeveloperState extends State<Developer> {
@@ -26,11 +26,11 @@ class _DeveloperState extends State<Developer> {
           Expanded(child: RadioNavBar<bool>(
             tileSize: RadioNavBar.defaultTileSize + 16.0,
             selectedValue: am,
-            orderedValues: [true,false],
-            onSelect: (b)=>this.setState((){
-              this.am = b;
+            orderedValues: const [true,false],
+            onSelect: (b)=>setState((){
+              am = b;
             }),
-            items: {
+            items: const {
               true: RadioNavBarItem(
                 title: "Present",
                 icon: Icons.access_time,
@@ -44,7 +44,7 @@ class _DeveloperState extends State<Developer> {
           FloatingActionButton(
             backgroundColor: theme.primaryColor,
             child: Icon(Icons.mail_outline, color: theme.primaryIconTheme.color),
-            onPressed: () => Stage.of(context)!.showAlert(ConfirmEmail(), size: ConfirmEmail.height),
+            onPressed: () => Stage.of(context)!.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
           ),
         ],),
       ),
@@ -59,21 +59,21 @@ class _DeveloperState extends State<Developer> {
             ),
           ),
           ListTile(
-            leading: Icon(McIcons.microsoft_visual_studio_code),
+            leading: const Icon(McIcons.microsoft_visual_studio_code),
             title: Text( am
               ? "A guy who learned mobile development to make his own life counter"
               : "A freelance Flutter developer making tons of cross-platform apps",
             ),
           ),
           ListTile(
-            leading: Icon(McIcons.microsoft_xbox_controller),
+            leading: const Icon(McIcons.microsoft_xbox_controller),
             title: Text( am
               ? "A gamer with little time for his beloved Halo"
               : "A gamer with plenty of time for his split-screen sessions with the boys",  
             ),
           ),
           ListTile(
-            leading: Icon(McIcons.cards_outline),
+            leading: const Icon(McIcons.cards_outline),
             title: Text( am
               ? "A Magic player since time spiral, with little budget and too many commander decks"
               : "A Magic player with a reasonable amount of decks"  

@@ -8,14 +8,14 @@ const int maxNumberOfPlayers = 12;
 class CSGameGroup {
 
   void dispose(){
-    this.names.dispose();
+    names.dispose();
     newNamesSub.cancel();
-    this.arenaNameOrder.dispose();
-    this.newNamesSub.cancel();
-    this.savedNames.dispose();
-    this.savedCards.dispose();
-    this.cardsA.dispose();
-    this.cardsB.dispose();
+    arenaNameOrder.dispose();
+    newNamesSub.cancel();
+    savedNames.dispose();
+    savedCards.dispose();
+    cardsA.dispose();
+    cardsB.dispose();
   } 
 
   //========================
@@ -30,7 +30,7 @@ class CSGameGroup {
 
   final PersistentVar<Map<String,MtgCard>> cardsA;
   final PersistentVar<Map<String,MtgCard>> cardsB;
-  BlocVar<Map<String,MtgCard>> cards(bool partnerA) => partnerA ? this.cardsA : this.cardsB;
+  BlocVar<Map<String,MtgCard>> cards(bool partnerA) => partnerA ? cardsA : cardsB;
 
   ///========================
   /// Constructor
@@ -83,7 +83,7 @@ class CSGameGroup {
   {
     names = PersistentVar<List<String>>(
       key: "bloc_game_group_blocvar_names_ordered_list_counterspell",
-      initVal: this.parent.gameState.gameState.value.names.toList(),
+      initVal: parent.gameState.gameState.value.names.toList(),
       toJson: (list) => list,
       fromJson: (json) => [
         for(final s in json)
@@ -91,16 +91,17 @@ class CSGameGroup {
       ],
       equals: (a,b){
         if(a.length != b.length) return false;
-        for(int i=0; i<a.length; ++i)
+        for(int i=0; i<a.length; ++i) {
           if(a[i] != b[i]) return false;
+        }
         return true;
       }
     );
     arenaNameOrder = PersistentVar<Map<int,String?>>(
       key: "bloc_game_group_blocvar_alternative_layout_name_order",
       initVal: <int,String?>{
-        for(int i=0; i<this.names.value.length; ++i)
-          i: this.names.value[i],
+        for(int i=0; i<names.value.length; ++i)
+          i: names.value[i],
       },
       toJson: (map) => <String,dynamic>{
         for(final entry in map.entries)
@@ -113,22 +114,23 @@ class CSGameGroup {
     );
 
     /// [CSGameGroup] Must be initialized after [CSGameState]
-    newNamesSub = this.parent.gameState.gameState.behavior.listen((state){
+    newNamesSub = parent.gameState.gameState.behavior.listen((state){
       updateNames(state);
-      updateNamesAltLayout(this.names.value);
+      updateNamesAltLayout(names.value);
     });
   }
 
   void updateNames(GameState state){
-    final Set _names = state.names;
-    for(final name in _names){
-      if(!names.value.contains(name))
+    for(final name in state.names){
+      if(!names.value.contains(name)) {
         names.value.add(name);
+      }
     }
     final List<String> toBeRemoved = [];
     for(final name in names.value){
-      if(!_names.contains(name))
+      if(!state.names.contains(name)) {
         toBeRemoved.add(name);
+      }
     }
     for(final name in toBeRemoved){
       names.value.remove(name);        
@@ -159,76 +161,78 @@ class CSGameGroup {
   // Actions
 
   void moveIndex(int oldIndex, int newIndex){
-    this.names.value.insert(
+    names.value.insert(
       newIndex, 
       names.value.removeAt(oldIndex)
     );
-    this.names.refresh();
+    names.refresh();
   }
 
   void moveName(String name, int newIndex)
-    => this.moveIndex(names.value.indexOf(name), newIndex);
+    => moveIndex(names.value.indexOf(name), newIndex);
 
   void rename(String oldName, String newName){
-    final int index = this.names.value.indexOf(oldName);
-    this.names.value[index] = newName;
-    this.names.refresh();
+    final int index = names.value.indexOf(oldName);
+    names.value[index] = newName;
+    names.refresh();
 
     int? altIndex;
-    for(final entry in this.arenaNameOrder.value.entries){
+    for(final entry in arenaNameOrder.value.entries){
       if(entry.value == oldName){
         altIndex = entry.key;
       }
     }
     if(altIndex != null){
-      this.arenaNameOrder.value[altIndex] = newName;
-      this.arenaNameOrder.refresh();
+      arenaNameOrder.value[altIndex] = newName;
+      arenaNameOrder.refresh();
     }
-    this.saveName(newName);
+    saveName(newName);
   }
   void deletePlayer(String name){
-    this.names.value.remove(name);
-    this.names.refresh();
+    names.value.remove(name);
+    names.refresh();
   }
   void newPlayer(String newName){
-    this.names.value.add(newName);
-    this.names.refresh();
-    this.saveName(newName);
+    names.value.add(newName);
+    names.refresh();
+    saveName(newName);
   }
   void newGroup(List<String> newNames){
-    this.names.set(newNames);
-    this.arenaNameOrder.set({
+    names.set(newNames);
+    arenaNameOrder.set({
       for(int i=0; i<newNames.length; ++i)
         i: newNames[i],
     });
-    this.saveNames(newNames);
+    saveNames(newNames);
   }
   void saveName(String name){
-    if(this.savedNames.value.add(name))
-      this.savedNames.refresh();
+    if(savedNames.value.add(name)) {
+      savedNames.refresh();
+    }
   }
   void unSaveName(String? name){
-    if(this.savedNames.value.remove(name))
-      this.savedNames.refresh();
+    if(savedNames.value.remove(name)) {
+      savedNames.refresh();
+    }
   }
   void saveNames(Iterable<String> names){
     bool refresh = false;
     for(final name in names){
       if(!name.contains("Player ")){
-        if(this.savedNames.value.add(name)){
+        if(savedNames.value.add(name)){
           refresh = true;
         }
       }
     }
-    if(refresh) this.savedNames.refresh();
+    if(refresh) savedNames.refresh();
   }
   void unSaveNames(Iterable<String> names){
     bool refresh = false;
     for(final name in names){
-      if(this.savedNames.value.remove(name)){
+      if(savedNames.value.remove(name)){
         refresh = true;
       }
     }
-    if(refresh) this.savedNames.refresh();
+    if(refresh) savedNames.refresh();
   }
 }

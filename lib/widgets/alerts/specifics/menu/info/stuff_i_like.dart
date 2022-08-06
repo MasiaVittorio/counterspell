@@ -16,6 +16,10 @@ class StuffILikeAlert extends StatelessWidget {
         customTitleColor: _CommandBros.color5,
         //////////////////////////////////////////////////
         canvasBackground: true,
+        bottom: const _Note(
+          "CounterSpell will not send you any notification to bring you to this page",
+          flat: true,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: const [
@@ -24,10 +28,6 @@ class StuffILikeAlert extends StatelessWidget {
             CSWidgets.height10,
             _Content(),
           ],
-        ),
-        bottom: const _Note(
-          "CounterSpell will not send you any notification to bring you to this page",
-          flat: true,
         ),
       ),
     );
@@ -53,7 +53,7 @@ class _Note extends StatelessWidget {
           ),
         )
       ],
-      margin: flat ? EdgeInsets.zero : EdgeInsets.symmetric(horizontal: 10),
+      margin: flat ? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 10),
       borderRadius:
           flat ? BorderRadius.circular(0) : SubSection.borderRadiusDefault,
     );
@@ -106,7 +106,7 @@ class _CommandBros extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
+      constraints: const BoxConstraints(
         minHeight: 248,
       ),
       child: Stack(
@@ -114,7 +114,7 @@ class _CommandBros extends StatelessWidget {
           Positioned.fill(
             top: _size / 2 + 28,
             child: Container(
-                decoration: BoxDecoration(color: card, boxShadow: [
+                decoration: const BoxDecoration(color: card, boxShadow: [
               BoxShadow(
                 blurRadius: 5,
                 color: Color(0x89000000),
@@ -153,16 +153,16 @@ class _CommandBros extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: const Text(
+                      const Expanded(
+                        child: Text(
                           "Command Bros",
                           style: TextStyle(
                             fontSize: 21,
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(28.0),
+                      const Padding(
+                        padding: EdgeInsets.all(28.0),
                         child: Icon(
                           McIcons.youtube,
                           color: color3,

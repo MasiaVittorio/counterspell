@@ -5,11 +5,11 @@ export 'sub_settings/all.dart';
 class CSSettings {
 
   void dispose(){
-    this.scrollSettings.dispose();
-    this.arenaSettings.dispose();
-    this.imagesSettings.dispose();
-    this.appSettings.dispose();
-    this.gameSettings.dispose();
+    scrollSettings.dispose();
+    arenaSettings.dispose();
+    imagesSettings.dispose();
+    appSettings.dispose();
+    gameSettings.dispose();
   }
 
 

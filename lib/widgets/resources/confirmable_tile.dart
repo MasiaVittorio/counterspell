@@ -15,14 +15,14 @@ class ConfirmableTile extends StatefulWidget {
   final Widget leading;
 
   @override
-  _ConfirmableTileState createState() => _ConfirmableTileState();
+  State<ConfirmableTile> createState() => _ConfirmableTileState();
 }
 
 class _ConfirmableTileState extends State<ConfirmableTile> {
   bool pressed = false;
   int _pressId = 0;
 
-  void cancel() => this.setState(() {
+  void cancel() => setState(() {
     pressed = false;
   });
   void confirm() {
@@ -31,17 +31,17 @@ class _ConfirmableTileState extends State<ConfirmableTile> {
   }
   void press() {
     ++_pressId;
-    this.setState(() {
+    setState(() {
       pressed = true;
     });
     wait(_pressId);
   }
 
-  void wait(int _id) async {
-    await Future.delayed(Duration(seconds: 2));
-    if(mounted)
-    if(_id == _pressId)
-    cancel(); 
+  void wait(int id) async {
+    await Future.delayed(const Duration(seconds: 2));
+    if(mounted && id == _pressId) {
+      cancel();
+    } 
   }
 
   @override

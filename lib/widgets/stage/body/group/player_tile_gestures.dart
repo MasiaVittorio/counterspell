@@ -17,8 +17,8 @@ class PlayerGestures {
     bool vertical = false,
     CSScroller? dummyScroller,
   }) {
-    final CSGameAction? actionBloc = bloc.game.gameAction;
-    final CSScroller? scrollerBloc = dummyScroller ?? bloc.scroller;
+    final CSGameAction actionBloc = bloc.game.gameAction;
+    final CSScroller scrollerBloc = dummyScroller ?? bloc.scroller;
     final bool tutorial = dummyScroller != null;
 
     switch (page) {
@@ -28,9 +28,9 @@ class PlayerGestures {
       case CSPage.counters:
       case CSPage.commanderCast:
       case CSPage.life:
-        if (scrollerBloc!.ignoringThisPan) return;
+        if (scrollerBloc.ignoringThisPan) return;
         if (!tutorial) {
-          if (actionBloc!.selected.value[name] == false) {
+          if (actionBloc.selected.value[name] == false) {
             actionBloc.selected.value[name] = true;
             actionBloc.selected.refresh();
           }
@@ -38,9 +38,9 @@ class PlayerGestures {
         scrollerBloc.onDragUpdate(details, width, vertical: vertical);
         return;
       case CSPage.commanderDamage:
-        if (actionBloc!.isSomeoneAttacking) {
+        if (actionBloc.isSomeoneAttacking) {
           actionBloc.defendingPlayer.set(name);
-          scrollerBloc!.onDragUpdate(details, width, vertical: vertical);
+          scrollerBloc.onDragUpdate(details, width, vertical: vertical);
         }
         return;
       default:
@@ -125,7 +125,7 @@ class PlayerGestures {
       case CSPage.life:
         final selectedVar = actionBloc.selected;
         final previousVal = <String, bool?>{
-          for (final e in selectedVar.value.entries) e.key + '': e.value,
+          for (final e in selectedVar.value.entries) e.key: e.value,
         };
 
         /// Check if there was already a selection going on

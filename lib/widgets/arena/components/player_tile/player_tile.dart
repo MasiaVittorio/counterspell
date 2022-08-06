@@ -4,7 +4,7 @@ import 'components/all.dart';
 
 class ArenaPlayerTile extends StatelessWidget {
 
-  ArenaPlayerTile(this.index, {
+  const ArenaPlayerTile(this.index, {
     required this.indexToName,
     required this.buttonAlignment,
     // @required this.constraints,
@@ -55,7 +55,7 @@ class ArenaPlayerTile extends StatelessWidget {
     int index, 
     GameState gameState, 
     Map<int,String?> indexToName,
-  ) => this.positionName(
+  ) => positionName(
     firstUnpositionedName(indexToName, gameState), 
     index,
   );
@@ -104,13 +104,13 @@ class ArenaPlayerTile extends StatelessWidget {
               rawSelected: rawSelected,
               name: name,
               bloc: logic,
-              isScrollingSomewhere: this.isScrollingSomewhere,
+              isScrollingSomewhere: isScrollingSomewhere,
               pageColors: pageColors,
               increment: increment,
-              buttonAlignment: this.buttonAlignment,
+              buttonAlignment: buttonAlignment,
               constraints: constraints,
               gameState: gameState,
-              page: this.page,
+              page: page,
               whoIsAttacking: whoIsAttacking,
               whoIsDefending: whoIsDefending,
               defenceColor: defenceColor,
@@ -125,8 +125,8 @@ class ArenaPlayerTile extends StatelessWidget {
               name: name,
               bloc: logic,
               constraints: constraints,
-              isScrollingSomewhere: this.isScrollingSomewhere,
-              page: this.page,
+              isScrollingSomewhere: isScrollingSomewhere,
+              page: page,
               havingPartnerB: gameState.players[name]!.havePartnerB,
               usingPartnerB: gameState.players[name]!.usePartnerB,
               whoIsAttacking: whoIsAttacking,
@@ -174,7 +174,7 @@ class ArenaPlayerTile extends StatelessWidget {
   Widget buildPositioner(ThemeData themeData, GameState gameState) => Material(
     type: MaterialType.transparency,
     child: InkWell(
-      onTap: () => this.playerCallback(index, gameState, indexToName),
+      onTap: () => playerCallback(index, gameState, indexToName),
       child: Container(
         color: Colors.transparent,
         child: SizedBox.expand(

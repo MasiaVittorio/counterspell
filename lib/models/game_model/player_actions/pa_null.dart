@@ -12,6 +12,6 @@ class PANull extends PlayerAction {
   PlayerAction normalizeOn(PlayerState state)
     => PANull.instance;
 
-  static const PANull instance = const PANull();
+  static const PANull instance = PANull();
 }
 

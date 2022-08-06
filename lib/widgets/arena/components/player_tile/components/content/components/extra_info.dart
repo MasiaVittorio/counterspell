@@ -34,7 +34,7 @@ class AptInfo extends StatelessWidget {
           ofGroup: gameState!.lastPlayerStates,
           pageColors: pageColors,
           havingPartnerB: <String,bool?>{
-            for(final entry in this.gameState!.players.entries)
+            for(final entry in gameState!.players.entries)
               entry.key: entry.value.havePartnerB,
           },
           defenceColor: defenceColor,
@@ -42,7 +42,7 @@ class AptInfo extends StatelessWidget {
           counterMap: bloc!.game.gameAction.currentCounterMap,
         );
 
-        if(list.isEmpty) return SizedBox();
+        if(list.isEmpty) return const SizedBox();
 
         final children = <Widget>[
           for(final info in list)
@@ -55,7 +55,7 @@ class AptInfo extends StatelessWidget {
         ];
 
         return SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Container(
             margin: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
@@ -65,7 +65,7 @@ class AptInfo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
-              children: children.separateWith(SizedBox(height: 4,)),
+              children: children.separateWith(const SizedBox(height: 4,)),
             ),
           ),
         );

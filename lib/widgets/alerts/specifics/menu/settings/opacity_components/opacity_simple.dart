@@ -15,7 +15,7 @@ class ImageOpacitySimple extends StatelessWidget {
     final theme = Theme.of(context);
 
     final Widget image = Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: CachedNetworkImageProvider(CSUris.featherArt),
           fit: BoxFit.cover,
@@ -48,12 +48,12 @@ class ImageOpacitySimple extends StatelessWidget {
                   tristate: true,
                   onChanged: (b) {},
                 ),
-                Text("Example", style: TextStyle(
+                const Text("Example", style: TextStyle(
                   fontSize: 16,
                 ),),
               ],
             ),
-            Expanded(child: Center(
+            const Expanded(child: Center(
               child: Text(
                 "40",
                 style: TextStyle(
@@ -99,7 +99,7 @@ class ImageOpacitySimple extends StatelessWidget {
         opacity.build((_,value) => FullSlider(
           value: value,
           divisions: 20,
-          leading: Icon(Icons.opacity),
+          leading: const Icon(Icons.opacity),
           onChanged: opacity.set,
           defaultValue: CSSettingsImages.defaultSimpleImageOpacity,
           titleBuilder: (val) => Text("Opacity: ${val.toStringAsFixed(2)}"),

@@ -20,18 +20,19 @@ class PALife extends PlayerAction {
 
   @override
   PlayerAction normalizeOn(PlayerState state) {
-    final num clamped = this.increment.clamp(
-      this.minVal - state.life,
-      this.maxVal - state.life,
+    final num clamped = increment.clamp(
+      minVal - state.life,
+      maxVal - state.life,
     );
 
-    if(clamped == 0) 
+    if(clamped == 0) {
       return PANull.instance;
+    }
 
     return PALife(
       clamped as int,
-      minVal: this.minVal,
-      maxVal: this.maxVal,
+      minVal: minVal,
+      maxVal: maxVal,
     );
   }
 }

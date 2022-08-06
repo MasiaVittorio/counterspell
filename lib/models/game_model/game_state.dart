@@ -77,7 +77,7 @@ class GameState {
 
   String? get winner {
     final List<String> alives = [
-      for (final player in this.players.values)
+      for (final player in players.values)
         if (player.states.last.isAlive) player.name,
     ];
     if (alives.length == 1) {
@@ -96,21 +96,21 @@ class GameState {
   }
 
   Map<String, PlayerState> get lastPlayerStates => {
-        for (final entry in this.players.entries)
+        for (final entry in players.entries)
           entry.key: entry.value.states.last,
       };
 
   GameState get frozen {
     return GameState(
       players: {
-        for (final player in this.players.values) player.name: player.frozen,
+        for (final player in players.values) player.name: player.frozen,
       },
     );
   }
 
   // Duration get duration => firstTime.difference(lastTime).abs();
-  DateTime get firstTime => this.players.values.first.states.first.time;
-  DateTime get lastTime => this.players.values.first.states.last.time;
+  DateTime get firstTime => players.values.first.states.first.time;
+  DateTime get lastTime => players.values.first.states.last.time;
 
   //===================================
   // History Actions
@@ -129,22 +129,22 @@ class GameState {
   GameState newGame(
       {int startingLife = 20, bool? keepCommanderSettings = false}) {
     return GameState.start(
-      this.names,
-      this.players.values.first.states.last.counters.keys.toSet(),
+      names,
+      players.values.first.states.last.counters.keys.toSet(),
       startingLife: startingLife,
       havePartnerB: <String, bool?>{
-        for (final player in this.players.values)
+        for (final player in players.values)
           player.name: player.havePartnerB,
       },
       settingsPartnersA: (keepCommanderSettings ?? false)
           ? <String, CommanderSettings>{
-              for (final player in this.players.values)
+              for (final player in players.values)
                 player.name: player.commanderSettingsA,
             }
           : null,
       settingsPartnersB: (keepCommanderSettings ?? false)
           ? <String, CommanderSettings>{
-              for (final player in this.players.values)
+              for (final player in players.values)
                 player.name: player.commanderSettingsB,
             }
           : null,
@@ -175,11 +175,11 @@ class GameState {
   }
 
   void addNewPlayer(String name, {int startingLife = 20}) {
-    assert(!this.players.containsKey(name));
+    assert(!players.containsKey(name));
     assert(name != "");
 
-    final Player player = Player.start(name, {...this.names, name},
-        this.players.values.first.states.last.counters.keys.toSet(),
+    final Player player = Player.start(name, {...names, name},
+        players.values.first.states.last.counters.keys.toSet(),
         startingLife: startingLife);
 
     final int catchUp = historyLenght;
@@ -191,13 +191,13 @@ class GameState {
       player.addPlayerReferences(name);
     }
 
-    this.players[player.name] = player;
+    players[player.name] = player;
   }
 
   void deletePlayer(String name) {
     assert(players.containsKey(name));
-    this.players.remove(name);
-    for (final player in this.players.values) {
+    players.remove(name);
+    for (final player in players.values) {
       player.deletePlayerReferences(name);
     }
   }

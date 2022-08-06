@@ -33,7 +33,7 @@ class ArenaMenuActions extends StatelessWidget {
           _Restarter(close),
         ]),
         Section(<Widget>[
-          SectionTitle("Random"),
+          const SectionTitle("Random"),
           RandomListTile(2, onThrowCallback: thrower,),
           RandomListTile(6, onThrowCallback: thrower,),
           RandomListTile(20, onThrowCallback: thrower,),
@@ -65,8 +65,8 @@ class _Restarter extends StatelessWidget {
         state.restart(GameRestartedFrom.arena, avoidPrompt: true);
         closeMenu.call();
       },
-      leading: Icon(McIcons.restart),
-      titleBuilder: (_,__) => Text("New game"),
+      leading: const Icon(McIcons.restart),
+      titleBuilder: (_,__) => const Text("New game"),
       subTitleBuilder: (_, pressed) => AnimatedText(pressed ? "Confirm?" : "Start fresh"),
     );
   }
@@ -76,7 +76,7 @@ class _Restarter extends StatelessWidget {
 
 class ArenaFirstActions extends StatelessWidget {
 
-  ArenaFirstActions(this.reorderPlayers, this.exit);
+  const ArenaFirstActions(this.reorderPlayers, this.exit);
   final VoidCallback reorderPlayers;
   final VoidCallback exit;
 
@@ -120,7 +120,7 @@ class RandomListTile extends StatefulWidget {
   final VoidCallback? onThrowCallback;
 
   @override
-  _RandomListTileState createState() => _RandomListTileState();
+  State createState() => _RandomListTileState();
 }
 
 class _RandomListTileState extends State<RandomListTile> with SingleTickerProviderStateMixin {
@@ -129,6 +129,7 @@ class _RandomListTileState extends State<RandomListTile> with SingleTickerProvid
   late Random generator;
   int? value;
   
+  @override
   @required 
   void initState(){
     super.initState();

@@ -8,19 +8,19 @@ class CSSettingsApp {
   //====================================
   // Disposer
   void dispose(){
-    this.wantVibrate.dispose();
-    this.alwaysOnDisplay.dispose();
-    this.lastPageBeforeArena.dispose();
-    this.tutored.dispose();
-    this.numberFontSizeFraction.dispose();
+    wantVibrate.dispose();
+    alwaysOnDisplay.dispose();
+    lastPageBeforeArena.dispose();
+    tutored.dispose();
+    numberFontSizeFraction.dispose();
   }
 
   //====================================
   // Values
   final CSBloc parent;
-  final PersistentVar<bool?> wantVibrate;
+  final PersistentVar<bool> wantVibrate;
   bool? canVibrate;
-  final PersistentVar<bool?> alwaysOnDisplay;
+  final PersistentVar<bool> alwaysOnDisplay;
   final BlocVar<CSPage?> lastPageBeforeArena;
   final PersistentVar<bool?> tutored;
 
@@ -30,7 +30,7 @@ class CSSettingsApp {
   //====================================
   // Constructor
   CSSettingsApp(this.parent):
-    wantVibrate = PersistentVar<bool?>(
+    wantVibrate = PersistentVar<bool>(
       key: "bloc_settings_blocvar_wantvibrate",
       initVal: true,
       toJson: (b) => b,
@@ -42,7 +42,7 @@ class CSSettingsApp {
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    alwaysOnDisplay = PersistentVar<bool?>(
+    alwaysOnDisplay = PersistentVar<bool>(
       key: "bloc_settings_blocvar_alwaysOnDisplay",
       initVal: true,
       toJson: (b) => b,

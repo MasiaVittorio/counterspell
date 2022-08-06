@@ -46,7 +46,7 @@ class PositiveFeedback extends StatelessWidget {
       label: "Glad to hear that! Maybe you can help me out :)",
       twoLinesLabel: false,
       alternatives: [
-        Alternative(
+        const Alternative(
           title: "Rate CounterSpell",
           icon: Icons.star_border,
           action: CSActions.review,

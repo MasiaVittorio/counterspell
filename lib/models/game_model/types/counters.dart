@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:counter_spell_new/core.dart';
@@ -58,18 +60,20 @@ class Counter{
       if(other.shortName != shortName) return false;
       if(other.uniquePlayer != uniquePlayer) return false;
       return true;
-    } else return false;
+    } else {
+      return false;
+    }
   }
 
   @override
-  int get hashCode => jsonEncode(this.toJson()).hashCode;
+  int get hashCode => jsonEncode(toJson()).hashCode;
 
   Map<String,dynamic> toJson() => {
-    'longName' : this.longName,
-    'shortName' : this.shortName,
-    'minValue' : this.minValue,
-    'maxValue' : this.maxValue,
-    'uniquePlayer': this.uniquePlayer,
+    'longName' : longName,
+    'shortName' : shortName,
+    'minValue' : minValue,
+    'maxValue' : maxValue,
+    'uniquePlayer': uniquePlayer,
   };
 
   static const String poisonLongName = "Poison Counters";
@@ -91,7 +95,7 @@ class Counter{
     uniquePlayer: false,
   );
   static const String stormLongName = "Storm Count";
-  static const Counter storm = const Counter(
+  static const Counter storm = Counter(
     shortName: 'Storm',
     longName: stormLongName,
     minValue: 0,

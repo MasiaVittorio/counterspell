@@ -6,7 +6,7 @@ class PageReactor extends AnimatedWidget {
 
   final Widget Function(BuildContext, int) builder;
 
-  PageReactor({
+  const PageReactor({
     required this.controller,
     required this.builder,
     Key? key,

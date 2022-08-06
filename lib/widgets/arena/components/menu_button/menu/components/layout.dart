@@ -42,7 +42,7 @@ class ArenaMenuLayout extends StatelessWidget {
                   arenaBloc.flipped.value[type] = val;
                   arenaBloc.flipped.refresh();
                 }, 
-                names: this.names.toSet(), 
+                names: names.toSet(), 
                 positions: positions, 
                 onPositionsChange: groupBloc.arenaNameOrder.set,
               ),

@@ -2,24 +2,24 @@ import 'package:counter_spell_new/core.dart';
 
 class TutorialUI extends StatelessWidget {
 
-  const TutorialUI();
+  const TutorialUI({super.key});
   
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Stage<CSPage,SettingsPage>(
-        body: const _UIBody(),
+      child: const Stage<CSPage,SettingsPage>(
+        body: _UIBody(),
         wholeScreen: false,
-        topBarContent: const StageTopBarContent(
+        topBarContent: StageTopBarContent(
           title: _UITopBar(),
         ),
         mainPages: StagePagesData.nullable(
           defaultPage: CSPage.counters,
           orderedPages: <CSPage>[CSPage.history, CSPage.counters, CSPage.commanderDamage],
         ),
-        collapsedPanel: const _UICollapsed(),
-        extendedPanel: const _UIExtended(),
+        collapsedPanel: _UICollapsed(),
+        extendedPanel: _UIExtended(),
       ),
     );
   }
@@ -46,7 +46,7 @@ class _UIExtended extends StatelessWidget {
                   ? "You'll find the tutorial here!"
                   : 'Go to the "Info" tab',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
               Icon(
                 page == SettingsPage.info 
@@ -72,11 +72,11 @@ class _UICollapsed extends StatelessWidget {
     return stage.dimensionsController.dimensions.build((_, dimensions) 
       => Row(children: <Widget>[
         SizedBox(width: dimensions.barSize),
-        Expanded(child: Center(child: Text("Or swipe me up!", style: TextStyle(fontSize: 16),),),),
+        const Expanded(child: Center(child: Text("Or swipe me up!", style: TextStyle(fontSize: 16),),),),
         SizedBox(
           width: dimensions.barSize,
           child: Center(child: IconButton(
-            icon: Icon(Icons.help_outline),
+            icon: const Icon(Icons.help_outline),
             onPressed: () => stage.showAlert(
               AlternativesAlert(
                 label: "This is an alert",
@@ -154,6 +154,7 @@ class SubExplanation extends StatelessWidget {
   const SubExplanation(this.title, {
     required this.children,
     this.separator,
+    super.key,
   });
 
   @override
@@ -166,8 +167,8 @@ class SubExplanation extends StatelessWidget {
         Expanded(child: child,)
     ];
 
-    if(this.separator != null){
-      rowChildren = rowChildren.separateWith(this.separator);
+    if(separator != null){
+      rowChildren = rowChildren.separateWith(separator);
     }
 
     return SubSection.withoutMargin(<Widget>[

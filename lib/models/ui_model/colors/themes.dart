@@ -25,39 +25,39 @@ class CSColorScheme {
 
   CSColorScheme renamed(String newName) => CSColorScheme(
     newName,
-    colorPlace: this.colorPlace,
-    primary: this.primary,
-    accent: this.accent,
-    perPage: this.perPage,
-    light: this.light,
-    darkStyle: this.darkStyle,
-    defenceColor: this.defenceColor,
+    colorPlace: colorPlace,
+    primary: primary,
+    accent: accent,
+    perPage: perPage,
+    light: light,
+    darkStyle: darkStyle,
+    defenceColor: defenceColor,
   );
 
   Widget applyBaseTheme({
     required Widget child,
   }) => Theme(
     data: StageThemeUtils.getThemeData(
-      accent: this.accent,
-      brightness: this.light ? Brightness.light : Brightness.dark,
-      darkStyle: this.darkStyle,
-      primary: this.primary,
+      accent: accent,
+      brightness: light ? Brightness.light : Brightness.dark,
+      darkStyle: darkStyle,
+      primary: primary,
     ),
     child: child,
   );
 
   Map<String, dynamic> get toJson => {
-    "name": this.name,
-    "primary": this.primary.value,
-    "accent": this.accent.value,
+    "name": name,
+    "primary": primary.value,
+    "accent": accent.value,
     "perPage": <String, int?>{
-      for (final entry in this.perPage.entries)
+      for (final entry in perPage.entries)
         CSPages.nameOf(entry.key)!: entry.value.value,
     },
-    "light": this.light,
-    "darkStyle": this.darkStyle?.name,
-    "defenceColor": this.defenceColor.value,
-    "colorPlace": this.colorPlace.name,
+    "light": light,
+    "darkStyle": darkStyle?.name,
+    "defenceColor": defenceColor.value,
+    "colorPlace": colorPlace.name,
   };
 
   static CSColorScheme fromJson(dynamic json) => CSColorScheme(
@@ -76,31 +76,31 @@ class CSColorScheme {
       );
 
   @override
-  int get hashCode => jsonEncode(this.toJson).hashCode;
+  int get hashCode => jsonEncode(toJson).hashCode;
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (this.runtimeType != other.runtimeType) return false;
+    if (runtimeType != other.runtimeType) return false;
 
     if (other is CSColorScheme) {
-      return this.name == other.name && this.equivalentTo(other);
+      return name == other.name && equivalentTo(other);
     }
 
     return false;
   }
 
   bool equivalentTo(CSColorScheme other) =>
-      other.primary == this.primary &&
-      other.accent == this.accent &&
+      other.primary == primary &&
+      other.accent == accent &&
       (<CSPage?>{
         ...other.perPage.keys,
-        ...this.perPage.keys,
-      }.every((key) => this.perPage[key] == other.perPage[key])) &&
-      other.light == this.light &&
-      other.defenceColor == this.defenceColor &&
-      other.colorPlace == this.colorPlace &&
-      (other.darkStyle == this.darkStyle || this.light);
+        ...perPage.keys,
+      }.every((key) => perPage[key] == other.perPage[key])) &&
+      other.light == light &&
+      other.defenceColor == defenceColor &&
+      other.colorPlace == colorPlace &&
+      (other.darkStyle == darkStyle || light);
 
   static const String _defaultLightName = "Light default";
   static const CSColorScheme defaultLight = CSColorScheme(

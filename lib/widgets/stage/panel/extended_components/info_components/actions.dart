@@ -24,7 +24,7 @@ class CounterSpellActions extends StatelessWidget {
           ExtraButton(
             text: "Backup & restore",
             icon: McIcons.content_save_outline,
-            onTap: () => stage!.showAlert(BackupsAlert(), size: 500),
+            onTap: () => stage!.showAlert(const BackupsAlert(), size: 500),
           )
         else
           const ExtraButton(

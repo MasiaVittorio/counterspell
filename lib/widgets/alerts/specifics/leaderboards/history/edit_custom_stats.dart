@@ -49,10 +49,6 @@ class EditCustomStats extends StatelessWidget {
                       child: Text(title),
                     ),
                     ToggleButtons(
-                      children: [for(final n in names) Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(n),
-                      ),], 
                       isSelected: [for(final n in names) stats[title]?.contains(n) ?? false],
                       onPressed: (i){
                         final n = names[i];
@@ -60,10 +56,14 @@ class EditCustomStats extends StatelessWidget {
                           = gamesVar.value[index]!.customStats[title]?.toggled(n);
                         gamesVar.refresh();
                       },
+                      children: [for(final n in names) Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(n),
+                      ),],
                     ),
                     if(!CustomStat.all.contains(title))
                       IconButton(
-                        icon: Icon(Icons.delete_forever),
+                        icon: const Icon(Icons.delete_forever),
                         color: CSColors.delete,
                         onPressed: () => stage!.showAlert(
                           ConfirmAlert(
@@ -120,7 +120,7 @@ class EditCustomStats extends StatelessWidget {
 
 extension _SetToggle<E> on Set<E> {
   Set<E>? toggled(E v) {
-  if(this.contains(v)){
+  if(contains(v)){
       return this..remove(v);
     } else {
       return this..add(v);

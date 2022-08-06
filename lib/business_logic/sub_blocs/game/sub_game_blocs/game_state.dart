@@ -5,8 +5,8 @@ import 'package:counter_spell_new/core.dart';
 class CSGameState {
 
   void dispose(){
-    this.gameState.dispose();
-    this.futureActions.dispose();
+    gameState.dispose();
+    futureActions.dispose();
   }
 
   //====================================
@@ -61,49 +61,49 @@ class CSGameState {
   // Actions
   void applyAction(GameAction action, {bool clearFutures = true}){
     if(_applyAction(action, clearFutures: clearFutures)){
-      this.parent.gameHistory.forward();
+      parent.gameHistory.forward();
     }
-    this.parent.parent.achievements.gameActionPerformed(action);
+    parent.parent.achievements.gameActionPerformed(action);
   }
   bool _applyAction(GameAction action, {bool clearFutures = true}){
     //the action should be provided as already normalized by the action bloc!
     if(action is GANull) return false;
 
-    this.gameState.value.applyAction(action);
-    this.gameState.refresh();
-    if(clearFutures) this.futureActions.set(<GameAction>[]);
+    gameState.value.applyAction(action);
+    gameState.refresh();
+    if(clearFutures) futureActions.set(<GameAction>[]);
 
     return true;
   }
 
   void back(){
     if(backable){
-      final dataList = this.parent.gameHistory.data;
+      final dataList = parent.gameHistory.data;
       //this reversed index is due to the list UI: it goes from right to 
       //left so it needs to be reversed. also, since the last data is always a null data
       //(the current state without changes), we start at 1 instead of 0
       final outgoingData = dataList[dataList.length - 2];
-      this._back();
-      this.parent.gameHistory.back(outgoingData, dataList.first.time);
+      _back();
+      parent.gameHistory.back(outgoingData, dataList.first.time);
     }
   }
   void _back(){
     assert(backable);
-    this.futureActions.value.add(
-      this.gameState.value.back(this.parent.gameAction.currentCounterMap)
+    futureActions.value.add(
+      gameState.value.back(parent.gameAction.currentCounterMap)
     );
-    this.gameState.refresh();
-    this.futureActions.refresh();
+    gameState.refresh();
+    futureActions.refresh();
   }
   void forward(){
     if(forwardable){
-      this._forward();
-      this.parent.gameHistory.forward();
+      _forward();
+      parent.gameHistory.forward();
     }
   }
   void _forward(){
     assert(forwardable);
-    this._applyAction(
+    _applyAction(
       futureActions.value
         .removeLast(),
         // .normalizeOnLast(gameState.value),
@@ -111,19 +111,19 @@ class CSGameState {
         //but we are fairly sure that it wont cause any trouble
       clearFutures: false,
     );
-    this.futureActions.refresh();
+    futureActions.refresh();
   }
 
   void forgetPast(int index){
     //index = 0 -> as if was back
     if(forgettable(index)){
-      final dataList = this.parent.gameHistory.data;
+      final dataList = parent.gameHistory.data;
       //this reversed index is due to the list UI: it goes from right to 
       //left so it needs to be reversed. also, since the last data is always a null data
       //(the current state without changes), we start at 1 instead of 0
       final outgoingData = dataList[dataList.length - 2 - index];
       _forgetPast(index);
-      this.parent.gameHistory.forget(index+1, outgoingData, dataList.first.time);
+      parent.gameHistory.forget(index+1, outgoingData, dataList.first.time);
     }
   }
 
@@ -132,14 +132,14 @@ class CSGameState {
 
     for(int i=0; i<=index; ++i){
       //"<=" important
-      this._back();
+      _back();
     }
-    this.futureActions.value.removeLast();
+    futureActions.value.removeLast();
     for(int i=0; i< index; ++i){
       //"< " important
-      this._forward();
+      _forward();
     }
-    this.futureActions.refresh();
+    futureActions.refresh();
 
   }
 
@@ -152,42 +152,42 @@ class CSGameState {
     }
   ) async {
     //check if the game is to be saved and the prompt to chose the winner is displayed
-    final bool promptShown = this.parent.parent.pastGames.saveGame(
-      this.gameState.value, 
-      commandersA: this.parent.gameGroup.cardsA.value, 
-      commandersB: this.parent.gameGroup.cardsB.value,
+    final bool promptShown = parent.parent.pastGames.saveGame(
+      gameState.value, 
+      commandersA: parent.gameGroup.cardsA.value, 
+      commandersB: parent.gameGroup.cardsB.value,
       avoidPrompt: avoidPrompt,
     );
     //actually resets the game
-    _resetGame(this.gameState.value.newGame(
-      startingLife: this.parent.currentStartingLife,
-      keepCommanderSettings: this.parent.parent.settings.gameSettings.keepCommanderSettingsBetweenGames.value,
+    _resetGame(gameState.value.newGame(
+      startingLife: parent.currentStartingLife,
+      keepCommanderSettings: parent.parent.settings.gameSettings.keepCommanderSettingsBetweenGames.value,
     ));
     //exit history page (or any other) or the menu
-    this.parent.parent.stage.mainPagesController.goToPage(CSPage.life);
+    parent.parent.stage.mainPagesController.goToPage(CSPage.life);
     if(!promptShown) {
       if(!avoidClosingPanel){
-        this.parent.parent.stage.closePanelCompletely();
+        parent.parent.stage.closePanelCompletely();
       }
     }
 
-    this.parent.parent.achievements.gameRestarted(from);
+    parent.parent.achievements.gameRestarted(from);
   }
 
   void startNew(Set<String> names){
-    this.parent.gameGroup.newGroup(names.toList());
+    parent.gameGroup.newGroup(names.toList());
     _resetGame(GameState.start(
       names, 
-      <String>{for(final counter in this.parent.gameAction.counterSet.list) 
+      <String>{for(final counter in parent.gameAction.counterSet.list) 
         counter.longName
       },
-      startingLife: this.parent.currentStartingLife,
+      startingLife: parent.currentStartingLife,
     ));
   }
   void _resetGame(GameState newGameState){
-    this.gameState.set(newGameState);
-    this.parent.gameHistory.listController.refresh(1);
-    this.futureActions.set(<GameAction>[]);
+    gameState.set(newGameState);
+    parent.gameHistory.listController.refresh(1);
+    futureActions.set(<GameAction>[]);
   }
 
 
@@ -198,16 +198,16 @@ class CSGameState {
     if(oldName == "" || newName == ""){
       return;
     }
-    if(!this.gameState.value.players.containsKey(oldName)){
+    if(!gameState.value.players.containsKey(oldName)){
       return;
     }
-    if(this.gameState.value.players.containsKey(newName)){
+    if(gameState.value.players.containsKey(newName)){
       return;
     }
-    this.gameState.value.renamePlayer(oldName, newName);
-    this.parent.gameGroup.rename(oldName, newName);
-    this.gameState.refresh();
-    this.parent.gameHistory.listController.rebuild();
+    gameState.value.renamePlayer(oldName, newName);
+    parent.gameGroup.rename(oldName, newName);
+    gameState.refresh();
+    parent.gameHistory.listController.rebuild();
   }
   void deletePlayer(String name){
     if(!gameState.value.players.containsKey(name)){
@@ -216,43 +216,43 @@ class CSGameState {
     if(gameState.value.players.length <= 1){
       return;
     }
-    this.gameState.value.deletePlayer(name);
-    this.parent.gameGroup.deletePlayer(name);
+    gameState.value.deletePlayer(name);
+    parent.gameGroup.deletePlayer(name);
     // this.parent.gameHistory.deletePlayerReferences(name);
-    this.gameState.refresh();
-    this.parent.gameHistory.listController.rebuild();
+    gameState.refresh();
+    parent.gameHistory.listController.rebuild();
   }
   void addNewPlayer(String name){
     if(name == ""){
       return;
     }
-    if(this.gameState.value.players.containsKey(name)){
+    if(gameState.value.players.containsKey(name)){
       return;
     }
-    this.gameState.value.addNewPlayer(
+    gameState.value.addNewPlayer(
       name, 
-      startingLife: this.parent.currentStartingLife,
+      startingLife: parent.currentStartingLife,
     );
-    this.gameState.refresh();
-    this.parent.gameGroup.newPlayer(name);
-    this.parent.gameHistory.listController.rebuild();
+    gameState.refresh();
+    parent.gameGroup.newPlayer(name);
+    parent.gameHistory.listController.rebuild();
   }
 
   void toggleHavePartner(String name){
     assert(gameState.value.players.containsKey(name));
 
-    this.gameState.value.players[name]!.havePartnerB = 
-      !this.gameState.value.players[name]!.havePartnerB;
-    this.gameState.value.players[name]!.usePartnerB = false;
-    this.gameState.refresh();
+    gameState.value.players[name]!.havePartnerB = 
+      !gameState.value.players[name]!.havePartnerB;
+    gameState.value.players[name]!.usePartnerB = false;
+    gameState.refresh();
   }
   
   void setHavePartner(String name, bool partner){
     assert(gameState.value.players.containsKey(name));
 
-    this.gameState.value.players[name]!.havePartnerB = partner;
-    this.gameState.value.players[name]!.usePartnerB = false;
-    this.gameState.refresh();
+    gameState.value.players[name]!.havePartnerB = partner;
+    gameState.value.players[name]!.usePartnerB = false;
+    gameState.refresh();
   }
 
   bool toggleUsePartner(String name, {bool force = false}){
@@ -260,17 +260,17 @@ class CSGameState {
 
     if(!gameState.value.players[name]!.havePartnerB){
       if(force){
-        this.gameState.value.players[name]!.havePartnerB = true;
-        this.gameState.refresh();
+        gameState.value.players[name]!.havePartnerB = true;
+        gameState.refresh();
         return true;
       } else {
         return false; 
       }
     } 
 
-    this.gameState.value.players[name]!.usePartnerB = 
-      !this.gameState.value.players[name]!.usePartnerB;
-    this.gameState.refresh();
+    gameState.value.players[name]!.usePartnerB = 
+      !gameState.value.players[name]!.usePartnerB;
+    gameState.refresh();
     return true;
   }
 

@@ -8,7 +8,7 @@ class Changelog extends StatefulWidget {
   static const double height = 450.0;
 
   @override
-  _ChangelogState createState() => _ChangelogState();
+  State<Changelog> createState() => _ChangelogState();
 }
 
 class _ChangelogState extends State<Changelog> {
@@ -28,17 +28,17 @@ class _ChangelogState extends State<Changelog> {
         HeaderedAlert("What's new",
           child: Column(children: <Widget>[
             for(final Version version in ChangeLogData.list)
-              _VersionWidget(version, (chg) => this.setState((){
-                this.change = chg;
-                this.showing = true;
+              _VersionWidget(version, (chg) => setState((){
+                change = chg;
+                showing = true;
               })),
           ],),
         ),
         IgnorePointer(
           ignoring: !showing,
           child: GestureDetector(
-            onTapDown: (_) => this.setState((){
-              this.showing = false;
+            onTapDown: (_) => setState((){
+              showing = false;
             }),
             child: AnimatedContainer(
               duration: CSAnimations.fast,
@@ -57,11 +57,11 @@ class _ChangelogState extends State<Changelog> {
             child: AnimatedListed(
               duration: CSAnimations.fast,
               listed: showing,
+              overlapSizeAndOpacity: 1.0,
               child: Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: _Description(change),
               ),
-              overlapSizeAndOpacity: 1.0,
             ),
           ),
         ),
@@ -83,7 +83,7 @@ class _Description extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.canvasColor,
-        boxShadow: [CSShadows.shadow],
+        boxShadow: const [CSShadows.shadow],
       ),
       padding: const EdgeInsets.all(10.0),
       child: ListTile(
@@ -109,7 +109,7 @@ class _VersionWidget extends StatelessWidget {
           ListTile(
             dense: true,
             title: Text("${ChangeTypes.nameOf(change.changeType)}: ${change.title}"),
-            trailing: change.description != null ? Icon(Icons.keyboard_arrow_right) : null,
+            trailing: change.description != null ? const Icon(Icons.keyboard_arrow_right) : null,
             onTap: change.description != null ? () => showChange(change) : null,
           ),
     ]);

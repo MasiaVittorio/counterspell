@@ -14,12 +14,12 @@ class PanelInfo extends StatelessWidget {
       physics: stage.panelController.panelScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          const Useful(),
-          const Development(),
+        children: const <Widget>[
+          Useful(),
+          Development(),
           // const AboutCounterSpell(),
           // const CounterSpellActions(),
-          const QuoteTile(),
+          QuoteTile(),
         ],
       ),
     );

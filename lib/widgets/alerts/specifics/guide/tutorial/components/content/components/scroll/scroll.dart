@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 import 'components/all.dart';
 
 class TutorialScroll extends StatelessWidget {
-  const TutorialScroll();
+  const TutorialScroll({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class TutorialScroll extends StatelessWidget {
 
 class _Local extends StatefulWidget {
 
-  _Local(this.bloc);
+  const _Local(this.bloc);
   final CSBloc? bloc;
 
   @override
@@ -30,24 +30,25 @@ class __LocalState extends State<_Local> {
   @override
   void initState() {
     super.initState();
-    this.localScroller = ScrollerLogic(
+    localScroller = ScrollerLogic(
       okVibrate: () => widget.bloc!.settings.appSettings.canVibrate! 
-        && widget.bloc!.settings.appSettings.wantVibrate.value!,
+        && widget.bloc!.settings.appSettings.wantVibrate.value,
       onCancel: null,
       scrollSettings: widget.bloc!.settings.scrollSettings,
       resetAfterConfirm: true,
       onConfirm: (increment){
-        if(this.mounted)
-          this.setState((){
-            this.value += increment;
+        if(mounted) {
+          setState((){
+            value += increment;
           });
+        }
       },
     );
   }
 
   @override
   void dispose() {
-    this.localScroller!.dispose();
+    localScroller!.dispose();
     super.dispose();
   }
 
@@ -80,10 +81,11 @@ class __LocalState extends State<_Local> {
         CSWidgets.divider,
         CSWidgets.height10,
         LocalNumber(localScroller as CSScroller?, widget.bloc, value, () {
-          if(this.mounted && scrolled == false)
-            this.setState((){
+          if(mounted && scrolled == false) {
+            setState((){
               scrolled = true;
             });
+          }
         }),
         CSWidgets.height20,
       ], margin: EdgeInsets.zero,),),
@@ -121,7 +123,7 @@ class __LocalState extends State<_Local> {
           child: Center(child: AnimatedOpacity(
             duration: CSAnimations.fast,
             opacity: scrolled ? 1.0 : 0.0,
-            child: Text(
+            child: const Text(
               "(You can keep scrolling before it expires)",
               textAlign: TextAlign.center,
             ),

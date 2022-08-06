@@ -5,11 +5,11 @@ class CSSettingsGame {
   //====================================
   // Disposer
   void dispose(){
-    this._startingLife.dispose();
-    this.minValue.dispose();
-    this.maxValue.dispose();
-    this.timeMode.dispose();
-    this.keepCommanderSettingsBetweenGames.dispose();
+    _startingLife.dispose();
+    minValue.dispose();
+    maxValue.dispose();
+    timeMode.dispose();
+    keepCommanderSettingsBetweenGames.dispose();
   }
 
   //====================================
@@ -66,7 +66,7 @@ class CSSettingsGame {
 
   void changeStartingLife(int newLife){
     if(newLife == currentStartingLife) return;
-    this._startingLife.set(newLife);
+    _startingLife.set(newLife);
     if(parent.game.gameState.gameState.value.historyLenght <= 1){
       parent.game.gameState.restart(null, avoidClosingPanel: true);
     } 

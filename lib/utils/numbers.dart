@@ -17,21 +17,31 @@ extension ClosestMultiples on num {
     final double divided = this/of;
 
     int integer;
-    if(upper) integer = divided.ceil();
-    else if(lower) integer = divided.floor();
-    else if(closerToZero) {
-      if(divided >= 0) integer = divided.floor();
-      else integer = divided.ceil();
+    if(upper) {
+      integer = divided.ceil();
+    } else if(lower) {
+      integer = divided.floor();
+    } else if(closerToZero) {
+      if(divided >= 0) {
+        integer = divided.floor();
+      } else {
+        integer = divided.ceil();
+      }
     } 
     else if(fartherFromZero){
-      if(divided >= 0) integer = divided.ceil();
-      else integer = divided.floor();
+      if(divided >= 0) {
+        integer = divided.ceil();
+      } else {
+        integer = divided.floor();
+      }
     } 
-    else integer = divided.round();
+    else {
+      integer = divided.round();
+    }
 
     final double result = integer * of;
 
-    if(overshoot && result == this.toDouble()){
+    if(overshoot && result == toDouble()){
       return result + (upper ? 1.0*of : -1.0*of);
     } 
 

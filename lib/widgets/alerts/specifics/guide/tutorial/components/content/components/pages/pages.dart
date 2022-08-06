@@ -5,10 +5,10 @@ import 'components/all.dart';
 
 class TutorialPages extends StatefulWidget {
 
-  const TutorialPages();
+  const TutorialPages({super.key});
 
   @override
-  _TutorialPagesState createState() => _TutorialPagesState();
+  State<TutorialPages> createState() => _TutorialPagesState();
 }
 
 
@@ -99,9 +99,9 @@ class _TutorialPagesState extends State<TutorialPages> {
     collapsedPanelSize: collapsedPanelSize, 
     page: page, 
     colors: colors, 
-    onSelect: (CSPage newPage) => this.setState((){
-      this.page = newPage;
-      this.tried = true;
+    onSelect: (CSPage newPage) => setState((){
+      page = newPage;
+      tried = true;
     }), 
     orderedValues: const <CSPage>[
       CSPage.history, 
@@ -110,12 +110,12 @@ class _TutorialPagesState extends State<TutorialPages> {
       CSPage.commanderDamage, 
       // CSPage.commanderCast,
     ], 
-    leftTitles: <CSPage,String>{
+    leftTitles: const <CSPage,String>{
       CSPage.history: "Life Chart",
       CSPage.counters: "Arena Mode",
       CSPage.commanderDamage: "Arena Mode",
     }, 
-    rightTitles: <CSPage,String>{
+    rightTitles: const <CSPage,String>{
       CSPage.history: "Restart",
       CSPage.counters: "Counter picker",
       CSPage.commanderDamage: "Info",

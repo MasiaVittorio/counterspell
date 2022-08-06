@@ -3,7 +3,7 @@ import 'components/all.dart';
 
 class TutorialContent extends StatelessWidget {
 
-  TutorialContent(this.pageController);
+  const TutorialContent(this.pageController);
 
   final PageController? pageController;
 
@@ -30,7 +30,7 @@ class TutorialContent extends StatelessWidget {
       itemCount: children.length,
       controller: pageController,
       onPageChanged: (i) => Stage.of(context)!.panelController.alertController.savedStates[AdvancedTutorial.stateKey] = i,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (_, page)
         => Padding(
           padding: const EdgeInsets.all(8.0),

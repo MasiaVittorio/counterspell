@@ -4,7 +4,7 @@ import 'package:counter_spell_new/core.dart';
 class Stats extends StatelessWidget {
   final CustomStat stat;
 
-  Stats(this.stat);
+  const Stats(this.stat);
 
   @override
   Widget build(BuildContext context) {

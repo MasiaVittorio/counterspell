@@ -5,8 +5,8 @@ import 'ui.dart';
 import 'vampire.dart';
 
 const Map<String,Widget> achieveHints = <String,Widget>{
-  Achievements.countersShortTitle : const CountersMaster(),
-  Achievements.rollerShortTitle : const TheRoller(),
-  Achievements.uiExpertShortTitle : const UIExpert(),
-  Achievements.vampireShortTitle: const Vampire(),
+  Achievements.countersShortTitle : CountersMaster(),
+  Achievements.rollerShortTitle : TheRoller(),
+  Achievements.uiExpertShortTitle : UIExpert(),
+  Achievements.vampireShortTitle: Vampire(),
 };

@@ -11,25 +11,26 @@ class TutorialPageController {
 
   int register(void Function(int) reactor){
     ++registered;
-    this._reactors[registered] = reactor;
+    _reactors[registered] = reactor;
     return registered;
   }
 
   void unregister(int? key){
-    this._reactors.remove(key);
+    _reactors.remove(key);
   }
 
   void _react(int newPage){
-    for(final reactor in this._reactors.values)
+    for(final reactor in _reactors.values) {
       reactor(newPage);
+    }
   }
 
   set page(int newPage){
-    this._react(newPage);
+    _react(newPage);
   }
 
   void dispose(){
-    this._reactors.clear();
+    _reactors.clear();
   }
 
 }
@@ -37,7 +38,7 @@ class TutorialPageController {
 
 class TutorialPageReactor extends StatefulWidget {
 
-  TutorialPageReactor({
+  const TutorialPageReactor({
     required this.controller, 
     required this.builder,
   });
@@ -46,7 +47,7 @@ class TutorialPageReactor extends StatefulWidget {
   final Widget Function(BuildContext,int) builder;
 
   @override
-  _TutorialPageReactorState createState() => _TutorialPageReactorState();
+  State createState() => _TutorialPageReactorState();
 }
 
 class _TutorialPageReactorState extends State<TutorialPageReactor> {
@@ -57,21 +58,23 @@ class _TutorialPageReactorState extends State<TutorialPageReactor> {
   @override
   void initState() {
     super.initState();
-    this.registeredKey = this.widget.controller.register((int newPage){
-      if(this.mounted) this.setState((){
-        this.page = newPage;
+    registeredKey = widget.controller.register((int newPage){
+      if(mounted) {
+        setState((){
+        page = newPage;
       });
+      }
     });
   }
 
   @override
   void dispose() {
-    this.widget.controller.unregister(this.registeredKey);
+    widget.controller.unregister(registeredKey);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return this.widget.builder(context, page);
+    return widget.builder(context, page);
   }
 }

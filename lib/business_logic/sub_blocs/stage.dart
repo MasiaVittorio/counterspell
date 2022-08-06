@@ -21,18 +21,20 @@ class CSStage {
           if(
             parent.tutorial.currentHint != null &&
             parent.tutorial.currentHint!.needsSnackBar
-          ) parent.stage.panelController.onNextPanelClose(() {
+          ) {
+            parent.stage.panelController.onNextPanelClose(() {
               parent.tutorial.showHint(
                 parent.tutorial.currentHintIndex,  
               );
             });
+          }
         },
       ),
-      popBehavior: StagePopBehavior(
+      popBehavior: const StagePopBehavior(
         backToDefaultMainPage: true,
       ),
 
-      initialDimensions: StageDimensions(
+      initialDimensions: const StageDimensions(
         collapsedPanelSize: CSSizes.collapsedPanelSize,
         panelRadiusClosed: StageDimensions.defaultBarSize/2,
         panelRadiusOpened: StageDimensions.defaultPanelRadius,
@@ -59,7 +61,7 @@ class CSStage {
 
       jsonToPanelPage: (json) => SettingsPages.fromName(json as String)!,
       panelPageToJson: (page) => SettingsPages.nameOf(page),
-      initialPanelPagesData: StagePagesData.nullable(
+      initialPanelPagesData: const StagePagesData.nullable(
         defaultPage: SettingsPage.game,
         pagesData: settingsThemes,
         orderedPages: <SettingsPage>[
@@ -75,7 +77,7 @@ class CSStage {
         accentSelectedPage: false,
         // forcedPrimaryColorBrightnessOnLightTheme: Brightness.dark,
         pandaOpenedPanelNavBar: true,
-        brightness: StageBrightnessData.nullable(
+        brightness: const StageBrightnessData.nullable(
           brightness: Brightness.light,
           autoDark: true,
           autoDarkMode: AutoDarkMode.timeOfDay,
@@ -113,24 +115,24 @@ class CSStage {
 }
 
 const settingsThemes = <SettingsPage,StagePage>{
-  SettingsPage.game: const StagePage(
+  SettingsPage.game: StagePage(
     name: "Game",
     longName: "Your game, your rules",
     icon: Icons.menu,
   ),
-  SettingsPage.settings: const StagePage(
+  SettingsPage.settings: StagePage(
     name: "Settings",
     longName: "Specify behaviors",
     icon: McIcons.cog,
     unselectedIcon: McIcons.cog_outline,
   ),
-  SettingsPage.info: const StagePage(
+  SettingsPage.info: StagePage(
     name: "Info",
     longName: "Details and contacts",
     icon: Icons.info,
     unselectedIcon: Icons.info_outline,
   ),
-  SettingsPage.theme: const StagePage(
+  SettingsPage.theme: StagePage(
     name: "Theme",
     longName: "Customize appearance",
     icon: Icons.palette,

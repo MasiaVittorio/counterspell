@@ -107,8 +107,9 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
               onStart == null &&
               onUpdate == null &&
               onEnd == null &&
-              onCancel == null)
+              onCancel == null) {
             return false;
+          }
           break;
         default:
           return false;
@@ -177,8 +178,9 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
           untransformedDelta: movedLocally,
           untransformedEndPosition: event.localPosition,
         ).distance * (_getPrimaryValueFromOffset(movedLocally) ?? 1).sign;
-        if (_hasSufficientGlobalDistanceToAccept)
+        if (_hasSufficientGlobalDistanceToAccept) {
           resolve(GestureDisposition.accepted);
+        }
       }
     }
     stopTrackingIfPointerNoLongerDown(event);
@@ -259,8 +261,9 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
       globalPosition: _initialPosition.global,
       localPosition: _initialPosition.local,
     );
-    if (onDown != null)
+    if (onDown != null) {
       invokeCallback<void>('onDown', () => onDown!(details));
+    }
   }
 
   void _checkStart(Duration? timestamp) {
@@ -270,8 +273,9 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
       globalPosition: _initialPosition.global,
       localPosition: _initialPosition.local,
     );
-    if (onStart != null)
+    if (onStart != null) {
       invokeCallback<void>('onStart', () => onStart!(details));
+    }
   }
 
   void _checkUpdate({
@@ -321,8 +325,9 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
 
   void _checkEnd(int pointer) {
     assert(_initialButtons == kPrimaryButton);
-    if (onEnd == null)
+    if (onEnd == null) {
       return;
+    }
 
     final VelocityTracker tracker = _velocityTrackers[pointer]!;
 
@@ -346,8 +351,9 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
         primaryVelocity: 0.0,
       );
       debugReport = () {
-        if (estimate == null)
+        if (estimate == null) {
           return 'Could not estimate velocity.';
+        }
         return '$estimate; judged to not be a fling.';
       };
     }
@@ -356,8 +362,9 @@ abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
 
   void _checkCancel() {
     assert(_initialButtons == kPrimaryButton);
-    if (onCancel != null)
+    if (onCancel != null) {
       invokeCallback<void>('onCancel', onCancel!);
+    }
   }
 
   @override

@@ -26,14 +26,14 @@ class GADamage extends GameAction{
       attacker,
       increment,
       partnerA: !(usingPartnerB ?? false),
-      settings: this.settings,
-      minLife: this.minLife,
-      maxVal: this.maxVal,
+      settings: settings,
+      minLife: minLife,
+      maxVal: maxVal,
     );
     final attackerAction = settings.lifelink 
       ? PALife(increment,
-        minVal: this.minLife,
-        maxVal: this.maxVal,
+        minVal: minLife,
+        maxVal: maxVal,
       )
       : PANull.instance;
     return {

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:http/http.dart' as http;
 import 'card.dart';
 import 'dart:convert';
@@ -12,8 +14,8 @@ class ScryfallApi{
     final url = card.purchaseUris?.cardmarket ?? "";
     if(url == "") return; 
 
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       print('Could not launch $url');
     }
@@ -23,8 +25,8 @@ class ScryfallApi{
     final url = card.purchaseUris?.tcgplayer ?? "";
     if(url == "") return; 
 
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       print('Could not launch $url');
     }
@@ -35,24 +37,22 @@ class ScryfallApi{
 
     final url = card.scryfallUri!; 
 
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       print('Could not launch $url');
     }
   }
 
   static String _searchString(String string, {bool uniqueName = true}) => 
-    "https://api.scryfall.com/cards/search?order=edhrec&q="
-    + PercentEncode.encodeString(string)
-    + (uniqueName ? "+unique%3Aname":"");//+legal%3Acommander";
+    "https://api.scryfall.com/cards/search?order=edhrec&q=${PercentEncode.encodeString(string)}${uniqueName ? "+unique%3Aname":""}";//+legal%3Acommander";
 
 
   static Future<List<MtgCard>?> searchReprints(MtgCard card) async {
     return await search('!"${card.name}" unique:prints', uniqueName: false, force: true);
   }
   static Future<List<MtgCard>?> searchArts(String name, bool commander) async {
-    return await search('"$name"'+(commander?" is:commander":"")+' unique:art', uniqueName: false, force: true);
+    return await search('"$name"${commander?" is:commander":""} unique:art', uniqueName: false, force: true);
   }
 
 
@@ -62,23 +62,24 @@ class ScryfallApi{
   static DateTime? _last;
   static Future<List<MtgCard>?> search(String string, {bool force = false, bool uniqueName = true}) async {
     // print("api searching (force: $force)");
-    final _now = DateTime.now();
+    final now = DateTime.now();
 
     if(force == false){
       if(_last != null){
-        final secs = _last!.difference(_now).inSeconds.abs();
+        final secs = _last!.difference(now).inSeconds.abs();
         // print("api searching -> (secs: $secs)");
-        if( secs < 10)
+        if( secs < 10) {
           return null;
+        }
       }
     }
 
-    _last = _now;
+    _last = now;
     
     if(string == "") return null;
-    final _ss = ScryfallApi._searchString(string, uniqueName: uniqueName);
+    final ss = ScryfallApi._searchString(string, uniqueName: uniqueName);
     // print("searching: $_ss");
-    final response = await http.get(Uri.parse(_ss));
+    final response = await http.get(Uri.parse(ss));
 
     Map<String,dynamic>? map;
 
@@ -96,10 +97,11 @@ class ScryfallApi{
     if(map == null) return null;
 
     if(map["object"] == "error") {
-      if(map["code"] == "not_found")
+      if(map["code"] == "not_found") {
         return <MtgCard>[];
-      else  
+      } else {
         return null;
+      }
     }
 
     if(!map.containsKey('data')) return null;

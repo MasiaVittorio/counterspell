@@ -9,7 +9,7 @@ class PastGameTile extends StatelessWidget {
   final int index;
   final VoidCallback onSingleScreenCallback;
 
-  PastGameTile(this.game, this.index, {
+  const PastGameTile(this.game, this.index, {
     required this.onSingleScreenCallback,
   });
 
@@ -19,13 +19,13 @@ class PastGameTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
 
-    final VoidCallback show = () {
+    void show() {
       onSingleScreenCallback.call();
       stage!.showAlert(
         PastGameScreen(index: index,),
         size: PastGameScreen.height
       );
-    };
+    }
 
     final theme = Theme.of(context);
 
@@ -47,7 +47,7 @@ class PastGameTile extends StatelessWidget {
                       final commanders = game!.commandersPlayedBy(name);
                       return SidChip(
                         color: theme.colorScheme.secondary,
-                        text: "$name",
+                        text: name,
                         icon: game!.winner == name ? McIcons.trophy : null,
                         forceTextColor: commanders.isNotEmpty ? Colors.white : null,
                         subText: commanders.isNotEmpty 
@@ -86,8 +86,11 @@ class PastGameTile extends StatelessWidget {
   }
 
   static String safeSubString(String start, int len){
-    if(start.length >  len) return start.substring(0,len-1)+'.';
-    else return start; 
+    if(start.length >  len) {
+      return '${start.substring(0,len-1)}.';
+    } else {
+      return start;
+    } 
   }
 
   static String untilSpaceOrComma(String from){
@@ -104,8 +107,8 @@ class PastGameTile extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         maxLenght: TextField.noMaxLength,
         onConfirm: (notes){
-          bloc.pastGames.pastGames.value[this.index]!.notes = notes;
-          bloc.pastGames.pastGames.refresh(index: this.index);
+          bloc.pastGames.pastGames.value[index]!.notes = notes;
+          bloc.pastGames.pastGames.refresh(index: index);
         },
       ),
       size: InsertAlert.height,
@@ -118,8 +121,8 @@ class PastGameTile extends StatelessWidget {
         game.state.names, 
         initialSelected: game.winner, 
         onConfirm: (selected){
-          bloc.pastGames.pastGames.value[this.index]!.winner = selected;
-          bloc.pastGames.pastGames.refresh(index: this.index);
+          bloc.pastGames.pastGames.value[index]!.winner = selected;
+          bloc.pastGames.pastGames.refresh(index: index);
         },
       ),
       size: WinnerSelector.heightCalc(game.state.players.length),

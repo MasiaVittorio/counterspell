@@ -115,7 +115,7 @@ class HistoryTile extends StatelessWidget {
             data.changes!.length, 
             flat!,
           ),
-          constraints: BoxConstraints(minWidth: 20),
+          constraints: const BoxConstraints(minWidth: 20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,14 +20,14 @@ class ImageOpacity extends StatelessWidget {
       initialValue: (initialArena ?? false) ? _OpacityPage.arena : _OpacityPage.regular, 
       accentSelected: true,
       items: const <_OpacityPage,RadioHeaderedItem>{
-        _OpacityPage.regular: const RadioHeaderedItem(
-          child: const ImageOpacityRegular(),
+        _OpacityPage.regular: RadioHeaderedItem(
+          child: ImageOpacityRegular(),
           icon: Icons.format_list_bulleted,
           longTitle: "Commander image opacity",
           title: "Regular",
         ),
         _OpacityPage.arena: RadioHeaderedItem(
-          child: const ImageOpacitySimple(),
+          child: ImageOpacitySimple(),
           icon: CSIcons.counterSpell,
           longTitle: "Commander image opacity",
           title: "Arena",

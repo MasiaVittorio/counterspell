@@ -21,7 +21,7 @@ class DiceThrower extends StatefulWidget {
   static const double height = _DiceThrowerState._throwerHeight + 360.0; 
 
   @override
-  _DiceThrowerState createState() => _DiceThrowerState();
+  State createState() => _DiceThrowerState();
 }
 
 enum _DiceType{
@@ -46,8 +46,8 @@ class _DiceThrowerState extends State<DiceThrower> {
   @override
   void initState() {
     super.initState();
-    this.controller = SidAnimatedListController();
-    this.generator = Random(DateTime.now().millisecondsSinceEpoch);
+    controller = SidAnimatedListController();
+    generator = Random(DateTime.now().millisecondsSinceEpoch);
   }
   
   static const double _throwerHeight = 56.0;
@@ -67,25 +67,6 @@ class _DiceThrowerState extends State<DiceThrower> {
       return HeaderedAlert(
         "",
         alreadyScrollableChild: true,
-        child: SidAnimatedList(
-          physics: SidereusScrollPhysics(
-            bottomBounce: true,
-            bottomBounceCallback: stage!.closePanel,
-            alwaysScrollable: false,
-            neverScrollable: false,
-          ),
-          itemBuilder: (_, index, animation) => SizeTransition(
-            axisAlignment: -1.0,
-            axis: Axis.vertical,
-            sizeFactor: animation,
-            child: _ThrowWidget(this.throws[index], names),
-          ),
-          listController: controller,
-          initialItemCount: 0,
-          reverse: true,
-          shrinkWrap: true,
-          primary: false,
-        ),
         bottom: Container(
           height: _throwerHeight,
           alignment: Alignment.center,
@@ -106,12 +87,12 @@ class _DiceThrowerState extends State<DiceThrower> {
                       const EdgeInsets.symmetric(vertical: 16.0),
                     ),
                   ),
-                  onLongPress: type != _ThrowType.dice ? null : () => this.setState(() {
-                    this._diceType = this._diceType.other;
+                  onLongPress: type != _ThrowType.dice ? null : () => setState(() {
+                    _diceType = _diceType.other;
                   }),
                   onPressed: (){
-                    this.setState((){
-                      this.throws.insert(0, _Throw(
+                    setState((){
+                      throws.insert(0, _Throw(
                         type, 
                         generator, 
                         {
@@ -121,7 +102,7 @@ class _DiceThrowerState extends State<DiceThrower> {
                         }[type]!,
                         _diceType,
                       ),);
-                      this.controller!.insert(0, duration: duration);
+                      controller!.insert(0, duration: duration);
                       bloc.achievements.flippedOrRolled();
                     });
                   },
@@ -129,11 +110,30 @@ class _DiceThrowerState extends State<DiceThrower> {
             ],
           ),
         ),
+        child: SidAnimatedList(
+          physics: SidereusScrollPhysics(
+            bottomBounce: true,
+            bottomBounceCallback: stage!.closePanel,
+            alwaysScrollable: false,
+            neverScrollable: false,
+          ),
+          itemBuilder: (_, index, animation) => SizeTransition(
+            axisAlignment: -1.0,
+            axis: Axis.vertical,
+            sizeFactor: animation,
+            child: _ThrowWidget(throws[index], names),
+          ),
+          listController: controller,
+          initialItemCount: 0,
+          reverse: true,
+          shrinkWrap: true,
+          primary: false,
+        ),
       );
 
     },);
   }
-  static const duration = const Duration(milliseconds: 300);
+  static const duration = Duration(milliseconds: 300);
 
 }
 
@@ -193,11 +193,11 @@ class _ThrowWidget extends StatelessWidget {
           child: Text(title),
         );
       case _ThrowType.dice:
-        return Container(
+        return SizedBox(
           height: size,
           child: Row(children: <Widget>[
-            Spacer(), 
-            Spacer(), 
+            const Spacer(), 
+            const Spacer(), 
             Expanded(
               child: child,
             ),

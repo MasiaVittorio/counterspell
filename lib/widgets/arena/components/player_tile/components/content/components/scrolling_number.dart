@@ -3,7 +3,7 @@ import 'package:counter_spell_new/widgets/stage/body/group/player_tile_utilities
 
 class APTNumber extends StatelessWidget {
 
-  APTNumber({
+  const APTNumber({
     required this.constraints,
     required this.increment,
     required this.playerState,
@@ -91,7 +91,7 @@ class APTNumber extends StatelessWidget {
 
 class APTNumberAlt extends StatelessWidget {
 
-  APTNumberAlt({
+  const APTNumberAlt({
     required this.constraints,
     required this.increment,
     required this.playerState,

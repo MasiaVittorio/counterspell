@@ -14,7 +14,7 @@ class DiceThrower extends StatefulWidget {
   static const double height = _DiceThrowerState._thrower + 360.0; 
 
   @override
-  _DiceThrowerState createState() => _DiceThrowerState();
+  State createState() => _DiceThrowerState();
 }
 
 class _DiceThrowerState extends State<DiceThrower> {
@@ -26,8 +26,8 @@ class _DiceThrowerState extends State<DiceThrower> {
   @override
   void initState() {
     super.initState();
-    this.controller = SidAnimatedListController();
-    this.generator = Random(DateTime.now().millisecondsSinceEpoch);
+    controller = SidAnimatedListController();
+    generator = Random(DateTime.now().millisecondsSinceEpoch);
   }
   
   static const double _thrower = 56.0;
@@ -60,7 +60,7 @@ class _DiceThrowerState extends State<DiceThrower> {
                         axisAlignment: -1.0,
                         axis: Axis.vertical,
                         sizeFactor: animation,
-                        child:_ThrowWidget(this.throws[index]),
+                        child:_ThrowWidget(throws[index]),
                       ),
                       listController: controller,
                       initialItemCount: 0,
@@ -87,9 +87,9 @@ class _DiceThrowerState extends State<DiceThrower> {
                               ),
                             ),
                             onPressed: (){
-                              this.setState((){
-                                this.throws.insert(0, _Throw(generator, max));
-                                this.controller!.insert(0, duration: duration);
+                              setState((){
+                                throws.insert(0, _Throw(generator, max));
+                                controller!.insert(0, duration: duration);
                               });
                             },
                           )),
@@ -105,14 +105,14 @@ class _DiceThrowerState extends State<DiceThrower> {
                 left: 0.0,
                 right: 0.0,
                 top: 0.0,
-                child: const AlertDrag(),
+                child: AlertDrag(),
               ),
           ],
         ),
       ),
     );
   }
-  static const duration = const Duration(milliseconds: 300);
+  static const duration = Duration(milliseconds: 300);
 
   static const Map<int, String> predicates = {
     2: "Flip",
@@ -130,9 +130,9 @@ class _ThrowWidget extends StatelessWidget {
     return Row(
       children: <Widget>[
         if(data.max == 6)
-          Spacer(),
+          const Spacer(),
         if(data.max == 20)
-          ...[Spacer(), Spacer()],
+          ...[const Spacer(), const Spacer()],
         Expanded(child: ListTile(
           title: Text( (data.max == 2)
             ? ({1: "head", 2: "tail"}[data.value] ?? "?? error")
@@ -145,9 +145,9 @@ class _ThrowWidget extends StatelessWidget {
           }[data.max] ?? McIcons.dice_multiple),
         ),),
         if(data.max == 2)
-          ...[Spacer(), Spacer()],
+          ...[const Spacer(), const Spacer()],
         if(data.max == 6)
-          Spacer(),
+          const Spacer(),
       ],
     );
   }

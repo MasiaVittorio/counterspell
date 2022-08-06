@@ -8,9 +8,9 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 
 class CSPayments {
   void dispose() {
-    this.unlocked.dispose();
-    this.purchasedIds.dispose();
-    this.donations.dispose();
+    unlocked.dispose();
+    purchasedIds.dispose();
+    donations.dispose();
   }
 
   //===========================================
@@ -60,16 +60,16 @@ class CSPayments {
 
     logAdd("check: 1 -> available items retrieved");
 
-    if (this.unlocked.reading) {
+    if (unlocked.reading) {
       logAdd(
           "check: 2.a -> unlocked var is still reading, adding restore to read callback");
-      this.unlocked.readCallback = (result) {
+      unlocked.readCallback = (result) {
         logAdd(
             "read callback (set during check 2.a): 0 -> entered, unlocked: $result");
         if (result == false) {
           logAdd(
               "read callback (set during check 2.a): 1.a -> it was locked, so we call restore");
-          this.restore();
+          restore();
         } else {
           logAdd(
               "read callback (set during check 2.a): 1.b -> it was unlocked already, so we call nothing");
@@ -77,10 +77,10 @@ class CSPayments {
       };
     } else {
       logAdd(
-          "check: 2.b -> unlocked var is ready: NOT still reading. value: ${this.unlocked.value}");
-      if (this.unlocked.value == false) {
+          "check: 2.b -> unlocked var is ready: NOT still reading. value: ${unlocked.value}");
+      if (unlocked.value == false) {
         logAdd("check: 2.b.a -> it was locked, so we call restore");
-        this.restore();
+        restore();
       } else {
         logAdd("check: 2.b.a -> it was unlocked already, so we call nothing");
       }
@@ -117,12 +117,12 @@ class CSPayments {
           "availableItems: 3.a -> some ids were NOT found: ${response.notFoundIDs}");
     }
 
-    this.items = response.productDetails;
+    items = response.productDetails;
     logAdd(
-        "availableItems: 4 -> number of items retrieved: ${this.items.length}, creating the Donation objects");
+        "availableItems: 4 -> number of items retrieved: ${items.length}, creating the Donation objects");
 
-    this.donations.set(<Donation>[
-          for (final item in this.items)
+    donations.set(<Donation>[
+          for (final item in items)
             Donation(
               productID: item.id,
               amount: item.price,
@@ -154,10 +154,11 @@ class CSPayments {
   String _titleCleaner(String s) {
     String ret = '';
     for (final x in s.split('')) {
-      if (x != '(')
+      if (x != '(') {
         ret += x;
-      else
+      } else {
         break;
+      }
     }
     return ret;
   }
@@ -211,7 +212,7 @@ class CSPayments {
 
   void purchase(String productID) async {
     logAdd("purchase: 0 -> entered with productID: $productID");
-    if (this.purchasedIds.value.contains(productID)) {
+    if (purchasedIds.value.contains(productID)) {
       logAdd(
           "purchase: 0.contains -> we already have this one, so we should return with error. Was the app unlocked? ${unlocked.value}");
       if (!unlocked.value) {
@@ -225,7 +226,7 @@ class CSPayments {
     logAdd(
         "purchase: 1 -> do we have a ProductDetail corresponding to this id?");
     ProductDetails? productDetails;
-    for (final item in this.items) {
+    for (final item in items) {
       if (item.id == productID) productDetails = item;
     }
     if (productDetails == null) {

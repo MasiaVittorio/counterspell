@@ -12,7 +12,7 @@ class FakeBottomBar extends StatelessWidget {
   final VoidCallback? rightCallback;
   final VoidCallback? leftCallback;
 
-  FakeBottomBar({
+  const FakeBottomBar({
     required this.collapsedPanelSize,
     required this.page,
     required this.colors,
@@ -47,7 +47,7 @@ class FakeBottomBar extends StatelessWidget {
                 tileSize: RadioNavBar.defaultTileSize,
                 topPadding: collapsedPanelSize / 2,
                 selectedValue: page, 
-                orderedValues: this.orderedValues, 
+                orderedValues: orderedValues, 
                 items: <CSPage,RadioNavBarItem>{
                   CSPage.history: RadioNavBarItem(
                     title: "History",
@@ -80,7 +80,7 @@ class FakeBottomBar extends StatelessWidget {
                     color: colors![CSPage.commanderCast],
                   ),
                 }, 
-                onSelect: this.onSelect,
+                onSelect: onSelect,
               ),
             ),
           ),

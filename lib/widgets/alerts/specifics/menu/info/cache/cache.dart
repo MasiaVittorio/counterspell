@@ -81,7 +81,7 @@ class SavedCardsCache extends StatelessWidget {
     return RadioHeaderedAlert<bool>(
       initialValue: stage.panelController.alertController.savedStates[pageKey] ?? true,
       onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
-      orderedValues: [true, false],
+      orderedValues: const [true, false],
       items: const <bool, RadioHeaderedItem>{
         true: RadioHeaderedItem(
           longTitle: "Players with saved cards",

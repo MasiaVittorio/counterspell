@@ -21,39 +21,32 @@ class Leaderboards extends StatelessWidget {
     return RadioHeaderedAlert<_LeadType>(
       initialValue: stage.panelController.alertController.savedStates[pageKey] ?? _LeadType.history,
       onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
-      orderedValues: [_LeadType.stats, _LeadType.history, _LeadType.info],
-      items: items,
+      orderedValues: const [_LeadType.stats, _LeadType.history, _LeadType.info],
+      items: const <_LeadType,RadioHeaderedItem>{
+        _LeadType.stats: RadioHeaderedItem(
+          longTitle: "Statistics",
+          title: "Stats",
+          icon: Icons.timeline,
+          child: LeaderboardsStats(),
+          alreadyScrollableChild: true,
+        ),
+        _LeadType.history: RadioHeaderedItem(
+          longTitle: "Past games",
+          title: "Games",
+          icon: Icons.history,
+          child: PastGamesList(),
+          alreadyScrollableChild: true,
+        ),
+        _LeadType.info: RadioHeaderedItem(
+          longTitle: "Leaderboards info",
+          title: "Info",
+          icon: Icons.info,
+          unselectedIcon: Icons.info_outline,
+          child: LeaderboardsSettings(),
+        ),
+      },
       // animationType: RadioAnimation.none,
     );
   }
-  
-
-  static const Map<_LeadType,RadioHeaderedItem> items = <_LeadType,RadioHeaderedItem>{
-
-    _LeadType.stats: RadioHeaderedItem(
-      longTitle: "Statistics",
-      title: "Stats",
-      icon: Icons.timeline,
-      child: LeaderboardsStats(),
-      alreadyScrollableChild: true,
-    ),
-
-    _LeadType.history: RadioHeaderedItem(
-      longTitle: "Past games",
-      title: "Games",
-      icon: Icons.history,
-      child: PastGamesList(),
-      alreadyScrollableChild: true,
-    ),
-
-
-    _LeadType.info: RadioHeaderedItem(
-      longTitle: "Leaderboards info",
-      title: "Info",
-      icon: Icons.info,
-      unselectedIcon: Icons.info_outline,
-      child: LeaderboardsSettings(),
-    ),
-  };
 
 }

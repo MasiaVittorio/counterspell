@@ -40,7 +40,7 @@ class CSSizes {
   // static const firstFlatPadding = true;
 
   static const double flatPadding = 12.0;
-  static const Widget flatPaddingY = const SizedBox(height: flatPadding);
-  static const Widget flatPaddingX = const SizedBox(width: flatPadding);
+  static const Widget flatPaddingY = SizedBox(height: flatPadding);
+  static const Widget flatPaddingX = SizedBox(width: flatPadding);
 
 }

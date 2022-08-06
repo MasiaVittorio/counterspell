@@ -23,7 +23,7 @@ class ThemePResetter extends StatelessWidget {
                       final derivedScheme = CSColorScheme(
                         "",
                         primary: primary,
-                        accent: accent!,
+                        accent: accent,
                         perPage: perPage!,
                         light: brightness.isLight,
                         darkStyle: darkStyle,

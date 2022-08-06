@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:counter_spell_new/core.dart';
 
 class CSColorScheme {
-  final String? name;
+
+  final String name;
   final Color primary;
   final Color accent;
-  final Map<CSPage, Color?> perPage;
-  final bool? light;
+  final Map<CSPage, Color> perPage;
+  final bool light;
   final DarkStyle? darkStyle;
   final Color defenceColor;
   final StageColorPlace colorPlace;
@@ -23,42 +24,41 @@ class CSColorScheme {
   });
 
   CSColorScheme renamed(String newName) => CSColorScheme(
-        newName,
-        colorPlace: this.colorPlace,
-        primary: this.primary,
-        accent: this.accent,
-        perPage: this.perPage,
-        light: this.light,
-        darkStyle: this.darkStyle,
-        defenceColor: this.defenceColor,
-      );
+    newName,
+    colorPlace: this.colorPlace,
+    primary: this.primary,
+    accent: this.accent,
+    perPage: this.perPage,
+    light: this.light,
+    darkStyle: this.darkStyle,
+    defenceColor: this.defenceColor,
+  );
 
   Widget applyBaseTheme({
     required Widget child,
-  }) =>
-      Theme(
-        data: StageThemeUtils.getThemeData(
-          accent: this.accent,
-          brightness: this.light! ? Brightness.light : Brightness.dark,
-          darkStyle: this.darkStyle,
-          primary: this.primary,
-        ),
-        child: child,
-      );
+  }) => Theme(
+    data: StageThemeUtils.getThemeData(
+      accent: this.accent,
+      brightness: this.light ? Brightness.light : Brightness.dark,
+      darkStyle: this.darkStyle,
+      primary: this.primary,
+    ),
+    child: child,
+  );
 
   Map<String, dynamic> get toJson => {
-        "name": this.name,
-        "primary": this.primary.value,
-        "accent": this.accent.value,
-        "perPage": <String, int?>{
-          for (final entry in this.perPage.entries)
-            CSPages.nameOf(entry.key)!: entry.value?.value,
-        },
-        "light": this.light,
-        "darkStyle": this.darkStyle.name,
-        "defenceColor": this.defenceColor.value,
-        "colorPlace": this.colorPlace.name,
-      };
+    "name": this.name,
+    "primary": this.primary.value,
+    "accent": this.accent.value,
+    "perPage": <String, int?>{
+      for (final entry in this.perPage.entries)
+        CSPages.nameOf(entry.key)!: entry.value.value,
+    },
+    "light": this.light,
+    "darkStyle": this.darkStyle?.name,
+    "defenceColor": this.defenceColor.value,
+    "colorPlace": this.colorPlace.name,
+  };
 
   static CSColorScheme fromJson(dynamic json) => CSColorScheme(
         json["name"],
@@ -70,7 +70,7 @@ class CSColorScheme {
                 Color((entry.value ?? 0) as int),
         },
         light: json["light"],
-        darkStyle: DarkStyles.fromName(json["darkStyle"]),
+        darkStyle: json["darkStyle"] == null ? null : DarkStyle.fromName(json["darkStyle"]),
         defenceColor: Color(json["defenceColor"] ?? CSColors.blue.value),
         colorPlace: StageColorPlaces.fromName(json["colorPlace"]),
       );
@@ -100,7 +100,7 @@ class CSColorScheme {
       other.light == this.light &&
       other.defenceColor == this.defenceColor &&
       other.colorPlace == this.colorPlace &&
-      (other.darkStyle == this.darkStyle || this.light!);
+      (other.darkStyle == this.darkStyle || this.light);
 
   static const String _defaultLightName = "Light default";
   static const CSColorScheme defaultLight = CSColorScheme(

@@ -21,15 +21,15 @@ class PresetsAlert extends StatelessWidget {
           List<CSColorScheme> all = [...CSColorScheme.defaults.values, ...savedSchemes.values];
           List<CSColorScheme> lights = [
             for(final s in all)
-              if(s.light!) s,
-          ]..sort((s1,s2)=>s1.name!.compareTo(s2.name!));
+              if(s.light) s,
+          ]..sort((s1,s2)=>s1.name.compareTo(s2.name));
 
           Map<DarkStyle,List<CSColorScheme>> darks = {
             for(final style in DarkStyle.values)
               style: [
                 for(final s in all) 
-                  if((!s.light!) && s.darkStyle == style) s,
-              ]..sort((s1,s2)=>s1.name!.compareTo(s2.name!)),
+                  if((!s.light) && s.darkStyle == style) s,
+              ]..sort((s1,s2)=>s1.name.compareTo(s2.name)),
           };
 
           return Column(children: <Widget>[
@@ -74,7 +74,7 @@ class PresetTile extends StatelessWidget {
       child: ListTile(
         contentPadding: const EdgeInsets.all(0.0),
         title: Text(
-          scheme.name!, 
+          scheme.name, 
           style: TextStyle(color: scheme.accent),
         ),
         leading: Padding(
@@ -148,20 +148,20 @@ class PresetTile extends StatelessWidget {
 
           Map<CSPage,Color> perPage = <CSPage,Color>{
             for(final entry in scheme.perPage.entries)
-              entry.key: Color(entry.value!.value),
+              entry.key: Color(entry.value.value),
           };  // Copy map
 
           themeController.colorPlace.set(scheme.colorPlace);
-          if(scheme.light!){
+          if(scheme.light){
             if(themeController.brightness.autoDark.value!){
               themeController.brightness.autoDark.set(false);
             }
             themeController.brightness.brightness.setDistinct(Brightness.light);
             // need to be set before editing colors
           
-            themeController.currentColorsController!.editPanelPrimary(scheme.primary);
-            themeController.currentColorsController!.editMainPagedPrimaries(perPage);
-            themeController.currentColorsController!.editAccent(scheme.accent);
+            themeController.currentColorsController.editPanelPrimary(scheme.primary);
+            themeController.currentColorsController.editMainPagedPrimaries(perPage);
+            themeController.currentColorsController.editAccent(scheme.accent);
           } else {
             if(themeController.brightness.autoDark.value!){
               themeController.brightness.autoDark.set(false);
@@ -170,9 +170,9 @@ class PresetTile extends StatelessWidget {
             themeController.brightness.darkStyle.setDistinct(scheme.darkStyle!);
             // need to be set before editing colors
 
-            themeController.currentColorsController!.editPanelPrimary(scheme.primary);
-            themeController.currentColorsController!.editMainPagedPrimaries(perPage);
-            themeController.currentColorsController!.editAccent(scheme.accent);
+            themeController.currentColorsController.editPanelPrimary(scheme.primary);
+            themeController.currentColorsController.editMainPagedPrimaries(perPage);
+            themeController.currentColorsController.editAccent(scheme.accent);
           }
           themer.defenceColor.set(scheme.defenceColor);
           stage.closePanel();

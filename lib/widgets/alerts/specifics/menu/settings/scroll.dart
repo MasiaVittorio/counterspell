@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:counter_spell_new/core.dart';
 
 class ScrollSensitivity extends StatelessWidget {
@@ -28,7 +30,7 @@ class ScrollSensitivity extends StatelessWidget {
         divisions: 100,
         onChangeEnd: _sens.set,
         value: sens!,
-        leading: Icon(Icons.gesture),
+        leading: const Icon(Icons.gesture),
         defaultValue: CSSettingsScroll.sensVal,
       ),),
       titleSize: 56.0 + 16, 
@@ -86,7 +88,7 @@ class ScrollSensitivity extends StatelessWidget {
               max: 3.5,
               divisions: 23,
               defaultValue: CSSettingsScroll.sensPreBoostVal,
-              leading: Icon(Icons.add_circle_outline),
+              leading: const Icon(Icons.add_circle_outline),
               titleBuilder: (val) 
                 => Text("Boost multiplier: ${val.toStringAsFixed(1)}"),
             )),
@@ -107,7 +109,7 @@ class ScrollSensitivity extends StatelessWidget {
               min: 0.1,
               max: 0.95,
               divisions: 17,
-              leading: Icon(Icons.remove_circle_outline),
+              leading: const Icon(Icons.remove_circle_outline),
               defaultValue: CSSettingsScroll.sens1StaticVal,
               titleBuilder: (val) 
                 => Text("Dampening multiplier: ${val.toStringAsFixed(2)}"),

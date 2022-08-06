@@ -5,7 +5,7 @@ import 'package:counter_spell_new/widgets/stage/panel/collapsed_components/delay
 
 class LocalDelayer extends StatelessWidget {
 
-  LocalDelayer(this.localScroller, this.bloc);
+  const LocalDelayer(this.localScroller, this.bloc, {super.key});
 
   final CSScroller? localScroller;
   final CSBloc? bloc;

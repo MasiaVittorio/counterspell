@@ -14,32 +14,32 @@ class LeaderboardsSettings extends StatelessWidget {
         const SectionTitle("Information"),
         const SubSection([
           ListTile(
-            leading: const Icon(Icons.history),
-            title: const Text("Past games"),
-            subtitle: const Text("CounterSpell automatically saves information about the games you play."),
+            leading: Icon(Icons.history),
+            title: Text("Past games"),
+            subtitle: Text("CounterSpell automatically saves information about the games you play."),
           ),
         ]),
         const SubSection([
           ListTile(
-            leading: const Icon(McIcons.pencil_outline),
-            title: const Text("Edit past games"),
-            subtitle: const Text("You can delete a single game at any time or manually set its winner and commanders used."),
+            leading: Icon(McIcons.pencil_outline),
+            title: Text("Edit past games"),
+            subtitle: Text("You can delete a single game at any time or manually set its winner and commanders used."),
           ),
         ]),
         const SubSection([
           ListTile(
-            leading: const Icon(Icons.timeline),
-            title: const Text("Statistics"),
-            subtitle: const Text("All the statistics are derived from the information saved in the list of past games."),
+            leading: Icon(Icons.timeline),
+            title: Text("Statistics"),
+            subtitle: Text("All the statistics are derived from the information saved in the list of past games."),
           ),
         ]),
         const SubSection([
           ListTile(
-            leading: const Icon(McIcons.trophy),
-            title: const Text("Select a winner!"),
-            subtitle: const Text("Every game where a winner cannot be automatically detected and it's not specified will not count for any statistics."),
+            leading: Icon(McIcons.trophy),
+            title: Text("Select a winner!"),
+            subtitle: Text("Every game where a winner cannot be automatically detected and it's not specified will not count for any statistics."),
           ),
-        ], margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),),
+        ], margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),),
       ].separateWith(CSWidgets.height10)),
 
       ListTile(

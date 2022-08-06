@@ -25,7 +25,7 @@ class ImageAlign extends StatelessWidget {
         child: settings.imageAlignments.build((_,alignments) => Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            PanelTitle("Image alignment"),
+            const PanelTitle("Image alignment"),
             Container(
               padding: const EdgeInsets.symmetric(horizontal:8.0),
               height: _imageSize,

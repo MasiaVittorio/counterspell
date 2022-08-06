@@ -99,7 +99,7 @@ class PlayerDetailsInfo extends StatelessWidget {
                 onTap: () => DetailsUtils.renamePlayer(stage, name, bloc, names),
               ),
               ListTile(
-                title: Text("Delete $name", style: TextStyle(color: CSColors.delete),),
+                title: Text("Delete $name", style: const TextStyle(color: CSColors.delete),),
                 leading: const Icon(McIcons.delete_forever, color: CSColors.delete,),
                 onTap: () => DetailsUtils.deletePlayer(stage, name, bloc, names),
               ),

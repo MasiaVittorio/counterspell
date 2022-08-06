@@ -5,8 +5,8 @@ class CSAchievements extends BlocBase {
   // Disposer ===================
   @override
   void dispose() {
-    this.map.dispose();
-    this.todo.dispose();
+    map.dispose();
+    todo.dispose();
   }
 
   //=================================
@@ -22,18 +22,18 @@ class CSAchievements extends BlocBase {
   //===================================
   // Constructor ===================
   CSAchievements(this.parent){
-    final bool reset = false;
-    this.map = BlocMap<String?,Achievement>(
+    const bool reset = false;
+    map = BlocMap<String?,Achievement>(
       Achievements.map,
       key: "counterspell_bloc_achievementsBloc_blocMap_mapOfAchievements",
       itemToJson: (item) => item!.json,
       jsonToItem: (json) => Achievement.fromJson(json),
       readCallback: (_){
         _mapReading = false;
-        this.checkNewAchievements(reset);
+        checkNewAchievements(reset);
       }
     );
-    this.todo = PersistentVar<Set<String>>(
+    todo = PersistentVar<Set<String>>(
       initVal: const <String>{
         Achievements.countersShortTitle,
         Achievements.vampireShortTitle,
@@ -45,7 +45,7 @@ class CSAchievements extends BlocBase {
       copier: (s) => <String>{...s},
       readCallback: (_){
         _todoReading = false;
-        this.checkNewAchievements(reset);
+        checkNewAchievements(reset);
       }
     );
 
@@ -67,17 +67,17 @@ class CSAchievements extends BlocBase {
 
     /// checks if new achievements are made by the dev and must be saved in this variable
     for(final entry in Achievements.map.entries){
-      this.map.value[entry.key] 
+      map.value[entry.key] 
         = (forceResetDev) 
           ? entry.value 
-          : this.map.value[entry.key]
+          : map.value[entry.key]
               ?.updateStats(entry.value) 
                 ?? entry.value;
     }
-    this.map.refresh();
+    map.refresh();
 
     if(forceResetDev){
-      this.todo.set(const <String>{
+      todo.set(const <String>{
         Achievements.countersShortTitle,
         Achievements.vampireShortTitle,
         Achievements.rollerShortTitle,
@@ -104,7 +104,7 @@ class CSAchievements extends BlocBase {
 
   void checkSnackBar(Achievement oldOne, Achievement newOne){
     if(newOne.medal.biggerThan(oldOne.medal)){
-      this.parent.stage.showSnackBar(StageSnackBar(
+      parent.stage.showSnackBar(StageSnackBar(
         title: Text(newOne.shortTitle),
         subtitle: Text("Reached: ${newOne.medal.name}"),
         secondary: MedalIcon(newOne.medal),
@@ -118,70 +118,76 @@ class CSAchievements extends BlocBase {
   }
 
   void checkNewTODO(String achievement){
-    if(this.map.value[achievement]!.gold){
-      this.todo.value.remove(achievement);
+    if(map.value[achievement]!.gold){
+      todo.value.remove(achievement);
 
-      final Achievement? newUndone = this.map.value.values.firstWhere(
-        (a) => !a!.gold && !this.todo.value.contains(a.shortTitle), 
+      final Achievement? newUndone = map.value.values.firstWhere(
+        (a) => !a!.gold && !todo.value.contains(a.shortTitle), 
         orElse: () => null,
       );
 
       if(newUndone != null){
-        this.todo.value.add(newUndone.shortTitle);
+        todo.value.add(newUndone.shortTitle);
       }
-      this.todo.refresh();
+      todo.refresh();
     }
   }
 
 
   // ===> Interact with achievements
   bool achieve(String shortTitle, String? key){
-    if(!this.todo.value.contains(shortTitle))
+    if(!todo.value.contains(shortTitle)) {
       return false;
+    }
 
     final Achievement? oldAchievement 
-        = this.map.value[shortTitle] 
+        = map.value[shortTitle] 
         ?? Achievements.mapQuality[shortTitle];
 
     if(oldAchievement == null) return false;
     if(oldAchievement is QualityAchievement){
       final Achievement newAchievement = oldAchievement.achieve(key); 
-      this.map.value[shortTitle] = newAchievement;
-      this.map.refresh(key: shortTitle);
-      this.checkNewTODO(shortTitle);
-      this.checkSnackBar(oldAchievement, newAchievement);
+      map.value[shortTitle] = newAchievement;
+      map.refresh(key: shortTitle);
+      checkNewTODO(shortTitle);
+      checkSnackBar(oldAchievement, newAchievement);
       return true;
-    } else return false;
+    } else {
+      return false;
+    }
   }
 
   bool incrementBy(String shortTitle, int by){
-    if(!this.todo.value.contains(shortTitle))
+    if(!todo.value.contains(shortTitle)) {
       return false;
+    }
 
     final Achievement? oldAchievement 
-        = this.map.value[shortTitle] 
+        = map.value[shortTitle] 
         ?? Achievements.mapQuantity[shortTitle];
 
     if(oldAchievement == null) return false;
     if(oldAchievement is QuantityAchievement){
       final Achievement newAchievement = oldAchievement.incrementBy(by); 
-      this.map.value[shortTitle] = newAchievement;
-      this.map.refresh(key: shortTitle);
-      this.checkNewTODO(shortTitle);
-      this.checkSnackBar(oldAchievement, newAchievement);
+      map.value[shortTitle] = newAchievement;
+      map.refresh(key: shortTitle);
+      checkNewTODO(shortTitle);
+      checkSnackBar(oldAchievement, newAchievement);
       return true;
-    } else return false;
+    } else {
+      return false;
+    }
   }
-  bool increment(String shortTitle) => this.incrementBy(shortTitle, 1);
+  bool increment(String shortTitle) => incrementBy(shortTitle, 1);
 
   bool reset(String shortTitle, {bool force = false}){
     final Achievement? achievement 
-        = this.map.value[shortTitle] 
+        = map.value[shortTitle] 
         ?? Achievements.map[shortTitle];
     if(achievement == null) return false;
     if(achievement.gold && !(force)) return false;
-    this.map.value[shortTitle] = achievement.reset;
-    this.map.refresh(key: shortTitle);
+    map.value[shortTitle] = achievement.reset;
+    map.refresh(key: shortTitle);
     if(!todo.value.contains(shortTitle)){
       todo.value.add(shortTitle);
       while(todo.value.length > 3){
@@ -202,8 +208,9 @@ class CSAchievements extends BlocBase {
   void gameActionPerformed(GameAction action){
 
     if(!todo.value.contains(Achievements.vampireShortTitle) 
-      && !todo.value.contains(Achievements.vampireShortTitle))
+      && !todo.value.contains(Achievements.vampireShortTitle)) {
       return;
+    }
 
     if(action is GAComposite){
       final Set<int> increments = <int>{
@@ -211,35 +218,38 @@ class CSAchievements extends BlocBase {
           if(a is PALife) a.increment,
       };
       if(increments.length > 1){
-        this.incrementBy(Achievements.vampireShortTitle, increments.first.abs());
+        incrementBy(Achievements.vampireShortTitle, increments.first.abs());
       }
     }
     if(action is GALife){
       if(action.selected.values.any((v) => v==null)){
-        this.incrementBy(Achievements.vampireShortTitle, action.increment.abs());
+        incrementBy(Achievements.vampireShortTitle, action.increment.abs());
       }
     }
   }
 
   void gameRestarted(GameRestartedFrom? from){
-    if(!todo.value.contains(Achievements.uiExpertShortTitle)) 
+    if(!todo.value.contains(Achievements.uiExpertShortTitle)) {
       return;
-    if(from == null) 
+    }
+    if(from == null) {
       return;
-    this.achieve(Achievements.uiExpertShortTitle, from.name);
-    this.reset(Achievements.countersShortTitle, force: false);
+    }
+    achieve(Achievements.uiExpertShortTitle, from.name);
+    reset(Achievements.countersShortTitle, force: false);
   }
 
   void playGroupEdited(bool fromClosedPanel){
-    if(!todo.value.contains(Achievements.uiExpertShortTitle)) 
+    if(!todo.value.contains(Achievements.uiExpertShortTitle)) {
       return;
-    this.achieve(Achievements.uiExpertShortTitle, fromClosedPanel ? "Playgroup panel" : "Playgroup menu");
+    }
+    achieve(Achievements.uiExpertShortTitle, fromClosedPanel ? "Playgroup panel" : "Playgroup menu");
   }
 
   void counterChosen(String? newCounterLongName)
-    => this.achieve(Achievements.countersShortTitle, newCounterLongName);
+    => achieve(Achievements.countersShortTitle, newCounterLongName);
 
   void flippedOrRolled()
-    => this.increment(Achievements.rollerShortTitle);
+    => increment(Achievements.rollerShortTitle);
 }
 

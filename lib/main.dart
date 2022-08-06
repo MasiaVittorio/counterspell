@@ -25,7 +25,7 @@ class TopNavigator extends StatelessWidget {
 class CounterSpell extends StatefulWidget {
   // This widget is the root of your application.
   @override
-  _CounterSpellState createState() => _CounterSpellState();
+  State createState() => _CounterSpellState();
 }
 
 class _CounterSpellState extends State<CounterSpell> {
@@ -47,11 +47,10 @@ class _CounterSpellState extends State<CounterSpell> {
   @override
   void dispose() {
     _subscription.cancel();
-    print("disposing counterspell logic");
     super.dispose();
   }
 
-  void logAdd(String newLine) => this.bloc.payments.logAdd(newLine);
+  void logAdd(String newLine) => bloc.payments.logAdd(newLine);
 
   void reactToNewPurchases(List<PurchaseDetails> purchases) {
     logAdd("react: 0 -> entered with list of lenght: ${purchases.length}");
@@ -116,7 +115,12 @@ class _MaterialApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: theme,
         title: 'CounterSpell',
-        home: const CSHomePage(key: WidgetsKeys.homePage),
+        home: const DividerTheme(
+          data: DividerThemeData(
+            endIndent: 16, indent: 16, space: 2,
+          ),
+          child: CSHomePage(key: WidgetsKeys.homePage),
+        ),
       ),
     );
   }

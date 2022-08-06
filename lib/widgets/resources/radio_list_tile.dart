@@ -16,7 +16,7 @@ class SidRadioListTile<T> extends StatelessWidget {
 
   final Widget? secondary;
 
-  SidRadioListTile({
+  const SidRadioListTile({
     required this.value,
     required this.groupValue,
     required this.onChanged,
@@ -44,10 +44,10 @@ class SidRadioListTile<T> extends StatelessWidget {
           leading: Radio(
             value: value,
             groupValue: groupValue,
-            onChanged: this.onChanged,
+            onChanged: onChanged,
             activeColor: activeColor,
           ),
-          onTap: () => this.onChanged(this.value),
+          onTap: () => onChanged(value),
           title: title,
           subtitle: subtitle,
           trailing: secondary,

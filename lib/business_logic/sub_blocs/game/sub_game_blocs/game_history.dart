@@ -53,13 +53,13 @@ class CSGameHistory {
   //========================
   // Actions
 
-  void forward() => this.remember(1);
-  void remember(int index) => this.listController.insert(
+  void forward() => remember(1);
+  void remember(int index) => listController.insert(
     index, 
     duration: CSAnimations.fast,
   );
 
-  void back(GameHistoryData outgoingData, DateTime? firstTime) => this.forget(1, outgoingData, firstTime);
+  void back(GameHistoryData outgoingData, DateTime? firstTime) => forget(1, outgoingData, firstTime);
   void forget(int index, GameHistoryData outgoingData, DateTime? firstTime) => listController.remove(
     //0 = nonsense (the first column on the right is the current state)
     //1 = latest game action

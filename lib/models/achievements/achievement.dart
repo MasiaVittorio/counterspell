@@ -114,43 +114,46 @@ class QuantityAchievement extends Achievement {
   //=====================================
   // Getters ========================
   @override 
-  int? get count => this.currentCount;
+  int? get count => currentCount;
 
   QuantityAchievement withCount(int? newCount) => QuantityAchievement(
-    this.shortTitle,
-    title: this.title,
-    text: this.text,
-    targetBronze: this.targetBronze,
-    targetSilver: this.targetSilver,
-    targetGold: this.targetGold,
+    shortTitle,
+    title: title,
+    text: text,
+    targetBronze: targetBronze,
+    targetSilver: targetSilver,
+    targetGold: targetGold,
     currentCount: newCount,
   );
 
-  QuantityAchievement incrementBy(int by) => withCount((this.count! + by).clamp(0, this.targetGold));
-  QuantityAchievement get increment => this.incrementBy(1);
-  QuantityAchievement get decrement => this.incrementBy(-1);
+  QuantityAchievement incrementBy(int by) => withCount((count! + by).clamp(0, targetGold));
+  QuantityAchievement get increment => incrementBy(1);
+  QuantityAchievement get decrement => incrementBy(-1);
 
   @override
   QuantityAchievement get reset => withCount(0);
 
   @override
   QuantityAchievement updateStats(Achievement updated){
-    if(updated is QuantityAchievement && updated.shortTitle == this.shortTitle){
-      return updated.withCount(this.count);
-    } else return this;
+    if(updated is QuantityAchievement && updated.shortTitle == shortTitle){
+      return updated.withCount(count);
+    } else {
+      return this;
+    }
   }
 
   //=========================================
   // Persistence ========================
+  @override
   dynamic get json => <String,dynamic>{
     "type": "quantity",
-    "title": this.title,
-    "shortTitle": this.shortTitle,
-    "text": this.text,
-    "currentCount": this.currentCount,
-    "targetBronze": this.targetBronze,
-    "targetSilver": this.targetSilver,
-    "targetGold": this.targetGold,
+    "title": title,
+    "shortTitle": shortTitle,
+    "text": text,
+    "currentCount": currentCount,
+    "targetBronze": targetBronze,
+    "targetSilver": targetSilver,
+    "targetGold": targetGold,
   };
 
   factory QuantityAchievement.fromJson(dynamic json)
@@ -201,52 +204,56 @@ class QualityAchievement extends Achievement {
   @override
   int get count {
     int c = 0;
-    for(final value in this.targets.values){
+    for(final value in targets.values){
       if(value) ++c;
     }
     return c;
   }
 
   QualityAchievement achieve(String? key) => withTargets(<String,bool>{
-    for(final entry in this.targets.entries)
+    for(final entry in targets.entries)
       entry.key: entry.value || (entry.key == key),
   });
 
+  @override
   QualityAchievement get reset => withTargets(<String,bool>{
-    for(final entry in this.targets.entries)
+    for(final entry in targets.entries)
       entry.key: false,
   });
 
   QualityAchievement withTargets(Map<String,bool> newTargets) => QualityAchievement(
-    this.shortTitle,
-    title: this.title,
-    text: this.text,
-    targetBronze: this.targetBronze,
-    targetSilver: this.targetSilver,
-    targetGold: this.targetGold,
+    shortTitle,
+    title: title,
+    text: text,
+    targetBronze: targetBronze,
+    targetSilver: targetSilver,
+    targetGold: targetGold,
     targets: newTargets,
   ); 
  
 
   @override
   QualityAchievement updateStats(Achievement updated){
-    if(updated is QualityAchievement && updated.shortTitle == this.shortTitle){
-      return updated.withTargets(this.targets);
-    } else return this;
+    if(updated is QualityAchievement && updated.shortTitle == shortTitle){
+      return updated.withTargets(targets);
+    } else {
+      return this;
+    }
   }
 
 
   //=========================================
   // Persistence ========================
+  @override
   dynamic get json => <String,dynamic>{
     "type": "quality",
-    "title": this.title,
-    "shortTitle": this.shortTitle,
-    "text": this.text,
-    "targets": this.targets,
-    "targetBronze": this.targetBronze,
-    "targetSilver": this.targetSilver,
-    "targetGold": this.targetGold,
+    "title": title,
+    "shortTitle": shortTitle,
+    "text": text,
+    "targets": targets,
+    "targetBronze": targetBronze,
+    "targetSilver": targetSilver,
+    "targetGold": targetGold,
   };
 
   factory QualityAchievement.fromJson(dynamic json)

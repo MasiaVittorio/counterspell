@@ -41,7 +41,7 @@ class ArenaLayout3 extends StatelessWidget {
     }
   }
 
-  bool get intersection => this.centerAlignment 
+  bool get intersection => centerAlignment 
     == ArenaCenterAlignment.intersection;
 
 
@@ -99,7 +99,7 @@ class ArenaLayout3 extends StatelessWidget {
 
     Widget? positionedCenterChild;
 
-    if(this.centerChildBuilder != null){
+    if(centerChildBuilder != null){
 
       final bool portrait = !landscape;
       final bool normal = !flipped;
@@ -201,7 +201,7 @@ class ArenaLayout3 extends StatelessWidget {
 
     Widget? positionedCenterChild;
 
-    if(this.centerChildBuilder != null){
+    if(centerChildBuilder != null){
       /// No padding, intersection always at center
       if(animateCenterWidget){
         /// Still putting in the animation because the tree has to be the same

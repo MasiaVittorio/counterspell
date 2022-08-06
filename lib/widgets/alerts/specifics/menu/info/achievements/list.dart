@@ -17,7 +17,7 @@ class AchievementsAlert extends StatelessWidget {
     return RadioHeaderedAlert<bool>(  // true = done
       initialValue: stage.panelController.alertController.savedStates[pageKey] ?? initialDone ?? false,
       onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
-      orderedValues: [false,true], 
+      orderedValues: const [false,true], 
       accentSelected: true,
       items: const <bool,RadioHeaderedItem>{
         false: RadioHeaderedItem(

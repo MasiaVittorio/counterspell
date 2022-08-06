@@ -64,7 +64,7 @@ class CurrentStatePlayerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PlayerState playerState = gameState.players[name]!.states[stateIndex];
-    final double width = CSSizes.minTileSize;
+    const double width = CSSizes.minTileSize;
 
     return Container(
       height: tileSize,
@@ -100,7 +100,7 @@ class PieceOfInformation extends StatelessWidget {
   final Color defenceColor;
   final Map<CSPage?,Color?>? pagesColor;
 
-  PieceOfInformation({
+  const PieceOfInformation({
     required this.pagesColor,
     required this.damageType,
     required this.value,
@@ -146,7 +146,7 @@ class PieceOfInformation extends StatelessWidget {
           ),
           Text(
             "$value",
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
             ),
           ),

@@ -19,7 +19,7 @@ class PlayGroupEditor extends StatefulWidget {
       (howMany.clamp(1, 5.5)) * playerTileSize + titleSize + newPlayerSize;
 
   @override
-  _PlayGroupEditorState createState() => _PlayGroupEditorState();
+  State createState() => _PlayGroupEditorState();
 }
 
 class _PlayGroupEditorState extends State<PlayGroupEditor> {
@@ -32,15 +32,15 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   @override
   void initState() {
     super.initState();
-    this.controller = TextEditingController();
-    this.focusNode = FocusNode();
+    controller = TextEditingController();
+    focusNode = FocusNode();
     widget.bloc.achievements.playGroupEdited(widget.fromClosedPanel);
   }
 
   @override
   void dispose() {
-    this.focusNode!.dispose();
-    this.controller!.dispose();
+    focusNode!.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -57,19 +57,19 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   }
 
   void startEditing(String who) {
-    this.setState(() {
-      this.edited = who;
+    setState(() {
+      edited = who;
     });
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      this.focusNode!.requestFocus();
+      focusNode!.requestFocus();
     });
   }
 
   void _endEditing() {
-    this.controller!.clear();
-    this.setState(() {
-      this.edited = null;
-      this.focusNode!.unfocus();
+    controller!.clear();
+    setState(() {
+      edited = null;
+      focusNode!.unfocus();
     });
   }
 
@@ -79,35 +79,35 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     } else {
       state!.renamePlayer(edited, controller!.text);
     }
-    this._endEditing();
-    this._reCalcSize();
+    _endEditing();
+    _reCalcSize();
   }
 
   void cancel() {
-    this._endEditing();
+    _endEditing();
   }
 
   void startNewGroup() {
-    this.setState(() {
-      this.newGrouping = true;
+    setState(() {
+      newGrouping = true;
     });
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      this.focusNode!.requestFocus();
+      focusNode!.requestFocus();
     });
   }
 
   void _endNewGrouping() {
-    this.controller!.clear();
-    this.setState(() {
-      this.newGrouping = false;
-      this.focusNode!.unfocus();
+    controller!.clear();
+    setState(() {
+      newGrouping = false;
+      focusNode!.unfocus();
     });
   }
 
   int? validateNumber() {
     int? result;
     try {
-      final int howMany = int.parse(this.controller!.text);
+      final int howMany = int.parse(controller!.text);
       if (howMany > 0 && howMany <= maxNumberOfPlayers) {
         result = howMany;
       }
@@ -120,47 +120,47 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   void confirmNewGroup() {
     final int? howMany = validateNumber();
     if (howMany != null) {
-      this.state!.startNew({
+      state!.startNew({
         for (int i = 1; i <= howMany; ++i) "Player $i",
       });
-      this._endNewGrouping();
+      _endNewGrouping();
     }
-    this._reCalcSize();
+    _reCalcSize();
   }
 
   void cancelNewGroup() {
-    this._endNewGrouping();
+    _endNewGrouping();
   }
 
   void start(String? who) {
     if (who != null) {
       if (newGrouping) {
-        this._endNewGrouping();
+        _endNewGrouping();
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          this.startEditing(who);
+          startEditing(who);
         });
       } else if (edited != null) {
         if (edited == who) {
           return;
         } else {
-          this._endEditing();
+          _endEditing();
           SchedulerBinding.instance.addPostFrameCallback((_) {
-            this.startEditing(who);
+            startEditing(who);
           });
         }
       } else {
-        this.startEditing(who);
+        startEditing(who);
       }
     } else {
       if (newGrouping) {
         return;
       } else if (edited != null) {
-        this._endEditing();
+        _endEditing();
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          this.startNewGroup();
+          startNewGroup();
         });
       } else {
-        this.startNewGroup();
+        startNewGroup();
       }
     }
   }
@@ -171,15 +171,15 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     final backgroundColor = themeData.scaffoldBackgroundColor;
 
     return IconTheme.merge(
-      data: IconThemeData(opacity: 1.0),
+      data: const IconThemeData(opacity: 1.0),
       child: WillPopScope(
         onWillPop: () async {
           if (edited != null) {
-            this._endEditing();
+            _endEditing();
             return false;
           }
           if (newGrouping) {
-            this._endNewGrouping();
+            _endNewGrouping();
             return false;
           }
           return true;
@@ -192,18 +192,18 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                 key: const ValueKey(
                     "counterspell_key_widget_textfield_groupeditor"),
                 onChanged: (_) {
-                  if (this.mounted) {
-                    this.setState(() {});
+                  if (mounted) {
+                    setState(() {});
                   }
                 },
-                controller: this.controller,
+                controller: controller,
                 keyboardType:
                     newGrouping ? TextInputType.number : TextInputType.text,
                 textCapitalization: TextCapitalization.words,
                 maxLines: 1,
                 // maxLength: 20,
                 // autofocus: true,
-                focusNode: this.focusNode,
+                focusNode: focusNode,
                 decoration: InputDecoration(
                   isDense: true,
                   hintText: edited == ""
@@ -215,7 +215,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                               : null,
                   errorText: (newGrouping && validateNumber() == null)
                       ? "Insert a number between 2 and $maxNumberOfPlayers"
-                      : (edited == "" && names.contains(this.controller!.text))
+                      : (edited == "" && names.contains(controller!.text))
                           ? "Name a different player"
                           : null,
                 ),
@@ -224,7 +224,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
               return Column(
                 children: <Widget>[
                   const Material(
-                    child: const PanelTitle("Edit Playgroup"),
+                    child: PanelTitle("Edit Playgroup"),
                   ),
                   Expanded(
                     child: Material(
@@ -300,8 +300,8 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                   child: InkResponse(
                     splashColor: Colors.transparent,
                     onTap: () {
-                      this.controller!.text = savedName;
-                      this.confirm();
+                      controller!.text = savedName;
+                      confirm();
                     },
                     child: Chip(
                       onDeleted: () => group!.unSaveName(savedName),
@@ -326,12 +326,12 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   Widget editNewPlayer(Widget textField) {
     return ListTile(
       leading: IconButton(
-        icon: Icon(Icons.close),
-        onPressed: this.cancel,
+        icon: const Icon(Icons.close),
+        onPressed: cancel,
       ),
       trailing: IconButton(
-        icon: Icon(Icons.check),
-        onPressed: this.confirm,
+        icon: const Icon(Icons.check),
+        onPressed: confirm,
       ),
       title: textField,
     );
@@ -339,13 +339,13 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
 
   Widget promptNewPlayer() {
     return ListTile(
-      onTap: () => this.start(""),
+      onTap: () => start(""),
       leading:
-          IconButton(onPressed: () => this.start(""), icon: Icon(Icons.add)),
-      title: Text("New Player"),
+          IconButton(onPressed: () => start(""), icon: const Icon(Icons.add)),
+      title: const Text("New Player"),
       trailing: IconButton(
-        onPressed: () => this.start(null),
-        icon: Icon(Icons.repeat),
+        onPressed: () => start(null),
+        icon: const Icon(Icons.repeat),
       ),
     );
   }
@@ -353,12 +353,12 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   Widget editNewGroup(Widget textField) {
     return ListTile(
       leading: IconButton(
-        icon: Icon(Icons.close),
-        onPressed: this.cancelNewGroup,
+        icon: const Icon(Icons.close),
+        onPressed: cancelNewGroup,
       ),
       trailing: IconButton(
-        icon: Icon(Icons.check),
-        onPressed: this.confirmNewGroup,
+        icon: const Icon(Icons.check),
+        onPressed: confirmNewGroup,
       ),
       title: textField,
     );
@@ -367,10 +367,11 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   Widget currentPlayer(
       String name, Widget textField, ThemeData themeData, bool last) {
     Widget result;
-    if (name == edited)
+    if (name == edited) {
       result = editCurrentPlayer(name, textField);
-    else
+    } else {
       result = promptCurrentPlayer(name, themeData, last);
+    }
     return SizedBox(
       height: PlayGroupEditor.playerTileSize,
       child: result,
@@ -379,7 +380,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
 
   Widget promptCurrentPlayer(String name, ThemeData themeData, bool last) {
     return ListTile(
-      onTap: () => this.start(name),
+      onTap: () => start(name),
       trailing: rl.ReorderableListener(
         child: IconButton(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -392,7 +393,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
         ),
       ),
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.delete_forever,
           color: CSColors.delete,
         ),
@@ -400,7 +401,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
             ? null
             : () {
                 widget.bloc.game.gameState.deletePlayer(name);
-                this._reCalcSize();
+                _reCalcSize();
               },
       ),
       title: Text(name),
@@ -410,13 +411,13 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   Widget editCurrentPlayer(String name, Widget textField) {
     return ListTile(
       leading: IconButton(
-        icon: Icon(Icons.close),
-        onPressed: this.cancel,
+        icon: const Icon(Icons.close),
+        onPressed: cancel,
       ),
       title: textField,
       trailing: IconButton(
-        icon: Icon(Icons.check),
-        onPressed: this.confirm,
+        icon: const Icon(Icons.check),
+        onPressed: confirm,
       ),
     );
   }

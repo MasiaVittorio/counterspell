@@ -13,7 +13,7 @@ class TutorialArena extends StatelessWidget {
     return Column(
       children: <Widget>[
 
-        _Text("There is a streamlined, more traditional mode you can use."),
+        const _Text("There is a streamlined, more traditional mode you can use."),
 
         Expanded(child: Stack(
           fit: StackFit.expand,
@@ -40,12 +40,12 @@ class TutorialArena extends StatelessWidget {
               onPressed: (){},
               backgroundColor: theme.canvasColor,
               foregroundColor: theme.colorScheme.onSurface,
-              child: Icon(CSIcons.counterSpell),
+              child: const Icon(CSIcons.counterSpell),
             ),),
           ],
         )),
 
-        _Text("But most of the advanced capabilities are offered by the main mode."),
+        const _Text("But most of the advanced capabilities are offered by the main mode."),
 
       ].separateWith(CSWidgets.height15),
     );
@@ -67,7 +67,7 @@ class _Text extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       ),
     ], margin: EdgeInsets.zero, crossAxisAlignment: CrossAxisAlignment.stretch);

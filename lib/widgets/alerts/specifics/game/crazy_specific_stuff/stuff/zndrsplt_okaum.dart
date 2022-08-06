@@ -114,10 +114,10 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
   void autoSolveTriggers(){
     // debugPrint("enters autoSolveTriggers");
     handleTrigger(); /// --triggers and flips
-    int _steps = 0;
-    while(_steps < 100 && currentFlip != null){
+    int steps = 0;
+    while(steps < 100 && currentFlip != null){
       // debugPrint("step $_steps");
-      ++_steps; /// security check, don't want to enter an infinite loop
+      ++steps; /// security check, don't want to enter an infinite loop
       solveFlip(currentFlip!.containsWin);
       /// if wins, just reflip and ++wins
       /// if loses, clears the flip and start the next trigger if any
@@ -134,14 +134,14 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
     // TODO: test if zero zndrsplt and okaums lead to some bugs
   }
 
-  void toggleAuto() => this.setState(() {
+  void toggleAuto() => setState(() {
     alwaysTryToWin = !alwaysTryToWin;    
   });
 
   void refreshIf(bool condition){
     if(condition) refresh();
   }
-  void refresh() => this.setState((){});
+  void refresh() => setState((){});
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AlertDrag(),
+            const AlertDrag(),
             settingsSection,
             CSWidgets.height10,
           ],
@@ -159,6 +159,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
       ),
       titleSize: 89 + AlertDrag.height,
       canvasBackground: true,
+      bottom: actions,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -166,7 +167,6 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
           triggersSection,
         ],
       ),
-      bottom: actions,
     );
   }
 
@@ -177,10 +177,10 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         text: "# of Zndrsplt",
         icon: null,
         customIcon: Text("$zndrsplt"),
-        onTap: () => this.setState(() {
+        onTap: () => setState(() {
           ++zndrsplt;
         }),
-        onLongPress: () => this.setState(() {
+        onLongPress: () => setState(() {
           zndrsplt = 0;        
         }),
       ),
@@ -189,10 +189,10 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         text: "# of Okaum",
         icon: null,
         customIcon: Text("$okaum"),
-        onTap: () => this.setState(() {
+        onTap: () => setState(() {
           ++okaum;
         }),
-        onLongPress: () => this.setState(() {
+        onLongPress: () => setState(() {
           okaum = 0;
         }),
       ),
@@ -201,10 +201,10 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         text: "# of Thumbs",
         icon: null,
         customIcon: Text("$thumbs"),
-        onTap: () => this.setState(() {
+        onTap: () => setState(() {
           ++thumbs;
         }),
-        onLongPress: () => this.setState(() {
+        onLongPress: () => setState(() {
           thumbs = 0;
         }),
       ),
@@ -240,7 +240,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
             customIcon: Text("$wins"),
             text: "Wins",
             onTap: null,
-            onLongPress: () => this.setState(() {
+            onLongPress: () => setState(() {
               wins = 0;
             }),
           ),),
@@ -320,20 +320,20 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         CSWidgets.height10,
         SubSection([
           ListTile(
-            leading: Icon(CSIcons.attackTwo),
+            leading: const Icon(CSIcons.attackTwo),
             title: AnimatedText(
               (currentFlip == null ? "Begin Combat" : "Can't begin combat")
-              + (this.alwaysTryToWin ? " (auto)" : " (manual)")
+              + (alwaysTryToWin ? " (auto)" : " (manual)")
             ),
-            subtitle: currentFlip == null ? null : Text("Solve triggers first"),
+            subtitle: currentFlip == null ? null : const Text("Solve triggers first"),
             onTap: currentFlip == null ? beginCombat : null,
           ),
         ],),
         SwitchListTile(
-          title: Text("Keep flipping"),
-          subtitle: Text("Until no win or 100 flips"),
-          value: this.alwaysTryToWin, 
-          onChanged: currentFlip == null ? (v) => this.setState(() {
+          title: const Text("Keep flipping"),
+          subtitle: const Text("Until no win or 100 flips"),
+          value: alwaysTryToWin, 
+          onChanged: currentFlip == null ? (v) => setState(() {
             alwaysTryToWin = v;  
           }) : null,
         ),
@@ -354,7 +354,7 @@ class _ThumbFlip {
       /// nextInt(2) gives either 0 or 1, so this flips a coin
   ];
 
-  bool contains(bool choice) => this.flips.contains(choice);
+  bool contains(bool choice) => flips.contains(choice);
   bool get containsWin => contains(true);
   bool get containsLoss => contains(false);
 

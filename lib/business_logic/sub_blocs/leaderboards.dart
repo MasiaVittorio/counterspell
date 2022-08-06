@@ -8,8 +8,8 @@ class CSPastGames {
   //================================
   // Dispose resources 
   void dispose(){
-    this.pastGames.dispose();
-    this.commanderStats.dispose();
+    pastGames.dispose();
+    commanderStats.dispose();
   }
 
   //================================
@@ -34,7 +34,7 @@ class CSPastGames {
       toJson: (s) => [...s],
       fromJson: (j) => <String>{...(j as List) as Iterable<String>},
     ){
-      this.commanderStats = BlocVar.fromCorrelate
+      commanderStats = BlocVar.fromCorrelate
         <Map<String,CommanderStats>, List<PastGame?>>
       (
         from: pastGames, 
@@ -44,7 +44,7 @@ class CSPastGames {
           /// oracle Id because we want to just use one print of a commander
         },
       );
-      this.playerStats = BlocVar.fromCorrelate
+      playerStats = BlocVar.fromCorrelate
         <Map<String,PlayerStats>, List<PastGame?>>
       (
         from: pastGames, 
@@ -53,7 +53,7 @@ class CSPastGames {
             name: PlayerStats.fromPastGames(name, pastGames),
         },
       );
-      this.customStats = BlocVar.fromCorrelateLatest2
+      customStats = BlocVar.fromCorrelateLatest2
         <Map<String,CustomStat>, List<PastGame?>, Set<String>>
       (pastGames, customStatTitles, map: (pastGames, titles) => <String,CustomStat>{
         for(final title in titles)
@@ -75,11 +75,11 @@ class CSPastGames {
       commandersB: commandersB,
       dateTime: state.firstTime,
     );
-    this.pastGames.value.add(pastGame);
-    this.pastGames.value.sort((one, two) 
+    pastGames.value.add(pastGame);
+    pastGames.value.sort((one, two) 
       => one!.startingDateTime.compareTo(two!.startingDateTime)
     );
-    this.pastGames.refresh();
+    pastGames.refresh();
 
     if(!avoidPrompt && parent.payments.unlocked.value&& pastGame.winner == null){
       parent.stage.showAlert(
@@ -90,7 +90,7 @@ class CSPastGames {
             pastGames.refresh(index: pastGames.value.length-1);
           },
           onDontSave: (){
-            this.pastGames.removeLast();
+            pastGames.removeLast();
           },
         ),
         size: WinnerSelector.heightCalc(pastGame.state.players.length, true),

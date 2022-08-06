@@ -56,7 +56,7 @@ class PagePie extends StatelessWidget {
     StageData<CSPage,SettingsPage> stage, 
     Map<CSPage,bool> enabled,
   ) => Text(
-    "${stage.mainPagesController.pagesData[page]!.name}",
+    stage.mainPagesController.pagesData[page]!.name,
     style: TextStyle(
       fontWeight: !PanelSettings.disablablePages.contains(page)
         ? FontWeight.w700

@@ -5,7 +5,7 @@ import 'settings_components/all.dart';
 class PanelSettings extends StatelessWidget {
   const PanelSettings();
  
-  static const Set<CSPage> disablablePages = const {
+  static const Set<CSPage> disablablePages = {
     CSPage.commanderDamage, 
     CSPage.commanderCast, 
     CSPage.counters,
@@ -15,15 +15,24 @@ class PanelSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context)!;
     
-    return SingleChildScrollView(
-      physics: stage.panelController.panelScrollPhysics(),
-      child: Column(
-        children: <Widget>[
-          const SettingsBehavior(),
-          const SettingsAppearance(),
-          const SettingsData(),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (_, constraints) => ConstrainedBox(
+        constraints: constraints,
+        child: SingleChildScrollView(
+          physics: stage.panelController.panelScrollPhysics(),
+          child: Column(
+            children: <Widget>[
+              const SettingsBehavior(),
+              const Divider(height: 7,),
+              const Space.vertical(8),
+              SettingsAppearance(compact: constraints.maxHeight < 645),
+              const Divider(height: 7,),
+              const Space.vertical(10),
+              const SettingsData(),
+            ],
+          ),
+        ),
+      )
     );
   }
 }

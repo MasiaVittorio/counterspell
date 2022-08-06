@@ -5,10 +5,10 @@ class CSSettingsImages {
   //================================
   // Disposer
   void dispose(){
-    this.imageAlignments.dispose();
-    this.imageGradientStart.dispose();
-    this.imageGradientEnd.dispose();
-    this.arenaImageOpacity.dispose();
+    imageAlignments.dispose();
+    imageGradientStart.dispose();
+    imageGradientEnd.dispose();
+    arenaImageOpacity.dispose();
   }
 
   //================================

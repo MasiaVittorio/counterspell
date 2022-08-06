@@ -5,7 +5,7 @@ import 'package:flutter/rendering.dart';
 
 class VelocityPanDetector extends StatelessWidget {
 
-  VelocityPanDetector({
+  const VelocityPanDetector({
     Key? key,
     this.child,
 

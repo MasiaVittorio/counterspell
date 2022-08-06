@@ -14,5 +14,5 @@ class GANull extends GameAction{
   GameAction normalizeOnLast(GameState state)
     => GANull.instance;
 
-  static const GANull instance = const GANull();
+  static const GANull instance = GANull();
 }

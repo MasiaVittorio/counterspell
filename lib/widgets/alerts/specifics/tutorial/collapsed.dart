@@ -5,7 +5,7 @@ import 'package:counter_spell_new/widgets/stage/panel/collapsed_components/circl
 
 class HintAlertCollapsed extends StatelessWidget {
   
-  HintAlertCollapsed(this.hint);
+  const HintAlertCollapsed(this.hint);
   final Hint hint;
 
   @override
@@ -27,7 +27,7 @@ class HintAlertCollapsed extends StatelessWidget {
       collapsedPanel: _Collapsed(hint),
       body: _Body(hint),
       extendedPanel: const _Extended(),
-      topBarContent: StageTopBarContent(
+      topBarContent: const StageTopBarContent(
         title: StageTopBarTitle(
           panelTitle: "CounterSpell",
         ), 
@@ -59,16 +59,16 @@ class _Collapsed extends StatelessWidget {
           color: colors![page]!
               .withOpacity(0.07),
           size: CSSizes.barSize,
-          child: Icon(error
-            ? Icons.error
-            : hint.collapsedIcon,
-          ),
           onTap: error ? (){} : () => Stage.of(context)!.showSnackBar(
             const StageSnackBar(
               title: Text("Yeah, like that!"),
               secondary: Icon(Icons.check),
             ),
             rightAligned: hint.collapsedRightSide!,
+          ),
+          child: Icon(error
+            ? Icons.error
+            : hint.collapsedIcon,
           ),
         );
 
@@ -115,8 +115,8 @@ class _Extended extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: const ListTile(
+    return const Material(
+      child: ListTile(
         title: Text("Nope, close the panel!"),
         leading: Icon(Icons.error),
       ),
@@ -125,7 +125,7 @@ class _Extended extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  _Body(this.hint);
+  const _Body(this.hint);
   final Hint hint;
   @override
   Widget build(BuildContext context) 
@@ -146,7 +146,7 @@ class _BodyInternalState extends State<_BodyInternal> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1)).then((_){
+    Future.delayed(const Duration(seconds: 1)).then((_){
       stage!.mainPagesController.goToPage(hint.page);
     });
   }

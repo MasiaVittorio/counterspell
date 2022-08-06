@@ -9,11 +9,12 @@ class CSPanelExtended extends StatelessWidget {
   Widget build(BuildContext context) {
     return const StageExtendedPanel<SettingsPage>(
       children: <SettingsPage,Widget>{
-        SettingsPage.game: const PanelGame(),
-        SettingsPage.info: const PanelInfo(),
-        SettingsPage.settings: const PanelSettings(),
-        SettingsPage.theme: const PanelTheme(),
+        SettingsPage.game: PanelGame(),
+        SettingsPage.info: PanelInfo(),
+        SettingsPage.settings: PanelSettings(),
+        SettingsPage.theme: PanelTheme(),
       },
+      canvasBackground: true,
     );
   }
 

@@ -23,31 +23,32 @@ class PADamage extends PlayerAction {
 
   @override
   PlayerState apply(PlayerState state) 
-    => state.getDamage(from, this.increment, 
+    => state.getDamage(from, increment, 
       partnerA: partnerA, 
       settings: settings,
-      maxDamage: this.maxVal,
-      minLife: this.minLife,
+      maxDamage: maxVal,
+      minLife: minLife,
     );
 
   @override
   PlayerAction normalizeOn(PlayerState state) {
-    final int alreadyThere = state.damages[this.from]!.fromPartner(this.partnerA);
-    final int clamped = this.increment.clamp(
+    final int alreadyThere = state.damages[from]!.fromPartner(partnerA);
+    final int clamped = increment.clamp(
       0 - alreadyThere,
-      this.maxVal - alreadyThere,
+      maxVal - alreadyThere,
     );
 
-    if(clamped == 0) 
+    if(clamped == 0) {
       return PANull.instance;
+    }
 
     return PADamage(
-      this.from,
+      from,
       clamped,
-      settings: this.settings,
-      partnerA: this.partnerA,
-      maxVal: this.maxVal,
-      minLife: this.minLife,
+      settings: settings,
+      partnerA: partnerA,
+      maxVal: maxVal,
+      minLife: minLife,
     );
   }
 }

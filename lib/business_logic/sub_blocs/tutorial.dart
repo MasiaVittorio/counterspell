@@ -48,24 +48,24 @@ class CSTutorial {
 
   /// Show =====================
   void showTutorial(int index, {bool? full}) async {
-    print("showing tutorial index: $index");
+    // print("showing tutorial index: $index");
     await parent.stage.closePanelCompletely();
     fullTutorial = full ?? fullTutorial;
-    print("full tutorial: $fullTutorial");
+    // print("full tutorial: $fullTutorial");
     currentTutorialIndex = index;
     if(currentTutorial?.hints.isNotEmpty ?? false){
       showHint(0);
     } else {
-      print("tutorial was empty!");
+      // print("tutorial was empty!");
     }
   }
 
   void showHint(int? index){
-    print("showing hint index: $index");
+    // print("showing hint index: $index");
     final Hint? hint = getHint(index); 
     if(hint == null){
       quitTutorial();
-      print("invalid hint index to be shown");
+      // print("invalid hint index to be shown");
       return;
     }
     currentHintIndex = index;
@@ -86,14 +86,14 @@ class CSTutorial {
       size: _HintAlert.height(hint),
       replace: true,
     );
-    parent.stage.panelController.onNextPanelClose(this._skipHint);
+    parent.stage.panelController.onNextPanelClose(_skipHint);
   }
 
   void showSnackBarHint(Hint hint){
     assert(hint.needsSnackBar);
     assert(hint.page != null);
-    print("showing snackBar hint: ${hint.text}");
-    print("(full tutorial: $fullTutorial)");
+    // print("showing snackBar hint: ${hint.text}");
+    // print("(full tutorial: $fullTutorial)");
     parent.stage.mainPagesController.goToPage(hint.page);
     parent.stage.showSnackBar(
       StageSnackBar(
@@ -122,45 +122,45 @@ class CSTutorial {
 
   /// Skip =====================
   void _skipHint() async {
-    print("skipping hint from tutorial Index: $currentTutorialIndex and hint Index: $currentHintIndex");
+    // print("skipping hint from tutorial Index: $currentTutorialIndex and hint Index: $currentHintIndex");
 
     if((currentTutorial == null) || (currentHintIndex == null)){
       quitTutorial();
-      print("invlid current Tutorial or current hint index");
+      // print("invlid current Tutorial or current hint index");
       return;
     }
     final int nextHintIndex = currentHintIndex! + 1;
-    print("next hint index would be: $nextHintIndex");
+    // print("next hint index would be: $nextHintIndex");
     // calculating this here becaaause quitHint would put it to null
     if(nextHint == null){
-      print("next hint in this tutorial would be null, so");
+      // print("next hint in this tutorial would be null, so");
       if((fullTutorial == false) || (nextTutorial == null)){
-        print("because next tutorial would also be null, we quit");
+        // print("because next tutorial would also be null, we quit");
         quitTutorial();
         return;
       } else {
-        print("because there is a next tutorial, we quit the hint and start the new tutorial");
+        // print("because there is a next tutorial, we quit the hint and start the new tutorial");
         await _quitCurrentHint();
         showTutorial(currentTutorialIndex! + 1);
       }
     } else { // there is a next hint
-      print("there is a next hint in this tutorial so we quit the current one");
+      // print("there is a next hint in this tutorial so we quit the current one");
       await _quitCurrentHint();
-      print("now that the current is quit, we show the next ($nextHintIndex)");
+      // print("now that the current is quit, we show the next ($nextHintIndex)");
       showHint(nextHintIndex);
     }
   }
 
   /// Quit =====================
   Future<void> quitTutorial() async {
-    print("quitting current tutorial");
+    // print("quitting current tutorial");
     fullTutorial = false;
     await _quitCurrentHint();
     currentTutorialIndex = null;
   }
 
   Future<void> _quitCurrentHint() async {
-    print("quitting current hint");
+    // print("quitting current hint");
     if(currentHint?.needsAlert ?? true){
       await parent.stage.closePanelCompletely();
     } 
@@ -181,7 +181,7 @@ class _HintAlert extends StatelessWidget {
   static double height(Hint hint) 
     => hint.needsCollapsed ? 450.0 : 600.0;
   
-  double get size => height(this.hint);
+  double get size => height(hint);
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +193,32 @@ class _HintAlert extends StatelessWidget {
     return HeaderedAlert(
       hint.text,
       alreadyScrollableChild: true,
+      bottom: SubSection(
+        [Row(children: <Widget>[for(final child in [
+          if(next)
+          ...[CenteredTile(
+            title: const Text("Quit tutorial"),
+            subtitle: const Text("I'll figure it out"),
+            leading: const Icon(Icons.close),
+            onTap: tutorialLogic.quitTutorial,
+          ),
+          CenteredTile(
+            title: const Text("Got it!"),
+            subtitle: const Text("Next hint"),
+            leading: const Icon(Icons.keyboard_arrow_right),
+            onTap: Stage.of(context)!.closePanel,
+          )]
+          else CenteredTile(
+            title: const Text("End of tutorial"),
+            subtitle: const Text("Thank you!!"),
+            leading: const Icon(Icons.check),
+            onTap: Stage.of(context)!.closePanel,
+          ),
+        ]) Expanded(child: child)]
+          .separateWith(CSWidgets.collapsedPanelDivider),
+        )],
+        margin: const EdgeInsets.all(10),
+      ),
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: PanelTitle.height)
@@ -219,32 +245,6 @@ class _HintAlert extends StatelessWidget {
             ),
           ),
         ),
-      ),
-      bottom: SubSection(
-        [Row(children: <Widget>[for(final child in [
-          if(next)
-          ...[CenteredTile(
-            title: const Text("Quit tutorial"),
-            subtitle: const Text("I'll figure it out"),
-            leading: const Icon(Icons.close),
-            onTap: tutorialLogic.quitTutorial,
-          ),
-          CenteredTile(
-            title: const Text("Got it!"),
-            subtitle: const Text("Next hint"),
-            leading: const Icon(Icons.keyboard_arrow_right),
-            onTap: Stage.of(context)!.closePanel,
-          )]
-          else CenteredTile(
-            title: const Text("End of tutorial"),
-            subtitle: const Text("Thank you!!"),
-            leading: const Icon(Icons.check),
-            onTap: Stage.of(context)!.closePanel,
-          ),
-        ]) Expanded(child: child)]
-          .separateWith(CSWidgets.collapsedPanelDivider),
-        )],
-        margin: const EdgeInsets.all(10),
       ),
     );
   }

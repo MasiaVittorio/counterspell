@@ -14,7 +14,7 @@ class ArenaDelayer extends StatefulWidget {
 
   final AnimationStatusListener animationListener;
 
-  ArenaDelayer({
+  const ArenaDelayer({
     required this.onManualCancel,
     required this.onManualConfirm,
     required this.delayerController,
@@ -24,7 +24,7 @@ class ArenaDelayer extends StatefulWidget {
   });
 
   @override
-  State createState() => new _ArenaDelayerState();
+  State createState() => _ArenaDelayerState();
 }
 
 class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMixin {
@@ -35,7 +35,7 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
   void initState() {
     super.initState();
 
-    this.initController();
+    initController();
 
     widget.delayerController.addListenersArena(
       startListener: scrolling,
@@ -66,24 +66,28 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
 
   bool scrolling(){
     if(!mounted) return false;
-    if(controller!.isAnimating && controller!.velocity > 0)
+    if(controller!.isAnimating && controller!.velocity > 0) {
       return true;
-    if(controller!.value == 1.0)
+    }
+    if(controller!.value == 1.0) {
       return true;
+    }
 
-    this.controller!.fling();
+    controller!.fling();
     return true;
   }
 
   bool leaving() {
     if(!mounted) return false;
-    if(this.controller!.value == 0.0)
+    if(controller!.value == 0.0) {
       return true;
+    }
 
     bool fling = false;
-    if(this.controller!.isAnimating){
-      if(this.controller!.velocity < 0)
+    if(controller!.isAnimating){
+      if(controller!.velocity < 0) {
         return true;
+      }
       fling = true;
     }
     _leaving(fling);
@@ -92,14 +96,14 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
 
   void _leaving(bool withFling) async {
     if(!mounted) return;
-    if(withFling) await  this.controller!.fling();
+    if(withFling) await  controller!.fling();
     if(!mounted) return;
-    this.controller!.animateBack(0.0);
+    controller!.animateBack(0.0);
   }
 
   @override
   void dispose() {
-    this.controller!.dispose();
+    controller!.dispose();
     widget.delayerController.removeArenaListeners();
     super.dispose();
   }

@@ -21,7 +21,7 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
 
           RadioSliderOf<bool>(
             selectedItem: partner, 
-            items: <bool,RadioSliderItem>{
+            items: const <bool,RadioSliderItem>{
               false: RadioSliderItem(
                 icon: Icon(McIcons.account_outline),
                 title: Text("Single"),
@@ -38,11 +38,11 @@ class PlayerDetailsCommanderSettings extends StatelessWidget {
 
           if(partner)
             ...[
-              _Section(this.index, partnerA: true, havePartner: true, aspectRatio: aspectRatio),
-              _Section(this.index, partnerA: false, havePartner: true, aspectRatio: aspectRatio),
+              _Section(index, partnerA: true, havePartner: true, aspectRatio: aspectRatio),
+              _Section(index, partnerA: false, havePartner: true, aspectRatio: aspectRatio),
             ]
           else 
-            _Section(this.index, partnerA: true, havePartner: false, aspectRatio: aspectRatio),
+            _Section(index, partnerA: true, havePartner: false, aspectRatio: aspectRatio),
           
           CSWidgets.height5,
           const _KeepSettings(),
@@ -75,7 +75,7 @@ class _KeepSettings extends StatelessWidget {
             child: AnimatedText(keep 
               ? "(Don't forget to reset them manually then)"
               : "(Reset for each game is recommended)",
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: const TextStyle(fontStyle: FontStyle.italic),
               textAlign: TextAlign.center,
             ),
           ),
@@ -101,7 +101,7 @@ class _Section extends StatelessWidget {
     return PlayerBuilder(index, (gameState, names, name, playerState, player)
       => Section(<Widget>[
         if(havePartner) SectionTitle(partnerA ? "First partner" : "Second partner"),
-        _CommanderTile(this.index, 
+        _CommanderTile(index, 
           partnerA: partnerA, 
           havePartner: havePartner, 
           aspectRatio: aspectRatio,
@@ -160,15 +160,18 @@ class _CommanderTile extends StatelessWidget {
     return group.names.build((_, names){
       final name = names[index];
         
-      final VoidCallback callback = () => stage!.showAlert(ImageSearch(
+      void callback() => stage!.showAlert(ImageSearch(
         (found){
           group.cards(partnerA).value[name] = found;
           group.cards(partnerA).refresh();
           group.savedCards.setKey(name, (group.savedCards.value[name] ?? <MtgCard>{})..add(found));
           
           //Will always reset commander settings on a new card
-          if(partnerA) state.gameState.value.players[name]!.commanderSettingsA = CommanderSettings.defaultSettings;
-          else state.gameState.value.players[name]!.commanderSettingsB = CommanderSettings.defaultSettings;
+          if(partnerA) {
+            state.gameState.value.players[name]!.commanderSettingsA = CommanderSettings.defaultSettings;
+          } else {
+            state.gameState.value.players[name]!.commanderSettingsB = CommanderSettings.defaultSettings;
+          }
           state.gameState.refresh();
         }, 
         searchableCache: <MtgCard>{

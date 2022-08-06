@@ -44,7 +44,7 @@ class ArenaMenu extends StatelessWidget {
         alwaysScrollable: true,
         neverScrollable: false,
       ),
-      orderedValues: [
+      orderedValues: const [
         ArenaMenuPage.game,
         ArenaMenuPage.layout,
         ArenaMenuPage.settings,

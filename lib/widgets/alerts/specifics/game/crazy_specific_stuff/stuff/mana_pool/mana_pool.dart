@@ -17,7 +17,7 @@ class ManaPool extends GenericAlert {
 
 class _ManaPool extends StatefulWidget {
   final CSBloc? bloc;
-  _ManaPool(this.bloc);
+  const _ManaPool(this.bloc);
 
   @override
   __ManaPoolState createState() => __ManaPoolState();
@@ -34,7 +34,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
     super.initState();
     logic = MPLogic(widget.bloc!);
 
-    this.initController();
+    initController();
 
     logic.localScroller.delayerController.addListenersMain(
       startListener: scrolling,
@@ -62,24 +62,28 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
 
   bool scrolling(){
     if(!mounted) return false;
-    if(controller!.isAnimating && controller!.velocity > 0)
+    if(controller!.isAnimating && controller!.velocity > 0) {
       return true;
-    if(controller!.value == 1.0)
+    }
+    if(controller!.value == 1.0) {
       return true;
+    }
 
-    this.controller!.fling();
+    controller!.fling();
     return true;
   }
 
   bool leaving() {
     if(!mounted) return false;
-    if(this.controller!.value == 0.0)
+    if(controller!.value == 0.0) {
       return true;
+    }
 
     bool fling = false;
-    if(this.controller!.isAnimating){
-      if(this.controller!.velocity < 0)
+    if(controller!.isAnimating){
+      if(controller!.velocity < 0) {
         return true;
+      }
       fling = true;
     }
     _leaving(fling);
@@ -88,14 +92,14 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
 
   void _leaving(bool withFling) async {
     if(!mounted) return;
-    if(withFling) await  this.controller!.fling();
+    if(withFling) await  controller!.fling();
     if(!mounted) return;
-    this.controller!.animateBack(0.0);
+    controller!.animateBack(0.0);
   }
 
   void _disposeController(){
-    this.controller?.dispose();
-    this.controller = null;
+    controller?.dispose();
+    controller = null;
   }
 
 
@@ -104,8 +108,8 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
     return HeaderedAlertCustom(
       title, 
       titleSize: titleSize,
-      child: pool,
       bottom: recentActions,
+      child: pool,
     );
   }
 
@@ -172,7 +176,7 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
   
 
   Widget get recentActions => logic.history.build((context, history) 
-    => logic.show.build((_, show) => Container(
+    => logic.show.build((_, show) => SizedBox(
       height: _RecentAction.height,
       child: Row(children: [
         for(final child in [
@@ -192,12 +196,12 @@ class _RecentAction extends StatelessWidget {
   final ManaAction action;
   final void Function(ManaAction) onTap;
 
-  _RecentAction(this.action, {required this.onTap});
+  const _RecentAction(this.action, {required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return SubSection(
-      [Container(
+      [SizedBox(
         height: height,
         child: Stack(
           fit: StackFit.expand,
@@ -228,7 +232,7 @@ class _ColorToggle extends StatelessWidget {
   final void Function(bool v) onChanged;
   final bool value;
 
-  _ColorToggle(this.color, {
+  const _ColorToggle(this.color, {
     required this.onChanged,
     required this.value,
   });
@@ -243,7 +247,7 @@ class _ColorToggle extends StatelessWidget {
       );
 
     return Material(
-      animationDuration: Duration(milliseconds: 150),
+      animationDuration: const Duration(milliseconds: 150),
       elevation: value ? 4 : 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(40),
@@ -274,7 +278,7 @@ class _ColorNumber extends StatelessWidget {
   final void Function(Clr) onPan;
   final bool selected;
 
-  _ColorNumber(this.color, {
+  const _ColorNumber(this.color, {
     required this.scroller,
     required this.value,
     required this.onPan,
@@ -314,7 +318,7 @@ class _ColorNumber extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(24, 4, 24, 4),
                   child: Row(
                     children: <Widget>[
-                      Icon(Icons.keyboard_arrow_left),
+                      const Icon(Icons.keyboard_arrow_left),
                       Expanded(child: Center(child: CircleNumber(
                         size: 56,
                         value: value!,
@@ -333,7 +337,7 @@ class _ColorNumber extends StatelessWidget {
                           size: 30,
                         ),
                       ),),),
-                      Icon(Icons.keyboard_arrow_right),
+                      const Icon(Icons.keyboard_arrow_right),
                     ],
                   ),
                 ),

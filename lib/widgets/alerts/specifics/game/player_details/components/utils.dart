@@ -176,7 +176,7 @@ class PlayerBuilder extends StatelessWidget {
       final name = names[index];
       return stateBloc.gameState.build((_, state){
         final player = state.players[name]!;
-        return this.builder(state, names, name, player.states.last, player);
+        return builder(state, names, name, player.states.last, player);
       },);
     },);
 

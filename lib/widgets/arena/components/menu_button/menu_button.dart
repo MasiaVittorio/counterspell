@@ -22,7 +22,7 @@ class ArenaMenuButton extends StatelessWidget {
   final List<String> names;
   final Map<ArenaLayoutType?,bool> flipped;
 
-  ArenaMenuButton({
+  const ArenaMenuButton({
     required this.page,
     required this.logic,
     required this.positions,
@@ -84,7 +84,7 @@ class ArenaMenuButton extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       animationDuration: CSAnimations.medium,
       elevation: open ? 10 : 4,
-      borderRadius: BorderRadius.circular(open ? 16 : this.buttonSize/2),
+      borderRadius: BorderRadius.circular(open ? 16 : buttonSize/2),
       child: AnimatedContainer(
         duration: CSAnimations.medium,
         width: open ? menuWidth : buttonSize,

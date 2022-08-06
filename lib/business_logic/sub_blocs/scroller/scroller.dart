@@ -16,7 +16,7 @@ class CSScroller extends ScrollerLogic {
   CSScroller(this.parent): super(
     scrollSettings: parent.settings.scrollSettings,
     okVibrate: () => parent.settings.appSettings.canVibrate! 
-      && parent.settings.appSettings.wantVibrate.value!,
+      && parent.settings.appSettings.wantVibrate.value,
 
     onConfirm: (_) => parent.game.gameAction.privateConfirm(
       parent.stageBloc.controller.mainPagesController.currentPage
@@ -27,8 +27,9 @@ class CSScroller extends ScrollerLogic {
       if(!completed){
         parent.game.gameAction.clearSelection(true);
       } else {
-        if(alsoAttacker) 
+        if(alsoAttacker) {
           parent.game.gameAction.attackingPlayer.set("");
+        }
       }
     },
   );
@@ -37,9 +38,9 @@ class CSScroller extends ScrollerLogic {
   Future<bool> decidePop([bool alsoAttacker = false]) async {
     bool cancel = false;
     
-    if (this.value != 0.0) {
+    if (value != 0.0) {
       cancel = true;
-    } else if (this.intValue.value != 0) {
+    } else if (intValue.value != 0) {
       cancel = true;
     } else if (parent.game.gameAction.isSomeoneSelected) {
       cancel = true;

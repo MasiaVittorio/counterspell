@@ -35,7 +35,7 @@ class ArenaLayout4 extends StatelessWidget {
     }
   }
 
-  bool get intersection => this.centerAlignment 
+  bool get intersection => centerAlignment 
     == ArenaCenterAlignment.intersection;
 
   ///============================================
@@ -96,7 +96,7 @@ class ArenaLayout4 extends StatelessWidget {
 
     Widget? positionedCenterChild;
 
-    if(this.centerChildBuilder != null){
+    if(centerChildBuilder != null){
       /// No padding, intersection always at center
       positionedCenterChild = Positioned.fill(
         child: Center(child: centerChildBuilder!(
@@ -155,7 +155,7 @@ class ArenaLayout4 extends StatelessWidget {
 
     Widget? positionedCenterChild;
 
-    if(this.centerChildBuilder != null){
+    if(centerChildBuilder != null){
       /// No padding, intersection always at center
       positionedCenterChild = Positioned.fill(
         child: Center(child: centerChildBuilder!(

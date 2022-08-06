@@ -6,16 +6,16 @@ class CSSettingsScroll {
   // Disposer
 
   void dispose(){
-    this.confirmDelay.dispose();
+    confirmDelay.dispose();
 
-    this.scrollSensitivity.dispose();
+    scrollSensitivity.dispose();
 
-    this.scroll1Static.dispose();
-    this.scroll1StaticValue.dispose();
-    this.scrollPreBoost.dispose();
-    this.scrollPreBoostValue.dispose();
-    this.scrollDynamicSpeed.dispose();
-    this.scrollDynamicSpeedValue.dispose();
+    scroll1Static.dispose();
+    scroll1StaticValue.dispose();
+    scrollPreBoost.dispose();
+    scrollPreBoostValue.dispose();
+    scrollDynamicSpeed.dispose();
+    scrollDynamicSpeedValue.dispose();
   }
 
 
@@ -44,7 +44,7 @@ class CSSettingsScroll {
   static const double sensSpeedVal = 0.4;
   static const double sensPreBoostVal= 2.0;
   static const double sens1StaticVal= 0.8;
-  static const Duration confirmDelayVal = const Duration(milliseconds: 950);
+  static const Duration confirmDelayVal = Duration(milliseconds: 950);
 
 
   //=======================================

@@ -72,7 +72,7 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: AnimatedText(
               vertical ? "(down to up to increase)" : "(left to right to increase)",
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: const TextStyle(fontStyle: FontStyle.italic),
               textAlign: TextAlign.center,
             ),
           ),
@@ -80,7 +80,7 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: AnimatedText(
               "(Long press on a player for commander damage)",
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: const TextStyle(fontStyle: FontStyle.italic),
               textAlign: TextAlign.center,
             ),
           ),
@@ -138,7 +138,7 @@ class Gestures extends StatelessWidget {
                   scroll 
                     ? (verticalScroll ? "(down to up to increase)" : "(left to right to increase)")
                     : (verticalTap ? "(top half to increase)" : "(right half to increase)"),
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -146,7 +146,7 @@ class Gestures extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
                 child: AnimatedText(
                   scroll ? "(long press on a player for commander damage)" : "(bottom icon for commander damage)",
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -185,7 +185,7 @@ class ArenaTapDirectionSelector extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: AnimatedText(
               vertical ? "(top half to increase)" : "(right half to increase)",
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: const TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
         ],
@@ -209,7 +209,7 @@ class ArenaOpacityTile extends StatelessWidget {
       title: const Text("Image Opacity"),
       leading: const Icon(Icons.invert_colors),
       onTap: () => stage!.showAlert(
-        ImageOpacity(true),
+        const ImageOpacity(true),
         size: ImageOpacity.height,
       ),
       trailing: const Icon(Icons.keyboard_arrow_right),

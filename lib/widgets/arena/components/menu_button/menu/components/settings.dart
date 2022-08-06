@@ -12,14 +12,14 @@ class ArenaMenuSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
+      children: const <Widget>[
 
         Section(<Widget>[
-          const PanelTitle("Gestures"),
-          const Gestures(),
+          PanelTitle("Gestures"),
+          Gestures(),
         ],),
 
-        const Section(<Widget>[
+        Section(<Widget>[
           SectionTitle("Appearance"),
           ArenaFullScreenToggle(true),
           ArenaHideNamesWithImageToggle(),
@@ -66,7 +66,7 @@ class ArenaOpacity extends StatelessWidget {
     return opacity.build((_,value) => FullSlider(
       value: value,
       divisions: 20,
-      leading: Icon(Icons.opacity),
+      leading: const Icon(Icons.opacity),
       onChanged: opacity.set,
       defaultValue: CSSettingsImages.defaultSimpleImageOpacity,
       titleBuilder: (val) => Text("Opacity: ${val.toStringAsFixed(2)}"),

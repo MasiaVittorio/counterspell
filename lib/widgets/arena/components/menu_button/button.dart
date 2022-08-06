@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 
 class ArenaButton extends StatelessWidget {
 
-  ArenaButton({
+  const ArenaButton({
     required this.indexToName,
     required this.isScrollingSomewhere,
     required this.open,
@@ -33,7 +33,7 @@ class ArenaButton extends StatelessWidget {
       // reorder waiting to happen
       buttonCross = true;
       centerTap = exit;
-    } else if(this.isScrollingSomewhere){
+    } else if(isScrollingSomewhere){
       // action pending to be cancelled
       buttonCross = true;
       centerTap = bloc!.scroller.cancel;
@@ -50,12 +50,12 @@ class ArenaButton extends StatelessWidget {
     return InkWell(
       onTap: centerTap,
       onLongPress: exit,
-      borderRadius: BorderRadius.circular(this.buttonSize/2),
+      borderRadius: BorderRadius.circular(buttonSize/2),
       child: Container(
-        key: ValueKey("arena_button_animated_icon"),
+        key: const ValueKey("arena_button_animated_icon"),
         alignment: Alignment.center,
-        width: this.buttonSize,
-        height: this.buttonSize,
+        width: buttonSize,
+        height: buttonSize,
         child: ImplicitlyAnimatedIcon(
           progress: buttonCross ? 1.0 : 0.0,
           icon: AnimatedIcons.menu_close,

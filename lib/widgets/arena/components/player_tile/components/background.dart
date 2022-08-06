@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 
 class AptBackGround extends StatelessWidget {
 
-  AptBackGround({
+  const AptBackGround({
     required this.imageApplied,
     required this.highlighted,
     required this.isAttacking,
@@ -32,13 +32,13 @@ class AptBackGround extends StatelessWidget {
     
     if(isAttacking) {
       bkgColor = Color.alphaBlend(
-        this.pageColors![CSPage.commanderDamage]!
+        pageColors![CSPage.commanderDamage]!
             .withOpacity(_cmdrOpacity),
         bkgColor,
       );
     } else if (isDefending) {
       bkgColor = Color.alphaBlend(
-        this.defenceColor!
+        defenceColor!
             .withOpacity(_cmdrOpacity),
         bkgColor,
       );

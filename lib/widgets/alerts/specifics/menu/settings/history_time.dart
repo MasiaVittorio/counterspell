@@ -16,6 +16,17 @@ class HistoryTimeAlert extends StatelessWidget {
     return timeMode.build((_, mode) => HeaderedAlert(
       "History screen time mode",
       canvasBackground: true,
+      bottom: Center(child: ListTile(
+        title: AnimatedText(
+          {
+            TimeMode.clock: "(Tells you that a change happened at: 21:45)",
+            TimeMode.inGame: "(Tells you that a change happened 37 minutes into a game)",
+            TimeMode.none: "(Doesn't tell you when a change happened in the history screen)",
+          }[mode]!,
+          style: const TextStyle(fontStyle: FontStyle.italic),
+          textAlign: TextAlign.center,
+        ),
+      )),
       child: RadioSlider(
         onTap: (i) => timeMode.set(TimeMode.values[i]),
         selectedIndex: TimeMode.values.indexOf(mode!),
@@ -26,17 +37,6 @@ class HistoryTimeAlert extends StatelessWidget {
           ),
         ],
       ),
-      bottom: Center(child: ListTile(
-        title: AnimatedText(
-          {
-            TimeMode.clock: "(Tells you that a change happened at: 21:45)",
-            TimeMode.inGame: "(Tells you that a change happened 37 minutes into a game)",
-            TimeMode.none: "(Doesn't tell you when a change happened in the history screen)",
-          }[mode]!,
-          style: TextStyle(fontStyle: FontStyle.italic),
-          textAlign: TextAlign.center,
-        ),
-      )),
     ));
   }
 }

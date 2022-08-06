@@ -93,7 +93,7 @@ class CSThemer {
     parent.stage.themeController.colorPlace.setDistinct(StageColorPlace.texts);
     
     if(flatLinkedToColorPlace == false){
-      this.flatDesign.setDistinct(true);  
+      flatDesign.setDistinct(true);  
     } else {
       // should get set to true automatically
     }
@@ -114,7 +114,7 @@ class CSThemer {
       parent.stage.themeController.colorPlace.set(StageColorPlace.background);
       // then flat design should become false automatically
     } else {
-      this.flatDesign.setDistinct(false);  
+      flatDesign.setDistinct(false);  
       // colorPlace can still be texts if the two are not hard linked
     }
     parent.stage.themeController.topBarElevations.set(_topMaterialElevations);
@@ -128,15 +128,18 @@ class CSThemer {
   }
 
   void toggleFlatDesign(){
-    if(this.flatDesign.value!){
-      this.deactivateFlatDesign();
+    if(flatDesign.value!){
+      deactivateFlatDesign();
     } else {
-      this.activateFlatDesign();
+      activateFlatDesign();
     }
   }
   void setFlatDesign(bool val){
-    if(val) activateFlatDesign();
-    else deactivateFlatDesign();
+    if(val) {
+      activateFlatDesign();
+    } else {
+      deactivateFlatDesign();
+    }
   }
 
   void activateGoogleLikeColors(){
@@ -149,22 +152,25 @@ class CSThemer {
   }
 
   void deactivateGoogleLikeColors(){
-    this.deactivateFlatDesign();
+    deactivateFlatDesign();
     parent.stage.themeController
       .colorPlace.setDistinct(StageColorPlace.background);
   }
 
   void toggleGoogleLikeColors(){
     if(parent.stage.themeController.colorPlace.value.isTexts){
-      this.deactivateGoogleLikeColors();
+      deactivateGoogleLikeColors();
     } else {
-      this.activateGoogleLikeColors();
+      activateGoogleLikeColors();
     }
   }
 
   void setColorPlace(StageColorPlace place){
-    if(place.isTexts) activateGoogleLikeColors();
-    else deactivateGoogleLikeColors();
+    if(place.isTexts) {
+      activateGoogleLikeColors();
+    } else {
+      deactivateGoogleLikeColors();
+    }
   }
 
   static const _topMaterialElevations = <StageColorPlace,double>{

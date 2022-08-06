@@ -73,11 +73,13 @@ class CommanderStatsAdvanced extends CommanderStats {
     required int Function(CommanderGame) stat,
   }){
     int val = 0;
-    for(final game in this.commanderGames)
-      if(pilot == null || game.pilots.contains(pilot))
+    for(final game in commanderGames) {
+      if(pilot == null || game.pilots.contains(pilot)){
         if(groupSize == null || game.groupSize == groupSize){
           val += stat(game);
         }
+      }
+    }
     return val;
   }
 
@@ -121,12 +123,14 @@ class CommanderStatsAdvanced extends CommanderStats {
   }){
     double val = 0.0;
     int len = 0;
-    for(final game in this.commanderGames)
-      if(pilot == null || game.pilots.contains(pilot))
+    for(final game in commanderGames) {
+      if(pilot == null || game.pilots.contains(pilot)){
         if(groupSize == null || game.groupSize == groupSize){
           val += stat(game)!;
           ++len;
         }
+      }
+    }
     return len == 0 ? 0 : val/len;
   }
 
@@ -155,7 +159,7 @@ class CommanderStatsAdvanced extends CommanderStats {
     CommanderStats simpleStats, 
     Iterable<PastGame?> pastGames,
   ) {
-    final _games = <CommanderGame>[
+    final games = <CommanderGame>[
       for(final game in pastGames)
         if(game!.winner != null)
         if(game.commanderPlayed(simpleStats.card))
@@ -187,13 +191,13 @@ class CommanderStatsAdvanced extends CommanderStats {
       games: simpleStats.games,
       totalDamage: simpleStats.totalDamage,
       totalCasts: simpleStats.totalCasts,
-      commanderGames: _games,
+      commanderGames: games,
       groupSizes: <int>{
-        for(final g in _games)
+        for(final g in games)
           g.groupSize,
       },
       pilots: <String>{
-        for(final g in _games)
+        for(final g in games)
           ...g.pilots,
       },
     );

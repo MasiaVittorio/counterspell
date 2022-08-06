@@ -17,7 +17,7 @@ class PastGameScreen extends StatelessWidget {
     final titlesVar = bloc.pastGames.customStatTitles;
     final gamesVar = bloc.pastGames.pastGames;
     return gamesVar.build((_,pastGames) {
-      final PastGame game = pastGames[this.index]!;
+      final PastGame game = pastGames[index]!;
       return HeaderedAlertCustom(
 
         Column(
@@ -39,7 +39,7 @@ class PastGameScreen extends StatelessWidget {
               const SectionTitle("Winner"),
               ListTile(
                 leading: const Icon(McIcons.trophy),
-                title: Text("${game.winner ?? "not detected"}"),
+                title: Text(game.winner ?? "not detected"),
               ),
             ], onTap: () => selectWinner(game, stage!, bloc),),
 
@@ -49,7 +49,7 @@ class PastGameScreen extends StatelessWidget {
                 leading: const Icon(McIcons.fountain_pen_tip),
                 title: Text(
                   game.notes.or("[...]")!, 
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
             ], onTap: () => insertNotes(game, stage!, bloc)),
@@ -68,14 +68,16 @@ class PastGameScreen extends StatelessWidget {
                             SidChip(text: title,subText: n,),
                       ];
                       if(children.isEmpty){
-                        return [Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: const Text("Tap to edit"),
+                        return [const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text("Tap to edit"),
                         )];
-                      } else return children.separateWith(
+                      } else {
+                        return children.separateWith(
                         CSWidgets.width10,
                         alsoFirstAndLast: true,
                       );
+                      }
                     })(),),
                   ),
                 )],),),
@@ -113,8 +115,8 @@ class PastGameScreen extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         maxLenght: TextField.noMaxLength,
         onConfirm: (notes){
-          bloc.pastGames.pastGames.value[this.index]!.notes = notes;
-          bloc.pastGames.pastGames.refresh(index: this.index);
+          bloc.pastGames.pastGames.value[index]!.notes = notes;
+          bloc.pastGames.pastGames.refresh(index: index);
         },
       ),
       size: InsertAlert.height,
@@ -127,8 +129,8 @@ class PastGameScreen extends StatelessWidget {
         game.state.names, 
         initialSelected: game.winner, 
         onConfirm: (selected){
-          bloc.pastGames.pastGames.value[this.index]!.winner = selected;
-          bloc.pastGames.pastGames.refresh(index: this.index);
+          bloc.pastGames.pastGames.value[index]!.winner = selected;
+          bloc.pastGames.pastGames.refresh(index: index);
         },
       ),
       size: WinnerSelector.heightCalc(game.state.players.length),
@@ -166,8 +168,8 @@ class CommanderSubSection extends StatelessWidget {
         trailing: IconButton(
           icon: CSWidgets.deleteIcon,
           onPressed: (){
-            bloc!.pastGames.pastGames.value[this.index]!.commandersA[this.player] = null;
-            bloc.pastGames.pastGames.refresh(index: this.index);
+            bloc!.pastGames.pastGames.value[index]!.commandersA[player] = null;
+            bloc.pastGames.pastGames.refresh(index: index);
           }
         ),
       ) else ListTile(
@@ -183,8 +185,8 @@ class CommanderSubSection extends StatelessWidget {
           trailing: IconButton(
             icon: CSWidgets.deleteIcon,
             onPressed: (){
-              bloc!.pastGames.pastGames.value[this.index]!.commandersB[this.player] = null;
-              bloc.pastGames.pastGames.refresh(index: this.index);
+              bloc!.pastGames.pastGames.value[index]!.commandersB[player] = null;
+              bloc.pastGames.pastGames.refresh(index: index);
             }
           ),
         ) 
@@ -197,8 +199,8 @@ class CommanderSubSection extends StatelessWidget {
       BottomExtra(
         Text(partner ? "Merge into one commander" : "Split into two partners"), 
         onTap: (){
-          bloc!.pastGames.pastGames.value[this.index]!.state.players[this.player]!.havePartnerB = !partner;
-          bloc.pastGames.pastGames.refresh(index: this.index);
+          bloc!.pastGames.pastGames.value[index]!.state.players[player]!.havePartnerB = !partner;
+          bloc.pastGames.pastGames.refresh(index: index);
         },
         icon: partner ? Icons.unfold_less : Icons.unfold_more,
       ),
@@ -209,11 +211,11 @@ class CommanderSubSection extends StatelessWidget {
     stage.showAlert(
       ImageSearch((card){
         if(first){
-          bloc!.pastGames.pastGames.value[this.index]!.commandersA[this.player] = card;
+          bloc!.pastGames.pastGames.value[index]!.commandersA[player] = card;
         } else {
-          bloc!.pastGames.pastGames.value[this.index]!.commandersB[this.player] = card;
+          bloc!.pastGames.pastGames.value[index]!.commandersB[player] = card;
         }
-        bloc.pastGames.pastGames.refresh(index: this.index);
+        bloc.pastGames.pastGames.refresh(index: index);
       }),
       size: ImageSearch.height,
     );

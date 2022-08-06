@@ -40,52 +40,52 @@ class CustomStat {
     required this.playersApplicable,
   });
 
-  static CustomStat fromPastGames(String _title, List<PastGame?> pastGames){
-    Map<String?,int> _cmdrApply = <String?,int>{};
-    Map<String,int> _plrApply = <String,int>{};
+  static CustomStat fromPastGames(String title, List<PastGame?> pastGames){
+    Map<String?,int> cmdrApply = <String?,int>{};
+    Map<String,int> plrApply = <String,int>{};
 
-    int _appearances = 0;
-    int _wins = 0;
+    int appearances = 0;
+    int wins = 0;
 
     for(final g in pastGames){
 
-      bool _appeared = false;
-      bool _won = false;
+      bool appeared = false;
+      bool won = false;
 
       for(final e in [...g!.commandersA.entries, ...g.commandersB.entries]){
         final MtgCard? card = e.value;
         final String pilot = e.key;
         if(card != null){
-          final String? id = card.oracleId;
-          if(g.customStats[_title]?.contains(pilot) ?? false){
-            _cmdrApply[id] = (_cmdrApply[id] ?? 0) + 1;
+          final String id = card.oracleId;
+          if(g.customStats[title]?.contains(pilot) ?? false){
+            cmdrApply[id] = (cmdrApply[id] ?? 0) + 1;
           }
         }
       }
 
       for(final name in g.state.players.keys){
-        if(g.customStats[_title]?.contains(name) ?? false){
+        if(g.customStats[title]?.contains(name) ?? false){
 
-          _appeared = true;
+          appeared = true;
 
-          _plrApply[name] = (_plrApply[name] ?? 0) + 1;
+          plrApply[name] = (plrApply[name] ?? 0) + 1;
 
-          if(g.winner == name) _won = true;
+          if(g.winner == name) won = true;
 
         }
       }
 
-      if(_appeared) ++_appearances;
-      if(_won) ++_wins;
+      if(appeared) ++appearances;
+      if(won) ++wins;
       
     }
 
     return CustomStat(
-      title: _title,
-      commandersApplicable: _cmdrApply,
-      playersApplicable: _plrApply,
-      appearances: _appearances,
-      wins: _wins,
+      title: title,
+      commandersApplicable: cmdrApply,
+      playersApplicable: plrApply,
+      appearances: appearances,
+      wins: wins,
     );
   }
 }

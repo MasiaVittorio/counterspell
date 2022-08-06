@@ -100,12 +100,12 @@ class PlayerTile extends StatelessWidget {
       onLongPress: () => stage!.showAlert(
         PlayerDetails(
           bloc.game.gameGroup.names.value.indexOf(name),
-          this.maxWidth / (this.tileSize + this.bottom),
+          maxWidth / (tileSize + bottom),
         ),
         size: PlayerDetails.height,
       ),
       child: VelocityPanDetector(
-        onPanEnd: (_details) => scrollerBloc.onDragEnd(),
+        onPanEnd: (details) => scrollerBloc.onDragEnd(),
         onPanUpdate: (details) => PlayerGestures.pan(
           details,
           name,
@@ -155,8 +155,8 @@ class PlayerTile extends StatelessWidget {
 
           if (cardB == null && cardA == null) {
             return Material(
-              child: tile,
               borderRadius: BorderRadius.circular(12),
+              child: tile,
             );
           } else {
             final String? urlA = cardA?.imageUrl();
@@ -195,7 +195,7 @@ class PlayerTile extends StatelessWidget {
                 image = Row(
                   children: <Widget>[
                     AnimatedContainer(
-                      duration: Duration(milliseconds: 350),
+                      duration: const Duration(milliseconds: 350),
                       curve: Curves.easeOut,
                       width: maxWidth * (usingPartnerB! ? 0.25 : 0.75),
                       decoration: decorationA,
@@ -326,7 +326,7 @@ class PlayerTile extends StatelessWidget {
         ),
       );
     } else {
-      final int _increment = PTileUtils.cnIncrement(normalizedPlayerAction);
+      final int increment = PTileUtils.cnIncrement(normalizedPlayerAction);
 
       final bool selected = page == CSPage.commanderDamage
           ? attacking || defending
@@ -339,7 +339,7 @@ class PlayerTile extends StatelessWidget {
         onTap: () => stage!.showAlert(
           PlayerDetails(
             group!.names.value.indexOf(name),
-            this.maxWidth / (this.tileSize + this.bottom),
+            maxWidth / (tileSize + bottom),
           ),
           size: PlayerDetails.height,
         ),
@@ -360,14 +360,14 @@ class PlayerTile extends StatelessWidget {
           style: textStyle,
           duration: const Duration(milliseconds: 360),
           color: selected ? selectedColor : subColor,
-          increment: _increment,
+          increment: increment,
           borderRadiusFraction: attacking ? 0.1 : 1.0,
         ),
       );
     }
 
     return Padding(
-        padding: EdgeInsets.all(coreTileSize * (1 - circleFrac) / 2),
+        padding: const EdgeInsets.all(coreTileSize * (1 - circleFrac) / 2),
         child: child);
   }
 
@@ -390,7 +390,7 @@ class PlayerTile extends StatelessWidget {
                       rawSelected == null ? true : null;
                   actionBloc.selected.refresh();
                 },
-                child: Container(
+                child: SizedBox(
                   width: coreTileSize,
                   height: coreTileSize,
                   child: Checkbox(
@@ -415,12 +415,12 @@ class PlayerTile extends StatelessWidget {
               child: InkWell(
                 onLongPress: () => stateBloc.toggleHavePartner(name),
                 onTap: () => stateBloc.toggleUsePartner(name, force: true),
-                child: Container(
+                child: SizedBox(
                   width: coreTileSize,
                   height: coreTileSize,
                   child: Transform(
                     transform: Matrix4.rotationY(usingPartnerB! ? pi : 0.0),
-                    origin: Offset(
+                    origin: const Offset(
                       coreTileSize / 2,
                       coreTileSize / 2,
                     ),
@@ -447,12 +447,12 @@ class PlayerTile extends StatelessWidget {
               child: InkWell(
                 onLongPress: () => stateBloc.toggleHavePartner(name),
                 onTap: () => stateBloc.toggleUsePartner(name, force: true),
-                child: Container(
+                child: SizedBox(
                   width: coreTileSize,
                   height: coreTileSize,
                   child: Transform(
                     transform: Matrix4.rotationY(usingPartnerB! ? pi : 0.0),
-                    origin: Offset(
+                    origin: const Offset(
                       coreTileSize / 2,
                       coreTileSize / 2,
                     ),
@@ -473,7 +473,7 @@ class PlayerTile extends StatelessWidget {
               presented: page == CSPage.commanderDamage &&
                   whoIsAttacking != name &&
                   whoIsAttacking != "",
-              child: Container(
+              child: SizedBox(
                 width: coreTileSize,
                 height: coreTileSize,
                 child: Icon(

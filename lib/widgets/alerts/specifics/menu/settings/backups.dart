@@ -18,7 +18,7 @@ class BackupsAlert extends StatelessWidget {
 class _BackupsAlert extends StatefulWidget {
   final CSBloc logic;
 
-  _BackupsAlert(this.logic);
+  const _BackupsAlert(this.logic);
 
   @override
   _BackupsAlertState createState() => _BackupsAlertState();
@@ -36,7 +36,7 @@ class _BackupsAlertState extends State<_BackupsAlert> {
 
   void init() async {
     permissionStatus = await Permission.storage.status;
-    this.setState(() {});
+    setState(() {});
   }
 
   @override
@@ -53,14 +53,14 @@ class _BackupsAlertState extends State<_BackupsAlert> {
               PermissionStatusWidget(permissionStatus,
                   onStatusChanged: (status) {
                 if (status.isGranted) {
-                  this.setState(() {
-                    this.permissionStatus = status;
+                  setState(() {
+                    permissionStatus = status;
                   });
                   backups.init();
                 }
               }),
               if (permissionStatus?.isGranted ?? false)
-                ListTile(
+                const ListTile(
                   title: Text("Loading..."),
                   leading: CircularProgressIndicator(),
                 ),
@@ -81,7 +81,7 @@ class _BackupsAlertState extends State<_BackupsAlert> {
             BackupType.pastGames,
         onPageChanged: (p) => stage.panelController.alertController
             .savedStates["backups radio headered alert"] = p,
-        orderedValues: <BackupType>[
+        orderedValues: const <BackupType>[
           BackupType.pastGames,
           BackupType.preferences
         ],
@@ -98,8 +98,8 @@ class _BackupsAlertState extends State<_BackupsAlert> {
                       type: BackupType.preferences,
                     ),
                   DoOneTime(
-                    title: Text("Create new backup"),
-                    leading: Icon(Icons.add),
+                    title: const Text("Create new backup"),
+                    leading: const Icon(Icons.add),
                     futureTap: backups.savePreferences,
                   ),
                   Padding(
@@ -132,8 +132,8 @@ class _BackupsAlertState extends State<_BackupsAlert> {
                       type: BackupType.pastGames,
                     ),
                   DoOneTime(
-                    title: Text("Create new backup"),
-                    leading: Icon(Icons.add),
+                    title: const Text("Create new backup"),
+                    leading: const Icon(Icons.add),
                     futureTap: backups.savePastGames,
                   ),
                   Padding(
@@ -173,7 +173,7 @@ class DoOneTime extends StatefulWidget {
   });
 
   @override
-  _DoOneTimeState createState() => _DoOneTimeState();
+  State<DoOneTime> createState() => _DoOneTimeState();
 }
 
 class _DoOneTimeState extends State<DoOneTime> {
@@ -194,13 +194,13 @@ class _DoOneTimeState extends State<DoOneTime> {
           ? null
           : widget.delegateTap != null
               ? () {
-                  this.setState(() {
+                  setState(() {
                     waiting = true;
                     done = false;
                   });
                   widget.delegateTap!(() {
                     if (!mounted) return;
-                    this.setState(() {
+                    setState(() {
                       waiting = false;
                       done = true;
                     });
@@ -208,13 +208,13 @@ class _DoOneTimeState extends State<DoOneTime> {
                 }
               : widget.futureTap != null
                   ? () async {
-                      this.setState(() {
+                      setState(() {
                         done = false;
                         waiting = true;
                       });
                       if (await widget.futureTap!()) {
                         if (!mounted) return;
-                        this.setState(() {
+                        setState(() {
                           done = true;
                           waiting = false;
                         });
@@ -235,7 +235,7 @@ class FileListTile extends StatelessWidget {
   final int index;
   final BackupType type;
 
-  FileListTile({
+  const FileListTile({
     required this.index,
     required this.file,
     required this.type,
@@ -247,7 +247,7 @@ class FileListTile extends StatelessWidget {
     final stage = Stage.of(context);
     return ListTile(
       title: Text(path.basename(file.path)),
-      leading: Icon(McIcons.file_document_outline),
+      leading: const Icon(McIcons.file_document_outline),
       trailing: IconButton(
         icon: CSWidgets.deleteIcon,
         onPressed: () => stage!.showAlert(
@@ -291,7 +291,7 @@ class PermissionStatusWidget extends StatefulWidget {
   final ValueChanged<PermissionStatus> onStatusChanged;
 
   @override
-  _PermissionStatusWidgetState createState() => _PermissionStatusWidgetState();
+  State<PermissionStatusWidget> createState() => _PermissionStatusWidgetState();
 }
 
 class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
@@ -331,7 +331,7 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
         null,
       ].contains(widget.status)
           ? () async {
-              this.setState(() {
+              setState(() {
                 waiting = true;
               });
 
@@ -340,7 +340,7 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
               );
 
               if (!mounted) return;
-              this.setState(() {
+              setState(() {
                 waiting = true;
               });
             }

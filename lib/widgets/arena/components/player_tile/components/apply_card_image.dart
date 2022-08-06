@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 
 class AptCardImage extends StatelessWidget {
 
-  AptCardImage({
+  const AptCardImage({
     required this.bloc,
     required this.name,
     required this.gameState,
@@ -80,7 +80,7 @@ class AptCardImage extends StatelessWidget {
             image = Row(
               children: <Widget>[
                 AnimatedContainer(
-                  duration: Duration(milliseconds: 350),
+                  duration: const Duration(milliseconds: 350),
                   curve: Curves.easeOut,
                   width: maxWidth * (useB ? 0.25 : 0.75),
                   decoration: decorationA,
@@ -102,13 +102,13 @@ class AptCardImage extends StatelessWidget {
           
           if(isAttacking) {
             bkgColor = Color.alphaBlend(
-              this.pageColors![CSPage.commanderDamage]!
+              pageColors![CSPage.commanderDamage]!
                   .withOpacity(_cmdrOpacity),
               bkgColor,
             );
           } else if (isDefending) {
             bkgColor = Color.alphaBlend(
-              this.defenceColor!
+              defenceColor!
                   .withOpacity(_cmdrOpacity),
               bkgColor,
             );

@@ -10,7 +10,7 @@ class CommanderStatsScreen extends StatefulWidget {
   static const double height = 462;
 
   @override
-  _CommanderStatsScreenState createState() => _CommanderStatsScreenState();
+  State createState() => _CommanderStatsScreenState();
 }
 
 class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
@@ -107,7 +107,7 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
               Expanded(child: InfoDisplayer(
                 title: const Text("Avg damage"), 
                 background: const Icon(CSIcons.attackTwo), 
-                value: Text("${InfoDisplayer.getString(averageDamage)}"),
+                value: Text(InfoDisplayer.getString(averageDamage)),
                 detail: Text("Overall: $totalDamage"),
                 color: colors![CSPage.commanderDamage],
                 fill: true,
@@ -115,7 +115,7 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
               Expanded(child: InfoDisplayer(
                 title: const Text("Avg casts"), 
                 background: const Icon(CSIcons.castFilled), 
-                value: Text("${InfoDisplayer.getString(averageCasts)}"),
+                value: Text(InfoDisplayer.getString(averageCasts)),
                 detail: Text("Overall: $totalCasts"),
                 color: colors[CSPage.commanderCast],
                 fill: true,
@@ -128,23 +128,23 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
           const SectionTitle("Filters"),
 
           Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 14.0, right: 6.0),
-              child: const Text("Pilots:"),
+            const Padding(
+              padding: EdgeInsets.only(left: 14.0, right: 6.0),
+              child: Text("Pilots:"),
             ),
             Expanded(child: Align(
               alignment: Alignment.centerLeft,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: ToggleButtons(
-                  children: [for(final p in pilots) Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(p ?? "-"),
-                  )],
                   isSelected: [for(final p in pilots) pilot == p],
                   onPressed: (i) => setState((){
                     pilot = pilots[i];
                   }),
+                  children: [for(final p in pilots) Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(p ?? "-"),
+                  )],
                 ),
               ),
             )),
@@ -153,23 +153,23 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
           CSWidgets.height5,
 
           Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 14.0, right: 6.0),
-              child: const Text("Group size:"),
+            const Padding(
+              padding: EdgeInsets.only(left: 14.0, right: 6.0),
+              child: Text("Group size:"),
             ),
             Expanded(child: Align(
               alignment: Alignment.centerLeft,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: ToggleButtons(
-                  children: [for(final s in groupSizes) Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("${s ?? "-"}"),
-                  )],
                   isSelected: [for(final s in groupSizes) groupSize == s],
                   onPressed: (i) => setState((){
                     groupSize = groupSizes[i];
                   }),
+                  children: [for(final s in groupSizes) Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("${s ?? "-"}"),
+                  )],
                   ),
               ),
             ),),

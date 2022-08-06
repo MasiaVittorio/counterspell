@@ -4,7 +4,7 @@ class TutorialSelection extends StatefulWidget {
   const TutorialSelection();
 
   @override
-  _TutorialSelectionState createState() => _TutorialSelectionState();
+  State createState() => _TutorialSelectionState();
 }
 
 class _TutorialSelectionState extends State<TutorialSelection> {
@@ -15,9 +15,9 @@ class _TutorialSelectionState extends State<TutorialSelection> {
   };
   bool tried = false;
 
-  void tapKey(String key) => this.setState((){
-    this.state[key] = !(this.state[key] ?? true);
-    this.tried = true;
+  void tapKey(String key) => setState((){
+    state[key] = !(state[key] ?? true);
+    tried = true;
   });
 
   @override
@@ -33,7 +33,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
       // colorBright == Brightness.light 
       // ? Colors.black 
       // : Colors.white;
-    final textStyle = TextStyle(fontSize: 0.26 * CSSizes.minTileSize);
+    const textStyle = TextStyle(fontSize: 0.26 * CSSizes.minTileSize);
     // final TextStyle subhead = theme.textTheme.subtitle1;
 
     final theme = Theme.of(context);
@@ -47,9 +47,9 @@ class _TutorialSelectionState extends State<TutorialSelection> {
     return Column(
       children: <Widget>[
 
-        SubSection(<Widget>[
+        const SubSection(<Widget>[
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Text(
               "Select multiple players at once!",
               textAlign: TextAlign.center,
@@ -67,21 +67,21 @@ class _TutorialSelectionState extends State<TutorialSelection> {
             children: <Widget>[
               for(final String key in state.keys) 
                 InkWell(
-                  onTap: () => this.tapKey(key),
+                  onTap: () => tapKey(key),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ListTile(
                       title: Text(key),
                       trailing: InkWell(
-                        onTap: () => this.tapKey(key),
-                        onLongPress: () => this.setState((){
-                          this.state[key] = null;
+                        onTap: () => tapKey(key),
+                        onLongPress: () => setState((){
+                          state[key] = null;
                         }),
                         child: Checkbox(
                           tristate: true,
-                          value: this.state[key],
-                          onChanged: (b) => this.setState((){
-                            this.state[key] = b ?? false;
+                          value: state[key],
+                          onChanged: (b) => setState((){
+                            state[key] = b ?? false;
                           }),
                         ),
                       ),
@@ -89,15 +89,15 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                         size: 56,
                         value: 40,
                         numberOpacity: 1.0,
-                        open: this.state[key] != false,
+                        open: state[key] != false,
                         style: textStyle,
                         duration: CSAnimations.fast,
-                        color: this.state[key] == false
+                        color: state[key] == false
                           ? subColor
                           : selectedColor,
-                        increment: this.state[key] == true 
+                        increment: state[key] == true 
                           ? 7
-                          : this.state[key] == false
+                          : state[key] == false
                             ? 0
                             : -7,
                         borderRadiusFraction: 1.0,
@@ -116,7 +116,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
             padding: const EdgeInsets.all(16.0),
             child: AnimatedOpacity(
               duration: CSAnimations.fast,
-              opacity: this.tried ? 1.0 : 0.0,
+              opacity: tried ? 1.0 : 0.0,
               child: const Text(
                 "(You can long press the small checkbox to anti-select a player: useful for lifelink!)",
                 textAlign: TextAlign.center,
@@ -131,7 +131,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                   child: ExtraButton(
                     onTap: (){},
                     text: "",
-                    customIcon: Checkbox(value: true, onChanged: null,),
+                    customIcon: const Checkbox(value: true, onChanged: null,),
                     icon: null,
                     forceExternalSize: true,
                   ),
@@ -142,7 +142,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                     onTap: (){},
                     text: "",
                     icon: null,
-                    customIcon: Checkbox(value: false, onChanged: null,),
+                    customIcon: const Checkbox(value: false, onChanged: null,),
                     forceExternalSize: true,
                   ),
                 ),
@@ -152,7 +152,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                     onTap: (){},
                     text: "Anti-Selected",
                     icon: null,
-                    customIcon: Checkbox(value: null, tristate: true, onChanged: null,),
+                    customIcon: const Checkbox(value: null, tristate: true, onChanged: null,),
                     forceExternalSize: true,
                   ),
                 ),

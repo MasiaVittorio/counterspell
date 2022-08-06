@@ -5,9 +5,9 @@ class UIExpert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stage<CSPage,SettingsPage>(
+    return const Stage<CSPage,SettingsPage>(
       body: _Body(), 
-      collapsedPanel: const _Collapsed(), 
+      collapsedPanel: _Collapsed(), 
       extendedPanel: _Extended(), 
       topBarContent: StageTopBarContent(
         title: StageTopBarTitle(panelTitle: "CounterSpell",)
@@ -31,12 +31,12 @@ class _Body extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
+          const Text(
             "Each page has different shortcuts on the bottom right.",
             textAlign: TextAlign.center,
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
-          Text(
+          const Text(
             "The MENU and ARENA MODE also have buttons for restarting and playgroup editing.",
             textAlign: TextAlign.center,
             style: TextStyle(fontStyle: FontStyle.italic),
@@ -58,7 +58,7 @@ class _Extended extends StatelessWidget {
   const _Extended();
   @override
   Widget build(BuildContext context) {
-    return StageExtendedPanel(children: const <SettingsPage,Widget>{
+    return const StageExtendedPanel(children: <SettingsPage,Widget>{
       SettingsPage.game: _RightPage(),
       SettingsPage.info: _WrongPage(),
       SettingsPage.settings: _WrongPage(),
@@ -120,8 +120,8 @@ class _WrongPage extends StatelessWidget {
     return ListView(
       physics: stage.panelScrollPhysics,
       primary: false,
-      children: <Widget>[
-        const Section(<Widget>[
+      children: const <Widget>[
+        Section(<Widget>[
           PanelTitle("Wrong page"),
           ListTile(
             title: Text('Go to the "Game" tab!'),
@@ -156,10 +156,10 @@ class _Collapsed extends StatelessWidget {
             : () => stage!.showAlert(const _ArenaMockup(), size: _ArenaMockup.height),
         ),
         Expanded(child: Center(child: page != CSPage.history
-          ? Icon(Icons.keyboard_arrow_left)
+          ? const Icon(Icons.keyboard_arrow_left)
           : Container(),),),
         Expanded(child: Center(child: page != CSPage.commanderCast
-          ? Icon(Icons.keyboard_arrow_right)
+          ? const Icon(Icons.keyboard_arrow_right)
           : Container(),),),
         IconButton(
           icon:  Icon(
@@ -264,7 +264,7 @@ class _ArenaMockup extends StatelessWidget {
             ],),
           ),
 
-          Center(child: FloatingActionButton(
+          const Center(child: FloatingActionButton(
             onPressed: null, 
             child: Icon(Icons.menu),
           ),),

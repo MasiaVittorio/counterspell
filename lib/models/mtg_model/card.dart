@@ -21,6 +21,8 @@
 //     return json.encode(dyn);
 // }
 
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 // import 'package:scrywalker/models/boolean_stuff/boolean_model.dart';
 import 'color_data.dart';
@@ -39,23 +41,24 @@ class MtgCard {
     //===================
 
   @override
-  int get hashCode => this.id.hashCode;
+  int get hashCode => id.hashCode;
 
   @override
   bool operator ==(dynamic other) {
-    if (runtimeType != other.runtimeType)
+    if (runtimeType != other.runtimeType) {
       return false;
-    return other.id == this.id;
+    }
+    return other.id == id;
   }
 
-  String? imageUrl({int faceIndex = 0, String uri: ImageUris.ARTCROP}) {
+  String? imageUrl({int faceIndex = 0, String uri = ImageUris.ARTCROP}) {
     late final ImageUris? uris;
     
-    if(this.imageUris != null){
-      uris = this.imageUris!;
-    } else if(this.cardFaces != null){
+    if(imageUris != null){
+      uris = imageUris!;
+    } else if(cardFaces != null){
       if(cardFaces!.length > faceIndex && faceIndex >= 0){
-        uris = this.cardFaces![faceIndex].imageUris;
+        uris = cardFaces![faceIndex].imageUris;
       }
     }
 
@@ -64,16 +67,16 @@ class MtgCard {
     return uris.getUri(uri);
   }
 
-  bool get isCreature => this.typeLine.contains("Creature");
-  bool get isEnchantment => this.typeLine.contains("Enchantment");
-  bool get isSorcery => this.typeLine.contains("Sorcery");
-  bool get isInstant => this.typeLine.contains("Sorcery");
-  bool get isArtifact => this.typeLine.contains("Artifact");
-  bool isType(String type) => this.typeLine.contains(type);
+  bool get isCreature => typeLine.contains("Creature");
+  bool get isEnchantment => typeLine.contains("Enchantment");
+  bool get isSorcery => typeLine.contains("Sorcery");
+  bool get isInstant => typeLine.contains("Sorcery");
+  bool get isArtifact => typeLine.contains("Artifact");
+  bool isType(String type) => typeLine.contains(type);
 
-  bool isFaceType(String type, [int face = 0]) => this.isFaced
-    ? (this.cardFaces![face].typeLine?.contains(type) ?? false) 
-    : this.typeLine.contains(type);
+  bool isFaceType(String type, [int face = 0]) => isFaced
+    ? (cardFaces![face].typeLine?.contains(type) ?? false) 
+    : typeLine.contains(type);
 
   static const List<String> hybridSymbolsColored = [
     "{W/U}",
@@ -88,34 +91,38 @@ class MtgCard {
     "{G/U}",
   ];  
 
-  bool get isFaced => this.cardFaces != null;
+  bool get isFaced => cardFaces != null;
 
   String getManaCost([int face = 0]){
-    if(this.isFaced) return this.cardFaces![face].manaCost;
+    if(isFaced) return cardFaces![face].manaCost;
     return manaCost ?? "";
   }
 
   bool isHybrid([int face = 0]) {
-    for(final s in hybridSymbolsColored)
-      if(getManaCost(face).contains(s))
+    for(final s in hybridSymbolsColored) {
+      if(getManaCost(face).contains(s)) {
         return true;
+    }
+      }
     return false;
   }
 
   List<Color?> bkgColors([int face = 0]) {
-    final List<MtgColor> _clrs = colorIdentity;
-    final int len = _clrs.length;
+    final List<MtgColor> clrs = colorIdentity;
+    final int len = clrs.length;
 
     switch (len) {
       case 0:
         return [Colors.grey];
       case 1:
-        return [MTG_TO_COLORS_BKG[_clrs[0]]];
+        return [MTG_TO_COLORS_BKG[clrs[0]]];
       case 2:
-        if(isHybrid(face)) return [
-          MTG_TO_COLORS_BKG[_clrs[0]],
-          MTG_TO_COLORS_BKG[_clrs[1]],
+        if(isHybrid(face)) {
+          return [
+          MTG_TO_COLORS_BKG[clrs[0]],
+          MTG_TO_COLORS_BKG[clrs[1]],
         ];
+        }
         break;
      default:
     }
@@ -352,8 +359,8 @@ class MtgCard {
       ? null 
       : <int>[for(final v in json["multiverse_ids"]) v as int],
     mtgoId: json["mtgo_id"],
-    mtgoFoilId: json["mtgo_foil_id"] == null ? null : json["mtgo_foil_id"],
-    tcgplayerId: json["tcgplayer_id"] == null ? null : json["tcgplayer_id"],
+    mtgoFoilId: json["mtgo_foil_id"],
+    tcgplayerId: json["tcgplayer_id"],
     name: json["name"],
     lang: json["lang"]!,
     releasedAt: json["released_at"],
@@ -362,10 +369,10 @@ class MtgCard {
     layout: json["layout"] ?? "",
     highresImage: json["highres_image"],
     imageUris: json["image_uris"] == null ? null : ImageUris.fromJson(json["image_uris"]),
-    manaCost: json["mana_cost"] == null ? null : json["mana_cost"],
+    manaCost: json["mana_cost"],
     cmc: json["cmc"].toDouble(),
     typeLine: json["type_line"],
-    oracleText: json["oracle_text"] == null ? null : json["oracle_text"],
+    oracleText: json["oracle_text"],
     colors: json["colors"] == null ? null : List<MtgColor>.from(json["colors"].map((x) => colorValues.map[x])),
     colorIdentity: List<MtgColor>.from(json["color_identity"].map((x) => colorValues.map[x])),
     legalities: <String,String>{
@@ -389,25 +396,25 @@ class MtgCard {
     collectorNumber: json["collector_number"],
     digital: json["digital"],
     rarity: rarityValues.map[json["rarity"]]!,
-    flavorText: json["flavor_text"] == null ? null : json["flavor_text"],
-    illustrationId: json["illustration_id"] == null ? null : json["illustration_id"],
+    flavorText: json["flavor_text"],
+    illustrationId: json["illustration_id"],
     artist: json["artist"],
     borderColor: borderColorValues.map[json["border_color"]]!,
     frame: json["frame"],
     // frameEffect: frameEffectValues.map[json["frame_effect"]],
     fullArt: json["full_art"],
     storySpotlight: json["story_spotlight"],
-    edhrecRank: json["edhrec_rank"] == null ? null : json["edhrec_rank"],
+    edhrecRank: json["edhrec_rank"],
     relatedUris: RelatedUris.fromJson(json["related_uris"]),
-    power: json["power"] == null ? null : json["power"],
-    toughness: json["toughness"] == null ? null : json["toughness"],
-    arenaId: json["arena_id"] == null ? null : json["arena_id"],
+    power: json["power"],
+    toughness: json["toughness"],
+    arenaId: json["arena_id"],
     watermark: json["watermark"] == null ? null : watermarkValues.map[json["watermark"]],
     allParts: json["all_parts"] == null ? null : List<MtgRelatedCard>.from(json["all_parts"].map((x) => MtgRelatedCard.fromJson(x))),
     cardFaces: json["card_faces"] == null ? null : List<CardFace>.from(json["card_faces"].map((x) => CardFace.fromJson(x))),
-    lifeModifier: json["life_modifier"] == null ? null : json["life_modifier"],
-    handModifier: json["hand_modifier"] == null ? null : json["hand_modifier"],
-    loyalty: json["loyalty"] == null ? null : json["loyalty"],
+    lifeModifier: json["life_modifier"],
+    handModifier: json["hand_modifier"],
+    loyalty: json["loyalty"],
     colorIndicator: json["color_indicator"] == null ? null : List<MtgColor>.from(json["color_indicator"].map((x) => colorValues.map[x])),
     prices: json["prices"] == null ? null : MtgPrices.fromJson(json["prices"]),
     purchaseUris: json["purchase_uris"] == null ? null : MtgPurchaseUris.fromJson(json["purchase_uris"]),
@@ -418,9 +425,9 @@ class MtgCard {
     "id": id,
     "oracle_id": oracleId, 
     "multiverse_ids": multiverseIds,
-    "mtgo_id": mtgoId == null ? null : mtgoId,
-    "mtgo_foil_id": mtgoFoilId == null ? null : mtgoFoilId,
-    "tcgplayer_id": tcgplayerId == null ? null : tcgplayerId,
+    "mtgo_id": mtgoId,
+    "mtgo_foil_id": mtgoFoilId,
+    "tcgplayer_id": tcgplayerId,
     "name": name,
     "lang": lang,
     "released_at": releasedAt,
@@ -429,10 +436,10 @@ class MtgCard {
     "layout": layout,
     "highres_image": highresImage,
     "image_uris": imageUris?.toJson(),
-    "mana_cost": manaCost == null ? null : manaCost,
+    "mana_cost": manaCost,
     "cmc": cmc,
     "type_line": typeLine,
-    "oracle_text": oracleText == null ? null : oracleText,
+    "oracle_text": oracleText,
     "colors": colors == null ? null : List<dynamic>.from(colors!.map((x) => colorValues.reverse[x])),
     "color_identity": List<dynamic>.from(colorIdentity.map((x) => colorValues.reverse[x])),
     "legalities": legalities,
@@ -453,28 +460,28 @@ class MtgCard {
     "collector_number": collectorNumber,
     "digital": digital,
     "rarity": rarityValues.reverse[rarity],
-    "flavor_text": flavorText == null ? null : flavorText,
-    "illustration_id": illustrationId == null ? null : illustrationId,
+    "flavor_text": flavorText,
+    "illustration_id": illustrationId,
     "artist": artist,
     "border_color": borderColorValues.reverse[borderColor],
     "frame": frame,
     // "frame_effect": frameEffectValues.reverse[frameEffect!],
     "full_art": fullArt,
     "story_spotlight": storySpotlight,
-    "edhrec_rank": edhrecRank == null ? null : edhrecRank,
+    "edhrec_rank": edhrecRank,
     "related_uris": relatedUris.toJson(),
-    "power": power == null ? null : power,
-    "toughness": toughness == null ? null : toughness,
-    "arena_id": arenaId == null ? null : arenaId,
+    "power": power,
+    "toughness": toughness,
+    "arena_id": arenaId,
     "watermark": watermark == null ? null : watermarkValues.reverse[watermark!],
     "all_parts": allParts == null ? null : List<dynamic>.from(allParts!.map((x) => x.toJson())),
     "card_faces": cardFaces == null ? null : List<dynamic>.from(cardFaces!.map((x) => x.toJson())),
-    "life_modifier": lifeModifier == null ? null : lifeModifier,
-    "hand_modifier": handModifier == null ? null : handModifier,
-    "loyalty": loyalty == null ? null : loyalty,
+    "life_modifier": lifeModifier,
+    "hand_modifier": handModifier,
+    "loyalty": loyalty,
     "color_indicator": colorIndicator == null ? null : List<dynamic>.from(colorIndicator!.map((x) => colorValues.reverse[x])),
-    "prices": prices?.toJson() ?? null,
-    "purchase_uris": purchaseUris?.toJson() ?? null,
+    "prices": prices?.toJson(),
+    "purchase_uris": purchaseUris?.toJson(),
   };
 }
 
@@ -490,16 +497,16 @@ class MtgPrices {
     this.tix,
   });
   factory MtgPrices.fromJson(Map<String,dynamic> json) => MtgPrices(
-    usd: json["usd"] ?? null,
-    usdFoil: json["usd_foil"] ?? null,
-    eur: json["eur"] ?? null,
-    tix: json["tix"] ?? null,
+    usd: json["usd"],
+    usdFoil: json["usd_foil"],
+    eur: json["eur"],
+    tix: json["tix"],
   );
   Map<String, dynamic> toJson() => {
-    "usd": this.usd,
-    "usd_foil": this.usdFoil,
-    "eur": this.eur,
-    "tix": this.tix,
+    "usd": usd,
+    "usd_foil": usdFoil,
+    "eur": eur,
+    "tix": tix,
   };
 }
 class MtgPurchaseUris {
@@ -512,14 +519,14 @@ class MtgPurchaseUris {
     this.cardhoarder,
   });
   factory MtgPurchaseUris.fromJson(Map<String,dynamic> json) => MtgPurchaseUris(
-    tcgplayer: json["tcgplayer"] ?? null,
-    cardmarket: json["cardmarket"] ?? null,
-    cardhoarder: json["cardhoarder"] ?? null,
+    tcgplayer: json["tcgplayer"],
+    cardmarket: json["cardmarket"],
+    cardhoarder: json["cardhoarder"],
   );
   Map<String, dynamic> toJson() => {
-    "tcgplayer": this.tcgplayer,
-    "cardmarket": this.cardmarket,
-    "cardhoarder": this.cardhoarder,
+    "tcgplayer": tcgplayer,
+    "cardmarket": cardmarket,
+    "cardhoarder": cardhoarder,
   };
 }
 
@@ -626,15 +633,15 @@ class CardFace {
         typeLine: json["type_line"],
         oracleText: json["oracle_text"],
         colors: json["colors"] == null ? null : List<MtgColor>.from(json["colors"].map((x) => colorValues.map[x])),
-        power: json["power"] == null ? null : json["power"],
-        toughness: json["toughness"] == null ? null : json["toughness"],
-        artist: json["artist"] == null ? null : json["artist"],
-        illustrationId: json["illustration_id"] == null ? null : json["illustration_id"],
+        power: json["power"],
+        toughness: json["toughness"],
+        artist: json["artist"],
+        illustrationId: json["illustration_id"],
         imageUris: json["image_uris"] == null ? null : ImageUris.fromJson(json["image_uris"]),
         watermark: json["watermark"] == null ? null : watermarkValues.map[json["watermark"]],
         colorIndicator: json["color_indicator"] == null ? null : List<MtgColor>.from(json["color_indicator"].map((x) => colorValues.map[x])),
-        flavorText: json["flavor_text"] == null ? null : json["flavor_text"],
-        loyalty: json["loyalty"] == null ? null : json["loyalty"],
+        flavorText: json["flavor_text"],
+        loyalty: json["loyalty"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -644,15 +651,15 @@ class CardFace {
         "type_line": typeLine,
         "oracle_text": oracleText,
         "colors": colors == null ? null : List<dynamic>.from(colors!.map((x) => colorValues.reverse[x])),
-        "power": power == null ? null : power,
-        "toughness": toughness == null ? null : toughness,
-        "artist": artist == null ? null : artist,
-        "illustration_id": illustrationId == null ? null : illustrationId,
+        "power": power,
+        "toughness": toughness,
+        "artist": artist,
+        "illustration_id": illustrationId,
         "image_uris": imageUris?.toJson(),
         "watermark": watermark == null ? null : watermarkValues.reverse[watermark!],
         "color_indicator": colorIndicator == null ? null : List<dynamic>.from(colorIndicator!.map((x) => colorValues.reverse[x])),
-        "flavor_text": flavorText == null ? null : flavorText,
-        "loyalty": loyalty == null ? null : loyalty,
+        "flavor_text": flavorText,
+        "loyalty": loyalty,
     };
 }
 
@@ -690,12 +697,12 @@ class ImageUris {
     String? borderCrop;
 
     String? getUri(String whichOne) => 
-      whichOne == SMALL ? this.small : 
-      whichOne == NORMAL ? this.normal : 
-      whichOne == LARGE ? this.large : 
-      whichOne == PNG ? this.png : 
-      whichOne == ARTCROP ? this.artCrop : 
-      whichOne == BORDERCROP ? this.borderCrop : 
+      whichOne == SMALL ? small : 
+      whichOne == NORMAL ? normal : 
+      whichOne == LARGE ? large : 
+      whichOne == PNG ? png : 
+      whichOne == ARTCROP ? artCrop : 
+      whichOne == BORDERCROP ? borderCrop : 
       null;
 
     ImageUris({
@@ -859,14 +866,14 @@ class RelatedUris {
     });
 
     factory RelatedUris.fromJson(Map<String, dynamic> json) => RelatedUris(
-        gatherer: json["gatherer"] == null ? null : json["gatherer"],
+        gatherer: json["gatherer"],
         tcgplayerDecks: json["tcgplayer_decks"],
         edhrec: json["edhrec"],
         mtgtop8: json["mtgtop8"],
     );
 
     Map<String, dynamic> toJson() => {
-        "gatherer": gatherer == null ? null : gatherer,
+        "gatherer": gatherer,
         "tcgplayer_decks": tcgplayerDecks,
         "edhrec": edhrec,
         "mtgtop8": mtgtop8,
@@ -880,12 +887,10 @@ class EnumValues<T> {
   EnumValues(this.map);
 
   Map<T, String> get reverse {
-    if (_reverseMap == null) {
-      _reverseMap = <T,String>{
+    _reverseMap ??= <T,String>{
         for(final entry in map.entries)
           entry.value: entry.key
       };
-    }
     return _reverseMap!;
   }
 }

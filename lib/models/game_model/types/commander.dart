@@ -10,7 +10,7 @@ class CommanderDamage{
   const CommanderDamage(this.a, [this.b = 0])
       : assert(a>=0 && b>=0);
  
-  dynamic get json => <int>[this.a, this.b];
+  dynamic get json => <int>[a, b];
   static CommanderDamage fromJson(dynamic json) => CommanderDamage(
     (json as List)[0] as int,
     (json)[1] as int,
@@ -26,7 +26,7 @@ class CommanderDamage{
     (!partnerA ? damage : b).clamp(0, maxValue),
   );
 
-  CommanderDamage copy() => CommanderDamage(this.a + 0, this.b + 0);
+  CommanderDamage copy() => CommanderDamage(a + 0, b + 0);
 }
 
 
@@ -42,5 +42,6 @@ class CommanderCast extends CommanderDamage{
     (!partnerA ? cast : b).clamp(0, maxValue),
   );
 
-  CommanderCast copy() => CommanderCast(this.a + 0, this.b + 0);
+  @override
+  CommanderCast copy() => CommanderCast(a + 0, b + 0);
 }

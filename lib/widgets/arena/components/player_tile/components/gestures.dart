@@ -4,7 +4,7 @@ import 'package:counter_spell_new/widgets/stage/body/group/player_tile_gestures.
 
 class AptGestures extends StatelessWidget {
 
-  AptGestures({
+  const AptGestures({
     required this.content,
     required this.bloc,
     required this.name,
@@ -106,8 +106,8 @@ class AptGestures extends StatelessWidget {
                 plus: Expanded(child: ContinuousPressInkResponse(
                   containedInkWell: true,
                   onTap: (){}, /// not null because the inkwell must be seen as enabled
-                  onTapDown: (_) => this.tapOnly(plus, stage),
-                  whileLongPress: () => this.tapOnly(plus, stage),
+                  onTapDown: (_) => tapOnly(plus, stage),
+                  whileLongPress: () => tapOnly(plus, stage),
                   interval: const Duration(milliseconds: 250),
                   child: Container(
                     color: Colors.transparent,
@@ -143,12 +143,12 @@ class AptGestures extends StatelessWidget {
                     : Alignment.bottomRight,
                   child: AptCmdrDmg(
                     bloc: this.bloc, 
-                    name: this.name, 
-                    page: this.page, 
-                    whoIsAttacking: this.whoIsAttacking,
-                    whoIsDefending: this.whoIsDefending,
-                    usePartnerB: this.usingPartnerB,
-                    hasPartnerB: this.havingPartnerB,
+                    name: name, 
+                    page: page, 
+                    whoIsAttacking: whoIsAttacking,
+                    whoIsDefending: whoIsDefending,
+                    usePartnerB: usingPartnerB,
+                    hasPartnerB: havingPartnerB,
                   ),
                 ),
               ),
@@ -218,11 +218,11 @@ class AptGestures extends StatelessWidget {
   /// With scroll settings, a long press will trigger commander damage
   /// (without scroll settings, it wont be there altogether)
   void longPressWithScrollSettings(StageData? stage){
-    if(page == CSPage.commanderDamage && this.whoIsAttacking == this.name){
+    if(page == CSPage.commanderDamage && whoIsAttacking == name){
       stage!.mainPagesController.goToPage(CSPage.life);
     } else {
       stage!.mainPagesController.goToPage(CSPage.commanderDamage);
-      bloc.game.gameAction.attackingPlayer.set(this.name);
+      bloc.game.gameAction.attackingPlayer.set(name);
       bloc.game.gameAction.defendingPlayer.set("");
     } 
   }
@@ -244,12 +244,12 @@ class AptGestures extends StatelessWidget {
   /// the onTapUp callback instead of the normal onTap one.
   void tapOnly(bool topHalf, StageData? stage){
     PlayerGestures.tapOnlyArena(
-      this.name, 
-      bloc: this.bloc, 
-      page: this.page, 
-      whoIsAttacking: this.whoIsAttacking,
+      name, 
+      bloc: bloc, 
+      page: page, 
+      whoIsAttacking: whoIsAttacking,
       topHalf: topHalf,
-      whoIsDefending: this.whoIsDefending, 
+      whoIsDefending: whoIsDefending, 
     );
   }
 
@@ -267,7 +267,7 @@ enum _CmdrMode {
 
 
 class AptCmdrDmg extends StatelessWidget {
-  AptCmdrDmg({
+  const AptCmdrDmg({
     required this.bloc,
     required this.name,
     required this.page,
@@ -318,7 +318,7 @@ class AptCmdrDmg extends StatelessWidget {
         switch (mode) {
           case _CmdrMode.outOfCommanderDamage:
             bloc!.stage.mainPagesController.goToPage(CSPage.commanderDamage);
-            bloc!.game.gameAction.attackingPlayer.set(this.name);
+            bloc!.game.gameAction.attackingPlayer.set(name);
             bloc!.game.gameAction.defendingPlayer.set("");
             break;
           default:

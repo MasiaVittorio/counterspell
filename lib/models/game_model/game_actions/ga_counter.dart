@@ -28,14 +28,14 @@ class GACounter extends GameAction{
         name: !selected.containsKey(name)
           ? PANull.instance
           : selected[name] == false 
-            ? this.counter.uniquePlayer // e.g. monarch
-              ? PACounterReset(this.counter) 
+            ? counter.uniquePlayer // e.g. monarch
+              ? PACounterReset(counter) 
               : PANull.instance
             : PACounter(
               selected[name] == null 
                 ? -increment
                 : increment, // true
-              this.counter,
+              counter,
               maxVal: maxVal,
               minVal: minVal,
             ),

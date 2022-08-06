@@ -16,24 +16,24 @@ class CastInfo extends StatelessWidget {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: SingleChildScrollView(
         physics: Stage.of(context)!.panelController.panelScrollPhysics(),
-        child: Container(
+        child: SizedBox(
           height: height,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const InfoSection(
+            children: const <Widget>[
+              InfoSection(
                 first: true,
-                icon: const Icon(Icons.person_outline),
+                icon: Icon(Icons.person_outline),
                 title: _choseTitle,
                 info: [
                   _chose1,
                   _chose2,
                 ],
               ),
-              const InfoSection(
+              InfoSection(
                 last: true,
-                icon: const Icon(McIcons.account_multiple_outline),
+                icon: Icon(McIcons.account_multiple_outline),
                 title: _partnerTitle,
                 info: [
                   _partner1,

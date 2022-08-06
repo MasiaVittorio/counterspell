@@ -55,8 +55,9 @@ class PTileUtils {
   }
 
   static double cnNumberOpacity(CSPage? page, String whoIsAttacking,){
-    if(page == CSPage.commanderDamage && (whoIsAttacking==""))
+    if(page == CSPage.commanderDamage && (whoIsAttacking=="")) {
       return 0.0;
+    }
     return 1.0;
   }
 
@@ -123,9 +124,9 @@ class PTileUtils {
           final string = "Dmg taken from $attacker";
           if(attackerHavingPartnerB){
             if(attackerUsingPartnerB){
-              return string + " (B)";
+              return "$string (B)";
             } else {
-              return string + " (A)";
+              return "$string (A)";
             }
           } else {
             return string;
@@ -149,7 +150,7 @@ class PTileUtils {
   static String subString(String string, int len){
     if(len < 1) return "";
     if(len > string.length) return string;
-    return string.substring(0,len-1)+".";
+    return "${string.substring(0,len-1)}.";
   }
 }
 

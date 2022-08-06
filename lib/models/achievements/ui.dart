@@ -92,7 +92,7 @@ class MedalIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Icon(
       McIcons.medal,
-      size: this.size,
+      size: size,
       color: medal.colorOnTheme(Theme.of(context))
     );
   }
@@ -111,7 +111,7 @@ class PodiumIcon extends StatelessWidget {
       data: IconThemeData(opacity: colored ? 1.0 : 0.5),
       child: Icon(
         medal.podiumIcon,
-        size: this.size,
+        size: size,
         color: (colored) 
           ? medal.colorOnTheme(Theme.of(context))
           : null,

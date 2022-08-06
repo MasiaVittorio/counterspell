@@ -4,10 +4,10 @@ import 'package:counter_spell_new/core.dart';
 class Commanders extends StatefulWidget {
   final CustomStat stat;
 
-  Commanders(this.stat);
+  const Commanders(this.stat);
 
   @override
-  _CommandersState createState() => _CommandersState();
+  State createState() => _CommandersState();
 }
 
 class _CommandersState extends State<Commanders> {
@@ -33,9 +33,9 @@ class _CommandersState extends State<Commanders> {
       Section([Padding(
         padding: const EdgeInsets.only(top: PanelTitle.height),
         child: RadioSlider(
-          title: Text("Sort by"),
+          title: const Text("Sort by"),
           hideOpenIcons: true,
-          items: [
+          items: const [
             RadioSliderItem(title: Text("Relative"), icon: Text("Relative")),
             RadioSliderItem(title: Text("Overall"), icon: Text("Overall")),
           ],
@@ -71,7 +71,7 @@ class _Commander extends StatelessWidget {
   final int games;
   final int appearances;
 
-  _Commander(this.card, {
+  const _Commander(this.card, {
     required this.appearances,
     required this.games,
   });
@@ -81,7 +81,7 @@ class _Commander extends StatelessWidget {
     return SubSection([
       ListTile(
         title: Text(card.name),
-        leading: Icon(CSIcons.damageOutlined),
+        leading: const Icon(CSIcons.damageOutlined),
         subtitle: Text("${InfoDisplayer.getString(100 * appearances/games)}% of $games games"),
         trailing: Text("$appearances"),
       ),

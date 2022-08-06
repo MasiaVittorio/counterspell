@@ -10,7 +10,7 @@ abstract class GameAction{
   Map<String,PlayerAction> actions(Set<String> names);
 
   GameAction normalizeOnLast(GameState state) {
-    final map = this.actions(state.names);
+    final map = actions(state.names);
     final normalizedMap = {
       for(final entry in map.entries)
         entry.key : entry.value.normalizeOn(
@@ -27,8 +27,9 @@ abstract class GameAction{
   factory GameAction.fromPlayerActions(
     Map<String,PlayerAction> actions
   ){
-    if(actions.values.every((action) => action is PANull))
+    if(actions.values.every((action) => action is PANull)) {
       return GANull.instance;
+    }
 
     return GAComposite(actions);
   }
@@ -40,13 +41,13 @@ abstract class GameAction{
   // Actions
 
   void applyTo(GameState state){
-    final Map<String, PlayerAction> _actions = this.actions(
+    final Map<String, PlayerAction> map = actions(
       state.names
     );
 
     for(final entry in state.players.entries){
       entry.value.applyAction(
-        _actions[entry.key]!
+        map[entry.key]!
       );
     }
 

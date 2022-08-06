@@ -21,22 +21,22 @@ class DamageInfo extends StatelessWidget {
       child: SingleChildScrollView(
         physics: Stage.of(context)!.panelController.panelScrollPhysics(),
         primary: true,
-        child: Container(
+        child: SizedBox(
           height: height,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const _AttackerSection(),
-              const InfoSection(
-                icon: const Icon(McIcons.account_multiple_outline),
+            children: const <Widget>[
+              _AttackerSection(),
+              InfoSection(
+                icon: Icon(McIcons.account_multiple_outline),
                 title: _partnerTitle,
                 info: [
                   _partner1,
                   _partner2,
                 ],
               ),
-              const _DefenderSection(),
+              _DefenderSection(),
             ],
           ),
         ),
@@ -50,7 +50,7 @@ class _DefenderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconTheme.merge(
-      data: IconThemeData(opacity: 1.0),
+      data: const IconThemeData(opacity: 1.0),
       child: CSBloc.of(context)!.themer.defenceColor.build((_,defenceColor)=>InfoSection(
         last: true,
         icon: Icon(
@@ -58,7 +58,7 @@ class _DefenderSection extends StatelessWidget {
           color: defenceColor,
         ),
         title: _defenderTitle,
-        info: [
+        info: const [
           _defender1,
           _defender2,
         ],
@@ -74,7 +74,7 @@ class _AttackerSection extends StatelessWidget {
     final stage = Stage.of(context)!;
     
     return IconTheme.merge(
-      data: IconThemeData(opacity: 1.0),
+      data: const IconThemeData(opacity: 1.0),
       child: stage.themeController.derived.mainPageToPrimaryColor.build((_,map)
         => InfoSection(
           first: true,
@@ -83,7 +83,7 @@ class _AttackerSection extends StatelessWidget {
             color: map![CSPage.commanderDamage],
           ),
           title: _attackerTitle,
-          info: [
+          info: const [
             _attacker1,
             _attacker2,
           ],

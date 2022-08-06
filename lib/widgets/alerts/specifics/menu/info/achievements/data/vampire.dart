@@ -8,6 +8,6 @@ class Vampire extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TutorialSelection();
+    return const TutorialSelection();
   }
 }

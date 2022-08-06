@@ -23,7 +23,7 @@ class OverallTheme extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Section([
-                PanelTitle("Base Theme", centered: false),
+                const PanelTitle("Base Theme", centered: false),
                 Row(children: const <Widget>[
                   Expanded(child: StagePanelSingleColor()),
                   Expanded(child: StageAccentColor()),

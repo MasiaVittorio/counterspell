@@ -12,6 +12,7 @@ class Useful extends StatelessWidget {
     return Section([
       const PanelTitle("Useful", centered: false,),
       SubSection([SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           ExtraButton(
             icon: Icons.help_outline,
@@ -32,7 +33,6 @@ class Useful extends StatelessWidget {
               customCircleColor: Colors.transparent,
             ),].separateWith(CSWidgets.width5)),
         ],),
-        scrollDirection: Axis.horizontal,
       )]),
       CSWidgets.height5,
       ExtraButtons(

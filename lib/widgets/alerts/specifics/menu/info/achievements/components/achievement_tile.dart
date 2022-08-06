@@ -6,7 +6,7 @@ class AchievementTile extends StatelessWidget {
 
   const AchievementTile(this.achievement);
 
-  Achievement get a => this.achievement;
+  Achievement get a => achievement;
 
   @override
   Widget build(BuildContext context) {

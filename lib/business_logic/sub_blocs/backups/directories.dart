@@ -49,7 +49,7 @@ extension CSBackupDirectories on CSBackupBloc {
 
       if (docsDir == null) return false;
 
-      this.storagePath = docsDir.path;
+      storagePath = docsDir.path;
 
       backupsDirectory = await getBackupDirectory(
         backupPathFromStoragePath(storagePath!),
@@ -85,11 +85,11 @@ extension CSBackupDirectories on CSBackupBloc {
     // return "/storage/emulated/0";
   }
 
-  static String backupPathFromStoragePath(String _storagePath) =>
-      path.join(_storagePath, backupDirName);
+  static String backupPathFromStoragePath(String storagePath) =>
+      path.join(storagePath, backupDirName);
 
-  static Future<Directory> getBackupDirectory(String _backupDirPath) async {
-    Directory dir = Directory(_backupDirPath);
+  static Future<Directory> getBackupDirectory(String backupDirPath) async {
+    Directory dir = Directory(backupDirPath);
     if (!await dir.exists()) {
       dir = await dir.create(recursive: true);
     }
@@ -97,9 +97,9 @@ extension CSBackupDirectories on CSBackupBloc {
   }
 
   static const String pastGamesDirName = "PastGames";
-  static Future<Directory> getPastGamesDir(Directory _backupDir) async {
+  static Future<Directory> getPastGamesDir(Directory backupDir) async {
     Directory dir = Directory(path.join(
-      _backupDir.path,
+      backupDir.path,
       pastGamesDirName,
     ));
     if (!await dir.exists()) {
@@ -109,9 +109,9 @@ extension CSBackupDirectories on CSBackupBloc {
   }
 
   static const String preferencesDirName = "Preferences";
-  static Future<Directory> getPreferencesDir(Directory _backupDir) async {
+  static Future<Directory> getPreferencesDir(Directory backupDir) async {
     Directory dir = Directory(path.join(
-      _backupDir.path,
+      backupDir.path,
       preferencesDirName,
     ));
     if (!await dir.exists()) {

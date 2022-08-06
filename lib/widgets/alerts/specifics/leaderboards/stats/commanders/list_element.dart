@@ -15,14 +15,14 @@ class CommanderStatWidget extends StatelessWidget {
   static const double height = 186;
   //found by trial and error
 
-  CommanderStatWidget(this.stat, {
+  const CommanderStatWidget(this.stat, {
     required this.pastGames,
     required this.onSingleScreenCallback,
   });
 
   @override
   Widget build(BuildContext context) {
-    final VoidCallback onTap = () {
+    void onTap() {
       onSingleScreenCallback.call();
       Stage.of(context)!.showAlert(
         CommanderStatsScreen(CommanderStatsAdvanced.fromPastGames(
@@ -31,7 +31,7 @@ class CommanderStatWidget extends StatelessWidget {
         )),
         size: CommanderStatsScreen.height
       );
-    };
+    }
 
     final theme = Theme.of(context);
     final pageColors = Stage.of(context)!.themeController.derived
@@ -76,7 +76,7 @@ class CommanderStatWidget extends StatelessWidget {
                   CSWidgets.extraButtonsDivider,
                   Expanded(child: InfoDisplayer(
                     title: const Text("Damage"),
-                    value: Text("${InfoDisplayer.getString(stat.damage)}"),
+                    value: Text(InfoDisplayer.getString(stat.damage)),
                     detail: const Text("(average)"),
                     background: const Icon(CSIcons.attackTwo),
                     color: pageColors[CSPage.commanderDamage],
@@ -84,7 +84,7 @@ class CommanderStatWidget extends StatelessWidget {
                   CSWidgets.extraButtonsDivider,
                   Expanded(child: InfoDisplayer(
                     title: const Text("Casts"),
-                    value: Text("${InfoDisplayer.getString(stat.casts)}"),
+                    value: Text(InfoDisplayer.getString(stat.casts)),
                     detail: const Text("(average)"),
                     background: const Icon(CSIcons.castFilled),
                     color: pageColors[CSPage.commanderCast],

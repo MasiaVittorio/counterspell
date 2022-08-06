@@ -22,7 +22,7 @@ class CachePlayers extends StatelessWidget {
           return ListTile(
             title: Text(player),
             subtitle: Text("${cards[player]!.length} cards"),
-            leading: Icon(McIcons.account_outline),
+            leading: const Icon(McIcons.account_outline),
             trailing: IconButton(
               icon: CSWidgets.deleteIcon,
               onPressed: () => stage.showAlert(

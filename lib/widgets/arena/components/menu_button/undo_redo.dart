@@ -25,7 +25,7 @@ class ArenaUndo extends StatelessWidget {
 
     final logic = CSBloc.of(context)!.game.gameState;
 
-    final radius = Radius.circular(halfSize);
+    const radius = Radius.circular(halfSize);
 
     final actives = [logic.backable, logic.forwardable];
     final taps = [logic.back, logic.forward];
@@ -66,8 +66,8 @@ class ArenaUndo extends StatelessWidget {
     );
 
     final paddings = horizontal /// To show shadow around the material
-      ? [EdgeInsets.fromLTRB(8, 8, 0, 8), EdgeInsets.fromLTRB(0, 8, 8, 8)]
-      : [EdgeInsets.fromLTRB(8, 8, 8, 0), EdgeInsets.fromLTRB(8, 0, 8, 8)];
+      ? [const EdgeInsets.fromLTRB(8, 8, 0, 8), const EdgeInsets.fromLTRB(0, 8, 8, 8)]
+      : [const EdgeInsets.fromLTRB(8, 8, 8, 0), const EdgeInsets.fromLTRB(8, 0, 8, 8)];
 
     return logic.gameState.build((_, __) => Flex(
       direction: undoRedoAxis,

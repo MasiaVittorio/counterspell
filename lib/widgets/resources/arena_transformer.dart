@@ -60,7 +60,7 @@ class ArenaTransformer extends StatelessWidget {
             ), 
             size: AlternativesAlert.twoLinesheightCalc(1),
           );
-          return null;
+          return;
         }
         
         logic.settings.appSettings.lastPageBeforeArena.set(stage.mainPagesController.currentPage);
@@ -86,7 +86,7 @@ class ArenaTransformer extends StatelessWidget {
       transitionType: ContainerTransitionType.fadeThrough,
       closedShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(this.closedRadiusSize)
+          Radius.circular(closedRadiusSize)
         ),
       ),
     );

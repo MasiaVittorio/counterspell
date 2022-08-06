@@ -25,7 +25,7 @@ class ImageSearch extends StatefulWidget {
   static const double _results = 250.0;
 
   @override
-  _ImageSearchState createState() => _ImageSearchState();
+  State<ImageSearch> createState() => _ImageSearchState();
 }
 
 class _ImageSearchState extends State<ImageSearch> {
@@ -59,24 +59,21 @@ class _ImageSearchState extends State<ImageSearch> {
       resetResults();
       return;
     }
-    this.setState((){
-      this.searching = true;
+    setState((){
+      searching = true;
     });
     List<MtgCard>? res = await ScryfallApi.searchArts(name, commander);
-    if(res == null){
-      res = <MtgCard>[];
-      print("results were null lol, error that should not happen");
-    } 
+    res ??= <MtgCard>[]; 
     res = res.sublist(0,min(20, res.length));
 
     if(name == controller!.text){
       //you may have changed the text since the search was launched, we do not want these results to overwrite
       // other results that may have been found quicker
-      this.results = res;
+      results = res;
     }
     if(mounted){
-      this.setState((){
-        this.searching = false;
+      setState((){
+        searching = false;
       });
     }
   }
@@ -109,8 +106,8 @@ class _ImageSearchState extends State<ImageSearch> {
     }
 
     if(matches.isNotEmpty){
-      this.setState((){
-        this.results = matches;
+      setState((){
+        results = matches;
       });
     }
   }
@@ -118,9 +115,9 @@ class _ImageSearchState extends State<ImageSearch> {
   @override
   Widget build(BuildContext context){
     return HeaderedAlert(title,
-      child: list,
       bottom: bottom,
       alreadyScrollableChild: true,
+      child: list,
     );
   }
 
@@ -146,11 +143,11 @@ class _ImageSearchState extends State<ImageSearch> {
                 callback: widget.onSelect, 
                 trailing: (widget.readyCacheDeleter != null && isCached(result))
                   ? IconButton(
-                    icon: Icon(Icons.clear_all, color: CSColors.delete),
+                    icon: const Icon(Icons.clear_all, color: CSColors.delete),
                     onPressed: (){
                       widget.readyCacheDeleter!(result);
-                      this.setState((){
-                        this._readyCache.removeWhere((c) => c.id == result.id);
+                      setState((){
+                        _readyCache.removeWhere((c) => c.id == result.id);
                       });
                     },
                   )
@@ -160,12 +157,12 @@ class _ImageSearchState extends State<ImageSearch> {
         ),
       );
     } else {
-      if(searching) return Center(child: CircularProgressIndicator());
-      return Center(child: Icon(McIcons.cards_outline, size: 80,),);
+      if(searching) return const Center(child: CircularProgressIndicator());
+      return const Center(child: Icon(McIcons.cards_outline, size: 80,),);
     }
   }
 
-  bool isCached(MtgCard c) => _readyCache.any((_rc) => _rc.id == c.id);
+  bool isCached(MtgCard c) => _readyCache.any((rc) => rc.id == c.id);
 
   Widget get insert => Container(
     height: ImageSearch._insert,
@@ -180,39 +177,39 @@ class _ImageSearchState extends State<ImageSearch> {
       textCapitalization: TextCapitalization.words,
       style: const TextStyle(inherit:true, fontSize: 18.0),
       onChanged: (s){
-        this.setState((){
-          this.started = true;
+        setState((){
+          started = true;
         });
-        this.syncronousSearch();
-        this.behavior.add(s);
+        syncronousSearch();
+        behavior.add(s);
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Card name",
       ),
     ),
   );
 
-  String get title => !this.started 
-    ? this.commander ? "Commander Search" : "Card Search"
-    : this.searching 
+  String get title => !started 
+    ? commander ? "Commander Search" : "Card Search"
+    : searching 
       ? "Searching..."
       : <int,String>{
         0:"No match found",
         1:"Perfect match"
-      }[this.results.length] ?? "${this.results.length} results";
+      }[results.length] ?? "${results.length} results";
 
   Widget get slider => Container(
     height: ImageSearch._slider,
     alignment: Alignment.center,
     child: RadioSlider(
       selectedIndex: commander ? 0 : 1,
-      onTap: (i)=>this.setState((){
+      onTap: (i)=>setState((){
         commander = (i == 0);
         if(controller!.text!=""){
-          this.behavior.add(this.controller!.text);
+          behavior.add(controller!.text);
         }
       }),
-      items: [
+      items: const [
         RadioSliderItem(
           icon: Icon(CSIcons.damageOutlined),
           selectedIcon: Icon(CSIcons.damageFilled),
@@ -251,15 +248,15 @@ class CardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
 
-    final openCard = (){
+    void openCard(){
       final dimensions = stage!.dimensionsController.dimensions.value;
       final width = MediaQuery.of(context).size.width;
       final cardWidth = width - dimensions.panelHorizontalPaddingOpened * 2;
       stage.showAlert(
-        CardAlert(this.card),
+        CardAlert(card),
         size: cardWidth / MtgCard.cardAspectRatio,
       );
-    };
+    }
     return ListTile(
       title: Text(card.name,
         maxLines: 1,
@@ -269,7 +266,7 @@ class CardTile extends StatelessWidget {
       leading: (withoutImage) ? null : CircleAvatar(backgroundImage: CachedNetworkImageProvider(card.imageUrl()!,),),
       onTap: (tapOpenCard) ? openCard : (){
         callback?.call(card);
-        if(this.autoClose) stage!.closePanel();
+        if(autoClose) stage!.closePanel();
       },
       onLongPress: (longPressOpenCard) ? openCard : null,
       subtitle: Row(

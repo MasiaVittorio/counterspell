@@ -24,7 +24,10 @@ class StartingLifeTile extends StatelessWidget {
       gameSettings.startingLifeBlocVar,
       stage.themeController.derived.mainPageToPrimaryColor,
       builder: (_, dynamic life, dynamic colorMap)
-        => Section(<Widget>[
+        => Column(
+          mainAxisSize: MainAxisSize.min, 
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
             SectionTitle("Starting Life: ${lifeNames[life] ?? life}", animated: true),
  
             Row(children: <Widget>[
@@ -41,8 +44,8 @@ class StartingLifeTile extends StatelessWidget {
                       CustomStartingLife(),
                       size: InsertAlert.height,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(McIcons.pencil_outline),
                     )
                   ),
@@ -59,7 +62,7 @@ class StartingLifeTile extends StatelessWidget {
       child: InkWell(
         onTap: () => bloc.settings.gameSettings.changeStartingLife(value),
         child: Padding(
-          padding: EdgeInsets.only(right:16.0, top: 3.0, bottom: 3.0),
+          padding: const EdgeInsets.only(right:16.0, top: 3.0, bottom: 3.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,

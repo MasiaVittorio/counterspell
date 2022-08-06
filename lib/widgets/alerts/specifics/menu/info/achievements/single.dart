@@ -53,9 +53,9 @@ class AchievementAgnosticSection extends StatelessWidget {
       ListTile(
         leading: Icon(Achievements.icons[achievement.shortTitle]),
         title: Text(achievement.title),
-        subtitle: Text("(${achievement.text})", style: TextStyle(fontStyle: FontStyle.italic),),
+        subtitle: Text("(${achievement.text})", style: const TextStyle(fontStyle: FontStyle.italic),),
         trailing: IconButton(
-          icon: Icon(McIcons.restart),
+          icon: const Icon(McIcons.restart),
           onPressed: () => stage!.showAlert(
             ConfirmAlert(
               action: () => bloc!.achievements.reset(achievement.shortTitle, force: true),

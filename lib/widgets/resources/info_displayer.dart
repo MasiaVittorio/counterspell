@@ -101,7 +101,7 @@ class InfoDisplayer extends StatelessWidget {
             Positioned(
               bottom: 0.0,
               child: DefaultTextStyle.merge(
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13,
                   fontStyle: FontStyle.italic,
                 ),

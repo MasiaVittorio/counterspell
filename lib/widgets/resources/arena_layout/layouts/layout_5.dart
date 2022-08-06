@@ -39,7 +39,7 @@ class ArenaLayout5 extends StatelessWidget {
     }
   }
 
-  bool get intersection => this.centerAlignment 
+  bool get intersection => centerAlignment 
     == ArenaCenterAlignment.intersection;
 
 
@@ -104,7 +104,7 @@ class ArenaLayout5 extends StatelessWidget {
 
     Widget? positionedCenterChild;
 
-    if(this.centerChildBuilder != null){
+    if(centerChildBuilder != null){
 
       final bool portrait = !landscape;
       final bool normal = !flipped;
@@ -216,7 +216,7 @@ class ArenaLayout5 extends StatelessWidget {
 
     Widget? positionedCenterChild;
 
-    if(this.centerChildBuilder != null){
+    if(centerChildBuilder != null){
       /// No padding, intersection always at center
 
       if(animateCenterWidget){

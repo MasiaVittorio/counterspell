@@ -8,11 +8,11 @@ enum DelayerListenerType {
 }
 
 class DelayerController {
-  Map<DelayerListenerType,bool Function()?> _starts = <DelayerListenerType, bool Function()?>{
+  final Map<DelayerListenerType,bool Function()?> _starts = <DelayerListenerType, bool Function()?>{
     DelayerListenerType.mainScreen: null,
     DelayerListenerType.arena: null,
   };
-  Map<DelayerListenerType,bool Function()?> _ends = <DelayerListenerType, bool Function()?>{
+  final Map<DelayerListenerType,bool Function()?> _ends = <DelayerListenerType, bool Function()?>{
     DelayerListenerType.mainScreen: null,
     DelayerListenerType.arena: null,
   };
@@ -21,20 +21,20 @@ class DelayerController {
     required bool Function() startListener,
     required bool Function() endListener,
   }){
-    this._starts[DelayerListenerType.mainScreen] = startListener;
-    this._ends[DelayerListenerType.mainScreen] = endListener;
+    _starts[DelayerListenerType.mainScreen] = startListener;
+    _ends[DelayerListenerType.mainScreen] = endListener;
   }
   void addListenersArena({
     required bool Function() startListener,
     required bool Function() endListener,
   }){
-    this._starts[DelayerListenerType.arena] = startListener;
-    this._ends[DelayerListenerType.arena] = endListener;
+    _starts[DelayerListenerType.arena] = startListener;
+    _ends[DelayerListenerType.arena] = endListener;
   }
 
   void removeArenaListeners(){
-    this._starts[DelayerListenerType.arena] = null;
-    this._ends[DelayerListenerType.arena] = null;
+    _starts[DelayerListenerType.arena] = null;
+    _ends[DelayerListenerType.arena] = null;
   }
 
   void scrolling(){
@@ -73,7 +73,7 @@ class Delayer extends StatefulWidget {
   final bool half;
 
 
-  Delayer({
+  const Delayer({
     required this.half,
     required this.animationListener,
     required this.onManualCancel,
@@ -91,7 +91,7 @@ class Delayer extends StatefulWidget {
   });
 
   @override
-  State createState() => new _DelayerState();
+  State createState() => _DelayerState();
 }
 
 class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
@@ -102,7 +102,7 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    this.initController();
+    initController();
 
     widget.delayerController.addListenersMain(
       startListener: scrolling,
@@ -132,24 +132,28 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
 
   bool scrolling(){
     if(!mounted) return false;
-    if(controller!.isAnimating && controller!.velocity > 0)
+    if(controller!.isAnimating && controller!.velocity > 0) {
       return true;
-    if(controller!.value == 1.0)
+    }
+    if(controller!.value == 1.0) {
       return true;
+    }
 
-    this.controller!.fling();
+    controller!.fling();
     return true;
   }
 
   bool leaving() {
     if(!mounted) return false;
-    if(this.controller!.value == 0.0)
+    if(controller!.value == 0.0) {
       return true;
+    }
 
     bool fling = false;
-    if(this.controller!.isAnimating){
-      if(this.controller!.velocity < 0)
+    if(controller!.isAnimating){
+      if(controller!.velocity < 0) {
         return true;
+      }
       fling = true;
     }
     _leaving(fling);
@@ -158,14 +162,14 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
 
   void _leaving(bool withFling) async {
     if(!mounted) return;
-    if(withFling) await  this.controller!.fling();
+    if(withFling) await  controller!.fling();
     if(!mounted) return;
-    this.controller!.animateBack(0.0);
+    controller!.animateBack(0.0);
   }
 
   void _disposeController(){
-    this.controller?.dispose();
-    this.controller = null;
+    controller?.dispose();
+    controller = null;
   }
 
   @override
@@ -215,14 +219,14 @@ class _DelayerState extends State<Delayer> with TickerProviderStateMixin {
             builder: (BuildContext context, Widget? childA) {
               double s = controller!.value;
               return ClipOval(
-                child: Container(
-                  width: width,
-                  height: widget.height,
-                  child: childA,
-                ),
                 clipper: _CircleClipper(
                   center: offset,
                   radius: s * maxRadius,
+                ),
+                child: SizedBox(
+                  width: width,
+                  height: widget.height,
+                  child: childA,
                 )
               );
             }
@@ -252,7 +256,7 @@ class _Content extends StatelessWidget{
   final TextStyle? style;
   final bool half;
 
-  _Content({
+  const _Content({
     required this.half,
     required this.width,
     required this.height,
@@ -265,40 +269,40 @@ class _Content extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: this.color,
-      width: this.width,
-      height: this.height,
+      color: color,
+      width: width,
+      height: height,
       alignment: Alignment.topCenter,
-      child: Container(
-        height: this.height/(half?2:1),
+      child: SizedBox(
+        height: height/(half?2:1),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: this.height,
-              height: this.height/(half?2:1),
+            SizedBox(
+              width: height,
+              height: height/(half?2:1),
               child: Center(
                 child: Icon(
                   Icons.close,
-                  color: this.contrast,
+                  color: contrast,
                 ),
               ),
             ),
             Expanded(
               child: Center(
                 child: Text(
-                  this.message,
-                  style: this.style!.copyWith(color: this.contrast),
+                  message,
+                  style: style!.copyWith(color: contrast),
                 ),
               ),
             ),
-            Container(
-              width: this.height,
-              height: this.height/(half?2:1),
+            SizedBox(
+              width: height,
+              height: height/(half?2:1),
               child: Center(
                 child: Icon(
                   Icons.check,
-                  color: this.contrast,
+                  color: contrast,
                 ),
               ),
             ),
@@ -318,7 +322,7 @@ class _ContentTappable extends StatelessWidget{
   final void Function()? onConfirm;
   final void Function()? onCancel;
 
-  _ContentTappable({
+  const _ContentTappable({
     required this.half,
     required this.width,
     required this.height,
@@ -328,30 +332,30 @@ class _ContentTappable extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final buttonWidth = (this.height*2).clamp(0, width/2);
-    final buttonHeight = this.height/(half?2:1); 
+    final buttonWidth = (height*2).clamp(0, width/2);
+    final buttonHeight = height/(half?2:1); 
 
     return Material(
       type: MaterialType.transparency,
       child: Container(
-        width: this.width,
-        height: this.height,
+        width: width,
+        height: height,
         alignment: Alignment.topCenter,
-        child: Container(
-          height: this.height/(half?2:1),
+        child: SizedBox(
+          height: height/(half?2:1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               InkResponse(
-                onTap: this.onCancel,
-                child: Container(
+                onTap: onCancel,
+                child: SizedBox(
                   width: buttonWidth as double?,
                   height: buttonHeight,
                 ),
               ),
               InkResponse(
-                onTap: this.onConfirm,
-                child: Container(
+                onTap: onConfirm,
+                child: SizedBox(
                   width: buttonWidth as double?,
                   height: buttonHeight,
                 ),
@@ -378,5 +382,5 @@ class _CircleClipper extends CustomClipper<Rect> {
   }
 
   @override
-  bool shouldReclip(_CircleClipper oldClipper) => oldClipper.radius != this.radius || oldClipper.center != this.center;
+  bool shouldReclip(_CircleClipper oldClipper) => oldClipper.radius != radius || oldClipper.center != center;
 }

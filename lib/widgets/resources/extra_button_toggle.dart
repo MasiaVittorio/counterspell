@@ -3,26 +3,29 @@ import 'package:counter_spell_new/core.dart';
 
 class ExtraButtonToggle extends StatelessWidget {
 
-  final bool? value;
+  final bool value;
   final ValueChanged<bool> onChanged;
   final IconData icon;
   final IconData? iconOff;
-  final String? text;
+  final String text;
   final Color? colorOn;
   final Color? colorOff;
   final double? iconSize;
   final bool twoLines;
 
-  ExtraButtonToggle({
+
+  final bool forceExternalSize;
+  const ExtraButtonToggle({
     required this.value,
     required this.onChanged,
     required this.icon,
     this.iconOff,
-    this.text,
+    required this.text,
     this.colorOn,
     this.colorOff,
     this.iconSize,
     this.twoLines = false,
+    this.forceExternalSize = false, 
   });
 
   @override
@@ -36,22 +39,23 @@ class ExtraButtonToggle extends StatelessWidget {
     final iconColorOff = theme.colorScheme.onSurface.withOpacity(0.55);
 
     return IconTheme.merge(
-      data: IconThemeData(opacity: 1.0),
+      data: const IconThemeData(opacity: 1.0),
       child: AnimatedDouble(
-        value: value! ? 1.0 : 0.0, 
+        value: value ? 1.0 : 0.0, 
         duration: const Duration(milliseconds: 300),
         builder: (_, val){
           return ExtraButton(
             customIcon: Icon(
-              value! ? icon : iconOff ?? icon,
+              value ? icon : iconOff ?? icon,
               size: iconSize,
               color: Color.lerp(iconColorOff, iconColorOn, val),
             ),
             icon: null,
             text: text,
             customCircleColor: Color.lerp(colorOff, colorOn, val),
-            onTap: () => onChanged(!(value ?? false)),
+            onTap: () => onChanged(!value),
             twoLines: twoLines,
+            forceExternalSize: forceExternalSize,
           );
         },
       ),

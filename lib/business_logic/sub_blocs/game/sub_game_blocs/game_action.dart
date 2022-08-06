@@ -44,16 +44,15 @@ class CSGameAction {
     //every time the ordered list of names changes
 
     /// [CSGameAction] Must be initialized after [CSGameGroup]
-    newNamesSub = this
-        .parent
+    newNamesSub = parent
         .gameGroup
         .names
         .behavior
         .map<String>((names) => names.toString())
         .distinct()
         .listen((s) {
-      this.selected.set(<String, bool?>{
-        for (final name in this.parent.gameGroup.names.value) name: false,
+      selected.set(<String, bool?>{
+        for (final name in parent.gameGroup.names.value) name: false,
       });
     });
   }
@@ -158,9 +157,9 @@ class CSGameAction {
         gameState: parent.gameState.gameState.value,
         minValue: parent.parent.settings.gameSettings.minValue.value,
         maxValue: parent.parent.settings.gameSettings.maxValue.value,
-        attacker: this.attackingPlayer.value,
-        defender: this.defendingPlayer.value,
-        counter: this.counterSet.variable.value,
+        attacker: attackingPlayer.value,
+        defender: defendingPlayer.value,
+        counter: counterSet.variable.value,
       );
 
   bool get isSomeoneAttacking =>
@@ -197,20 +196,19 @@ class CSGameAction {
   //Do not call this manually, let it be called by the isScrolling's "onChanged" method
   // -> if you want to trigger this, just call scroller.forceComplete()
   void privateConfirm(CSPage? page) {
-    final GameAction action = this.currentNormalizedAction(page);
-    this.parent.gameState.applyAction(action);
-    this.clearSelection(false);
-    this.parent.parent.scroller.value = 0.0;
-    this.parent.parent.scroller.intValue.set(0);
+    final GameAction action = currentNormalizedAction(page);
+    parent.gameState.applyAction(action);
+    clearSelection(false);
+    parent.parent.scroller.value = 0.0;
+    parent.parent.scroller.intValue.set(0);
   }
 
   void chooseCounterByLongName(String? newCounterLongName) {
-    this.counterSet.choose(
-          this
-              .counterSet
+    counterSet.choose(
+          counterSet
               .list
               .indexWhere((counter) => counter.longName == newCounterLongName),
         );
-    this.parent.parent.achievements.counterChosen(newCounterLongName);
+    parent.parent.achievements.counterChosen(newCounterLongName);
   }
 }

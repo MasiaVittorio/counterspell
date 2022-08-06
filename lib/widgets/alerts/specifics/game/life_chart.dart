@@ -21,7 +21,7 @@ class LifeChart extends StatelessWidget {
       final List<Player?> players = gameState.players.values.toList();
 
       return Column(children: <Widget>[
-        PanelTitle("Life Chart"),
+        const PanelTitle("Life Chart"),
         Expanded(child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(children: <Widget>[
@@ -77,7 +77,7 @@ class _Chart extends StatelessWidget {
 
   final GameState gameState;
 
-  _Chart(this.gameState);
+  const _Chart(this.gameState);
 
   @override
   Widget build(BuildContext context) {
@@ -285,8 +285,11 @@ class _Chart extends StatelessWidget {
     else if(seconds < 60*10){ // one to ten minutes
       final int minutes = (seconds/60).floor();
       final int remainder = seconds % 60;
-      if(remainder == 0) return "${minutes}m";
-      else return "${minutes}m:${remainder}s";
+      if(remainder == 0) {
+        return "${minutes}m";
+      } else {
+        return "${minutes}m:${remainder}s";
+      }
     } 
     else if(seconds < 60*60){ // ten to 60 minutes
       final int minutes = (seconds/60).floor();

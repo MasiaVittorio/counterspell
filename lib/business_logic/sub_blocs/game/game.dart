@@ -22,7 +22,7 @@ class CSGame {
   //===============================
   // Getters
 
-  int get currentStartingLife => this.parent.settings.gameSettings.currentStartingLife;
+  int get currentStartingLife => parent.settings.gameSettings.currentStartingLife;
 
 
   //===============================

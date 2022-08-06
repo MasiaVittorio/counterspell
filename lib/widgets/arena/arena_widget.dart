@@ -12,7 +12,7 @@ class ArenaWidget extends StatefulWidget {
   final CSBloc logic;
 
   @override
-  _ArenaWidgetState createState() => _ArenaWidgetState();
+  State createState() => _ArenaWidgetState();
 
   static const double buttonDim = 56.0;
   static const Size buttonSize = Size(buttonDim,buttonDim);
@@ -39,8 +39,8 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   Widget get buildBarrier => IgnorePointer(
     ignoring: !open,
     child: GestureDetector(
-      onTap: () => this.setState((){
-        this.open = false;
+      onTap: () => setState((){
+        open = false;
       }),
       child: AnimatedContainer(
         duration: CSAnimations.medium,
@@ -118,7 +118,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
     } 
 
     if(open){
-      this.setState((){
+      setState((){
         open = false;
       });
       return false;
@@ -150,16 +150,16 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       openMenu: () {
         logic.stage.mainPagesController.goToPage(CSPage.life);
         logic.scroller.cancel(true);
-        this.setState((){
+        setState((){
           open = true;
         });
       }, 
-      closeMenu: () => this.setState(() {
+      closeMenu: () => setState(() {
         open = false;
       }),
       buttonSize: _buttonSize, 
       exit: exit,
-      reorderPlayers: () => this.setState((){
+      reorderPlayers: () => setState((){
         open = false;
         groupLogic!.arenaNameOrder.set(<int,String?>{
           for(final key in groupLogic!.arenaNameOrder.value.keys)

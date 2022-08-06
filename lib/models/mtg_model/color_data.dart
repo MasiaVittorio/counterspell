@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'card.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +40,7 @@ const Color MANA_COLORLESS = Color(0xFFCAC3C0);
 const Color MANA_NUMBERS = Color(0xFFCAC5C0);
 
 String colorsToName(Set<MtgColor> colors){
-  if(colors.length == 0){
+  if(colors.isEmpty){
     return "Colorless";
   }
   else if (colors.length == 1) {
@@ -83,13 +85,15 @@ String colorsToName(Set<MtgColor> colors){
     if(colors.contains(MtgColor.R) == false) return "Growth";
     if(colors.contains(MtgColor.G) == false) return "Artifice";
   }
-  else if (colors.length == 5) return "Domain"; 
+  else if (colors.length == 5) {
+    return "Domain";
+  } 
 
   return "Color Name";
 }
 
 String colorsToStringApi(Set<MtgColor> colors){
-  if(colors.length == 0){
+  if(colors.isEmpty){
     return "colorless";
   }
 

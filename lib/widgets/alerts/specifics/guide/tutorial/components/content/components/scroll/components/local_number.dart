@@ -3,7 +3,7 @@ import 'package:counter_spell_new/widgets/stage/body/group/player_tile_gestures.
 
 class LocalNumber extends StatelessWidget {
 
-  LocalNumber(this.localScroller, this.bloc, this.value, this.callback);
+  const LocalNumber(this.localScroller, this.bloc, this.value, this.callback, {super.key});
 
   final CSScroller? localScroller;
   final CSBloc? bloc;
@@ -19,9 +19,9 @@ class LocalNumber extends StatelessWidget {
       builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
         child: VelocityPanDetector(
-          onPanEnd: (_details) => localScroller!.onDragEnd(),
+          onPanEnd: (details) => localScroller!.onDragEnd(),
           onPanUpdate: (details) {
-            this.callback();
+            callback();
             PlayerGestures.pan(
               details,
               "",
@@ -49,7 +49,7 @@ class LocalNumber extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: <Widget>[
-                      Icon(Icons.keyboard_arrow_left),
+                      const Icon(Icons.keyboard_arrow_left),
                       Expanded(child: Center(child: CircleNumber(
                         size: 56,
                         value: value,
@@ -61,7 +61,7 @@ class LocalNumber extends StatelessWidget {
                         increment: scrolling ? increment : 0,
                         borderRadiusFraction: 1.0,
                       ),),),
-                      Icon(Icons.keyboard_arrow_right),
+                      const Icon(Icons.keyboard_arrow_right),
                     ],
                   ),
                 ),

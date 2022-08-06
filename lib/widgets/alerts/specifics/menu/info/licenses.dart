@@ -37,26 +37,26 @@ class AlertLicenses extends StatelessWidget {
       child: Column(children: <Widget>[
         
         const Section([
-          const SectionTitle("Disclaimer"),
-          const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-            child: const Text(CSLicenses.wizardFanContentPolicy),
+          SectionTitle("Disclaimer"),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+            child: Text(CSLicenses.wizardFanContentPolicy),
           ),
         ]),
         
         const Section([
-          const SectionTitle("Images"),
-          const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-            child: const Text(CSLicenses.scryfallImagePolicy),
+          SectionTitle("Images"),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+            child: Text(CSLicenses.scryfallImagePolicy),
           ),
         ]),
 
         const Section(<Widget>[
-          const SectionTitle("Icons"),
-          const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-            child: const Text(CSLicenses.iconsLicenses),
+          SectionTitle("Icons"),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+            child: Text(CSLicenses.iconsLicenses),
           ),
         ]),
 

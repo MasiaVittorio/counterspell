@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/core.dart';
 
 class TutorialProFeatures extends StatelessWidget {
-  const TutorialProFeatures();
+  const TutorialProFeatures({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class TutorialProFeatures extends StatelessWidget {
           ),
 
           ListTile(
-            trailing: Icon(Icons.attach_money),
+            trailing: const Icon(Icons.attach_money),
             title: RichText(
               text: TextSpan(
                 style: subhead,

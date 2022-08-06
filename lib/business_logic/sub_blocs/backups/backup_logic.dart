@@ -46,8 +46,8 @@ class CSBackupBloc {
   void init() async {
     if (await initDirectories()) {
       ready.set(true);
-      this.initPastGames();
-      this.initPreferences();
+      initPastGames();
+      initPreferences();
     }
   }
 

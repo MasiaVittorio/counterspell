@@ -3,7 +3,7 @@ import 'components/all.dart';
 
 class AptContent extends StatelessWidget {
 
-  AptContent({
+  const AptContent({
     required this.name,
     required this.pageColors,
     required this.buttonAlignment,
@@ -57,7 +57,7 @@ class AptContent extends StatelessWidget {
 
   static bool rightInfoFromButtonAlignment(Alignment al) => (al.x) <= 0;
   bool get leftButton => rightInfo;
-  bool get rightInfo => rightInfoFromButtonAlignment(this.buttonAlignment);
+  bool get rightInfo => rightInfoFromButtonAlignment(buttonAlignment);
 
   Widget get expandedBody => Expanded(child: bloc!.settings.arenaSettings.scrollOverTap.buildChild(
     child: body,
@@ -96,10 +96,10 @@ class AptContent extends StatelessWidget {
       case CSPage.counters:
       case CSPage.commanderCast:
       case CSPage.life:
-        scrolling = this.highlighted && this.isScrollingSomewhere;
+        scrolling = highlighted && isScrollingSomewhere;
         break;
       case CSPage.commanderDamage:
-        scrolling = this.whoIsDefending == this.name;
+        scrolling = whoIsDefending == name;
         break;
       default:
     }
@@ -108,16 +108,16 @@ class AptContent extends StatelessWidget {
     return APTNumberAlt(
       rawSelected: rawSelected,
       scrolling: scrolling,
-      increment: this.increment,
+      increment: increment,
       playerState: playerState,
-      constraints: this.constraints,
-      name: this.name,
-      page: this.page,
-      whoIsAttacking: this.whoIsAttacking,
-      whoIsDefending: this.whoIsDefending,
-      isAttackerUsingPartnerB: this.gameState!.players[this.whoIsAttacking!]?.usePartnerB??false,
+      constraints: constraints,
+      name: name,
+      page: page,
+      whoIsAttacking: whoIsAttacking,
+      whoIsDefending: whoIsDefending,
+      isAttackerUsingPartnerB: gameState!.players[whoIsAttacking!]?.usePartnerB??false,
       usingPartnerB: gameState!.players[name]!.usePartnerB,
-      counter: this.counter, 
+      counter: counter, 
     );
   }
 
@@ -132,35 +132,35 @@ class AptContent extends StatelessWidget {
   );
 
   Widget get nameWidget => AptName(
-    bloc: this.bloc,
-    name: this.name,
-    gameState: this.gameState,
-    whoIsAttacking: this.whoIsAttacking,
-    whoIsDefending: this.whoIsDefending,
+    bloc: bloc,
+    name: name,
+    gameState: gameState,
+    whoIsAttacking: whoIsAttacking,
+    whoIsDefending: whoIsDefending,
   );
 
-  Widget get role => this.bloc!.settings.arenaSettings.scrollOverTap.build((context, scroll) => scroll
+  Widget get role => bloc!.settings.arenaSettings.scrollOverTap.build((context, scroll) => scroll
     ? AptRole(
-      name: this.name,
-      rawSelected: this.rawSelected,
-      bloc: this.bloc,
-      pageColors: this.pageColors,
-      isScrollingSomewhere: this.isScrollingSomewhere,
-      page: this.page,
-      whoIsAttacking: this.whoIsAttacking,
-      whoIsDefending: this.whoIsDefending,
-      havingPartnerB: this.gameState!.players[this.name]!.havePartnerB,
+      name: name,
+      rawSelected: rawSelected,
+      bloc: bloc,
+      pageColors: pageColors,
+      isScrollingSomewhere: isScrollingSomewhere,
+      page: page,
+      whoIsAttacking: whoIsAttacking,
+      whoIsDefending: whoIsDefending,
+      havingPartnerB: gameState!.players[name]!.havePartnerB,
       // defenceColor: this.defenceColor,
     )
     : const SizedBox(width: AptRole.size, height: AptRole.size,),
   );
 
   Widget get info => AptInfo(
-    gameState: this.gameState,
-    bloc: this.bloc,
-    name: this.name,
-    pageColors: this.pageColors,
-    defenceColor: this.defenceColor,
+    gameState: gameState,
+    bloc: bloc,
+    name: name,
+    pageColors: pageColors,
+    defenceColor: defenceColor,
   );
 
 }

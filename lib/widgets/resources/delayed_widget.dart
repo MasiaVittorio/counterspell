@@ -7,7 +7,7 @@ class Waiting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) 
-    => Center(child: CircularProgressIndicator(),);
+    => const Center(child: CircularProgressIndicator(),);
 }
 
 class DelayedWidget extends StatefulWidget {
@@ -26,10 +26,10 @@ class DelayedWidget extends StatefulWidget {
 
   static Color background(ThemeData theme) => theme.canvasColor;
 
-  static const Duration defaultDelay = const Duration(milliseconds: 500);
+  static const Duration defaultDelay = Duration(milliseconds: 500);
 
   @override
-  _DelayedWidgetState createState() => _DelayedWidgetState();
+  State createState() => _DelayedWidgetState();
 }
 
 class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProviderStateMixin{
@@ -67,7 +67,7 @@ class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProvider
 
   }
 
-  static const opacityDuration = const Duration(milliseconds: 500);
+  static const opacityDuration = Duration(milliseconds: 500);
 
   @override
   Widget build(BuildContext context) {

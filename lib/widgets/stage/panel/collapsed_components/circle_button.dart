@@ -23,7 +23,7 @@ class CircleButton extends StatefulWidget {
   });
 
   @override
-  _CircleButtonState createState() => _CircleButtonState();
+  State createState() => _CircleButtonState();
 }
 
 class _CircleButtonState extends State<CircleButton> {
@@ -37,10 +37,10 @@ class _CircleButtonState extends State<CircleButton> {
   @override
   Widget build(BuildContext context) {
 
-    final double increment = this.widget.sizeIncrement;
-    final int n = this.widget.externalCircles;
-    final double size = this.widget.size;
-    final Color color = this.widget.color;
+    final double increment = widget.sizeIncrement;
+    final int n = widget.externalCircles;
+    final double size = widget.size;
+    final Color color = widget.color;
     // final double op = color.opacity;
     final bool regular = widget.regularSteps;
 
@@ -54,10 +54,10 @@ class _CircleButtonState extends State<CircleButton> {
       onTap: widget.onTap,
       child: Container(
         color: Colors.transparent,
-        child: widget.child,
         alignment: Alignment.center,
         width: size,
         height: size,
+        child: widget.child,
       ),
     );
 
@@ -71,8 +71,8 @@ class _CircleButtonState extends State<CircleButton> {
         children: <Widget>[
           for(int i = n; i >= 0; --i)
           (){
-            final double _s = getSize(size, i, increment, regular);
-            final double s = getPressedSize(_s, i, regular, this.pressed);
+            final double s = getSize(size, i, increment, regular);
+            final double pressedSize = getPressedSize(s, i, regular, pressed);
             return Positioned(
               left: offset,
               top: offset,
@@ -84,8 +84,8 @@ class _CircleButtonState extends State<CircleButton> {
                   milliseconds: getMilliseconds(i, n),
                 ),
                 curve: Curves.easeOutBack,
-                width: s,
-                height: s,
+                width: pressedSize,
+                height: pressedSize,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(ms),
                   color: color,
@@ -128,11 +128,11 @@ class _CircleButtonState extends State<CircleButton> {
 
   double closerTo1(double v, double fr) => v + (1-v)*fr;
 
-  void tapDown() => this.setState(() {
+  void tapDown() => setState(() {
     pressed = true;
   });
 
-  void tapUp() => this.setState(() {
+  void tapUp() => setState(() {
     pressed = false;
   });
 }

@@ -10,7 +10,7 @@ class BottomExtra extends StatelessWidget {
   @override
   Widget build(BuildContext context) 
     => InkWell(
-      onTap: this.onTap,
+      onTap: onTap,
       child: Container(
         height: 40,
         alignment: Alignment.centerRight,

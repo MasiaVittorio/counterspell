@@ -145,7 +145,7 @@ class CSPanelCollapsed extends StatelessWidget {
 
 class _DelayerPanel extends StatelessWidget {
 
-  _DelayerPanel({required this.bloc});
+  const _DelayerPanel({required this.bloc});
 
   final CSBloc bloc;
 
@@ -226,7 +226,8 @@ class _PanelButton extends StatelessWidget {
         duration: CSAnimations.fast,
         opacity: active ? 1.0 : 0.35,
         child: InkResponse(
-          child: Container(
+          onTap: active ? action : null,
+          child: SizedBox(
             height: CSSizes.barSize,
             width: CSSizes.barSize * factor,
             child: Icon(
@@ -234,7 +235,6 @@ class _PanelButton extends StatelessWidget {
               size: iconSize ?? 24,
             ),
           ),
-          onTap: active ? action : null,
         ));
   }
 }

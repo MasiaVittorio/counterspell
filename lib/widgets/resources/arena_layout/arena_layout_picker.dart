@@ -6,7 +6,7 @@ class ArenaLayoutAlert extends StatefulWidget {
   static const double height = 700.0;
 
   @override
-  _ArenaLayoutAlertState createState() => _ArenaLayoutAlertState();
+  State createState() => _ArenaLayoutAlertState();
 }
 
 class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
@@ -133,11 +133,11 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
           positions: realPositions,
           onPositionsChange: changePositions,
           type: type, 
-          onTypeChanged: (t) => this.setState(() {
+          onTypeChanged: (t) => setState(() {
             type = t;
           }),
           flipped: flipped, 
-          onFlippedChanged: (t,f) => this.setState(() {
+          onFlippedChanged: (t,f) => setState(() {
             flipped[t] = f;
           }), 
         ),),
@@ -186,7 +186,7 @@ class ArenaLayoutPicker extends StatefulWidget {
   final void Function(ArenaLayoutType, bool) onFlippedChanged;
 
   @override
-  _ArenaLayoutPickerState createState() => _ArenaLayoutPickerState();
+  State createState() => _ArenaLayoutPickerState();
 }
 
 class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
@@ -227,7 +227,7 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
 
   bool unpositionedName(Map<int,String?> map, String name) => !map.containsValue(name);
 
-  List<String> unpositionedNames(Map<int,String?>? map) => [
+  List<String> getUnpositionedNames(Map<int,String?>? map) => [
     for(final name in widget.names!)
       if(unpositionedName(map!,name))
         name,
@@ -249,11 +249,13 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
   }
 
   Map<int,String?> checkAutoChoice(Map<int,String?> oldMap){
-    final List<String> unn = unpositionedNames(oldMap);
+    final List<String> unn = getUnpositionedNames(oldMap);
     if(unn.length == 1){
-      for(final k in oldMap.keys)
-        if(unpositionedKey(k, oldMap))
+      for(final k in oldMap.keys) {
+        if(unpositionedKey(k, oldMap)) {
           return positionName(unn.first, k, oldMap);
+        }
+      }
     }
     return oldMap;
   }
@@ -263,8 +265,8 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
 
     final ThemeData theme = Theme.of(context);
 
-    final List<String> _unpositionedNames = unpositionedNames(positions);
-    final bool mustPosition = _unpositionedNames.isNotEmpty;
+    final List<String> unpositionedNames = getUnpositionedNames(positions);
+    final bool mustPosition = unpositionedNames.isNotEmpty;
 
     final List<Widget> layouts = <Widget>[
       for(final type in ArenaLayoutType.values)
@@ -293,7 +295,7 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                 child: InkWell(
                   onTap: widget.type == type && mustPosition
                     ? () => widget.onPositionsChange(
-                      positionName(_unpositionedNames.first, i, positions!)
+                      positionName(unpositionedNames.first, i, positions!)
                     )
                     : null,
                   child: Material(
@@ -348,7 +350,7 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                       : theme.scaffoldBackgroundColor.withOpacity(0.9),
                     child: ListTile(
                       title: Text(mustPosition 
-                        ? "Place ${_unpositionedNames.first}"
+                        ? "Place ${unpositionedNames.first}"
                         : "Reorder players",
                       ),
                       leading: Icon(mustPosition

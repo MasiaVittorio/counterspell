@@ -4,7 +4,7 @@ import 'page_reactor.dart';
 
 class TutorialControls extends StatelessWidget {
 
-  TutorialControls(this.controller);
+  const TutorialControls(this.controller, {super.key});
 
   final PageController? controller;
 
@@ -21,11 +21,11 @@ class TutorialControls extends StatelessWidget {
           PageReactor(
             controller: controller!,
             builder: (_, page) => TextButton(
-              child: AnimatedText(page== 0 ? "" : "Back"),
               onPressed: page== 0 ? null : () => controller!.previousPage(
                 duration: CSAnimations.fast, 
                 curve: Curves.easeOut,
               ),
+              child: AnimatedText(page== 0 ? "" : "Back"),
             ),
           ),
           Expanded(child: Center(

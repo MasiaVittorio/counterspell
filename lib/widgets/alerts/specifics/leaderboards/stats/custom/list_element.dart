@@ -19,21 +19,21 @@ class CustomStatWidget extends StatelessWidget {
       SubSection([
         ExtraButtons(children: [
           InfoDisplayer(
-            title: Text("Appearances"), 
+            title: const Text("Appearances"), 
             background: const Icon(McIcons.cards), 
             value: Text("${stat.appearances}"),
-            detail: Text("(Total)"),
+            detail: const Text("(Total)"),
           ),
           InfoDisplayer(
-            title: Text("Wins"), 
+            title: const Text("Wins"), 
             background: const Icon(McIcons.trophy), 
             value: Text("${stat.wins}"),
             color: CSColors.gold,
-            detail: Text("(Overall)"),
+            detail: const Text("(Overall)"),
           ),
         ]),
       ], onTap: (){
-        this.onSingleScreenCallback.call();
+        onSingleScreenCallback.call();
         Stage.of(context)!.showAlert(
           CustomStatSingleScreen(stat),
           size: CustomStatSingleScreen.height,

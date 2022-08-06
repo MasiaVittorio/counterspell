@@ -40,25 +40,25 @@ class CommanderSettings {
     infect: infect ?? this.infect,
   );
 
-  CommanderSettings toggleDamageDefendersLife() => this.copyWith(
-    damageDefendersLife: !this.damageDefendersLife,
-    infect: (!this.damageDefendersLife) ? false : null,
+  CommanderSettings toggleDamageDefendersLife() => copyWith(
+    damageDefendersLife: !damageDefendersLife,
+    infect: (!damageDefendersLife) ? false : null,
   );
-  CommanderSettings toggleInfect() => this.copyWith(
-    infect: !this.infect,
-    damageDefendersLife: (!this.infect) ? false : null,
+  CommanderSettings toggleInfect() => copyWith(
+    infect: !infect,
+    damageDefendersLife: (!infect) ? false : null,
   );
-  CommanderSettings toggleLifelink() => this.copyWith(
-    lifelink: !this.lifelink,
+  CommanderSettings toggleLifelink() => copyWith(
+    lifelink: !lifelink,
   );
 
 
   //==============================
   // Persistence
   Map<String,dynamic> toJson() => <String,dynamic>{
-    "lifelink": this.lifelink,
-    "damageDefendersLife": this.damageDefendersLife,
-    "infect": this.infect,
+    "lifelink": lifelink,
+    "damageDefendersLife": damageDefendersLife,
+    "infect": infect,
   };
 
   static CommanderSettings fromJson(Map<String,dynamic> json) => CommanderSettings(

@@ -1,7 +1,7 @@
 extension TextFormat on Duration {
 
   String get textFormat{
-    final int seconds = this.inSeconds;
+    final int seconds = inSeconds;
 
     if(seconds < 60){ // 60 seconds
       return "${seconds}s";
@@ -9,8 +9,11 @@ extension TextFormat on Duration {
     else if(seconds < 60*10){ // one to ten minutes
       final int minutes = (seconds/60).floor();
       final int remainder = seconds % 60;
-      if(remainder == 0) return "${minutes}m";
-      else return "${minutes}m:${remainder}s";
+      if(remainder == 0) {
+        return "${minutes}m";
+      } else {
+        return "${minutes}m:${remainder}s";
+      }
     } 
     else if(seconds < 60*60){ // ten to 60 minutes
       final int minutes = (seconds/60).floor();

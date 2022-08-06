@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 
 class TutorialHistory extends StatelessWidget {
 
-  const TutorialHistory();
+  const TutorialHistory({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +13,8 @@ class TutorialHistory extends StatelessWidget {
 
     return Center(
       child: ListTile(
-        leading: Icon(McIcons.gesture_swipe_horizontal),
-        trailing: Icon(Icons.grid_on),
+        leading: const Icon(McIcons.gesture_swipe_horizontal),
+        trailing: const Icon(Icons.grid_on),
         title: Text(
           "Everything is recored in an horizontal scrollable grid",
           style: subhead,

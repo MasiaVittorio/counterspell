@@ -5,9 +5,9 @@ class CountersMaster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stage<CSPage,SettingsPage>(
+    return const Stage<CSPage,SettingsPage>(
       body: _Body(), 
-      collapsedPanel: const _Collapsed(), 
+      collapsedPanel: _Collapsed(), 
       extendedPanel: _Extended(), 
       topBarContent: StageTopBarContent(
         title: StageTopBarTitle(panelTitle: "Close the menu!",)
@@ -46,7 +46,7 @@ class _Extended extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(16),
-        child: Text(
+        child: const Text(
           "The main menu is useless for this task, close it!",
           textAlign: TextAlign.center,
           style: TextStyle(fontStyle: FontStyle.italic),
@@ -85,7 +85,7 @@ class _Collapsed extends StatelessWidget {
             ),
             onPressed: page == CSPage.counters 
               ? () => stage!.showSnackBar(
-                SnackCounterSelector(),
+                const SnackCounterSelector(),
                 rightAligned: true,
               )
               : null,

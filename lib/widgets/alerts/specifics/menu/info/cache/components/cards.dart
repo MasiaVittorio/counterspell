@@ -6,7 +6,7 @@ class CacheCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final stage = Stage.of(context);
 
     return bloc.game.gameGroup.savedCards.build((_, map) {

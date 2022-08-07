@@ -11,7 +11,7 @@ class BackupsAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _BackupsAlert(CSBloc.of(context)!);
+    return _BackupsAlert(CSBloc.of(context));
   }
 }
 
@@ -254,8 +254,8 @@ class FileListTile extends StatelessWidget {
           ConfirmAlert(
             action: <BackupType, VoidCallback>{
               BackupType.preferences: () =>
-                  logic!.backups.deletePreference(index),
-              BackupType.pastGames: () => logic!.backups.deletePastGame(index),
+                  logic.backups.deletePreference(index),
+              BackupType.pastGames: () => logic.backups.deletePastGame(index),
             }[type]!,
             warningText: "Delete file?",
             confirmIcon: Icons.delete_forever,
@@ -267,8 +267,8 @@ class FileListTile extends StatelessWidget {
       onTap: () => stage!.showAlert(
         ConfirmAlert(
           action: <BackupType, VoidCallback>{
-            BackupType.preferences: () => logic!.backups.loadPreferences(file),
-            BackupType.pastGames: () => logic!.backups.loadPastGame(file),
+            BackupType.preferences: () => logic.backups.loadPreferences(file),
+            BackupType.pastGames: () => logic.backups.loadPastGame(file),
           }[type]!,
           warningText: <BackupType, String>{
             BackupType.preferences: "Merge preferences from file?",

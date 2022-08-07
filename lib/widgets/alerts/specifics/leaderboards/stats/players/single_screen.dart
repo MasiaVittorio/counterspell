@@ -38,7 +38,7 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
     final theme = Theme.of(context);
     final imageSettings = logic.settings.imagesSettings;
 

@@ -8,7 +8,7 @@ class ConfirmEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConfirmAlert(
+    return const ConfirmAlert(
       action: CSActions.mailMe,
       confirmColor: CSColors.delete,
       confirmIcon: Icons.mail_outline,

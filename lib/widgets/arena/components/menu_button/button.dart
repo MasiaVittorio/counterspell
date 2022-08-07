@@ -24,7 +24,7 @@ class ArenaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final CSBloc? bloc = CSBloc.of(context);
+    final CSBloc bloc = CSBloc.of(context);
 
     VoidCallback centerTap;
     bool buttonCross;
@@ -36,11 +36,11 @@ class ArenaButton extends StatelessWidget {
     } else if(isScrollingSomewhere){
       // action pending to be cancelled
       buttonCross = true;
-      centerTap = bloc!.scroller.cancel;
+      centerTap = bloc.scroller.cancel;
     } 
     else if(page != CSPage.life){
       buttonCross = true;
-      centerTap = () => bloc!.stage.mainPagesController.goToPage(CSPage.life);
+      centerTap = () => bloc.stage.mainPagesController.goToPage(CSPage.life);
     } 
     else {
       buttonCross = open;

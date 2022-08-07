@@ -142,7 +142,7 @@ class _Time extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
 
     return bloc.settings.gameSettings.timeMode.build((_, mode) => Padding(
       padding: const EdgeInsets.only(left: 8.0),

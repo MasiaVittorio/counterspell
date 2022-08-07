@@ -13,7 +13,7 @@ class CustomStatSingleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return RadioHeaderedAlert<String>(
       initialValue: "stats",
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       items: {
         "stats": RadioHeaderedItem(
           title: "Stats", 

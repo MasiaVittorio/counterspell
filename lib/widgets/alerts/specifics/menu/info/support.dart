@@ -26,7 +26,7 @@ class _SupportAlertState extends State<SupportAlert> {
 
   @override
   Widget build(BuildContext context) {
-    final pBloc = CSBloc.of(context)!.payments;
+    final pBloc = CSBloc.of(context).payments;
     return pBloc.unlocked.build((_,unlocked) 
       => HeaderedAlert(
         refreshing ? "Refreshing data..." : unlocked? "You are a pro!" : "Support the development",
@@ -88,7 +88,7 @@ class _Donation extends StatelessWidget {
       title: Text(donation.title),
       leading: Icon(purchased ? Icons.favorite : Icons.favorite_border),
       trailing: Text(donation.amount),
-      onTap: () => CSBloc.of(context)!.payments.purchase(donation.productID),
+      onTap: () => CSBloc.of(context).payments.purchase(donation.productID),
     );
   }
 }
@@ -106,7 +106,7 @@ class SupportInfo extends StatelessWidget {
         subtitle: const Text("For debugging purposes"),
         leading: const Icon(McIcons.bug_check),
         trailing: const Icon(Icons.content_copy),
-        onTap: () => Clipboard.setData(ClipboardData(text: CSBloc.of(context)!.payments.log)),
+        onTap: () => Clipboard.setData(ClipboardData(text: CSBloc.of(context).payments.log)),
       ),
       child: Column(children: <Widget>[
         const Section([

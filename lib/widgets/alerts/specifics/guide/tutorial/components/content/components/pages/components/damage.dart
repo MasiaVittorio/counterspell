@@ -11,7 +11,7 @@ class TutorialDamage extends StatelessWidget {
     final TextStyle subhead = theme.textTheme.subtitle1!;
     final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
     final Map<CSPage,Color?> colors = stage.themeController.derived.mainPageToPrimaryColor.value!;
-    final CSBloc bloc = CSBloc.of(context)!;
+    final CSBloc bloc = CSBloc.of(context);
     final Color defenceColor = bloc.themer.defenceColor.value;
 
     return Column(

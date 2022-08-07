@@ -9,7 +9,7 @@ class Stats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
 
     final cmdrs = logic.pastGames.commanderStats.value;
     final players = logic.pastGames.playerStats.value;

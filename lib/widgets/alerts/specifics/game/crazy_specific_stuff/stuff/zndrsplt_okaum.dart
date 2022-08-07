@@ -158,7 +158,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         ),
       ),
       titleSize: 89 + AlertDrag.height,
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       bottom: actions,
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -11,8 +11,8 @@ class BodyGroup extends StatelessWidget {
   final bool landScape;
   final double maxWidth;
   final double bottom;
-  final CSPage? currentPage;
-  final Map<CSPage,Color?>? pageColors;
+  final CSPage currentPage;
+  final Map<CSPage,Color> pageColors;
   
   const BodyGroup(this.names,{
     required this.bottom,
@@ -64,7 +64,7 @@ class BodyGroup extends StatelessWidget {
           for(final name in names)
             PlayerTile(
               name, 
-              pageColor: pageColors![currentPage!],
+              pageColor: pageColors[currentPage],
               maxWidth: maxWidth,
               increment: increment,
               defenceColor: defenceColor,
@@ -103,7 +103,7 @@ class BodyGroup extends StatelessWidget {
                     if(couple.length == 2)
                       Expanded(child: couple[1],)
                   ];
-                  if(flat!) {
+                  if(flat) {
                     return cpl.separateWith(CSSizes.flatPaddingX);
                   } else {
                     return cpl;
@@ -113,8 +113,7 @@ class BodyGroup extends StatelessWidget {
 
           
           return Padding(
-            padding: flat!
-              ? const EdgeInsets.symmetric(horizontal: CSSizes.flatPadding)
+            padding: flat? const EdgeInsets.symmetric(horizontal: CSSizes.flatPadding)
               : EdgeInsets.zero,
             child: Column(children: CSSizes.separateColumn(flat, realChildren),
             ),

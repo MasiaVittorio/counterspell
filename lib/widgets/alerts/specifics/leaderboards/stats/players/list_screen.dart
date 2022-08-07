@@ -45,7 +45,7 @@ class _PlayersStatsListsState extends State<_PlayersStatsLists> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
 
     return bloc.pastGames.playerStats.build((_, map){
       final list = [...map.values]

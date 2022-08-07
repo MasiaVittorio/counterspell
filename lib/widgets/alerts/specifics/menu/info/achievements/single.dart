@@ -13,11 +13,11 @@ class AchievementAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return CSBloc.of(context)!.achievements.map.build((_,map){
+    return CSBloc.of(context).achievements.map.build((_,map){
       final Achievement achievement = map[shortTitle]!;
       return HeaderedAlert(
         achievement.shortTitle,
-        canvasBackground: true,
+        customBackground: (theme) => theme.canvasColor,
         alreadyScrollableChild: true,
         child: Padding(
           padding: const EdgeInsets.only(top: PanelTitle.height),
@@ -46,7 +46,7 @@ class AchievementAgnosticSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc? bloc = CSBloc.of(context);
+    final CSBloc bloc = CSBloc.of(context);
     final StageData? stage = Stage.of(context);
 
     return SubSection(<Widget>[
@@ -58,7 +58,7 @@ class AchievementAgnosticSection extends StatelessWidget {
           icon: const Icon(McIcons.restart),
           onPressed: () => stage!.showAlert(
             ConfirmAlert(
-              action: () => bloc!.achievements.reset(achievement.shortTitle, force: true),
+              action: () => bloc.achievements.reset(achievement.shortTitle, force: true),
               warningText: "Reset this achievement's progress?",
             ),
             size: ConfirmAlert.height,

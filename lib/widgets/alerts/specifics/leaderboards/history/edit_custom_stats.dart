@@ -11,7 +11,7 @@ class EditCustomStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
     final gamesVar = logic.pastGames.pastGames;
     final titlesVar = logic.pastGames.customStatTitles;
 
@@ -30,7 +30,7 @@ class EditCustomStats extends StatelessWidget {
           ],
         ),
 
-        canvasBackground: true,
+        customBackground: (theme) => theme.canvasColor,
         titleSize: 72.0 + AlertDrag.height,
 
         child: Column(

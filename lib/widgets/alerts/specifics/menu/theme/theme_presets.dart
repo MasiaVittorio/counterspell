@@ -9,7 +9,7 @@ class PresetsAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final stage = Stage.of(context)!;
     final theme = Theme.of(context);
 
@@ -137,14 +137,14 @@ class PresetTile extends StatelessWidget {
           ? IconButton(
             icon: const Icon(Icons.delete_forever, color: CSColors.delete,),
             onPressed: (){
-              bloc!.themer.savedSchemes.value.remove(scheme.name);
+              bloc.themer.savedSchemes.value.remove(scheme.name);
               bloc.themer.savedSchemes.refresh();
             },
           ) 
           : null,
         onTap: (){
           final themeController = stage.themeController;
-          final themer = bloc!.themer;
+          final themer = bloc.themer;
 
           Map<CSPage,Color> perPage = <CSPage,Color>{
             for(final entry in scheme.perPage.entries)

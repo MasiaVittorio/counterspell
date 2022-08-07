@@ -15,7 +15,7 @@ class StartingLifeTile extends StatelessWidget {
   Widget build(BuildContext context){
 
     final theme = Theme.of(context);
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final gameSettings= bloc.settings.gameSettings;
 
     final stage = Stage.of(context)!;

@@ -2,6 +2,13 @@ import 'package:counter_spell_new/core.dart';
 
 class CSThemer {
 
+  Color computePanelColor(double val, ThemeData theme) => Color.alphaBlend(
+    parent.stage.themeController.derived.mainPageToPrimaryColor
+      .value![parent.stage.mainPagesController.currentPage]!
+      .withOpacity(val.mapToRangeLoose(0.1, 0.0)), 
+    theme.canvasColor,
+  );
+
   void dispose(){
     defenceColor.dispose();
     savedSchemes.dispose();
@@ -12,10 +19,10 @@ class CSThemer {
   final CSBloc parent;
   final PersistentVar<Color> defenceColor;
   final PersistentVar<Map<String,CSColorScheme>> savedSchemes;
-  late BlocVar<bool?> flatDesign; // vs material design
+  late BlocVar<bool> flatDesign; // vs material design
 
 
-  static const bool flatLinkedToColorPlace = false;
+  static const bool flatLinkedToColorPlace = true;
   // Flat design always require colorPlace to be texts, but it is not always
   // the other way around. IF this constant is TRUE, then also a text colorPlace
   // means that the design is always flat, and a material design means always 
@@ -101,9 +108,9 @@ class CSThemer {
     parent.stage.themeController.topBarElevations.set(_topFlatElevations);
     parent.stage.dimensionsController.dimensions.set(
       parent.stage.dimensionsController.dimensions.value.copyWith(
-        // panelHorizontalPaddingOpened: 0.0,
-        panelHorizontalPaddingOpened: StageDimensions
-          .defaultPanelHorizontalPaddingOpened,
+        panelHorizontalPaddingOpened: 0.0,
+        // panelHorizontalPaddingOpened: StageDimensions
+        //   .defaultPanelHorizontalPaddingOpened,
       ),
     );
     parent.stage.themeController.bottomBarShadow.setDistinct(false);
@@ -128,7 +135,7 @@ class CSThemer {
   }
 
   void toggleFlatDesign(){
-    if(flatDesign.value!){
+    if(flatDesign.value){
       deactivateFlatDesign();
     } else {
       activateFlatDesign();
@@ -182,7 +189,5 @@ class CSThemer {
     StageColorPlace.texts: 0,
     StageColorPlace.background: 8,
   };
-
-  // static const _bottomMaterial = BoxShadow;
 
 }

@@ -8,7 +8,7 @@ class DesignPattern extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final theme = Theme.of(context);
 
     return bloc.payments.unlocked.build((_, unlocked)

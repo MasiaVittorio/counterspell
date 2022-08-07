@@ -13,7 +13,7 @@ class PastGameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final titlesVar = bloc.pastGames.customStatTitles;
     final gamesVar = bloc.pastGames.pastGames;
     return gamesVar.build((_,pastGames) {
@@ -168,7 +168,7 @@ class CommanderSubSection extends StatelessWidget {
         trailing: IconButton(
           icon: CSWidgets.deleteIcon,
           onPressed: (){
-            bloc!.pastGames.pastGames.value[index]!.commandersA[player] = null;
+            bloc.pastGames.pastGames.value[index]!.commandersA[player] = null;
             bloc.pastGames.pastGames.refresh(index: index);
           }
         ),
@@ -185,7 +185,7 @@ class CommanderSubSection extends StatelessWidget {
           trailing: IconButton(
             icon: CSWidgets.deleteIcon,
             onPressed: (){
-              bloc!.pastGames.pastGames.value[index]!.commandersB[player] = null;
+              bloc.pastGames.pastGames.value[index]!.commandersB[player] = null;
               bloc.pastGames.pastGames.refresh(index: index);
             }
           ),
@@ -199,7 +199,7 @@ class CommanderSubSection extends StatelessWidget {
       BottomExtra(
         Text(partner ? "Merge into one commander" : "Split into two partners"), 
         onTap: (){
-          bloc!.pastGames.pastGames.value[index]!.state.players[player]!.havePartnerB = !partner;
+          bloc.pastGames.pastGames.value[index]!.state.players[player]!.havePartnerB = !partner;
           bloc.pastGames.pastGames.refresh(index: index);
         },
         icon: partner ? Icons.unfold_less : Icons.unfold_more,

@@ -8,7 +8,7 @@ class AboutCounterSpell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
 
     return Section([
       const PanelTitle("About CounterSpell", centered: false,),

@@ -9,7 +9,7 @@ class CSHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final CSBloc bloc = CSBloc.of(context)!;
+    final CSBloc bloc = CSBloc.of(context);
     
     return WillPopScope(
       onWillPop: bloc.scroller.decidePop,
@@ -34,7 +34,8 @@ class CSHomePage extends StatelessWidget {
         ),
         
         backgroundColor: (theme, place) => place.isTexts 
-          ? theme.scaffoldBackgroundColor 
+          ? Colors.black 
+          // ? theme.canvasColor 
           : Colors.black,
 
         splashScreen: const StageSplashScreen(
@@ -42,16 +43,28 @@ class CSHomePage extends StatelessWidget {
           icon: Icon(CSIcons.counterSpell, color: Colors.white, size: 40,),
         ),
 
-        shadowBuilder: (val, place) => BoxShadow(
-            blurRadius: place.isTexts 
-              ? val.mapToRangeLoose(2.0, 6.0) 
-              : val.mapToRangeLoose(10.0, 20.0), 
-            color: const Color(0x50000000),
-            offset: Offset(
-              0.0, 
-              place.isTexts ? 3 : 7,
+        scaffoldBackgroundFill: const _ScaffoldBackgroundFill(),
+
+        customDecorationBuilder: (val, theme, place, dim, _) => place.isTexts 
+          ? BoxDecoration(
+              color: bloc.themer.computePanelColor(val, theme),
+              borderRadius: BorderRadius.circular(val.mapToRangeLoose(
+                dim.panelRadiusClosed, 
+                0,
+              )),
+            )
+          : BoxDecoration(
+              boxShadow: [BoxShadow(
+                blurRadius: val.mapToRangeLoose(10.0, 20.0), 
+                color: const Color(0x50000000),
+                offset: const Offset(0, 7),
+              )],
+              borderRadius: BorderRadius.circular(val.mapToRangeLoose(
+                dim.panelRadiusClosed, 
+                dim.panelRadiusOpened,
+              )),
+              color: theme.canvasColor,
             ),
-          ),
       ),
     );
 
@@ -59,3 +72,18 @@ class CSHomePage extends StatelessWidget {
 
 }
 
+
+
+class _ScaffoldBackgroundFill extends StatelessWidget {
+  const _ScaffoldBackgroundFill({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final stage = Stage.of(context)!;
+    final theme = Theme.of(context);
+
+    return stage.themeController.colorPlace.build((_, place) => Container(
+      color: place.isTexts ? theme.canvasColor : theme.scaffoldBackgroundColor,
+    ),);
+  }
+}

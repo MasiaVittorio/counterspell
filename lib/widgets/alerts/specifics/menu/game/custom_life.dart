@@ -4,7 +4,7 @@ class CustomStartingLife extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final initialInt = bloc.settings.gameSettings.currentStartingLife;
     final initial = initialInt.toString();
     return InsertAlert(

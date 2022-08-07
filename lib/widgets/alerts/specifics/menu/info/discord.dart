@@ -8,7 +8,7 @@ class ConfirmDiscord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConfirmAlert(
+    return const ConfirmAlert(
       action: CSActions.openDiscordInvite,
       confirmIcon: McIcons.discord,
       confirmText: "Sure, open the Discord app",

@@ -31,7 +31,7 @@ class ArenaScrollOverTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final settings = bloc.settings.arenaSettings;
 
     return settings.scrollOverTap.build((context, scrollOverTap) 
@@ -52,7 +52,7 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
   const ArenaScrollDirectionSelector();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final settings = bloc.settings.arenaSettings;
 
     final content = settings.verticalScroll.build((_, vertical)
@@ -102,7 +102,7 @@ class Gestures extends StatelessWidget {
   const Gestures();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final settings = bloc.settings.arenaSettings;
 
     return settings.scrollOverTap.build((context, scroll) 
@@ -165,7 +165,7 @@ class ArenaTapDirectionSelector extends StatelessWidget {
   const ArenaTapDirectionSelector();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final settings = bloc.settings.arenaSettings;
 
     final content = settings.verticalTap.build((_, vertical)
@@ -224,7 +224,7 @@ class ArenaFullScreenToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final settings = bloc.settings.arenaSettings;
     return settings.fullScreen.build((_, fullScreen) => SwitchListTile(
       onChanged: settings.fullScreen.set,
@@ -240,7 +240,7 @@ class ArenaHideNamesWithImageToggle extends StatelessWidget {
   const ArenaHideNamesWithImageToggle();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final settings = bloc.settings.arenaSettings;
     return settings.hideNameWhenImages.build((_, hide) => SwitchListTile(
       onChanged: settings.hideNameWhenImages.set,

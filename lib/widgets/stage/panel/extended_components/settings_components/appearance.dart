@@ -8,7 +8,7 @@ class SettingsAppearance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context)!;
+    final CSBloc bloc = CSBloc.of(context);
     final CSSettings settings = bloc.settings;
     final StageData<CSPage,SettingsPage>? stage = Stage.of(context);
 

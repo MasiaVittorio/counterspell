@@ -5,7 +5,7 @@ class OverallTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context)!;
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final themeController = stage.themeController;
     final theme = Theme.of(context);
 

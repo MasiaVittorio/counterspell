@@ -48,7 +48,7 @@ class LeaderboardsSettings extends StatelessWidget {
         trailing: const Icon(Icons.warning),
         onTap: () => stage!.showAlert(
           ConfirmAlert(
-            action: () => logic!.pastGames.pastGames.set(<PastGame>[]),
+            action: () => logic.pastGames.pastGames.set(<PastGame>[]),
             warningText: "Delete ALL the past games? This cannot be undone",
             confirmColor: CSColors.delete,
             confirmIcon: Icons.delete_forever,

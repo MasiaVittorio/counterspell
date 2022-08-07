@@ -45,7 +45,7 @@ class _PastGamesListState extends State<_PastGamesList> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
 
     return bloc.pastGames.pastGames.build((_, pastGames){
       if(pastGames.isEmpty) return Container();

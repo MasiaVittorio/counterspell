@@ -5,7 +5,7 @@ class TodoAchievements extends StatelessWidget {
   const TodoAchievements();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
 
     return BlocVar.build2(
       bloc.achievements.todo,

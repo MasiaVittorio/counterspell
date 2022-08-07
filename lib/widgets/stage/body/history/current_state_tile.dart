@@ -7,7 +7,7 @@ class CurrentStateTile extends StatelessWidget {
   final int stateIndex;
   final GameState gameState;
   final Color defenceColor;
-  final Map<CSPage?,Color?>? pagesColor;
+  final Map<CSPage,Color> pagesColor;
 
   const CurrentStateTile(this.gameState, this.stateIndex,{
     required this.names,
@@ -19,26 +19,26 @@ class CurrentStateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final logic = CSBloc.of(context);
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
-      child: Material(
-        elevation: 4,
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: CSBloc.of(context)!.themer.flatDesign.build((context, flat) 
-          => Column(children: CSSizes.separateColumn(flat!, <Widget>[
-            for(final name in names)
-              CurrentStatePlayerTile(
-                gameState, 
-                stateIndex,
-                name: name,
-                pagesColor: pagesColor,
-                tileSize: tileSize,  
-                counters: counters,
-                defenceColor: defenceColor,
-              ),
-          ],),),
-        ),
-      ),
+      child: logic.themer.flatDesign.build((context, flat) => Material(
+        elevation: flat ? 0 : 4,
+        color: flat ? theme.canvasColor : theme.scaffoldBackgroundColor,
+        child: Column(children: CSSizes.separateColumn(flat, <Widget>[
+          for(final name in names)
+            CurrentStatePlayerTile(
+              gameState, 
+              stateIndex,
+              name: name,
+              pagesColor: pagesColor,
+              tileSize: tileSize,  
+              counters: counters,
+              defenceColor: defenceColor,
+            ),
+        ],),),
+      ),),
     );
 
   }
@@ -51,7 +51,7 @@ class CurrentStatePlayerTile extends StatelessWidget {
   final double? tileSize;
   final Color defenceColor;
   final Map<String?, Counter> counters;
-  final Map<CSPage?,Color?>? pagesColor;
+  final Map<CSPage,Color> pagesColor;
 
   const CurrentStatePlayerTile(this.gameState, this.stateIndex, {
     required this.name,
@@ -98,7 +98,7 @@ class PieceOfInformation extends StatelessWidget {
   final bool? attacking;
   final int? value;
   final Color defenceColor;
-  final Map<CSPage?,Color?>? pagesColor;
+  final Map<CSPage,Color> pagesColor;
 
   const PieceOfInformation({
     required this.pagesColor,
@@ -119,10 +119,10 @@ class PieceOfInformation extends StatelessWidget {
     IconData? icon;
 
     if(damageType == DamageType.commanderDamage){
-      color = attacking! ? pagesColor![CSPage.commanderDamage]: defenceColor;
+      color = attacking! ? pagesColor[CSPage.commanderDamage]: defenceColor;
       icon = attacking! ? CSIcons.attackOne : CSIcons.defenceFilled;
     } else {
-      color = pagesColor![CSPages.fromDamage(damageType)];
+      color = pagesColor[CSPages.fromDamage(damageType)];
       icon = CSIcons.typeIconsFilled[damageType];
     }
 

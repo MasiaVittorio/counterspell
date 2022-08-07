@@ -124,7 +124,7 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     return HeaderedAlert(
       "Arena Layout Example",
       alreadyScrollableChild: true,
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       child: Column(children: <Widget>[
         const SizedBox(height: PanelTitle.height,),
 

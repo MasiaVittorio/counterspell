@@ -62,7 +62,7 @@ class ArenaOpacity extends StatelessWidget {
   const ArenaOpacity();
   @override
   Widget build(BuildContext context) {
-    final opacity = CSBloc.of(context)!.settings.imagesSettings.arenaImageOpacity;
+    final opacity = CSBloc.of(context).settings.imagesSettings.arenaImageOpacity;
     return opacity.build((_,value) => FullSlider(
       value: value,
       divisions: 20,

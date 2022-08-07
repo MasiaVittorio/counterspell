@@ -14,10 +14,11 @@ class CSPanelExtended extends StatelessWidget {
         SettingsPage.settings: PanelSettings(),
         SettingsPage.theme: PanelTheme(),
       },
-      canvasBackground: true,
+      customBackground: transparent,
     );
   }
 
+  static Color transparent(ThemeData theme) => Colors.transparent;
 
 }
 

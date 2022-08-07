@@ -15,7 +15,7 @@ class StuffILikeAlert extends StatelessWidget {
         //////////////////////////////////////////////////
         customTitleColor: _CommandBros.color5,
         //////////////////////////////////////////////////
-        canvasBackground: true,
+        customBackground: (theme) => theme.canvasColor,
         bottom: const _Note(
           "CounterSpell will not send you any notification to bring you to this page",
           flat: true,

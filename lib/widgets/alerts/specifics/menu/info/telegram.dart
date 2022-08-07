@@ -8,7 +8,7 @@ class ConfirmTelegram extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConfirmAlert(
+    return const ConfirmAlert(
       action: CSActions.chatWithMe,
       confirmColor: Colors.blue,
       confirmIcon: McIcons.telegram,

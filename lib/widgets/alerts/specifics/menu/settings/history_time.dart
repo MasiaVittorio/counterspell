@@ -11,11 +11,11 @@ class HistoryTimeAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final timeMode = CSBloc.of(context)!.settings.gameSettings.timeMode;
+    final timeMode = CSBloc.of(context).settings.gameSettings.timeMode;
 
     return timeMode.build((_, mode) => HeaderedAlert(
       "History screen time mode",
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       bottom: Center(child: ListTile(
         title: AnimatedText(
           {

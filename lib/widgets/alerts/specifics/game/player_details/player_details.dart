@@ -19,7 +19,7 @@ class PlayerDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final stage = Stage.of(context)!;
     final groupBloc = bloc.game.gameGroup;
 

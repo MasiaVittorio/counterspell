@@ -23,7 +23,7 @@ class ArenaUndo extends StatelessWidget {
     final bool horizontal = undoRedoAxis == Axis.horizontal;
     final bool vertical = !horizontal;
 
-    final logic = CSBloc.of(context)!.game.gameState;
+    final logic = CSBloc.of(context).game.gameState;
 
     const radius = Radius.circular(halfSize);
 

@@ -6,7 +6,7 @@ class Useful extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
     final stage = Stage.of(context)!;
 
     return Column(

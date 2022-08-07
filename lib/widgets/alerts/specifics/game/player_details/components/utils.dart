@@ -168,7 +168,7 @@ class PlayerBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final gameBloc = bloc.game;
     final groupBloc = gameBloc.gameGroup;
     final stateBloc = gameBloc.gameState;

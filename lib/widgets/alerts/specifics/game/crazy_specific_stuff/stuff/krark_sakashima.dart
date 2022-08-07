@@ -175,7 +175,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
         ),
       ),
       titleSize: 89 + AlertDrag.height,
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       bottom: actions,
       child: Column(
         mainAxisSize: MainAxisSize.min,

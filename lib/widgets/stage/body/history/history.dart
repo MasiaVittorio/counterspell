@@ -8,7 +8,7 @@ class BodyHistory extends StatelessWidget {
   final CSGameGroup? group;
   final double tileSize;
   final Color defenceColor;
-  final Map<CSPage,Color?>? pageColors;
+  final Map<CSPage,Color> pageColors;
 
   const BodyHistory({
     required this.names,

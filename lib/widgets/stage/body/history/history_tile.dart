@@ -8,7 +8,7 @@ class HistoryTile extends StatelessWidget {
   final DateTime? firstTime;
   final bool avoidInteraction;
   final Color defenceColor;
-  final Map<CSPage?,Color?>? pageColors;
+  final Map<CSPage,Color> pageColors;
   final Map<String?, Counter> counters;
   final List<String> names;
   final Map<String,bool?> havePartnerB;
@@ -61,11 +61,11 @@ class HistoryTile extends StatelessWidget {
         : data.changes!.length;
       return LayoutBuilder(builder: (_, constraints) => ConstrainedBox(
         constraints: constraints, 
-        child: bloc!.themer.flatDesign.build((_, flat) => buildKnowingSize(
+        child: bloc.themer.flatDesign.build((_, flat) => buildKnowingSize(
           CSSizes.computeTileSize(
             constraints, 
             howManyPlayers,
-            flat!,
+            flat,
           ),
           stage, 
           bloc,
@@ -113,7 +113,7 @@ class HistoryTile extends StatelessWidget {
           height: CSSizes.computeTotalSize(
             knownTileSize!, 
             data.changes!.length, 
-            flat!,
+            flat,
           ),
           constraints: const BoxConstraints(minWidth: 20),
           child: Column(

@@ -12,7 +12,7 @@ class CSBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
     final themer = bloc.themer;
     final theme = Theme.of(context);
@@ -37,12 +37,12 @@ class CSBody extends StatelessWidget {
             final double tileSize = CSSizes.computeTileSize(
               constraints, 
               rowCount,
-              flat!,
+              flat,
             );
 
             final Widget bodyHistory = BodyHistory(
               defenceColor: defenceColor,
-              pageColors: pageColors,
+              pageColors: pageColors!,
               count: count,
               tileSize: tileSize,
               group: group,
@@ -119,8 +119,8 @@ class CSBody extends StatelessWidget {
                             : MaterialType.canvas,
                           child: BodyGroup(
                             names,
-                            bottom: CSSizes.bottomBodyPadding 
-                              - ((flat && CSSizes.lastFlatPadding) ? CSSizes.flatPadding : 0),
+                            // bottom: 0,
+                            bottom: CSSizes.extraBottomPlayerTile(flat),
                             currentPage: currentPage,
                             maxWidth: constraints.maxWidth,
                             count: count,

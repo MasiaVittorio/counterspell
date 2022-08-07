@@ -5,7 +5,7 @@ class DoneAchievements extends StatelessWidget {
   const DoneAchievements();
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
 
     return bloc.achievements.map.build((_, map)
       => Column(children: <Widget>[

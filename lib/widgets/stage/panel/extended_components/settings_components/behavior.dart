@@ -4,7 +4,7 @@ class SettingsBehavior extends StatelessWidget {
   const SettingsBehavior();
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context)!;
+    final CSBloc bloc = CSBloc.of(context);
     final CSSettings settings = bloc.settings;
     final scrollSettings = settings.scrollSettings;
     final StageData<CSPage,SettingsPage>? stage = Stage.of(context);

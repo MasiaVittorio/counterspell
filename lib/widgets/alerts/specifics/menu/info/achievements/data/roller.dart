@@ -226,7 +226,7 @@ class _ArenaMockup extends StatelessWidget {
   Widget build(BuildContext context) {
     return HeaderedAlert(
       "Arena Mockup",
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       alreadyScrollableChild: true,
       child: Padding(
         padding: const EdgeInsets.only(top: PanelTitle.height),

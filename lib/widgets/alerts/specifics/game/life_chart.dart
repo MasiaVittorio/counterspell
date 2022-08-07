@@ -12,7 +12,7 @@ class LifeChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context)!;
+    final CSBloc bloc = CSBloc.of(context);
     final ThemeData theme = Theme.of(context);
     final Color bkgColor = theme.scaffoldBackgroundColor;
     final TextStyle? textStyle = theme.textTheme.bodyText2; 

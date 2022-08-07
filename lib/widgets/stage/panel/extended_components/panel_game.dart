@@ -14,6 +14,7 @@ class PanelGame extends StatelessWidget {
         return ConstrainedBox(
           constraints: constraints,
           child: ArenaTransformer(
+            backgroundColor: Theme.of(context).canvasColor.withOpacity(0),
             builder: (_, opener) => SingleChildScrollView(
               physics: stage!.panelController.panelScrollPhysics(),
               child: Column(

@@ -163,7 +163,7 @@ class GameTimeTile extends StatelessWidget {
         icon: const Icon(Icons.delete_forever, color: CSColors.delete),
         onPressed: () => stage!.showAlert(
           ConfirmAlert(
-            action: () => bloc!.pastGames.pastGames.removeAt(index),
+            action: () => bloc.pastGames.pastGames.removeAt(index),
             warningText: "Delete game played $month $day, $hour:$minute?",
             confirmColor: CSColors.delete,
             confirmText: "Yes, delete",

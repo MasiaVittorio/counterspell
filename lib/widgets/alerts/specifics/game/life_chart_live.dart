@@ -10,8 +10,7 @@ class AnimatedLifeChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(child: CSBloc.of(context)!
-      .game.gameState.gameState.build((_, gameState)
+    return Material(child: CSBloc.of(context).game.gameState.gameState.build((_, gameState)
         => _LifeChartLive(gameState),
       ),
     );
@@ -193,7 +192,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
   Widget layoutChart(){
     final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
-    final CSBloc bloc = CSBloc.of(context)!;
+    final CSBloc bloc = CSBloc.of(context);
     final ThemeData theme = Theme.of(context);
 
     return Padding(

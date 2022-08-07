@@ -48,7 +48,7 @@ class AptGestures extends StatelessWidget {
 
     final StageData<CSPage,SettingsPage> stage = Stage.of(context)!;
 
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final settings = bloc.settings.arenaSettings;
 
     return Material(

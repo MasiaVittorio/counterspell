@@ -31,7 +31,7 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   CSGameAction? get actionLogic => gameLogic!.gameAction;
   CSGameGroup? get groupLogic => gameLogic!.gameGroup;
 
-  void exit() => Navigator.of(context).pop();
+  void exit() => Navigator.of(context).maybePop();
   
   double get _buttonSize => ArenaWidget.buttonDim;
   Size get buttonSize => ArenaWidget.buttonSize;

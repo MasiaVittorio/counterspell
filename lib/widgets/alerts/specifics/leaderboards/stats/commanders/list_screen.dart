@@ -44,7 +44,7 @@ class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
 
     return bloc.pastGames.commanderStats.build((_, map){
       final list = [...map.values]

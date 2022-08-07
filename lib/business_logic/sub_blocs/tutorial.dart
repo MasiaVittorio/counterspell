@@ -186,7 +186,7 @@ class _HintAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
     final tutorialLogic = logic.tutorial;
     final bool next = tutorialLogic.thereIsANext;
 

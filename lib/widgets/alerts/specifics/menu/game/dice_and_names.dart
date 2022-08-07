@@ -60,7 +60,7 @@ class _DiceThrowerState extends State<DiceThrower> {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
-    final CSBloc bloc = CSBloc.of(context)!;
+    final CSBloc bloc = CSBloc.of(context);
 
     return bloc.game.gameState.gameState.build((_,state){
       final List<String> names = state.names.toList();

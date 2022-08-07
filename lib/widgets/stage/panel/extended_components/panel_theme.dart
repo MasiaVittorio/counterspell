@@ -10,7 +10,7 @@ class PanelTheme extends StatelessWidget {
 
     final stage = Stage.of(context)!;
 
-    return CSBloc.of(context)!.payments.unlocked.build((_,unlocked) 
+    return CSBloc.of(context).payments.unlocked.build((_,unlocked) 
       => ModalBottomList(
         physics: stage.panelController.panelScrollPhysics(),
         bottom: unlocked ? const ThemePResetter() : Container(),

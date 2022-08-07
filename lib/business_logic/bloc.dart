@@ -3,7 +3,7 @@ import 'package:counter_spell_new/core.dart';
 ///[B]usiness [LO]gic [C]omponent for [CounterSpell]
 class CSBloc extends BlocBase {
 
-  static CSBloc? of(BuildContext context) => BlocProvider.of<CSBloc>(context);
+  static CSBloc of(BuildContext context) => BlocProvider.of<CSBloc>(context)!;
 
   @override
   void dispose() {

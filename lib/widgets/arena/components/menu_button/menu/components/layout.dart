@@ -21,7 +21,7 @@ class ArenaMenuLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final arenaBloc = bloc.settings.arenaSettings;
     final groupBloc = bloc.game.gameGroup;
     

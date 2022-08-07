@@ -64,7 +64,7 @@ class _WinnerSelectorState extends State<WinnerSelector> {
 
     return HeaderedAlert(
       "Who won this game?",
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       bottom: autoSavingPrompt 
         ? Column(
           mainAxisSize: MainAxisSize.min,

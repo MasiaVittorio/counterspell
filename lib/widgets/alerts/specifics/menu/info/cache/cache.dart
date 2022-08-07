@@ -51,7 +51,7 @@ class CacheAlert extends StatelessWidget {
                     confirmColor: CSColors.delete,
                     confirmIcon: Icons.delete_forever,
                     action: (){
-                      bloc!.game.gameGroup.savedCards.removeAll();
+                      bloc.game.gameGroup.savedCards.removeAll();
                     },
                   ), 
                   size: ConfirmAlert.height

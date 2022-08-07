@@ -37,7 +37,7 @@ class CommanderStatWidget extends StatelessWidget {
     final pageColors = Stage.of(context)!.themeController.derived
         .mainPageToPrimaryColor.value!;
 
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
     final imageSettings = logic.settings.imagesSettings;
     final imageUrl = stat.card.imageUrl()!;
 

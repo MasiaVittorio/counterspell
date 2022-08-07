@@ -19,7 +19,7 @@ class ArenaTransformer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
     final StageData<CSPage, SettingsPage> stage = Stage.of(context)!;
     final theme = Theme.of(context);
 
@@ -47,6 +47,7 @@ class ArenaTransformer extends StatelessWidget {
       closedElevation: 0.0,
       openElevation: 0.0,
       closedBuilder: (context, openArena) => builder(context, (){
+
         if(!ArenaWidget.okNumbers.contains(logic.game.gameState.gameState.value.players.length)){
           stage.showAlert(
             AlternativesAlert(
@@ -66,12 +67,20 @@ class ArenaTransformer extends StatelessWidget {
         logic.settings.appSettings.lastPageBeforeArena.set(stage.mainPagesController.currentPage);
         stage.mainPagesController.goToPage(CSPage.life);
         logic.game.gameAction.clearSelection();
+        
+        if(logic.themer.flatDesign.value){
+          stage.showAlert(
+            ArenaWidget(logic: logic, ),
+            size: double.infinity,
+          );
+        } else {
+          if(logic.settings.arenaSettings.fullScreen.value){
+            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+          }
 
-        if(logic.settings.arenaSettings.fullScreen.value){
-          SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+          openArena();
         }
 
-        openArena();
       }),
       tappable: false,
       onClosed: (dynamic _) {

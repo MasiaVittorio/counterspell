@@ -57,7 +57,7 @@ class PlayerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final group = bloc.game.gameGroup;
     final stateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
@@ -234,7 +234,7 @@ class PlayerTile extends StatelessWidget {
                 child: bloc.themer.flatDesign.build(
                   (context, flat) => Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(flat! ? 12 : 0.0),
+                      borderRadius: BorderRadius.circular(flat? 12 : 0.0),
                     ),
                     clipBehavior: Clip.antiAlias,
                     child: Stack(

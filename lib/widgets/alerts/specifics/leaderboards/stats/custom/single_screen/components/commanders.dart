@@ -16,7 +16,7 @@ class _CommandersState extends State<Commanders> {
 
   @override
   Widget build(BuildContext context) {
-    final logic = CSBloc.of(context)!;
+    final logic = CSBloc.of(context);
     final stat = widget.stat;
     final bool absolute = absoluteIndex == 1;
     final mapStats = {

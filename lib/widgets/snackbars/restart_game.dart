@@ -6,11 +6,11 @@ class SnackRestart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc? bloc = CSBloc.of(context);
+    final CSBloc bloc = CSBloc.of(context);
 
     return ConfirmSnackbar(
       label:"Restart game?",
-      action: () => bloc!.game.gameState.restart(GameRestartedFrom.historyPage),
+      action: () => bloc.game.gameState.restart(GameRestartedFrom.historyPage),
     );
   }
 }

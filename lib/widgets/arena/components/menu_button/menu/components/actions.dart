@@ -20,7 +20,7 @@ class ArenaMenuActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
 
     final thrower = bloc.achievements.flippedOrRolled;
     return Column(
@@ -57,7 +57,7 @@ class _Restarter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final state = bloc.game.gameState;
 
     return ConfirmableTile(

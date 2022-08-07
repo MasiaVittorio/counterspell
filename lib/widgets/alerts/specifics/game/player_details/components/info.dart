@@ -8,7 +8,7 @@ class PlayerDetailsInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final bloc = CSBloc.of(context)!;
+    final bloc = CSBloc.of(context);
     final stage = bloc.stage;
     final counters = bloc.game.gameAction.counterSet.list;
     final body2 = theme.textTheme.bodyText1;

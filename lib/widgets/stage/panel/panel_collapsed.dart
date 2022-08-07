@@ -9,7 +9,7 @@ class CSPanelCollapsed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CSBloc bloc = CSBloc.of(context)!;
+    final CSBloc bloc = CSBloc.of(context);
     final gameStateBloc = bloc.game.gameState;
     final StageData<CSPage, SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
 
@@ -33,16 +33,17 @@ class CSPanelCollapsed extends StatelessWidget {
       ),
     );
 
-    return  ArenaTransformer(
+    return ArenaTransformer(
+      backgroundColor: Theme.of(context).canvasColor.withOpacity(0),
       closedRadiusSize: stage.dimensionsController.dimensions.value.barSize/2,
-      builder: (_, opener) => StageBuild.offMainPage<CSPage>((_, currentPage) 
+      builder: (_, open) => StageBuild.offMainPage<CSPage>((_, currentPage) 
         => StageBuild.offMainColors((_, __, colors){
 
           final arenaDisplayer = gameStateBloc.gameState.build(
             (context, state) => _PanelButton(
               ArenaWidget.okNumbers.contains(state.players.length),
               CSIcons.counterSpell,
-              opener,
+              open,
               1.0,
               // iconSize: 20,
             ),
@@ -145,7 +146,9 @@ class CSPanelCollapsed extends StatelessWidget {
 
 class _DelayerPanel extends StatelessWidget {
 
-  const _DelayerPanel({required this.bloc});
+  const _DelayerPanel({
+    required this.bloc,
+  });
 
   final CSBloc bloc;
 
@@ -157,39 +160,42 @@ class _DelayerPanel extends StatelessWidget {
     final canvasContrast = themeData.colorScheme.onSurface;
     final stage = Stage.of(context)!;
 
-    return BlocVar.build4<bool,int,Duration,Color?>(
+    return BlocVar.build5<bool,int,Duration,Color,bool>(
         scroller.isScrolling,
         scroller.intValue,
         bloc.settings.scrollSettings.confirmDelay,
         stage.themeController.derived.currentPrimaryColor,
+        bloc.themer.flatDesign,
         distinct: true, builder: (
       BuildContext context,
-      bool? scrolling,
-      int? increment,
-      Duration? confirmDelay,
-      Color? currentPrimaryColor,
+      bool scrolling,
+      int increment,
+      Duration confirmDelay,
+      Color currentPrimaryColor,
+      bool flat,
     ) {
       final accentColor = Color.alphaBlend(
-        currentPrimaryColor!
-          .withOpacity(0.85),
+        currentPrimaryColor.withOpacity(0.85),
         canvas,
       );
       return AnimatedOpacity(
         duration: CSAnimations.veryFast,
         curve: Curves.decelerate,
-        opacity: scrolling! ? 1.0 : 0.0,
+        opacity: scrolling? 1.0 : 0.0,
         child: IgnorePointer(
           ignoring: scrolling ? false : true,
           child: Delayer(
             half: false,
-            message: increment! >= 0 ? '+ $increment' : '- ${-increment}',
+            message: increment>= 0 ? '+ $increment' : '- ${-increment}',
 
             delayerController: scroller.delayerController,
             animationListener: scroller.delayerAnimationListener,
             onManualCancel: scrolling ? scroller.cancel : null,
             onManualConfirm: scrolling ? scroller.forceComplete : null,
 
-            primaryColor: canvas,
+            primaryColor: flat
+              ? bloc.themer.computePanelColor(0.0, themeData)
+              : canvas,
             onPrimaryColor: canvasContrast,
             accentColor: accentColor,
             onAccentColor: themeData.colorScheme.onPrimary,
@@ -223,18 +229,18 @@ class _PanelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-        duration: CSAnimations.fast,
-        opacity: active ? 1.0 : 0.35,
-        child: InkResponse(
-          onTap: active ? action : null,
-          child: SizedBox(
-            height: CSSizes.barSize,
-            width: CSSizes.barSize * factor,
-            child: Icon(
-              icon,
-              size: iconSize ?? 24,
-            ),
+      duration: CSAnimations.fast,
+      opacity: active ? 1.0 : 0.35,
+      child: InkResponse(
+        onTap: active ? action : null,
+        child: SizedBox(
+          height: CSSizes.barSize,
+          width: CSSizes.barSize * factor,
+          child: Icon(
+            icon,
+            size: iconSize ?? 24,
           ),
-        ));
+        ),
+      ));
   }
 }

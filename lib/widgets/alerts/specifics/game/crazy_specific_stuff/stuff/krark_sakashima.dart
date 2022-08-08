@@ -194,10 +194,9 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
   Widget get krarkSection => SubSection([
     ExtraButtons(children: [
-      ExtraButton(
+      ExtraButton.transparent(
         text: "# of Krarks",
         icon: null,
-        customCircleColor: Colors.transparent,
         customIcon: Text("$howManyKrarks"),
         onTap: () => setState(() {
           ++howManyKrarks;
@@ -206,10 +205,9 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
           howManyKrarks = 1;        
         }),
       ),
-      ExtraButton(
+      ExtraButton.transparent(
         text: "# of Thumbs",
         icon: null,
-        customCircleColor: Colors.transparent,
         customIcon: Text("$howManyThumbs"),
         onTap: () => setState(() {
           ++howManyThumbs;
@@ -227,9 +225,8 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
       const SectionTitle("Spell"),
       SubSection([
         ExtraButtons(children: [
-          ExtraButton(
+          ExtraButton.transparent(
             icon: null,
-            customCircleColor: Colors.transparent,
             customIcon: Text("${spell.cost}"),
             text: "Mana\ncost",
             twoLines: true,
@@ -248,9 +245,8 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               );    
             }),
           ),
-          ExtraButton(
+          ExtraButton.transparent(
             icon: null,
-            customCircleColor: Colors.transparent,
             customIcon: Text("${spell.product}"),
             text: "Mana\nproduct",
             twoLines: true,
@@ -269,13 +265,12 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               );    
             }),
           ),
-          ExtraButton(
+          ExtraButton.transparent(
             icon: <_Zone, IconData>{
               _Zone.hand: McIcons.cards_outline,
               _Zone.graveyard: ManaIcons.flashback,
               _Zone.stack: ManaIcons.instant,
             }[spellPlace!] ?? Icons.error,
-            customCircleColor: Colors.transparent,
             text: (const <_Zone, String>{
               _Zone.hand: "Now\nin hand",
               _Zone.graveyard: "Now\nin yard",
@@ -360,8 +355,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               return <Widget>[
                 SectionTitle("Trigger #${triggers.length} ${howManyThumbs > 0 ? "($howManyThumbs thumbs)" : "(regular flip)"}"),
                 if(howManyFlips > 1) ExtraButtons(children: <Widget>[
-                  ExtraButton(
-                    customCircleColor: Colors.transparent,
+                  ExtraButton.transparent(
                     icon: null,
                     customIcon: Text("$copies"),
                     onTap: copies > 0 
@@ -370,8 +364,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                     text: "Heads\n(copy)",
                     twoLines: true,
                   ), 
-                  ExtraButton(
-                    customCircleColor: Colors.transparent,
+                  ExtraButton.transparent(
                     icon: null,
                     customIcon: Text("$bounces"),
                     onTap: bounces > 0 
@@ -382,14 +375,13 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                   ), 
                 ],)
                 else ExtraButtons(children: <Widget>[
-                  ExtraButton(
+                  ExtraButton.transparent(
                     icon: copies > 0 ? Icons.check : Icons.close,
                     onTap: null,
                     text: copies > 0 ? "Heads\n(copy)" : "Tails\n(bounce)",
                     twoLines: true,
                   ),
-                  ExtraButton(
-                    customCircleColor: Colors.transparent,
+                  ExtraButton.transparent(
                     icon: Icons.keyboard_arrow_right,
                     onTap: () => solveTrigger(flips.first, automatic: false),
                     text: "Ok\n(${triggers.length > 1 ? "next" : "finish"})",

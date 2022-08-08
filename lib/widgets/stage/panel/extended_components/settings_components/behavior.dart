@@ -17,7 +17,6 @@ class SettingsBehavior extends StatelessWidget {
           children: <Widget>[
             ExtraButton(
               text: "Scroll Sensitivity",
-              forceExternalSize: true,
               icon: Icons.gesture,
               onTap: () => stage!.showAlert(
                 const ScrollSensitivity(),
@@ -27,7 +26,6 @@ class SettingsBehavior extends StatelessWidget {
             settings.appSettings.wantVibrate.build((_, vibrate)
               => ExtraButtonToggle(
                 text: "Haptic Feedback: ${vibrate ? 'on' : 'off'}",
-                forceExternalSize: true,
                 icon: McIcons.vibrate,
                 iconOff: McIcons.vibrate_off,
                 onChanged: settings.appSettings.wantVibrate.set,

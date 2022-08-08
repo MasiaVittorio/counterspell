@@ -133,7 +133,6 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                     text: "",
                     customIcon: const Checkbox(value: true, onChanged: null,),
                     icon: null,
-                    forceExternalSize: true,
                   ),
                 ),
                 Expanded(
@@ -143,7 +142,6 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                     text: "",
                     icon: null,
                     customIcon: const Checkbox(value: false, onChanged: null,),
-                    forceExternalSize: true,
                   ),
                 ),
                 Expanded(
@@ -153,7 +151,6 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                     text: "Anti-Selected",
                     icon: null,
                     customIcon: const Checkbox(value: null, tristate: true, onChanged: null,),
-                    forceExternalSize: true,
                   ),
                 ),
                 

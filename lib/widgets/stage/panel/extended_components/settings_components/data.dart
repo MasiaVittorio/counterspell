@@ -14,25 +14,22 @@ class SettingsData extends StatelessWidget {
     return SubSection([
       const SectionTitle("Data"),
       ExtraButtons(children: <Widget>[
-        ExtraButton(
+        ExtraButton.transparent(
           text: "Cache manager",
           icon: McIcons.memory,
           onTap: () => stage!.showAlert(const CacheAlert(), size: CacheAlert.height),
-            customCircleColor: Colors.transparent,
         ),
         if(Platform.isAndroid)
-          ExtraButton(
+          ExtraButton.transparent(
             text: "Backup & restore",
             icon: McIcons.content_save_outline,
             onTap: () => stage!.showAlert(const BackupsAlert(), size: 500),
-            customCircleColor: Colors.transparent,
           )
         else
-          const ExtraButton(
+          const ExtraButton.transparent(
             text: "Rate app",
             icon: Icons.star_border,
             onTap: CSActions.review,
-            customCircleColor: Colors.transparent,
           ),
       ],),
     ],);

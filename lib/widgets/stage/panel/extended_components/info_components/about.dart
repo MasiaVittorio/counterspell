@@ -54,7 +54,7 @@ class AboutCounterSpell extends StatelessWidget {
             //   onTap: () => stage.showAlert(const Developer(), size: Developer.height),
             //   customCircleColor: Colors.transparent,
             // ),
-            ExtraButton(
+            ExtraButton.transparent(
               customIcon: logic.badges.stuffILikeShown.build((_, __) => Badge(
                 showBadge: logic.badges.stuffILikeBadge,
                 badgeContent: null,
@@ -69,13 +69,11 @@ class AboutCounterSpell extends StatelessWidget {
               icon: null,
               text: "Stuff I like",
               onTap: logic.badges.showStuffILike,
-              customCircleColor: Colors.transparent,
             ),
-            ExtraButton(
+            ExtraButton.transparent(
               icon: McIcons.text_box_check_outline,
               text: "Licenses",
               onTap: () => stage!.showAlert(const AlertLicenses(), size: DamageInfo.height),
-              customCircleColor: Colors.transparent,
             ),
           ],
         ),

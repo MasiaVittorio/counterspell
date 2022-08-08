@@ -25,13 +25,12 @@ class PanelGameExtras extends StatelessWidget {
         SubSection(<Widget>[
           const SectionTitle("Extras"),
           ExtraButtons(children: <Widget>[
-            ExtraButton(
+            ExtraButton.transparent(
               icon: McIcons.dice_multiple,
               text: "Random",
               onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
-              customCircleColor: Colors.transparent,
             ),
-            bloc.payments.unlocked.build((_, unlocked) => ExtraButton(
+            bloc.payments.unlocked.build((_, unlocked) => ExtraButton.transparent(
               icon: McIcons.license,
               text: "Leaderboards",
               onTap: () {
@@ -41,15 +40,13 @@ class PanelGameExtras extends StatelessWidget {
                   stage.showAlert(const SupportAlert(), size: SupportAlert.height);
                 }
               },
-              customCircleColor: Colors.transparent,
             ),),
-            ExtraButton(
+            ExtraButton.transparent(
               icon: CSIcons.counterSpell,
               // iconSize: CSIcons.ideal_counterspell_size,
               // iconPadding: CSIcons.ideal_counterspell_padding,
               text: "Arena",
               onTap: arenaOpener,
-              customCircleColor: Colors.transparent,
             ),
           ],),
 

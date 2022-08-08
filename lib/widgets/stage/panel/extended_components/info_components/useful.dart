@@ -55,23 +55,23 @@ class Useful extends StatelessWidget {
   SubSection tutorial(CSBloc logic) => SubSection([SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Row(mainAxisSize: MainAxisSize.min, children: [
-      ExtraButton(
+      ExtraButton.transparent(
         icon: Icons.help_outline,
         text: "Tutorial",
+        shrinkWrap: true,
         onTap: (){
           logic.tutorial.showTutorial(0, full: true);
         }, 
-        customCircleColor: Colors.transparent,
       ),
       const Icon(Icons.keyboard_arrow_right),
       ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
-        ExtraButton(
+        ExtraButton.transparent(
           onTap: (){
             logic.tutorial.showTutorial(i, full: false);
           }, 
+          shrinkWrap: true,
           icon: TutorialData.values[i].icon,
           text: TutorialData.values[i].title,
-          customCircleColor: Colors.transparent,
         ),].separateWith(CSWidgets.width5)),
     ],),
   )]);

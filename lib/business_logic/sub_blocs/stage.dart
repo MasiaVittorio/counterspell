@@ -83,7 +83,7 @@ class CSStage {
           autoDarkMode: AutoDarkMode.timeOfDay,
           darkStyle: DarkStyle.nightBlue,
         ),
-        colorPlace: StageColorPlace.background,
+        colorPlace: StageColorPlace.texts,
         backgroundColors: StageColorsData<CSPage,SettingsPage>.nullable(
           lightAccent: CSColorScheme.defaultLight.accent,
           darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},

@@ -112,20 +112,17 @@ class SettingsAppearance extends StatelessWidget {
         onChanged: appSettings.alwaysOnDisplay.set,
         text: "Always on display",
         icon: Icons.settings_brightness,
-        forceExternalSize: true,
       ),
     );
 
   ExtraButton imagesButton(VoidCallback onTap) => ExtraButton(
     text: compact ? "Images" : "Images opacity",
-    forceExternalSize: true,
     icon: Icons.invert_colors,
     onTap: onTap,
   );
 
   ExtraButton historyButton(VoidCallback showHistoryPicker) => ExtraButton(
     text: "History",
-    forceExternalSize: true,
     icon: CSIcons.historyFilled,
     onTap: showHistoryPicker,
   );

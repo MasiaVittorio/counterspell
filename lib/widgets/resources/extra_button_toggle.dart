@@ -12,9 +12,8 @@ class ExtraButtonToggle extends StatelessWidget {
   final Color? colorOff;
   final double? iconSize;
   final bool twoLines;
-
-
-  final bool forceExternalSize;
+  final bool shrinkWrap;
+  
   const ExtraButtonToggle({
     required this.value,
     required this.onChanged,
@@ -25,7 +24,7 @@ class ExtraButtonToggle extends StatelessWidget {
     this.colorOff,
     this.iconSize,
     this.twoLines = false,
-    this.forceExternalSize = false, 
+    this.shrinkWrap = false, 
   });
 
   @override
@@ -52,10 +51,11 @@ class ExtraButtonToggle extends StatelessWidget {
             ),
             icon: null,
             text: text,
-            customCircleColor: Color.lerp(colorOff, colorOn, val),
+            circleColor: Color.lerp(colorOff, colorOn, val),
             onTap: () => onChanged(!value),
             twoLines: twoLines,
-            forceExternalSize: forceExternalSize,
+            shrinkWrap: shrinkWrap,
+            filled: false,
           );
         },
       ),

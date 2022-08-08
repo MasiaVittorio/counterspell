@@ -18,23 +18,20 @@ class Development extends StatelessWidget {
         SubSection([
           const SectionTitle("Development"),
           ExtraButtons(children: [
-            ExtraButton(
+            ExtraButton.transparent(
               text: "Discord",
               icon: McIcons.discord,
               onTap: () => stage!.showAlert(const ConfirmDiscord(), size: ConfirmDiscord.height),
-              customCircleColor: Colors.transparent,
             ),
-            ExtraButton(
+            ExtraButton.transparent(
               text: "Telegram",
               icon: McIcons.telegram,
               onTap: () => stage!.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
-              customCircleColor: Colors.transparent,
             ),
-            ExtraButton(
+            ExtraButton.transparent(
               text: "Email",
               icon: McIcons.gmail,
               onTap: () => stage!.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
-              customCircleColor: Colors.transparent,
             ),
           ],), 
         ]),

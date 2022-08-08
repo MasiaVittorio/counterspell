@@ -38,23 +38,20 @@ class CounterSpellActions extends StatelessWidget {
         ExtraButtons(
           margin: EdgeInsets.zero,
           children: <Widget>[
-            ExtraButton(
+            ExtraButton.transparent(
               text: "Feedback",
               icon: Icons.favorite_border,
               onTap: () => stage!.showAlert(const FeedbackAlert(), size: FeedbackAlert.height),
-              customCircleColor: Colors.transparent,
             ),
-            ExtraButton(
+            ExtraButton.transparent(
               text: "Support",
               icon: Icons.attach_money,
               onTap: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
-              customCircleColor: Colors.transparent,
             ),
-            ExtraButton(
+            ExtraButton.transparent(
               text: "Contacts",
               icon: McIcons.message_text_outline,
               onTap: () => stage!.showAlert(const ContactsAlert(), size: ContactsAlert.height),
-              customCircleColor: Colors.transparent,
             ),
           ],
         ),

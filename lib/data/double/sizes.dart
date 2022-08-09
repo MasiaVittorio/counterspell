@@ -63,9 +63,6 @@ class CSSizes {
   static const firstFlatPadding = false;
   static const lastAvoidCollapsed = true;
 
-  // TODO: - stage - animate color change between collapsed panel and extended panel pls
-
-
   static const double flatPadding = 12.0;
   static const Widget flatPaddingY = SizedBox(height: flatPadding);
   static const Widget flatPaddingX = SizedBox(width: flatPadding);

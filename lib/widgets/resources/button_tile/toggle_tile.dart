@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/core.dart';
 
 
-class ExtraButtonToggle extends StatelessWidget {
+class ToggleTile extends StatelessWidget {
 
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -14,7 +14,7 @@ class ExtraButtonToggle extends StatelessWidget {
   final bool twoLines;
   final bool shrinkWrap;
   
-  const ExtraButtonToggle({
+  const ToggleTile({
     required this.value,
     required this.onChanged,
     required this.icon,
@@ -43,7 +43,7 @@ class ExtraButtonToggle extends StatelessWidget {
         value: value ? 1.0 : 0.0, 
         duration: const Duration(milliseconds: 300),
         builder: (_, val){
-          return ExtraButton(
+          return ButtonTile(
             customIcon: Icon(
               value ? icon : iconOff ?? icon,
               size: iconSize,

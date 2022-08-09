@@ -20,15 +20,15 @@ class Useful extends StatelessWidget {
     );
   }
 
-  ExtraButtons buttons(StageData stage, CSBloc logic, BuildContext context) 
-    => ExtraButtons(
+  ButtonTilesRow buttons(StageData stage, CSBloc logic, BuildContext context) 
+    => ButtonTilesRow(
       children: [
-        ExtraButton(
+        ButtonTile(
           text: "Support",
           icon: Icons.attach_money,
           onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
         ),
-        ExtraButton(
+        ButtonTile(
           customIcon: logic.badges.stuffILikeShown.build((_, __) => Badge(
             showBadge: logic.badges.stuffILikeBadge,
             badgeContent: null,
@@ -44,7 +44,7 @@ class Useful extends StatelessWidget {
           text: "Stuff I like",
           onTap: logic.badges.showStuffILike,
         ),
-        ExtraButton(
+        ButtonTile(
           icon: McIcons.bookmark_check,
           text: "Achievements",
           onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
@@ -55,7 +55,7 @@ class Useful extends StatelessWidget {
   SubSection tutorial(CSBloc logic) => SubSection([SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Row(mainAxisSize: MainAxisSize.min, children: [
-      ExtraButton.transparent(
+      ButtonTile.transparent(
         icon: Icons.help_outline,
         text: "Tutorial",
         shrinkWrap: true,
@@ -65,7 +65,7 @@ class Useful extends StatelessWidget {
       ),
       const Icon(Icons.keyboard_arrow_right),
       ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
-        ExtraButton.transparent(
+        ButtonTile.transparent(
           onTap: (){
             logic.tutorial.showTutorial(i, full: false);
           }, 

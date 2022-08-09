@@ -14,20 +14,20 @@ class CounterSpellActions extends StatelessWidget {
     
     return Section([
       const SectionTitle("Data"),
-      ExtraButtons(children: <Widget>[
-        ExtraButton(
+      ButtonTilesRow(children: <Widget>[
+        ButtonTile(
           text: "Cache manager",
           icon: McIcons.memory,
           onTap: () => stage!.showAlert(const CacheAlert(), size: CacheAlert.height),
         ),
         if(Platform.isAndroid)
-          ExtraButton(
+          ButtonTile(
             text: "Backup & restore",
             icon: McIcons.content_save_outline,
             onTap: () => stage!.showAlert(const BackupsAlert(), size: 500),
           )
         else
-          const ExtraButton(
+          const ButtonTile(
             text: "Rate app",
             icon: Icons.star_border,
             onTap: CSActions.review,
@@ -35,20 +35,20 @@ class CounterSpellActions extends StatelessWidget {
       ],),
 
       SubSection(<Widget>[
-        ExtraButtons(
+        ButtonTilesRow(
           margin: EdgeInsets.zero,
           children: <Widget>[
-            ExtraButton.transparent(
+            ButtonTile.transparent(
               text: "Feedback",
               icon: Icons.favorite_border,
               onTap: () => stage!.showAlert(const FeedbackAlert(), size: FeedbackAlert.height),
             ),
-            ExtraButton.transparent(
+            ButtonTile.transparent(
               text: "Support",
               icon: Icons.attach_money,
               onTap: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
             ),
-            ExtraButton.transparent(
+            ButtonTile.transparent(
               text: "Contacts",
               icon: McIcons.message_text_outline,
               onTap: () => stage!.showAlert(const ContactsAlert(), size: ContactsAlert.height),

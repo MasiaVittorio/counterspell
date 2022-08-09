@@ -17,18 +17,18 @@ class Development extends StatelessWidget {
 
         SubSection([
           const SectionTitle("Development"),
-          ExtraButtons(children: [
-            ExtraButton.transparent(
+          ButtonTilesRow(children: [
+            ButtonTile.transparent(
               text: "Discord",
               icon: McIcons.discord,
               onTap: () => stage!.showAlert(const ConfirmDiscord(), size: ConfirmDiscord.height),
             ),
-            ExtraButton.transparent(
+            ButtonTile.transparent(
               text: "Telegram",
               icon: McIcons.telegram,
               onTap: () => stage!.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
             ),
-            ExtraButton.transparent(
+            ButtonTile.transparent(
               text: "Email",
               icon: McIcons.gmail,
               onTap: () => stage!.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
@@ -38,8 +38,8 @@ class Development extends StatelessWidget {
 
         const Space.vertical(5),
 
-        ExtraButtons(children: [
-          ExtraButton(
+        ButtonTilesRow(children: [
+          ButtonTile(
             icon: null,
             customIcon: logic.badges.versionShown.build((_, __) => Badge(
               showBadge: logic.badges.changelogBadge,
@@ -55,7 +55,7 @@ class Development extends StatelessWidget {
             text: "Changelog",
             onTap: logic.badges.showChangelog,
           ),
-          ExtraButton(
+          ButtonTile(
             icon: McIcons.text_box_check_outline,
             text: "Licenses",
             onTap: () => stage!.showAlert(const AlertLicenses(), size: DamageInfo.height),

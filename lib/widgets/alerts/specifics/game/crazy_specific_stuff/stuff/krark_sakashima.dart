@@ -193,8 +193,8 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
   }
 
   Widget get krarkSection => SubSection([
-    ExtraButtons(children: [
-      ExtraButton.transparent(
+    ButtonTilesRow(children: [
+      ButtonTile.transparent(
         text: "# of Krarks",
         icon: null,
         customIcon: Text("$howManyKrarks"),
@@ -205,7 +205,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
           howManyKrarks = 1;        
         }),
       ),
-      ExtraButton.transparent(
+      ButtonTile.transparent(
         text: "# of Thumbs",
         icon: null,
         customIcon: Text("$howManyThumbs"),
@@ -224,8 +224,8 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
     children: [
       const SectionTitle("Spell"),
       SubSection([
-        ExtraButtons(children: [
-          ExtraButton.transparent(
+        ButtonTilesRow(children: [
+          ButtonTile.transparent(
             icon: null,
             customIcon: Text("${spell.cost}"),
             text: "Mana\ncost",
@@ -245,7 +245,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               );    
             }),
           ),
-          ExtraButton.transparent(
+          ButtonTile.transparent(
             icon: null,
             customIcon: Text("${spell.product}"),
             text: "Mana\nproduct",
@@ -265,7 +265,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               );    
             }),
           ),
-          ExtraButton.transparent(
+          ButtonTile.transparent(
             icon: <_Zone, IconData>{
               _Zone.hand: McIcons.cards_outline,
               _Zone.graveyard: ManaIcons.flashback,
@@ -299,7 +299,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0),
         child: Row(children: [
-          Expanded(child: ExtraButton(
+          Expanded(child: ButtonTile(
             icon: null,
             filled: true,
             customIcon: AnimatedText("$mana"),
@@ -311,7 +311,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
               mana = 0;
             }),
           ),),
-          Expanded(child: ExtraButton(
+          Expanded(child: ButtonTile(
             icon: null,
             customIcon: AnimatedText("$totalStormCount"),
             text: "Storm count",
@@ -321,7 +321,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             }),
           ),),
           const ExtraButtonDivider(),
-          Expanded(child: ExtraButton(
+          Expanded(child: ButtonTile(
             icon: null,
             customIcon: AnimatedText("$totalResolved"),
             text: "Resolved",
@@ -354,8 +354,8 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
 
               return <Widget>[
                 SectionTitle("Trigger #${triggers.length} ${howManyThumbs > 0 ? "($howManyThumbs thumbs)" : "(regular flip)"}"),
-                if(howManyFlips > 1) ExtraButtons(children: <Widget>[
-                  ExtraButton.transparent(
+                if(howManyFlips > 1) ButtonTilesRow(children: <Widget>[
+                  ButtonTile.transparent(
                     icon: null,
                     customIcon: Text("$copies"),
                     onTap: copies > 0 
@@ -364,7 +364,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                     text: "Heads\n(copy)",
                     twoLines: true,
                   ), 
-                  ExtraButton.transparent(
+                  ButtonTile.transparent(
                     icon: null,
                     customIcon: Text("$bounces"),
                     onTap: bounces > 0 
@@ -374,14 +374,14 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
                     twoLines: true,
                   ), 
                 ],)
-                else ExtraButtons(children: <Widget>[
-                  ExtraButton.transparent(
+                else ButtonTilesRow(children: <Widget>[
+                  ButtonTile.transparent(
                     icon: copies > 0 ? Icons.check : Icons.close,
                     onTap: null,
                     text: copies > 0 ? "Heads\n(copy)" : "Tails\n(bounce)",
                     twoLines: true,
                   ),
-                  ExtraButton.transparent(
+                  ButtonTile.transparent(
                     icon: Icons.keyboard_arrow_right,
                     onTap: () => solveTrigger(flips.first, automatic: false),
                     text: "Ok\n(${triggers.length > 1 ? "next" : "finish"})",
@@ -393,7 +393,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
             }()),
           ),),
 
-          if(triggers.isNotEmpty) Expanded(flex: 2, child: ExtraButton(
+          if(triggers.isNotEmpty) Expanded(flex: 2, child: ButtonTile(
             onTap: null,
             text: "More\ntriggers",
             twoLines: true,
@@ -480,8 +480,6 @@ class _ThumbTrigger {
   bool get containsBounce => flips.contains(_Flip.bounce);
 
 }
-
-// TODO: extrabutton: fai che il contenuto possa overfloware oltre il cerchietto se è tutto filled
 
 enum _Flip {bounce, copy}
 

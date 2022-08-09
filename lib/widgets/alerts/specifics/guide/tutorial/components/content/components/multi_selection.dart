@@ -128,7 +128,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
             child: Row(children: <Widget>[
                 Expanded(
                   flex: 2,
-                  child: ExtraButton(
+                  child: ButtonTile(
                     onTap: (){},
                     text: "",
                     customIcon: const Checkbox(value: true, onChanged: null,),
@@ -137,7 +137,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: ExtraButton(
+                  child: ButtonTile(
                     onTap: (){},
                     text: "",
                     icon: null,
@@ -146,7 +146,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
                 ),
                 Expanded(
                   flex: 3,
-                  child: ExtraButton(
+                  child: ButtonTile(
                     onTap: (){},
                     text: "Anti-Selected",
                     icon: null,

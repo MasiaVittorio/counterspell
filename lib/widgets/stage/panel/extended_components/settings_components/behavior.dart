@@ -13,9 +13,9 @@ class SettingsBehavior extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const PanelTitle("Gestures", centered: false,),
-        ExtraButtons(
+        ButtonTilesRow(
           children: <Widget>[
-            ExtraButton(
+            ButtonTile(
               text: "Scroll Sensitivity",
               icon: Icons.gesture,
               onTap: () => stage!.showAlert(
@@ -24,7 +24,7 @@ class SettingsBehavior extends StatelessWidget {
               ),
             ),
             settings.appSettings.wantVibrate.build((_, vibrate)
-              => ExtraButtonToggle(
+              => ToggleTile(
                 text: "Haptic Feedback: ${vibrate ? 'on' : 'off'}",
                 icon: McIcons.vibrate,
                 iconOff: McIcons.vibrate_off,

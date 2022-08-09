@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_recognizer.dart';
+import 'package:counter_spell_new/logic/sub_blocs/scroller/scroller_recognizer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

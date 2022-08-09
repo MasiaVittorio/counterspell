@@ -126,7 +126,7 @@ class PlayerTile extends StatelessWidget {
               child: Row(children: <Widget>[
                 bloc.settings.appSettings.numberFontSizeFraction.build(
                   (context, val) => buildLeading(
-                    numberFontSizeFraction: val!,
+                    numberFontSizeFraction: val,
                     theme: theme,
                     rawSelected: selected,
                     scrolling: scrolling,

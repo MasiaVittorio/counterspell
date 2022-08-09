@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/business_logic/sub_blocs/scroller/scroller_generic.dart';
+import 'package:counter_spell_new/logic/sub_blocs/scroller/scroller_generic.dart';
 import 'package:counter_spell_new/core.dart';
 import 'components/all.dart';
 

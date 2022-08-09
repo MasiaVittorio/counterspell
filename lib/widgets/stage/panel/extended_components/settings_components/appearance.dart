@@ -85,7 +85,7 @@ class SettingsAppearance extends StatelessWidget {
     => appSettings.numberFontSizeFraction.build(
       (_, val) => FullSlider(
         mainAxisMargin: 10,
-        value: val!,
+        value: val,
         onChangeEnd: appSettings.numberFontSizeFraction.set,
         titleBuilder: (v) {
           final mapped = v.mapToRangeLoose(

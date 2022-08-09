@@ -11,7 +11,7 @@ class CSSettingsApp {
     wantVibrate.dispose();
     alwaysOnDisplay.dispose();
     lastPageBeforeArena.dispose();
-    tutored.dispose();
+    tutorialHinted.dispose();
     numberFontSizeFraction.dispose();
   }
 
@@ -22,9 +22,9 @@ class CSSettingsApp {
   bool? canVibrate;
   final PersistentVar<bool> alwaysOnDisplay;
   final BlocVar<CSPage?> lastPageBeforeArena;
-  final PersistentVar<bool?> tutored;
+  final PersistentVar<bool> tutorialHinted;
 
-  final PersistentVar<double?> numberFontSizeFraction;
+  final PersistentVar<double> numberFontSizeFraction;
 
 
   //====================================
@@ -36,7 +36,7 @@ class CSSettingsApp {
       toJson: (b) => b,
       fromJson: (j) => j,
     ),
-    numberFontSizeFraction = PersistentVar<double?>(
+    numberFontSizeFraction = PersistentVar<double>(
       key: "bloc_settings_blocvar_numberFontSizeFraction",
       initVal: 0.27,
       toJson: (b) => b,
@@ -47,21 +47,18 @@ class CSSettingsApp {
       initVal: true,
       toJson: (b) => b,
       fromJson: (j) => j,
-      onChanged: (bool? b) => Wakelock.toggle(enable: b!),
-      readCallback: (bool? b) => Wakelock.toggle(enable: b!), 
+      onChanged: (bool b) => Wakelock.toggle(enable: b),
+      readCallback: (bool b) => Wakelock.toggle(enable: b), 
     ),
-    tutored= PersistentVar<bool?>(
-      key: "bloc_settings_blocvar_tutorial_shown",
+    tutorialHinted = PersistentVar<bool>(
+      key: "bloc_settings_blocvar_tutorial_hinted",
       initVal: false,
       toJson: (b) => b,
       fromJson: (j) => j,
       readCallback: (alreadyShown){
-        // if(!alreadyShown){
-        //   Future.delayed(const Duration(seconds: 1)).then((_){
-        //     parent.stage.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height);
-        //     parent.settings.appSettings.tutored.setDistinct(true);
-        //   });
-        // }
+        if(!alreadyShown){
+          hintAtTutorial(parent);
+        }
       } 
     ),
     lastPageBeforeArena = PersistentVar<CSPage?>(
@@ -76,6 +73,18 @@ class CSSettingsApp {
     );
   }
 
+  static void hintAtTutorial(CSBloc parent) async {
+    await Future.delayed(const Duration(seconds: 3));
+    if(parent.stage.panelController.isMostlyOpened.value == false){
+      parent.stage.closePanelCompletely();
+      parent.settings.appSettings.tutorialHinted.set(true);
+      parent.stage.openPanel();
+      await Future.delayed(const Duration(milliseconds: 500));
+      parent.stage.panelPagesController!.goToPage(SettingsPage.info);
+      await Future.delayed(const Duration(milliseconds: 500));
+      parent.tutorial.tutorialHighlight.launch();
+    }
+  }
 
 
 }

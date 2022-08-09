@@ -96,12 +96,15 @@ class _HighlightableState extends State<Highlightable> with SingleTickerProvider
           color: color.withOpacity(b.mapToRangeLoose(0, 0.10)),
           borderRadius: BorderRadius.circular(widget.radius),
         ),
-        child: CustomPaint(
-          painter: _GraphPainter(
-            radius: widget.radius,
-            width: 2,
-            color: color.withOpacity(0.4),
-            fraction: s,
+        child: Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: CustomPaint(
+            painter: _GraphPainter(
+              radius: widget.radius,
+              width: 2,
+              color: color.withOpacity(0.4),
+              fraction: s,
+            ),
           ),
         ),
       );
@@ -170,6 +173,8 @@ class _GraphPainter extends CustomPainter {
 
     final double w = size.width;
     final double h = size.height;
+
+    final radius = min(this.radius, min(h,w) / 2);
     // final tl = Offset(radius, 0);
     // final tr = Offset(w - radius, 0);
     // final rt = Offset(w, radius);

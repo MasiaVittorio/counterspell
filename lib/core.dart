@@ -1,4 +1,4 @@
-export 'business_logic/all.dart';
+export 'logic/all.dart';
 export 'data/all.dart';
 export 'utils/all.dart';
 export 'widgets/resources/all.dart';

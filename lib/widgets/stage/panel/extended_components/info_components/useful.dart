@@ -1,5 +1,5 @@
-import 'package:badges/badges.dart';
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
 
 class Useful extends StatelessWidget {
   const Useful();
@@ -12,68 +12,45 @@ class Useful extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const PanelTitle("Useful", centered: false,),
-        buttons(stage, logic, context),
-        CSWidgets.height5,
+        const PanelTitle("About CounterSpell", centered: false,),
+        const Space.vertical(5),
         tutorial(logic),
-      ],
-    );
-  }
-
-  ButtonTilesRow buttons(StageData stage, CSBloc logic, BuildContext context) 
-    => ButtonTilesRow(
-      children: [
-        ButtonTile(
-          text: "Support",
-          icon: Icons.attach_money,
-          onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
-        ),
-        ButtonTile(
-          customIcon: logic.badges.stuffILikeShown.build((_, __) => Badge(
-            showBadge: logic.badges.stuffILikeBadge,
-            badgeContent: null,
-            toAnimate: false,
-            shape: BadgeShape.circle,
-            // alignment: Alignment.topRight,
-            badgeColor: Theme.of(context).colorScheme.secondary,
-            position: BadgePosition.topEnd(),
-            ignorePointer: true,
-            child: const Icon(Icons.star_border)
-          ),),
-          icon: null,
-          text: "Stuff I like",
-          onTap: logic.badges.showStuffILike,
-        ),
-        ButtonTile(
-          icon: McIcons.bookmark_check,
-          text: "Achievements",
+        const Space.vertical(10),
+        ListTile(
+          trailing: const Icon(Icons.keyboard_arrow_right),
+          title: const Text("Badges"),
+          leading: const Icon(McIcons.bookmark_check),
           onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
         ),
       ],
     );
+  }
 
-  SubSection tutorial(CSBloc logic) => SubSection([SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(mainAxisSize: MainAxisSize.min, children: [
-      ButtonTile.transparent(
-        icon: Icons.help_outline,
-        text: "Tutorial",
-        shrinkWrap: true,
-        onTap: (){
-          logic.tutorial.showTutorial(0, full: true);
-        }, 
-      ),
-      const Icon(Icons.keyboard_arrow_right),
-      ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
+  Widget tutorial(CSBloc logic) => SubSection([Highlightable(
+    controller: logic.tutorial.tutorialHighlight,
+    radius: 10,
+    child: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
         ButtonTile.transparent(
-          onTap: (){
-            logic.tutorial.showTutorial(i, full: false);
-          }, 
+          icon: Icons.help_outline,
+          text: "Tutorial",
           shrinkWrap: true,
-          icon: TutorialData.values[i].icon,
-          text: TutorialData.values[i].title,
-        ),].separateWith(CSWidgets.width5)),
-    ],),
-  )]);
+          onTap: (){
+            logic.tutorial.showTutorial(0, full: true);
+          }, 
+        ),
+        const Icon(Icons.keyboard_arrow_right),
+        ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
+          ButtonTile.transparent(
+            onTap: (){
+              logic.tutorial.showTutorial(i, full: false);
+            }, 
+            shrinkWrap: true,
+            icon: TutorialData.values[i].icon,
+            text: TutorialData.values[i].title,
+          ),].separateWith(CSWidgets.width5)),
+      ],),
+  ),),]);
 }
 

@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
 
 class CSTutorial {
 
@@ -8,8 +9,18 @@ class CSTutorial {
   }
 
   final CSBloc parent;
+  final HighlightController tutorialHighlight;
+  final HighlightController aHighlight;
+  final HighlightController panelRestartHighlight;
+  final HighlightController panelEditPlaygroupHighlight;
+  final HighlightController collapsedRightButtonHighlight;
 
-  CSTutorial(this.parent); // Needs stage only to show, not to initialize
+  CSTutorial(this.parent):// Needs stage only to show, not to initialize
+    tutorialHighlight = HighlightController(),
+    panelRestartHighlight = HighlightController(),
+    panelEditPlaygroupHighlight = HighlightController(),
+    collapsedRightButtonHighlight = HighlightController(),
+    aHighlight = HighlightController();
 
   ///=============================================
   /// Values =================================

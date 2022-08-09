@@ -115,12 +115,12 @@ class Gestures extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 child: Row(children: <Widget>[
                   for(final child in <Widget>[
-                    ExtraButton(
+                    ButtonTile(
                       icon: scroll ? Icons.gesture : McIcons.gesture_tap, 
                       text: scroll ? "Scroll" : "Tap", 
                       onTap: () => settings.scrollOverTap.set(!scroll),
                     ),
-                    ExtraButton(
+                    ButtonTile(
                       icon: scroll 
                         ? verticalScroll ? McIcons.gesture_swipe_vertical : McIcons.gesture_swipe_horizontal 
                         : verticalTap ? McIcons.unfold_more_horizontal : McIcons.unfold_more_vertical,

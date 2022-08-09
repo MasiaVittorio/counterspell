@@ -12,10 +12,10 @@ class AboutCounterSpell extends StatelessWidget {
 
     return Section([
       const PanelTitle("About CounterSpell", centered: false,),
-      ExtraButtons(
+      ButtonTilesRow(
         // margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
         children: <Widget>[
-          ExtraButton(
+          ButtonTile(
             icon: null,
             customIcon: logic.badges.versionShown.build((_, __) => Badge(
               showBadge: logic.badges.changelogBadge,
@@ -31,12 +31,12 @@ class AboutCounterSpell extends StatelessWidget {
             text: "Changelog",
             onTap: logic.badges.showChangelog,
           ),
-          ExtraButton(
+          ButtonTile(
             icon: Icons.help_outline,
             text: "Tutorial",
             onTap: () => stage!.showAlert(const AdvancedTutorial(), size: AdvancedTutorial.height),
           ),
-          ExtraButton(
+          ButtonTile(
             icon: McIcons.bookmark_check,
             text: "Achievements",
             onTap: () => stage!.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
@@ -45,7 +45,7 @@ class AboutCounterSpell extends StatelessWidget {
       ),
 
       SubSection(<Widget>[
-        ExtraButtons(
+        ButtonTilesRow(
           margin: EdgeInsets.zero,
           children: <Widget>[
             // ExtraButton(
@@ -54,7 +54,7 @@ class AboutCounterSpell extends StatelessWidget {
             //   onTap: () => stage.showAlert(const Developer(), size: Developer.height),
             //   customCircleColor: Colors.transparent,
             // ),
-            ExtraButton.transparent(
+            ButtonTile.transparent(
               customIcon: logic.badges.stuffILikeShown.build((_, __) => Badge(
                 showBadge: logic.badges.stuffILikeBadge,
                 badgeContent: null,
@@ -70,7 +70,7 @@ class AboutCounterSpell extends StatelessWidget {
               text: "Stuff I like",
               onTap: logic.badges.showStuffILike,
             ),
-            ExtraButton.transparent(
+            ButtonTile.transparent(
               icon: McIcons.text_box_check_outline,
               text: "Licenses",
               onTap: () => stage!.showAlert(const AlertLicenses(), size: DamageInfo.height),

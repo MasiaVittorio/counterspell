@@ -91,7 +91,7 @@ class _RightPage extends StatelessWidget {
           Row(children: <Widget>[
               Expanded(
                 flex: 1,
-                child: ExtraButton(
+                child: ButtonTile(
                   icon: McIcons.dice_multiple, 
                   text: "Random", 
                   onTap: () => stage.showAlert(
@@ -102,7 +102,7 @@ class _RightPage extends StatelessWidget {
               ),
               // ignore: no_leading_underscores_for_local_identifiers
               for(final _ in [0,1])
-                Expanded(child: ExtraButton(
+                Expanded(child: ButtonTile(
                   icon: Icons.remove_circle_outline, 
                   text: "///", 
                   onTap: (){},

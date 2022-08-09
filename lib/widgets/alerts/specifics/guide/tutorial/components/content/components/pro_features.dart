@@ -54,12 +54,12 @@ class TutorialProFeatures extends StatelessWidget {
 
       Row(children: <Widget>[
         for(final child in <Widget>[
-          ExtraButton(
+          ButtonTile(
             text: "Theming options",
             icon: McIcons.palette_outline,
             onTap: showSupport,
           ),
-          ExtraButton(
+          ButtonTile(
             text: "Past games stats",
             icon: CSIcons.leaderboards,
             onTap: showSupport,

@@ -42,7 +42,7 @@ class CacheAlert extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 10.0),
             child: Row(children: <Widget>[
-              Expanded(child: ExtraButton(
+              Expanded(child: ButtonTile(
                 text: "Clear all",
                 icon: Icons.delete_forever,
                 onTap: () => stage!.showAlert(
@@ -57,7 +57,7 @@ class CacheAlert extends StatelessWidget {
                   size: ConfirmAlert.height
                 ),
               )),
-              Expanded(child: ExtraButton(
+              Expanded(child: ButtonTile(
                 text: "View",
                 icon: McIcons.cards_outline,
                 onTap: () => stage!.showAlert(const SavedCardsCache(), size: SavedCardsCache.height),

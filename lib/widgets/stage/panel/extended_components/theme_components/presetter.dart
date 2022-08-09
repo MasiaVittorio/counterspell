@@ -94,13 +94,13 @@ class ThemePResetter extends StatelessWidget {
           size: PresetsAlert.height,
         );
 
-        return ExtraButtons(children: [
-          ExtraButton(
+        return ButtonTilesRow(children: [
+          ButtonTile(
             icon: Icons.input, 
             text: "Load Preset", 
             onTap: load,
           ),
-          ExtraButton(
+          ButtonTile(
             icon: saved ? Icons.check : McIcons.content_save_outline, 
             text: saved ? "Saved" : "Save", 
             onTap: saved ? null : save,

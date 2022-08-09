@@ -171,8 +171,8 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
   }
 
   Widget get settingsSection => SubSection([
-    ExtraButtons(children: [
-      ExtraButton.transparent(
+    ButtonTilesRow(children: [
+      ButtonTile.transparent(
         text: "# of Zndrsplt",
         icon: null,
         customIcon: Text("$zndrsplt"),
@@ -183,7 +183,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
           zndrsplt = 0;        
         }),
       ),
-      ExtraButton.transparent(
+      ButtonTile.transparent(
         text: "# of Okaum",
         icon: null,
         customIcon: Text("$okaum"),
@@ -194,7 +194,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
           okaum = 0;
         }),
       ),
-      ExtraButton.transparent(
+      ButtonTile.transparent(
         text: "# of Thumbs",
         icon: null,
         customIcon: Text("$thumbs"),
@@ -215,7 +215,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0),
         child: Row(children: [
-          Expanded(child: ExtraButton(
+          Expanded(child: ButtonTile(
             icon: null,
             customIcon: Text("$draws"),
             twoLines: zndrsplt > 1,
@@ -223,7 +223,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
             onTap: null,
           ),),
           const ExtraButtonDivider(),
-          Expanded(child: ExtraButton(
+          Expanded(child: ButtonTile(
             iconOverflow: true,
             icon: null,
             customIcon: Text(wins > 9 ? "3*2^$wins" : "$power"),
@@ -231,7 +231,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
             text: okaum > 1 ? "P/T\n(/each)" : "P/T",
             onTap: null,
           ),),
-          Expanded(child: ExtraButton(
+          Expanded(child: ButtonTile(
             icon: null,
             filled: true,
             customIcon: Text("$wins"),
@@ -255,8 +255,8 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
         Row(children: <Widget>[
           if(currentFlip != null) Expanded(flex: 6, child: SubSection(<Widget>[
             SectionTitle("Current flip ${currentFlip!.flips.length > 1 ? '(${currentFlip!.flips.length} thumb-coins)' : ""}"),
-            if(currentFlip!.flips.length > 1) ExtraButtons(children: <Widget>[
-              ExtraButton.transparent(
+            if(currentFlip!.flips.length > 1) ButtonTilesRow(children: <Widget>[
+              ButtonTile.transparent(
                 icon: null,
                 customIcon: Text("${currentFlip!.howManyWins}"),
                 onTap: currentFlip!.howManyWins > 0 
@@ -265,7 +265,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
                 text: "Heads\n(win)",
                 twoLines: true,
               ), 
-              ExtraButton.transparent(
+              ButtonTile.transparent(
                 icon: null,
                 customIcon: Text("${currentFlip!.howManyLosses}"),
                 onTap: currentFlip!.howManyLosses > 0 
@@ -275,14 +275,14 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
                 twoLines: true,
               ), 
             ],)
-            else ExtraButtons(children: <Widget>[
-              ExtraButton(
+            else ButtonTilesRow(children: <Widget>[
+              ButtonTile(
                 icon: currentFlip!.containsWin ? Icons.check : Icons.close,
                 onTap: null,
                 text: currentFlip!.containsWin ? "Heads\n(win)" : "Tails\n(loss)",
                 twoLines: true,
               ),
-              ExtraButton.transparent(
+              ButtonTile.transparent(
                 icon: Icons.keyboard_arrow_right,
                 onTap: () => solveFlip(currentFlip!.flips.first),
                 text: "Ok\n(${(currentFlip!.containsWin || triggers > 0) ? "next" : "finish"})",
@@ -292,7 +292,7 @@ class _ZndrspltOkaumState extends State<_ZndrspltOkaum> {
  
           ]),),
 
-          if(currentFlip != null) Expanded(flex: 2, child: ExtraButton(
+          if(currentFlip != null) Expanded(flex: 2, child: ButtonTile(
             onTap: null,
             text: "More\ntriggers",
             twoLines: true,

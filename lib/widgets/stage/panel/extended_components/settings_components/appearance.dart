@@ -29,7 +29,7 @@ class SettingsAppearance extends StatelessWidget {
         
         SubSection([
           const SectionTitle("Appearance"),
-          ExtraButtons(
+          ButtonTilesRow(
             flexes: compact ? const [9,6,6] : null,
             children: <Widget>[
               alwaysOnToggle(settings.appSettings),
@@ -107,7 +107,7 @@ class SettingsAppearance extends StatelessWidget {
 
   Widget alwaysOnToggle(CSSettingsApp appSettings) 
     => appSettings.alwaysOnDisplay.build(
-      (_, alwaysOn) => ExtraButtonToggle(
+      (_, alwaysOn) => ToggleTile(
         value: alwaysOn,
         onChanged: appSettings.alwaysOnDisplay.set,
         text: "Always on display",
@@ -115,13 +115,13 @@ class SettingsAppearance extends StatelessWidget {
       ),
     );
 
-  ExtraButton imagesButton(VoidCallback onTap) => ExtraButton(
+  ButtonTile imagesButton(VoidCallback onTap) => ButtonTile(
     text: compact ? "Images" : "Images opacity",
     icon: Icons.invert_colors,
     onTap: onTap,
   );
 
-  ExtraButton historyButton(VoidCallback showHistoryPicker) => ExtraButton(
+  ButtonTile historyButton(VoidCallback showHistoryPicker) => ButtonTile(
     text: "History",
     icon: CSIcons.historyFilled,
     onTap: showHistoryPicker,

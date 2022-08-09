@@ -24,13 +24,13 @@ class PanelGameExtras extends StatelessWidget {
 
         SubSection(<Widget>[
           const SectionTitle("Extras"),
-          ExtraButtons(children: <Widget>[
-            ExtraButton.transparent(
+          ButtonTilesRow(children: <Widget>[
+            ButtonTile.transparent(
               icon: McIcons.dice_multiple,
               text: "Random",
               onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
             ),
-            bloc.payments.unlocked.build((_, unlocked) => ExtraButton.transparent(
+            bloc.payments.unlocked.build((_, unlocked) => ButtonTile.transparent(
               icon: McIcons.license,
               text: "Leaderboards",
               onTap: () {
@@ -41,7 +41,7 @@ class PanelGameExtras extends StatelessWidget {
                 }
               },
             ),),
-            ExtraButton.transparent(
+            ButtonTile.transparent(
               icon: CSIcons.counterSpell,
               // iconSize: CSIcons.ideal_counterspell_size,
               // iconPadding: CSIcons.ideal_counterspell_padding,
@@ -55,15 +55,15 @@ class PanelGameExtras extends StatelessWidget {
 
         const Space.vertical(10),
 
-        ExtraButtons(
+        ButtonTilesRow(
           margin: EdgeInsets.zero,
           children: <Widget>[
-            ExtraButton(
+            ButtonTile(
               icon: McIcons.restart,
               text: "Start new game",
               onTap: () => stage.showAlert(const RestarterAlert(GameRestartedFrom.menu), size: ConfirmAlert.height),
             ),
-            ExtraButton(
+            ButtonTile(
               icon: McIcons.account_multiple_outline,
               text: "Edit playgroup",
               onTap: () => stage.showAlert(
@@ -74,7 +74,7 @@ class PanelGameExtras extends StatelessWidget {
               ),
             ),
             if(compact)
-              ExtraButton(
+              ButtonTile(
                 icon: ManaIcons.instant, 
                 text: "Helpers", 
                 onTap: launchHelpers,

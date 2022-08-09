@@ -85,12 +85,12 @@ class ArenaFirstActions extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 10.0),
       child: Row(children: <Widget>[
-        Expanded(child: ExtraButton(
+        Expanded(child: ButtonTile(
           text: "Reorder players",
           icon: McIcons.account_group_outline,
           onTap: reorderPlayers,
         )),
-        Expanded(child: ExtraButton(
+        Expanded(child: ButtonTile(
           text: "Exit Arena mode",
           icon: Icons.close,
           onTap: exit,

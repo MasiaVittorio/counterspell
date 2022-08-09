@@ -57,7 +57,7 @@ class Stats extends StatelessWidget {
 
         SubSection([
           const SectionTitle("Stats"),
-          ExtraButtons(children: [
+          ButtonTilesRow(children: [
             InfoDisplayer(
               title: const Text("Appearances"), 
               background: const Icon(McIcons.cards), 

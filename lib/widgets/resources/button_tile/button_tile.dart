@@ -5,9 +5,9 @@ import 'package:stage/stage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 
-class ExtraButton extends StatelessWidget {
+class ButtonTile extends StatelessWidget {
 
-  const ExtraButton({
+  const ButtonTile({
     required this.icon,
     required this.text,
     required this.onTap,
@@ -22,7 +22,7 @@ class ExtraButton extends StatelessWidget {
     this.iconOverflow = false,
   });
 
-  const ExtraButton.transparent({
+  const ButtonTile.transparent({
     required this.icon,
     required this.text,
     required this.onTap,
@@ -132,9 +132,9 @@ class ExtraButton extends StatelessWidget {
 
 
 
-class ExtraButtons extends StatefulWidget {
+class ButtonTilesRow extends StatefulWidget {
 
-  const ExtraButtons({
+  const ButtonTilesRow({
     required this.children,
     this.margin = defaultMargin,
     this.separate = true,
@@ -152,11 +152,11 @@ class ExtraButtons extends StatefulWidget {
   static const Widget divider = ExtraButtonDivider();
 
   @override
-  State<ExtraButtons> createState() => _ExtraButtonsState();
+  State<ButtonTilesRow> createState() => _ButtonTilesRowState();
   
 }
 
-class _ExtraButtonsState extends State<ExtraButtons> {
+class _ButtonTilesRowState extends State<ButtonTilesRow> {
 
   late AutoSizeGroup group;
 
@@ -180,7 +180,7 @@ class _ExtraButtonsState extends State<ExtraButtons> {
       padding: widget.margin,
       child: Row(
         children: (widget.separate) 
-          ? expanded.separateWith(ExtraButtons.divider)
+          ? expanded.separateWith(ButtonTilesRow.divider)
           : expanded,
       ),
     );

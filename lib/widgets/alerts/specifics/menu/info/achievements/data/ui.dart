@@ -84,7 +84,7 @@ class _RightPage extends StatelessWidget {
           CSWidgets.height10,
         ]),
         Row(children: <Widget>[
-            Expanded(child: ExtraButton(
+            Expanded(child: ButtonTile(
               icon: McIcons.restart, 
               text: "New game", 
               onTap: () => stage.showAlert(
@@ -96,7 +96,7 @@ class _RightPage extends StatelessWidget {
               ),
               filled: true,
             ),),
-            Expanded(child: ExtraButton(
+            Expanded(child: ButtonTile(
               icon: McIcons.account_multiple_outline, 
               text: "Edit playgroup", 
               onTap: () => stage.showAlert(

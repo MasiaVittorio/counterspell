@@ -17,7 +17,7 @@ class CustomStatWidget extends StatelessWidget {
     return Section([
       SectionTitle(stat.title),
       SubSection([
-        ExtraButtons(children: [
+        ButtonTilesRow(children: [
           InfoDisplayer(
             title: const Text("Appearances"), 
             background: const Icon(McIcons.cards), 

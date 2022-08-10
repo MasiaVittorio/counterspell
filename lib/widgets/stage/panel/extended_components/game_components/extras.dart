@@ -61,7 +61,7 @@ class PanelGameExtras extends StatelessWidget {
         const Space.vertical(10),
 
         ButtonTilesRow(
-          margin: EdgeInsets.zero,
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           children: <Widget>[
             Highlightable(
               controller: bloc.tutorial.panelRestartHighlight,

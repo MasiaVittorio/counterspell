@@ -139,16 +139,16 @@ class TutorialCard extends StatelessWidget {
         final Color contrast = background.contrast;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: IconTheme(
-            data: IconTheme.of(context).copyWith(color: contrast),
-            child: DefaultTextStyle(
-              style: DefaultTextStyle.of(context).style.copyWith(
-                color: contrast,
-              ),
-              child: Material(
-                elevation: 12,
-                borderRadius: BorderRadius.circular(12),
-                color: background,
+          child: Material(
+            elevation: 12,
+            borderRadius: BorderRadius.circular(12),
+            color: background,
+            child: IconTheme(
+              data: IconTheme.of(context).copyWith(color: contrast),
+              child: DefaultTextStyle(
+                style: DefaultTextStyle.of(context).style.copyWith(
+                  color: contrast,
+                ),
                 child: hint.selfHighlight 
                   ? Highlightable(
                     radius: 12,

@@ -38,6 +38,8 @@ class CSTutorial {
 
   int _changedPartner = 0;
   int _commanderDamage = 0;
+  int _backOrForward = 0;
+  int _counterPick = 0;
 
   final HighlightController tutorialHighlight = HighlightController();
   final HighlightController changelogHighlight = HighlightController();
@@ -97,6 +99,8 @@ class CSTutorial {
     retrieveController()?.jumpToPage(0);
     _changedPartner = 0;
     _commanderDamage = 0;
+    _backOrForward = 0;
+    _counterPick = 0;
     showingTutorial.set(true);
     await Future.delayed(const Duration(milliseconds: 300));
     handle(hints.first, retrieveState?.call().highlights.safeAt(0),0);
@@ -181,7 +185,7 @@ class CSTutorial {
   ///==========================================================================
   /// Private reacting methods to make the tutorial interactive ==========  
 
-  void reactToGameAction(GameAction action){
+  void reactToGameAction(GameAction action) async {
     if(showingTutorial.value){
       if([
         Hints.swipe,
@@ -222,7 +226,10 @@ class CSTutorial {
               if(a is PALife) if(a.increment != 0) a.increment,
           };
           if(increments.length > 1){
-            nextHint();
+            await Future.delayed(const Duration(milliseconds: 750));
+            if(currentHint == Hints.anti){
+              nextHint();
+            }
           }
         } else if(action is GALife){
           if(action.selected.values.any((v) => v == null)){
@@ -255,9 +262,72 @@ class CSTutorial {
     } 
   }
 
+  
+  void reactToRestartSnackbarShown() async {
+    if(currentHint == Hints.restartBottom){
+      await Future.delayed(const Duration(milliseconds: 1000));
+      if(currentHint == Hints.restartBottom) nextHint();
+    }
+  }
+
   void reactToAttackingPlayerSelected(){
     if(currentHint == Hints.attacker){
       nextHint();
+    }
+  }
+
+  void reactToArenaAlertFromBottom() async {
+    if(currentHint == Hints.arenaBottom){
+      await Future.delayed(const Duration(milliseconds: 300));
+      if(currentHint == Hints.arenaBottom) nextHint();
+    }
+  }
+
+  void reactToArenaMenuShown() async {
+    if(currentHint == Hints.arenaMenu){
+      await Future.delayed(const Duration(milliseconds: 300));
+      if(currentHint == Hints.arenaMenu) nextHint();
+    }
+  }
+
+  void reactToRestartMenuShown() async {
+    if(currentHint == Hints.restartMenu){
+      await Future.delayed(const Duration(milliseconds: 300));
+      if(currentHint == Hints.restartMenu) nextHint();
+    }
+  }
+
+  void reactToHistoryBackOrForward() async {
+    if(currentHint == Hints.past){
+      _backOrForward++;
+      if(_backOrForward > 5){
+        await Future.delayed(const Duration(milliseconds: 1000));
+        if(currentHint == Hints.past) nextHint();
+      }
+    }
+  }
+
+
+  void reactToPlaygroupEditedFromBottom() async {
+    if(currentHint == Hints.groupBottom){
+      await Future.delayed(const Duration(milliseconds: 300));
+      if(currentHint == Hints.groupBottom) nextHint();
+    }
+  }
+  void reactToPlaygroupMenuShown() async {
+    if(currentHint == Hints.groupMenu){
+      await Future.delayed(const Duration(milliseconds: 300));
+      if(currentHint == Hints.groupMenu) nextHint();
+    }
+  }
+  
+  void reactToCounterBeingPicked() async {
+    if(currentHint == Hints.pickCounter){
+      _counterPick++;
+      if(_counterPick > 2){
+        await Future.delayed(const Duration(milliseconds: 1000));
+        if(currentHint == Hints.pickCounter) nextHint();
+      }
     }
   }
 

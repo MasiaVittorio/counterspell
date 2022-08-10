@@ -31,10 +31,11 @@ class Useful extends StatelessWidget {
     radius: 10,
     child: SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         ButtonTile.transparent(
           icon: Icons.help_outline,
-          text: "Tutorial",
+          text: "Full tutorial",
           shrinkWrap: true,
           onTap: (){
             logic.tutorial.showTutorial(null);

@@ -1,5 +1,6 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
+import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
 import 'package:counter_spell_new/widgets/stage/panel/collapsed_components/delayer.dart';
 
 import 'collapsed_components/circle_button.dart';
@@ -78,7 +79,7 @@ class CSPanelCollapsed extends StatelessWidget {
                       fromClosedPanel: true,
                     ),
                     size: PlayGroupEditor.sizeCalc(
-                      bloc.game.gameGroup.names.value.length
+                      bloc.game.gameGroup.orderedNames.value.length
                     ),
                   );
                 } else if (currentPage == CSPage.commanderCast){
@@ -96,9 +97,7 @@ class CSPanelCollapsed extends StatelessWidget {
             ),
           );
 
-
-          final Widget row = Row(children: <Widget>[
-            currentPage == CSPage.history
+          final Widget leftButton = currentPage == CSPage.history
               ? _PanelButton(
                 true,
                 Icons.timeline,
@@ -108,35 +107,61 @@ class CSPanelCollapsed extends StatelessWidget {
                 ),
                 1.0,
               )
-              : arenaDisplayer,
+              : arenaDisplayer;
+
+          final backAndForward = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              backButton,
+              forwardButton,
+            ],
+          );
+          
+          final Widget row = Row(children: <Widget>[
+            Highlightable(
+              controller: bloc.tutorial.collapsedLeftButtonHighlight,
+              radius: 500,
+              child: leftButton,
+            ),
             const Spacer(),
-            backButton,
-            forwardButton,
+            Highlightable(
+              controller: bloc.tutorial.backForthHighlight,
+              radius: 500,
+              child: backAndForward,
+            ),
             const Spacer(),
-            rightButton,
+            Highlightable(
+              controller: bloc.tutorial.collapsedRightButtonHighlight,
+              radius: 500,
+              child: rightButton,
+            ),
           ],);
 
           return Material(
             type: MaterialType.transparency,
-            child: Stack(
-              fit: StackFit.expand, 
-              children: <Widget>[
-                Positioned(
-                  left: 0.0,
-                  top: 0.0,
-                  right: 0.0,
-                  height: CSSizes.barSize,
-                  child: row,
-                ),
-                Positioned(
-                  left: 0.0,
-                  top: 0.0,
-                  right: 0.0,
-                  height: CSSizes.barSize,
-                  child: _DelayerPanel(bloc: bloc),
-                ),
-              ],
-            ),
+            child: Highlightable(
+              controller: bloc.tutorial.entireCollapsedPanel,
+              radius: 500,
+              child: Stack(
+                fit: StackFit.expand, 
+                children: <Widget>[
+                  Positioned(
+                    left: 0.0,
+                    top: 0.0,
+                    right: 0.0,
+                    height: CSSizes.barSize,
+                    child: row,
+                  ),
+                  Positioned(
+                    left: 0.0,
+                    top: 0.0,
+                    right: 0.0,
+                    height: CSSizes.barSize,
+                    child: _DelayerPanel(bloc: bloc),
+                  ),
+                ],
+              ),
+          )
           );
         },),
       ),

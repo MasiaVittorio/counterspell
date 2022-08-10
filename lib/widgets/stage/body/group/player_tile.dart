@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
 import 'package:counter_spell_new/widgets/stage/body/group/player_tile_gestures.dart';
 import 'package:counter_spell_new/widgets/stage/body/group/player_tile_utilities.dart';
 
@@ -29,6 +30,8 @@ class PlayerTile extends StatelessWidget {
   final bool isAttackerUsingPartnerB;
   final bool? havingPartnerB;
   final bool isAttackerHavingPartnerB;
+  final HighlightController? highlightController;
+  final bool flat;
 
   const PlayerTile(
     this.name, {
@@ -51,9 +54,13 @@ class PlayerTile extends StatelessWidget {
     required this.defenceColor,
     required this.increment,
     required this.normalizedPlayerAction,
+    required this.highlightController,
+    required this.flat,
   });
 
   static const double coreTileSize = CSSizes.minTileSize;
+
+  double get tileRadius => flat? 12 : 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +69,7 @@ class PlayerTile extends StatelessWidget {
     final stateBloc = bloc.game.gameState;
     final scrollerBloc = bloc.scroller;
     final actionBloc = bloc.game.gameAction;
-    final StageData<CSPage, SettingsPage>? stage = Stage.of(context);
+    final StageData<CSPage, SettingsPage> stage = Stage.of(context)!;
     final ThemeData theme = Theme.of(context);
 
     final bool attacking = whoIsAttacking == name;
@@ -86,7 +93,7 @@ class PlayerTile extends StatelessWidget {
     }
     assert(scrolling != null);
 
-    final Widget tile = InkWell(
+    Widget tile = InkWell(
       onTap: () => PlayerGestures.tap(
         name,
         page: page,
@@ -97,13 +104,18 @@ class PlayerTile extends StatelessWidget {
         hasPartnerB: havingPartnerB,
         usePartnerB: usingPartnerB,
       ),
-      onLongPress: () => stage!.showAlert(
-        PlayerDetails(
-          bloc.game.gameGroup.names.value.indexOf(name),
-          maxWidth / (tileSize + bottom),
-        ),
-        size: PlayerDetails.height,
-      ),
+      onLongPress: () {
+        stage.showAlert(
+          PlayerDetails(
+            bloc.game.gameGroup.orderedNames.value.indexOf(name),
+            maxWidth / (tileSize + bottom),
+          ),
+          size: PlayerDetails.height,
+        );
+        stage.panelController.onNextPanelClose(() {
+          bloc.tutorial.reactToSettingsViaLongPress();
+        });
+      },
       child: VelocityPanDetector(
         onPanEnd: (details) => scrollerBloc.onDragEnd(),
         onPanUpdate: (details) => PlayerGestures.pan(
@@ -139,13 +151,26 @@ class PlayerTile extends StatelessWidget {
                   ),
                 ),
                 Expanded(child: buildBody(selected, theme)),
-                buildTrailing(selected, actionBloc, stateBloc),
+                if(highlightController != null)
+                  Highlightable(
+                    controller: bloc.tutorial.checkboxHighlight,
+                    child: buildTrailing(selected, actionBloc, stateBloc),
+                  )
+                else buildTrailing(selected, actionBloc, stateBloc)
               ]),
             ),
           ),
         ),
       ),
     );
+
+    if(highlightController != null){
+      tile = Highlightable(
+        controller: highlightController!, 
+        radius: tileRadius,
+        child: tile,
+      );
+    }
 
     return group.cardsA.build(
       (_, cardsA) => group.cardsB.build(
@@ -155,7 +180,7 @@ class PlayerTile extends StatelessWidget {
 
           if (cardB == null && cardA == null) {
             return Material(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(tileRadius),
               child: tile,
             );
           } else {
@@ -231,34 +256,32 @@ class PlayerTile extends StatelessWidget {
 
               return SizedBox(
                 height: tileSize + bottom,
-                child: bloc.themer.flatDesign.build(
-                  (context, flat) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(flat? 12 : 0.0),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        Positioned.fill(
-                          child: image,
-                        ),
-                        Positioned.fill(
-                          child: gradient,
-                        ),
-                        Positioned.fill(
-                          bottom: bottom,
-                          child: Material(
-                            type: MaterialType.transparency,
-                            child: Theme(
-                              data: theme.copyWith(
-                                  splashColor: Colors.white.withAlpha(0x66)),
-                              child: tile,
-                            ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(tileRadius),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: image,
+                      ),
+                      Positioned.fill(
+                        child: gradient,
+                      ),
+                      Positioned.fill(
+                        bottom: bottom,
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Theme(
+                            data: theme.copyWith(
+                                splashColor: Colors.white.withAlpha(0x66)),
+                            child: tile,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -277,9 +300,9 @@ class PlayerTile extends StatelessWidget {
     required bool? scrolling,
     required bool attacking,
     required bool defending,
-    required StageData<CSPage, SettingsPage>? stage,
+    required StageData<CSPage, SettingsPage> stage,
     required bool someoneAttacking,
-    required CSGameGroup? group,
+    required CSGameGroup group,
     required double numberFontSizeFraction,
   }) {
     Widget child;
@@ -336,13 +359,18 @@ class PlayerTile extends StatelessWidget {
         key: ValueKey("$name circle number"),
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
-        onTap: () => stage!.showAlert(
-          PlayerDetails(
-            group!.names.value.indexOf(name),
-            maxWidth / (tileSize + bottom),
-          ),
-          size: PlayerDetails.height,
-        ),
+        onTap: () {
+          stage.showAlert(
+            PlayerDetails(
+              group.orderedNames.value.indexOf(name),
+              maxWidth / (tileSize + bottom),
+            ),
+            size: PlayerDetails.height,
+          );
+          stage.panelController.onNextPanelClose(() {
+            group.parent.parent.tutorial.reactToSettingsViaCircle();
+          });
+        },
         child: CircleNumber(
           size: coreTileSize * circleFrac,
           value: PTileUtils.cnValue(
@@ -367,8 +395,15 @@ class PlayerTile extends StatelessWidget {
     }
 
     return Padding(
-        padding: const EdgeInsets.all(coreTileSize * (1 - circleFrac) / 2),
-        child: child);
+      padding: const EdgeInsets.all(coreTileSize * (1 - circleFrac) / 2),
+      child: highlightController != null
+        ? Highlightable(
+          controller: group.parent.parent.tutorial.numberCircleHighlight, 
+          radius: 500,
+          child: child,
+        )
+        : child,
+    );
   }
 
   Widget buildTrailing(

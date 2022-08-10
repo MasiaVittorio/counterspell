@@ -3,7 +3,6 @@ export 'scroller/all.dart';
 export 'backups/backup_logic.dart';
 
 export 'achievements.dart';
-export 'badges.dart';
 export 'leaderboards.dart';
 export 'payments.dart';
 export 'stage.dart';

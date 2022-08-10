@@ -46,13 +46,13 @@ class CSGameAction {
     /// [CSGameAction] Must be initialized after [CSGameGroup]
     newNamesSub = parent
         .gameGroup
-        .names
+        .orderedNames
         .behavior
         .map<String>((names) => names.toString())
         .distinct()
         .listen((s) {
       selected.set(<String, bool?>{
-        for (final name in parent.gameGroup.names.value) name: false,
+        for (final name in parent.gameGroup.orderedNames.value) name: false,
       });
     });
   }
@@ -185,7 +185,7 @@ class CSGameAction {
   // Actions
 
   void clearSelection([bool alsoAttacker = true]) {
-    for (final key in selected.value.keys) {
+    for (final key in parent.gameState.gameState.value.names) {
       selected.value[key] = false;
     }
     selected.refresh();

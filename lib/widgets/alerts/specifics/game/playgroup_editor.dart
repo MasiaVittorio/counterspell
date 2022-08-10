@@ -184,7 +184,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
         },
         child: Material(
           color: backgroundColor,
-          child: group.names.build((_, names) {
+          child: group.orderedNames.build((_, names) {
 
             final Widget textField = buildTextField(names);
 

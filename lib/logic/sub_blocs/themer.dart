@@ -22,13 +22,6 @@ class CSThemer {
   late BlocVar<bool> flatDesign; // vs material design
 
 
-  static const bool flatLinkedToColorPlace = true;
-  // Flat design always require colorPlace to be texts, but it is not always
-  // the other way around. IF this constant is TRUE, then also a text colorPlace
-  // means that the design is always flat, and a material design means always 
-  // that the colorPlace is background.
-
-
   //================================
   // Constructor
   // Needs stage if flatDesign gets linked with stage's textPlace
@@ -52,18 +45,12 @@ class CSThemer {
         e.key as String : CSColorScheme.fromJson(e.value),
       },
     ){
-    if(flatLinkedToColorPlace){
-      flatDesign = BlocVar.fromCorrelate<bool, StageColorPlace>(
-        from: parent.stage.themeController.colorPlace,
-        map: (StageColorPlace place)
-          => place.isTexts,
-      );
-    } else {
-      flatDesign = PersistentVar<bool>(
-        key: "bloc_themer_blocvar_flatDesign",
-        initVal: false,
-      );
-    }
+
+    flatDesign = BlocVar.fromCorrelate<bool, StageColorPlace>(
+      from: parent.stage.themeController.colorPlace,
+      map: (StageColorPlace place)
+        => place.isTexts,
+    );
 
   }
 
@@ -98,33 +85,17 @@ class CSThemer {
 
   void activateFlatDesign(){
     parent.stage.themeController.colorPlace.setDistinct(StageColorPlace.texts);
-    
-    if(flatLinkedToColorPlace == false){
-      flatDesign.setDistinct(true);  
-    } else {
-      // should get set to true automatically
-    }
-
-    parent.stage.themeController.topBarElevations.set(_topFlatElevations);
     parent.stage.dimensionsController.dimensions.set(
       parent.stage.dimensionsController.dimensions.value.copyWith(
-        panelHorizontalPaddingOpened: 0.0,
-        // panelHorizontalPaddingOpened: StageDimensions
-        //   .defaultPanelHorizontalPaddingOpened,
+        panelHorizontalPaddingOpened: panelHorizontalPaddingOpenedTexts,
       ),
     );
     parent.stage.themeController.bottomBarShadow.setDistinct(false);
   }
 
   void deactivateFlatDesign(){
-    if(flatLinkedToColorPlace){
-      parent.stage.themeController.colorPlace.set(StageColorPlace.background);
-      // then flat design should become false automatically
-    } else {
-      flatDesign.setDistinct(false);  
-      // colorPlace can still be texts if the two are not hard linked
-    }
-    parent.stage.themeController.topBarElevations.set(_topMaterialElevations);
+    parent.stage.themeController.colorPlace.set(StageColorPlace.background);
+    // then flat design should become false automatically
     parent.stage.dimensionsController.dimensions.set(
       parent.stage.dimensionsController.dimensions.value.copyWith(
         panelHorizontalPaddingOpened: StageDimensions
@@ -149,45 +120,11 @@ class CSThemer {
     }
   }
 
-  void activateGoogleLikeColors(){
-    if(flatLinkedToColorPlace){
-      activateFlatDesign();
-    } else {
-      parent.stage.themeController.colorPlace
-        .setDistinct(StageColorPlace.texts);
-    }
-  }
-
-  void deactivateGoogleLikeColors(){
-    deactivateFlatDesign();
-    parent.stage.themeController
-      .colorPlace.setDistinct(StageColorPlace.background);
-  }
-
-  void toggleGoogleLikeColors(){
-    if(parent.stage.themeController.colorPlace.value.isTexts){
-      deactivateGoogleLikeColors();
-    } else {
-      activateGoogleLikeColors();
-    }
-  }
-
-  void setColorPlace(StageColorPlace place){
-    if(place.isTexts) {
-      activateGoogleLikeColors();
-    } else {
-      deactivateGoogleLikeColors();
-    }
-  }
-
-  static const _topMaterialElevations = <StageColorPlace,double>{
-    StageColorPlace.texts: 4,
-    StageColorPlace.background: 8,
-  };
-
-  static const _topFlatElevations = <StageColorPlace,double>{
+  static const topBarElevations = <StageColorPlace,double>{
     StageColorPlace.texts: 0,
     StageColorPlace.background: 8,
   };
+
+  static const double panelHorizontalPaddingOpenedTexts = 0;
 
 }

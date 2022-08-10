@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
 
 
 class PanelGameExtras extends StatelessWidget {
@@ -41,12 +42,16 @@ class PanelGameExtras extends StatelessWidget {
                 }
               },
             ),),
-            ButtonTile.transparent(
-              icon: CSIcons.counterSpell,
-              // iconSize: CSIcons.ideal_counterspell_size,
-              // iconPadding: CSIcons.ideal_counterspell_padding,
-              text: "Arena",
-              onTap: arenaOpener,
+            Highlightable(
+              controller: bloc.tutorial.panelArenaPlaygroupHighlight,
+              radius: 10,
+              child: ButtonTile.transparent(
+                icon: CSIcons.counterSpell,
+                // iconSize: CSIcons.ideal_counterspell_size,
+                // iconPadding: CSIcons.ideal_counterspell_padding,
+                text: "Arena",
+                onTap: arenaOpener,
+              ),
             ),
           ],),
 
@@ -58,18 +63,26 @@ class PanelGameExtras extends StatelessWidget {
         ButtonTilesRow(
           margin: EdgeInsets.zero,
           children: <Widget>[
-            ButtonTile(
-              icon: McIcons.restart,
-              text: "Start new game",
-              onTap: () => stage.showAlert(const RestarterAlert(GameRestartedFrom.menu), size: ConfirmAlert.height),
+            Highlightable(
+              controller: bloc.tutorial.panelRestartHighlight,
+              radius: 10,
+              child: ButtonTile(
+                icon: McIcons.restart,
+                text: "Start new game",
+                onTap: () => stage.showAlert(const RestarterAlert(GameRestartedFrom.menu), size: ConfirmAlert.height),
+              ),
             ),
-            ButtonTile(
-              icon: McIcons.account_multiple_outline,
-              text: "Edit playgroup",
-              onTap: () => stage.showAlert(
-                PlayGroupEditor(bloc, fromClosedPanel: false,), 
-                size: PlayGroupEditor.sizeCalc(
-                  bloc.game.gameState.gameState.value.players.length,
+            Highlightable(
+              controller: bloc.tutorial.panelEditPlaygroupHighlight,
+              radius: 10,
+              child: ButtonTile(
+                icon: McIcons.account_multiple_outline,
+                text: "Edit playgroup",
+                onTap: () => stage.showAlert(
+                  PlayGroupEditor(bloc, fromClosedPanel: false,), 
+                  size: PlayGroupEditor.sizeCalc(
+                    bloc.game.gameState.gameState.value.players.length,
+                  ),
                 ),
               ),
             ),

@@ -12,7 +12,7 @@ class PlayerDetailsDamage extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final TextTheme textTheme = theme.textTheme;
     final CSBloc bloc = CSBloc.of(context);
-    final StageData<CSPage?,SettingsPage?> stage = bloc.stage;
+    final StageData<CSPage,SettingsPage> stage = bloc.stage;
     final CSGame gameBloc = bloc.game;
     final CSGameGroup groupBloc = gameBloc.gameGroup;
     final CSGameState stateBloc = gameBloc.gameState;
@@ -20,26 +20,26 @@ class PlayerDetailsDamage extends StatelessWidget {
     return Material(
       color: theme.scaffoldBackgroundColor,
       child: BlocVar.build6<
-      Color, Map<CSPage?,Color?>?, List<String>,
+      Color, Map<CSPage,Color>?, List<String>,
       GameState, Map<String,MtgCard>, Map<String,MtgCard>>(
         bloc.themer.defenceColor,
         stage.themeController.derived.mainPageToPrimaryColor,
-        groupBloc.names,
+        groupBloc.orderedNames,
         stateBloc.gameState,
         groupBloc.cardsA,
         groupBloc.cardsB,
         builder: (_, 
           Color? defenceColor, 
-          Map<CSPage?,Color?>? colors, 
-          List<String>? names, 
-          GameState? gameState, 
+          Map<CSPage,Color>? colors, 
+          List<String> names, 
+          GameState gameState, 
           Map<String,MtgCard>? cardsA,
           Map<String,MtgCard>? cardsB,
         ){
 
-          final String name = names![index];
+          final String name = names[index];
           final Color? attackColor = colors![CSPage.commanderDamage];
-          final Player player = gameState!.players[name]!;
+          final Player player = gameState.players[name]!;
           final PlayerState playerState = player.states.last;
 
           return Column(mainAxisSize: MainAxisSize.min, children:<Widget>[

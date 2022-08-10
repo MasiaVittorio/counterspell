@@ -1,5 +1,5 @@
-import 'package:badges/badges.dart';
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
 
 class Development extends StatelessWidget {
 
@@ -61,20 +61,14 @@ class Development extends StatelessWidget {
     BuildContext context, 
     StageData<dynamic, dynamic> stage,
   ) => ButtonTilesRow(children: [
-    ButtonTile(
-      icon: null,
-      customIcon: logic.badges.versionShown.build((_, __) => Badge(
-        showBadge: logic.badges.changelogBadge,
-        badgeContent: null,
-        toAnimate: false,
-        shape: BadgeShape.circle,
-        badgeColor: Theme.of(context).colorScheme.secondary,
-        position: BadgePosition.topEnd(),
-        ignorePointer: true,
-        child: const Icon(McIcons.file_document_outline),
-      ),),
-      text: "Changelog",
-      onTap: logic.badges.showChangelog,
+    Highlightable(
+      controller: logic.tutorial.changelogHighlight,
+      radius: 10,
+      child: ButtonTile(
+        icon: McIcons.file_document_outline,
+        text: "Changelog",
+        onTap: () => stage.showAlert(const Changelog(), size: Changelog.height),
+      ),
     ),
     ButtonTile(
       icon: McIcons.text_box_check_outline,

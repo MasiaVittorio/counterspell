@@ -120,7 +120,7 @@ class HistoryTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: CSSizes.separateColumn(flat, <Widget>[
-              for(final name in names)
+              for(final name in names) if(data.changes!.containsKey(name))
                 HistoryPlayerTile(
                   data.changes![name],
                   time: data.time,

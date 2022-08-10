@@ -7,15 +7,17 @@ class CSBloc extends BlocBase {
 
   @override
   void dispose() {
-    tutorial.dispose();
     achievements.dispose();
     game.dispose();
-    backups.dispose();
     pastGames.dispose();
     payments.dispose();
-    stageBloc.dispose();
-    scroller.dispose();
+    backups.dispose();
+    
+    tutorial.dispose();
+    
     settings.dispose();
+    scroller.dispose();
+    stageBloc.dispose();
     themer.dispose();
   }
 
@@ -25,16 +27,19 @@ class CSBloc extends BlocBase {
   // Values 
 
 
-  late CSTutorial tutorial; // Needs stage just to show, not to initialize
   late CSAchievements achievements;
   late CSGame game;
   late CSPastGames pastGames;
   late CSPayments payments;
   late CSBackupBloc backups;
-  late CSSettings settings;
+  
+  // Needs stage just to show, not to initialize
+  // Needs game state ready to override with cached
+  late CSTutorial tutorial; 
+  
+  late CSSettings settings; // Needs tutorial to hint
   late CSScroller scroller;
   late CSStage stageBloc; // Needs scroller
-  late CSBadges badges; // Needs stage 
   late CSThemer themer; // Needs stage
 
 
@@ -42,16 +47,19 @@ class CSBloc extends BlocBase {
   // Constructor 
 
   CSBloc(){
-    tutorial = CSTutorial(this); // Needs stage just to show, not to initialize
     achievements = CSAchievements(this);
     game = CSGame(this);
     pastGames = CSPastGames(this);
     payments = CSPayments(this);
     backups = CSBackupBloc(this);
-    settings = CSSettings(this);
+    
+    // Needs stage just to show, not to initialize
+    // Needs game state ready to override with cached
+    tutorial = CSTutorial(this); 
+    
+    settings = CSSettings(this); // Needs tutorial to hint
     scroller = CSScroller(this);
     stageBloc = CSStage(this); // Needs scroller
-    badges = CSBadges(this); // Needs stage 
     themer = CSThemer(this); // Needs stage
   }
 

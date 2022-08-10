@@ -207,6 +207,8 @@ class CSAchievements extends BlocBase {
 
   void gameActionPerformed(GameAction action){
 
+    parent.tutorial.reactToGameAction(action);
+
     if(!todo.value.contains(Achievements.vampireShortTitle) 
       && !todo.value.contains(Achievements.vampireShortTitle)) {
       return;

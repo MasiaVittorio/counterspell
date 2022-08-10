@@ -18,27 +18,20 @@ class CSStage {
       panelData: StagePanelData(
         onPanelOpen: (){
           parent.scroller.cancel();
-          if(
-            parent.tutorial.currentHint != null &&
-            parent.tutorial.currentHint!.needsSnackBar
-          ) {
-            parent.stage.panelController.onNextPanelClose(() {
-              parent.tutorial.showHint(
-                parent.tutorial.currentHintIndex,  
-              );
-            });
-          }
         },
       ),
       popBehavior: const StagePopBehavior(
         backToDefaultMainPage: true,
       ),
 
-      initialDimensions: const StageDimensions(
+      initialDimensions: StageDimensions(
         collapsedPanelSize: CSSizes.collapsedPanelSize,
         panelRadiusClosed: StageDimensions.defaultBarSize/2,
         panelRadiusOpened: StageDimensions.defaultPanelRadius,
         parallax: 0.1,
+        panelHorizontalPaddingOpened: defaultColorPlace==StageColorPlace.texts
+          ? CSThemer.panelHorizontalPaddingOpenedTexts
+          : StageDimensions.defaultPanelHorizontalPaddingOpened,
       ),
     
       // closed pages
@@ -74,16 +67,18 @@ class CSStage {
 
       initialThemeData: StageThemeData.nullable(
         forceSystemNavBarStyle: true,
+        bottomBarShadow: defaultColorPlace == StageColorPlace.background,
         accentSelectedPage: false,
+        topBarElevations: CSThemer.topBarElevations,
         // forcedPrimaryColorBrightnessOnLightTheme: Brightness.dark,
         pandaOpenedPanelNavBar: true,
         brightness: const StageBrightnessData.nullable(
           brightness: Brightness.light,
           autoDark: true,
-          autoDarkMode: AutoDarkMode.timeOfDay,
+          autoDarkMode: AutoDarkMode.system,
           darkStyle: DarkStyle.nightBlue,
         ),
-        colorPlace: StageColorPlace.texts,
+        colorPlace: defaultColorPlace,
         backgroundColors: StageColorsData<CSPage,SettingsPage>.nullable(
           lightAccent: CSColorScheme.defaultLight.accent,
           darkAccents: {for(final e in CSColorScheme.darkSchemes.entries) e.key: e.value.accent},
@@ -111,6 +106,8 @@ class CSStage {
       ).complete,
     );
   }
+
+  static const defaultColorPlace = StageColorPlace.texts;
   
 }
 

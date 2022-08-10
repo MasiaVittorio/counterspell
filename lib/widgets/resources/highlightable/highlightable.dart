@@ -31,8 +31,14 @@ class _HighlightableState extends State<Highlightable> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    controller.attach(launch);
     animation = AnimationController(vsync: this);
+    controller.attach(launch);
+  }
+
+  @override
+  void didUpdateWidget(covariant Highlightable oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    controller.attach(launch);
   }
 
   @override
@@ -42,7 +48,7 @@ class _HighlightableState extends State<Highlightable> with SingleTickerProvider
     super.dispose();
   }
 
-  void launch() async {
+  Future<void> launch() async {
     animation.value = 0.0;
     await animation.animateTo(1.0, duration: const Duration(milliseconds: 1100));
     if(mounted){
@@ -133,12 +139,16 @@ class _HighlightableState extends State<Highlightable> with SingleTickerProvider
 
 class HighlightController {
 
-  VoidCallback? _launch;
+  Future<void> Function()? _launch;
 
-  void launch() => _launch?.call();
+  Future<void> launch() async {
+    if(_launch != null){
+      await _launch!();
+    }
+  }
 
   // ignore: no_leading_underscores_for_local_identifiers
-  void attach(VoidCallback launch){
+  void attach(Future<void> Function() launch){
     _launch = launch;
   }
 

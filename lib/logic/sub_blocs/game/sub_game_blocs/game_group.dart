@@ -8,7 +8,7 @@ const int maxNumberOfPlayers = 12;
 class CSGameGroup {
 
   void dispose(){
-    names.dispose();
+    orderedNames.dispose();
     newNamesSub.cancel();
     arenaNameOrder.dispose();
     newNamesSub.cancel();
@@ -21,7 +21,7 @@ class CSGameGroup {
   //========================
   // Values
   final CSGame parent;
-  late PersistentVar<List<String>> names;
+  late PersistentVar<List<String>> orderedNames;
   late PersistentVar<Map<int,String?>> arenaNameOrder;
   late StreamSubscription newNamesSub;
   final PersistentVar<Set<String?>> savedNames;
@@ -81,8 +81,8 @@ class CSGameGroup {
       },
     )
   {
-    names = PersistentVar<List<String>>(
-      key: "bloc_game_group_blocvar_names_ordered_list_counterspell",
+    orderedNames = PersistentVar<List<String>>(
+      key: "bloc_game_group_blocvar_names_ordered_list_counterspell_can_it_not_be_unique?",
       initVal: parent.gameState.gameState.value.names.toList(),
       toJson: (list) => list,
       fromJson: (json) => [
@@ -95,13 +95,13 @@ class CSGameGroup {
           if(a[i] != b[i]) return false;
         }
         return true;
-      }
+      },
     );
     arenaNameOrder = PersistentVar<Map<int,String?>>(
       key: "bloc_game_group_blocvar_alternative_layout_name_order",
       initVal: <int,String?>{
-        for(int i=0; i<names.value.length; ++i)
-          i: names.value[i],
+        for(int i=0; i<orderedNames.value.length; ++i)
+          i: orderedNames.value[i],
       },
       toJson: (map) => <String,dynamic>{
         for(final entry in map.entries)
@@ -114,28 +114,22 @@ class CSGameGroup {
     );
 
     /// [CSGameGroup] Must be initialized after [CSGameState]
-    newNamesSub = parent.gameState.gameState.behavior.listen((state){
-      updateNames(state);
-      updateNamesAltLayout(names.value);
-    });
+    newNamesSub = parent.gameState.gameState.behavior.listen(reactToGameState);
+  }
+
+  void reactToGameState(GameState state){
+    updateNames(state);
+    updateNamesAltLayout(orderedNames.value);
   }
 
   void updateNames(GameState state){
     for(final name in state.names){
-      if(!names.value.contains(name)) {
-        names.value.add(name);
+      if(!orderedNames.value.contains(name)) {
+        orderedNames.value.add(name);
       }
     }
-    final List<String> toBeRemoved = [];
-    for(final name in names.value){
-      if(!state.names.contains(name)) {
-        toBeRemoved.add(name);
-      }
-    }
-    for(final name in toBeRemoved){
-      names.value.remove(name);        
-    }
-    names.refreshDistinct();
+    orderedNames.value.removeWhere((name) => !state.names.contains(name));        
+    orderedNames.refreshDistinct();
   }
   void updateNamesAltLayout(List<String> newNames){
     for(final name in newNames){
@@ -153,7 +147,7 @@ class CSGameGroup {
       for(int i=0; i<current.length; ++i)
         i: current[i],
     } as Map<int,String?>);
-    names.refreshDistinct();
+    orderedNames.refreshDistinct();
   }
 
 
@@ -161,34 +155,22 @@ class CSGameGroup {
   // Actions
 
   void onReorder(int from, int to){
-    final list = <String?>[...names.value];
+    final list = <String?>[...orderedNames.value];
     final removed = list[from]!;
     list[from] = null;
     list.insert(to, removed);
-    names.value = <String>[
+    orderedNames.value = <String>[
       for(final String? e in list)
         if(e != null)
           e,
     ];
-    names.refresh();
+    orderedNames.refresh();
   }
-
-  void moveIndex(int oldIndex, int newIndex){
-    debugPrint("from $oldIndex to $newIndex");
-    names.value.insert(
-      newIndex, 
-      names.value.removeAt(oldIndex)
-    );
-    names.refresh();
-  }
-
-  void moveName(String name, int newIndex)
-    => moveIndex(names.value.indexOf(name), newIndex);
 
   void rename(String oldName, String newName){
-    final int index = names.value.indexOf(oldName);
-    names.value[index] = newName;
-    names.refresh();
+    final int index = orderedNames.value.indexOf(oldName);
+    orderedNames.value[index] = newName;
+    orderedNames.refresh();
 
     int? altIndex;
     for(final entry in arenaNameOrder.value.entries){
@@ -203,16 +185,16 @@ class CSGameGroup {
     saveName(newName);
   }
   void deletePlayer(String name){
-    names.value.remove(name);
-    names.refresh();
+    orderedNames.value.remove(name);
+    orderedNames.refresh();
   }
   void newPlayer(String newName){
-    names.value.add(newName);
-    names.refresh();
+    orderedNames.value.add(newName);
+    orderedNames.refresh();
     saveName(newName);
   }
   void newGroup(List<String> newNames){
-    names.set(newNames);
+    orderedNames.set(newNames);
     arenaNameOrder.set({
       for(int i=0; i<newNames.length; ++i)
         i: newNames[i],

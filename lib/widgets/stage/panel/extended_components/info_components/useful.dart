@@ -37,14 +37,14 @@ class Useful extends StatelessWidget {
           text: "Tutorial",
           shrinkWrap: true,
           onTap: (){
-            logic.tutorial.showTutorial(0, full: true);
+            logic.tutorial.showTutorial(null);
           }, 
         ),
         const Icon(Icons.keyboard_arrow_right),
         ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
           ButtonTile.transparent(
             onTap: (){
-              logic.tutorial.showTutorial(i, full: false);
+              logic.tutorial.showTutorial(i);
             }, 
             shrinkWrap: true,
             icon: TutorialData.values[i].icon,

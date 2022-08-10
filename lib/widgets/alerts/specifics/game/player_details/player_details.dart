@@ -23,7 +23,7 @@ class PlayerDetails extends StatelessWidget {
     final stage = Stage.of(context)!;
     final groupBloc = bloc.game.gameGroup;
 
-    return groupBloc.names.build((_, names) 
+    return groupBloc.orderedNames.build((_, names) 
       => RadioHeaderedAlert<PlayerDetailsPage>(
         initialValue: stage.panelController.alertController
           .savedStates[pageKey] ?? PlayerDetailsPage.commanderSettings,

@@ -24,12 +24,12 @@ class _ArenaWidgetState extends State<ArenaWidget> {
   bool open = false;
 
   CSBloc get logic => widget.logic;
-  CSSettings? get settings => logic.settings;
-  CSSettingsArena get arenaSettings => settings!.arenaSettings;
-  CSGame? get gameLogic => logic.game;
-  CSGameState? get stateLogic => gameLogic!.gameState;
-  CSGameAction? get actionLogic => gameLogic!.gameAction;
-  CSGameGroup? get groupLogic => gameLogic!.gameGroup;
+  CSSettings get settings => logic.settings;
+  CSSettingsArena get arenaSettings => settings.arenaSettings;
+  CSGame get gameLogic => logic.game;
+  CSGameState get stateLogic => gameLogic.gameState;
+  CSGameAction get actionLogic => gameLogic.gameAction;
+  CSGameGroup get groupLogic => gameLogic.gameGroup;
 
   void exit() => Navigator.of(context).maybePop();
   
@@ -67,9 +67,9 @@ class _ArenaWidgetState extends State<ArenaWidget> {
           => ConstrainedBox(
             constraints: constraints,
             child: arenaBloc.layoutType   .build((context, layoutType) 
-              => groupLogic!.arenaNameOrder.build((context, positions) 
-              => groupLogic!.names         .build((context, names) 
-              => arenaBloc.flipped        .build((context, flipped) 
+              => groupLogic.arenaNameOrder.build((context, positions) 
+              => groupLogic.orderedNames.build((context, names) 
+              => arenaBloc.flipped.build((context, flipped) 
               => StageBuild.offMainPage<CSPage>((_, page) 
               => scrollerBloc.isScrolling .build((context, scrolling) 
               => ArenaLayout(
@@ -161,8 +161,8 @@ class _ArenaWidgetState extends State<ArenaWidget> {
       exit: exit,
       reorderPlayers: () => setState((){
         open = false;
-        groupLogic!.arenaNameOrder.set(<int,String?>{
-          for(final key in groupLogic!.arenaNameOrder.value.keys)
+        groupLogic.arenaNameOrder.set(<int,String?>{
+          for(final key in groupLogic.arenaNameOrder.value.keys)
             key: null,
         });
       }),

@@ -27,10 +27,7 @@ class CSHomePage extends StatelessWidget {
           subtitle: StageTopBarSubtitle<SettingsPage>(
             (settingsPage) => settingsThemes[settingsPage]!.longName,
           ),
-          elevations: <StageColorPlace,double>{
-            StageColorPlace.texts: 4,
-            StageColorPlace.background: 16,
-          },
+          elevations: CSThemer.topBarElevations,
         ),
         
         backgroundColor: (theme, place) => place.isTexts 

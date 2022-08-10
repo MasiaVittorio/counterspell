@@ -27,7 +27,7 @@ class CurrentStateTile extends StatelessWidget {
         elevation: flat ? 0 : 4,
         color: flat ? theme.canvasColor : theme.scaffoldBackgroundColor,
         child: Column(children: CSSizes.separateColumn(flat, <Widget>[
-          for(final name in names)
+          for(final name in names) if(gameState.names.contains(name))
             CurrentStatePlayerTile(
               gameState, 
               stateIndex,

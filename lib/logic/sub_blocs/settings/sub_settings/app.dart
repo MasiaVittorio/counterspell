@@ -29,6 +29,7 @@ class CSSettingsApp {
 
   //====================================
   // Constructor
+  // Needs tutorial to hint
   CSSettingsApp(this.parent):
     wantVibrate = PersistentVar<bool>(
       key: "bloc_settings_blocvar_wantvibrate",
@@ -76,7 +77,7 @@ class CSSettingsApp {
   static void hintAtTutorial(CSBloc parent) async {
     await Future.delayed(const Duration(seconds: 3));
     if(parent.stage.panelController.isMostlyOpened.value == false){
-      parent.stage.closePanelCompletely();
+      await parent.stage.closePanelCompletely();
       parent.settings.appSettings.tutorialHinted.set(true);
       parent.stage.openPanel();
       await Future.delayed(const Duration(milliseconds: 500));

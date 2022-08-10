@@ -1,264 +1,295 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
+import 'package:counter_spell_new/widgets/resources/tutorial_card/tutorial_card.dart';
+
+
 
 class CSTutorial {
 
   void dispose(){
-    /// no bloc var or heavy resource to dispose, 
-    /// just a bool, two ints and some constants
+    showingTutorial.dispose();
+    cachedGame.dispose();
   }
 
   final CSBloc parent;
-  final HighlightController tutorialHighlight;
-  final HighlightController aHighlight;
-  final HighlightController panelRestartHighlight;
-  final HighlightController panelEditPlaygroupHighlight;
-  final HighlightController collapsedRightButtonHighlight;
 
-  CSTutorial(this.parent):// Needs stage only to show, not to initialize
-    tutorialHighlight = HighlightController(),
-    panelRestartHighlight = HighlightController(),
-    panelEditPlaygroupHighlight = HighlightController(),
-    collapsedRightButtonHighlight = HighlightController(),
-    aHighlight = HighlightController();
+  // Needs stage only to show, not to initialize
+  // Needs gameState ready to restore game from cache
+  CSTutorial(this.parent): 
+    cachedGame = PersistentVar(
+      initVal: null, 
+      key: "counterspell_persistent_var_cached_tutorial_game",
+      toJson: (game) => game?.toJson(),
+      fromJson: (json) => json == null ? null : GameState.fromJson(json),
+      readCallback: (cached) => _reactToCachedGame(cached, parent),
+    ),
+    changelogVersionShown = PersistentVar(
+      initVal: 0, 
+      key: "counterspell_persistent_var_changelog_hint_shown",
+      readCallback: (val) => _reactToVersionShown(val, parent),
+    );
 
   ///=============================================
   /// Values =================================
-  bool fullTutorial = false;
-  int? currentTutorialIndex;
-  int? currentHintIndex;
+  final BlocVar<bool> showingTutorial = BlocVar<bool>(false);
+  List<Hint> hints = [];
+  final PersistentVar<GameState?> cachedGame;
+  final PersistentVar<int> changelogVersionShown;
 
+  int _changedPartner = 0;
+  int _commanderDamage = 0;
 
-  ///=============================================
-  /// Getters =================================
-  TutorialData? getTutorial(int? index) => (
-    TutorialData.values.checkIndex(index ?? -1)
-  )
-    ? TutorialData.values[index!]
-    : null;
+  final HighlightController tutorialHighlight = HighlightController();
+  final HighlightController changelogHighlight = HighlightController();
+  final HighlightController aHighlight = HighlightController();
+  final HighlightController panelRestartHighlight = HighlightController();
+  final HighlightController panelEditPlaygroupHighlight = HighlightController();
+  final HighlightController panelArenaPlaygroupHighlight = HighlightController();
+  final HighlightController collapsedRightButtonHighlight = HighlightController();
+  final HighlightController collapsedLeftButtonHighlight = HighlightController();
+  final HighlightController playerHighlight = HighlightController();
+  final HighlightController secondPlayerHighlight = HighlightController();
+  final HighlightController entireCollapsedPanel = HighlightController();
+  final HighlightController backForthHighlight = HighlightController();
+  final HighlightController numberCircleHighlight = HighlightController();
+  final HighlightController checkboxHighlight = HighlightController();
 
-  TutorialData? get currentTutorial => getTutorial(currentTutorialIndex);
-  TutorialData? get nextTutorial => getTutorial(currentTutorialIndex! + 1);
-
-  Hint? getHint(int? index) => (
-    currentTutorial?.hints.checkIndex(index ?? -1)
-    ?? false
-  )
-    ? currentTutorial!.hints[index!]
-    : null;
-
-  Hint? get currentHint => getHint(currentHintIndex);
-  Hint? get nextHint => getHint(currentHintIndex! + 1);
-
-  bool get thereIsANext => (nextHint != null) ||
-      (fullTutorial && (nextTutorial != null));
-
+  TutorialCardsState Function()? retrieveState;
 
   ///=============================================
   /// Methods =================================
 
+  void attach(TutorialCardsState Function() retrieve){
+    retrieveState = retrieve;
+  }
+
+  PageController? retrieveController() => retrieveState?.call().controller;
+
+  int get currentPage => retrieveController()?.page?.round() ?? 0;
+  Hint? get currentHint => hints.safeAt(currentPage);
+
+  void nextHint(){
+    retrieveController()?.nextPage(
+      duration: const Duration(milliseconds: 500), 
+      curve: const Cubic(0.77,0,0.18,1),
+    );
+  }
+
   /// Show =====================
-  void showTutorial(int index, {bool? full}) async {
-    // print("showing tutorial index: $index");
+  void showTutorial(int? index) async {
+    cachedGame.set(GameState.fromJson(
+      parent.game.gameState.gameState.value.toJson(),
+    ));
+    parent.game.gameState.overwriteGame(CSGameState.defaultGameState);
     await parent.stage.closePanelCompletely();
-    fullTutorial = full ?? fullTutorial;
-    // print("full tutorial: $fullTutorial");
-    currentTutorialIndex = index;
-    if(currentTutorial?.hints.isNotEmpty ?? false){
-      showHint(0);
-    } else {
-      // print("tutorial was empty!");
-    }
+    hints = TutorialData.values.checkIndex(index)
+      ? [
+        ...TutorialData.values[index!].hints,
+        TutorialCards.last,
+      ]
+      : [
+      TutorialCards.first,
+      for(final tutorial in TutorialData.values)
+        ...tutorial.hints,
+      TutorialCards.last,
+    ];
+
+    retrieveController()?.jumpToPage(0);
+    _changedPartner = 0;
+    _commanderDamage = 0;
+    showingTutorial.set(true);
+    await Future.delayed(const Duration(milliseconds: 300));
+    handle(hints.first, retrieveState?.call().highlights.safeAt(0),0);
   }
 
-  void showHint(int? index){
-    // print("showing hint index: $index");
-    final Hint? hint = getHint(index); 
-    if(hint == null){
-      quitTutorial();
-      // print("invalid hint index to be shown");
-      return;
-    }
-    currentHintIndex = index;
-    if(hint.needsAlert){
-      showAlertHint(hint);
-    } else if(hint.needsSnackBar){
-      showSnackBarHint(hint);
-    }
-  }
-
-  void showAlertHint(Hint hint) async {
-    assert(hint.needsAlert);
+  void handle(Hint hint, HighlightController? selfHighlight, int index) async {
+    final stage = parent.stage;
     if(hint.page != null){
-      parent.stage.mainPagesController.goToPage(hint.page);
+      stage.mainPagesController.goToPage(hint.page);
     }
-    parent.stage.showAlert(
-      _HintAlert(hint),
-      size: _HintAlert.height(hint),
-      replace: true,
-    );
-    parent.stage.panelController.onNextPanelClose(_skipHint);
-  }
+    if(hint.autoHighlight != null){
 
-  void showSnackBarHint(Hint hint){
-    assert(hint.needsSnackBar);
-    assert(hint.page != null);
-    // print("showing snackBar hint: ${hint.text}");
-    // print("(full tutorial: $fullTutorial)");
-    parent.stage.mainPagesController.goToPage(hint.page);
-    parent.stage.showSnackBar(
-      StageSnackBar(
-        title: StageBuild.offMainPage<CSPage>((_, page) 
-          => AnimatedText(page == hint.page 
-            ? hint.text
-            : "Go to page ${CSPages.shortTitleOf(hint.page)} page",
-            textAlign: TextAlign.center,
-          ),
-        ),
-        secondary: StageSnackButton(
-          onTap: _skipHint, 
-          child: Icon(thereIsANext 
-            ? Icons.keyboard_arrow_right
-            : Icons.check
-          ),
-        ),
-      ),
-      rightAligned: false,
-      pagePersistent: true,
-      onManualClose: quitTutorial,
-      duration: null,
-    );
-  }
-
-
-  /// Skip =====================
-  void _skipHint() async {
-    // print("skipping hint from tutorial Index: $currentTutorialIndex and hint Index: $currentHintIndex");
-
-    if((currentTutorial == null) || (currentHintIndex == null)){
-      quitTutorial();
-      // print("invlid current Tutorial or current hint index");
-      return;
-    }
-    final int nextHintIndex = currentHintIndex! + 1;
-    // print("next hint index would be: $nextHintIndex");
-    // calculating this here becaaause quitHint would put it to null
-    if(nextHint == null){
-      // print("next hint in this tutorial would be null, so");
-      if((fullTutorial == false) || (nextTutorial == null)){
-        // print("because next tutorial would also be null, we quit");
-        quitTutorial();
-        return;
-      } else {
-        // print("because there is a next tutorial, we quit the hint and start the new tutorial");
-        await _quitCurrentHint();
-        showTutorial(currentTutorialIndex! + 1);
+      Future<void> h() async {
+        if(hint == currentHint){
+          await hint.autoHighlight!(parent);
+        }
       }
-    } else { // there is a next hint
-      // print("there is a next hint in this tutorial so we quit the current one");
-      await _quitCurrentHint();
-      // print("now that the current is quit, we show the next ($nextHintIndex)");
-      showHint(nextHintIndex);
+      Future<void> i() async {
+        await Future.delayed(const Duration(milliseconds: 1000));
+      }
+
+      await Future.delayed(const Duration(milliseconds: 1000));
+      for(final a in [
+        for(int i=0; i<hint.repeatAuto; i++)
+          h,
+      ].separateWith(i)){
+        await a();
+      }
+
+    }
+    if(selfHighlight != null){
+      await Future.delayed(const Duration(milliseconds: 300));
+      selfHighlight.launch();
     }
   }
 
-  /// Quit =====================
-  Future<void> quitTutorial() async {
-    // print("quitting current tutorial");
-    fullTutorial = false;
-    await _quitCurrentHint();
-    currentTutorialIndex = null;
-  }
-
-  Future<void> _quitCurrentHint() async {
-    // print("quitting current hint");
-    if(currentHint?.needsAlert ?? true){
-      await parent.stage.closePanelCompletely();
-    } 
-    if(currentHint?.needsSnackBar ?? true){
-      await parent.stage.closeSnackBar();
-    }
-    currentHintIndex = null;
-  }
-
-}
-
-
-class _HintAlert extends StatelessWidget {
-
-  const _HintAlert(this.hint);
-  final Hint hint;
-
-  static double height(Hint hint) 
-    => hint.needsCollapsed ? 450.0 : 600.0;
-  
-  double get size => height(hint);
-
-  @override
-  Widget build(BuildContext context) {
-
-    final logic = CSBloc.of(context);
-    final tutorialLogic = logic.tutorial;
-    final bool next = tutorialLogic.thereIsANext;
-
-    return HeaderedAlert(
-      hint.text,
-      alreadyScrollableChild: true,
-      bottom: SubSection(
-        [Row(children: <Widget>[for(final child in [
-          if(next)
-          ...[CenteredTile(
-            title: const Text("Quit tutorial"),
-            subtitle: const Text("I'll figure it out"),
-            leading: const Icon(Icons.close),
-            onTap: tutorialLogic.quitTutorial,
-          ),
-          CenteredTile(
-            title: const Text("Got it!"),
-            subtitle: const Text("Next hint"),
-            leading: const Icon(Icons.keyboard_arrow_right),
-            onTap: Stage.of(context)!.closePanel,
-          )]
-          else CenteredTile(
-            title: const Text("End of tutorial"),
-            subtitle: const Text("Thank you!!"),
-            leading: const Icon(Icons.check),
-            onTap: Stage.of(context)!.closePanel,
-          ),
-        ]) Expanded(child: child)]
-          .separateWith(CSWidgets.collapsedPanelDivider),
-        )],
-        margin: const EdgeInsets.all(10),
-      ),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: PanelTitle.height)
-            + const EdgeInsets.all(16),
-          child: Material(
-            elevation: 4,
-            borderRadius: BorderRadius.circular(16),
-            clipBehavior: Clip.antiAlias,
-            child: MediaQuery.removePadding(
-              context: context,
-              removeBottom: true,
-              removeTop: true,
-              removeLeft: true,
-              removeRight: true,
-              child: Container(
-                height: size - 162,
-                color: Colors.yellow,
-                child: hint.needsCollapsed 
-                  ? HintAlertCollapsed(hint)
-                  : hint.needsExtended 
-                    ? HintAlertExtended(hint)
-                    : Container(),
-              ),
-            ),
-          ),
-        ),
-      ),
+  void quitTutorial(){
+    parent.game.gameState.overwriteGame(
+      cachedGame.value == null 
+        ? CSGameState.defaultGameState
+        : GameState.fromJson(cachedGame.value!.toJson()),
     );
+    cachedGame.set(null);
+    showingTutorial.set(false);
   }
-}
 
+  
+  ///======================================================================
+  /// Private Initializing Methods =================================
+  static void _reactToCachedGame(GameState? cached, CSBloc parent){
+    if(cached!=null){
+      final stateBloc = parent.game.gameState;
+      final variable = stateBloc.gameState; 
+      if(variable.reading){
+        variable.readCallback = (_) => stateBloc.overwriteGame(cached);
+      } else {
+        stateBloc.overwriteGame(cached);
+      }
+    }
+  }
+
+  static void _reactToVersionShown(int val, CSBloc parent) async {
+    if(val == 0){
+      parent.tutorial.changelogVersionShown.set(ChangeLogData.lastBigChange);
+    } else {
+      if(val < ChangeLogData.lastBigChange){
+
+        await Future.delayed(const Duration(milliseconds: 1500));
+        await parent.stage.closePanelCompletely();
+        parent.stage.openPanel();
+        await Future.delayed(const Duration(milliseconds: 500));
+        parent.stage.panelPagesController!.goToPage(SettingsPage.info);
+        await Future.delayed(const Duration(milliseconds: 500));
+        parent.tutorial.changelogHighlight.launch();
+        
+        parent.tutorial.changelogVersionShown.set(ChangeLogData.lastBigChange);
+      }
+    }
+  }
+
+
+  ///==========================================================================
+  /// Private reacting methods to make the tutorial interactive ==========  
+
+  void reactToGameAction(GameAction action){
+    if(showingTutorial.value){
+      if([
+        Hints.swipe,
+        Hints.delay,
+        Hints.repeat,
+      ].contains(currentHint)){
+        if(action is GALife){
+          nextHint();
+        } else if(action is GAComposite){
+          if(action.actionList.values.any((e) => e is PALife)){
+            nextHint();
+          }
+        }
+      } else if(currentHint == Hints.multiple) {
+        if(action is GALife){
+          int n=0;
+          for(final s in action.selected.values){
+            if(s != false) n++;
+          }
+          if(n>1){
+            nextHint();
+          }
+        } else if(action is GAComposite){
+          int n=0;
+          for(final action in action.actionList.values){
+            if(action is PALife && action.increment != 0){
+              n++;
+            }
+          }
+          if(n>1){
+            nextHint();
+          }
+        }
+      } else if(currentHint == Hints.anti){
+        if(action is GAComposite){
+          final Set<int> increments = <int>{
+            for(final a in action.actionList.values)
+              if(a is PALife) if(a.increment != 0) a.increment,
+          };
+          if(increments.length > 1){
+            nextHint();
+          }
+        } else if(action is GALife){
+          if(action.selected.values.any((v) => v == null)){
+            if(action.increment != 0){
+              nextHint();
+            }
+          }
+        }
+      } else if(currentHint == Hints.defender){
+        if(action is GAComposite){
+          for(final pa in action.actionList.values){
+            if(pa is PADamage){
+              if(pa.increment != 0){
+                _commanderDamage++;
+                if(_commanderDamage > 1){
+                  nextHint();
+                }
+              }
+            }
+          }
+        } else if(action is GADamage){
+          if(action.increment != 0){
+            _commanderDamage++;
+            if(_commanderDamage > 1){
+              nextHint();
+            }
+          }
+        }
+      }
+    } 
+  }
+
+  void reactToAttackingPlayerSelected(){
+    if(currentHint == Hints.attacker){
+      nextHint();
+    }
+  }
+
+  
+  void reactToHavingPartnerToggle(){
+    if(currentHint == Hints.split){
+      nextHint();
+    }
+  }
+  
+  void reactToUsingPartnerToggle(){
+    if(currentHint == Hints.changePartner){
+      _changedPartner++;
+      if(_changedPartner > 3){
+        nextHint();
+      }
+    }
+  }
+
+  void reactToSettingsViaLongPress(){
+    if(currentHint == Hints.playerOptionsLongPress){
+      nextHint();
+    }
+  }
+
+  
+  void reactToSettingsViaCircle(){
+    if(currentHint == Hints.playerOptionsCircle){
+      nextHint();
+    }
+  }
+
+
+}
 

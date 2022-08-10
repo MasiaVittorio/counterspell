@@ -157,7 +157,7 @@ class _CommanderTile extends StatelessWidget {
     final state = bloc.game.gameState;
 
 
-    return group.names.build((_, names){
+    return group.orderedNames.build((_, names){
       final name = names[index];
         
       void callback() => stage!.showAlert(ImageSearch(

@@ -99,6 +99,7 @@ class PlayerGestures {
         } else {
           actionBloc.attackingPlayer.set(name);
           actionBloc.defendingPlayer.set("");
+          actionBloc.parent.parent.tutorial.reactToAttackingPlayerSelected();
         }
         return;
       default:

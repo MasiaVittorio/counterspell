@@ -6,13 +6,16 @@ class BodyGroup extends StatelessWidget {
   final List<String> names;
   final int count;
   final double tileSize;
-  final CSGameGroup? group;
+  final CSGameGroup group;
   final Color defenceColor;
   final bool landScape;
   final double maxWidth;
   final double bottom;
   final CSPage currentPage;
   final Map<CSPage,Color> pageColors;
+  final int? highlightableIndex;
+  final int? secondHighlightableIndex;
+  final bool flat;
   
   const BodyGroup(this.names,{
     required this.bottom,
@@ -24,12 +27,16 @@ class BodyGroup extends StatelessWidget {
     required this.group,
     required this.tileSize,
     required this.landScape,
+    required this.highlightableIndex,
+    required this.secondHighlightableIndex,
+    required this.flat,
   });
   
   @override
   Widget build(BuildContext context) {
 
-    final bloc = group!.parent.parent;
+
+    final bloc = group.parent.parent;
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
 
@@ -61,7 +68,7 @@ class BodyGroup extends StatelessWidget {
         ).actions(gameState.names);
 
         final children = <Widget>[
-          for(final name in names)
+          for(final name in names) if(gameState.names.contains(name))
             PlayerTile(
               name, 
               pageColor: pageColors[currentPage],
@@ -89,6 +96,13 @@ class BodyGroup extends StatelessWidget {
               counter: counter,
               playerState: gameState.players[name]!.states.last,
               normalizedPlayerAction: normalizedPlayerActions[name],
+              highlightController: 
+                highlightableIndex == names.indexOf(name)
+                  ? bloc.tutorial.playerHighlight
+                  : secondHighlightableIndex == names.indexOf(name)
+                    ? bloc.tutorial.secondPlayerHighlight
+                    : null,
+              flat: flat,
             ),
         ];
 

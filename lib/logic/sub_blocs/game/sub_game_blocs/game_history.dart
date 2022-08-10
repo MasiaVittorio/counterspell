@@ -82,7 +82,7 @@ class CSGameHistory {
         defenceColor: parent.parent.themer.defenceColor.value,
         pageColors: parent.parent.stageBloc.controller.themeController.derived.mainPageToPrimaryColor.value!,
         avoidInteraction: true,
-        names: parent.gameGroup.names.value,
+        names: parent.gameGroup.orderedNames.value,
         havePartnerB: <String,bool?>{for(final entry in parent.gameState.gameState.value.players.entries)
           entry.key: entry.value.havePartnerB,
         },

@@ -33,27 +33,26 @@ class CSGameState {
   CSGameState(this.parent): 
     gameState = PersistentVar<GameState>(
       key: "counterspell_bloc_game_state_blocvar_gameState",
-      initVal: GameState.start(_kNames, {
-        for(final counter in Counter.defaultList)
-          counter.longName,
-      }, startingLife: 40),
+      initVal: defaultGameState,
       toJson: (s) => s.toJson(),
-      // toJson: (state) async {
-      //   ///This serialization may be heavy due to long history and quick and repeated edits on this var
-      //   ///Can therefore risk skipping frames on the UI Thread. Let's spawn an isolate to handle it
-      //   final result = await compute(
-      //     _serializeGameState,
-      //     state,
-      //   );
-      //   return result;
-      // },
       fromJson: (j) => GameState.fromJson(j),
-      readCallback: (afterReadState) 
-        => parent.gameHistory.listController.refresh(
-          afterReadState.historyLenght
-        ),
+      readCallback: (state) => afterReadGameState(state, parent) ,
     ),
     futureActions = BlocVar<List<GameAction>>([]);
+    
+  static afterReadGameState(GameState afterReadState, CSGame parent){
+    parent.gameHistory.listController.refresh(
+      afterReadState.historyLenght
+    );
+    parent.gameGroup.reactToGameState(afterReadState);
+  }
+
+  static GameState get defaultGameState {
+    return GameState.start(_kNames, {
+      for(final counter in Counter.defaultList)
+        counter.longName,
+    }, startingLife: 40);
+  }
 
 
 
@@ -186,9 +185,13 @@ class CSGameState {
   }
   void _resetGame(GameState newGameState){
     gameState.set(newGameState);
-    parent.gameHistory.listController.refresh(1);
+    parent.gameGroup.reactToGameState(newGameState);
+    parent.gameHistory.listController.refresh(newGameState.historyLenght);
     futureActions.set(<GameAction>[]);
+    parent.gameAction.clearSelection();
   }
+
+  void overwriteGame(GameState newGameState) => _resetGame(newGameState);
 
 
   void renamePlayer(String? oldName, String newName){
@@ -245,6 +248,8 @@ class CSGameState {
       !gameState.value.players[name]!.havePartnerB;
     gameState.value.players[name]!.usePartnerB = false;
     gameState.refresh();
+
+    parent.parent.tutorial.reactToHavingPartnerToggle();
   }
   
   void setHavePartner(String name, bool partner){
@@ -258,20 +263,27 @@ class CSGameState {
   bool toggleUsePartner(String name, {bool force = false}){
     assert(gameState.value.players.containsKey(name));
 
+    late final bool result;
     if(!gameState.value.players[name]!.havePartnerB){
       if(force){
         gameState.value.players[name]!.havePartnerB = true;
         gameState.refresh();
-        return true;
+        result = true;
       } else {
-        return false; 
+        result = false; 
       }
-    } 
+    } else {
+      gameState.value.players[name]!.usePartnerB = 
+        !gameState.value.players[name]!.usePartnerB;
+      gameState.refresh();
+      result = true;
+    }
 
-    gameState.value.players[name]!.usePartnerB = 
-      !gameState.value.players[name]!.usePartnerB;
-    gameState.refresh();
-    return true;
+    if(result){
+      parent.parent.tutorial.reactToUsingPartnerToggle();
+    }
+
+    return result;
   }
 
 

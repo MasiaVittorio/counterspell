@@ -231,7 +231,7 @@ class Hints {
 
 
 Future<void> _backForth(CSBloc bloc) async {
-  bloc.tutorial.backForthHighlight.launch();
+  await bloc.tutorial.backForthHighlight.launch();
 }
 // Future<void> _collapsed(CSBloc bloc) async {
 //   bloc.tutorial.entireCollapsedPanel.launch();
@@ -267,18 +267,27 @@ Future<void> _leftButton(CSBloc bloc) async {
 }
 Future<void> _arenaExtended(CSBloc bloc) async {
   bloc.stage.openPanel();
+  bloc.stage.panelController.onNextPanelClose(
+    () => bloc.tutorial.reactToArenaMenuShown(),
+  );
   bloc.stage.panelPagesController!.goToPage(SettingsPage.game);
   await Future.delayed(const Duration(milliseconds: 500));
   await bloc.tutorial.panelArenaPlaygroupHighlight.launch();
 }
 Future<void> _playGroupExtended(CSBloc bloc) async {
   bloc.stage.openPanel();
+  bloc.stage.panelController.onNextPanelClose(
+    () => bloc.tutorial.reactToPlaygroupMenuShown(),
+  );
   bloc.stage.panelPagesController!.goToPage(SettingsPage.game);
   await Future.delayed(const Duration(milliseconds: 500));
   await bloc.tutorial.panelEditPlaygroupHighlight.launch();
 }
 Future<void> _restartExtended(CSBloc bloc) async {
   bloc.stage.openPanel();
+  bloc.stage.panelController.onNextPanelClose(
+    () => bloc.tutorial.reactToRestartMenuShown(),
+  );
   bloc.stage.panelPagesController!.goToPage(SettingsPage.game);
   await Future.delayed(const Duration(milliseconds: 500));
   bloc.tutorial.panelRestartHighlight.launch();

@@ -14,7 +14,7 @@ class PlayGroupEditor extends StatefulWidget {
   static const double hintSize = 44;
   static const double newPlayerSize = playerTileSize + hintSize;
   static double sizeCalc(int howMany) =>
-      (howMany.clamp(1, 5.5)) * playerTileSize + titleSize + newPlayerSize;
+      (howMany.clamp(1, 6.5)) * playerTileSize + titleSize + newPlayerSize;
 
   @override
   State createState() => _PlayGroupEditorState();
@@ -200,6 +200,9 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                         shrinkWrap: true,
                         itemCount: names.length,
                         onReorder: group.onReorder,
+                        // physics: const BouncingScrollPhysics(),
+                        physics: Stage.of(context)!
+                          .panelController.panelScrollPhysics(),
                         proxyDecorator: (child, _, animation) => AnimatedBuilder(
                           animation: animation,
                           child: child,

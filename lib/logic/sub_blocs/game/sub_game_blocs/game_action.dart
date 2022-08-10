@@ -203,12 +203,13 @@ class CSGameAction {
     parent.parent.scroller.intValue.set(0);
   }
 
-  void chooseCounterByLongName(String? newCounterLongName) {
+  void chooseCounterByLongName(String newCounterLongName) {
     counterSet.choose(
-          counterSet
-              .list
-              .indexWhere((counter) => counter.longName == newCounterLongName),
-        );
+      counterSet.list.indexWhere(
+        (counter) => counter.longName == newCounterLongName,
+      ),
+    );
     parent.parent.achievements.counterChosen(newCounterLongName);
+    parent.parent.tutorial.reactToCounterBeingPicked();
   }
 }

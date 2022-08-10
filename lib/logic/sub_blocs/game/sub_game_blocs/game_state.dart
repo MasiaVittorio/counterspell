@@ -84,6 +84,7 @@ class CSGameState {
       final outgoingData = dataList[dataList.length - 2];
       _back();
       parent.gameHistory.back(outgoingData, dataList.first.time);
+      parent.parent.tutorial.reactToHistoryBackOrForward();
     }
   }
   void _back(){
@@ -98,6 +99,7 @@ class CSGameState {
     if(forwardable){
       _forward();
       parent.gameHistory.forward();
+      parent.parent.tutorial.reactToHistoryBackOrForward();
     }
   }
   void _forward(){

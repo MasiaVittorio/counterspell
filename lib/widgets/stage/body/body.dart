@@ -176,7 +176,6 @@ class CSBody extends StatelessWidget {
 
                     AnimatedPositioned(
                       top: 0,
-                      height: tileSize,
                       right: showingTutorial 
                         ? 0
                         : -constraints.maxWidth,
@@ -185,9 +184,13 @@ class CSBody extends StatelessWidget {
                       curve: showingTutorial 
                         ? Curves.easeOutBack 
                         : Curves.easeOutBack.flipped,
-                      child: TutorialCards(
-                        hints: bloc.tutorial.hints,
-                        logic: bloc,
+                      child: SizedBox(
+                        height: tileSize,
+                        width: constraints.maxWidth,
+                        child: TutorialCards(
+                          hints: bloc.tutorial.hints,
+                          logic: bloc,
+                        ),
                       ),
                     ),
 

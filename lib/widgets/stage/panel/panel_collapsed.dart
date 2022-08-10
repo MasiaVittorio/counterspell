@@ -72,6 +72,7 @@ class CSPanelCollapsed extends StatelessWidget {
                     const SnackRestart(),
                     rightAligned: true,
                   );
+                  bloc.tutorial.reactToRestartSnackbarShown();
                 } else if(currentPage == CSPage.life){
                   stage.showAlert(
                     PlayGroupEditor(
@@ -81,6 +82,9 @@ class CSPanelCollapsed extends StatelessWidget {
                     size: PlayGroupEditor.sizeCalc(
                       bloc.game.gameGroup.orderedNames.value.length
                     ),
+                  );
+                  stage.panelController.onNextPanelClose(
+                    () => bloc.tutorial.reactToPlaygroupEditedFromBottom(),
                   );
                 } else if (currentPage == CSPage.commanderCast){
                   stage.showAlert(const CastInfo(), size: CastInfo.height);

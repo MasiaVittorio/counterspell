@@ -73,6 +73,9 @@ class ArenaTransformer extends StatelessWidget {
             ArenaWidget(logic: logic, ),
             size: double.infinity,
           );
+          stage.panelController.onNextPanelClose(
+            () => logic.tutorial.reactToArenaAlertFromBottom(),
+          );
         } else {
           if(logic.settings.arenaSettings.fullScreen.value){
             SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);

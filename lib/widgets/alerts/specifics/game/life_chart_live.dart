@@ -258,36 +258,51 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
       BarChartData(
         barGroups: _barGroupsData(
           states,
-          lifeColor: colors[CSPage.life],
-          defenceColor: defenceColor,
-          castColor: colors[CSPage.commanderCast],
+          lifeColor: colors[CSPage.life]!,
+          defenceColor: defenceColor!,
+          castColor: colors[CSPage.commanderCast]!,
         ),
         // groupsSpace: 16.0,
         maxY: widget.maxValue,
+        gridData: FlGridData(show: false),
         titlesData: FlTitlesData(
-          bottomTitles: SideTitles(
-            showTitles: true,
-            getTextStyles: (_,__) => style,
-            margin: 20,
-            reservedSize: style.fontSize,
-            interval: 1.0,
-            getTitles: (double value){
-              return safeSubString(widget.names[value.toInt()], 3);
-            }
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: style.fontSize! + 20,
+              interval: 1.0,
+              getTitlesWidget: (double value, _){
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    safeSubString(widget.names[value.toInt()], 3),
+                    style: style,
+                  ),
+                );
+              },
+            ),
           ),
-          leftTitles: SideTitles(
-            showTitles: true,
-            getTextStyles: (_, __) => style,
-            margin: 34,
-            reservedSize: style.fontSize,
-            interval: maxTitle/2,
-            getTitles: (double value){
-              return "${value.toInt()}";
-              // return "";
-            }
+
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 25,
+              interval: maxTitle/2,
+              getTitlesWidget: (double value, _){
+                return Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: Text(
+                    "${value.toInt()}",
+                    style: style,
+                  ),
+                );
+              }
+            ),
           )
         ),
-        axisTitleData: FlAxisTitleData(show: false),
         borderData: FlBorderData(show: false),
         barTouchData: BarTouchData(enabled: false),
       ), 
@@ -384,29 +399,29 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
 
   static const double _barWidth = 10.0;
   List<BarChartGroupData> _barGroupsData(List<PlayerState> states,{
-    required Color? lifeColor,
-    required Color? defenceColor,
-    required Color? castColor,
+    required Color lifeColor,
+    required Color defenceColor,
+    required Color castColor,
   }) => <BarChartGroupData>[
     for(int i=0; i<states.length; i++)
       BarChartGroupData(barsSpace: 5, x: i, barRods: [
         if(widget.showCasts)
           BarChartRodData(
-            y: states[i].totalCasts.toDouble(),
-            colors: [castColor!],
+            toY: states[i].totalCasts.toDouble(),
+            color: castColor,
             width: _barWidth,
           ),
 
         BarChartRodData(
-          y: states[i].life.toDouble().clamp(0.0, double.infinity),
-          colors: [lifeColor!],
+          toY: states[i].life.toDouble().clamp(0.0, double.infinity),
+          color: lifeColor,
           width: _barWidth,
         ),
 
         if(widget.showDamage)
           BarChartRodData(
-            y: states[i].totalDamageTaken.toDouble(),
-            colors: [defenceColor!],
+            toY: states[i].totalDamageTaken.toDouble(),
+            color: defenceColor,
             width: _barWidth,
           ),
       ]),

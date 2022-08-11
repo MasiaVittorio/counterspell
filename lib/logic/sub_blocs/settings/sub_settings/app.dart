@@ -1,4 +1,5 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/alerts/specifics/tutorial/prompt.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:vibration/vibration.dart';
 
@@ -58,7 +59,7 @@ class CSSettingsApp {
       fromJson: (j) => j,
       readCallback: (alreadyShown){
         if(!alreadyShown){
-          hintAtTutorial(parent);
+          promptTutorial(parent);
         }
       } 
     ),
@@ -74,17 +75,27 @@ class CSSettingsApp {
     );
   }
 
-  static void hintAtTutorial(CSBloc parent) async {
-    await Future.delayed(const Duration(seconds: 3));
-    if(parent.stage.panelController.isMostlyOpened.value == false){
-      await parent.stage.closePanelCompletely();
-      parent.settings.appSettings.tutorialHinted.set(true);
-      parent.stage.openPanel();
-      await Future.delayed(const Duration(milliseconds: 500));
-      parent.stage.panelPagesController!.goToPage(SettingsPage.info);
-      await Future.delayed(const Duration(milliseconds: 500));
-      parent.tutorial.tutorialHighlight.launch();
+  static void hintAtTutorial(CSBloc parent, {int ms = 1700}) async {
+    if(ms > 1){
+      await Future.delayed(Duration(milliseconds: ms));
     }
+    await parent.stage.closePanelCompletely();
+    parent.settings.appSettings.tutorialHinted.set(true);
+    parent.stage.openPanel();
+    await Future.delayed(const Duration(milliseconds: 500));
+    parent.stage.panelPagesController!.goToPage(SettingsPage.info);
+    await Future.delayed(const Duration(milliseconds: 500));
+    parent.tutorial.tutorialHighlight.launch();
+  }
+
+  static void promptTutorial(CSBloc parent) async {
+    await Future.delayed(const Duration(milliseconds: 1700));
+    await parent.stage.closePanelCompletely();
+    parent.settings.appSettings.tutorialHinted.set(true);
+    parent.stage.showAlert(
+      const TutorialPrompt(),
+      size: TutorialPrompt.height
+    );
   }
 
 

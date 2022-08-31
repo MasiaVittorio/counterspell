@@ -21,7 +21,7 @@ class PanelInfo extends StatelessWidget {
           physics: stage.panelController.panelScrollPhysics(),
           children: <Widget>[
             const Useful(),
-            const Space.vertical(10),
+            const Space.vertical(12),
             Development(compact: constraints.maxHeight < 600,),
           ],
         ),

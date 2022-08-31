@@ -1,6 +1,7 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
 import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
+import 'package:counter_spell_new/widgets/resources/highlightable/overlay_painter.dart';
 import 'package:counter_spell_new/widgets/stage/panel/collapsed_components/delayer.dart';
 
 import 'collapsed_components/circle_button.dart';
@@ -124,19 +125,26 @@ class CSPanelCollapsed extends StatelessWidget {
           final Widget row = Row(children: <Widget>[
             Highlightable(
               controller: bloc.tutorial.collapsedLeftButtonHighlight,
-              radius: 500,
+              showOverlay: true,
+              borderRadius: 500,
               child: leftButton,
             ),
             const Spacer(),
             Highlightable(
+              showOverlay: true,
+              overlayShape: const OverlayShape(
+                type: OverlayShapeType.rrect,
+                radius: Radius.circular(500)
+              ),
               controller: bloc.tutorial.backForthHighlight,
-              radius: 500,
+              borderRadius: 500,
               child: backAndForward,
             ),
             const Spacer(),
             Highlightable(
               controller: bloc.tutorial.collapsedRightButtonHighlight,
-              radius: 500,
+              showOverlay: true,
+              borderRadius: 500,
               child: rightButton,
             ),
           ],);
@@ -145,7 +153,7 @@ class CSPanelCollapsed extends StatelessWidget {
             type: MaterialType.transparency,
             child: Highlightable(
               controller: bloc.tutorial.entireCollapsedPanel,
-              radius: 500,
+              borderRadius: 500,
               child: Stack(
                 fit: StackFit.expand, 
                 children: <Widget>[

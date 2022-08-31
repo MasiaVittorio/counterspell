@@ -15,23 +15,26 @@ class _CardAlertState extends State<CardAlert> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){
-        if(widget.card.isFaced){
-          setState((){
-            firstFace = !firstFace;
-          });
-        }
-      },
-      child: SingleChildScrollView(
-        physics: Stage.of(context)!.panelScrollPhysics,
-        child: AspectRatio(
-          aspectRatio: MtgCard.cardAspectRatio,
-          child: CachedNetworkImage(
-            errorWidget: (_,__,___) => const Center(child: Icon(Icons.error_outline)),
-            imageUrl: widget.card.imageUrl(faceIndex: firstFace ? 0 : 1, uri: "borderCrop")!,
-            placeholder: (_,__) => const Center(child: CircularProgressIndicator()),
-            fit: BoxFit.cover,
+    return Material(
+      color: Colors.black,
+      child: InkWell(
+        onTap: (){
+          if(widget.card.isFaced){
+            setState((){
+              firstFace = !firstFace;
+            });
+          }
+        },
+        child: SingleChildScrollView(
+          physics: Stage.of(context)!.panelScrollPhysics,
+          child: AspectRatio(
+            aspectRatio: MtgCard.cardAspectRatio,
+            child: CachedNetworkImage(
+              errorWidget: (_,__,___) => const Center(child: Icon(Icons.error_outline)),
+              imageUrl: widget.card.imageUrl(faceIndex: firstFace ? 0 : 1, uri: ImageUris.BORDERCROP)!,
+              placeholder: (_,__) => const Center(child: CircularProgressIndicator()),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),

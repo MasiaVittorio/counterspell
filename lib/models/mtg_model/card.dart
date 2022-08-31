@@ -24,11 +24,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
-// import 'package:scrywalker/models/boolean_stuff/boolean_model.dart';
 import 'color_data.dart';
-// import 'package:scrywalker/themes/keyrune.dart';
-// import 'package:scrywalker/themes/mana_icons.dart';
-// import 'package:scrywalker/themes/material_community_icons.dart';
 
 
 class MtgCard {
@@ -36,9 +32,9 @@ class MtgCard {
   static const cardAspectRatio = 63/88;
   //width / height
 
-    //=========================
-    // Getters =============
-    //===================
+  //=========================
+  // Getters =============
+  //===================
 
   @override
   int get hashCode => id.hashCode;

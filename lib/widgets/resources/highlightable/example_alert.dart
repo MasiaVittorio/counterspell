@@ -22,10 +22,10 @@ class _HighlightAlertState extends State<HighlightAlert> {
   @override
   void initState() {
     super.initState();
-    one = HighlightController();
-    two = HighlightController();
-    three = HighlightController();
-    all = HighlightController();
+    one = HighlightController("");
+    two = HighlightController("");
+    three = HighlightController("");
+    all = HighlightController("");
   }
 
   @override
@@ -42,11 +42,11 @@ class _HighlightAlertState extends State<HighlightAlert> {
     const Spacer(),
     Highlightable(
       controller: all,
-      radius: 10,
+      borderRadius: 10,
       child: ButtonTilesRow(children: [
         Highlightable(
           controller: one,
-          radius: 10,
+          borderRadius: 10,
           child: ButtonTile(
             icon: Icons.person, 
             text: "Example one", 
@@ -55,7 +55,8 @@ class _HighlightAlertState extends State<HighlightAlert> {
         ),
         Highlightable(
           controller: two,
-          radius: 10,
+          borderRadius: 10,
+          showOverlay: true,
           child: ButtonTile(
             icon: Icons.people, 
             text: "Example two", 
@@ -64,7 +65,7 @@ class _HighlightAlertState extends State<HighlightAlert> {
         ),
         Highlightable(
           controller: three,
-          radius: 10,
+          borderRadius: 10,
           child: ButtonTile(
             icon: Icons.alarm, 
             text: "Example three", 

@@ -2,6 +2,8 @@ import 'dart:math' as math;
 import 'package:counter_spell_new/core.dart';
 
 class CSSizes {
+
+  static const double collapsedButtonOverlayHighlightPadding = 0;
   static const double barSize = kBottomNavigationBarHeight;
   static const double minTileSize = 75.0;
   static const double collapsedPanelSize = StageDimensions.defaultBarSize;

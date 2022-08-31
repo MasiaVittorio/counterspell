@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
+import 'package:counter_spell_new/widgets/resources/highlightable/overlay_painter.dart';
 import 'package:counter_spell_new/widgets/stage/body/group/player_tile_gestures.dart';
 import 'package:counter_spell_new/widgets/stage/body/group/player_tile_utilities.dart';
 
@@ -153,6 +154,11 @@ class PlayerTile extends StatelessWidget {
                 Expanded(child: buildBody(selected, theme)),
                 if(highlightController != null)
                   Highlightable(
+                    overlayShape: const OverlayShape(
+                      type: OverlayShapeType.circle,
+                      circleRadiusFromCorners: true,
+                    ),
+                    showOverlay: true,
                     controller: bloc.tutorial.checkboxHighlight,
                     child: buildTrailing(selected, actionBloc, stateBloc),
                   )
@@ -167,7 +173,7 @@ class PlayerTile extends StatelessWidget {
     if(highlightController != null){
       tile = Highlightable(
         controller: highlightController!, 
-        radius: tileRadius,
+        borderRadius: tileRadius,
         child: tile,
       );
     }
@@ -399,7 +405,8 @@ class PlayerTile extends StatelessWidget {
       child: highlightController != null
         ? Highlightable(
           controller: group.parent.parent.tutorial.numberCircleHighlight, 
-          radius: 500,
+          showOverlay: true,
+          borderRadius: 500,
           child: child,
         )
         : child,

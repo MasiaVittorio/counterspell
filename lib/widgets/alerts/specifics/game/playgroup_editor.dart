@@ -21,11 +21,13 @@ class PlayGroupEditor extends StatefulWidget {
 }
 
 class _PlayGroupEditorState extends State<PlayGroupEditor> {
-  TextEditingController? controller;
-  FocusNode? focusNode;
+  late TextEditingController controller;
+  late FocusNode focusNode;
   String? edited;
   //"" => newPlayer
   bool newGrouping = false;
+
+  String get currentText => controller.text.trim();
 
   @override
   void initState() {
@@ -37,8 +39,8 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
 
   @override
   void dispose() {
-    focusNode!.dispose();
-    controller!.dispose();
+    focusNode.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -59,23 +61,23 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
       edited = who;
     });
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      focusNode!.requestFocus();
+      focusNode.requestFocus();
     });
   }
 
   void _endEditing() {
-    controller!.clear();
+    controller.clear();
     setState(() {
       edited = null;
-      focusNode!.unfocus();
+      focusNode.unfocus();
     });
   }
 
   void confirm() {
     if (edited == "") {
-      state.addNewPlayer(controller!.text);
+      state.addNewPlayer(currentText);
     } else {
-      state.renamePlayer(edited, controller!.text);
+      state.renamePlayer(edited, currentText);
     }
     _endEditing();
     _reCalcSize();
@@ -90,22 +92,22 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
       newGrouping = true;
     });
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      focusNode!.requestFocus();
+      focusNode.requestFocus();
     });
   }
 
   void _endNewGrouping() {
-    controller!.clear();
+    controller.clear();
     setState(() {
       newGrouping = false;
-      focusNode!.unfocus();
+      focusNode.unfocus();
     });
   }
 
-  int? validateNumber() {
+  int? get validateNumber {
     int? result;
     try {
-      final int howMany = int.parse(controller!.text);
+      final int howMany = int.parse(currentText);
       if (howMany > 0 && howMany <= maxNumberOfPlayers) {
         result = howMany;
       }
@@ -116,7 +118,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
   }
 
   void confirmNewGroup() {
-    final int? howMany = validateNumber();
+    final int? howMany = validateNumber;
     if (howMany != null) {
       state.startNew({
         for (int i = 1; i <= howMany; ++i) "Player $i",
@@ -263,50 +265,47 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
             : newGrouping
                 ? "How many players"
                 : null,
-      errorText: (newGrouping && validateNumber() == null)
+      errorText: (newGrouping && validateNumber == null)
         ? "Insert a number between 2 and $maxNumberOfPlayers"
-        : (edited == "" && names.contains(controller!.text))
+        : (edited == "" && names.contains(currentText))
             ? "Name a different player"
             : null,
     ),
   );
 
-  Widget hints(ThemeData themeData, List<String> currentNames) {
-    return SizedBox(
-      height: PlayGroupEditor.hintSize,
-      child: group.savedNames.build((context, savedNames) {
-        return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            for (final savedName in savedNames)
-              if (savedName!
-                      .toLowerCase()
-                      .contains(controller!.text.toLowerCase()) &&
-                  controller!.text != "" &&
-                  controller!.text != savedName &&
-                  !currentNames.contains(savedName))
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: InkResponse(
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      controller!.text = savedName;
-                      confirm();
-                    },
-                    child: Chip(
-                      onDeleted: () => group.unSaveName(savedName),
-                      backgroundColor: themeData.canvasColor,
-                      elevation: 1,
-                      label: Text(savedName),
-                    ),
-                  ),
-                ),
-          ],
-        );
-      }),
-    );
-  }
+  Widget hints(ThemeData themeData, List<String> currentNames) => SizedBox(
+    height: PlayGroupEditor.hintSize,
+    child: group.savedNames.build((context, savedNames) => ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
+        for (final savedName in savedNames)
+          if (savedName.toLowerCase().contains(currentText.toLowerCase()) 
+            && currentText != "" 
+            && currentText != savedName 
+            && !currentNames.contains(savedName)
+          )
+            hint(savedName, themeData),
+      ],
+    )),
+  );
+
+  Padding hint(String savedName, ThemeData themeData) => Padding(
+    padding: const EdgeInsets.all(4.0),
+    child: InkResponse(
+      splashColor: Colors.transparent,
+      onTap: () {
+        controller.text = savedName;
+        confirm();
+      },
+      child: Chip(
+        onDeleted: () => group.unSaveName(savedName),
+        backgroundColor: themeData.canvasColor,
+        elevation: 1,
+        label: Text(savedName),
+      ),
+    ),
+  );
 
   Widget newPlayer(Widget textField) {
     if (edited == "") return editNewPlayer(textField);

@@ -104,16 +104,16 @@ class CSAchievements extends BlocBase {
 
   void checkSnackBar(Achievement oldOne, Achievement newOne){
     if(newOne.medal.biggerThan(oldOne.medal)){
-      parent.stage.showSnackBar(StageSnackBar(
-        title: Text(newOne.shortTitle),
-        subtitle: Text("Reached: ${newOne.medal.name}"),
-        secondary: MedalIcon(newOne.medal),
-        scrollable: true,
-        onTap: () => parent.stage.showAlert(
-          AchievementsAlert(initialDone: newOne.gold,),
-          size: AchievementsAlert.height,
-        ),
-      ));
+      // parent.stage.showSnackBar(StageSnackBar(
+      //   title: Text(newOne.shortTitle),
+      //   subtitle: Text("Reached: ${newOne.medal.name}"),
+      //   secondary: MedalIcon(newOne.medal),
+      //   scrollable: true,
+      //   onTap: () => parent.stage.showAlert(
+      //     AchievementsAlert(initialDone: newOne.gold,),
+      //     size: AchievementsAlert.height,
+      //   ),
+      // ));
     }
   }
 

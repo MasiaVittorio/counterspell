@@ -44,7 +44,7 @@ class PanelGameExtras extends StatelessWidget {
             ),),
             Highlightable(
               controller: bloc.tutorial.panelArenaPlaygroupHighlight,
-              radius: 10,
+              borderRadius: 10,
               child: ButtonTile.transparent(
                 icon: CSIcons.counterSpell,
                 // iconSize: CSIcons.ideal_counterspell_size,
@@ -65,7 +65,7 @@ class PanelGameExtras extends StatelessWidget {
           children: <Widget>[
             Highlightable(
               controller: bloc.tutorial.panelRestartHighlight,
-              radius: 10,
+              borderRadius: 10,
               child: ButtonTile(
                 icon: McIcons.restart,
                 text: "Start new game",
@@ -74,7 +74,7 @@ class PanelGameExtras extends StatelessWidget {
             ),
             Highlightable(
               controller: bloc.tutorial.panelEditPlaygroupHighlight,
-              radius: 10,
+              borderRadius: 10,
               child: ButtonTile(
                 icon: McIcons.account_multiple_outline,
                 text: "Edit playgroup",

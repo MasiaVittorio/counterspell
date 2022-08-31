@@ -1,6 +1,5 @@
 import 'package:counter_spell_new/core.dart';
 import 'package:counter_spell_new/widgets/stage/panel/extended_components/all.dart';
-import 'package:division/division.dart';
 
 
 class PagePie extends StatelessWidget {
@@ -73,22 +72,20 @@ class PagePie extends StatelessWidget {
     Map<CSPage,Color?> colors, 
     Map<CSPage,bool> enabled,
     Color unselected,
-  ) => Parent(
-    style: ParentStyle()
-      ..animate(150)
-      ..width(50)
-      ..height(50)
-      ..borderRadius(all: 40)
-      ..background.color(enabled[page]! ?  colors[page]! : unselected)
-      ..elevation(enabled[page]! && PanelSettings.disablablePages.contains(page) ? 4:0)
-      // ..overflow.hidden(), 
-      ,
-    child: Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: PanelSettings.disablablePages.contains(page) 
-          ? ()=> stage.mainPagesController.togglePage(page) 
-          : null,
+  ) => Material(
+    animationDuration: const Duration(milliseconds: 150),
+    elevation: enabled[page]! && PanelSettings.disablablePages.contains(page) 
+      ? 4
+      : 0,
+    borderRadius: BorderRadius.circular(50),
+    color: enabled[page]! ? colors[page]! : unselected,
+    child: InkWell(
+      borderRadius: BorderRadius.circular(50),
+      onTap: PanelSettings.disablablePages.contains(page) 
+        ? ()=> stage.mainPagesController.togglePage(page) 
+        : null,
+      child: SizedBox.square(
+        dimension: 50,
         child: Center(
           child: AnimatedCrossFade(
             firstChild: Icon(
@@ -108,6 +105,5 @@ class PagePie extends StatelessWidget {
         ),
       ),
     ),
-
   );
 }

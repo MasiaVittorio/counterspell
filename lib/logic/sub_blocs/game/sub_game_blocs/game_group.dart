@@ -24,7 +24,7 @@ class CSGameGroup {
   late PersistentVar<List<String>> orderedNames;
   late PersistentVar<Map<int,String?>> arenaNameOrder;
   late StreamSubscription newNamesSub;
-  final PersistentVar<Set<String?>> savedNames;
+  final PersistentVar<Set<String>> savedNames;
 
   final BlocMap<String,Set<MtgCard>> savedCards;
 
@@ -35,13 +35,13 @@ class CSGameGroup {
   ///========================
   /// Constructor
   CSGameGroup(this.parent): 
-    savedNames = PersistentVar<Set<String?>>(
+    savedNames = PersistentVar<Set<String>>(
       initVal: <String>{},
       key: "bloc_game_group_blocvar_saved_names",
       toJson: (stringSet) => stringSet.toList(),
       fromJson: (json) => {
         for(final s in json)  
-          s as String?,
+          s as String,
       },
     ),
     cardsA = PersistentVar<Map<String,MtgCard>>(

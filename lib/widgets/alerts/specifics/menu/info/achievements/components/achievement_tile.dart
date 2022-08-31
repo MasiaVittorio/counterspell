@@ -1,39 +1,39 @@
-import 'package:counter_spell_new/core.dart';
+// import 'package:counter_spell_new/core.dart';
 
-class AchievementTile extends StatelessWidget {
+// class AchievementTile extends StatelessWidget {
   
-  final Achievement achievement;
+//   final Achievement achievement;
 
-  const AchievementTile(this.achievement);
+//   const AchievementTile(this.achievement);
 
-  Achievement get a => achievement;
+//   Achievement get a => achievement;
 
-  @override
-  Widget build(BuildContext context) {
-    final StageData? stage = Stage.of(context);
+//   @override
+//   Widget build(BuildContext context) {
+//     final StageData? stage = Stage.of(context);
 
-    final Medal nextMedal = a.nextMedal;
-    final int nextGoal = a.target(nextMedal);
+//     final Medal nextMedal = a.nextMedal;
+//     final int nextGoal = a.target(nextMedal);
 
-    return InkWell(
-      onTap: () => stage!.showAlert(
-        AchievementAlert(a.shortTitle),
-        size: AchievementAlert.height,
-      ),
-      child: FullSlider(
-        enabled: false,
-        value: a.count!.toDouble(),
-        max: nextGoal.toDouble(),
-        min: 0.0,
-        leading: Achievements.icons[a.shortTitle] != null 
-          ? Icon(Achievements.icons[a.shortTitle])
-          : null,
-        trailing: Text("${a.count}/$nextGoal"),
-        title: Text("${a.shortTitle} - (${nextMedal.name})"),
-      ),
-    );
-  }
-}
+//     return InkWell(
+//       onTap: () => stage!.showAlert(
+//         AchievementAlert(a.shortTitle),
+//         size: AchievementAlert.height,
+//       ),
+//       child: FullSlider(
+//         enabled: false,
+//         value: a.count!.toDouble(),
+//         max: nextGoal.toDouble(),
+//         min: 0.0,
+//         leading: Achievements.icons[a.shortTitle] != null 
+//           ? Icon(Achievements.icons[a.shortTitle])
+//           : null,
+//         trailing: Text("${a.count}/$nextGoal"),
+//         title: Text("${a.shortTitle} - (${nextMedal.name})"),
+//       ),
+//     );
+//   }
+// }
 
 
 

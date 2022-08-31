@@ -1,46 +1,27 @@
 import 'dart:math';
 
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/models/random/all.dart';
 
-enum _ThrowType {
-  coin,
-  dice,
-  name
-}
-
-class _Throw {
-  final _ThrowType type;
-  final int value;
-  final _DiceType _diceType;
-  _Throw(this.type, Random generator, int max, this._diceType,):
-    value = generator.nextInt(max) + 1;
-}
 
 class DiceThrower extends StatefulWidget {
 
-  static const double height = _DiceThrowerState._throwerHeight + 360.0; 
+  static const double height = 650; 
 
   @override
   State createState() => _DiceThrowerState();
 }
 
-enum _DiceType{
-  d6,
-  d20,
-}
-
-extension on _DiceType {
-  int get max => this == _DiceType.d6 ? 6 : 20;
-  IconData get icon => this == _DiceType.d6 ? McIcons.dice_d6 : McIcons.dice_d20;
-  _DiceType get other => this == _DiceType.d6 ? _DiceType.d20 : _DiceType.d6;
-}
 
 class _DiceThrowerState extends State<DiceThrower> {
 
   late Random generator;
-  _DiceType _diceType = _DiceType.d20;
-  SidAnimatedListController? controller;
-  final List<_Throw> throws = <_Throw>[];
+
+  ThrowType _throwType = ThrowType.name;
+  DiceType _diceType = DiceType.d20;
+  
+  late SidAnimatedListController controller;
+  final List<Throw> throws = <Throw>[];
 
 
   @override
@@ -50,13 +31,6 @@ class _DiceThrowerState extends State<DiceThrower> {
     generator = Random(DateTime.now().millisecondsSinceEpoch);
   }
   
-  static const double _throwerHeight = 56.0;
-  static const Map<_ThrowType, String> predicates = {
-    _ThrowType.coin: "Flip",
-    _ThrowType.name: "Name",
-    _ThrowType.dice: "Throw",
-  };
-
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
@@ -67,49 +41,7 @@ class _DiceThrowerState extends State<DiceThrower> {
       return HeaderedAlert(
         "",
         alreadyScrollableChild: true,
-        bottom: Container(
-          height: _throwerHeight,
-          alignment: Alignment.center,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              for(final type in [_ThrowType.coin, _ThrowType.name, _ThrowType.dice])
-                Expanded(child: TextButton.icon(
-                  label: Text(predicates[type] ?? "?? error"),
-                  icon: Icon({
-                    _ThrowType.coin: McIcons.bitcoin,
-                    _ThrowType.name: Icons.person_outline,
-                    _ThrowType.dice: _diceType.icon,
-                  }[type] ?? McIcons.dice_multiple),
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.symmetric(vertical: 16.0),
-                    ),
-                  ),
-                  onLongPress: type != _ThrowType.dice ? null : () => setState(() {
-                    _diceType = _diceType.other;
-                  }),
-                  onPressed: (){
-                    setState((){
-                      throws.insert(0, _Throw(
-                        type, 
-                        generator, 
-                        {
-                          _ThrowType.coin: 2, 
-                          _ThrowType.name: names.length, 
-                          _ThrowType.dice: _diceType.max,
-                        }[type]!,
-                        _diceType,
-                      ),);
-                      controller!.insert(0, duration: duration);
-                      bloc.achievements.flippedOrRolled();
-                    });
-                  },
-                )),
-            ],
-          ),
-        ),
+        bottom: controls(names, bloc),
         child: SidAnimatedList(
           physics: SidereusScrollPhysics(
             bottomBounce: true,
@@ -133,12 +65,79 @@ class _DiceThrowerState extends State<DiceThrower> {
 
     },);
   }
+
+  Widget controls(List<String> names, CSBloc bloc) => Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      const Space.vertical(10),
+      SubSection(
+        [ListTile(
+          title: Text(_throwType.predicate),
+        )],
+        onTap: () => throwOrFlip(names, bloc),
+      ),
+      RadioSlider(
+        items: [
+          const RadioSliderItem(
+            title: Text("Coin"), 
+            icon: Icon(McIcons.bitcoin),
+          ),
+          const RadioSliderItem(
+            title: Text("Name"), 
+            icon: Icon(Icons.person_outline),
+          ),
+          RadioSliderItem(
+            title: const Text("Dice"), 
+            icon: Icon(_diceType.icon),
+          ),
+        ], 
+        selectedIndex: ThrowType.values.indexOf(_throwType), 
+        onTap: (i) => setState(() {
+          _throwType = ThrowType.values[i];
+        }),
+      ),
+      AnimatedListed(
+        listed: _throwType == ThrowType.dice,
+        child: RadioSlider(
+          items: [
+            for(final type in DiceType.values)
+              RadioSliderItem(
+                title: Text(type.name), 
+                icon: Icon(type.icon),
+              ),
+          ], 
+          selectedIndex: DiceType.values.indexOf(_diceType), 
+          onTap: (i) => setState(() {
+            _diceType = DiceType.values[i];
+          }),
+        ),
+      ),
+    ],
+  );
+
+  void throwOrFlip(List<String> names, CSBloc bloc){
+    setState((){
+      throws.insert(0, Throw(
+        _throwType, 
+        generator, 
+        {
+          ThrowType.coin: 2, 
+          ThrowType.name: names.length, 
+          ThrowType.dice: _diceType.max,
+        }[_throwType]!,
+        _diceType,
+      ),);
+      controller.insert(0, duration: duration);
+      bloc.achievements.flippedOrRolled();
+    });
+  }
+
   static const duration = Duration(milliseconds: 300);
 
 }
 
 class _ThrowWidget extends StatelessWidget {
-  final _Throw data;
+  final Throw data;
   final List<String> names;
   const _ThrowWidget(this.data, this.names);
 
@@ -147,17 +146,17 @@ class _ThrowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String title;
-    if(data.type == _ThrowType.coin){
+    if(data.type == ThrowType.coin){
       title = {1: "head", 2: "tail"}[data.value] ?? "?? error";
-    } else if (data.type == _ThrowType.name){
+    } else if (data.type == ThrowType.name){
       title = names[data.value - 1];
     } else {
       title = "${data.value}";
     }
     final IconData icon = {
-      _ThrowType.coin: coinIcons[data.value],
-      _ThrowType.name: Icons.person_outline,
-      _ThrowType.dice: data._diceType == _DiceType.d20 
+      ThrowType.coin: coinIcons[data.value],
+      ThrowType.name: Icons.person_outline,
+      ThrowType.dice: data.diceType == DiceType.d20 
         ? McIcons.hexagon_outline
         : d6icons[data.value],
     }[data.type] ?? McIcons.dice_multiple;
@@ -180,19 +179,19 @@ class _ThrowWidget extends StatelessWidget {
     );
 
     switch (data.type) {
-      case _ThrowType.coin:
+      case ThrowType.coin:
         return Container(
           height: size,
           alignment: Alignment.centerLeft,
           child: child,
         );
-      case _ThrowType.name:
+      case ThrowType.name:
         return Container(
           height: size,
           alignment: Alignment.center,
           child: Text(title),
         );
-      case _ThrowType.dice:
+      case ThrowType.dice:
         return SizedBox(
           height: size,
           child: Row(children: <Widget>[

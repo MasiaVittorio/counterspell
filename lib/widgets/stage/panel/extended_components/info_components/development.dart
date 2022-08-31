@@ -63,7 +63,7 @@ class Development extends StatelessWidget {
   ) => ButtonTilesRow(children: [
     Highlightable(
       controller: logic.tutorial.changelogHighlight,
-      radius: 10,
+      borderRadius: 10,
       child: ButtonTile(
         icon: McIcons.file_document_outline,
         text: "Changelog",

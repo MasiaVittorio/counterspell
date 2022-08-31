@@ -55,7 +55,7 @@ class TutorialCardsState extends State<TutorialCards> {
     highlights = [
       for(final hint in widget.hints)
         if(hint.selfHighlight || hint.manualHighlight != null)
-          HighlightController()
+          HighlightController(hint.text)
         else null,
     ];
   }
@@ -151,7 +151,7 @@ class TutorialCard extends StatelessWidget {
                 ),
                 child: hint.selfHighlight 
                   ? Highlightable(
-                    radius: 12,
+                    borderRadius: 12,
                     controller: controller!, 
                     child: materialContent(stage, logic, contrast),
                   )
@@ -234,7 +234,7 @@ class TutorialCard extends StatelessWidget {
     clipBehavior: Clip.antiAlias,
     child: Highlightable(
       controller: controller!,
-      radius: 10,
+      borderRadius: 10,
       brightness: contrast.brightness.opposite,
       child: InkWell(
         onTap: () => hint.manualHighlight!(logic),

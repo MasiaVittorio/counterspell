@@ -1,4 +1,10 @@
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/data/tutorial/arena.dart';
+import 'package:counter_spell_new/data/tutorial/commander.dart';
+import 'package:counter_spell_new/data/tutorial/counters.dart';
+import 'package:counter_spell_new/data/tutorial/gestures.dart';
+import 'package:counter_spell_new/data/tutorial/history.dart';
+import 'package:counter_spell_new/data/tutorial/playgroup.dart';
 import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
 import 'package:counter_spell_new/widgets/resources/tutorial_card/tutorial_card.dart';
 
@@ -41,20 +47,20 @@ class CSTutorial {
   int _backOrForward = 0;
   int _counterPick = 0;
 
-  final HighlightController tutorialHighlight = HighlightController();
-  final HighlightController changelogHighlight = HighlightController();
-  final HighlightController aHighlight = HighlightController();
-  final HighlightController panelRestartHighlight = HighlightController();
-  final HighlightController panelEditPlaygroupHighlight = HighlightController();
-  final HighlightController panelArenaPlaygroupHighlight = HighlightController();
-  final HighlightController collapsedRightButtonHighlight = HighlightController();
-  final HighlightController collapsedLeftButtonHighlight = HighlightController();
-  final HighlightController playerHighlight = HighlightController();
-  final HighlightController secondPlayerHighlight = HighlightController();
-  final HighlightController entireCollapsedPanel = HighlightController();
-  final HighlightController backForthHighlight = HighlightController();
-  final HighlightController numberCircleHighlight = HighlightController();
-  final HighlightController checkboxHighlight = HighlightController();
+  final tutorialHighlight = HighlightController("tutorial");
+  final changelogHighlight = HighlightController("changelog");
+  final aHighlight = HighlightController("a");
+  final panelRestartHighlight = HighlightController("panel restart");
+  final panelEditPlaygroupHighlight = HighlightController("panel edit");
+  final panelArenaPlaygroupHighlight = HighlightController("panel arena");
+  final collapsedRightButtonHighlight = HighlightController("collapsed right");
+  final collapsedLeftButtonHighlight = HighlightController("collapsed left");
+  final playerHighlight = HighlightController("player");
+  final secondPlayerHighlight = HighlightController("second player");
+  final entireCollapsedPanel = HighlightController("entire collapsed");
+  final backForthHighlight = HighlightController("backforth");
+  final numberCircleHighlight = HighlightController("number circle");
+  final checkboxHighlight = HighlightController("checkbox");
 
   TutorialCardsState Function()? retrieveState;
 
@@ -84,14 +90,14 @@ class CSTutorial {
     ));
     parent.game.gameState.overwriteGame(CSGameState.defaultGameState);
     await parent.stage.closePanelCompletely();
-    hints = TutorialData.values.checkIndex(index)
+    hints = Tutorials.base.checkIndex(index)
       ? [
-        ...TutorialData.values[index!].hints,
+        ...Tutorials.base[index!].hints,
         TutorialCards.last,
       ]
       : [
       TutorialCards.first,
-      for(final tutorial in TutorialData.values)
+      for(final tutorial in Tutorials.base)
         ...tutorial.hints,
       TutorialCards.last,
     ];
@@ -188,9 +194,9 @@ class CSTutorial {
   void reactToGameAction(GameAction action) async {
     if(showingTutorial.value){
       if([
-        Hints.swipe,
-        Hints.delay,
-        Hints.repeat,
+        GesturesTutorial.swipe,
+        GesturesTutorial.delay,
+        GesturesTutorial.repeat,
       ].contains(currentHint)){
         if(action is GALife){
           nextHint();
@@ -199,7 +205,7 @@ class CSTutorial {
             nextHint();
           }
         }
-      } else if(currentHint == Hints.multiple) {
+      } else if(currentHint == GesturesTutorial.multiple) {
         if(action is GALife){
           int n=0;
           for(final s in action.selected.values){
@@ -219,7 +225,7 @@ class CSTutorial {
             nextHint();
           }
         }
-      } else if(currentHint == Hints.anti){
+      } else if(currentHint == GesturesTutorial.anti){
         if(action is GAComposite){
           final Set<int> increments = <int>{
             for(final a in action.actionList.values)
@@ -227,7 +233,7 @@ class CSTutorial {
           };
           if(increments.length > 1){
             await Future.delayed(const Duration(milliseconds: 750));
-            if(currentHint == Hints.anti){
+            if(currentHint == GesturesTutorial.anti){
               nextHint();
             }
           }
@@ -238,7 +244,7 @@ class CSTutorial {
             }
           }
         }
-      } else if(currentHint == Hints.defender){
+      } else if(currentHint == CommanderTutorial.defender){
         if(action is GAComposite){
           for(final pa in action.actionList.values){
             if(pa is PADamage){
@@ -264,82 +270,82 @@ class CSTutorial {
 
   
   void reactToRestartSnackbarShown() async {
-    if(currentHint == Hints.restartBottom){
+    if(currentHint == HistoryTutorial.restartBottom){
       await Future.delayed(const Duration(milliseconds: 1000));
-      if(currentHint == Hints.restartBottom) nextHint();
+      if(currentHint == HistoryTutorial.restartBottom) nextHint();
     }
   }
 
   void reactToAttackingPlayerSelected(){
-    if(currentHint == Hints.attacker){
+    if(currentHint == CommanderTutorial.attacker){
       nextHint();
     }
   }
 
   void reactToArenaAlertFromBottom() async {
-    if(currentHint == Hints.arenaBottom){
+    if(currentHint == ArenaTutorial.arenaBottom){
       await Future.delayed(const Duration(milliseconds: 300));
-      if(currentHint == Hints.arenaBottom) nextHint();
+      if(currentHint == ArenaTutorial.arenaBottom) nextHint();
     }
   }
 
   void reactToArenaMenuShown() async {
-    if(currentHint == Hints.arenaMenu){
+    if(currentHint == ArenaTutorial.arenaMenu){
       await Future.delayed(const Duration(milliseconds: 300));
-      if(currentHint == Hints.arenaMenu) nextHint();
+      if(currentHint == ArenaTutorial.arenaMenu) nextHint();
     }
   }
 
   void reactToRestartMenuShown() async {
-    if(currentHint == Hints.restartMenu){
+    if(currentHint == HistoryTutorial.restartMenu){
       await Future.delayed(const Duration(milliseconds: 300));
-      if(currentHint == Hints.restartMenu) nextHint();
+      if(currentHint == HistoryTutorial.restartMenu) nextHint();
     }
   }
 
   void reactToHistoryBackOrForward() async {
-    if(currentHint == Hints.past){
+    if(currentHint == HistoryTutorial.past){
       _backOrForward++;
       if(_backOrForward > 5){
         await Future.delayed(const Duration(milliseconds: 1000));
-        if(currentHint == Hints.past) nextHint();
+        if(currentHint == HistoryTutorial.past) nextHint();
       }
     }
   }
 
 
   void reactToPlaygroupEditedFromBottom() async {
-    if(currentHint == Hints.groupBottom){
+    if(currentHint == PlaygroupTutorial.groupBottom){
       await Future.delayed(const Duration(milliseconds: 300));
-      if(currentHint == Hints.groupBottom) nextHint();
+      if(currentHint == PlaygroupTutorial.groupBottom) nextHint();
     }
   }
   void reactToPlaygroupMenuShown() async {
-    if(currentHint == Hints.groupMenu){
+    if(currentHint == PlaygroupTutorial.groupMenu){
       await Future.delayed(const Duration(milliseconds: 300));
-      if(currentHint == Hints.groupMenu) nextHint();
+      if(currentHint == PlaygroupTutorial.groupMenu) nextHint();
     }
   }
   
   void reactToCounterBeingPicked() async {
-    if(currentHint == Hints.pickCounter){
+    if(currentHint == CountersTutorial.pickCounter){
       _counterPick++;
       if(_counterPick > 2){
         await Future.delayed(const Duration(milliseconds: 1000));
-        if(currentHint == Hints.pickCounter) nextHint();
+        if(currentHint == CountersTutorial.pickCounter) nextHint();
       }
     }
   }
 
   
   void reactToHavingPartnerToggle(){
-    if(currentHint == Hints.split){
+    if(currentHint == CommanderTutorial.split){
       nextHint();
     }
   }
   
   void reactToUsingPartnerToggle(){
-    if(currentHint == Hints.changePartner){
+    if(currentHint == CommanderTutorial.changePartner){
       _changedPartner++;
       if(_changedPartner > 3){
         nextHint();
@@ -348,14 +354,14 @@ class CSTutorial {
   }
 
   void reactToSettingsViaLongPress(){
-    if(currentHint == Hints.playerOptionsLongPress){
+    if(currentHint == CommanderTutorial.playerOptionsLongPress){
       nextHint();
     }
   }
 
   
   void reactToSettingsViaCircle(){
-    if(currentHint == Hints.playerOptionsCircle){
+    if(currentHint == CommanderTutorial.playerOptionsCircle){
       nextHint();
     }
   }

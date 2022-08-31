@@ -7,7 +7,7 @@ class Useful extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = CSBloc.of(context);
-    final stage = Stage.of(context)!;
+    // final stage = Stage.of(context)!;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -15,20 +15,20 @@ class Useful extends StatelessWidget {
         const PanelTitle("About CounterSpell", centered: false,),
         const Space.vertical(5),
         tutorial(logic),
-        const Space.vertical(10),
-        ListTile(
-          trailing: const Icon(Icons.keyboard_arrow_right),
-          title: const Text("Badges"),
-          leading: const Icon(McIcons.bookmark_check),
-          onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
-        ),
+        // const Space.vertical(10),
+        // ListTile(
+        //   trailing: const Icon(Icons.keyboard_arrow_right),
+        //   title: const Text("Badges"),
+        //   leading: const Icon(McIcons.bookmark_check),
+        //   onTap: () => stage.showAlert(const AchievementsAlert(), size: AchievementsAlert.height),
+        // ),
       ],
     );
   }
 
   Widget tutorial(CSBloc logic) => SubSection([Highlightable(
     controller: logic.tutorial.tutorialHighlight,
-    radius: 10,
+    borderRadius: 10,
     child: SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
@@ -42,14 +42,14 @@ class Useful extends StatelessWidget {
           }, 
         ),
         const Icon(Icons.keyboard_arrow_right),
-        ...(<Widget>[for(int i=0; i<TutorialData.values.length; ++i)
+        ...(<Widget>[for(int i=0; i<Tutorials.base.length; ++i)
           ButtonTile.transparent(
             onTap: (){
               logic.tutorial.showTutorial(i);
             }, 
             shrinkWrap: true,
-            icon: TutorialData.values[i].icon,
-            text: TutorialData.values[i].title,
+            icon: Tutorials.base[i].icon,
+            text: Tutorials.base[i].title,
           ),].separateWith(CSWidgets.width5)),
       ],),
   ),),]);

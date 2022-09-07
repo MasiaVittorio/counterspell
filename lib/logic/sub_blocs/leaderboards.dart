@@ -68,6 +68,8 @@ class CSPastGames {
     required bool avoidPrompt, 
   }) {
 
+    if(parent.tutorial.showingTutorial.value) return false;
+
     if(state.historyLenght <= 1) return false;
 
     final pastGame = PastGame.fromState(state.frozen, 

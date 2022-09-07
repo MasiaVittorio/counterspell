@@ -191,6 +191,7 @@ class _KrarkAndSakashimaState extends State<_KrarkAndSakashima> {
       ),
     );
   }
+  // TODO: show link to the krarkulator instead
 
   Widget get krarkSection => SubSection([
     ButtonTilesRow(children: [

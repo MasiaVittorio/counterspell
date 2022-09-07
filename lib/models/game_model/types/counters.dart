@@ -9,7 +9,24 @@ import 'dart:math';
 const int MAX_LIFE = 9999;
 const int MIN_LIFE = -999;
 
+extension on IconData {
+  Map<String,dynamic> get map => {
+    "codePoint": codePoint,
+    "fontFamily": fontFamily,
+    "fontPackage": fontPackage,
+    "matchTextDirection": matchTextDirection,
+  };
+}
+
+IconData _iconFromMap(Map<String,dynamic> map) => IconData(
+  map["codePoint"],
+  fontFamily: map["fontFamily"],
+  fontPackage: map["fontPackage"],
+  matchTextDirection: map["matchTextDirection"],
+);
+
 class Counter{
+
   final String shortName;
   final String longName;
   final int minValue;
@@ -44,7 +61,7 @@ class Counter{
   static Counter fromJson(Map<String,dynamic> json){
     return Counter(
       uniquePlayer: json["uniquePlayer"] ?? false,
-      icon: _icons[json["longName"]] ?? Icons.palette,
+      icon: _iconFromMap(json["icon"]),
       longName: json['longName'],
       shortName: json['shortName'],
       minValue: json['minValue'],
@@ -74,6 +91,7 @@ class Counter{
     'minValue' : minValue,
     'maxValue' : maxValue,
     'uniquePlayer': uniquePlayer,
+    'icon': icon.map,
   };
 
   static const String poisonLongName = "Poison Counters";
@@ -83,6 +101,15 @@ class Counter{
     minValue: 0,
     maxValue: MAX_LIFE,
     icon: CSIcons.poison,
+    uniquePlayer: false,
+  );
+  static const String extraTurnLongName = "Extra Turns";
+  static const Counter extraTurn = Counter(
+    shortName: 'Turns',
+    longName: extraTurnLongName,
+    minValue: 0,
+    maxValue: MAX_LIFE,
+    icon: Icons.timer_outlined,
     uniquePlayer: false,
   );
   static const String experienceLongName = "Experience Counters";
@@ -152,20 +179,20 @@ class Counter{
     icon: ManaIcons.e,
     uniquePlayer: false,
   );
-  static const Map<String,IconData> _icons = <String,IconData>{
-    poisonLongName: CSIcons.poison,
-    experienceLongName: CSIcons.experienceFilled,
-    // stormLongName: McIcons.weather_lightning,
-    // "City's Blessing": McIcons.ship_wheel,
-    // 'Take the Crown': McIcons.crown,
-    // 'Total Mana': McIcons.alpha_x_circle,
-    // 'Energy Counters': McIcons.flash,
-    stormLongName: ManaIcons.instant,
-    blessingLongName: Keyrune.rix,
-    monarchLongName: Keyrune.cn2,
-    manaLongName: ManaIcons.c,
-    energyLongName: ManaIcons.e,
-  };
+  // static const Map<String,IconData> _icons = <String,IconData>{
+  //   poisonLongName: CSIcons.poison,
+  //   experienceLongName: CSIcons.experienceFilled,
+  //   // stormLongName: McIcons.weather_lightning,
+  //   // "City's Blessing": McIcons.ship_wheel,
+  //   // 'Take the Crown': McIcons.crown,
+  //   // 'Total Mana': McIcons.alpha_x_circle,
+  //   // 'Energy Counters': McIcons.flash,
+  //   stormLongName: ManaIcons.instant,
+  //   blessingLongName: Keyrune.rix,
+  //   monarchLongName: Keyrune.cn2,
+  //   manaLongName: ManaIcons.c,
+  //   energyLongName: ManaIcons.e,
+  // };
 
 
   static const List<Counter> defaultList = [
@@ -176,6 +203,7 @@ class Counter{
     blessing,
     monarch,
     energy,
+    extraTurn,
   ];
 
 

@@ -12,7 +12,7 @@ class TutorialDamage extends StatelessWidget {
     final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
     final Map<CSPage,Color?> colors = stage.themeController.derived.mainPageToPrimaryColor.value!;
     final CSBloc bloc = CSBloc.of(context);
-    final Color defenceColor = bloc.themer.defenceColor.value;
+    final Color defenceColor = bloc.themer.resolveDefenceColor;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

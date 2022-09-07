@@ -70,6 +70,8 @@ class ArenaPlayerTile extends StatelessWidget {
 
     final String? name = indexToName[index];
 
+    // TODO: mostra at all quando uno è morto
+
     return LayoutBuilder(
       builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,

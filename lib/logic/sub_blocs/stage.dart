@@ -3,7 +3,6 @@ import 'package:counter_spell_new/core.dart';
 
 class CSStage {
 
-
   void dispose(){
     controller.dispose();
   }
@@ -14,14 +13,16 @@ class CSStage {
   /// Needs the parent to have scroller initialized
   CSStage(this.parent){
     controller = StageData<CSPage,SettingsPage>(
-      storeKey: "MvSidereus_CounterSpell_Stage",
+      storeKey: "MvSidereus_CounterSpell_Stage_2",
       panelData: StagePanelData(
-        onPanelOpen: (){
-          parent.scroller.cancel();
-        },
+        onPanelOpen: () => parent.scroller.cancel(),
       ),
       popBehavior: const StagePopBehavior(
         backToDefaultMainPage: true,
+        backToPreviousMainPage: false,
+        backToClosePanel: true,
+        backToDefaultPanelPage: true,
+        backToPreviousPanelPage: false,
       ),
 
       initialDimensions: StageDimensions(
@@ -29,9 +30,7 @@ class CSStage {
         panelRadiusClosed: StageDimensions.defaultBarSize/2,
         panelRadiusOpened: StageDimensions.defaultPanelRadius,
         parallax: 0.1,
-        panelHorizontalPaddingOpened: defaultColorPlace==StageColorPlace.texts
-          ? CSThemer.panelHorizontalPaddingOpenedTexts
-          : StageDimensions.defaultPanelHorizontalPaddingOpened,
+        panelHorizontalPaddingOpened: horizontalPaddingOpened(defaultColorPlace),
       ),
     
       // closed pages
@@ -70,7 +69,6 @@ class CSStage {
         bottomBarShadow: defaultColorPlace == StageColorPlace.background,
         accentSelectedPage: false,
         topBarElevations: CSThemer.topBarElevations,
-        // forcedPrimaryColorBrightnessOnLightTheme: Brightness.dark,
         pandaOpenedPanelNavBar: true,
         brightness: const StageBrightnessData.nullable(
           brightness: Brightness.light,
@@ -108,7 +106,13 @@ class CSStage {
   }
 
   static const defaultColorPlace = StageColorPlace.texts;
-  
+  static const allowPickDesign = false;
+
+  static double horizontalPaddingOpened(StageColorPlace place) 
+    => place == StageColorPlace.texts
+      ? CSThemer.panelHorizontalPaddingOpenedTexts
+      : StageDimensions.defaultPanelHorizontalPaddingOpened;
+
 }
 
 const settingsThemes = <SettingsPage,StagePage>{

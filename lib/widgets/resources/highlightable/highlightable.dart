@@ -50,21 +50,18 @@ with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     animation = AnimationController(vsync: this);
-    debugPrint('init state');
     controller.attach(launch);
   }
 
   @override
   void didUpdateWidget(covariant Highlightable oldWidget) {
     super.didUpdateWidget(oldWidget);
-    debugPrint('did update');
     controller.attach(launch);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    debugPrint('did change dependencies');
     controller.attach(launch);
   }
 
@@ -83,11 +80,9 @@ with SingleTickerProviderStateMixin {
       debugPrint("///////////////// you tried to launch disposed highlightable!!");
       return;
     }
-    debugPrint("about to animate");
     animation.value = 0.0;
 
     if(widget.showOverlay){
-      debugPrint("showing overlay");
 
       final overlay = Overlay.of(context);
       if(overlay == null) return;
@@ -117,7 +112,6 @@ with SingleTickerProviderStateMixin {
       overlay.insert(overlayEntry!);
     }
 
-    debugPrint("animating");
     await animation.animateTo(1.0, duration: HighlightAnimations.duration);
     if(!mounted) return;
 

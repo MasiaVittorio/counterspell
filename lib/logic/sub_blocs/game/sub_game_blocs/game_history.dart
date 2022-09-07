@@ -79,7 +79,7 @@ class CSGameHistory {
         index: index-1,
         counters: parent.gameAction.currentCounterMap,
         tileSize: null,
-        defenceColor: parent.parent.themer.defenceColor.value,
+        defenceColor: parent.parent.themer.resolveDefenceColor,
         pageColors: parent.parent.stageBloc.controller.themeController.derived.mainPageToPrimaryColor.value!,
         avoidInteraction: true,
         names: parent.gameGroup.orderedNames.value,

@@ -3,6 +3,9 @@ import 'package:counter_spell_new/widgets/stage/body/history/current_state_tile.
 import 'package:counter_spell_new/widgets/stage/body/history/history_player_tile.dart';
 
 class HistoryTile extends StatelessWidget {
+
+  // TODO: merge with previous or next history tile
+  
   final double? tileSize;
   final GameHistoryData data;
   final DateTime? firstTime;

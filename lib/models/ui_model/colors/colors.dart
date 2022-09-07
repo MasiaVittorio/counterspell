@@ -3,8 +3,6 @@ import 'package:counter_spell_new/core.dart';
 
 class CSColors {
 
-  static Color contrastWith(Color color) => ThemeData.estimateBrightnessForColor(color) == Brightness.dark ? Colors.white : Colors.black;
-
   static const Color dark = Color(0xFF263133);
   static const Color blue = Color(0xFF0A4968); //defence
   static const Color darkBlueGoogle = Color(0xFF236A8D); //defence

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_debugPrint
+
 import 'dart:convert';
 import 'package:counter_spell_new/core.dart';
 
@@ -8,7 +10,7 @@ class CSColorScheme {
   final Color accent;
   final Map<CSPage, Color> perPage;
   final bool light;
-  final DarkStyle? darkStyle;
+  final DarkStyle darkStyle;
   final Color defenceColor;
   final StageColorPlace colorPlace;
 
@@ -55,7 +57,7 @@ class CSColorScheme {
         CSPages.nameOf(entry.key)!: entry.value.value,
     },
     "light": light,
-    "darkStyle": darkStyle?.name,
+    "darkStyle": darkStyle.name,
     "defenceColor": defenceColor.value,
     "colorPlace": colorPlace.name,
   };
@@ -70,8 +72,14 @@ class CSColorScheme {
                 Color((entry.value ?? 0) as int),
         },
         light: json["light"],
-        darkStyle: json["darkStyle"] == null ? null : DarkStyle.fromName(json["darkStyle"]),
-        defenceColor: Color(json["defenceColor"] ?? CSColors.blue.value),
+        darkStyle: json["darkStyle"] == null 
+          ? DarkStyle.nightBlue 
+          : DarkStyle.fromName(json["darkStyle"]),
+        defenceColor: Color(json["defenceColor"] 
+          ?? ((StageColorPlaces.fromName(json["colorPlace"]).isTexts)
+            ? CSColors.darkBlueGoogle.value 
+            : CSColors.blue.value)
+        ),
         colorPlace: StageColorPlaces.fromName(json["colorPlace"]),
       );
 
@@ -90,10 +98,10 @@ class CSColorScheme {
     return false;
   }
 
-  bool equivalentTo(CSColorScheme other) =>
-      other.primary == primary &&
+  bool equivalentTo(CSColorScheme other) {
+    return other.primary == primary &&
       other.accent == accent &&
-      (<CSPage?>{
+      (<CSPage>{
         ...other.perPage.keys,
         ...perPage.keys,
       }.every((key) => perPage[key] == other.perPage[key])) &&
@@ -101,30 +109,31 @@ class CSColorScheme {
       other.defenceColor == defenceColor &&
       other.colorPlace == colorPlace &&
       (other.darkStyle == darkStyle || light);
+  }
 
-  static const String _defaultLightName = "Light default";
+  static const String _defaultLightName = "Light Solid";
   static const CSColorScheme defaultLight = CSColorScheme(
     _defaultLightName,
     primary: CSColors.primary,
     accent: CSColors.accent,
     perPage: CSColors.perPageLight,
     light: true,
-    darkStyle: null,
+    darkStyle: DarkStyle.nightBlue,
     defenceColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
-  static const String _defaultGoogleLightName = "Light Google";
+  static const String _defaultGoogleLightName = "Light Flat";
   static const CSColorScheme defaultGoogleLight = CSColorScheme(
     _defaultGoogleLightName,
     primary: CSColors.primary,
     accent: CSColors.accentGoogle,
     perPage: CSColors.perPageLight,
     light: true,
-    darkStyle: null,
+    darkStyle: DarkStyle.nightBlue,
     defenceColor: CSColors.blue,
     colorPlace: StageColorPlace.texts,
   );
-  static const String _defaultDarkName = "Dark default";
+  static const String _defaultDarkName = "Dark Solid";
   static const CSColorScheme defaultDark = CSColorScheme(
     _defaultDarkName,
     primary: CSColors.darkPrimary,
@@ -135,7 +144,7 @@ class CSColorScheme {
     defenceColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
-  static const String _defaultGoogleDarkName = "Dark google";
+  static const String _defaultGoogleDarkName = "Dark Flat";
   static const CSColorScheme defaultGoogleDark = CSColorScheme(
     _defaultGoogleDarkName,
     primary: CSColors.darkPrimary,
@@ -146,7 +155,7 @@ class CSColorScheme {
     defenceColor: CSColors.darkBlueGoogle,
     colorPlace: StageColorPlace.texts,
   );
-  static const String _defaultNightBlackName = "Night Black default";
+  static const String _defaultNightBlackName = "Night Black Solid";
   static const CSColorScheme defaultNightBlack = CSColorScheme(
     _defaultNightBlackName,
     primary: CSColors.nightBlackPrimary,
@@ -157,7 +166,7 @@ class CSColorScheme {
     defenceColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
-  static const String _defaultGoogleNightBlackName = "Night Black google";
+  static const String _defaultGoogleNightBlackName = "Night Black Flat";
   static const CSColorScheme defaultGoogleNightBlack = CSColorScheme(
     _defaultGoogleNightBlackName,
     primary: CSColors.nightBlackPrimary,
@@ -168,7 +177,7 @@ class CSColorScheme {
     defenceColor: CSColors.darkBlueGoogle,
     colorPlace: StageColorPlace.texts,
   );
-  static const String _defaultAmoledName = "Amoled default";
+  static const String _defaultAmoledName = "Amoled Solid";
   static const CSColorScheme defaultAmoled = CSColorScheme(
     _defaultAmoledName,
     primary: CSColors.amoledPrimary,
@@ -179,7 +188,7 @@ class CSColorScheme {
     defenceColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
-  static const String _defaultGoogleAmoledName = "Amoled google";
+  static const String _defaultGoogleAmoledName = "Amoled Flat";
   static const CSColorScheme defaultGoogleAmoled = CSColorScheme(
     _defaultGoogleAmoledName,
     primary: CSColors.amoledPrimary,
@@ -190,7 +199,7 @@ class CSColorScheme {
     defenceColor: CSColors.darkBlueGoogle,
     colorPlace: StageColorPlace.texts,
   );
-  static const String _defaultNightBlueName = "Night Blue default";
+  static const String _defaultNightBlueName = "Night Blue Solid";
   static const CSColorScheme defaultNightBlue = CSColorScheme(
     _defaultNightBlueName,
     primary: CSColors.nightBluePrimary,
@@ -201,7 +210,7 @@ class CSColorScheme {
     defenceColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
-  static const String _defaultGoogleNightBlueName = "Night Blue google";
+  static const String _defaultGoogleNightBlueName = "Night Blue Flat";
   static const CSColorScheme defaultGoogleNightBlue = CSColorScheme(
     _defaultGoogleNightBlueName,
     primary: CSColors.nightBluePrimary,

@@ -31,7 +31,7 @@ class CommanderTutorial {
     autoHighlight: HintsHighlights.secondPlayer,
     icon: HintIcon(McIcons.gesture_swipe_right),
   );
-  static Color _defenceColor(CSBloc logic) => logic.themer.defenceColor.value;
+  static Color _defenceColor(CSBloc logic) => logic.themer.resolveDefenceColor;
 
   static const split = Hint(
     text: 'Long-press on "person" icon to split in partners',

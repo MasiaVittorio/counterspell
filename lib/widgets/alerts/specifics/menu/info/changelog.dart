@@ -4,6 +4,7 @@ import 'package:counter_spell_new/core.dart';
 class Changelog extends StatefulWidget {
 
   const Changelog();
+  // TODO: better changelog
 
   static const double height = 450.0;
 

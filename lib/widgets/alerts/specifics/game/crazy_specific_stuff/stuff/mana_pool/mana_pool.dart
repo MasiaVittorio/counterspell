@@ -152,7 +152,6 @@ class __ManaPoolState extends State<_ManaPool> with SingleTickerProviderStateMix
 
   double calcSize(int shown) => _RecentAction.height + titleSize + shown * 64;
 
-  // TODO: maybe key su numbers per non animare cambiamenti quando cambi show
   Widget get pool => BlocVar.build3(
     logic.show,
     logic.pool,
@@ -262,7 +261,7 @@ class _ColorToggle extends StatelessWidget {
           child: Center(child: Icon(
             color.icon,
             size: 23,
-            color: CSColors.contrastWith(c),
+            color: c.contrast,
           ),),
         ),
       ),

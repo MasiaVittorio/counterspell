@@ -51,18 +51,20 @@ class _DefenderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconTheme.merge(
       data: const IconThemeData(opacity: 1.0),
-      child: CSBloc.of(context).themer.defenceColor.build((_,defenceColor)=>InfoSection(
-        last: true,
-        icon: Icon(
-          CSIcons.defenceFilled,
-          color: defenceColor,
+      child: CSBloc.of(context).themer.buildFromDefenceColor((_,defenceColor) 
+        => InfoSection(
+          last: true,
+          icon: Icon(
+            CSIcons.defenceFilled,
+            color: defenceColor,
+          ),
+          title: _defenderTitle,
+          info: const [
+            _defender1,
+            _defender2,
+          ],
         ),
-        title: _defenderTitle,
-        info: const [
-          _defender1,
-          _defender2,
-        ],
-      )),
+      ),
     );
   }
 }

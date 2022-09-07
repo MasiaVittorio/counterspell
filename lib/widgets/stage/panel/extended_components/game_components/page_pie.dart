@@ -91,7 +91,7 @@ class PagePie extends StatelessWidget {
             firstChild: Icon(
               stage.mainPagesController.pagesData[page]!.icon,
               size: 23,
-              color: CSColors.contrastWith(colors[page]!),
+              color: colors[page]!.contrast,
             ),
             secondChild: Icon(
               stage.mainPagesController.pagesData[page]!.unselectedIcon, 

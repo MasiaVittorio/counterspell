@@ -43,7 +43,19 @@ class ThemeColors extends StatelessWidget {
     stage.pickColor(
       initialColor: defenceColor,
       onSubmitted: (color){
-        bloc.themer.defenceColor.set(color);
+        // (defence color changes with the color place, brightness, dark style)
+        // saved themes are loaded as intended and change the design language etc
+        bloc.themer.resolvableDefenceColor.set(
+          bloc.themer.resolvableDefenceColor.value.copyWithState(
+            color: color, 
+            isLight: bloc.stage.themeController.brightness.brightness
+              .value.isLight, 
+            isFlat: bloc.stage.themeController.colorPlace
+              .value.isTexts, 
+            darkStyle: bloc.stage.themeController.brightness.darkStyle
+              .value,
+            ),
+        );
         stage.closePanel();
       },
     );

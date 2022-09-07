@@ -134,6 +134,7 @@ class PlayerTile extends StatelessWidget {
           alignment: Alignment.center,
           child: Opacity(
             opacity: playerState.isAlive ? 1.0 : 0.7,
+            // TODO: mostra meglio quando uno è morto, anche su Arena
             child: SizedBox(
               height: coreTileSize,
               child: Row(children: <Widget>[
@@ -342,7 +343,6 @@ class PlayerTile extends StatelessWidget {
       child = Material(
         key: ValueKey("$name circle name"),
         color: selectedColor,
-        // elevation: playerState.isAlive ? 2.0 : 0.0,
         borderRadius: BorderRadius.circular(coreTileSize),
         child: Container(
           width: coreTileSize * circleFrac,

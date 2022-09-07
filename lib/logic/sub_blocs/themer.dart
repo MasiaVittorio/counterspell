@@ -10,14 +10,15 @@ class CSThemer {
   );
 
   void dispose(){
-    defenceColor.dispose();
+    resolvableDefenceColor.dispose();
     savedSchemes.dispose();
   }
 
   //================================
   // Values
   final CSBloc parent;
-  final PersistentVar<Color> defenceColor;
+  final PersistentVar<ResolvableColor> resolvableDefenceColor;
+  late final BlocVar<Color> defenceColor;
   final PersistentVar<Map<String,CSColorScheme>> savedSchemes;
   late BlocVar<bool> flatDesign; // vs material design
 
@@ -26,20 +27,17 @@ class CSThemer {
   // Constructor
   // Needs stage if flatDesign gets linked with stage's textPlace
   CSThemer(this.parent): 
-    defenceColor = PersistentVar<Color>(
-      key: "bloc_themer_blocvar_defenceColor",
-      initVal: CSColors.blue,
-      toJson: (color) => color.value,
-      fromJson: (json) => Color(json),
+    resolvableDefenceColor = PersistentVar<ResolvableColor>(
+      key: "bloc_themer_blocvar_defenceResolvable",
+      initVal: ResolvableColor.def,
+      toJson: (color) => color.map,
+      fromJson: (json) => ResolvableColor.fromMap(json),
     ),
     savedSchemes = PersistentVar<Map<String,CSColorScheme>>(
       key: "bloc_themer_blocvar_savedSchemes",
-      initVal: <String,CSColorScheme>{
-        // for(final e in CSColorScheme.defaults.entries)
-        //   e.key: e.value,
-      },
+      initVal: <String,CSColorScheme>{},
       toJson: (map) => <String,dynamic>{for(final e in map.entries)
-        e.key : e.value.toJson,
+        e.key: e.value.toJson,
       },
       fromJson: (json) => <String,CSColorScheme>{for(final e in (json as Map).entries)
         e.key as String : CSColorScheme.fromJson(e.value),
@@ -52,7 +50,35 @@ class CSThemer {
         => place.isTexts,
     );
 
+    defenceColor = BlocVar.fromCorrelateLatest4<
+      Color,
+      Brightness,
+      DarkStyle,
+      StageColorPlace,
+      ResolvableColor
+    >(
+      parent.stage.themeController.brightness.brightness, 
+      parent.stage.themeController.brightness.darkStyle, 
+      parent.stage.themeController.colorPlace, 
+      resolvableDefenceColor, 
+      map: (brightness, darkStyle, place, color){
+        return color.resolveState(
+          brightness: brightness, 
+          place: place, 
+          darkStyle: darkStyle,
+        );
+      },
+    );
+
   }
+
+  Color get resolveDefenceColor 
+    => resolvableDefenceColor.value.resolveStage(parent.stage);
+
+  Widget buildFromDefenceColor(Widget Function(BuildContext, Color) builder)
+    => resolvableDefenceColor.build(
+      (context, color) => color.build(stage: parent.stage, builder: builder),
+    );
 
 
   static Color? getHistoryChipColor({

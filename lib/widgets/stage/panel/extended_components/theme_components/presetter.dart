@@ -43,8 +43,43 @@ class ThemePResetter extends StatelessWidget {
 
         void save() => stage.showAlert(
           InsertAlert(
+            initialText: (){
+              late final String seed1;
+              if(derivedScheme.light){
+                seed1 = "Light";
+              } else {
+                switch (derivedScheme.darkStyle) {
+                  case DarkStyle.amoled:
+                    seed1 = "Amoled";
+                    break;
+                  case DarkStyle.dark:
+                    seed1 = "Dark";
+                    break;
+                  case DarkStyle.nightBlack:
+                    seed1 = "Night Black";
+                    break;
+                  case DarkStyle.nightBlue:
+                    seed1 = "Night Blue";
+                    break;
+                  default: 
+                    seed1 = "Error";
+                    break;
+                }
+              }
+              final String seed2 = derivedScheme.colorPlace.isTexts
+                ? "Flat"
+                : "Solid";
+              final String seed = "$seed1 $seed2";
+              for(final n in [1,2,3,4,5,6,7,8,9,10]){
+                String option = "$seed $n";
+                if(!savedSchemes.containsKey(option)){
+                  return option;
+                }
+              }
+              return null;
+            }(),
             onConfirm: (name) {
-              if (CSColorScheme.defaults.keys .contains(name)) return false;
+              if (CSColorScheme.defaults.keys.contains(name)) return false;
               if (savedSchemes
                   .containsKey(name)) {
                 stage.showAlert(
@@ -83,8 +118,7 @@ class ThemePResetter extends StatelessWidget {
               }
               return null;
             },
-            labelText:
-                "Save color scheme with name",
+            labelText: "Save color scheme with name",
           ),
           size: InsertAlert.height,
         );

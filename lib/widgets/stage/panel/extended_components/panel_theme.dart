@@ -17,18 +17,21 @@ class PanelTheme extends StatelessWidget {
         bottomHeight: 100,
         children: <Widget>[
           const OverallTheme(),
+          // TODO: better page when not unlocked
           if(!unlocked) ListTile(
             title: const Text("Unlock theme engine"),
             subtitle: const Text("Support the developer"),
             leading: const Icon(McIcons.palette_outline),
             onTap: () => stage.showAlert(const SupportAlert(), size: SupportAlert.height),
           ),
-          const Divider(height: 1,),
-          const Space.vertical(8),
-          const DesignPattern(),
-          const Space.vertical(8),
-          const Divider(height: 1,),
-          const Space.vertical(10),
+          if(CSStage.allowPickDesign) ...[
+            const Divider(height: 1,),
+            const Space.vertical(8),
+            const DesignPattern(),
+            const Space.vertical(8),
+            const Divider(height: 1,),
+            const Space.vertical(10),
+          ],
           const ThemeColors(),
           const Space.vertical(10),
         ],

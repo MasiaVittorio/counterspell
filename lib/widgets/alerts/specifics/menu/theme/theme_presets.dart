@@ -33,16 +33,26 @@ class PresetsAlert extends StatelessWidget {
           };
 
           return Column(children: <Widget>[
+
             lights.first.applyBaseTheme(child: Section([
               const PanelTitle("Light themes", centered: false,),
-              for(final s in lights)
-                PresetTile(s),
+              for(final scheme in lights)
+                if(
+                  CSStage.allowPickDesign || 
+                  scheme.colorPlace == CSStage.defaultColorPlace
+                )
+                  PresetTile(scheme),
             ]),),
+
             for(final style in DarkStyle.values)
               darks[style]!.first.applyBaseTheme(child: Section([
                 SectionTitle("${style.name} themes"),
-                for(final s in darks[style]!)
-                  PresetTile(s),
+                for(final scheme in darks[style]!)
+                  if(
+                    CSStage.allowPickDesign || 
+                    scheme.colorPlace == CSStage.defaultColorPlace
+                  )
+                    PresetTile(scheme),
               ]),),
 
           ],);
@@ -51,9 +61,6 @@ class PresetsAlert extends StatelessWidget {
     );
   }
 }
-
-// TODO: when selecting a preset to load, the margin around the player tiles 
-//  doens't update between flat and solid design language
 
 class PresetTile extends StatelessWidget {
   final CSColorScheme scheme;
@@ -106,7 +113,7 @@ class PresetTile extends StatelessWidget {
                         stage.mainPagesController.pagesData[page]!.icon,
                         color: scheme.colorPlace.isTexts 
                           ? scheme.perPage[page]
-                          : CSColors.contrastWith(scheme.perPage[page]!),
+                          : scheme.perPage[page]!.contrast,
                       )
                     ),
                   ),
@@ -125,7 +132,7 @@ class PresetTile extends StatelessWidget {
                       CSIcons.defenceFilled, 
                       color: scheme.colorPlace.isTexts 
                       ? scheme.defenceColor 
-                      : CSColors.contrastWith(scheme.defenceColor),
+                      : scheme.defenceColor.contrast,
                     ),
                   ),
                 ),
@@ -145,36 +152,49 @@ class PresetTile extends StatelessWidget {
         onTap: (){
           final themeController = stage.themeController;
           final themer = bloc.themer;
+          final dimensionsController = stage.dimensionsController;
 
+          // Hard Copy map
           Map<CSPage,Color> perPage = <CSPage,Color>{
             for(final entry in scheme.perPage.entries)
               entry.key: Color(entry.value.value),
-          };  // Copy map
+          }; 
+
+          dimensionsController.dimensions.set(
+            dimensionsController.dimensions.value.copyWith(
+              panelHorizontalPaddingOpened: 
+                CSStage.horizontalPaddingOpened(scheme.colorPlace),
+            ),
+          );
 
           themeController.colorPlace.set(scheme.colorPlace);
+
           if(scheme.light){
-            if(themeController.brightness.autoDark.value!){
-              themeController.brightness.autoDark.set(false);
-            }
-            themeController.brightness.brightness.setDistinct(Brightness.light);
+            themeController.brightness.autoDark.set(false);
+            themeController.brightness.brightness.set(Brightness.light);
             // need to be set before editing colors
           
             themeController.currentColorsController.editPanelPrimary(scheme.primary);
             themeController.currentColorsController.editMainPagedPrimaries(perPage);
             themeController.currentColorsController.editAccent(scheme.accent);
           } else {
-            if(themeController.brightness.autoDark.value!){
-              themeController.brightness.autoDark.set(false);
-            } 
-            themeController.brightness.brightness.setDistinct(Brightness.dark);
-            themeController.brightness.darkStyle.setDistinct(scheme.darkStyle!);
+            themeController.brightness.autoDark.set(false);
+            themeController.brightness.brightness.set(Brightness.dark);
+            themeController.brightness.darkStyle.set(scheme.darkStyle);
             // need to be set before editing colors
 
             themeController.currentColorsController.editPanelPrimary(scheme.primary);
             themeController.currentColorsController.editMainPagedPrimaries(perPage);
             themeController.currentColorsController.editAccent(scheme.accent);
           }
-          themer.defenceColor.set(scheme.defenceColor);
+          themer.resolvableDefenceColor.set(
+            themer.resolvableDefenceColor.value.copyWithState(
+              color: scheme.defenceColor, 
+              isLight: scheme.light, 
+              isFlat: scheme.colorPlace.isTexts, 
+              darkStyle: scheme.darkStyle,
+            ),
+          );
           stage.closePanel();
         },
       ),

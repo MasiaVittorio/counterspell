@@ -115,13 +115,12 @@ class _MaterialApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: theme,
         title: 'CounterSpell',
-        home: const DividerTheme(
+        home: DividerTheme(
           data: DividerThemeData(
             endIndent: 16, indent: 16, space: 2,
-            // color: theme.colorScheme.onSurface,
-            // TODO: check divider color
+            color: theme.colorScheme.onSurface.withOpacity(0.15),
           ),
-          child: CSHomePage(key: WidgetsKeys.homePage),
+          child: const CSHomePage(key: WidgetsKeys.homePage),
         ),
       ),
     );

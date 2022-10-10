@@ -6,12 +6,22 @@ import 'package:counter_spell_new/core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CSActions {
-  static void _launchUrl(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+  static void _launchUrl(String url, {LaunchMode launchMode = LaunchMode.externalApplication}) async {
+    if (await canLaunchUrl(
+      Uri.parse(url),
+    )) {
+      await launchUrl(
+        Uri.parse(url),
+        mode: launchMode,
+      );
     } else {
-      print('Could not launch $url');
+      debugPrint('Could not launch $url');
     }
+  }
+
+  
+  static void krarkulator() async {
+    _launchUrl(Platform.isAndroid ? CSUris.krarkulatorPlayStore: CSUris.krarkulatorPlayStore);
   }
 
   static void review() async {

@@ -15,6 +15,10 @@ class CrazySpecificStuff extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const ListTile(
+            title: Text("Krarkulator"),
+            onTap: CSActions.krarkulator,
+          ),
           for(final item in items)
             ListTile(
               title: Text(item.title),
@@ -29,7 +33,7 @@ class CrazySpecificStuff extends StatelessWidget {
   }
 
   static const List<GenericAlert> items = [
-    KrarkAndSakashima(),
+    // KrarkAndSakashima(),
     ZndrspltOkaum(),
     ManaPool(),
   ];

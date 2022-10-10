@@ -1,4 +1,7 @@
 class CSUris{
+  static const String krarkulatorPlayStore = 'https://play.google.com/store/apps/details?id=com.mvsidereusart.krarkulator';
+
+
   static const String playStore = 'https://play.google.com/store/apps/details?id=com.mvsidereusart.counterspell';
   static const String appStore = "https://itunes.apple.com/us/app/counterspell/id1459235508?l=it&ls=1&mt=8";
   

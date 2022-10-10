@@ -30,7 +30,7 @@ class ThemeColors extends StatelessWidget {
           if(!unlocked) Positioned.fill(child: GestureDetector(
             onTap: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
             child: Container(
-              color: theme.scaffoldBackgroundColor
+              color: theme.canvasColor
                   .withOpacity(0.5),
             ),
           ),),

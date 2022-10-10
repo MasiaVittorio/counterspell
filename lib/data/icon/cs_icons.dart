@@ -2,6 +2,7 @@ import 'package:counter_spell_new/core.dart';
 
 class CSIcons {
 
+  static const IconData delete = Icons.delete_forever;
   static const IconData artist = ManaIcons.artist_nib;
   static const IconData attackOne = McIcons.sword;
   static const IconData attackTwo = McIcons.sword_cross;

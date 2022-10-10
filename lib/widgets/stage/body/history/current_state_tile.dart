@@ -30,7 +30,7 @@ class CurrentStateTile extends StatelessWidget {
           for(final name in names) if(gameState.names.contains(name))
             CurrentStatePlayerTile(
               gameState, 
-              stateIndex,
+              // stateIndex,
               name: name,
               pagesColor: pagesColor,
               tileSize: tileSize,  
@@ -46,14 +46,17 @@ class CurrentStateTile extends StatelessWidget {
 
 class CurrentStatePlayerTile extends StatelessWidget {
   final String name;
-  final int stateIndex;
+  // final int stateIndex;
   final GameState gameState;
   final double? tileSize;
   final Color defenceColor;
   final Map<String?, Counter> counters;
   final Map<CSPage,Color> pagesColor;
 
-  const CurrentStatePlayerTile(this.gameState, this.stateIndex, {
+  const CurrentStatePlayerTile(
+    this.gameState, 
+    // this.stateIndex, 
+  {
     required this.name,
     required this.tileSize,
     required this.defenceColor,
@@ -63,7 +66,7 @@ class CurrentStatePlayerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PlayerState playerState = gameState.players[name]!.states[stateIndex];
+    final PlayerState playerState = gameState.players[name]!.states.last;
     const double width = CSSizes.minTileSize;
 
     return Container(

@@ -25,6 +25,7 @@ class CSGameState {
   bool get forwardable => futureActions.value.isNotEmpty;
   bool get backable => pastLenght > 1;
   bool forgettable(int index) => pastLenght > index + 1;
+  bool mergableWithPrevious(int index) => pastLenght > index + 2;
   int get pastLenght => gameState.value.historyLenght;
 
 
@@ -117,14 +118,15 @@ class CSGameState {
 
   void forgetPast(int index){
     //index = 0 -> as if was back
+    final indexFromHistory = index + 1;
     if(forgettable(index)){
       final dataList = parent.gameHistory.data;
       //this reversed index is due to the list UI: it goes from right to 
       //left so it needs to be reversed. also, since the last data is always a null data
       //(the current state without changes), we start at 1 instead of 0
-      final outgoingData = dataList[dataList.length - 2 - index];
+      final outgoingData = dataList[dataList.length - 1 - indexFromHistory];
       _forgetPast(index);
-      parent.gameHistory.forget(index+1, outgoingData, dataList.first.time);
+      parent.gameHistory.animateForget(indexFromHistory, outgoingData, dataList.first.time);
     }
   }
 
@@ -138,6 +140,65 @@ class CSGameState {
     futureActions.value.removeLast();
     for(int i=0; i< index; ++i){
       //"< " important
+      _forward();
+    }
+    futureActions.refresh();
+
+  }
+
+  void mergeWithPrevious(int indexFromHistory){
+    // index from history will be 1 for the first element (would be zero for 
+    // the current state but that does not represent an action so it doesn't 
+    // make sense to call merge from 0)
+    // if 6 actions were made, history data will be 7 because there are 6 actions and a current game state
+    // 
+    int index = indexFromHistory - 1;
+    if(mergableWithPrevious(index)){
+      final dataList = parent.gameHistory.data;
+      //this reversed index is due to the list UI: it goes from right to 
+      //left so it needs to be reversed. also, since the last data is always a null data
+      //(the current state without changes), we start at 1 instead of 0
+      final outgoingDataThat = dataList[dataList.length - 1 - indexFromHistory];
+      final outgoingDataPrev = dataList[dataList.length - 1 - (indexFromHistory+1)];
+      _mergeWithPrevious(index);
+      parent.gameHistory.animateForget(indexFromHistory, outgoingDataThat, dataList.first.time);
+      parent.gameHistory.animateForget(indexFromHistory, outgoingDataPrev, dataList.first.time);
+      parent.gameHistory.animateRemember(indexFromHistory);
+    }
+  }
+
+  void _mergeWithPrevious(int index){
+    // this index: 0 means the most recent action, not the most recent state
+    assert(mergableWithPrevious(index));
+
+    for(int i=0; i<=index+1; ++i){
+      //"<=" important
+      _back();
+      // so index == 0 means we will go back twice, which makes sense
+    }
+
+    final prev = futureActions.value.removeLast();
+    final that = futureActions.value.removeLast();
+    final names = parent.gameGroup.orderedNames.value.toSet();
+
+    final initialState = GameState.fromJson(gameState.value.toJson());
+    final evolvedState = GameState.fromJson(initialState.toJson());
+    evolvedState.applyAction(prev);
+    evolvedState.applyAction(that);
+
+
+    final mergedAction = GameAction.fromPlayerActions({
+      for(final name in names)
+        name: PlayerAction.fromStates(
+          previous: initialState.players[name]!.states.last, 
+          next: evolvedState.players[name]!.states.last, 
+          counterMap: parent.gameAction.currentCounterMap,
+        ),
+    });
+
+    _applyAction(mergedAction, clearFutures: false);
+
+    for(int i=0; i<= index-1; ++i){
       _forward();
     }
     futureActions.refresh();

@@ -15,10 +15,10 @@ const allTypesEnabled = {
 };
 
 class DamageTypes{
-  static Map<DamageType, bool?> fromPages(Map<CSPage?,bool> pages) => {
-    DamageType.commanderCast: pages[CSPage.commanderCast],
+  static Map<DamageType, bool> fromPages(Map<CSPage?,bool> pages) => {
+    DamageType.commanderCast: pages[CSPage.commanderCast] ?? true,
     DamageType.life: true,
-    DamageType.commanderDamage: pages[CSPage.commanderDamage],
-    DamageType.counters: pages[CSPage.counters],
+    DamageType.commanderDamage: pages[CSPage.commanderDamage] ?? true,
+    DamageType.counters: pages[CSPage.counters] ?? true,
   };
 }

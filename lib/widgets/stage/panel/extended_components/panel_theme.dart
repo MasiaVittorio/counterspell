@@ -17,7 +17,6 @@ class PanelTheme extends StatelessWidget {
         bottomHeight: 100,
         children: <Widget>[
           const OverallTheme(),
-          // TODO: better page when not unlocked
           if(!unlocked) ListTile(
             title: const Text("Unlock theme engine"),
             subtitle: const Text("Support the developer"),

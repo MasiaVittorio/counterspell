@@ -1,119 +1,215 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:counter_spell_new/core.dart';
 
+class Changelog extends StatelessWidget {
 
-class Changelog extends StatefulWidget {
-
-  const Changelog();
-  // TODO: better changelog
-
-  static const double height = 450.0;
-
-  @override
-  State<Changelog> createState() => _ChangelogState();
-}
-
-class _ChangelogState extends State<Changelog> {
-
-  Change? change;
-  bool showing = false;
+  const Changelog({Key? key}) : super(key: key);
+  static const double height = 500.0;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    // final stage = Stage.of(context);
+    return HeaderedAlert(
+      "Changelog", 
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Space.vertical(20),
+          ...(<Widget>[
+            for(final version in ChangeLogData.list)
+              VersionCard(version),
+          ].separateWith(const ChangeSeparator(12, left: 40))),
+          const Space.vertical(20),
+        ],
+      ),
+      customBackground: (theme) => theme.canvasColor,
+    );
+  }
+}
 
+class VersionCard extends StatelessWidget {
+
+  const VersionCard(this.version, {Key? key}) : super(key: key);
+
+  final Version version;
+
+  @override
+  Widget build(BuildContext context) {
+    return SubSection([
+      SectionTitle(version.name),
+      const Space.vertical(12),
+      if(version.changes.isNotEmpty)
+        if(version.changes.length == 1)
+          ChangeTile(version.changes.first, ListRole.only)
+        else ...(<Widget>[
+            ChangeTile(version.changes.first, ListRole.first),
+            for(int i=1; i<version.changes.length - 1; ++i)
+              ChangeTile(version.changes[i], ListRole.middle),
+            ChangeTile(version.changes.last, ListRole.last),
+          ].separateWith(const ChangeSeparator(8))),
+      const Space.vertical(12),
+    ]);
+  }
+}
+
+class ChangeSeparator extends StatelessWidget {
+
+  const ChangeSeparator(this.height, {
+    this.left = 30,
+    Key? key,
+  }) : super(key: key);
+
+  final double height;
+  final double left;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeBorder(
+      SizedBox(height: height, width: double.infinity,),
+      left: left,
+    );
+  }
+}
+
+class ChangeBorder extends StatelessWidget {
+
+  const ChangeBorder(this.child, {
+    Key? key,
+    this.top = 0,
+    this.bottom = 0,
+    this.left = 30,
+  }): height = null,
+      super(key: key);
+
+  const ChangeBorder.first(this.child, {
+    Key? key,
+    this.top = 12,
+    this.bottom = 0,
+    this.left = 30,
+  }): height = null,
+      super(key: key);
+
+  const ChangeBorder.last(this.child, {
+    Key? key,
+    this.top = 0,
+    this.height = 12,
+    this.left = 30,
+  }): bottom = null,
+      super(key: key);
+
+  final Widget child;
+
+  final double? top;
+  final double? bottom;
+  final double? height;
+  final double left;
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
-      fit: StackFit.expand,
-      alignment: Alignment.bottomCenter,
-      children: <Widget>[
-        HeaderedAlert("What's new",
-          child: Column(children: <Widget>[
-            for(final Version version in ChangeLogData.list)
-              _VersionWidget(version, (chg) => setState((){
-                change = chg;
-                showing = true;
-              })),
-          ],),
-        ),
-        IgnorePointer(
-          ignoring: !showing,
-          child: GestureDetector(
-            onTapDown: (_) => setState((){
-              showing = false;
-            }),
-            child: AnimatedContainer(
-              duration: CSAnimations.fast,
-              color: theme.scaffoldBackgroundColor.withOpacity(
-                showing ? 0.5 : 0.0
-              ),
-            ),
+      fit: StackFit.loose,
+      children: [
+        Positioned(
+          top: top, bottom: bottom, height: height,
+          left: left, width: 1, 
+          child: Container(
+            color: Theme.of(context).colorScheme.outline.withOpacity(0.15),
           ),
         ),
-        if(change != null) Positioned(
-          bottom: 0.0,
-          left: 0.0,
-          right: 0.0,
-          child: IgnorePointer(
-            ignoring: !showing,
-            child: AnimatedListed(
-              duration: CSAnimations.fast,
-              listed: showing,
-              overlapSizeAndOpacity: 1.0,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: _Description(change),
-              ),
-            ),
-          ),
+        child,
+      ],
+    );
+  }
+}
+
+enum ListRole {
+  first,
+  last,
+  only,
+  middle,
+}
+
+class ChangeTile extends StatelessWidget {
+  
+  const ChangeTile(this.change, this.role, {Key? key}) : super(key: key);
+
+  final Change change;
+  final ListRole role;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    switch (role) {
+      case ListRole.first:
+        return ChangeBorder.first(content(theme));
+      case ListRole.last:
+        return ChangeBorder.last(content(theme));
+      case ListRole.middle:
+        return ChangeBorder(content(theme));
+      case ListRole.only:
+        return content(theme);
+    }
+  }
+
+  Column content(ThemeData theme) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: typeAndTitle(theme),
         ),
+        if(change.description != null)
+          description(theme),
       ],
     );
   }
 
-}
+  Widget typeAndTitle(ThemeData theme) => Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      type(theme),
+      Expanded(child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+        child: Text(change.title),
+      )),
+    ],
+  );
 
-class _Description extends StatelessWidget {
-
-  final Change? change;
-
-  const _Description(this.change);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.canvasColor,
-        boxShadow: const [CSShadows.shadow],
+  Widget type(ThemeData theme) => Container(
+    padding: const EdgeInsets.all(8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      border: Border.all(
+        color: theme.colorScheme.outline.withOpacity(0.15),
+        width: 1,
       ),
-      padding: const EdgeInsets.all(10.0),
-      child: ListTile(
-        title: Text(change!.title),
-        subtitle: Text(change!.description!),
+      color: theme.canvasColor
+    ),
+    child: Text(change.changeType.name),
+  );
+
+  Widget description(ThemeData theme) => Padding(
+    padding: EdgeInsets.only(
+      left: (<ListRole,double>{
+        ListRole.first: 30.0 + 12,
+        ListRole.middle: 30.0 + 12,
+        ListRole.last: 24,
+        ListRole.only: 24,
+      })[role] ?? 0.0, 
+      right: 12, 
+      top: 6, 
+      bottom: 6,
+    ),
+    child: Text(
+      change.description ?? "", 
+      style: theme.textTheme.caption?.copyWith(
+        fontWeight: FontWeight.normal,
+        fontStyle: FontStyle.italic,
+        color: theme.textTheme.caption?.color?.withOpacity(0.8),
       ),
-    );
-  }
-}
+    ),
+  );
 
-class _VersionWidget extends StatelessWidget {
-  final Version version;
-  final void Function(Change) showChange;
-
-  const _VersionWidget(this.version, this.showChange);
-
-  @override
-  Widget build(BuildContext context) {
-    return Section([
-      SectionTitle(version.name),
-      for(final change in version.changes)
-        if(change.important)
-          ListTile(
-            dense: true,
-            title: Text("${ChangeTypes.nameOf(change.changeType)}: ${change.title}"),
-            trailing: change.description != null ? const Icon(Icons.keyboard_arrow_right) : null,
-            onTap: change.description != null ? () => showChange(change) : null,
-          ),
-    ]);
-  }
 }
 

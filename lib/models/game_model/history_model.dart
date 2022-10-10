@@ -12,7 +12,7 @@ class GameHistoryData{
     GameState gameState,
     int previous,
     int next, { 
-      required Map<DamageType, bool?> types,
+      required Map<DamageType, bool> types,
       required Map<String?,Counter> counterMap,
     }
   ) {
@@ -46,9 +46,9 @@ class GameHistoryData{
   }
 }
 
-class PlayerHistoryChange{
-  final int? previous;
-  final int? next;
+class PlayerHistoryChange {
+  final int previous;
+  final int next;
   final DamageType type;
   final bool? attack;
   final Counter? counter;
@@ -70,7 +70,7 @@ class PlayerHistoryChange{
     required String playerName,
     required PlayerState previous, 
     required PlayerState next,
-    required Map<DamageType, bool?> types,
+    required Map<DamageType, bool> types,
     required Map<String,PlayerState> previousOthers,
     required Map<String,PlayerState> nextOthers,
     required Map<String,bool?> havingPartnerB,

@@ -7,7 +7,7 @@ class HistoryPlayerTile extends StatelessWidget {
   // Data
   final DateTime? time;
   final DateTime? firstTime;
-  final List<PlayerHistoryChange>? changes;
+  final List<PlayerHistoryChange> changes;
   final bool partnerB;
   //===================================
   // UI resources
@@ -15,7 +15,7 @@ class HistoryPlayerTile extends StatelessWidget {
   // final double coreTileSize;
   final Color defenceColor;
   final Map<String?, Counter> counters;
-  final Map<CSPage?,Color?>? pageColors;
+  final Map<CSPage,Color> pageColors;
 
   //===================================
   // Constructor
@@ -36,7 +36,7 @@ class HistoryPlayerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final children = <Widget>[
-      for(final change in changes!)
+      for(final change in changes)
         if(!(
           change.type == DamageType.counters 
           && !counters.containsKey(change.counter!.longName)
@@ -84,7 +84,7 @@ class _Change extends StatelessWidget {
   final bool partnerB;
 
   final Color defenceColor;
-  final Map<CSPage?,Color?>? pageColors;
+  final Map<CSPage,Color> pageColors;
   // final Map<String, Counter> counters;
   
   const _Change(this.change, {
@@ -97,7 +97,7 @@ class _Change extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final int increment = change.next! - change.previous!;
+    final int increment = change.next - change.previous;
     final String text = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
     final String subText = "= ${change.next}${( partnerB 
         &&

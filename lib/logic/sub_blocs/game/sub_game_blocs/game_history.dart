@@ -53,14 +53,14 @@ class CSGameHistory {
   //========================
   // Actions
 
-  void forward() => remember(1);
-  void remember(int index) => listController.insert(
+  void forward() => animateRemember(1);
+  void animateRemember(int index) => listController.insert(
     index, 
     duration: CSAnimations.fast,
   );
 
-  void back(GameHistoryData outgoingData, DateTime? firstTime) => forget(1, outgoingData, firstTime);
-  void forget(int index, GameHistoryData outgoingData, DateTime? firstTime) => listController.remove(
+  void back(GameHistoryData outgoingData, DateTime? firstTime) => animateForget(1, outgoingData, firstTime);
+  void animateForget(int index, GameHistoryData outgoingData, DateTime? firstTime) => listController.remove(
     //0 = nonsense (the first column on the right is the current state)
     //1 = latest game action
     //history data lenght = first game action
@@ -86,6 +86,7 @@ class CSGameHistory {
         havePartnerB: <String,bool?>{for(final entry in parent.gameState.gameState.value.players.entries)
           entry.key: entry.value.havePartnerB,
         },
+        dataLenght: data.length,
       )
     ),
     duration: CSAnimations.fast,

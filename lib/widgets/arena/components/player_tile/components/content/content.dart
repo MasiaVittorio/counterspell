@@ -22,7 +22,7 @@ class AptContent extends StatelessWidget {
   });
 
   //Business Logic
-  final CSBloc? bloc;
+  final CSBloc bloc;
 
   //Actual Game State
   final GameState? gameState;
@@ -59,7 +59,7 @@ class AptContent extends StatelessWidget {
   bool get leftButton => rightInfo;
   bool get rightInfo => rightInfoFromButtonAlignment(buttonAlignment);
 
-  Widget get expandedBody => Expanded(child: bloc!.settings.arenaSettings.scrollOverTap.buildChild(
+  Widget get expandedBody => Expanded(child: bloc.settings.arenaSettings.scrollOverTap.buildChild(
     child: body,
     builder: (context, scrolls, child) => IgnorePointer(
       ignoring: !scrolls,
@@ -139,7 +139,7 @@ class AptContent extends StatelessWidget {
     whoIsDefending: whoIsDefending,
   );
 
-  Widget get role => bloc!.settings.arenaSettings.scrollOverTap.build((context, scroll) => scroll
+  Widget get role => bloc.settings.arenaSettings.scrollOverTap.build((context, scroll) => scroll
     ? AptRole(
       name: name,
       rawSelected: rawSelected,

@@ -4,7 +4,7 @@ class CSWidgets{
   static const Widget divider = Divider(height: 2.0, endIndent: 16, indent: 16);
 
   static const Widget collapsedPanelDivider = _CollapsedPanelDivider();
-  static const Icon deleteIcon = Icon(Icons.delete_forever, color: CSColors.delete,);
+  static const Icon deleteIcon = Icon(CSIcons.delete, color: CSColors.delete,);
   static const Widget height5 = SizedBox(height: 5.0, width: 0.0,);
   static const Widget width5 = SizedBox(width: 5.0, height: 0.0,);
   static const Widget height10 = SizedBox(height: 10.0, width: 0.0,);

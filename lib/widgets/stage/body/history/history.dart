@@ -44,7 +44,6 @@ class BodyHistory extends StatelessWidget {
                 firstTime: history.data.first.time,
                 index: index,
                 tileSize: tileSize,
-                // coreTileSize: coreTileSize,
                 avoidInteraction: false,
                 defenceColor: defenceColor,
                 pageColors: pageColors,
@@ -54,6 +53,7 @@ class BodyHistory extends StatelessWidget {
                   for(final entry in gameState.players.entries)
                     entry.key: entry.value.havePartnerB,
                 },
+                dataLenght: history.data.length, 
               ),
             ),
           initialItemCount: game.gameState.gameState.value.historyLenght,

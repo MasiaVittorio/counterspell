@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell_new/widgets/alerts/specifics/menu/settings/backups/backups.dart';
 
 
 class SettingsData extends StatelessWidget {
@@ -23,7 +24,7 @@ class SettingsData extends StatelessWidget {
           ButtonTile.transparent(
             text: "Backup & restore",
             icon: McIcons.content_save_outline,
-            onTap: () => stage!.showAlert(const BackupsAlert(), size: 500),
+            onTap: () => stage!.showAlert(const BackupsAlertNew(), size: 500),
           )
         else
           const ButtonTile.transparent(

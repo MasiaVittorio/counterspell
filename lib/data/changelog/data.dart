@@ -4,7 +4,7 @@ class ChangeLogData {
   static const int lastBigChange = 86;
 
   static const List<Version> list = <Version>[
-    // Version("3.2.9", <Change>[
+    // Version("3.2.10", <Change>[
     //   Change(
     //     ChangeType.newFeature,
     //     "",
@@ -13,6 +13,16 @@ class ChangeLogData {
     //     null,
     //   ),
     // ],),
+    Version("3.2.9", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "",
+        //TODO: document the update
+        // (always leave this todo here to remind you to edit the changelog)
+        null,
+      ),
+    ],),
+    // TODO: absolutely change the backup option, prompt the user to save the backup file somewhere else and then prompt them to import it from somewhere else
     Version(
       "3.2.8",
       <Change>[

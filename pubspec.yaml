@@ -13,7 +13,7 @@ description: A new Flutter project.
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 
 # RICORDA DI CAMBIARE QUESTO NUMERO IN SETTINGSBLOC STATIC VERSIONCODE
-version: 3.2.8+90
+version: 3.2.9+91
 # RICORDA DI CAMBIARE QUESTO NUMERO IN SETTINGSBLOC STATIC VERSIONCODE
 # PER IL CHANGELOG
 

@@ -168,7 +168,7 @@ class _GenerateGamesBackupCardState extends State<GenerateGamesBackupCard> {
         message = "Error saving the file";
         error = true;
       } else {
-        message = "Saved in $savedPath";
+        message = "Saved";
         error = false;
       }
     });

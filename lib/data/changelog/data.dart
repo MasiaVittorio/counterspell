@@ -1,7 +1,7 @@
 import 'package:counter_spell_new/models/changelog/model.dart';
 
 class ChangeLogData {
-  static const int lastBigChange = 86;
+  static const int lastBigChange = 91;
 
   static const List<Version> list = <Version>[
     // Version("3.2.10", <Change>[
@@ -15,20 +15,32 @@ class ChangeLogData {
     // ],),
     Version("3.2.9", <Change>[
       Change(
+        ChangeType.change,
+        "New backups system",
+        "The app doesn't automatically save the backups anywhere, you have to save them externally yourself and provide the backup files later for restoring purposes. This prevents accidental loss of data when uninstalling the app without giving the app permission to write to any folder by itself.",
+      ),
+      Change(
+        ChangeType.change,
+        "New dedicated Krarkulator app",
+        "The small version of the krark & sakashima helper inside CounterSpell is gone, a link is provided to download the dedicated Krarkulator app (much better and completely free, of course).",
+      ),
+      Change(
         ChangeType.newFeature,
-        "",
-        //TODO: document the update
-        // (always leave this todo here to remind you to edit the changelog)
-        null,
+        "Merge history elements",
+        "You can now merge an action with the previous one to clean up the history screen. Sleek!",
+      ),
+      Change(
+        ChangeType.newFeature,
+        "New interactive tutorial",
+        'Check it out in the menu panel, you\'ll find it in the "info" tab!',
       ),
     ],),
-    // TODO: absolutely change the backup option, prompt the user to save the backup file somewhere else and then prompt them to import it from somewhere else
     Version(
       "3.2.8",
       <Change>[
         Change(
           ChangeType.change,
-          "Changed internal storage directory for ",
+          "Changed internal storage directory for the backups",
           null,
         ),
       ],

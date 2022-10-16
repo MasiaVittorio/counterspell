@@ -88,6 +88,7 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
         error = true;
         message = result.errorMessage ?? "Unknown error";
       });
+      return;
     }
 
     final newPastGames = result.games; 
@@ -102,20 +103,22 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
         error = true;
         message = "The file was empty";
       });
+      return;
+    } else {
+      stage.showAlert(
+        ConfirmAlert(
+          action: () async {
+            final res = await logic.backups.restorePastGames(newPastGames);
+            if(res){
+              file.delete();
+            }
+          },
+          warningText: "Merge ${newPastGames.length} games from this file?",
+        ),
+        size: ConfirmAlert.height,
+      );
     }
 
-    stage.showAlert(
-      ConfirmAlert(
-        action: () async {
-          final res = await logic.backups.restorePastGames(newPastGames);
-          if(res){
-            file.delete();
-          }
-        },
-        warningText: "Merge ${newPastGames.length} games from this file?",
-      ),
-      size: ConfirmAlert.height,
-    );
   }
 
 }

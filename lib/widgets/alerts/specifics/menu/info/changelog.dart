@@ -154,6 +154,7 @@ class ChangeTile extends StatelessWidget {
   Column content(ThemeData theme) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -203,6 +204,7 @@ class ChangeTile extends StatelessWidget {
     ),
     child: Text(
       change.description ?? "", 
+      textAlign: TextAlign.start,
       style: theme.textTheme.caption?.copyWith(
         fontWeight: FontWeight.normal,
         fontStyle: FontStyle.italic,

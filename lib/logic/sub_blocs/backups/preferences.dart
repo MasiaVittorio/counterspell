@@ -18,7 +18,19 @@ extension CSBackupPreferences on CSBackupBloc {
   // Methods
 
   Future<bool> savePreferences() async {
-    if (!ready.value) return false;
+    final newFile = await createPreferencesBackup();
+
+     if(newFile == null){
+      return false;
+    } else {
+      savedPreferences.value.add(newFile);
+      savedPreferences.refresh();
+      return true;
+    }
+  }
+
+  Future<File?> createPreferencesBackup() async {
+    if (!ready.value) return null;
 
     final now = DateTime.now();
     File newFile = File(path.join(
@@ -36,7 +48,7 @@ extension CSBackupPreferences on CSBackupBloc {
       ));
       if (i == 100) {
         // print("100 files in the same second? wtf??");
-        return false;
+        return null;
       }
     }
 
@@ -96,10 +108,8 @@ extension CSBackupPreferences on CSBackupBloc {
       }),
     );
 
-    savedPreferences.value.add(newFile);
-    savedPreferences.refresh();
+    return newFile;
 
-    return true;
   }
 
   Future<bool> deletePreference(int index) async {
@@ -117,165 +127,185 @@ extension CSBackupPreferences on CSBackupBloc {
     if (!ready.value) return false;
     if (!(await Permission.storage.isGranted)) return false;
 
-    try {
-      String content = await file.readAsString();
-
-      dynamic map = jsonDecode(content);
-
-      if (map is Map) {
-        final settings = parent.settings;
-        final arena = settings.arenaSettings;
-        final gameSettings = settings.gameSettings;
-        final app = settings.appSettings;
-        final scroll = settings.scrollSettings;
-        final game = parent.game;
-        final group = game.gameGroup;
-        final themer = parent.themer;
-
-        {
-          final blocVar = themer.savedSchemes;
-          final val = map[blocVar.key];
-          if (val is Map) {
-            for (final e in val.entries) {
-              if (e.key is String && e.value is Map) {
-                blocVar.value[e.key] = CSColorScheme.fromJson(e.value);
-              }
-            }
-            blocVar.refresh();
-          }
-        }
-
-        {
-          final blocVar = group.savedNames;
-          final val = map[blocVar.key];
-          if (val is List) {
-            for (final name in val) {
-              if (name is String) blocVar.value.add(name);
-            }
-            blocVar.refresh();
-          }
-        }
-
-        {
-          final blocVar = gameSettings.timeMode;
-          final val = map[blocVar.key];
-          if (val is String) {
-            if (TimeModes.reversed.containsKey(val)) {
-              blocVar.set(TimeModes.fromName(val));
-            }
-          }
-        }
-
-        {
-          final blocVar = app.alwaysOnDisplay;
-          final val = map[blocVar.key];
-          if (val is bool) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = app.wantVibrate;
-          final val = map[blocVar.key];
-          if (val is bool) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = arena.scrollOverTap;
-          final val = map[blocVar.key];
-          if (val is bool) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = arena.verticalScroll;
-          final val = map[blocVar.key];
-          if (val is bool) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = arena.verticalTap;
-          final val = map[blocVar.key];
-          if (val is bool) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = scroll.confirmDelay;
-          final val = map[blocVar.key];
-          if (val is int) {
-            blocVar.set(Duration(milliseconds: val));
-          }
-        }
-
-        {
-          final blocVar = scroll.scrollSensitivity;
-          final val = map[blocVar.key];
-          if (val is double) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = scroll.scroll1StaticValue;
-          final val = map[blocVar.key];
-          if (val is double) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = scroll.scrollDynamicSpeedValue;
-          final val = map[blocVar.key];
-          if (val is double) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = scroll.scrollPreBoostValue;
-          final val = map[blocVar.key];
-          if (val is double) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = scroll.scroll1Static;
-          final val = map[blocVar.key];
-          if (val is bool) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = scroll.scrollDynamicSpeed;
-          final val = map[blocVar.key];
-          if (val is bool) {
-            blocVar.set(val);
-          }
-        }
-
-        {
-          final blocVar = scroll.scrollPreBoost;
-          final val = map[blocVar.key];
-          if (val is bool) {
-            blocVar.set(val);
-          }
-        }
-      } else {
-        return false;
-      }
-    } catch (e) {
+    final map = await readPreferences(file);
+    if (map != null) {
+      return await restorePreferences(map);
+    } else {
       return false;
     }
-
-    return true;
   }
+
+  Future<Map?> readPreferences(File file) async {
+    try {
+      String content = await file.readAsString();
+      dynamic map = jsonDecode(content);
+      if(map is Map){
+        return map;
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<bool> restorePreferences(Map map) async {
+    bool errorRestoring = false;
+    try {
+      final settings = parent.settings;
+      final arena = settings.arenaSettings;
+      final gameSettings = settings.gameSettings;
+      final app = settings.appSettings;
+      final scroll = settings.scrollSettings;
+      final game = parent.game;
+      final group = game.gameGroup;
+      final themer = parent.themer;
+
+      {
+        final blocVar = themer.savedSchemes;
+        final val = map[blocVar.key];
+        if (val is Map) {
+          for (final e in val.entries) {
+            if (e.key is String && e.value is Map) {
+              blocVar.value[e.key] = CSColorScheme.fromJson(e.value);
+            }
+          }
+          blocVar.refresh();
+        }
+      }
+
+      {
+        final blocVar = group.savedNames;
+        final val = map[blocVar.key];
+        if (val is List) {
+          for (final name in val) {
+            if (name is String) blocVar.value.add(name);
+          }
+          blocVar.refresh();
+        }
+      }
+
+      {
+        final blocVar = gameSettings.timeMode;
+        final val = map[blocVar.key];
+        if (val is String) {
+          if (TimeModes.reversed.containsKey(val)) {
+            blocVar.set(TimeModes.fromName(val));
+          }
+        }
+      }
+
+      {
+        final blocVar = app.alwaysOnDisplay;
+        final val = map[blocVar.key];
+        if (val is bool) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = app.wantVibrate;
+        final val = map[blocVar.key];
+        if (val is bool) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = arena.scrollOverTap;
+        final val = map[blocVar.key];
+        if (val is bool) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = arena.verticalScroll;
+        final val = map[blocVar.key];
+        if (val is bool) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = arena.verticalTap;
+        final val = map[blocVar.key];
+        if (val is bool) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = scroll.confirmDelay;
+        final val = map[blocVar.key];
+        if (val is int) {
+          blocVar.set(Duration(milliseconds: val));
+        }
+      }
+
+      {
+        final blocVar = scroll.scrollSensitivity;
+        final val = map[blocVar.key];
+        if (val is double) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = scroll.scroll1StaticValue;
+        final val = map[blocVar.key];
+        if (val is double) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = scroll.scrollDynamicSpeedValue;
+        final val = map[blocVar.key];
+        if (val is double) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = scroll.scrollPreBoostValue;
+        final val = map[blocVar.key];
+        if (val is double) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = scroll.scroll1Static;
+        final val = map[blocVar.key];
+        if (val is bool) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = scroll.scrollDynamicSpeed;
+        final val = map[blocVar.key];
+        if (val is bool) {
+          blocVar.set(val);
+        }
+      }
+
+      {
+        final blocVar = scroll.scrollPreBoost;
+        final val = map[blocVar.key];
+        if (val is bool) {
+          blocVar.set(val);
+        }
+      }
+    } catch (e) {
+      errorRestoring = true;
+    }
+
+    if(errorRestoring){
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }

@@ -16,12 +16,12 @@ class CastInfo extends StatelessWidget {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: SingleChildScrollView(
         physics: Stage.of(context)!.panelController.panelScrollPhysics(),
-        child: SizedBox(
+        child: const SizedBox(
           height: height,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const <Widget>[
+            children: <Widget>[
               InfoSection(
                 first: true,
                 icon: Icon(Icons.person_outline),

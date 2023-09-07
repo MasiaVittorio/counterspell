@@ -24,8 +24,8 @@ class OverallTheme extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const PanelTitle("Base Theme", centered: false),
-              SubSection([
-                Row(children: const <Widget>[
+              const SubSection([
+                Row(children: <Widget>[
                   Expanded(child: StagePanelSingleColor()),
                   Expanded(child: StageAccentColor()),
                 ],),

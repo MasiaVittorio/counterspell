@@ -53,7 +53,7 @@ class LocalDelayer extends StatelessWidget {
               onPrimaryColor: primaryContrast,
               accentColor: accentColor,
               onAccentColor: themeData.colorScheme.onPrimary,
-              style: themeData.primaryTextTheme.bodyText2,
+              style: themeData.primaryTextTheme.bodyMedium,
 
               height: CSSizes.barSize,
               duration: confirmDelay,

@@ -12,4 +12,3 @@ export 'quotes.dart';
 export 'stuff_i_like.dart';
 export 'support.dart';
 export 'telegram.dart';
-export '../settings/backups.dart';

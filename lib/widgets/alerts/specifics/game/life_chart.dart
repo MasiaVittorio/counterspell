@@ -15,7 +15,7 @@
 //     final CSBloc bloc = CSBloc.of(context);
 //     final ThemeData theme = Theme.of(context);
 //     final Color bkgColor = theme.scaffoldBackgroundColor;
-//     final TextStyle? textStyle = theme.textTheme.bodyText2; 
+//     final TextStyle? textStyle = theme.textTheme.bodyMedium; 
 
 //     return Material(child: bloc.game.gameState.gameState.build((_, gameState){
 //       final List<Player?> players = gameState.players.values.toList();
@@ -83,7 +83,7 @@
 //   Widget build(BuildContext context) {
 //     final ThemeData theme = Theme.of(context);
 //     final Color canvasColor = theme.canvasColor;
-//     final TextStyle? textStyle = theme.textTheme.bodyText2; 
+//     final TextStyle? textStyle = theme.textTheme.bodyMedium; 
 
 //     final List<Player?> players = [
 //       for(final player in gameState.players.values)

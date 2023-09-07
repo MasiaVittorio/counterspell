@@ -87,7 +87,7 @@
 //                 Text(
 //                   widget.title(this._value),
 //                   style: widget.bigTitle 
-//                     ? Theme.of(context).textTheme.bodyText1
+//                     ? Theme.of(context).textTheme.bodyLarge
 //                     : null,
 //                 ),
                 

@@ -8,8 +8,8 @@ class TutorialProFeatures extends StatelessWidget {
     
     final StageData? stage = Stage.of(context);
     final ThemeData theme = Theme.of(context);
-    final TextStyle body1 = theme.textTheme.bodyText2!;
-    final TextStyle subhead = theme.textTheme.subtitle1!;
+    final TextStyle body1 = theme.textTheme.bodyMedium!;
+    final TextStyle subhead = theme.textTheme.titleMedium!;
     final TextStyle subheadBold = subhead.copyWith(fontWeight: body1.fontWeight!.increment.increment);
 
     void showSupport() => this.showSupport(stage!);

@@ -63,6 +63,14 @@ extension CSBackupPreferences on CSBackupBloc {
     final group = game.gameGroup;
     final themer = parent.themer;
 
+    // TODO: update what gets saved as preferences and what gets restore
+
+    // SAVED NAMES? I MEAN WHEN TYPING IT INTO THE PLAYGROUP EDITOR BRINGS UP THE AUTOCOMPLETE HINTS
+
+    // FONT SIZE?
+
+    // TODO: arena font size?
+    
     await newFile.writeAsString(
       jsonEncode(<String, dynamic>{
         themer.savedSchemes.key: <String, Map<String, dynamic>>{

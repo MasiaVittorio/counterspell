@@ -205,10 +205,10 @@ class ChangeTile extends StatelessWidget {
     child: Text(
       change.description ?? "", 
       textAlign: TextAlign.start,
-      style: theme.textTheme.caption?.copyWith(
+      style: theme.textTheme.bodySmall?.copyWith(
         fontWeight: FontWeight.normal,
         fontStyle: FontStyle.italic,
-        color: theme.textTheme.caption?.color?.withOpacity(0.8),
+        color: theme.textTheme.bodySmall?.color?.withOpacity(0.8),
       ),
     ),
   );

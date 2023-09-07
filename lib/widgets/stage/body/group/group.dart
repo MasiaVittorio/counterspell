@@ -113,7 +113,7 @@ class BodyGroup extends StatelessWidget {
               for(final couple in partition(children,2))
                 Row(children: (){
                   final cpl = <Widget>[
-                    Expanded(child: couple![0]),
+                    Expanded(child: couple[0]),
                     if(couple.length == 2)
                       Expanded(child: couple[1],)
                   ];

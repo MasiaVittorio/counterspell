@@ -61,7 +61,7 @@ class PagePie extends StatelessWidget {
         ? FontWeight.w700
         : null,
       color: !enabled[page]!
-        ? theme.textTheme.bodyText2!.color!.withOpacity(0.5)
+        ? theme.textTheme.bodyMedium!.color!.withOpacity(0.5)
         : null,
     ), 
   );

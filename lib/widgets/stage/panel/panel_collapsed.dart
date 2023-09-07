@@ -236,7 +236,7 @@ class _DelayerPanel extends StatelessWidget {
             onPrimaryColor: canvasContrast,
             accentColor: accentColor,
             onAccentColor: themeData.colorScheme.onPrimary,
-            style: themeData.primaryTextTheme.bodyText2,
+            style: themeData.primaryTextTheme.bodyMedium,
 
             height: CSSizes.barSize,
             duration: confirmDelay,

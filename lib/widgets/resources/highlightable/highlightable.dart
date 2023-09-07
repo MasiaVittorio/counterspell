@@ -84,7 +84,7 @@ with SingleTickerProviderStateMixin {
 
     if(widget.showOverlay){
 
-      final overlay = Overlay.of(context);
+      final overlay = Overlay.maybeOf(context);
       if(overlay == null) return;
 
       final box = context.findRenderObject() as RenderBox;

@@ -8,8 +8,8 @@ class ArenaSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HeaderedAlert("Arena Settings",
-      child: Column(children: const <Widget>[
+    return const HeaderedAlert("Arena Settings",
+      child: Column(children: <Widget>[
         Section(<Widget>[
           SectionTitle("Gestures"),
           Gestures(),

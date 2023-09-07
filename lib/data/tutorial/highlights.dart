@@ -107,7 +107,7 @@ class _SwipeDownExampleAlert extends StatelessWidget {
       "Dialog example",
       alreadyScrollableChild: true, 
       customBackground: (theme) => theme.canvasColor,
-      child: Column(children: const <Widget>[
+      child: const Column(children: <Widget>[
         Space.vertical(PanelTitle.height + 10),
         SubSection([ListTile(title: Text(
           "Dialogs are shown in the same panel that you can otherwise scroll up to open the settings.",

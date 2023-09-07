@@ -4,7 +4,7 @@ class ChangeLogData {
   static const int lastBigChange = 91;
 
   static const List<Version> list = <Version>[
-    // Version("3.2.10", <Change>[
+    // Version("3.2.11", <Change>[
     //   Change(
     //     ChangeType.newFeature,
     //     "",
@@ -13,6 +13,13 @@ class ChangeLogData {
     //     null,
     //   ),
     // ],),
+    Version("3.2.10", <Change>[
+      Change(
+        ChangeType.change,
+        "Changed arena long press with tap gestures",
+        "If you hold down a tap gesture while in arena mode, the increments will gradually increase from a +1/-1 to a +5/-5 and eventually a +10/-10 per-tick.",
+      ),
+    ],),
     Version("3.2.9", <Change>[
       Change(
         ChangeType.change,

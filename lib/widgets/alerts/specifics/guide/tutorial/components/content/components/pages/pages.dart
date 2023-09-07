@@ -25,7 +25,7 @@ class _TutorialPagesState extends State<TutorialPages> {
     final Map<CSPage,Color?>? colors = stage.themeController.derived.mainPageToPrimaryColor.value;
 
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subtitle1!;
+    final TextStyle subhead = theme.textTheme.titleMedium!;
     final TextStyle subheadBold = subhead.copyWith(fontWeight: subhead.fontWeight!.increment.increment);
 
     final double collapsedPanelSize = stage.dimensionsController.dimensions.value.collapsedPanelSize;

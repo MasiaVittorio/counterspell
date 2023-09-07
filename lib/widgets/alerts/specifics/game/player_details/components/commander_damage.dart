@@ -72,7 +72,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                       leading: Icon(CSIcons.attackTwo, color: attackColor,),
                       trailing: Text(
                         "A: ${gameState.players[otherName]!.states.last.damages[name]!.a} // B: ${gameState.players[otherName]!.states.last.damages[name]!.b}", 
-                        style: textTheme.bodyText1!.copyWith(color: attackColor),
+                        style: textTheme.bodyLarge!.copyWith(color: attackColor),
                       ),
                       onTap:() => DetailsUtils.partnerDamage(stage, name, otherName, bloc, gameState),
                     )
@@ -82,7 +82,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                       leading: Icon(CSIcons.attackOne, color: attackColor,),
                       trailing: Text(
                         "${gameState.players[otherName]!.states.last.damages[name]!.a}", 
-                        style: textTheme.bodyText1!.copyWith(color: attackColor),
+                        style: textTheme.bodyLarge!.copyWith(color: attackColor),
                       ),
                       onTap:() => DetailsUtils.insertDamage(false, false, stage, name, otherName, bloc, gameState),
                     ),
@@ -96,7 +96,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                           leading: Icon(CSIcons.defenceFilled, color: defenceColor,),
                           trailing: Text(
                             "A: ${playerState.damages[otherName]!.a} // B: ${playerState.damages[otherName]!.b}", 
-                            style: textTheme.bodyText1!.copyWith(color: defenceColor),
+                            style: textTheme.bodyLarge!.copyWith(color: defenceColor),
                           ),
                           onTap:() => DetailsUtils.partnerDamage(stage, otherName, name, bloc, gameState),
                         )
@@ -106,7 +106,7 @@ class PlayerDetailsDamage extends StatelessWidget {
                         leading: Icon(CSIcons.defenceFilled, color: defenceColor,),
                         trailing: Text(
                           "${playerState.damages[otherName]!.a}", 
-                          style: textTheme.bodyText1!.copyWith(color: defenceColor),
+                          style: textTheme.bodyLarge!.copyWith(color: defenceColor),
                         ),
                         onTap:() => DetailsUtils.insertDamage(false, false, stage, otherName, name, bloc, gameState),
                       ),

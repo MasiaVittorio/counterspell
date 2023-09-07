@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart' show IterableExtension;
 import 'package:counter_spell_new/core.dart';
 
 class PTileUtils {
@@ -45,7 +44,12 @@ class PTileUtils {
     } else if(action is PACombined){
       //this should occur when we have a commander damage with lifelink
       //from the attacker to himself
-      final PADamage? damage = action.actions.firstWhereOrNull((pa)=> pa is PADamage) as PADamage?;
+      PADamage? damage;
+      for(final pa in action.actions){
+        if(pa is PADamage){
+          damage = pa;
+        }
+      }
       if(damage != null){
         return damage.increment;
       }

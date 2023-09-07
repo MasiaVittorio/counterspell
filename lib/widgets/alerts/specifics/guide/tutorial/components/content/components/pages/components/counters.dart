@@ -8,7 +8,7 @@ class TutorialCounters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle subhead = theme.textTheme.subtitle1!;
+    final TextStyle subhead = theme.textTheme.titleMedium!;
 
     return IconTheme.merge(
       data: const IconThemeData(opacity: 0.63),

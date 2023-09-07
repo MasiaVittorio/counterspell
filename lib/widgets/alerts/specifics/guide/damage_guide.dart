@@ -21,12 +21,12 @@ class DamageInfo extends StatelessWidget {
       child: SingleChildScrollView(
         physics: Stage.of(context)!.panelController.panelScrollPhysics(),
         primary: true,
-        child: SizedBox(
+        child: const SizedBox(
           height: height,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const <Widget>[
+            children: <Widget>[
               _AttackerSection(),
               InfoSection(
                 icon: Icon(McIcons.account_multiple_outline),

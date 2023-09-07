@@ -248,7 +248,7 @@ class _LifeChartLiveState extends State<_LifeChartLive> with TickerProviderState
     ThemeData theme,
   ){
 
-    final TextStyle style = theme.textTheme.bodyText2!.copyWith(
+    final TextStyle style = theme.textTheme.bodyMedium!.copyWith(
       color: theme.colorScheme.onSurface.withOpacity(0.5),
     );
 

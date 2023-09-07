@@ -11,7 +11,7 @@ class PlayerDetailsInfo extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final stage = bloc.stage;
     final counters = bloc.game.gameAction.counterSet.list;
-    final body2 = theme.textTheme.bodyText1;
+    final body2 = theme.textTheme.bodyLarge;
     return stage.themeController.derived.mainPageToPrimaryColor.build((_, colors)
         => PlayerBuilder(index, (gameState, names, name, playerState, player){
 
@@ -68,7 +68,7 @@ class PlayerDetailsInfo extends StatelessWidget {
 
                 ], 2))
                   Row(children: <Widget>[
-                    for(final element in couple!)
+                    for(final element in couple)
                       Expanded(child: element,)
                   ],)
               ]),

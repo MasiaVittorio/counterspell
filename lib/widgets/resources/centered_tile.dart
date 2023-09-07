@@ -37,12 +37,12 @@ class CenteredTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DefaultTextStyle(
-                  style: theme.textTheme.subtitle1!,
+                  style: theme.textTheme.titleMedium!,
                   child: title,
                 ),
                 DefaultTextStyle(
-                  style: theme.textTheme.bodyText2!
-                    .copyWith(color: theme.textTheme.caption!.color),
+                  style: theme.textTheme.bodyMedium!
+                    .copyWith(color: theme.textTheme.bodySmall!.color),
                   child: subtitle,
                 ),
               ],

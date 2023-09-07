@@ -20,9 +20,9 @@ class StuffILikeAlert extends StatelessWidget {
           "CounterSpell will not send you any notification to bring you to this page",
           flat: true,
         ),
-        child: Column(
+        child: const Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             _Note(
                 "This page's content may change only when the app gets updated"),
             CSWidgets.height10,

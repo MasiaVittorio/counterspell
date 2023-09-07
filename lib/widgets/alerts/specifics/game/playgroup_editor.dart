@@ -187,9 +187,7 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
         child: Material(
           color: backgroundColor,
           child: group.orderedNames.build((_, names) {
-
             final Widget textField = buildTextField(names);
-
             return Column(
               children: <Widget>[
                 const Material(child: PanelTitle("Edit Playgroup")),
@@ -202,7 +200,6 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
                         shrinkWrap: true,
                         itemCount: names.length,
                         onReorder: group.onReorder,
-                        // physics: const BouncingScrollPhysics(),
                         physics: Stage.of(context)!
                           .panelController.panelScrollPhysics(),
                         proxyDecorator: (child, _, animation) => AnimatedBuilder(

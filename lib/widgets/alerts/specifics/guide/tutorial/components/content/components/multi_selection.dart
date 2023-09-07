@@ -34,7 +34,7 @@ class _TutorialSelectionState extends State<TutorialSelection> {
       // ? Colors.black 
       // : Colors.white;
     const textStyle = TextStyle(fontSize: 0.26 * CSSizes.minTileSize);
-    // final TextStyle subhead = theme.textTheme.subtitle1;
+    // final TextStyle subhead = theme.textTheme.titleMedium;
 
     final theme = Theme.of(context);
     final Color subColor = theme.scaffoldBackgroundColor;

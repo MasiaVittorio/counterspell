@@ -112,10 +112,10 @@ class _UIBody extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(16.0),
-      child: Column(
+      child: const Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(Icons.keyboard_arrow_up),
           Text(
             "To get back to the tutorial...", 
@@ -160,7 +160,7 @@ class SubExplanation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle? subhead = theme.textTheme.subtitle1;
+    final TextStyle? subhead = theme.textTheme.titleMedium;
 
     List<Widget?> rowChildren = <Widget>[
       for(final child in children)

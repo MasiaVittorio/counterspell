@@ -108,6 +108,7 @@ class PlayerGestures {
 
   static void tapOnlyArena(
     String name, {
+    required int increment,
     required CSBloc bloc,
     required CSPage page,
     required String? whoIsAttacking,
@@ -182,7 +183,7 @@ class PlayerGestures {
     }
 
     /// and now edit the value
-    bloc.scroller.editVal(topHalf ? 1 : -1);
+    bloc.scroller.editVal(topHalf ? increment : -increment);
     bloc.scroller.registerCallbackOnNextAutoConfirm("arena commander damage",
         () {
       bloc.stage.mainPagesController.goToPage(CSPage.life);

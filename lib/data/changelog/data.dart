@@ -4,7 +4,7 @@ class ChangeLogData {
   static const int lastBigChange = 91;
 
   static const List<Version> list = <Version>[
-    // Version("3.2.11", <Change>[
+    // Version("3.2.12", <Change>[
     //   Change(
     //     ChangeType.newFeature,
     //     "",
@@ -13,6 +13,13 @@ class ChangeLogData {
     //     null,
     //   ),
     // ],),
+    Version("3.2.11", <Change>[
+      Change(
+        ChangeType.change,
+        "Android 13 compatibility fix.",
+        null,
+      ),
+    ],),
     Version("3.2.10", <Change>[
       Change(
         ChangeType.change,

@@ -10,6 +10,6 @@ abstract class GenericAlert extends StatelessWidget {
   final String title;
   final Set<String> tags;
 
-  const GenericAlert(this.size, this.title, this.tags);
+  const GenericAlert(this.size, this.title, this.tags, {super.key});
 }
 

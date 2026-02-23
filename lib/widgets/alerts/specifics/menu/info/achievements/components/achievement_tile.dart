@@ -1,4 +1,4 @@
-// import 'package:counter_spell_new/core.dart';
+// import 'package:counter_spell/core.dart';
 
 // class AchievementTile extends StatelessWidget {
   
@@ -83,7 +83,7 @@
 //                 child: Container(
 //                   height: barHeight,
 //                   decoration: BoxDecoration(
-//                     color: textColor.withOpacity(0.10),
+//                     color: textColor.withValues(alpha: 0.10),
 //                     borderRadius: BorderRadius.circular(50)
 //                   ),
 //                 ),

@@ -1,10 +1,9 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class ConfirmEmail extends StatelessWidget {
+  const ConfirmEmail({super.key});
 
-  const ConfirmEmail();
-
-  static const double height =  ConfirmAlert.height;
+  static const double height = ConfirmAlert.height;
 
   @override
   Widget build(BuildContext context) {

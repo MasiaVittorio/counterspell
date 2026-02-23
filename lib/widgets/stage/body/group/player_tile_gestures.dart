@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class PlayerGestures {
   static void _returnToLife(CSBloc bloc) {
@@ -179,7 +179,6 @@ class PlayerGestures {
         actionBloc.defendingPlayer.setDistinct(name);
 
         break;
-      default:
     }
 
     /// and now edit the value

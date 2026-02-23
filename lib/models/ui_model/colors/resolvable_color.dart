@@ -1,31 +1,26 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class ResolvableColor {
-
   static ResolvableColor get def => ResolvableColor(
-    light: FlatSolidColor(
-      flat: CSColorScheme.defaultGoogleLight.defenceColor,
-      solid: CSColorScheme.defaultLight.defenceColor,
-    ), 
-    dark: DarkStyleColor(
-      nightBlack: FlatSolidColor(
-        flat: CSColorScheme.defaultGoogleNightBlack.defenceColor,
-        solid: CSColorScheme.defaultNightBlack.defenceColor
-      ),
-      nightBlue: FlatSolidColor(
-        flat: CSColorScheme.defaultGoogleNightBlue.defenceColor,
-        solid: CSColorScheme.defaultNightBlue.defenceColor
-      ),
-      dark: FlatSolidColor(
-        flat: CSColorScheme.defaultGoogleDark.defenceColor,
-        solid: CSColorScheme.defaultDark.defenceColor
-      ),
-      amoled: FlatSolidColor(
-        flat: CSColorScheme.defaultGoogleAmoled.defenceColor,
-        solid: CSColorScheme.defaultAmoled.defenceColor
-      ),
-    ),
-  ); 
+        light: FlatSolidColor(
+          flat: CSColorScheme.defaultGoogleLight.defenceColor,
+          solid: CSColorScheme.defaultLight.defenceColor,
+        ),
+        dark: DarkStyleColor(
+          nightBlack: FlatSolidColor(
+              flat: CSColorScheme.defaultGoogleNightBlack.defenceColor,
+              solid: CSColorScheme.defaultNightBlack.defenceColor),
+          nightBlue: FlatSolidColor(
+              flat: CSColorScheme.defaultGoogleNightBlue.defenceColor,
+              solid: CSColorScheme.defaultNightBlue.defenceColor),
+          dark: FlatSolidColor(
+              flat: CSColorScheme.defaultGoogleDark.defenceColor,
+              solid: CSColorScheme.defaultDark.defenceColor),
+          amoled: FlatSolidColor(
+              flat: CSColorScheme.defaultGoogleAmoled.defenceColor,
+              solid: CSColorScheme.defaultAmoled.defenceColor),
+        ),
+      );
 
   final FlatSolidColor light;
   final DarkStyleColor dark;
@@ -39,47 +34,50 @@ class ResolvableColor {
     required Brightness brightness,
     required StageColorPlace place,
     required DarkStyle darkStyle,
-  })=> resolve(
-    isLight: brightness.isLight, 
-    isFlat: place.isTexts, 
-    darkStyle: darkStyle,
-  );
+  }) =>
+      resolve(
+        isLight: brightness.isLight,
+        isFlat: place.isTexts,
+        darkStyle: darkStyle,
+      );
 
   Color resolveStage(StageData stage) => resolveState(
-    brightness: stage.themeController.brightness.brightness.value, 
-    place: stage.themeController.colorPlace.value, 
-    darkStyle: stage.themeController.brightness.darkStyle.value,
-  );
+        brightness: stage.themeController.brightness.brightness.value,
+        place: stage.themeController.colorPlace.value,
+        darkStyle: stage.themeController.brightness.darkStyle.value,
+      );
 
   Widget build({
-    required StageData stage, 
+    required StageData stage,
     required Widget Function(BuildContext, Color) builder,
-  }) => buildFromDefenceColor(stage: stage, color: this, builder: builder);
+  }) =>
+      buildFromDefenceColor(stage: stage, color: this, builder: builder);
 
   static Widget buildFromDefenceColor({
-    required StageData stage, 
+    required StageData stage,
     required ResolvableColor color,
     required Widget Function(BuildContext, Color) builder,
-  }){
+  }) {
     return BlocVar.build3<Brightness, StageColorPlace, DarkStyle>(
-      stage.themeController.brightness.brightness, 
-      stage.themeController.colorPlace, 
-      stage.themeController.brightness.darkStyle, 
-      builder: (context, brightness, place, darkStyle)
-        => builder(context, color.resolveState(
-          brightness: brightness, 
-          place: place, 
-          darkStyle: darkStyle,
-        )),
+      stage.themeController.brightness.brightness,
+      stage.themeController.colorPlace,
+      stage.themeController.brightness.darkStyle,
+      builder: (context, brightness, place, darkStyle) => builder(
+          context,
+          color.resolveState(
+            brightness: brightness,
+            place: place,
+            darkStyle: darkStyle,
+          )),
     );
-  } 
+  }
 
   Color resolve({
     required bool isLight,
     required bool isFlat,
     required DarkStyle darkStyle,
-  }){
-    if(isLight){
+  }) {
+    if (isLight) {
       return light.resolve(isFlat);
     } else {
       return dark.resolve(isFlat: isFlat, darkStyle: darkStyle);
@@ -91,16 +89,18 @@ class ResolvableColor {
     required bool isLight,
     required bool isFlat,
     required DarkStyle darkStyle,
-  }){
-    if(isLight){
-      return copyWith(light: light.copyWithState(
-        color: color, 
+  }) {
+    if (isLight) {
+      return copyWith(
+          light: light.copyWithState(
+        color: color,
         isFlat: isFlat,
       ));
     } else {
-      return copyWith(dark: dark.copyWithState(
-        color: color, 
-        isFlat: isFlat, 
+      return copyWith(
+          dark: dark.copyWithState(
+        color: color,
+        isFlat: isFlat,
         darkStyle: darkStyle,
       ));
     }
@@ -125,8 +125,8 @@ class ResolvableColor {
 
   factory ResolvableColor.fromMap(Map<String, dynamic> map) {
     return ResolvableColor(
-      light: FlatSolidColor.fromMap(map['light'] as Map<String,dynamic>),
-      dark: DarkStyleColor.fromMap(map['dark'] as Map<String,dynamic>),
+      light: FlatSolidColor.fromMap(map['light'] as Map<String, dynamic>),
+      dark: DarkStyleColor.fromMap(map['dark'] as Map<String, dynamic>),
     );
   }
 
@@ -136,10 +136,8 @@ class ResolvableColor {
   @override
   bool operator ==(covariant ResolvableColor other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.light == light &&
-      other.dark == dark;
+
+    return other.light == light && other.dark == dark;
   }
 
   @override
@@ -147,7 +145,6 @@ class ResolvableColor {
 }
 
 class FlatSolidColor {
-  
   final Color flat;
   final Color solid;
 
@@ -156,15 +153,15 @@ class FlatSolidColor {
     required this.solid,
   });
 
-  Color resolve(bool isFlat){
+  Color resolve(bool isFlat) {
     return isFlat ? flat : solid;
   }
 
   FlatSolidColor copyWithState({
     required Color color,
     required bool isFlat,
-  }){
-    if(isFlat){
+  }) {
+    if (isFlat) {
       return copyWith(flat: color);
     } else {
       return copyWith(solid: color);
@@ -183,8 +180,8 @@ class FlatSolidColor {
 
   Map<String, dynamic> get map {
     return <String, dynamic>{
-      'flat': flat.value,
-      'solid': solid.value,
+      'flat': flat.toARGB32(),
+      'solid': solid.toARGB32(),
     };
   }
 
@@ -201,20 +198,15 @@ class FlatSolidColor {
   @override
   bool operator ==(covariant FlatSolidColor other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.flat == flat &&
-      other.solid == solid;
+
+    return other.flat == flat && other.solid == solid;
   }
 
   @override
   int get hashCode => flat.hashCode ^ solid.hashCode;
 }
 
-
-
 class DarkStyleColor {
-  
   final FlatSolidColor dark;
   final FlatSolidColor nightBlack;
   final FlatSolidColor nightBlue;
@@ -230,7 +222,7 @@ class DarkStyleColor {
   Color resolve({
     required bool isFlat,
     required DarkStyle darkStyle,
-  }){
+  }) {
     switch (darkStyle) {
       case DarkStyle.amoled:
         return amoled.resolve(isFlat);
@@ -240,8 +232,6 @@ class DarkStyleColor {
         return nightBlack.resolve(isFlat);
       case DarkStyle.nightBlue:
         return nightBlue.resolve(isFlat);
-      default:
-        return nightBlue.resolve(isFlat);
     }
   }
 
@@ -249,7 +239,7 @@ class DarkStyleColor {
     required Color color,
     required bool isFlat,
     required DarkStyle darkStyle,
-  }){
+  }) {
     switch (darkStyle) {
       case DarkStyle.amoled:
         return copyWith(
@@ -267,8 +257,6 @@ class DarkStyleColor {
         return copyWith(
           dark: dark.copyWithState(color: color, isFlat: isFlat),
         );
-      default:
-        return copyWith();
     }
   }
 
@@ -312,19 +300,18 @@ class DarkStyleColor {
   @override
   bool operator ==(covariant DarkStyleColor other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.dark == dark &&
-      other.nightBlack == nightBlack &&
-      other.nightBlue == nightBlue &&
-      other.amoled == amoled;
+
+    return other.dark == dark &&
+        other.nightBlack == nightBlack &&
+        other.nightBlue == nightBlue &&
+        other.amoled == amoled;
   }
 
   @override
   int get hashCode {
     return dark.hashCode ^
-      nightBlack.hashCode ^
-      nightBlue.hashCode ^
-      amoled.hashCode;
+        nightBlack.hashCode ^
+        nightBlue.hashCode ^
+        amoled.hashCode;
   }
 }

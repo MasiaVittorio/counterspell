@@ -26,7 +26,7 @@ class ArenaLayout extends StatelessWidget {
   final bool animateCenterWidget;
   final Widget? betweenGridAndCenter;
 
-  const ArenaLayout({
+  const ArenaLayout({super.key, 
     required this.layoutType,
     required this.childBuilder,
     required this.howManyChildren,

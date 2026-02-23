@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Counter Spell New</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -11,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>counterspell</string>
+	<string>counter_spell</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -39,17 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>NSContactsUsageDescription</key>
-	<string>External libraries provide APIs that need this disclaimer, but the app does not use this permission</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>External libraries provide APIs that need this disclaimer, but the app does not use this permission</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>External libraries provide APIs that need this disclaimer, but the app does not use this permission</string>
-	<key>NSMotionUsageDescription</key>
-	<string>External libraries provide APIs that need this disclaimer, but the app does not use this permission</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>External libraries provide APIs that need this disclaimer, but the app does not use this permission</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

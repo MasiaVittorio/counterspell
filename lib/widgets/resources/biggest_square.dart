@@ -2,22 +2,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-
 class BiggestSquareAtLeast extends StatelessWidget {
-
-  const BiggestSquareAtLeast({required this.child, Key? key }) : super(key: key);
+  const BiggestSquareAtLeast({required this.child, super.key});
 
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (_, constraints){
+    return LayoutBuilder(builder: (_, constraints) {
       final size = min(constraints.maxHeight, constraints.maxWidth);
       return ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight: constraints.maxHeight,
           maxWidth: constraints.maxWidth,
-          minHeight: size, minWidth: size,
+          minHeight: size,
+          minWidth: size,
         ),
         child: child,
       );
@@ -25,14 +24,12 @@ class BiggestSquareAtLeast extends StatelessWidget {
   }
 }
 
-
 class BiggestSquareBuilder extends StatelessWidget {
-
   const BiggestSquareBuilder({
-    required this.builder, 
+    required this.builder,
     required this.scale,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget Function(BuildContext, double) builder;
 
@@ -40,11 +37,11 @@ class BiggestSquareBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (_, constraints){
+    return LayoutBuilder(builder: (context, constraints) {
       final size = min(constraints.maxHeight, constraints.maxWidth) * scale;
       return SizedBox.square(
         dimension: size,
-        child: builder(_, size),
+        child: builder(context, size),
       );
     });
   }

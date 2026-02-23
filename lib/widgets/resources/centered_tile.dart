@@ -1,8 +1,7 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class CenteredTile extends StatelessWidget {
-  const CenteredTile({
+  const CenteredTile({super.key, 
     required this.title,
     required this.subtitle,
     required this.leading,
@@ -25,29 +24,34 @@ class CenteredTile extends StatelessWidget {
         child: Container(
           height: CSSizes.collapsedPanelSize,
           alignment: Alignment.center,
-          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Container(
-              height: CSSizes.collapsedPanelSize,
-              width: CSSizes.collapsedPanelSize,
-              alignment: Alignment.center,
-              child: leading,
-            ),
-            Expanded(child: Column(
-              mainAxisSize: MainAxisSize.min, 
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DefaultTextStyle(
-                  style: theme.textTheme.titleMedium!,
-                  child: title,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: CSSizes.collapsedPanelSize,
+                width: CSSizes.collapsedPanelSize,
+                alignment: Alignment.center,
+                child: leading,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DefaultTextStyle(
+                      style: theme.textTheme.titleMedium!,
+                      child: title,
+                    ),
+                    DefaultTextStyle(
+                      style: theme.textTheme.bodyMedium!
+                          .copyWith(color: theme.textTheme.bodySmall!.color),
+                      child: subtitle,
+                    ),
+                  ],
                 ),
-                DefaultTextStyle(
-                  style: theme.textTheme.bodyMedium!
-                    .copyWith(color: theme.textTheme.bodySmall!.color),
-                  child: subtitle,
-                ),
-              ],
-            ),),
-          ],),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,14 +1,14 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'extended_components/all.dart';
 
-
 class CSPanelExtended extends StatelessWidget {
-  const CSPanelExtended({Key? key}): super(key: key);
+  const CSPanelExtended({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const StageExtendedPanel<SettingsPage>(
-      children: <SettingsPage,Widget>{
+      children: <SettingsPage, Widget>{
         SettingsPage.game: PanelGame(),
         SettingsPage.info: PanelInfo(),
         SettingsPage.settings: PanelSettings(),
@@ -19,6 +19,4 @@ class CSPanelExtended extends StatelessWidget {
   }
 
   static Color transparent(ThemeData theme) => Colors.transparent;
-
 }
-

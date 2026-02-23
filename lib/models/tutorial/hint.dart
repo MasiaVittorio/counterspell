@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
 
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class Hint {
-
   const Hint({
     required this.text,
     required this.page,
@@ -33,30 +32,27 @@ class Hint {
   @override
   bool operator ==(covariant Hint other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.text == text &&
-      other.page == page &&
-      other.icon == icon &&
-      other.autoHighlight == autoHighlight &&
-      other.manualHighlight == manualHighlight &&
-      other.selfHighlight == selfHighlight;
+
+    return other.text == text &&
+        other.page == page &&
+        other.icon == icon &&
+        other.autoHighlight == autoHighlight &&
+        other.manualHighlight == manualHighlight &&
+        other.selfHighlight == selfHighlight;
   }
 
   @override
   int get hashCode {
     return text.hashCode ^
-      page.hashCode ^
-      icon.hashCode ^
-      autoHighlight.hashCode ^
-      manualHighlight.hashCode ^
-      selfHighlight.hashCode;
+        page.hashCode ^
+        icon.hashCode ^
+        autoHighlight.hashCode ^
+        manualHighlight.hashCode ^
+        selfHighlight.hashCode;
   }
 }
 
-
 class HintIcon extends StatelessWidget {
-
   const HintIcon(this.icon, {super.key});
 
   final IconData icon;
@@ -65,16 +61,17 @@ class HintIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color contrast = DefaultTextStyle.of(context).style.color!;
     return Material(
-      color: contrast.withOpacity(0.1),
+      color: contrast.withValues(alpha: 0.1),
       borderRadius: BorderRadius.circular(10),
-      child: LayoutBuilder(builder: (_, c) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Icon(
-          icon, 
-          color: contrast,
-          size: min(40, c.maxHeight - 8), 
-        ),
-      )),
-    );  
+      child: LayoutBuilder(
+          builder: (_, c) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Icon(
+                  icon,
+                  color: contrast,
+                  size: min(40, c.maxHeight - 8),
+                ),
+              )),
+    );
   }
 }

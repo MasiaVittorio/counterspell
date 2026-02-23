@@ -1,6 +1,6 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
-enum CSPage{
+enum CSPage {
   history,
   counters,
   life,
@@ -8,8 +8,7 @@ enum CSPage{
   commanderCast,
 }
 
-class CSPages{
-  
+class CSPages {
   static String? nameOf(CSPage? page) => _pageToStringMap[page!];
 
   static CSPage? fromName(String? name) => _stringToPageMap[name!];
@@ -25,7 +24,7 @@ class CSPages{
     CSPage.commanderDamage: "CSPage.commanderDamage",
     CSPage.commanderCast: "CSPage.commanderCast",
   };
-  static const Map<String,CSPage> _stringToPageMap = {
+  static const Map<String, CSPage> _stringToPageMap = {
     "CSPage.history": CSPage.history,
     "CSPage.counters": CSPage.counters,
     "CSPage.life": CSPage.life,
@@ -50,16 +49,15 @@ class CSPages{
   };
 
   static const Map<DamageType, CSPage> damageToPage = {
-    DamageType.counters : CSPage.counters,
-    DamageType.life : CSPage.life,
-    DamageType.commanderCast : CSPage.commanderCast,
+    DamageType.counters: CSPage.counters,
+    DamageType.life: CSPage.life,
+    DamageType.commanderCast: CSPage.commanderCast,
     DamageType.commanderDamage: CSPage.commanderDamage,
   };
   static CSPage? fromDamage(DamageType type) => damageToPage[type];
-
 }
 
-enum SettingsPage{
+enum SettingsPage {
   game,
   settings,
   info,
@@ -70,13 +68,13 @@ class SettingsPages {
   static String? nameOf(SettingsPage? page) => _names[page!];
   static SettingsPage? fromName(String? name) => _pages[name!];
 
-  static const Map<SettingsPage,String> _names = <SettingsPage,String>{
+  static const Map<SettingsPage, String> _names = <SettingsPage, String>{
     SettingsPage.game: "SettingsPage.game",
     SettingsPage.settings: "SettingsPage.settings",
     SettingsPage.info: "SettingsPage.info",
     SettingsPage.theme: "SettingsPage.theme",
   };
-  static const Map<String,SettingsPage> _pages = <String,SettingsPage>{
+  static const Map<String, SettingsPage> _pages = <String, SettingsPage>{
     "SettingsPage.game": SettingsPage.game,
     "SettingsPage.settings": SettingsPage.settings,
     "SettingsPage.info": SettingsPage.info,

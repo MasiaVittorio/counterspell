@@ -1,8 +1,6 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class TutorialCounters extends StatelessWidget {
-
   const TutorialCounters({super.key});
 
   @override
@@ -21,8 +19,12 @@ class TutorialCounters extends StatelessWidget {
               text: TextSpan(
                 style: subhead,
                 children: <TextSpan>[
-                  TextSpan(text: "Independently", style: TextStyle(fontWeight: subhead.fontWeight!.increment.increment)),
-                  const TextSpan(text: " tracks a variety of different counters"),
+                  TextSpan(
+                      text: "Independently",
+                      style: TextStyle(
+                          fontWeight: subhead.fontWeight!.increment.increment)),
+                  const TextSpan(
+                      text: " tracks a variety of different counters"),
                 ],
               ),
               textAlign: TextAlign.center,
@@ -33,8 +35,7 @@ class TutorialCounters extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                for(final counter in Counter.defaultList)
-                  Icon(counter.icon)
+                for (final counter in Counter.defaultList) Icon(counter.icon)
               ],
             ),
           ),

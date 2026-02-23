@@ -1,7 +1,6 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class CSIcons {
-
   static const IconData delete = Icons.delete_forever;
   static const IconData artist = ManaIcons.artist_nib;
   static const IconData attackOne = McIcons.sword;
@@ -31,9 +30,8 @@ class CSIcons {
   static const IconData experienceFilled = CSIconsRaw.experience_filled;
 
   static const IconData counterSpell = CSIconsRaw.counterspell;
-  
-  static const IconData leaderboards = McIcons.license;
 
+  static const IconData leaderboards = McIcons.license;
 
   // static const double ideal_counterspell_size = 20;
   // static const double ideal_counterspell_bottom_padding_ratio = 0.09549150281;
@@ -46,26 +44,25 @@ class CSIcons {
     CSPage.life: lifeOutlined,
     CSPage.commanderDamage: damageOutlined,
     CSPage.commanderCast: castOutlined,
-  }; 
+  };
   static const Map<CSPage, IconData> pageIconsFilled = {
     CSPage.history: historyFilled,
     CSPage.counters: counterFilled,
     CSPage.life: lifeFilled,
     CSPage.commanderDamage: damageFilled,
     CSPage.commanderCast: castFilled,
-  }; 
+  };
 
   static const Map<DamageType, IconData> typeIconsFilled = {
     DamageType.counters: counterFilled,
     DamageType.life: lifeFilled,
     DamageType.commanderDamage: damageFilled,
     DamageType.commanderCast: castFilled,
-  }; 
+  };
   static const Map<DamageType, IconData> typeIconsOutlined = {
     DamageType.counters: counterOutlined,
     DamageType.life: lifeOutlined,
     DamageType.commanderDamage: damageOutlined,
     DamageType.commanderCast: castOutlined,
-  }; 
-
+  };
 }

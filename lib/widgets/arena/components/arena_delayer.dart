@@ -1,7 +1,6 @@
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
-import 'package:counter_spell_new/widgets/stage/panel/collapsed_components/delayer.dart';
-
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/arena/arena_widget.dart';
+import 'package:counter_spell/widgets/stage/panel/collapsed_components/delayer.dart';
 
 class ArenaDelayer extends StatefulWidget {
   final Duration duration;
@@ -14,7 +13,7 @@ class ArenaDelayer extends StatefulWidget {
 
   final AnimationStatusListener animationListener;
 
-  const ArenaDelayer({
+  const ArenaDelayer({super.key, 
     required this.onManualCancel,
     required this.onManualConfirm,
     required this.delayerController,
@@ -27,8 +26,8 @@ class ArenaDelayer extends StatefulWidget {
   State createState() => _ArenaDelayerState();
 }
 
-class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMixin {
-
+class _ArenaDelayerState extends State<ArenaDelayer>
+    with TickerProviderStateMixin {
   AnimationController? controller;
 
   @override
@@ -41,11 +40,9 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
       startListener: scrolling,
       endListener: leaving,
     );
-
   }
 
-
-  void initController(){
+  void initController() {
     controller?.dispose();
     controller = AnimationController(
       duration: widget.duration,
@@ -58,18 +55,18 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
   @override
   void didUpdateWidget(ArenaDelayer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.duration != controller!.duration){
+    if (widget.duration != controller!.duration) {
       controller!.dispose();
       initController();
     }
   }
 
-  bool scrolling(){
-    if(!mounted) return false;
-    if(controller!.isAnimating && controller!.velocity > 0) {
+  bool scrolling() {
+    if (!mounted) return false;
+    if (controller!.isAnimating && controller!.velocity > 0) {
       return true;
     }
-    if(controller!.value == 1.0) {
+    if (controller!.value == 1.0) {
       return true;
     }
 
@@ -78,14 +75,14 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
   }
 
   bool leaving() {
-    if(!mounted) return false;
-    if(controller!.value == 0.0) {
+    if (!mounted) return false;
+    if (controller!.value == 0.0) {
       return true;
     }
 
     bool fling = false;
-    if(controller!.isAnimating){
-      if(controller!.velocity < 0) {
+    if (controller!.isAnimating) {
+      if (controller!.velocity < 0) {
         return true;
       }
       fling = true;
@@ -95,9 +92,9 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
   }
 
   void _leaving(bool withFling) async {
-    if(!mounted) return;
-    if(withFling) await  controller!.fling();
-    if(!mounted) return;
+    if (!mounted) return;
+    if (withFling) await controller!.fling();
+    if (!mounted) return;
     controller!.animateBack(0.0);
   }
 
@@ -108,33 +105,30 @@ class _ArenaDelayerState extends State<ArenaDelayer> with TickerProviderStateMix
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return bloc.scroller.isScrolling.build((context, scrolling) => AnimatedOpacity(
-      opacity: scrolling ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 250),
-      child: AnimatedBuilder(
-        animation: controller!,
-        builder:(_,__) => ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: ArenaWidget.buttonSize.height + 4, 
-            maxWidth: ArenaWidget.buttonSize.width + 4,
-          ),
-          child: SizedBox.expand(
-            child: CircularProgressIndicator(
-              strokeWidth: 10,
-              valueColor: AlwaysStoppedAnimation<Color>(widget.color),
-              value: controller!.value,
-            ),
-          ),
-        ),
-      ),
-    ));
-
+    return bloc.scroller.isScrolling
+        .build((context, scrolling) => AnimatedOpacity(
+              opacity: scrolling ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 250),
+              child: AnimatedBuilder(
+                animation: controller!,
+                builder: (_, __) => ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: ArenaWidget.buttonSize.height + 4,
+                    maxWidth: ArenaWidget.buttonSize.width + 4,
+                  ),
+                  child: SizedBox.expand(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 10,
+                      valueColor: AlwaysStoppedAnimation<Color>(widget.color),
+                      value: controller!.value,
+                    ),
+                  ),
+                ),
+              ),
+            ));
   }
 }
-
-

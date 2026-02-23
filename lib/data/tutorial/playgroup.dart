@@ -1,8 +1,8 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'highlights.dart';
 
 class PlaygroupTutorial {
-  
   static const tutorial = TutorialData(
     icon: Icons.people_alt_outlined,
     title: "Playgroup",
@@ -11,7 +11,6 @@ class PlaygroupTutorial {
       groupMenu,
     ],
   );
-
 
   static const groupBottom = Hint(
     text: 'Edit the playgroup via the bottom panel',
@@ -26,5 +25,4 @@ class PlaygroupTutorial {
     manualHighlight: HintsHighlights.playGroupExtended,
     icon: HintIcon(McIcons.gesture_swipe_up),
   );
-
 }

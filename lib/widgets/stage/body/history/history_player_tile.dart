@@ -1,8 +1,7 @@
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stage/body/history/history_tile.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/stage/body/history/history_tile.dart';
 
 class HistoryPlayerTile extends StatelessWidget {
-
   //===================================
   // Data
   final DateTime? time;
@@ -15,11 +14,12 @@ class HistoryPlayerTile extends StatelessWidget {
   // final double coreTileSize;
   final Color defenceColor;
   final Map<String?, Counter> counters;
-  final Map<CSPage,Color> pageColors;
+  final Map<CSPage, Color> pageColors;
 
   //===================================
   // Constructor
-  const HistoryPlayerTile(this.changes, {
+  const HistoryPlayerTile(
+    this.changes, {super.key, 
     required this.partnerB,
     required this.time,
     required this.firstTime,
@@ -30,26 +30,24 @@ class HistoryPlayerTile extends StatelessWidget {
     required this.defenceColor,
   });
 
-
   //===================================
   // Builder
   @override
   Widget build(BuildContext context) {
     final children = <Widget>[
-      for(final change in changes)
-        if(!(
-          change.type == DamageType.counters 
-          && !counters.containsKey(change.counter!.longName)
-        )) _Change(
-          change, 
-          // counters: counters,
-          pageColors: pageColors,
-          defenceColor: defenceColor,
-          partnerB: partnerB,
-        ),
+      for (final change in changes)
+        if (!(change.type == DamageType.counters &&
+            !counters.containsKey(change.counter!.longName)))
+          _Change(
+            change,
+            // counters: counters,
+            pageColors: pageColors,
+            defenceColor: defenceColor,
+            partnerB: partnerB,
+          ),
     ];
 
-    if(children.isEmpty) return SizedBox(height: tileSize,);
+    if (children.isEmpty) return SizedBox(height: tileSize);
 
     return SizedBox(
       height: tileSize,
@@ -58,18 +56,24 @@ class HistoryPlayerTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _Time(time, first: firstTime,),
+          _Time(
+            time,
+            first: firstTime,
+          ),
           Padding(
-            padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 4.0, bottom: 6.0),
+            padding: const EdgeInsets.only(
+                left: 5.0, right: 5.0, top: 4.0, bottom: 6.0),
             child: Container(
               decoration: BoxDecoration(
                 color: SidChip.backgroundColor(Theme.of(context)),
-                borderRadius: BorderRadius.circular(SidChip.height/2),
+                borderRadius: BorderRadius.circular(SidChip.height / 2),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: children.separateWith(const SizedBox(width: 4.0,)),
+                children: children.separateWith(const SizedBox(
+                  width: 4.0,
+                )),
               ),
             ),
           ),
@@ -84,32 +88,24 @@ class _Change extends StatelessWidget {
   final bool partnerB;
 
   final Color defenceColor;
-  final Map<CSPage,Color> pageColors;
+  final Map<CSPage, Color> pageColors;
   // final Map<String, Counter> counters;
-  
-  const _Change(this.change, {
+
+  const _Change(
+    this.change, {
     required this.partnerB,
     required this.defenceColor,
     required this.pageColors,
     // @required this.counters,
   });
 
-  
   @override
   Widget build(BuildContext context) {
     final int increment = change.next - change.previous;
-    final String text = increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
-    final String subText = "= ${change.next}${( partnerB 
-        &&
-        ( change.type == DamageType.commanderCast 
-          || 
-          ( change.type == DamageType.commanderDamage 
-            && 
-            change.attack!) ) )
-
-        ? change.partnerA! ? " (A)" : " (B)"
-        : ""}";
-
+    final String text =
+        increment >= 0 ? "+ $increment" : "- ${increment.abs()}";
+    final String subText =
+        "= ${change.next}${(partnerB && (change.type == DamageType.commanderCast || (change.type == DamageType.commanderDamage && change.attack!))) ? change.partnerA! ? " (A)" : " (B)" : ""}";
 
     final Color? color = CSThemer.getHistoryChipColor(
       attack: change.attack,
@@ -125,14 +121,13 @@ class _Change extends StatelessWidget {
       counter: change.counter,
     );
 
-  	return SidChip(
+    return SidChip(
       icon: icon,
       subText: subText,
       text: text,
       color: color,
     );
   }
-
 }
 
 class _Time extends StatelessWidget {
@@ -145,12 +140,11 @@ class _Time extends StatelessWidget {
     final bloc = CSBloc.of(context);
 
     return bloc.settings.gameSettings.timeMode.build((_, mode) => Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: Text(
-        HistoryTile.timeString(time, first, mode), 
-        style: const TextStyle(fontSize: 10),
-      ),
-    ));
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            HistoryTile.timeString(time, first, mode),
+            style: const TextStyle(fontSize: 10),
+          ),
+        ));
   }
 }
-

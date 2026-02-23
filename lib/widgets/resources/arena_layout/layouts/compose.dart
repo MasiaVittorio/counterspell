@@ -7,7 +7,7 @@ class ComposeArenaLayout extends StatelessWidget {
   final int gridQuarterTurns;
   final Widget? betweenGridAndCenter;
 
-  const ComposeArenaLayout({
+  const ComposeArenaLayout({super.key, 
     required this.gridQuarterTurns,
     required this.grid,
     required this.positionedCenterChild,

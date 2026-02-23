@@ -1,11 +1,9 @@
 import 'dart:math';
 
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class ArenaMenuActions extends StatelessWidget {
-
-  const ArenaMenuActions({
+  const ArenaMenuActions({super.key, 
     required this.reorderPlayers,
     required this.exit,
     required this.close,
@@ -19,7 +17,6 @@ class ArenaMenuActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final bloc = CSBloc.of(context);
 
     final thrower = bloc.achievements.flippedOrRolled;
@@ -34,11 +31,20 @@ class ArenaMenuActions extends StatelessWidget {
         ]),
         Section(<Widget>[
           const SectionTitle("Random"),
-          RandomListTile(2, onThrowCallback: thrower,),
-          RandomListTile(6, onThrowCallback: thrower,),
-          RandomListTile(20, onThrowCallback: thrower,),
           RandomListTile(
-            null, 
+            2,
+            onThrowCallback: thrower,
+          ),
+          RandomListTile(
+            6,
+            onThrowCallback: thrower,
+          ),
+          RandomListTile(
+            20,
+            onThrowCallback: thrower,
+          ),
+          RandomListTile(
+            null,
             values: names,
             title: const Text("Pick name"),
             leading: const Icon(Icons.person_outline),
@@ -51,7 +57,6 @@ class ArenaMenuActions extends StatelessWidget {
 }
 
 class _Restarter extends StatelessWidget {
-
   const _Restarter(this.closeMenu);
   final VoidCallback closeMenu;
 
@@ -61,22 +66,20 @@ class _Restarter extends StatelessWidget {
     final state = bloc.game.gameState;
 
     return ConfirmableTile(
-      onConfirm: (){
+      onConfirm: () {
         state.restart(GameRestartedFrom.arena, avoidPrompt: true);
         closeMenu.call();
       },
       leading: const Icon(McIcons.restart),
-      titleBuilder: (_,__) => const Text("New game"),
-      subTitleBuilder: (_, pressed) => AnimatedText(pressed ? "Confirm?" : "Start fresh"),
+      titleBuilder: (_, __) => const Text("New game"),
+      subTitleBuilder: (_, pressed) =>
+          AnimatedText(pressed ? "Confirm?" : "Start fresh"),
     );
   }
 }
 
-
-
 class ArenaFirstActions extends StatelessWidget {
-
-  const ArenaFirstActions(this.reorderPlayers, this.exit);
+  const ArenaFirstActions(this.reorderPlayers, this.exit, {super.key});
   final VoidCallback reorderPlayers;
   final VoidCallback exit;
 
@@ -84,13 +87,16 @@ class ArenaFirstActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 10.0),
-      child: Row(children: <Widget>[
-        Expanded(child: ButtonTile(
+      child: Row(
+          children: <Widget>[
+        Expanded(
+            child: ButtonTile(
           text: "Reorder players",
           icon: McIcons.account_group_outline,
           onTap: reorderPlayers,
         )),
-        Expanded(child: ButtonTile(
+        Expanded(
+            child: ButtonTile(
           text: "Exit Arena mode",
           icon: Icons.close,
           onTap: exit,
@@ -100,21 +106,21 @@ class ArenaFirstActions extends StatelessWidget {
   }
 }
 
-
-
 class RandomListTile extends StatefulWidget {
-
   const RandomListTile(
-    this.max, {
-      this.values, 
-      this.leading, 
-      this.title,
-      this.onThrowCallback,
-    }
-  );
-  
-  final int? max; /// 2 = coin, 6 = d6, 20 = d20
-  final List<String>? values; /// If you want each number to represent a result (the lenght of this list will override the max value!)
+    this.max, {super.key, 
+    this.values,
+    this.leading,
+    this.title,
+    this.onThrowCallback,
+  });
+
+  final int? max;
+
+  /// 2 = coin, 6 = d6, 20 = d20
+  final List<String>? values;
+
+  /// If you want each number to represent a result (the lenght of this list will override the max value!)
   final Widget? leading;
   final Widget? title;
   final VoidCallback? onThrowCallback;
@@ -123,15 +129,14 @@ class RandomListTile extends StatefulWidget {
   State createState() => _RandomListTileState();
 }
 
-class _RandomListTileState extends State<RandomListTile> with SingleTickerProviderStateMixin {
-
+class _RandomListTileState extends State<RandomListTile>
+    with SingleTickerProviderStateMixin {
   late AnimationController animation;
   late Random generator;
   int? value;
-  
+
   @override
-  @required 
-  void initState(){
+  void initState() {
     super.initState();
     animation = AnimationController(
       vsync: this,
@@ -141,36 +146,36 @@ class _RandomListTileState extends State<RandomListTile> with SingleTickerProvid
   }
 
   @override
-  void dispose(){
+  void dispose() {
     animation.dispose();
     super.dispose();
   }
 
   void move() async {
-    if(!mounted) return;
+    if (!mounted) return;
     await animation.animateTo(1.0, curve: Curves.easeOut);
-    if(!mounted) return;
+    if (!mounted) return;
     animation.animateBack(0.0, curve: Curves.easeIn);
   }
 
   void generate() => setState(() {
-    ///from 1 to max inclusive
-    value = generator.nextInt(max!) + 1; 
-  });
+        ///from 1 to max inclusive
+        value = generator.nextInt(max!) + 1;
+      });
 
-  void tap(){
+  void tap() {
     generate();
     move();
     widget.onThrowCallback?.call();
   }
 
-  static const Map<int,IconData> icons = <int,IconData>{
+  static const Map<int, IconData> icons = <int, IconData>{
     2: McIcons.bitcoin,
     6: McIcons.dice_d6,
     20: McIcons.dice_d20,
   };
 
-  static const Map<int,String> titles = <int,String>{
+  static const Map<int, String> titles = <int, String>{
     2: "Flip coin",
     6: "Throw d6",
     20: "Throw d20",
@@ -181,13 +186,13 @@ class _RandomListTileState extends State<RandomListTile> with SingleTickerProvid
   IconData get icon => icons[max!] ?? Icons.help_outline;
   String get title => titles[max!] ?? "Throw d$max";
 
-  String? get valueString => value == null 
-    ? "/" 
-    : values?.elementAt(value!-1) 
-      ?? ((max == 2) ? const {1: "tails", 2: "head"}[value!] : "$value");
+  String? get valueString => value == null
+      ? "/"
+      : values?.elementAt(value! - 1) ??
+          ((max == 2) ? const {1: "tails", 2: "head"}[value!] : "$value");
 
   Widget get trailing => Text(valueString!);
-  
+
   @override
   Widget build(BuildContext context) {
     return ListTile(

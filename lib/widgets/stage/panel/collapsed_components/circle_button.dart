@@ -12,7 +12,7 @@ class CircleButton extends StatefulWidget {
   final int externalCircles;
   final bool regularSteps;
 
-  const CircleButton({
+  const CircleButton({super.key, 
     this.size = _CircleButtonState.defaultSize,
     required this.child,
     required this.onTap,

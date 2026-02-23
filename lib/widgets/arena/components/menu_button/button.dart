@@ -1,9 +1,7 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class ArenaButton extends StatelessWidget {
-
-  const ArenaButton({
+  const ArenaButton({super.key, 
     required this.indexToName,
     required this.isScrollingSomewhere,
     required this.open,
@@ -14,7 +12,7 @@ class ArenaButton extends StatelessWidget {
   });
 
   final CSPage page;
-  final Map<int,String?> indexToName;
+  final Map<int, String?> indexToName;
   final bool isScrollingSomewhere;
   final bool open;
   final VoidCallback openMenu;
@@ -23,26 +21,23 @@ class ArenaButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final CSBloc bloc = CSBloc.of(context);
 
     VoidCallback centerTap;
     bool buttonCross;
 
-    if(indexToName.values.any((v) => v == null)){
+    if (indexToName.values.any((v) => v == null)) {
       // reorder waiting to happen
       buttonCross = true;
       centerTap = exit;
-    } else if(isScrollingSomewhere){
+    } else if (isScrollingSomewhere) {
       // action pending to be cancelled
       buttonCross = true;
       centerTap = bloc.scroller.cancel;
-    } 
-    else if(page != CSPage.life){
+    } else if (page != CSPage.life) {
       buttonCross = true;
       centerTap = () => bloc.stage.mainPagesController.goToPage(CSPage.life);
-    } 
-    else {
+    } else {
       buttonCross = open;
       centerTap = openMenu;
     }
@@ -50,7 +45,7 @@ class ArenaButton extends StatelessWidget {
     return InkWell(
       onTap: centerTap,
       onLongPress: exit,
-      borderRadius: BorderRadius.circular(buttonSize/2),
+      borderRadius: BorderRadius.circular(buttonSize / 2),
       child: Container(
         key: const ValueKey("arena_button_animated_icon"),
         alignment: Alignment.center,
@@ -63,6 +58,5 @@ class ArenaButton extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

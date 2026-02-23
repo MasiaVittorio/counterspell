@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../arena_layout.dart';
-import 'compose.dart';
 import 'column_of_two.dart';
+import 'compose.dart';
 
 class ArenaLayout4 extends StatelessWidget {
-
   final ArenaChildBuilder childBuilder;
   final CenterChildBuilder? centerChildBuilder;
   final ArenaCenterAlignment centerAlignment;
@@ -13,7 +13,7 @@ class ArenaLayout4 extends StatelessWidget {
   final bool flipped;
   final Widget? betweenGridAndCenter;
 
-  const ArenaLayout4({
+  const ArenaLayout4({super.key, 
     required this.betweenGridAndCenter,
     required this.flipped,
     required this.layoutType,
@@ -30,13 +30,10 @@ class ArenaLayout4 extends StatelessWidget {
         return buildFFA(context);
       case ArenaLayoutType.squad:
         return buildSquad(context);
-      default:
-        return Container();
     }
   }
 
-  bool get intersection => centerAlignment 
-    == ArenaCenterAlignment.intersection;
+  bool get intersection => centerAlignment == ArenaCenterAlignment.intersection;
 
   ///============================================
   ///  FREE FOR ALL
@@ -54,9 +51,7 @@ class ArenaLayout4 extends StatelessWidget {
 
   /// pseudo code: Row(0, Column(1,3), 2)
 
-
   Widget buildFFA(BuildContext context) {
-
     final bool landscape = constraints.maxWidth >= constraints.maxHeight;
 
     /// See figure above
@@ -64,55 +59,56 @@ class ArenaLayout4 extends StatelessWidget {
     /// b = 2a
     /// b * x = a * y (same surface per each tile)
     /// -> 2a * x = a * y
-    /// ===>  xFlex = 1  //  yFlex = 2 
+    /// ===>  xFlex = 1  //  yFlex = 2
 
     final int gridQuarterTurns = (flipped ? 2 : 0) + (landscape ? 0 : 1);
 
-    final Widget grid = Row(children: <Widget>[
-      Expanded(
-        flex: 1,
-        child: RotatedBox(
-          quarterTurns: 1,
-          child: childBuilder(context, 0, null),
+    final Widget grid = Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: RotatedBox(
+            quarterTurns: 1,
+            child: childBuilder(context, 0, null),
+          ),
         ),
-      ),
-      Expanded(
-        flex: 2,
-        child: ColumnOfTwo(
-          top: childBuilder(context, 1, Alignment.topCenter), 
-          bottom: childBuilder(context, 3, Alignment.topCenter),
+        Expanded(
+          flex: 2,
+          child: ColumnOfTwo(
+            top: childBuilder(context, 1, Alignment.topCenter),
+            bottom: childBuilder(context, 3, Alignment.topCenter),
+          ),
         ),
-      ),
-      Expanded(
-        flex: 1,
-        child: RotatedBox(
-          quarterTurns: 3,
-          child: childBuilder(context, 2, null),
+        Expanded(
+          flex: 1,
+          child: RotatedBox(
+            quarterTurns: 3,
+            child: childBuilder(context, 2, null),
+          ),
         ),
-      ),
-    ],);
-
-
+      ],
+    );
 
     Widget? positionedCenterChild;
 
-    if(centerChildBuilder != null){
+    if (centerChildBuilder != null) {
       /// No padding, intersection always at center
       positionedCenterChild = Positioned.fill(
-        child: Center(child: centerChildBuilder!(
-          context,
-          landscape ? Axis.horizontal : Axis.vertical,
-        ),),
+        child: Center(
+          child: centerChildBuilder!(
+            context,
+            landscape ? Axis.horizontal : Axis.vertical,
+          ),
+        ),
       );
     }
 
     return ComposeArenaLayout(
-      grid: grid, 
+      grid: grid,
       gridQuarterTurns: gridQuarterTurns,
       positionedCenterChild: positionedCenterChild,
       betweenGridAndCenter: betweenGridAndCenter,
     );
-
   }
 
   ///=======================================
@@ -120,7 +116,7 @@ class ArenaLayout4 extends StatelessWidget {
   ///=======================================
 
   ///    Landscape
-  ///            y               y  
+  ///            y               y
   ///    ||==============================||
   ///    ||             ||               || a
   ///    ||      0      ||       1       ||
@@ -128,13 +124,11 @@ class ArenaLayout4 extends StatelessWidget {
   ///    ||      3      ||       2       ||
   ///    ||             ||               || a
   ///    ||==============================||
-  ///                    x  
+  ///                    x
 
   /// pseudo code: Column(Row(1,0), Row(3,2))
 
-
   Widget buildSquad(BuildContext context) {
-
     final bool landscape = constraints.maxWidth >= constraints.maxHeight;
 
     /// See figure above
@@ -143,35 +137,36 @@ class ArenaLayout4 extends StatelessWidget {
     final int gridQuarterTurns = (flipped ? 2 : 0) + (landscape ? 0 : 1);
 
     final Widget grid = ColumnOfTwo(
-      top: Row(children: <Widget>[
-        Expanded(child: childBuilder(context, 1, Alignment.topRight)),
-        Expanded(child: childBuilder(context, 0, Alignment.topLeft)),
-      ],),
-      bottom: Row(children: <Widget>[
-        Expanded(child: childBuilder(context, 3, Alignment.topRight)),
-        Expanded(child: childBuilder(context, 2, Alignment.topLeft)),
-      ],),
+      top: Row(
+        children: <Widget>[
+          Expanded(child: childBuilder(context, 1, Alignment.topRight)),
+          Expanded(child: childBuilder(context, 0, Alignment.topLeft)),
+        ],
+      ),
+      bottom: Row(
+        children: <Widget>[
+          Expanded(child: childBuilder(context, 3, Alignment.topRight)),
+          Expanded(child: childBuilder(context, 2, Alignment.topLeft)),
+        ],
+      ),
     );
 
     Widget? positionedCenterChild;
 
-    if(centerChildBuilder != null){
+    if (centerChildBuilder != null) {
       /// No padding, intersection always at center
       positionedCenterChild = Positioned.fill(
-        child: Center(child: centerChildBuilder!(
-          context,
-          landscape ? Axis.horizontal : Axis.vertical 
-        )),
+        child: Center(
+            child: centerChildBuilder!(
+                context, landscape ? Axis.horizontal : Axis.vertical)),
       );
     }
 
     return ComposeArenaLayout(
-      grid: grid, 
+      grid: grid,
       gridQuarterTurns: gridQuarterTurns,
       positionedCenterChild: positionedCenterChild,
       betweenGridAndCenter: betweenGridAndCenter,
     );
-
   }
-
 }

@@ -1,8 +1,8 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class PieceOfInfo extends StatelessWidget {
   final String info;
-  const PieceOfInfo(this.info);
+  const PieceOfInfo(this.info, {super.key});
 
   static const double height = 48.0;
   static const double left = 10;
@@ -13,24 +13,26 @@ class PieceOfInfo extends StatelessWidget {
       child: Container(
         height: height,
         alignment: Alignment.center,
-        child: Row(children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left:left),
-            child: Container(
-              width: height,
-              height: height,
-              alignment: Alignment.center,
-              child: const Icon(Icons.keyboard_arrow_right),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: left),
+              child: Container(
+                width: height,
+                height: height,
+                alignment: Alignment.center,
+                child: const Icon(Icons.keyboard_arrow_right),
+              ),
             ),
-          ),
-          Expanded(
-            child: Text(
-              info, 
-              maxLines: 2, 
-              overflow: TextOverflow.ellipsis,
+            Expanded(
+              child: Text(
+                info,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-        ],),
+          ],
+        ),
       ),
     );
   }
@@ -42,7 +44,7 @@ class InfoSection extends StatelessWidget {
   final bool last;
   final String title;
   final List<String> info;
-  const InfoSection({
+  const InfoSection({super.key, 
     required this.icon,
     required this.title,
     required this.info,
@@ -50,7 +52,8 @@ class InfoSection extends StatelessWidget {
     this.last = false,
   });
 
-  static heightCalc(int infoNumber) => InfoTitle.height + infoNumber * PieceOfInfo.height + 14;
+  static double heightCalc(int infoNumber) =>
+      InfoTitle.height + infoNumber * PieceOfInfo.height + 14;
   double get height => heightCalc(info.length);
   @override
   Widget build(BuildContext context) {
@@ -62,8 +65,7 @@ class InfoSection extends StatelessWidget {
           icon: icon,
           title: title,
         ),
-        for(final string in info)
-          PieceOfInfo(string),
+        for (final string in info) PieceOfInfo(string),
       ], last: last),
     );
   }
@@ -73,7 +75,7 @@ class InfoTitle extends StatelessWidget {
   final Icon icon;
   final String title;
   final bool drag;
-  const InfoTitle({
+  const InfoTitle({super.key, 
     required this.icon,
     required this.title,
     required this.drag,
@@ -89,23 +91,25 @@ class InfoTitle extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          if(drag) const AlertDrag(),
-          Row(children: <Widget>[
-            Container(
-              width: width,
-              height: height,
-              alignment: Alignment.center,
-              child: icon,
-            ),
-            Expanded(
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.bodyLarge, 
-                maxLines: 2, 
-                overflow: TextOverflow.ellipsis,
+          if (drag) const AlertDrag(),
+          Row(
+            children: <Widget>[
+              Container(
+                width: width,
+                height: height,
+                alignment: Alignment.center,
+                child: icon,
               ),
-            ),
-          ],),
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

@@ -1,16 +1,15 @@
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 
-import 'package:counter_spell_new/widgets/homepage.dart';
+import 'package:counter_spell/widgets/homepage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-// import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 import 'core.dart';
 
 void main() => runApp(CounterSpell());
 
 class TopNavigator extends StatelessWidget {
-  const TopNavigator();
+  const TopNavigator({super.key});
 
   /// to enter the backup and restore screen having the logic disposed completely
   @override
@@ -23,6 +22,8 @@ class TopNavigator extends StatelessWidget {
 }
 
 class CounterSpell extends StatefulWidget {
+  const CounterSpell({super.key});
+
   // This widget is the root of your application.
   @override
   State createState() => _CounterSpellState();
@@ -117,8 +118,10 @@ class _MaterialApp extends StatelessWidget {
         title: 'CounterSpell',
         home: DividerTheme(
           data: DividerThemeData(
-            endIndent: 16, indent: 16, space: 2,
-            color: theme.colorScheme.onSurface.withOpacity(0.15),
+            endIndent: 16,
+            indent: 16,
+            space: 2,
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.15),
           ),
           child: const CSHomePage(key: WidgetsKeys.homePage),
         ),

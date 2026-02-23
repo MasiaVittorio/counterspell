@@ -1,19 +1,26 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 const String _attackerTitle = "Select the attacker";
-const String _attacker1 = "tap on a player to set its commander as the one dealing the damage";
+const String _attacker1 =
+    "tap on a player to set its commander as the one dealing the damage";
 const String _attacker2 = "that player will become red and squared";
 const String _partnerTitle = "Select the right partner";
-const String _partner1 = "long press on the sword icon to split / merge partners";
-const String _partner2 = "tap on the the sword icon to switch between partners A and B";
+const String _partner1 =
+    "long press on the sword icon to split / merge partners";
+const String _partner2 =
+    "tap on the the sword icon to switch between partners A and B";
 const String _defenderTitle = "Scroll on the defender";
-const String _defender1 = "increment the damage taken by a player from the selected commander";
-const String _defender2 = "this will lower the defender's life unless you disable this setting";
+const String _defender1 =
+    "increment the damage taken by a player from the selected commander";
+const String _defender2 =
+    "this will lower the defender's life unless you disable this setting";
 
 class DamageInfo extends StatelessWidget {
-  const DamageInfo();
-  static const double height = 3 * (InfoTitle.height + 14.0) + 6 * PieceOfInfo.height + AlertDrag.height - 14.0;
+  const DamageInfo({super.key});
+  static const double height = 3 * (InfoTitle.height + 14.0) +
+      6 * PieceOfInfo.height +
+      AlertDrag.height -
+      14.0;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -51,20 +58,20 @@ class _DefenderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconTheme.merge(
       data: const IconThemeData(opacity: 1.0),
-      child: CSBloc.of(context).themer.buildFromDefenceColor((_,defenceColor) 
-        => InfoSection(
-          last: true,
-          icon: Icon(
-            CSIcons.defenceFilled,
-            color: defenceColor,
+      child: CSBloc.of(context).themer.buildFromDefenceColor(
+            (_, defenceColor) => InfoSection(
+              last: true,
+              icon: Icon(
+                CSIcons.defenceFilled,
+                color: defenceColor,
+              ),
+              title: _defenderTitle,
+              info: const [
+                _defender1,
+                _defender2,
+              ],
+            ),
           ),
-          title: _defenderTitle,
-          info: const [
-            _defender1,
-            _defender2,
-          ],
-        ),
-      ),
     );
   }
 }
@@ -74,11 +81,11 @@ class _AttackerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context)!;
-    
+
     return IconTheme.merge(
       data: const IconThemeData(opacity: 1.0),
-      child: stage.themeController.derived.mainPageToPrimaryColor.build((_,map)
-        => InfoSection(
+      child: stage.themeController.derived.mainPageToPrimaryColor.build(
+        (_, map) => InfoSection(
           first: true,
           icon: Icon(
             CSIcons.attackOne,

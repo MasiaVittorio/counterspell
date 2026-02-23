@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 /// Turn 1 Sol Ring (Games appearanece / game won by applicable player)
 /// Single screen
@@ -9,10 +9,8 @@ import 'package:counter_spell_new/core.dart';
 class CustomGame {
   // final String customStat;
   // final String winner;
-  // final Map<String>  
+  // final Map<String>
 }
-
-
 
 class CustomStat {
   static const List<String> all = [
@@ -23,61 +21,57 @@ class CustomStat {
 
   final String title;
 
-  final Map<String,int> playersApplicable;
+  final Map<String, int> playersApplicable;
 
-  final Map<String?,int> commandersApplicable; /// commander card oracleId => number
+  final Map<String?, int> commandersApplicable;
+
+  /// commander card oracleId => number
 
   final int appearances;
   final int wins;
-  
+
   CustomStat({
     required this.title,
     required this.appearances,
     required this.wins,
-
     required this.commandersApplicable,
-
     required this.playersApplicable,
   });
 
-  static CustomStat fromPastGames(String title, List<PastGame?> pastGames){
-    Map<String?,int> cmdrApply = <String?,int>{};
-    Map<String,int> plrApply = <String,int>{};
+  static CustomStat fromPastGames(String title, List<PastGame?> pastGames) {
+    Map<String?, int> cmdrApply = <String?, int>{};
+    Map<String, int> plrApply = <String, int>{};
 
     int appearances = 0;
     int wins = 0;
 
-    for(final g in pastGames){
-
+    for (final g in pastGames) {
       bool appeared = false;
       bool won = false;
 
-      for(final e in [...g!.commandersA.entries, ...g.commandersB.entries]){
+      for (final e in [...g!.commandersA.entries, ...g.commandersB.entries]) {
         final MtgCard? card = e.value;
         final String pilot = e.key;
-        if(card != null){
+        if (card != null) {
           final String id = card.oracleId;
-          if(g.customStats[title]?.contains(pilot) ?? false){
+          if (g.customStats[title]?.contains(pilot) ?? false) {
             cmdrApply[id] = (cmdrApply[id] ?? 0) + 1;
           }
         }
       }
 
-      for(final name in g.state.players.keys){
-        if(g.customStats[title]?.contains(name) ?? false){
-
+      for (final name in g.state.players.keys) {
+        if (g.customStats[title]?.contains(name) ?? false) {
           appeared = true;
 
           plrApply[name] = (plrApply[name] ?? 0) + 1;
 
-          if(g.winner == name) won = true;
-
+          if (g.winner == name) won = true;
         }
       }
 
-      if(appeared) ++appearances;
-      if(won) ++wins;
-      
+      if (appeared) ++appearances;
+      if (won) ++wins;
     }
 
     return CustomStat(
@@ -89,4 +83,3 @@ class CustomStat {
     );
   }
 }
-

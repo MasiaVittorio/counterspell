@@ -1,15 +1,17 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:counter_spell/core.dart';
+
 import 'single_screen.dart';
 import 'winner_selector.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class PastGameTile extends StatelessWidget {
-
   final PastGame? game;
   final int index;
   final VoidCallback onSingleScreenCallback;
 
-  const PastGameTile(this.game, this.index, {
+  const PastGameTile(
+    this.game,
+    this.index, {super.key, 
     required this.onSingleScreenCallback,
   });
 
@@ -22,83 +24,100 @@ class PastGameTile extends StatelessWidget {
     void show() {
       onSingleScreenCallback.call();
       stage!.showAlert(
-        PastGameScreen(index: index,),
-        size: PastGameScreen.height
-      );
+          PastGameScreen(
+            index: index,
+          ),
+          size: PastGameScreen.height);
     }
 
     final theme = Theme.of(context);
 
     return SizedBox(
       height: height,
-      child: Section([
-        GameTimeTile(game, index: index, open: show,),
-        Expanded(child: SubSection(
-          <Widget>[
-            SectionTitle("Winner: ${game!.winner ?? 'not detected'}"),
-            Expanded(child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal, 
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 2.0, 8.0, 8.0),
-                child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  for(final player in game!.state.players.values)
-                    (){
-                      final name = player.name;
-                      final commanders = game!.commandersPlayedBy(name);
-                      return SidChip(
-                        color: theme.colorScheme.secondary,
-                        text: name,
-                        icon: game!.winner == name ? McIcons.trophy : null,
-                        forceTextColor: commanders.isNotEmpty ? Colors.white : null,
-                        subText: commanders.isNotEmpty 
-                          ? safeSubString(
-                            untilSpaceOrComma(commanders.first!.name),
-                            8,
-                          )
-                          : null,
-                        image: commanders.isNotEmpty 
-                          ? DecorationImage(
-                            image: CachedNetworkImageProvider(
-                              commanders.first!.imageUrl()!
-                            ),
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(
-                              (theme.brightness.isDark 
-                                ? theme.canvasColor
-                                : Colors.black
-                              ).withOpacity(0.2), 
-                              BlendMode.srcOver,
-                            ),
-                          )
-                          : null,
-                      );
-                    }()
-                ].separateWith(CSWidgets.width10),),
-              ),
-            ),),
-          ], 
-          onTap: show,
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),),
-        CSWidgets.height10,
-      ], stretch: true,),
+      child: Section(
+        [
+          GameTimeTile(
+            game,
+            index: index,
+            open: show,
+          ),
+          Expanded(
+            child: SubSection(
+              <Widget>[
+                SectionTitle("Winner: ${game!.winner ?? 'not detected'}"),
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12.0, 2.0, 8.0, 8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          for (final player in game!.state.players.values)
+                            () {
+                              final name = player.name;
+                              final commanders = game!.commandersPlayedBy(name);
+                              return SidChip(
+                                color: theme.colorScheme.secondary,
+                                text: name,
+                                icon: game!.winner == name
+                                    ? McIcons.trophy
+                                    : null,
+                                forceTextColor:
+                                    commanders.isNotEmpty ? Colors.white : null,
+                                subText: commanders.isNotEmpty
+                                    ? safeSubString(
+                                        untilSpaceOrComma(
+                                            commanders.first!.name),
+                                        8,
+                                      )
+                                    : null,
+                                image: commanders.isNotEmpty
+                                    ? DecorationImage(
+                                        image: CachedNetworkImageProvider(
+                                            commanders.first!.imageUrl()!),
+                                        fit: BoxFit.cover,
+                                        colorFilter: ColorFilter.mode(
+                                          (theme.brightness.isDark
+                                                  ? theme.canvasColor
+                                                  : Colors.black)
+                                              .withValues(alpha: 0.2),
+                                          BlendMode.srcOver,
+                                        ),
+                                      )
+                                    : null,
+                              );
+                            }()
+                        ].separateWith(CSWidgets.width10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              onTap: show,
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+          ),
+          CSWidgets.height10,
+        ],
+        stretch: true,
+      ),
     );
   }
 
-  static String safeSubString(String start, int len){
-    if(start.length >  len) {
-      return '${start.substring(0,len-1)}.';
+  static String safeSubString(String start, int len) {
+    if (start.length > len) {
+      return '${start.substring(0, len - 1)}.';
     } else {
       return start;
-    } 
+    }
   }
 
-  static String untilSpaceOrComma(String from){
+  static String untilSpaceOrComma(String from) {
     return from.split(" ").first.split(",").first;
   }
 
-
-  void insertNotes(PastGame game, StageData stage, CSBloc bloc){
+  void insertNotes(PastGame game, StageData stage, CSBloc bloc) {
     stage.showAlert(
       InsertAlert(
         hintText: "This game I comboed off...",
@@ -106,31 +125,29 @@ class PastGameTile extends StatelessWidget {
         initialText: game.notes ?? "",
         textCapitalization: TextCapitalization.sentences,
         maxLenght: TextField.noMaxLength,
-        onConfirm: (notes){
+        onConfirm: (notes) {
           bloc.pastGames.pastGames.value[index]!.notes = notes;
           bloc.pastGames.pastGames.refresh(index: index);
         },
       ),
       size: InsertAlert.height,
-    );    
+    );
   }
 
-  void selectWinner(PastGame game, StageData stage, CSBloc bloc){
+  void selectWinner(PastGame game, StageData stage, CSBloc bloc) {
     stage.showAlert(
       WinnerSelector(
-        game.state.names, 
-        initialSelected: game.winner, 
-        onConfirm: (selected){
+        game.state.names,
+        initialSelected: game.winner,
+        onConfirm: (selected) {
           bloc.pastGames.pastGames.value[index]!.winner = selected;
           bloc.pastGames.pastGames.refresh(index: index);
         },
       ),
       size: WinnerSelector.heightCalc(game.state.players.length),
-    );    
+    );
   }
-
 }
-
 
 class GameTimeTile extends StatelessWidget {
   final PastGame? game;
@@ -138,9 +155,10 @@ class GameTimeTile extends StatelessWidget {
   final bool delete;
   final VoidCallback? open;
 
-  const GameTimeTile(this.game, {
-    required this.index, 
-    this.delete = true, 
+  const GameTimeTile(
+    this.game, {super.key, 
+    required this.index,
+    this.delete = true,
     this.open,
   });
 
@@ -159,23 +177,25 @@ class GameTimeTile extends StatelessWidget {
       leading: const Icon(Icons.timelapse),
       title: Text("$month $day, $hour:$minute"),
       subtitle: Text("Lasted ${duration.inMinutes} minutes"),
-      trailing: delete ? IconButton(
-        icon: const Icon(Icons.delete_forever, color: CSColors.delete),
-        onPressed: () => stage!.showAlert(
-          ConfirmAlert(
-            action: () => bloc.pastGames.pastGames.removeAt(index),
-            warningText: "Delete game played $month $day, $hour:$minute?",
-            confirmColor: CSColors.delete,
-            confirmText: "Yes, delete",
-            confirmIcon: Icons.delete_forever,
-          ),
-          size: ConfirmAlert.height,
-        ),
-      ) : null,
+      trailing: delete
+          ? IconButton(
+              icon: const Icon(Icons.delete_forever, color: CSColors.delete),
+              onPressed: () => stage!.showAlert(
+                ConfirmAlert(
+                  action: () => bloc.pastGames.pastGames.removeAt(index),
+                  warningText: "Delete game played $month $day, $hour:$minute?",
+                  confirmColor: CSColors.delete,
+                  confirmText: "Yes, delete",
+                  confirmIcon: Icons.delete_forever,
+                ),
+                size: ConfirmAlert.height,
+              ),
+            )
+          : null,
     );
   }
 
-  static const Map<int,String> months = <int,String>{
+  static const Map<int, String> months = <int, String>{
     1: "January",
     2: "February",
     3: "March",
@@ -189,7 +209,7 @@ class GameTimeTile extends StatelessWidget {
     11: "November",
     12: "December",
   };
-  static const Map<int,String> monthsShort = <int,String>{
+  static const Map<int, String> monthsShort = <int, String>{
     1: "Jan",
     2: "Feb",
     3: "Mar",
@@ -203,6 +223,4 @@ class GameTimeTile extends StatelessWidget {
     11: "Nov",
     12: "Dec",
   };
-
-
 }

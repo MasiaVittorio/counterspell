@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class WinnerSelector extends StatefulWidget {
   final Set<String> names;
@@ -7,22 +7,26 @@ class WinnerSelector extends StatefulWidget {
   final VoidCallback? onDontSave;
   final bool closeCompletely;
 
-  const WinnerSelector(this.names, {
-    this.initialSelected, 
-    required this.onConfirm, 
+  const WinnerSelector(
+    this.names, {
+    super.key,
+    this.initialSelected,
+    required this.onConfirm,
     this.onDontSave,
     this.closeCompletely = false,
   });
 
   static const double _bottomPadding = 10.0;
-  static double heightCalc(int lenght, [bool promptDontSave = false]) => PanelTitle.height + 56.0 * (lenght + 1 + ((promptDontSave) ? 1 : 0)) + _bottomPadding;
+  static double heightCalc(int lenght, [bool promptDontSave = false]) =>
+      PanelTitle.height +
+      56.0 * (lenght + 1 + ((promptDontSave) ? 1 : 0)) +
+      _bottomPadding;
 
   @override
   State createState() => _WinnerSelectorState();
 }
 
 class _WinnerSelectorState extends State<WinnerSelector> {
-
   String? selected;
 
   @override
@@ -36,75 +40,82 @@ class _WinnerSelectorState extends State<WinnerSelector> {
     final stage = Stage.of(context);
     final bool autoSavingPrompt = widget.onDontSave != null;
 
-    final Widget row = Row(children: <Widget>[
-      Expanded(child: ListTile(
-        title: Text(autoSavingPrompt ? "Don't choose" : "Cancel"),
-        leading: const Icon(Icons.close),
-        onTap: (){
-          if(widget.closeCompletely){
-            stage!.closePanelCompletely();
-          } else {
-            stage!.closePanel();
-          }
-        }
-      )),
-      Expanded(child: ListTile(
-        title: const Text("Confirm"),
-        leading: const Icon(Icons.check),
-        onTap: (){
-          widget.onConfirm(selected);
-          if(widget.closeCompletely){
-            stage!.closePanelCompletely();
-          } else {
-            stage!.closePanel();
-          }
-        },
-      )),
-    ],);
+    final Widget row = Row(
+      children: <Widget>[
+        Expanded(
+            child: ListTile(
+                title: Text(autoSavingPrompt ? "Don't choose" : "Cancel"),
+                leading: const Icon(Icons.close),
+                onTap: () {
+                  if (widget.closeCompletely) {
+                    stage!.closePanelCompletely();
+                  } else {
+                    stage!.closePanel();
+                  }
+                })),
+        Expanded(
+            child: ListTile(
+          title: const Text("Confirm"),
+          leading: const Icon(Icons.check),
+          onTap: () {
+            widget.onConfirm(selected);
+            if (widget.closeCompletely) {
+              stage!.closePanelCompletely();
+            } else {
+              stage!.closePanel();
+            }
+          },
+        )),
+      ],
+    );
 
     return HeaderedAlert(
       "Who won this game?",
       customBackground: (theme) => theme.canvasColor,
-      bottom: autoSavingPrompt 
-        ? Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            row,
-            ListTile(
-              leading: CSWidgets.deleteIcon,
-              title: const Text("Don't save"),
-              onTap: (){
-                widget.onDontSave!();
-                if(widget.closeCompletely){
-                  stage!.closePanelCompletely();
-                } else {
-                  stage!.closePanel();
-                }
-              },
-            ),
-          ],
-        )
-        : row,
+      bottom: autoSavingPrompt
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                row,
+                ListTile(
+                  leading: CSWidgets.deleteIcon,
+                  title: const Text("Don't save"),
+                  onTap: () {
+                    widget.onDontSave!();
+                    if (widget.closeCompletely) {
+                      stage!.closePanelCompletely();
+                    } else {
+                      stage!.closePanel();
+                    }
+                  },
+                ),
+              ],
+            )
+          : row,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children:<Widget>[
-            for(final name in widget.names)
-              SidRadioListTile<String?>(
-                value: name,
-                groupValue: selected,
-                onChanged: (name) => setState((){
-                  if(selected == name) {
-                    selected = null;
-                  } else {
-                    selected = name;
-                  }
-                }),
-                title: Text(name),
-              ),
-            const SizedBox(height: WinnerSelector._bottomPadding,)
-          ],
+        child: RadioGroup<String>(
+          groupValue: selected,
+          onChanged: (name) => setState(() {
+            if (selected == name) {
+              selected = null;
+            } else {
+              selected = name;
+            }
+          }),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              for (final name in widget.names)
+                SidRadioListTile<String>(
+                  value: name,
+                  title: Text(name),
+                ),
+              const SizedBox(
+                height: WinnerSelector._bottomPadding,
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,11 +1,7 @@
-
-
-
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/data/tutorial/app.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/data/tutorial/app.dart';
 
 class HintsHighlights {
-
   static const beforeOverlay = Duration(milliseconds: 500);
   static Future<void> backForth(CSBloc bloc) async {
     await Future.delayed(beforeOverlay);
@@ -89,40 +85,45 @@ class HintsHighlights {
   static Future<void> swipeDownExample(CSBloc bloc) async {
     bloc.stage.showAlert(const _SwipeDownExampleAlert(), size: 400);
     bloc.stage.panelController.onNextPanelClose(() {
-      if(bloc.tutorial.currentHint == AppTutorial.dialogs){
+      if (bloc.tutorial.currentHint == AppTutorial.dialogs) {
         bloc.tutorial.nextHint();
       }
     });
   }
-
 }
 
 class _SwipeDownExampleAlert extends StatelessWidget {
-
-  const _SwipeDownExampleAlert({Key? key}) : super(key: key);
+  const _SwipeDownExampleAlert();
 
   @override
   Widget build(BuildContext context) {
     return HeaderedAlert(
       "Dialog example",
-      alreadyScrollableChild: true, 
+      alreadyScrollableChild: true,
       customBackground: (theme) => theme.canvasColor,
-      child: const Column(children: <Widget>[
-        Space.vertical(PanelTitle.height + 10),
-        SubSection([ListTile(title: Text(
-          "Dialogs are shown in the same panel that you can otherwise scroll up to open the settings.",
-        ),),]),
-        Expanded(child: Center(
-          child: ListTile(
-            leading: Icon(McIcons.gesture_swipe_down),
-            title: Text(
-              "Try scrolling down to close this dialog!",
-              style: TextStyle(fontStyle: FontStyle.italic),
+      child: const Column(
+        children: <Widget>[
+          Space.vertical(PanelTitle.height + 10),
+          SubSection([
+            ListTile(
+              title: Text(
+                "Dialogs are shown in the same panel that you can otherwise scroll up to open the settings.",
+              ),
+            ),
+          ]),
+          Expanded(
+            child: Center(
+              child: ListTile(
+                leading: Icon(McIcons.gesture_swipe_down),
+                title: Text(
+                  "Try scrolling down to close this dialog!",
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
           ),
-        ),),
-      ],),
+        ],
+      ),
     );
   }
-
 }

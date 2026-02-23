@@ -1,4 +1,4 @@
-name: counter_spell_new
+name: counter_spell
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -28,14 +28,15 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
 
+  
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
-  
+  flutter_lints: ^6.0.0
   cupertino_icons: ^1.0.3
+
   sid_ui:
     path: ../sid_ui
     # git: https://github.com/MasiaVittorio/sid_ui.git
@@ -54,41 +55,40 @@ dependencies:
   cached_network_image: ^3.0.0
   division: ^0.9.0
   equatable: ^2.0.3
-  fl_chart: ^0.55.1
+  fl_chart: ^1.1.1
   flutter_reorderable_list: ^1.1.0
   flutter_vector_icons: ^1.0.0
-  http: ^0.13.3
+  http: ^1.6.0
   in_app_purchase: ^3.0.7
-  permission_handler: ^10.0.0
   rxdart: ^0.27.1
   sleek_circular_slider: ^2.0.1
-  smooth_page_indicator: ^1.0.0+2
+  smooth_page_indicator: ^2.0.1
   time: ^2.0.0
   url_launcher: ^6.0.8
-  vibration: ^1.7.4-nullsafety.0
-  external_path: ^1.0.1
-  wakelock: ^0.6.2
+  vibration: ^3.1.7
+  external_path: ^2.2.0
   flutter_cache_manager: ^3.3.0
   path: ^1.8.1
   path_provider: ^2.0.11
-  share_plus: ^6.0.0
-  flutter_file_dialog: ^2.3.2
+  share_plus: ^12.0.1
+  flutter_file_dialog: ^3.0.3
   cross_file: ^0.3.3+2
   open_file: ^3.3.2
+  wakelock_plus: ^1.4.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.10.0
 
-flutter_icons:
-  image_path: "assets/images/android_legacy.png"
-  image_path_android: "assets/images/android_legacy.png"
-  image_path_ios: "assets/images/white_on_black.png"
-  android: true # can specify file name here e.g. "ic_launcher"
-  ios: true # can specify file name here e.g. "My-Launcher-Icon"
-  adaptive_icon_background: "assets/images/white_on_black.png" # only available for Android 8.0 devices and above
-  adaptive_icon_foreground: "assets/images/fully_transparent.png" # only available for Android 8.0 devices and above
+# flutter_icons:
+#   image_path: "assets/images/android_legacy.png"
+#   image_path_android: "assets/images/android_legacy.png"
+#   image_path_ios: "assets/images/white_on_black.png"
+#   android: true # can specify file name here e.g. "ic_launcher"
+#   ios: true # can specify file name here e.g. "My-Launcher-Icon"
+#   adaptive_icon_background: "assets/images/white_on_black.png" # only available for Android 8.0 devices and above
+#   adaptive_icon_foreground: "assets/images/fully_transparent.png" # only available for Android 8.0 devices and above
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -102,8 +102,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-   - assets/images/command_bros/logo.png
+  # assets:
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

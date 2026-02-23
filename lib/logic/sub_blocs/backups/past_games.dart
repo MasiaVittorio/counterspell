@@ -1,56 +1,32 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/logic/sub_blocs/backups/backup_logic.dart';
+import 'package:counter_spell/widgets/alerts/specifics/menu/settings/backups/share_or_save.dart';
 import 'package:path/path.dart' as path;
-import 'package:permission_handler/permission_handler.dart';
-
-import 'package:counter_spell_new/core.dart';
+import 'package:path_provider/path_provider.dart';
 
 extension CSBackupPastGames on CSBackupBloc {
-  void initPastGames() {
-    if (!ready.value) return;
-    final List<File> pastGames = jsonFilesInDirectory(pastGamesDirectory!);
-    savedPastGames.set(pastGames);
-  }
-
   //===================================
   // Methods
   Future<bool> savePastGames() async {
     final newFile = await createGamesBackup();
-    if(newFile == null){
+    if (newFile == null) {
       return false;
     } else {
-      savedPastGames.value.add(newFile);
-      savedPastGames.refresh();
+      await newFile.share();
       return true;
     }
   }
 
   Future<File?> createGamesBackup() async {
-    if (!ready.value) return null;
-
     final now = DateTime.now();
+    final tempDir = await getTemporaryDirectory();
     File newFile = File(path.join(
-      pastGamesDirectory!.path,
-      "pg_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
+      tempDir.path,
+      "counterspell_game_history_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
     ));
-
-    int i = 0;
-    while (await newFile.exists()) {
-      ++i;
-      String withoutExt = path.basenameWithoutExtension(newFile.path);
-      newFile = File(path.join(
-        pastGamesDirectory!.path,
-        "${withoutExt}_($i).json",
-      ));
-      if (i == 100) {
-        // print("100 files in the same second? wtf??");
-        return null;
-      }
-    }
-
-    newFile.create();
 
     await newFile.writeAsString(
       jsonEncode(
@@ -66,23 +42,11 @@ extension CSBackupPastGames on CSBackupBloc {
     return newFile;
   }
 
-  Future<bool> deletePastGame(int index) async {
-    if (savedPastGames.value.checkIndex(index)) {
-      final file = savedPastGames.value.removeAt(index);
-      savedPastGames.refresh();
-      await file.delete();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   Future<bool> loadPastGame(File file) async {
-
     final result = await readPastGames(file);
-    
+
     final newPastGames = result.games;
-    if(newPastGames == null || newPastGames.isEmpty){
+    if (newPastGames == null || newPastGames.isEmpty) {
       return false;
     }
 
@@ -90,8 +54,7 @@ extension CSBackupPastGames on CSBackupBloc {
   }
 
   Future<bool> restorePastGames(List<PastGame> newPastGames) async {
-
-    if(newPastGames.isEmpty) return false;
+    if (newPastGames.isEmpty) return false;
 
     final List<String> newStrings = <String>[
       for (final game in newPastGames) jsonEncode(game.toJson),
@@ -119,18 +82,6 @@ extension CSBackupPastGames on CSBackupBloc {
   }
 
   Future<ReadPastGamesResult> readPastGames(File file) async {
-    
-    if (!ready.value) {
-      return ReadPastGamesResult(
-        errorMessage: "Backups logic not ready",
-      );
-    }
-    if (!(await Permission.storage.isGranted)) {
-      return ReadPastGamesResult(
-        errorMessage: "Storage permission not granted",
-      );
-    }
-
     late dynamic decoded;
     bool error = false;
     try {
@@ -148,7 +99,7 @@ extension CSBackupPastGames on CSBackupBloc {
 
     if (decoded is List) {
       /// try to decode them to past game object to check if they are
-      
+
       bool errorParsingJson = false;
       List<PastGame>? newPastGames;
       try {
@@ -158,7 +109,7 @@ extension CSBackupPastGames on CSBackupBloc {
       } catch (e) {
         errorParsingJson = true;
       }
-      if(errorParsingJson || newPastGames == null){
+      if (errorParsingJson || newPastGames == null) {
         return ReadPastGamesResult(
           errorMessage: "Error parsing past games",
         );
@@ -167,7 +118,6 @@ extension CSBackupPastGames on CSBackupBloc {
       return ReadPastGamesResult(
         games: newPastGames,
       );
-
     } else {
       return ReadPastGamesResult(
         errorMessage: "Wrong file contents",

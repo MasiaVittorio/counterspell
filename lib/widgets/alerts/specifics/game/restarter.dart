@@ -1,7 +1,7 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class RestarterAlert extends StatelessWidget {
-  const RestarterAlert(this.from);
+  const RestarterAlert(this.from, {super.key});
   final GameRestartedFrom from;
 
   @override

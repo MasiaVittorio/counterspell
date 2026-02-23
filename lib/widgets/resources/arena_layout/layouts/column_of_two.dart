@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColumnOfTwo extends StatelessWidget {
 
-  const ColumnOfTwo({
+  const ColumnOfTwo({super.key, 
     required this.top,
     required this.bottom,
     this.flexTop = 1,

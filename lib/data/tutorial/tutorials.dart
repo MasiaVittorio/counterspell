@@ -1,14 +1,14 @@
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/data/tutorial/app.dart';
-import 'package:counter_spell_new/data/tutorial/arena.dart';
-import 'package:counter_spell_new/data/tutorial/commander.dart';
-import 'package:counter_spell_new/data/tutorial/counters.dart';
-import 'package:counter_spell_new/data/tutorial/history.dart';
-import 'package:counter_spell_new/data/tutorial/playgroup.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/data/tutorial/app.dart';
+import 'package:counter_spell/data/tutorial/arena.dart';
+import 'package:counter_spell/data/tutorial/commander.dart';
+import 'package:counter_spell/data/tutorial/counters.dart';
+import 'package:counter_spell/data/tutorial/history.dart';
+import 'package:counter_spell/data/tutorial/playgroup.dart';
+
 import 'gestures.dart';
 
-class Tutorials{
-
+class Tutorials {
   static const gestures = GesturesTutorial.tutorial;
 
   static const commanders = CommanderTutorial.tutorial;
@@ -31,6 +31,5 @@ class Tutorials{
     counters,
     playgroup,
     arena,
- ];
-
+  ];
 }

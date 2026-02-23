@@ -3,11 +3,11 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
-import 'package:counter_spell_new/widgets/resources/highlightable/overlay_painter.dart';
-import 'package:counter_spell_new/widgets/stage/body/group/player_tile_gestures.dart';
-import 'package:counter_spell_new/widgets/stage/body/group/player_tile_utilities.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/resources/highlightable/highlightable.dart';
+import 'package:counter_spell/widgets/resources/highlightable/overlay_painter.dart';
+import 'package:counter_spell/widgets/stage/body/group/player_tile_gestures.dart';
+import 'package:counter_spell/widgets/stage/body/group/player_tile_utilities.dart';
 
 class PlayerTile extends StatelessWidget {
   final String name;
@@ -35,7 +35,7 @@ class PlayerTile extends StatelessWidget {
   final bool flat;
 
   const PlayerTile(
-    this.name, {
+    this.name, {super.key, 
     required this.usingPartnerB,
     required this.isAttackerUsingPartnerB,
     required this.havingPartnerB,
@@ -61,7 +61,7 @@ class PlayerTile extends StatelessWidget {
 
   static const double coreTileSize = CSSizes.minTileSize;
 
-  double get tileRadius => flat? 12 : 0.0;
+  double get tileRadius => flat ? 12 : 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +153,7 @@ class PlayerTile extends StatelessWidget {
                   ),
                 ),
                 Expanded(child: buildBody(selected, theme)),
-                if(highlightController != null)
+                if (highlightController != null)
                   Highlightable(
                     overlayShape: const OverlayShape(
                       type: OverlayShapeType.circle,
@@ -163,7 +163,8 @@ class PlayerTile extends StatelessWidget {
                     controller: bloc.tutorial.checkboxHighlight,
                     child: buildTrailing(selected, actionBloc, stateBloc),
                   )
-                else buildTrailing(selected, actionBloc, stateBloc)
+                else
+                  buildTrailing(selected, actionBloc, stateBloc)
               ]),
             ),
           ),
@@ -171,9 +172,9 @@ class PlayerTile extends StatelessWidget {
       ),
     );
 
-    if(highlightController != null){
+    if (highlightController != null) {
       tile = Highlightable(
-        controller: highlightController!, 
+        controller: highlightController!,
         borderRadius: tileRadius,
         child: tile,
       );
@@ -253,8 +254,8 @@ class PlayerTile extends StatelessWidget {
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                       colors: [
-                        theme.canvasColor.withOpacity(startVal!),
-                        theme.canvasColor.withOpacity(endVal!),
+                        theme.canvasColor.withValues(alpha: startVal!),
+                        theme.canvasColor.withValues(alpha: endVal!),
                       ],
                     ),
                   ),
@@ -330,14 +331,14 @@ class PlayerTile extends StatelessWidget {
     );
 
     final Color subColor = Color.alphaBlend(
-      theme.scaffoldBackgroundColor.withOpacity(1.0),
-      // theme.colorScheme.onSurface.withOpacity(.1),
+      theme.scaffoldBackgroundColor.withValues(alpha: 1.0),
+      // theme.colorScheme.onSurface.withValues(alpha: .1),
       theme.canvasColor,
-    ).withOpacity(0.6);
+    ).withValues(alpha: 0.6);
     final Color selectedColor = Color.alphaBlend(
-      color.withOpacity(0.55),
+      color.withValues(alpha: 0.55),
       theme.canvasColor,
-    ).withOpacity(0.8);
+    ).withValues(alpha: 0.8);
 
     if (page == CSPage.history) {
       child = Material(
@@ -403,13 +404,13 @@ class PlayerTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(coreTileSize * (1 - circleFrac) / 2),
       child: highlightController != null
-        ? Highlightable(
-          controller: group.parent.parent.tutorial.numberCircleHighlight, 
-          showOverlay: true,
-          borderRadius: 500,
-          child: child,
-        )
-        : child,
+          ? Highlightable(
+              controller: group.parent.parent.tutorial.numberCircleHighlight,
+              showOverlay: true,
+              borderRadius: 500,
+              child: child,
+            )
+          : child,
     );
   }
 

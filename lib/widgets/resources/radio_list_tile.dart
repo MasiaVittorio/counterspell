@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 
-
 class SidRadioListTile<T> extends StatelessWidget {
-
   final T value;
-
-  final T groupValue;
-
-  final ValueChanged<T?> onChanged;
 
   final Color? activeColor;
 
@@ -17,9 +11,8 @@ class SidRadioListTile<T> extends StatelessWidget {
   final Widget? secondary;
 
   const SidRadioListTile({
+    super.key,
     required this.value,
-    required this.groupValue,
-    required this.onChanged,
     this.title,
     this.subtitle,
     this.secondary,
@@ -30,24 +23,33 @@ class SidRadioListTile<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final canvas = theme.canvasColor;
-    final selectedBkg = theme.scaffoldBackgroundColor.withOpacity(0.6);
+    final selectedBkg = theme.scaffoldBackgroundColor.withValues(alpha: 0.6);
+
+    final radioGroup = RadioGroup.maybeOf<T>(context);
+    final bool isSelected = radioGroup?.groupValue == value;
+
+    void toggle() {
+      if (isSelected) {
+        // radioGroup?.onChanged.call(null);
+      } else {
+        radioGroup?.onChanged.call(value);
+      }
+    }
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
-        color: value == groupValue ? selectedBkg : canvas,
+        color: isSelected ? selectedBkg : canvas,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Material(
         type: MaterialType.transparency,
         child: ListTile(
-          leading: Radio(
+          leading: Radio<T>(
             value: value,
-            groupValue: groupValue,
-            onChanged: onChanged,
             activeColor: activeColor,
           ),
-          onTap: () => onChanged(value),
+          onTap: toggle,
           title: title,
           subtitle: subtitle,
           trailing: secondary,

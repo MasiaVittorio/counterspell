@@ -1,26 +1,24 @@
-import 'package:counter_spell_new/logic/sub_blocs/scroller/scroller_generic.dart';
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/logic/sub_blocs/scroller/scroller_generic.dart';
 
 class MPLogic {
-
   bool? mounted;
 
-  late BlocVar<Map<Clr,bool>> show; 
-  late BlocVar<List<ManaAction>> history; 
+  late BlocVar<Map<Clr, bool>> show;
+  late BlocVar<List<ManaAction>> history;
 
   late ScrollerLogic localScroller;
 
-  late BlocVar<Clr?> selected; 
+  late BlocVar<Clr?> selected;
 
-  ManaAction? get currentAction => selected.value == null 
-    ? null
-    : ManaAction(
-    delta: localScroller.intValue.value, 
-    color: selected.value!,
-  );
+  ManaAction? get currentAction => selected.value == null
+      ? null
+      : ManaAction(
+          delta: localScroller.intValue.value,
+          color: selected.value!,
+        );
 
-  late BlocVar<Map<Clr,int>> pool;
+  late BlocVar<Map<Clr, int>> pool;
 
   void dispose() {
     mounted = false;
@@ -35,49 +33,50 @@ class MPLogic {
     mounted = true;
 
     selected = BlocVar<Clr?>(null);
-    
+
     localScroller = ScrollerLogic(
-      okVibrate: () => parentBloc.settings.appSettings.canVibrate! 
-        && parentBloc.settings.appSettings.wantVibrate.value,
-      onCancel: (_, __){
+      okVibrate: () =>
+          parentBloc.settings.appSettings.canVibrate! &&
+          parentBloc.settings.appSettings.wantVibrate.value,
+      onCancel: (_, __) {
         selected.set(null);
       },
       scrollSettings: parentBloc.settings.scrollSettings,
       resetAfterConfirm: true,
-      onConfirm: (v){
+      onConfirm: (v) {
         apply(currentAction);
       },
     );
 
-    show = BlocVar(<Clr, bool>{
-      for(final c in Clr.values)
-        c: true,
-    },);
+    show = BlocVar(
+      <Clr, bool>{
+        for (final c in Clr.values) c: true,
+      },
+    );
 
     history = BlocVar(<ManaAction>[]);
 
-    pool = BlocVar(<Clr,int>{
-      for(final v in Clr.values)
-        v: 0,
+    pool = BlocVar(<Clr, int>{
+      for (final v in Clr.values) v: 0,
     });
   }
 
-  void apply(ManaAction? action){
-    if(action == null) return;
+  void apply(ManaAction? action) {
+    if (action == null) return;
     pool.value[action.color] = pool.value[action.color]! + action.delta;
-    if(pool.value[action.color]! < 0) {
+    if (pool.value[action.color]! < 0) {
       pool.value[action.color] = 0;
     }
     pool.refresh();
 
-    if(action.delta != 0){
-      if(history.value.contains(action)){
+    if (action.delta != 0) {
+      if (history.value.contains(action)) {
         return;
       }
-      if(history.value.length >= 4){
+      if (history.value.length >= 4) {
         int deleteAt = 0;
-        for(int i=0; i<history.value.length; ++i){
-          if(!show.value[history.value[i].color]!) {
+        for (int i = 0; i < history.value.length; ++i) {
+          if (!show.value[history.value[i].color]!) {
             deleteAt = i;
           }
         }
@@ -88,68 +87,64 @@ class MPLogic {
     }
   }
 
-  void onPan(Clr color){
-    if(selected.value == null){
+  void onPan(Clr color) {
+    if (selected.value == null) {
       selected.set(color);
     } else {
-      if(selected.value != color){
-        if(localScroller.isScrolling.value) {
+      if (selected.value != color) {
+        if (localScroller.isScrolling.value) {
           apply(currentAction);
         }
         selected.set(color);
-      } 
+      }
     }
   }
-
 }
 
+enum Clr { w, u, b, r, g, c }
 
-
-
-enum Clr {w,u,b,r,g,c} ///+ colorless
+///+ colorless
 extension ClrExt on Clr {
+  String get name => const <Clr, String>{
+        Clr.w: "w",
+        Clr.u: "u",
+        Clr.b: "b",
+        Clr.r: "r",
+        Clr.g: "g",
+        Clr.c: "c",
+      }[this]!;
 
-  String get name => const <Clr,String>{
-    Clr.w: "w",
-    Clr.u: "u",
-    Clr.b: "b",
-    Clr.r: "r",
-    Clr.g: "g",
-    Clr.c: "c",
-  }[this]!; 
+  Color get color => const <Clr, Color>{
+        Clr.w: Color(0xFFfffbd6),
+        Clr.u: Color(0xFFaae0fa),
+        Clr.b: Color(0xFFccc3c1),
+        Clr.r: Color(0xFFf9aa8f),
+        Clr.g: Color(0xFF9bd3af),
+        Clr.c: Color(0xFFd5cece),
+      }[this]!;
 
-  Color get color => const <Clr,Color>{
-    Clr.w: Color(0xFFfffbd6),
-    Clr.u: Color(0xFFaae0fa),
-    Clr.b: Color(0xFFccc3c1),
-    Clr.r: Color(0xFFf9aa8f),
-    Clr.g: Color(0xFF9bd3af),
-    Clr.c: Color(0xFFd5cece),
-  }[this]!;
-
-  IconData? get icon => const <Clr,IconData>{
-    Clr.w: ManaIcons.w,
-    Clr.u: ManaIcons.u,
-    Clr.b: ManaIcons.b,
-    Clr.r: ManaIcons.r,
-    Clr.g: ManaIcons.g,
-    Clr.c: ManaIcons.c,
-  }[this];
-
+  IconData? get icon => const <Clr, IconData>{
+        Clr.w: ManaIcons.w,
+        Clr.u: ManaIcons.u,
+        Clr.b: ManaIcons.b,
+        Clr.r: ManaIcons.r,
+        Clr.g: ManaIcons.g,
+        Clr.c: ManaIcons.c,
+      }[this];
 }
+
 class Clrs {
-  static Clr? fromName(String? name) => const <String,Clr>{
-    "w": Clr.w,
-    "u": Clr.u,
-    "b": Clr.b,
-    "r": Clr.r,
-    "g": Clr.g,
-    "c": Clr.c,
-  }[name ?? ''];
+  static Clr? fromName(String? name) => const <String, Clr>{
+        "w": Clr.w,
+        "u": Clr.u,
+        "b": Clr.b,
+        "r": Clr.r,
+        "g": Clr.g,
+        "c": Clr.c,
+      }[name ?? ''];
 }
 
 class ManaAction {
-
   final int delta;
   final Clr color;
 
@@ -158,28 +153,27 @@ class ManaAction {
     required this.color,
   });
 
-  Map<String,dynamic> get toJson => <String,dynamic>{
-    "delta": delta,
-    "color": color.name,
-  };
+  Map<String, dynamic> get toJson => <String, dynamic>{
+        "delta": delta,
+        "color": color.name,
+      };
 
-  static ManaAction fromJson(Map<String,dynamic> json) => ManaAction(
-    delta: json["delta"],
-    color: Clrs.fromName(json["color"])!,
-  );
+  static ManaAction fromJson(Map<String, dynamic> json) => ManaAction(
+        delta: json["delta"],
+        color: Clrs.fromName(json["color"])!,
+      );
 
   @override
-  operator ==(Object other){
-    if (other is ManaAction){
-      if(other.delta != delta) return false;
-      if(other.color != color) return false;
+  operator ==(Object other) {
+    if (other is ManaAction) {
+      if (other.delta != delta) return false;
+      if (other.color != color) return false;
       return true;
     } else {
       return false;
     }
   }
 
-  @override 
+  @override
   int get hashCode => toJson.hashCode;
-
 }

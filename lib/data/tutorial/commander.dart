@@ -1,8 +1,8 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'highlights.dart';
 
 class CommanderTutorial {
-  
   static const tutorial = TutorialData(
     icon: CSIcons.damageOutlined,
     title: "Commanders",
@@ -15,7 +15,6 @@ class CommanderTutorial {
       playerOptionsCircle,
     ],
   );
-
 
   static const attacker = Hint(
     text: "Start by selecting the attacking player",
@@ -48,14 +47,14 @@ class CommanderTutorial {
     repeatAuto: 1,
     icon: HintIcon(McIcons.gesture_tap),
   );
-  
+
   static const playerOptionsLongPress = Hint(
     text: "Long press on a player to open their settings",
     page: null,
     autoHighlight: HintsHighlights.player,
     icon: HintIcon(McIcons.gesture_tap_hold),
   );
-  
+
   static const playerOptionsCircle = Hint(
     text: "(Also tapping on the number circle will do!)",
     page: null,
@@ -63,5 +62,4 @@ class CommanderTutorial {
     repeatAuto: 1,
     icon: HintIcon(McIcons.gesture_tap),
   );
-
 }

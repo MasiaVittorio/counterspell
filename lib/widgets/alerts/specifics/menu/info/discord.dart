@@ -1,8 +1,7 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class ConfirmDiscord extends StatelessWidget {
-
-  const ConfirmDiscord();
+  const ConfirmDiscord({super.key});
 
   static double height = ConfirmAlert.twoLinesheight;
 

@@ -1,10 +1,9 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'list_element.dart';
 
-
 class PastGamesList extends StatelessWidget {
-
-  const PastGamesList();
+  const PastGamesList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,6 @@ class PastGamesList extends StatelessWidget {
 }
 
 class _PastGamesList extends StatefulWidget {
-
   const _PastGamesList(this.stage);
   final StageData? stage;
 
@@ -22,7 +20,6 @@ class _PastGamesList extends StatefulWidget {
 }
 
 class _PastGamesListState extends State<_PastGamesList> {
-
   ScrollController? controller;
 
   static const key = "history of games leaderboards scroll controller position";
@@ -30,10 +27,9 @@ class _PastGamesListState extends State<_PastGamesList> {
   @override
   void initState() {
     super.initState();
-    var saved = widget.stage!.panelController
-        .alertController.savedStates[key];
+    var saved = widget.stage!.panelController.alertController.savedStates[key];
     controller = ScrollController(
-      initialScrollOffset: ((saved is double) ? saved : null ) ?? 0.0,
+      initialScrollOffset: ((saved is double) ? saved : null) ?? 0.0,
     );
   }
 
@@ -47,19 +43,20 @@ class _PastGamesListState extends State<_PastGamesList> {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return bloc.pastGames.pastGames.build((_, pastGames){
-      if(pastGames.isEmpty) return Container();
+    return bloc.pastGames.pastGames.build((_, pastGames) {
+      if (pastGames.isEmpty) return Container();
 
       return ListView.builder(
         controller: controller,
         physics: Stage.of(context)!.panelController.panelScrollPhysics(),
-        itemBuilder: (_, index){
+        itemBuilder: (_, index) {
           final int gameIndex = pastGames.length - index - 1;
           return PastGameTile(
-            pastGames[gameIndex], 
+            pastGames[gameIndex],
             gameIndex,
-            onSingleScreenCallback: (){
-              widget.stage!.panelController.alertController.savedStates[key] = controller!.offset;
+            onSingleScreenCallback: () {
+              widget.stage!.panelController.alertController.savedStates[key] =
+                  controller!.offset;
             },
           );
         },
@@ -68,5 +65,4 @@ class _PastGamesListState extends State<_PastGamesList> {
       );
     });
   }
-
 }

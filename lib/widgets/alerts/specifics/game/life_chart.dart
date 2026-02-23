@@ -1,6 +1,6 @@
 // import 'dart:math' as math;
 
-// import 'package:counter_spell_new/core.dart';
+// import 'package:counter_spell/core.dart';
 // import 'package:fl_chart/fl_chart.dart';
 
 
@@ -131,7 +131,7 @@
 //       clipData: FlClipData.none(),
 //       extraLinesData: ExtraLinesData(horizontalLines: [HorizontalLine(y: 0.0, strokeWidth: 1.0)]),
 //       lineTouchData: LineTouchData(
-//         touchTooltipData: LineTouchTooltipData(tooltipBgColor: canvasColor.withOpacity(0.9)),
+//         touchTooltipData: LineTouchTooltipData(tooltipBgColor: canvasColor.withValues(alpha: 0.9)),
 //       ),          // lineTouchData: ,
 //       maxX: maxTime,
 //       minX: 0.0,
@@ -154,7 +154,7 @@
 //                 playerState.life.toDouble(),
 //               ),
 //             ],
-//             colors: [LifeChart._colors[i].withOpacity(0.5)],
+//             colors: [LifeChart._colors[i].withValues(alpha: 0.5)],
 //             barWidth: 1.5,
 //             dotData: FlDotData(
 //               show: false,

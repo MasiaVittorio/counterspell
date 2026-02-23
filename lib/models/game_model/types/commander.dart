@@ -31,7 +31,7 @@ class CommanderDamage{
 
 
 class CommanderCast extends CommanderDamage{
-  const CommanderCast(int a, [int b = 0]): super(a,b);
+  const CommanderCast(super.a, [super.b]);
   static CommanderCast fromDamage(CommanderDamage damage)=> CommanderCast(damage.a, damage.b);
   static CommanderCast fromJson(dynamic json) => fromDamage(CommanderDamage.fromJson(json));
   CommanderCast withCast(int cast, {

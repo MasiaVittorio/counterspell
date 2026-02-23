@@ -1,140 +1,95 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'dart:convert';
-
-import 'package:counter_spell_new/core.dart';
-import 'package:permission_handler/permission_handler.dart';
-
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/logic/sub_blocs/backups/backup_logic.dart';
+import 'package:counter_spell/widgets/alerts/specifics/menu/settings/backups/share_or_save.dart';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 extension CSBackupPreferences on CSBackupBloc {
-  void initPreferences() {
-    if (!ready.value) return;
-    final List<File> preferences = jsonFilesInDirectory(preferencesDirectory!);
-    savedPreferences.set(preferences);
-  }
-
   //===================================
   // Methods
 
   Future<bool> savePreferences() async {
     final newFile = await createPreferencesBackup();
 
-     if(newFile == null){
+    if (newFile == null) {
       return false;
     } else {
-      savedPreferences.value.add(newFile);
-      savedPreferences.refresh();
+      await newFile.share();
       return true;
     }
   }
 
   Future<File?> createPreferencesBackup() async {
-    if (!ready.value) return null;
-
     final now = DateTime.now();
+    final tempDir = await getTemporaryDirectory();
     File newFile = File(path.join(
-      preferencesDirectory!.path,
-      "pr_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
+      tempDir.path,
+      "counterspell_settings_${now.year}_${now.month}_${now.day}_${now.hour}_${now.minute}_${now.second}.json",
     ));
 
-    int i = 0;
-    while (await newFile.exists()) {
-      ++i;
-      String withoutExt = path.basenameWithoutExtension(newFile.path);
-      newFile = File(path.join(
-        preferencesDirectory!.path,
-        "${withoutExt}_($i).json",
-      ));
-      if (i == 100) {
-        // print("100 files in the same second? wtf??");
-        return null;
-      }
-    }
-
-    newFile.create();
-
-    final settings = parent.settings;
-    final arena = settings.arenaSettings;
-    final gameSettings = settings.gameSettings;
-    final app = settings.appSettings;
-    final scroll = settings.scrollSettings;
-    final game = parent.game;
-    final group = game.gameGroup;
-    final themer = parent.themer;
-
-    // TODO: update what gets saved as preferences and what gets restore
-
-    // SAVED NAMES? I MEAN WHEN TYPING IT INTO THE PLAYGROUP EDITOR BRINGS UP THE AUTOCOMPLETE HINTS
-
-    // FONT SIZE?
-
-    // TODO: arena font size?
-    
     await newFile.writeAsString(
       jsonEncode(<String, dynamic>{
-        themer.savedSchemes.key: <String, Map<String, dynamic>>{
-          for (final e in themer.savedSchemes.value.entries)
+        parent.themer.savedSchemes.key: <String, Map<String, dynamic>>{
+          for (final e in parent.themer.savedSchemes.value.entries)
             e.key: e.value.toJson,
         },
 
-        group.savedNames.key // Set<String> ->
-            : group.savedNames.value.toList(), // List<String>
+        parent.game.gameGroup.savedNames.key // Set<String> ->
+            : parent.game.gameGroup.savedNames.value.toList(), // List<String>
 
-        gameSettings.timeMode.key: // TimeMode ->
-            TimeModes.nameOf(gameSettings.timeMode.value), // String (nameOf)
+        parent.settings.gameSettings.timeMode.key: // TimeMode ->
+            TimeModes.nameOf(
+                parent.settings.gameSettings.timeMode.value), // String (nameOf)
 
-        app.alwaysOnDisplay.key: app.alwaysOnDisplay.value, // bool
+        parent.settings.appSettings.alwaysOnDisplay.key:
+            parent.settings.appSettings.alwaysOnDisplay.value, // bool
 
-        app.wantVibrate.key: app.wantVibrate.value, // bool
+        parent.settings.appSettings.wantVibrate.key:
+            parent.settings.appSettings.wantVibrate.value, // bool
 
-        arena.scrollOverTap.key: arena.scrollOverTap.value, // bool
+        parent.settings.arenaSettings.scrollOverTap.key:
+            parent.settings.arenaSettings.scrollOverTap.value, // bool
 
-        arena.verticalScroll.key: arena.verticalScroll.value, // bool
+        parent.settings.arenaSettings.verticalScroll.key:
+            parent.settings.arenaSettings.verticalScroll.value, // bool
 
-        arena.verticalTap.key: arena.verticalTap.value, // bool
+        parent.settings.arenaSettings.verticalTap.key:
+            parent.settings.arenaSettings.verticalTap.value, // bool
 
-        scroll.confirmDelay.key: // Duration ->
-            scroll.confirmDelay.value.inMilliseconds, // int (milliseconds)
+        parent.settings.scrollSettings.confirmDelay.key: // Duration ->
+            parent.settings.scrollSettings.confirmDelay.value
+                .inMilliseconds, // int (milliseconds)
 
-        scroll.scrollSensitivity.key: scroll.scrollSensitivity.value, // double
+        parent.settings.scrollSettings.scrollSensitivity.key:
+            parent.settings.scrollSettings.scrollSensitivity.value, // double
 
-        scroll.scroll1Static.key: scroll.scroll1Static.value, // bool
+        parent.settings.scrollSettings.scroll1Static.key:
+            parent.settings.scrollSettings.scroll1Static.value, // bool
 
-        scroll.scroll1StaticValue.key:
-            scroll.scroll1StaticValue.value, // double
+        parent.settings.scrollSettings.scroll1StaticValue.key:
+            parent.settings.scrollSettings.scroll1StaticValue.value, // double
 
-        scroll.scrollDynamicSpeed.key: scroll.scrollDynamicSpeed.value, // bool
+        parent.settings.scrollSettings.scrollDynamicSpeed.key:
+            parent.settings.scrollSettings.scrollDynamicSpeed.value, // bool
 
-        scroll.scrollDynamicSpeedValue.key:
-            scroll.scrollDynamicSpeedValue.value, // double
+        parent.settings.scrollSettings.scrollDynamicSpeedValue.key: parent
+            .settings.scrollSettings.scrollDynamicSpeedValue.value, // double
 
-        scroll.scrollPreBoost.key: scroll.scrollPreBoost.value, //bool
+        parent.settings.scrollSettings.scrollPreBoost.key:
+            parent.settings.scrollSettings.scrollPreBoost.value, //bool
 
-        scroll.scrollPreBoostValue.key:
-            scroll.scrollPreBoostValue.value, //double
+        parent.settings.scrollSettings.scrollPreBoostValue.key:
+            parent.settings.scrollSettings.scrollPreBoostValue.value, //double
       }),
     );
 
     return newFile;
-
-  }
-
-  Future<bool> deletePreference(int index) async {
-    if (savedPreferences.value.checkIndex(index)) {
-      final file = savedPreferences.value.removeAt(index);
-      savedPreferences.refresh();
-      await file.delete();
-      return true;
-    } else {
-      return false;
-    }
   }
 
   Future<bool> loadPreferences(File file) async {
-    if (!ready.value) return false;
-    if (!(await Permission.storage.isGranted)) return false;
-
     final map = await readPreferences(file);
     if (map != null) {
       return await restorePreferences(map);
@@ -147,7 +102,7 @@ extension CSBackupPreferences on CSBackupBloc {
     try {
       String content = await file.readAsString();
       dynamic map = jsonDecode(content);
-      if(map is Map){
+      if (map is Map) {
         return map;
       }
     } catch (e) {
@@ -309,11 +264,10 @@ extension CSBackupPreferences on CSBackupBloc {
       errorRestoring = true;
     }
 
-    if(errorRestoring){
+    if (errorRestoring) {
       return false;
     } else {
       return true;
     }
   }
-
 }

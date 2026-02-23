@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 import 'player_tile.dart';
 
@@ -12,12 +12,13 @@ class BodyGroup extends StatelessWidget {
   final double maxWidth;
   final double bottom;
   final CSPage currentPage;
-  final Map<CSPage,Color> pageColors;
+  final Map<CSPage, Color> pageColors;
   final int? highlightableIndex;
   final int? secondHighlightableIndex;
   final bool flat;
-  
-  const BodyGroup(this.names,{
+
+  const BodyGroup(
+    this.names, {super.key, 
     required this.bottom,
     required this.currentPage,
     required this.maxWidth,
@@ -31,11 +32,9 @@ class BodyGroup extends StatelessWidget {
     required this.secondHighlightableIndex,
     required this.flat,
   });
-  
+
   @override
   Widget build(BuildContext context) {
-
-
     final bloc = group.parent.parent;
     final actionBloc = bloc.game.gameAction;
     final settings = bloc.settings;
@@ -44,98 +43,124 @@ class BodyGroup extends StatelessWidget {
     // Meh... Will have to look into StreamBuilder :/
 
     // Also, finishing a scroll on the panel makes some of these rebuild lol, wtf
-    return bloc.scroller.isScrolling.build((_, isScrolling) 
-      => bloc.scroller.intValue.build((_, increment) 
-      => actionBloc.selected.build((_, selected) 
-      => actionBloc.attackingPlayer.build((_, attackingPlayer) 
-      => actionBloc.defendingPlayer.build((_, defendingPlayer) 
-      => actionBloc.counterSet.build((_, counter) 
-      => bloc.game.gameState.gameState.build((_, gameState) {
+    return bloc.scroller.isScrolling.build(
+      (_, isScrolling) => bloc.scroller.intValue.build(
+        (_, increment) => actionBloc.selected.build(
+          (_, selected) => actionBloc.attackingPlayer.build(
+            (_, attackingPlayer) => actionBloc.defendingPlayer.build(
+              (_, defendingPlayer) => actionBloc.counterSet.build(
+                (_, counter) => bloc.game.gameState.gameState.build(
+                  (_, gameState) {
+                    final normalizedPlayerActions =
+                        CSGameAction.normalizedAction(
+                      pageValue: currentPage,
+                      selectedValue: selected,
+                      gameState: gameState,
+                      scrollerValue: increment,
+                      attacker: attackingPlayer,
+                      defender: defendingPlayer,
+                      //these three values are so rarely updated that all the actual
+                      //reactive variables make this rebuild so often that min and max
+                      //will basically always be correct. no need to add 2 streambuilders
+                      minValue: settings.gameSettings.minValue.value,
+                      maxValue: settings.gameSettings.maxValue.value,
+                      counter: counter,
+                    ).actions(gameState.names);
 
-        final normalizedPlayerActions = CSGameAction.normalizedAction(
-          pageValue: currentPage,
-          selectedValue: selected,
-          gameState: gameState,
-          scrollerValue: increment,
-          attacker: attackingPlayer,
-          defender: defendingPlayer,
-          //these three values are so rarely updated that all the actual
-          //reactive variables make this rebuild so often that min and max
-          //will basically always be correct. no need to add 2 streambuilders
-          minValue: settings.gameSettings.minValue.value,
-          maxValue: settings.gameSettings.maxValue.value,
-          counter: counter,
-        ).actions(gameState.names);
+                    final children = <Widget>[
+                      for (final name in names)
+                        if (gameState.names.contains(name))
+                          PlayerTile(
+                            name,
+                            pageColor: pageColors[currentPage],
+                            maxWidth: maxWidth,
+                            increment: increment,
+                            defenceColor: defenceColor,
+                            tileSize: tileSize,
+                            bottom: ([
+                              names.last,
+                              if (landScape && names.length.isEven)
+                                names[names.length - 2],
+                            ].contains(name))
+                                ? bottom
+                                : 0.0,
+                            first: ([
+                              names.first,
+                              if (landScape && names.length >= 2) names[1],
+                            ].contains(name))
+                                ? true
+                                : false,
+                            page: currentPage,
+                            usingPartnerB: gameState.players[name]!.usePartnerB,
+                            isAttackerUsingPartnerB: gameState
+                                    .players[attackingPlayer]?.usePartnerB ??
+                                false,
+                            havingPartnerB:
+                                gameState.players[name]!.havePartnerB,
+                            isAttackerHavingPartnerB: gameState
+                                    .players[attackingPlayer]?.havePartnerB ??
+                                false,
+                            selected: selected[name],
+                            whoIsAttacking: attackingPlayer,
+                            whoIsDefending: defendingPlayer,
+                            isScrollingSomewhere: isScrolling,
+                            counter: counter,
+                            playerState: gameState.players[name]!.states.last,
+                            normalizedPlayerAction:
+                                normalizedPlayerActions[name],
+                            highlightController:
+                                highlightableIndex == names.indexOf(name)
+                                    ? bloc.tutorial.playerHighlight
+                                    : secondHighlightableIndex ==
+                                            names.indexOf(name)
+                                        ? bloc.tutorial.secondPlayerHighlight
+                                        : null,
+                            flat: flat,
+                          ),
+                    ];
 
-        final children = <Widget>[
-          for(final name in names) if(gameState.names.contains(name))
-            PlayerTile(
-              name, 
-              pageColor: pageColors[currentPage],
-              maxWidth: maxWidth,
-              increment: increment,
-              defenceColor: defenceColor,
-              tileSize: tileSize,
-              bottom: ([
-                names.last,
-                if(landScape && names.length.isEven) names[names.length-2],
-              ].contains(name)) ? bottom : 0.0,
-              first: ([
-                names.first,
-                if(landScape && names.length >= 2) names[1],
-              ].contains(name)) ? true : false,
-              page: currentPage,
-              usingPartnerB: gameState.players[name]!.usePartnerB,
-              isAttackerUsingPartnerB: gameState.players[attackingPlayer]?.usePartnerB??false,
-              havingPartnerB: gameState.players[name]!.havePartnerB,
-              isAttackerHavingPartnerB: gameState.players[attackingPlayer]?.havePartnerB??false,
-              selected: selected[name],
-              whoIsAttacking: attackingPlayer,
-              whoIsDefending: defendingPlayer,
-              isScrollingSomewhere: isScrolling,
-              counter: counter,
-              playerState: gameState.players[name]!.states.last,
-              normalizedPlayerAction: normalizedPlayerActions[name],
-              highlightController: 
-                highlightableIndex == names.indexOf(name)
-                  ? bloc.tutorial.playerHighlight
-                  : secondHighlightableIndex == names.indexOf(name)
-                    ? bloc.tutorial.secondPlayerHighlight
-                    : null,
-              flat: flat,
+                    return bloc.themer.flatDesign.build(
+                      (context, flat) {
+                        final List<Widget> realChildren = landScape
+                            ? [
+                                for (final couple in partition(children, 2))
+                                  Row(children: () {
+                                    final cpl = <Widget>[
+                                      Expanded(child: couple[0]),
+                                      if (couple.length == 2)
+                                        Expanded(
+                                          child: couple[1],
+                                        )
+                                    ];
+                                    if (flat) {
+                                      return cpl
+                                          .separateWith(CSSizes.flatPaddingX);
+                                    } else {
+                                      return cpl;
+                                    }
+                                  }()),
+                              ]
+                            : children;
+
+                        return Padding(
+                          padding: flat
+                              ? const EdgeInsets.symmetric(
+                                  horizontal: CSSizes.flatPadding)
+                              : EdgeInsets.zero,
+                          child: Column(
+                            children:
+                                CSSizes.separateColumn(flat, realChildren),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
             ),
-        ];
-
-        return bloc.themer.flatDesign.build((context, flat){
-          
-          final List<Widget> realChildren = landScape 
-            ? [
-              for(final couple in partition(children,2))
-                Row(children: (){
-                  final cpl = <Widget>[
-                    Expanded(child: couple[0]),
-                    if(couple.length == 2)
-                      Expanded(child: couple[1],)
-                  ];
-                  if(flat) {
-                    return cpl.separateWith(CSSizes.flatPaddingX);
-                  } else {
-                    return cpl;
-                  }
-                }() ),
-            ] : children; 
-
-          
-          return Padding(
-            padding: flat? const EdgeInsets.symmetric(horizontal: CSSizes.flatPadding)
-              : EdgeInsets.zero,
-            child: Column(children: CSSizes.separateColumn(flat, realChildren),
-            ),
-          );
-        },);
-
-      },),),),),),),
+          ),
+        ),
+      ),
     );
   }
-
 }

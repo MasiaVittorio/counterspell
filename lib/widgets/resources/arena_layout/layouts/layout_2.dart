@@ -12,7 +12,7 @@ class ArenaLayout2 extends StatelessWidget {
   final bool flipped;
   final Widget? betweenGridAndCenter;
 
-  const ArenaLayout2({
+  const ArenaLayout2({super.key, 
     required this.childBuilder,
     required this.constraints,
     required this.centerChildBuilder,

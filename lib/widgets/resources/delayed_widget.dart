@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
-
 class Waiting extends StatelessWidget {
-
-  const Waiting();
+  const Waiting({super.key});
 
   @override
-  Widget build(BuildContext context) 
-    => const Center(child: CircularProgressIndicator(),);
+  Widget build(BuildContext context) => const Center(
+        child: CircularProgressIndicator(),
+      );
 }
 
 class DelayedWidget extends StatefulWidget {
-
-  const DelayedWidget({
+  const DelayedWidget({super.key, 
     this.before = const Waiting(),
     required this.after,
     this.delay = defaultDelay,
@@ -32,8 +30,8 @@ class DelayedWidget extends StatefulWidget {
   State createState() => _DelayedWidgetState();
 }
 
-class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProviderStateMixin{
-
+class _DelayedWidgetState extends State<DelayedWidget>
+    with SingleTickerProviderStateMixin {
   bool after = false;
   late AnimationController barrierOpacity;
   bool fadedIn = false;
@@ -51,7 +49,7 @@ class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProvider
   void wait() async {
     await Future.delayed(widget.delay);
 
-    if(!mounted) return;
+    if (!mounted) return;
 
     setState(() {
       after = true;
@@ -59,12 +57,11 @@ class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProvider
 
     await barrierOpacity.animateBack(0.0, duration: opacityDuration);
 
-    if(!mounted) return;
+    if (!mounted) return;
 
-    setState((){
+    setState(() {
       fadedIn = true;
     });
-
   }
 
   static const opacityDuration = Duration(milliseconds: 500);
@@ -76,24 +73,25 @@ class _DelayedWidgetState extends State<DelayedWidget> with SingleTickerProvider
     final background = widget.getBackgroundColor.call(theme);
     return Container(
       color: background,
-      child: after 
-        ? fadedIn 
-          ? widget.after 
-          : Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Positioned.fill(child: widget.after),
-              Positioned.fill(
-                child: AnimatedBuilder(
-                  animation: barrierOpacity,
-                  builder: (_, __) => Container(
-                    color: background.withOpacity(barrierOpacity.value),
-                  ),
-                ),
-              ),
-            ],
-          ) 
-        : widget.before,
+      child: after
+          ? fadedIn
+              ? widget.after
+              : Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    Positioned.fill(child: widget.after),
+                    Positioned.fill(
+                      child: AnimatedBuilder(
+                        animation: barrierOpacity,
+                        builder: (_, __) => Container(
+                          color: background.withValues(
+                              alpha: barrierOpacity.value),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+          : widget.before,
     );
   }
 }

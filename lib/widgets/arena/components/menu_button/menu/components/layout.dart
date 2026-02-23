@@ -1,10 +1,7 @@
-
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class ArenaMenuLayout extends StatelessWidget {
-
-  const ArenaMenuLayout({
+  const ArenaMenuLayout({super.key, 
     required this.names,
     required this.height,
     required this.layoutType,
@@ -15,16 +12,15 @@ class ArenaMenuLayout extends StatelessWidget {
   final double height;
   final List<String> names;
   final ArenaLayoutType? layoutType;
-  final Map<ArenaLayoutType?,bool> flipped;
-  final Map<int,String?> positions;
+  final Map<ArenaLayoutType?, bool> flipped;
+  final Map<int, String?> positions;
 
   @override
   Widget build(BuildContext context) {
-
     final bloc = CSBloc.of(context);
     final arenaBloc = bloc.settings.arenaSettings;
     final groupBloc = bloc.game.gameGroup;
-    
+
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: height - CSSizes.barSize,
@@ -35,15 +31,15 @@ class ArenaMenuLayout extends StatelessWidget {
             const PanelTitle("Players' layout"),
             Expanded(
               child: ArenaLayoutPicker(
-                type: layoutType, 
+                type: layoutType,
                 onTypeChanged: arenaBloc.layoutType.set,
-                flipped: flipped, 
-                onFlippedChanged: (type, val){
+                flipped: flipped,
+                onFlippedChanged: (type, val) {
                   arenaBloc.flipped.value[type] = val;
                   arenaBloc.flipped.refresh();
-                }, 
-                names: names.toSet(), 
-                positions: positions, 
+                },
+                names: names.toSet(),
+                positions: positions,
                 onPositionsChange: groupBloc.arenaNameOrder.set,
               ),
             ),
@@ -51,8 +47,5 @@ class ArenaMenuLayout extends StatelessWidget {
         ),
       ),
     );
-
   }
 }
-
-

@@ -1,5 +1,6 @@
-import 'package:counter_spell_new/core.dart';
 import 'dart:async';
+
+import 'package:counter_spell/core.dart';
 
 class CSGameAction {
   void dispose() {
@@ -44,10 +45,7 @@ class CSGameAction {
     //every time the ordered list of names changes
 
     /// [CSGameAction] Must be initialized after [CSGameGroup]
-    newNamesSub = parent
-        .gameGroup
-        .orderedNames
-        .behavior
+    newNamesSub = parent.gameGroup.orderedNames.behavior
         .map<String>((names) => names.toString())
         .distinct()
         .listen((s) {

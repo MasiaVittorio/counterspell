@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/models/changelog/model.dart';
+import 'package:counter_spell/models/changelog/model.dart';
 
 class ChangeLogData {
   static const int lastBigChange = 91;
@@ -13,42 +13,51 @@ class ChangeLogData {
     //     null,
     //   ),
     // ],),
-    Version("3.2.11", <Change>[
-      Change(
-        ChangeType.change,
-        "Android 13 compatibility fix.",
-        null,
-      ),
-    ],),
-    Version("3.2.10", <Change>[
-      Change(
-        ChangeType.change,
-        "Changed arena long press with tap gestures",
-        "If you hold down a tap gesture while in arena mode, the increments will gradually increase from a +1/-1 to a +5/-5 and eventually a +10/-10 per-tick.",
-      ),
-    ],),
-    Version("3.2.9", <Change>[
-      Change(
-        ChangeType.change,
-        "New backups system",
-        "The app doesn't automatically save the backups anywhere, you have to save them externally yourself and provide the backup files later for restoring purposes. This prevents accidental loss of data when uninstalling the app without giving the app permission to write to any folder by itself.",
-      ),
-      Change(
-        ChangeType.change,
-        "New dedicated Krarkulator app",
-        "The small version of the krark & sakashima helper inside CounterSpell is gone, a link is provided to download the dedicated Krarkulator app (much better and completely free, of course).",
-      ),
-      Change(
-        ChangeType.newFeature,
-        "Merge history elements",
-        "You can now merge an action with the previous one to clean up the history screen. Sleek!",
-      ),
-      Change(
-        ChangeType.newFeature,
-        "New interactive tutorial",
-        'Check it out in the menu panel, you\'ll find it in the "info" tab!',
-      ),
-    ],),
+    Version(
+      "3.2.11",
+      <Change>[
+        Change(
+          ChangeType.change,
+          "Android 13 compatibility fix.",
+          null,
+        ),
+      ],
+    ),
+    Version(
+      "3.2.10",
+      <Change>[
+        Change(
+          ChangeType.change,
+          "Changed arena long press with tap gestures",
+          "If you hold down a tap gesture while in arena mode, the increments will gradually increase from a +1/-1 to a +5/-5 and eventually a +10/-10 per-tick.",
+        ),
+      ],
+    ),
+    Version(
+      "3.2.9",
+      <Change>[
+        Change(
+          ChangeType.change,
+          "New backups system",
+          "The app doesn't automatically save the backups anywhere, you have to save them externally yourself and provide the backup files later for restoring purposes. This prevents accidental loss of data when uninstalling the app without giving the app permission to write to any folder by itself.",
+        ),
+        Change(
+          ChangeType.change,
+          "New dedicated Krarkulator app",
+          "The small version of the krark & sakashima helper inside CounterSpell is gone, a link is provided to download the dedicated Krarkulator app (much better and completely free, of course).",
+        ),
+        Change(
+          ChangeType.newFeature,
+          "Merge history elements",
+          "You can now merge an action with the previous one to clean up the history screen. Sleek!",
+        ),
+        Change(
+          ChangeType.newFeature,
+          "New interactive tutorial",
+          'Check it out in the menu panel, you\'ll find it in the "info" tab!',
+        ),
+      ],
+    ),
     Version(
       "3.2.8",
       <Change>[

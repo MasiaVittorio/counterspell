@@ -1,9 +1,7 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class AptBackGround extends StatelessWidget {
-
-  const AptBackGround({
+  const AptBackGround({super.key, 
     required this.imageApplied,
     required this.highlighted,
     required this.isAttacking,
@@ -16,7 +14,7 @@ class AptBackGround extends StatelessWidget {
   final bool highlighted;
   final bool isAttacking;
   final bool isDefending;
-  final Map<CSPage,Color?>? pageColors;
+  final Map<CSPage, Color?>? pageColors;
   final Color? defenceColor;
 
   static const double margin = 10.0;
@@ -26,20 +24,17 @@ class AptBackGround extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
 
-    Color bkgColor = highlighted 
-          ? themeData.canvasColor 
-          : themeData.scaffoldBackgroundColor;
-    
-    if(isAttacking) {
+    Color bkgColor =
+        highlighted ? themeData.canvasColor : themeData.scaffoldBackgroundColor;
+
+    if (isAttacking) {
       bkgColor = Color.alphaBlend(
-        pageColors![CSPage.commanderDamage]!
-            .withOpacity(_cmdrOpacity),
+        pageColors![CSPage.commanderDamage]!.withValues(alpha: _cmdrOpacity),
         bkgColor,
       );
     } else if (isDefending) {
       bkgColor = Color.alphaBlend(
-        defenceColor!
-            .withOpacity(_cmdrOpacity),
+        defenceColor!.withValues(alpha: _cmdrOpacity),
         bkgColor,
       );
     }
@@ -52,7 +47,7 @@ class AptBackGround extends StatelessWidget {
     //     ..background.color(bkgColor)
     //     ..borderRadius(all: highlighted ? 8 : 0)
     //     ..boxShadow(
-    //       color: highlighted ? const Color(0x59000000) : Colors.transparent, 
+    //       color: highlighted ? const Color(0x59000000) : Colors.transparent,
     //       blur: highlighted ? 2 : 0,
     //       offset: Offset.zero,
     //     ),
@@ -72,11 +67,13 @@ class AptBackGround extends StatelessWidget {
       decoration: BoxDecoration(
         color: bkgColor,
         borderRadius: BorderRadius.circular(highlighted ? 8 : 0),
-        boxShadow: [BoxShadow(
-          color: highlighted ? const Color(0x59000000) : Colors.transparent, 
-          blurRadius: highlighted ? 2 : 0,
-          offset: Offset.zero,
-        )],
+        boxShadow: [
+          BoxShadow(
+            color: highlighted ? const Color(0x59000000) : Colors.transparent,
+            blurRadius: highlighted ? 2 : 0,
+            offset: Offset.zero,
+          )
+        ],
       ),
       // style: ParentStyle()
       //   ..animate(250, Curves.easeOut)
@@ -85,7 +82,7 @@ class AptBackGround extends StatelessWidget {
       //   ..background.color(bkgColor)
       //   ..borderRadius(all: highlighted ? 8 : 0)
       //   ..boxShadow(
-      //     color: highlighted ? const Color(0x59000000) : Colors.transparent, 
+      //     color: highlighted ? const Color(0x59000000) : Colors.transparent,
       //     blur: highlighted ? 2 : 0,
       //     offset: Offset.zero,
       //   ),

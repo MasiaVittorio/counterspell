@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class PTileUtils {
   //cn = circle number
@@ -9,18 +9,17 @@ class PTileUtils {
     Color? pageColor,
     Color defenceColor,
     bool someoneAttacking,
-  ){
-    if(page == CSPage.commanderDamage){
-      if(attacking){
+  ) {
+    if (page == CSPage.commanderDamage) {
+      if (attacking) {
         return pageColor;
-      } else if(defending){
+      } else if (defending) {
         return defenceColor;
       } else {
-        if(someoneAttacking){
-          return defenceColor.withOpacity(0.8);
+        if (someoneAttacking) {
+          return defenceColor.withValues(alpha: 0.8);
         } else {
-          return pageColor!
-              .withOpacity(0.5);
+          return pageColor!.withValues(alpha: 0.5);
         }
       }
     } else {
@@ -28,29 +27,27 @@ class PTileUtils {
     }
   }
 
-
-
-  static int cnIncrement(PlayerAction? action){
-    if(action is PALife){
-      return action.increment;         
-    } else if(action is PANull){
+  static int cnIncrement(PlayerAction? action) {
+    if (action is PALife) {
+      return action.increment;
+    } else if (action is PANull) {
       return 0;
-    } else if(action is PACast){
+    } else if (action is PACast) {
       return action.increment;
-    } else if(action is PADamage){
+    } else if (action is PADamage) {
       return action.increment;
-    } else if(action is PACounter){
+    } else if (action is PACounter) {
       return action.increment;
-    } else if(action is PACombined){
+    } else if (action is PACombined) {
       //this should occur when we have a commander damage with lifelink
       //from the attacker to himself
       PADamage? damage;
-      for(final pa in action.actions){
-        if(pa is PADamage){
+      for (final pa in action.actions) {
+        if (pa is PADamage) {
           damage = pa;
         }
       }
-      if(damage != null){
+      if (damage != null) {
         return damage.increment;
       }
       //if we ever make other strange automatically combined actions, we will need to add other logic to detect them here
@@ -58,23 +55,26 @@ class PTileUtils {
     return 0;
   }
 
-  static double cnNumberOpacity(CSPage? page, String whoIsAttacking,){
-    if(page == CSPage.commanderDamage && (whoIsAttacking=="")) {
+  static double cnNumberOpacity(
+    CSPage? page,
+    String whoIsAttacking,
+  ) {
+    if (page == CSPage.commanderDamage && (whoIsAttacking == "")) {
       return 0.0;
     }
     return 1.0;
   }
 
   static int? cnValue(
-    String name, 
-    CSPage? page, 
-    String? attackingName, 
-    String? defendingName, 
+    String name,
+    CSPage? page,
+    String? attackingName,
+    String? defendingName,
     bool usingPartnerB,
     PlayerState playerState,
     bool attackerUsingPartnerB,
     Counter counter,
-  ){
+  ) {
     switch (page) {
       case CSPage.life:
         return playerState.life;
@@ -83,9 +83,11 @@ class PTileUtils {
       case CSPage.commanderCast:
         return playerState.cast.fromPartner(!usingPartnerB);
       case CSPage.commanderDamage:
-        if(attackingName!=null && attackingName!=""){
-          if(playerState.damages.containsKey(attackingName)){
-            return playerState.damages[attackingName]?.fromPartner(!attackerUsingPartnerB) ?? 0;
+        if (attackingName != null && attackingName != "") {
+          if (playerState.damages.containsKey(attackingName)) {
+            return playerState.damages[attackingName]
+                    ?.fromPartner(!attackerUsingPartnerB) ??
+                0;
           }
         }
         return 0; //will be opaque anyway
@@ -105,18 +107,18 @@ class PTileUtils {
     bool usingPartnerB,
     bool attackerHavingPartnerB,
     bool attackerUsingPartnerB,
-  ){
+  ) {
     switch (page) {
       case CSPage.counters:
       case CSPage.life:
-        if(rawSelected == null){
+        if (rawSelected == null) {
           return "Anti - Selected";
         }
         return "";
       case CSPage.commanderDamage:
-        if(attacker==name){
-          if(havingPartnerB){
-            if(usingPartnerB){
+        if (attacker == name) {
+          if (havingPartnerB) {
+            if (usingPartnerB) {
               return "Attacking with Partner B";
             } else {
               return "Attacking with Partner A";
@@ -124,10 +126,10 @@ class PTileUtils {
           } else {
             return "Attacking";
           }
-        } else if (attacker != ""){
+        } else if (attacker != "") {
           final string = "Dmg taken from $attacker";
-          if(attackerHavingPartnerB){
-            if(attackerUsingPartnerB){
+          if (attackerHavingPartnerB) {
+            if (attackerUsingPartnerB) {
               return "$string (B)";
             } else {
               return "$string (A)";
@@ -138,8 +140,8 @@ class PTileUtils {
         }
         break;
       case CSPage.commanderCast:
-        if(havingPartnerB){
-          if(usingPartnerB){
+        if (havingPartnerB) {
+          if (usingPartnerB) {
             return "Second Partner (B)";
           } else {
             return "First Partner (A)";
@@ -151,10 +153,10 @@ class PTileUtils {
     }
     return "";
   }
-  static String subString(String string, int len){
-    if(len < 1) return "";
-    if(len > string.length) return string;
-    return "${string.substring(0,len-1)}.";
+
+  static String subString(String string, int len) {
+    if (len < 1) return "";
+    if (len > string.length) return string;
+    return "${string.substring(0, len - 1)}.";
   }
 }
-

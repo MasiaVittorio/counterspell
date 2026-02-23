@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 class ModalBottomList extends StatelessWidget {
 
   const ModalBottomList({
-    Key? key,
+    super.key,
     required this.children,
     required this.bottom,
     required this.bottomHeight,
     this.physics,
-  }) : super(key: key);
+  });
 
   final Widget bottom;
   final double bottomHeight;

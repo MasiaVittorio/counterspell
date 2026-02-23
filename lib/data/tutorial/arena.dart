@@ -1,8 +1,8 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'highlights.dart';
 
 class ArenaTutorial {
-  
   static const tutorial = TutorialData(
     icon: CSIcons.counterSpell,
     title: "Arena mode",
@@ -11,7 +11,6 @@ class ArenaTutorial {
       arenaMenu,
     ],
   );
-
 
   static const arenaBottom = Hint(
     text: 'Open the full-screen "Arena" mode via the bottom panel',
@@ -27,5 +26,4 @@ class ArenaTutorial {
     manualHighlight: HintsHighlights.arenaExtended,
     icon: HintIcon(McIcons.gesture_swipe_up),
   );
-
 }

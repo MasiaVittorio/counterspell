@@ -1,5 +1,6 @@
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/alerts/specifics/leaderboards/stats/stats.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/alerts/specifics/leaderboards/stats/stats.dart';
+
 import 'all.dart';
 
 enum _LeadType {
@@ -9,9 +10,8 @@ enum _LeadType {
 }
 
 class Leaderboards extends StatelessWidget {
-  
-  const Leaderboards();
-  
+  const Leaderboards({super.key});
+
   static const double height = 800.0;
 
   static const String pageKey = "leaderboardsAlert";
@@ -19,10 +19,13 @@ class Leaderboards extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context)!;
     return RadioHeaderedAlert<_LeadType>(
-      initialValue: stage.panelController.alertController.savedStates[pageKey] ?? _LeadType.history,
-      onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
+      initialValue:
+          stage.panelController.alertController.savedStates[pageKey] ??
+              _LeadType.history,
+      onPageChanged: (p) =>
+          stage.panelController.alertController.savedStates[pageKey] = p,
       orderedValues: const [_LeadType.stats, _LeadType.history, _LeadType.info],
-      items: const <_LeadType,RadioHeaderedItem>{
+      items: const <_LeadType, RadioHeaderedItem>{
         _LeadType.stats: RadioHeaderedItem(
           longTitle: "Statistics",
           title: "Stats",
@@ -48,5 +51,4 @@ class Leaderboards extends StatelessWidget {
       // animationType: RadioAnimation.none,
     );
   }
-
 }

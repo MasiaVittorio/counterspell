@@ -2,11 +2,12 @@
 
 import 'dart:io';
 
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CSActions {
-  static void _launchUrl(String url, {LaunchMode launchMode = LaunchMode.externalApplication}) async {
+  static void _launchUrl(String url,
+      {LaunchMode launchMode = LaunchMode.externalApplication}) async {
     if (await canLaunchUrl(
       Uri.parse(url),
     )) {
@@ -19,9 +20,10 @@ class CSActions {
     }
   }
 
-  
   static void krarkulator() async {
-    _launchUrl(Platform.isAndroid ? CSUris.krarkulatorPlayStore: CSUris.krarkulatorPlayStore);
+    _launchUrl(Platform.isAndroid
+        ? CSUris.krarkulatorPlayStore
+        : CSUris.krarkulatorPlayStore);
   }
 
   static void review() async {

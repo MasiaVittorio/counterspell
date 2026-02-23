@@ -1,7 +1,6 @@
+import 'package:counter_spell/core.dart';
 
-import 'package:counter_spell_new/core.dart';
-
-enum DiceType{
+enum DiceType {
   d6(
     6,
     McIcons.dice_d6,
@@ -21,4 +20,3 @@ enum DiceType{
 
   DiceType get other => this == DiceType.d6 ? DiceType.d20 : DiceType.d6;
 }
-

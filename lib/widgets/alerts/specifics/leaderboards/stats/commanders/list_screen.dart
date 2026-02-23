@@ -1,9 +1,9 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'list_element.dart';
 
 class CommandersLeaderboards extends StatelessWidget {
-
-  const CommandersLeaderboards();
+  const CommandersLeaderboards({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,6 @@ class CommandersLeaderboards extends StatelessWidget {
 }
 
 class _CommandersLeaderboards extends StatefulWidget {
-
   const _CommandersLeaderboards(this.stage);
   final StageData? stage;
 
@@ -21,7 +20,6 @@ class _CommandersLeaderboards extends StatefulWidget {
 }
 
 class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
-
   ScrollController? controller;
 
   static const key = "commanders leaderboards scroll controller position";
@@ -29,10 +27,9 @@ class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
   @override
   void initState() {
     super.initState();
-    var saved = widget.stage!.panelController
-        .alertController.savedStates[key];
+    var saved = widget.stage!.panelController.alertController.savedStates[key];
     controller = ScrollController(
-      initialScrollOffset: ((saved is double) ? saved : null ) ?? 0.0,
+      initialScrollOffset: ((saved is double) ? saved : null) ?? 0.0,
     );
   }
 
@@ -46,27 +43,29 @@ class _CommandersLeaderboardsState extends State<_CommandersLeaderboards> {
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return bloc.pastGames.commanderStats.build((_, map){
-      final list = [...map.values]
-        ..sort((one,two) => two.games.compareTo(one.games));
+    return bloc.pastGames.commanderStats.build(
+      (_, map) {
+        final list = [...map.values]
+          ..sort((one, two) => two.games.compareTo(one.games));
 
-      return ListView.builder(
-        controller: controller,
-        physics: Stage.of(context)!.panelController.panelScrollPhysics(),
-        itemBuilder: (_, index)
-          => CommanderStatWidget(list[index], 
+        return ListView.builder(
+          controller: controller,
+          physics: Stage.of(context)!.panelController.panelScrollPhysics(),
+          itemBuilder: (_, index) => CommanderStatWidget(
+            list[index],
             pastGames: bloc.pastGames.pastGames.value,
             //commanderStats is updated whenever pastGames is updated
             //so it is safe to access that value brutally
-            onSingleScreenCallback: (){
-              widget.stage!.panelController.alertController.savedStates[key] = controller!.offset;
+            onSingleScreenCallback: () {
+              widget.stage!.panelController.alertController.savedStates[key] =
+                  controller!.offset;
             },
           ),
-        padding: const EdgeInsets.only(top: PanelTitle.height),
-        itemCount: list.length,
-        itemExtent: CommanderStatWidget.height,
-      );
-    },
+          padding: const EdgeInsets.only(top: PanelTitle.height),
+          itemCount: list.length,
+          itemExtent: CommanderStatWidget.height,
+        );
+      },
     );
   }
 }

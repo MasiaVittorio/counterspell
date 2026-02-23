@@ -1,11 +1,10 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class ContactsAlert extends StatelessWidget {
+  const ContactsAlert({super.key});
 
-  const ContactsAlert();
-
-  static const double height = AlternativesAlert.tileSize * 2 + PanelTitle.height; 
+  static const double height =
+      AlternativesAlert.tileSize * 2 + PanelTitle.height;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +16,14 @@ class ContactsAlert extends StatelessWidget {
         Alternative(
           title: "Telegram",
           icon: McIcons.telegram,
-          action: () => stage!.showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
+          action: () => stage!
+              .showAlert(const ConfirmTelegram(), size: ConfirmTelegram.height),
         ),
         Alternative(
           title: "E-mail",
           icon: Icons.mail_outline,
-          action: () => stage!.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
+          action: () =>
+              stage!.showAlert(const ConfirmEmail(), size: ConfirmEmail.height),
         ),
       ],
     );

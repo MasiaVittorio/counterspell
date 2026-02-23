@@ -1,19 +1,17 @@
 import 'dart:io';
 
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/logic/sub_blocs/backups/preferences.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 
 class RestorePreferencesCard extends StatefulWidget {
-
-  const RestorePreferencesCard({Key? key}) : super(key: key);
+  const RestorePreferencesCard({super.key});
 
   @override
   State<RestorePreferencesCard> createState() => _RestorePreferencesCardState();
 }
 
 class _RestorePreferencesCardState extends State<RestorePreferencesCard> {
-
-
   String? message;
   bool error = false;
   bool working = false;
@@ -23,7 +21,7 @@ class _RestorePreferencesCardState extends State<RestorePreferencesCard> {
     final stage = Stage.of(context)!;
     final logic = CSBloc.of(context);
     void onTap() => action(stage, logic);
-    
+
     return SubSection(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.max,
@@ -34,27 +32,30 @@ class _RestorePreferencesCardState extends State<RestorePreferencesCard> {
           title: text,
           leading: icon,
           subtitle: message != null
-            ? Text(
-              message!, 
-              style: TextStyle(color: error ? CSColors.delete : null),
-            )
-            : null,
+              ? Text(
+                  message!,
+                  style: TextStyle(color: error ? CSColors.delete : null),
+                )
+              : null,
         ),
         const Spacer(),
       ],
-    );  
+    );
   }
 
   Widget get text => const Text("Restore preferences from any external file");
 
-  Widget get icon => const Icon(Icons.file_open, size: 40,);
-  
+  Widget get icon => const Icon(
+        Icons.file_open,
+        size: 40,
+      );
+
   void action(StageData stage, CSBloc logic) async {
     setState(() {
       working = true;
     });
     final File? file = await pickFile();
-    if(file == null){
+    if (file == null) {
       setState(() {
         error = true;
         message = "Pick a file";
@@ -79,14 +80,14 @@ class _RestorePreferencesCardState extends State<RestorePreferencesCard> {
       errorPicking = true;
     }
 
-    if(errorPicking){
+    if (errorPicking) {
       setState(() {
         error = true;
         message = "Error picking the file.";
       });
     }
 
-    if(filePath == null){
+    if (filePath == null) {
       return null;
     } else {
       return File(filePath);
@@ -94,10 +95,9 @@ class _RestorePreferencesCardState extends State<RestorePreferencesCard> {
   }
 
   Future<void> reactToFile(File file, StageData stage, CSBloc logic) async {
-
     final result = await logic.backups.readPreferences(file);
 
-    if(result == null){
+    if (result == null) {
       setState(() {
         error = true;
         message = "Error reading the file";
@@ -107,7 +107,7 @@ class _RestorePreferencesCardState extends State<RestorePreferencesCard> {
         ConfirmAlert(
           action: () async {
             final res = await logic.backups.restorePreferences(result);
-            if(res){
+            if (res) {
               file.delete();
             }
           },
@@ -116,7 +116,5 @@ class _RestorePreferencesCardState extends State<RestorePreferencesCard> {
         size: ConfirmAlert.height,
       );
     }
-
   }
-
 }

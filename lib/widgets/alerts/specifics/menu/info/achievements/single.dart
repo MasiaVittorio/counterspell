@@ -1,4 +1,4 @@
-// import 'package:counter_spell_new/core.dart';
+// import 'package:counter_spell/core.dart';
 // // import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 // import 'data/all.dart';
 

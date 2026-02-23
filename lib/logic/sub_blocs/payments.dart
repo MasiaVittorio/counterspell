@@ -1,9 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 import 'package:flutter/foundation.dart';
-
-import 'dart:async';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class CSPayments {
@@ -122,31 +121,20 @@ class CSPayments {
         "availableItems: 4 -> number of items retrieved: ${items.length}, creating the Donation objects");
 
     donations.set(<Donation>[
-          for (final item in items)
-            Donation(
-              productID: item.id,
-              amount: item.price,
-              title: _titleCleaner(item.title),
-              amountNum: double.tryParse(<String>[
-                    for (final char in item.price.split(""))
-                      if ([
-                        "0",
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "."
-                      ].contains(char))
-                        char,
-                  ].join()) ??
-                  0.0,
-            ),
-        ]..sort((d1, d2) => ((d1.amountNum - d2.amountNum) * 100).round()));
+      for (final item in items)
+        Donation(
+          productID: item.id,
+          amount: item.price,
+          title: _titleCleaner(item.title),
+          amountNum: double.tryParse(<String>[
+                for (final char in item.price.split(""))
+                  if (["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]
+                      .contains(char))
+                    char,
+              ].join()) ??
+              0.0,
+        ),
+    ]..sort((d1, d2) => ((d1.amountNum - d2.amountNum) * 100).round()));
 
     logAdd("availableItems: 5 -> returning null without errors");
   }

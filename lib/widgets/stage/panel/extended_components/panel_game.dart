@@ -1,6 +1,6 @@
-import 'package:counter_spell_new/core.dart';
-import 'game_components/all.dart';
+import 'package:counter_spell/core.dart';
 
+import 'game_components/all.dart';
 
 class PanelGame extends StatelessWidget {
   const PanelGame({super.key});
@@ -9,13 +9,12 @@ class PanelGame extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context);
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return ConstrainedBox(
-          constraints: constraints,
-          child: ArenaTransformer(
-            backgroundColor: Theme.of(context).canvasColor.withOpacity(0),
-            builder: (_, opener) => SingleChildScrollView(
+    return LayoutBuilder(builder: (context, constraints) {
+      return ConstrainedBox(
+        constraints: constraints,
+        child: ArenaTransformer(
+          backgroundColor: Theme.of(context).canvasColor.withValues(alpha: 0),
+          builder: (_, opener) => SingleChildScrollView(
               physics: stage!.panelController.panelScrollPhysics(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -28,20 +27,20 @@ class PanelGame extends StatelessWidget {
                   ]),
                   const Space.vertical(8),
                   const StartingLifeTile(),
-                  const Divider(height: 7,),
+                  const Divider(
+                    height: 7,
+                  ),
                   const Space.vertical(8),
                   PanelGameExtras(
-                    opener, 
+                    opener,
                     compact: constraints.maxHeight < 610,
                   ),
                   const Space.vertical(15),
                 ],
-              )
-            ),
-            closedRadiusSize: 0.0,
-          ),
-        );
-      }
-    );
+              )),
+          closedRadiusSize: 0.0,
+        ),
+      );
+    });
   }
 }

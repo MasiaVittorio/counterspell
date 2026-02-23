@@ -1,20 +1,21 @@
 import 'dart:io';
 
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/alerts/specifics/menu/settings/backups/share_or_save.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/logic/sub_blocs/backups/preferences.dart';
+import 'package:counter_spell/widgets/alerts/specifics/menu/settings/backups/share_or_save.dart';
 import 'package:share_plus/share_plus.dart';
 // import 'package:path/path.dart' as path;
 
 class GeneratePreferencesBackupCard extends StatefulWidget {
-
-  const GeneratePreferencesBackupCard({Key? key}) : super(key: key);
+  const GeneratePreferencesBackupCard({super.key});
 
   @override
-  State<GeneratePreferencesBackupCard> createState() => _GeneratePreferencesBackupCardState();
+  State<GeneratePreferencesBackupCard> createState() =>
+      _GeneratePreferencesBackupCardState();
 }
 
-class _GeneratePreferencesBackupCardState extends State<GeneratePreferencesBackupCard> {
-
+class _GeneratePreferencesBackupCardState
+    extends State<GeneratePreferencesBackupCard> {
   String? message;
   bool error = false;
   bool working = false;
@@ -43,43 +44,52 @@ class _GeneratePreferencesBackupCardState extends State<GeneratePreferencesBacku
                 title: text,
                 leading: icon(Theme.of(context).colorScheme.onSurface),
                 subtitle: message != null
-                  ? Text(
-                    message!, 
-                    style: TextStyle(color: error ? CSColors.delete : null),
-                  )
-                  : null,
+                    ? Text(
+                        message!,
+                        style: TextStyle(color: error ? CSColors.delete : null),
+                      )
+                    : null,
               ),
             ),
           ),
         ),
         AnimatedListed(
           listed: generated != null,
-          child: Row(children: [
-            Expanded(child: ListTile(
-              title: const Text("Save"),
-              leading: const Icon(Icons.save_alt_outlined),
-              onTap: () => saveFile(generated!),
-            ),),
-            Expanded(child: ListTile(
-              title: const Text("Share"),
-              leading: const Icon(Icons.share),
-              onTap: () => shareFile(generated!),
-            ),),
-          ],),
+          child: Row(
+            children: [
+              Expanded(
+                child: ListTile(
+                  title: const Text("Save"),
+                  leading: const Icon(Icons.save_alt_outlined),
+                  onTap: () => saveFile(generated!),
+                ),
+              ),
+              Expanded(
+                child: ListTile(
+                  title: const Text("Share"),
+                  leading: const Icon(Icons.share),
+                  onTap: () => shareFile(generated!),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Widget icon(Color progressColor) => working 
-    ? CircularProgressIndicator(color: progressColor)
-    : const Icon(Icons.save_outlined, size: 40,);
+  Widget icon(Color progressColor) => working
+      ? CircularProgressIndicator(color: progressColor)
+      : const Icon(
+          Icons.save_outlined,
+          size: 40,
+        );
 
   Widget get text => AnimatedText(
-    generated == null
-      ? "Generate backup file"
-      : "Backup generated in the cache", 
-  );
+        generated == null
+            ? "Generate backup file"
+            : "Backup generated in the cache",
+      );
 
   void generate(CSBloc logic) async {
     setState(() {
@@ -92,17 +102,14 @@ class _GeneratePreferencesBackupCardState extends State<GeneratePreferencesBacku
 
     setState(() {
       working = false;
-      if(generated == null){
+      if (generated == null) {
         error = true;
         message = "Error generating the backup";
       }
     });
-
   }
 
-
   void shareFile(File file) async {
-
     setState(() {
       working = true;
     });
@@ -114,11 +121,11 @@ class _GeneratePreferencesBackupCardState extends State<GeneratePreferencesBacku
     } catch (e) {
       errorSharing = true;
     }
-      
+
     setState(() {
       working = false;
 
-      if(results == null || errorSharing){
+      if (results == null || errorSharing) {
         generated?.delete();
         generated = null;
         message = "Error sharing the file";
@@ -142,11 +149,9 @@ class _GeneratePreferencesBackupCardState extends State<GeneratePreferencesBacku
         }
       }
     });
-
   }
 
   void saveFile(File file) async {
-
     setState(() {
       working = true;
     });
@@ -159,12 +164,11 @@ class _GeneratePreferencesBackupCardState extends State<GeneratePreferencesBacku
       errorSaving = true;
     }
 
-
     setState(() {
       generated?.delete();
       generated = null;
       working = false;
-      if(savedPath == null || errorSaving){
+      if (savedPath == null || errorSaving) {
         message = "Error saving the file";
         error = true;
       } else {
@@ -172,6 +176,5 @@ class _GeneratePreferencesBackupCardState extends State<GeneratePreferencesBacku
         error = false;
       }
     });
-
   }
 }

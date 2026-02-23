@@ -1,11 +1,11 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 import 'package:flutter/scheduler.dart';
 
 class PlayGroupEditor extends StatefulWidget {
   final CSBloc bloc;
   final bool fromClosedPanel;
   const PlayGroupEditor(
-    this.bloc, {
+    this.bloc, {super.key, 
     required this.fromClosedPanel,
   });
 
@@ -172,137 +172,146 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
 
     return IconTheme.merge(
       data: const IconThemeData(opacity: 1.0),
-      child: WillPopScope(
-        onWillPop: () async {
+      child: PopScope(
+        canPop: edited == null && !newGrouping,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
           if (edited != null) {
             _endEditing();
-            return false;
+            return;
           }
           if (newGrouping) {
             _endNewGrouping();
-            return false;
+            return;
           }
-          return true;
         },
         child: Material(
           color: backgroundColor,
-          child: group.orderedNames.build((_, names) {
-            final Widget textField = buildTextField(names);
-            return Column(
-              children: <Widget>[
-                const Material(child: PanelTitle("Edit Playgroup")),
-                Expanded(
-                  child: Material(
-                    elevation: 2,
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: ReorderableList(
-                        shrinkWrap: true,
-                        itemCount: names.length,
-                        onReorder: group.onReorder,
-                        physics: Stage.of(context)!
-                          .panelController.panelScrollPhysics(),
-                        proxyDecorator: (child, _, animation) => AnimatedBuilder(
-                          animation: animation,
-                          child: child,
-                          builder: (_, child) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                boxShadow: [BoxShadow(
-                                  color: Colors.grey.shade900.withOpacity(0.3),
-                                  blurRadius: Tween<double>(
-                                    begin: 0,
-                                    end: 8,
-                                  ).evaluate(animation),
-                                )]
-                              ),
-                              child: child,
-                            );
-                          }
-                        ),
-                        itemBuilder: (_, int i) => Material(
-                          key: ValueKey(names[i]),
-                          child: currentPlayer(
-                            i, names[i], textField, themeData, names.length == 1,
+          child: group.orderedNames.build(
+            (_, names) {
+              final Widget textField = buildTextField(names);
+              return Column(
+                children: <Widget>[
+                  const Material(child: PanelTitle("Edit Playgroup")),
+                  Expanded(
+                    child: Material(
+                      elevation: 2,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: ReorderableList(
+                          shrinkWrap: true,
+                          itemCount: names.length,
+                          onReorder: group.onReorder,
+                          physics: Stage.of(context)!
+                              .panelController
+                              .panelScrollPhysics(),
+                          proxyDecorator: (child, _, animation) =>
+                              AnimatedBuilder(
+                                  animation: animation,
+                                  child: child,
+                                  builder: (_, child) {
+                                    return Container(
+                                      decoration: BoxDecoration(boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade900
+                                              .withValues(alpha: 0.3),
+                                          blurRadius: Tween<double>(
+                                            begin: 0,
+                                            end: 8,
+                                          ).evaluate(animation),
+                                        )
+                                      ]),
+                                      child: child,
+                                    );
+                                  }),
+                          itemBuilder: (_, int i) => Material(
+                            key: ValueKey(names[i]),
+                            child: currentPlayer(
+                              i,
+                              names[i],
+                              textField,
+                              themeData,
+                              names.length == 1,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                hints(themeData, names),
-                newPlayer(textField),
-              ],
-            );
-          },),
+                  hints(themeData, names),
+                  newPlayer(textField),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
   TextField buildTextField(List<String> names) => TextField(
-    key: const ValueKey("counterspell_key_widget_textfield_groupeditor"),
-    onChanged: (_) {
-      if (mounted) {
-        setState(() {});
-      }
-    },
-    controller: controller,
-    keyboardType:
-        newGrouping ? TextInputType.number : TextInputType.text,
-    textCapitalization: TextCapitalization.words,
-    maxLines: 1,
-    focusNode: focusNode,
-    decoration: InputDecoration(
-      isDense: true,
-      hintText: edited == ""
-        ? "Player's name"
-        : edited != null
-            ? "Rename $edited"
-            : newGrouping
-                ? "How many players"
-                : null,
-      errorText: (newGrouping && validateNumber == null)
-        ? "Insert a number between 2 and $maxNumberOfPlayers"
-        : (edited == "" && names.contains(currentText))
-            ? "Name a different player"
-            : null,
-    ),
-  );
+        key: const ValueKey("counterspell_key_widget_textfield_groupeditor"),
+        onChanged: (_) {
+          if (mounted) {
+            setState(() {});
+          }
+        },
+        controller: controller,
+        keyboardType: newGrouping ? TextInputType.number : TextInputType.text,
+        textCapitalization: TextCapitalization.words,
+        maxLines: 1,
+        focusNode: focusNode,
+        decoration: InputDecoration(
+          isDense: true,
+          hintText: edited == ""
+              ? "Player's name"
+              : edited != null
+                  ? "Rename $edited"
+                  : newGrouping
+                      ? "How many players"
+                      : null,
+          errorText: (newGrouping && validateNumber == null)
+              ? "Insert a number between 2 and $maxNumberOfPlayers"
+              : (edited == "" && names.contains(currentText))
+                  ? "Name a different player"
+                  : null,
+        ),
+      );
 
   Widget hints(ThemeData themeData, List<String> currentNames) => SizedBox(
-    height: PlayGroupEditor.hintSize,
-    child: group.savedNames.build((context, savedNames) => ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      scrollDirection: Axis.horizontal,
-      children: <Widget>[
-        for (final savedName in savedNames)
-          if (savedName.toLowerCase().contains(currentText.toLowerCase()) 
-            && currentText != "" 
-            && currentText != savedName 
-            && !currentNames.contains(savedName)
-          )
-            hint(savedName, themeData),
-      ],
-    )),
-  );
+        height: PlayGroupEditor.hintSize,
+        child: group.savedNames.build((context, savedNames) => ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                for (final savedName in savedNames)
+                  if (savedName
+                          .toLowerCase()
+                          .contains(currentText.toLowerCase()) &&
+                      currentText != "" &&
+                      currentText != savedName &&
+                      !currentNames.contains(savedName))
+                    hint(savedName, themeData),
+              ],
+            )),
+      );
 
   Padding hint(String savedName, ThemeData themeData) => Padding(
-    padding: const EdgeInsets.all(4.0),
-    child: InkResponse(
-      splashColor: Colors.transparent,
-      onTap: () {
-        controller.text = savedName;
-        confirm();
-      },
-      child: Chip(
-        onDeleted: () => group.unSaveName(savedName),
-        backgroundColor: themeData.canvasColor,
-        elevation: 1,
-        label: Text(savedName),
-      ),
-    ),
-  );
+        padding: const EdgeInsets.all(4.0),
+        child: InkResponse(
+          splashColor: Colors.transparent,
+          onTap: () {
+            controller.text = savedName;
+            confirm();
+          },
+          child: Chip(
+            onDeleted: () => group.unSaveName(savedName),
+            backgroundColor: themeData.canvasColor,
+            elevation: 1,
+            label: Text(savedName),
+          ),
+        ),
+      );
 
   Widget newPlayer(Widget textField) {
     if (edited == "") return editNewPlayer(textField);
@@ -353,9 +362,9 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
 
   Widget currentPlayer(
     int index,
-    String name, 
-    Widget textField, 
-    ThemeData themeData, 
+    String name,
+    Widget textField,
+    ThemeData themeData,
     bool last,
   ) {
     Widget result;
@@ -370,7 +379,8 @@ class _PlayGroupEditorState extends State<PlayGroupEditor> {
     );
   }
 
-  Widget promptCurrentPlayer(int index, String name, ThemeData themeData, bool last) {
+  Widget promptCurrentPlayer(
+      int index, String name, ThemeData themeData, bool last) {
     return ListTile(
       onTap: () => start(name),
       trailing: ReorderableDragStartListener(

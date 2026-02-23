@@ -1,8 +1,8 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'highlights.dart';
 
 class HistoryTutorial {
-  
   static const tutorial = TutorialData(
     icon: CSIcons.historyFilled,
     title: "History",
@@ -12,7 +12,6 @@ class HistoryTutorial {
       restartMenu,
     ],
   );
-
 
   static const past = Hint(
     text: 'The History page will show and manage any past edit',
@@ -36,5 +35,4 @@ class HistoryTutorial {
     manualHighlight: HintsHighlights.restartExtended,
     icon: HintIcon(McIcons.gesture_swipe_up),
   );
-
 }

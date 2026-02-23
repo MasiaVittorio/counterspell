@@ -1,4 +1,4 @@
-// import 'package:counter_spell_new/core.dart';
+// import 'package:counter_spell/core.dart';
 // import 'achievement_tile.dart';
 
 // class DoneAchievements extends StatelessWidget {

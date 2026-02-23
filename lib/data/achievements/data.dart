@@ -1,6 +1,6 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
-class Achievements{
+class Achievements {
   //=====================================
   // Data ===========================
   static const String countersShortTitle = "Counters master";
@@ -8,7 +8,7 @@ class Achievements{
     countersShortTitle,
     title: "Track different counters in a single game",
     text: "Closed panel's shortcut from counters page",
-    targets: <String,bool>{
+    targets: <String, bool>{
       Counter.poisonLongName: false,
       Counter.experienceLongName: false,
       Counter.stormLongName: false,
@@ -26,7 +26,7 @@ class Achievements{
     uiExpertShortTitle,
     title: "Start new games or edit the playgroup in different ways",
     text: "Closed panel's shortcuts, main menu's buttons, Arena quick menu",
-    targets: <String,bool>{
+    targets: <String, bool>{
       GameRestartedFromNames._gameRestartedFromHistoryPage: false,
       GameRestartedFromNames._gameRestartedFromMenu: false,
       GameRestartedFromNames._gameRestartedFromArena: false,
@@ -58,22 +58,24 @@ class Achievements{
     targetGold: 50,
   );
 
-  static const Map<String,Achievement> map = <String,Achievement>{
+  static const Map<String, Achievement> map = <String, Achievement>{
     vampireShortTitle: vampire,
     countersShortTitle: counters,
     uiExpertShortTitle: uiExpert,
     rollerShortTitle: roller,
   };
-  static const Map<String,QualityAchievement> mapQuality = <String,QualityAchievement>{
+  static const Map<String, QualityAchievement> mapQuality =
+      <String, QualityAchievement>{
     countersShortTitle: counters as QualityAchievement,
     uiExpertShortTitle: uiExpert as QualityAchievement,
   };
-  static const Map<String,QuantityAchievement> mapQuantity = <String,QuantityAchievement>{
+  static const Map<String, QuantityAchievement> mapQuantity =
+      <String, QuantityAchievement>{
     vampireShortTitle: vampire as QuantityAchievement,
     rollerShortTitle: roller as QuantityAchievement,
   };
 
-  static const Map<String,IconData> icons = <String,IconData>{
+  static const Map<String, IconData> icons = <String, IconData>{
     Achievements.vampireShortTitle: McIcons.heart_pulse,
     Achievements.countersShortTitle: CSIcons.counterFilled,
     Achievements.rollerShortTitle: McIcons.dice_multiple,
@@ -81,22 +83,22 @@ class Achievements{
   };
 }
 
-
-enum GameRestartedFrom{
+enum GameRestartedFrom {
   arena,
   historyPage,
   menu,
 }
 
-
 extension GameRestartedFromNames on GameRestartedFrom {
   static const String _gameRestartedFromArena = "arena";
   static const String _gameRestartedFromHistoryPage = "historyPage";
   static const String _gameRestartedFromMenu = "menu";
-  static const Map<GameRestartedFrom,String> names = <GameRestartedFrom,String>{
-    GameRestartedFrom.arena : GameRestartedFromNames._gameRestartedFromArena,
-    GameRestartedFrom.menu : GameRestartedFromNames._gameRestartedFromMenu,
-    GameRestartedFrom.historyPage : GameRestartedFromNames._gameRestartedFromHistoryPage,
+  static const Map<GameRestartedFrom, String> names =
+      <GameRestartedFrom, String>{
+    GameRestartedFrom.arena: GameRestartedFromNames._gameRestartedFromArena,
+    GameRestartedFrom.menu: GameRestartedFromNames._gameRestartedFromMenu,
+    GameRestartedFrom.historyPage:
+        GameRestartedFromNames._gameRestartedFromHistoryPage,
   };
 
   String? get name => names[this];

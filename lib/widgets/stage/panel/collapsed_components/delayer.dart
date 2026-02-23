@@ -73,7 +73,7 @@ class Delayer extends StatefulWidget {
   final bool half;
 
 
-  const Delayer({
+  const Delayer({super.key, 
     required this.half,
     required this.animationListener,
     required this.onManualCancel,

@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class ImageOpacitySimple extends StatelessWidget {
-  const ImageOpacitySimple();
+  const ImageOpacitySimple({super.key});
 
   static const double _hTile = 140.0;
 
@@ -19,17 +19,18 @@ class ImageOpacitySimple extends StatelessWidget {
         image: DecorationImage(
           image: CachedNetworkImageProvider(CSUris.featherArt),
           fit: BoxFit.cover,
-          alignment: Alignment(0.0,0.0),
+          alignment: Alignment(0.0, 0.0),
         ),
       ),
     );
 
-    final Widget gradient = opacity.build((context, double? opacity) => Container(
-      color: theme.canvasColor.withOpacity(opacity!),
-    ));
+    final Widget gradient =
+        opacity.build((context, double? opacity) => Container(
+              color: theme.canvasColor.withValues(alpha: opacity!),
+            ));
 
     final Widget tile = InkWell(
-      onTap: (){},
+      onTap: () {},
       child: Container(
         //to make the pan callback working, the color cannot be just null
         color: Colors.transparent,
@@ -42,25 +43,32 @@ class ImageOpacitySimple extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Checkbox(
-                  activeColor: Stage.of(context)!.themeController
-                    .derived.mainPageToPrimaryColor.value![CSPage.life],
+                  activeColor: Stage.of(context)!
+                      .themeController
+                      .derived
+                      .mainPageToPrimaryColor
+                      .value![CSPage.life],
                   value: true,
                   tristate: true,
                   onChanged: (b) {},
                 ),
-                const Text("Example", style: TextStyle(
-                  fontSize: 16,
-                ),),
+                const Text(
+                  "Example",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
               ],
             ),
-            const Expanded(child: Center(
-              child: Text(
+            const Expanded(
+              child: Center(
+                  child: Text(
                 "40",
                 style: TextStyle(
-                  fontSize: _hTile*0.4,
+                  fontSize: _hTile * 0.4,
                 ),
-              )
-            ),),
+              )),
+            ),
           ],
         ),
       ),
@@ -95,15 +103,17 @@ class ImageOpacitySimple extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         playerTile,
-        const SizedBox(height: 8,),
-        opacity.build((_,value) => FullSlider(
-          value: value,
-          divisions: 20,
-          leading: const Icon(Icons.opacity),
-          onChanged: opacity.set,
-          defaultValue: CSSettingsImages.defaultSimpleImageOpacity,
-          titleBuilder: (val) => Text("Opacity: ${val.toStringAsFixed(2)}"),
-        )),
+        const SizedBox(
+          height: 8,
+        ),
+        opacity.build((_, value) => FullSlider(
+              value: value,
+              divisions: 20,
+              leading: const Icon(Icons.opacity),
+              onChanged: opacity.set,
+              defaultValue: CSSettingsImages.defaultSimpleImageOpacity,
+              titleBuilder: (val) => Text("Opacity: ${val.toStringAsFixed(2)}"),
+            )),
       ],
     );
   }
@@ -112,5 +122,4 @@ class ImageOpacitySimple extends StatelessWidget {
   // bool operator ==(Object other) => other.runtimeType == this.runtimeType;
   // @override
   // int get hashCode => super.hashCode;
-
 }

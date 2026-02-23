@@ -1,9 +1,7 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class DesignSnackBar extends StatelessWidget {
-
-  const DesignSnackBar();
+  const DesignSnackBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +11,10 @@ class DesignSnackBar extends StatelessWidget {
     return StageSnackBar(
       secondary: const Icon(McIcons.android_studio),
       title: themer.flatDesign.build((_, flat) => Text(
-        flat ? "Flat design" : "Solid design",
-      )),
+            flat ? "Flat design" : "Solid design",
+          )),
       subtitle: const Text(
-        "Tap to toggle", 
+        "Tap to toggle",
         style: TextStyle(
           fontStyle: FontStyle.italic,
           fontWeight: FontWeight.w600,
@@ -26,7 +24,5 @@ class DesignSnackBar extends StatelessWidget {
       onTap: themer.toggleFlatDesign,
       scrollable: true,
     );
-
   }
 }
-

@@ -1,10 +1,7 @@
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stage/panel/collapsed_components/delayer.dart';
-
-
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/stage/panel/collapsed_components/delayer.dart';
 
 class LocalDelayer extends StatelessWidget {
-
   const LocalDelayer(this.localScroller, this.bloc, {super.key});
 
   final CSScroller? localScroller;
@@ -12,26 +9,26 @@ class LocalDelayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final ThemeData themeData = Theme.of(context);
 
     final primaryContrast = themeData.colorScheme.onSurface;
 
-    final StageData<CSPage,SettingsPage> stage = Stage.of(context) as StageData<CSPage, SettingsPage>;
+    final StageData<CSPage, SettingsPage> stage =
+        Stage.of(context) as StageData<CSPage, SettingsPage>;
 
-    return BlocVar.build4<bool, int, Duration, Map<CSPage,Color?>?>(
+    return BlocVar.build4<bool, int, Duration, Map<CSPage, Color?>?>(
       localScroller!.isScrolling,
       localScroller!.intValue,
       bloc!.settings.scrollSettings.confirmDelay,
       stage.themeController.derived.mainPageToPrimaryColor,
       distinct: true,
       builder: (
-        BuildContext context, 
+        BuildContext context,
         bool? scrolling,
         int? increment,
         Duration? confirmDelay,
-        Map<CSPage,Color?>? colors,
-      ){
+        Map<CSPage, Color?>? colors,
+      ) {
         final accentColor = colors![CSPage.life];
 
         return AnimatedOpacity(
@@ -42,7 +39,7 @@ class LocalDelayer extends StatelessWidget {
             ignoring: scrolling ? false : true,
             child: Delayer(
               half: false,
-              message: increment! >= 0 ? '+ $increment' : '- ${- increment}',
+              message: increment! >= 0 ? '+ $increment' : '- ${-increment}',
 
               delayerController: localScroller!.delayerController,
               animationListener: localScroller!.delayerAnimationListener,
@@ -63,6 +60,5 @@ class LocalDelayer extends StatelessWidget {
         );
       },
     );
-
   }
 }

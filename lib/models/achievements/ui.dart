@@ -86,7 +86,7 @@ extension MedalIcons on Medal {
 class MedalIcon extends StatelessWidget {
   final Medal? medal;
   final double? size;
-  const MedalIcon(this.medal, {this.size});
+  const MedalIcon(this.medal, {super.key, this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class PodiumIcon extends StatelessWidget {
   final Medal medal;
   final double? size;
   final bool colored;
-  const PodiumIcon(this.medal, {this.size, this.colored = true});
+  const PodiumIcon(this.medal, {super.key, this.size, this.colored = true});
 
 
   @override

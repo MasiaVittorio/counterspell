@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/stage/body/group/player_tile.dart';
-
-
-
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/stage/body/group/player_tile.dart';
 
 class ImageOpacityRegular extends StatelessWidget {
-  const ImageOpacityRegular();
+  const ImageOpacityRegular({super.key});
 
   static const double _hTile = 100.0;
 
@@ -24,7 +21,7 @@ class ImageOpacityRegular extends StatelessWidget {
         image: DecorationImage(
           image: CachedNetworkImageProvider(CSUris.featherArt),
           fit: BoxFit.cover,
-          alignment: Alignment(0.0,0.0),
+          alignment: Alignment(0.0, 0.0),
         ),
       ),
     );
@@ -38,19 +35,22 @@ class ImageOpacityRegular extends StatelessWidget {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
             colors: [
-              theme.canvasColor.withOpacity(startVal!),
-              theme.canvasColor.withOpacity(endVal!),
+              theme.canvasColor.withValues(alpha: startVal!),
+              theme.canvasColor.withValues(alpha: endVal!),
             ],
           ),
         ),
       ),
     );
 
-    final lifeColor = Stage.of(context)!.themeController
-        .derived.mainPageToPrimaryColor.value![CSPage.life]!;
+    final lifeColor = Stage.of(context)!
+        .themeController
+        .derived
+        .mainPageToPrimaryColor
+        .value![CSPage.life]!;
 
     final Widget tile = InkWell(
-      onTap: (){},
+      onTap: () {},
       child: Container(
         //to make the pan callback working, the color cannot be just null
         color: Colors.transparent,
@@ -64,13 +64,13 @@ class ImageOpacityRegular extends StatelessWidget {
               width: CSSizes.minTileSize,
               height: CSSizes.minTileSize,
               child: Container(
-                width: CSSizes.minTileSize*PlayerTile.circleFrac,
-                height: CSSizes.minTileSize*PlayerTile.circleFrac,
+                width: CSSizes.minTileSize * PlayerTile.circleFrac,
+                height: CSSizes.minTileSize * PlayerTile.circleFrac,
                 decoration: BoxDecoration(
                   color: Color.alphaBlend(
-                    lifeColor.withOpacity(0.55),
+                    lifeColor.withValues(alpha: 0.55),
                     theme.canvasColor,
-                  ).withOpacity(0.8),
+                  ).withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(CSSizes.minTileSize),
                 ),
                 alignment: Alignment.center,
@@ -80,27 +80,29 @@ class ImageOpacityRegular extends StatelessWidget {
                 ),
               ),
             ),
-            const Expanded(child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 16.0),
-                child: Text(
-                  "Example",
-                  style: TextStyle(
-                    fontSize: 19,
+            const Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16.0),
+                  child: Text(
+                    "Example",
+                    style: TextStyle(
+                      fontSize: 19,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
                 ),
               ),
-            ),),
+            ),
             Container(
               alignment: Alignment.center,
               width: CSSizes.minTileSize,
               height: CSSizes.minTileSize,
               child: Checkbox(
                 activeColor: lifeColor,
-                onChanged: (_){},
+                onChanged: (_) {},
                 value: true,
               ),
             ),
@@ -138,25 +140,26 @@ class ImageOpacityRegular extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         playerTile,
-        const SizedBox(height: 8,),
-        start.build((_,value) => FullSlider(
-          value: value,
-          onChanged: start.set,
-          divisions: 20,
-          defaultValue: CSSettingsImages.defaultImageGradientStart,
-          leading: const Icon(Icons.keyboard_arrow_left),
-          titleBuilder: (val) => Text("Start: ${val.toStringAsFixed(2)}"),
-        )),
-        end.build((_,value) => FullSlider(
-          value: value,
-          onChanged: end.set,
-          divisions: 20,
-          defaultValue: CSSettingsImages.defaultImageGradientEnd,
-          leading: const Icon(Icons.keyboard_arrow_right),
-          titleBuilder: (val) => Text("End: ${val.toStringAsFixed(2)}"),
-        )),
+        const SizedBox(
+          height: 8,
+        ),
+        start.build((_, value) => FullSlider(
+              value: value,
+              onChanged: start.set,
+              divisions: 20,
+              defaultValue: CSSettingsImages.defaultImageGradientStart,
+              leading: const Icon(Icons.keyboard_arrow_left),
+              titleBuilder: (val) => Text("Start: ${val.toStringAsFixed(2)}"),
+            )),
+        end.build((_, value) => FullSlider(
+              value: value,
+              onChanged: end.set,
+              divisions: 20,
+              defaultValue: CSSettingsImages.defaultImageGradientEnd,
+              leading: const Icon(Icons.keyboard_arrow_right),
+              titleBuilder: (val) => Text("End: ${val.toStringAsFixed(2)}"),
+            )),
       ],
     );
   }
-
 }

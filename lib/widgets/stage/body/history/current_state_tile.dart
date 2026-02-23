@@ -1,4 +1,4 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class CurrentStateTile extends StatelessWidget {
   final List<String> names;
@@ -7,9 +7,11 @@ class CurrentStateTile extends StatelessWidget {
   final int stateIndex;
   final GameState gameState;
   final Color defenceColor;
-  final Map<CSPage,Color> pagesColor;
+  final Map<CSPage, Color> pagesColor;
 
-  const CurrentStateTile(this.gameState, this.stateIndex,{
+  const CurrentStateTile(
+    this.gameState,
+    this.stateIndex, {super.key, 
     required this.names,
     required this.tileSize,
     required this.defenceColor,
@@ -23,24 +25,31 @@ class CurrentStateTile extends StatelessWidget {
     final logic = CSBloc.of(context);
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
-      child: logic.themer.flatDesign.build((context, flat) => Material(
-        elevation: flat ? 0 : 4,
-        color: flat ? theme.canvasColor : theme.scaffoldBackgroundColor,
-        child: Column(children: CSSizes.separateColumn(flat, <Widget>[
-          for(final name in names) if(gameState.names.contains(name))
-            CurrentStatePlayerTile(
-              gameState, 
-              // stateIndex,
-              name: name,
-              pagesColor: pagesColor,
-              tileSize: tileSize,  
-              counters: counters,
-              defenceColor: defenceColor,
+      child: logic.themer.flatDesign.build(
+        (context, flat) => Material(
+          elevation: flat ? 0 : 4,
+          color: flat ? theme.canvasColor : theme.scaffoldBackgroundColor,
+          child: Column(
+            children: CSSizes.separateColumn(
+              flat,
+              <Widget>[
+                for (final name in names)
+                  if (gameState.names.contains(name))
+                    CurrentStatePlayerTile(
+                      gameState,
+                      // stateIndex,
+                      name: name,
+                      pagesColor: pagesColor,
+                      tileSize: tileSize,
+                      counters: counters,
+                      defenceColor: defenceColor,
+                    ),
+              ],
             ),
-        ],),),
-      ),),
+          ),
+        ),
+      ),
     );
-
   }
 }
 
@@ -51,12 +60,12 @@ class CurrentStatePlayerTile extends StatelessWidget {
   final double? tileSize;
   final Color defenceColor;
   final Map<String?, Counter> counters;
-  final Map<CSPage,Color> pagesColor;
+  final Map<CSPage, Color> pagesColor;
 
   const CurrentStatePlayerTile(
-    this.gameState, 
-    // this.stateIndex, 
-  {
+    this.gameState,
+    // this.stateIndex,
+    {super.key, 
     required this.name,
     required this.tileSize,
     required this.defenceColor,
@@ -89,7 +98,7 @@ class CurrentStatePlayerTile extends StatelessWidget {
             ),
           ),
           // for other counters, just sum up to the counters that are present in the map,
-          // this way you won't count disabled counters 
+          // this way you won't count disabled counters
         ]),
       ),
     );
@@ -101,18 +110,15 @@ class PieceOfInformation extends StatelessWidget {
   final bool? attacking;
   final int? value;
   final Color defenceColor;
-  final Map<CSPage,Color> pagesColor;
+  final Map<CSPage, Color> pagesColor;
 
-  const PieceOfInformation({
+  const PieceOfInformation({super.key, 
     required this.pagesColor,
     required this.damageType,
     required this.value,
     required this.defenceColor,
     this.attacking,
-  }): assert(!(
-    damageType == DamageType.commanderDamage 
-    && attacking == null
-  ));
+  }) : assert(!(damageType == DamageType.commanderDamage && attacking == null));
 
   @override
   Widget build(BuildContext context) {
@@ -121,15 +127,15 @@ class PieceOfInformation extends StatelessWidget {
     Color? color;
     IconData? icon;
 
-    if(damageType == DamageType.commanderDamage){
-      color = attacking! ? pagesColor[CSPage.commanderDamage]: defenceColor;
+    if (damageType == DamageType.commanderDamage) {
+      color = attacking! ? pagesColor[CSPage.commanderDamage] : defenceColor;
       icon = attacking! ? CSIcons.attackOne : CSIcons.defenceFilled;
     } else {
       color = pagesColor[CSPages.fromDamage(damageType)];
       icon = CSIcons.typeIconsFilled[damageType];
     }
 
-    final littleDarker = themeData.colorScheme.onSurface.withOpacity(0.1); 
+    final littleDarker = themeData.colorScheme.onSurface.withValues(alpha: 0.1);
     color = Color.alphaBlend(littleDarker, color!);
 
     return Container(
@@ -143,7 +149,7 @@ class PieceOfInformation extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Icon(
-            icon, 
+            icon,
             color: color,
             size: 15,
           ),

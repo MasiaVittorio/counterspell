@@ -1,13 +1,11 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:stage/stage.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-
 
 class ButtonTile extends StatelessWidget {
-
-  const ButtonTile({
+  const ButtonTile({super.key, 
     required this.icon,
     required this.text,
     required this.onTap,
@@ -22,7 +20,7 @@ class ButtonTile extends StatelessWidget {
     this.iconOverflow = false,
   });
 
-  const ButtonTile.transparent({
+  const ButtonTile.transparent({super.key, 
     required this.icon,
     required this.text,
     required this.onTap,
@@ -33,8 +31,8 @@ class ButtonTile extends StatelessWidget {
     this.customIcon,
     this.twoLines = false,
     this.iconOverflow = false,
-  }): circleColor = Colors.transparent,
-      filled = false;
+  })  : circleColor = Colors.transparent,
+        filled = false;
 
   final Widget? customIcon;
   final IconData? icon;
@@ -50,7 +48,7 @@ class ButtonTile extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
-  /// if the button should be large as its 
+  /// if the button should be large as its
   /// text and not bound to its context (so no autosize text)
   final bool shrinkWrap;
 
@@ -63,15 +61,17 @@ class ButtonTile extends StatelessWidget {
     final defaultSize = DefaultTextStyle.of(context).style.fontSize ?? 16;
     final theme = Theme.of(context);
 
-    final group = shrinkWrap 
-      ? null 
-      : context.dependOnInheritedWidgetOfExactType<_AutoSizeInherited>()?.group; 
-    
+    final group = shrinkWrap
+        ? null
+        : context
+            .dependOnInheritedWidgetOfExactType<_AutoSizeInherited>()
+            ?.group;
+
     return SubSection(
       <Widget>[
         buildIcon(theme),
         buildLabel(defaultSize, group),
-      ], 
+      ],
       crossAxisAlignment: CrossAxisAlignment.center,
       onTap: onTap,
       onLongPress: onLongPress,
@@ -81,60 +81,61 @@ class ButtonTile extends StatelessWidget {
   }
 
   Padding buildLabel(double defaultSize, AutoSizeGroup? group) => Padding(
-    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 3.0),
-    child: Container(
-      alignment: Alignment.center,
-      height: twoLines ? 36 : 24,
-      child: shrinkWrap 
-        ? Text(text, textAlign: TextAlign.center)
-        : AutoSizeText(
-          text,
-          maxLines: twoLines ? 2 : 1,
-          maxFontSize: defaultSize,
-          minFontSize: defaultSize / 2,
-          textAlign: TextAlign.center,
-          group: group,
+        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 3.0),
+        child: Container(
+          alignment: Alignment.center,
+          height: twoLines ? 36 : 24,
+          child: shrinkWrap
+              ? Text(text, textAlign: TextAlign.center)
+              : AutoSizeText(
+                  text,
+                  maxLines: twoLines ? 2 : 1,
+                  maxFontSize: defaultSize,
+                  minFontSize: defaultSize / 2,
+                  textAlign: TextAlign.center,
+                  group: group,
+                ),
         ),
-    ),
-  );
+      );
 
   Padding buildIcon(ThemeData theme) => Padding(
-    padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
-    child: Container(
-      alignment: Alignment.center,
-      height: max(_iconDimension, iconSize ?? 0),
-      width: max(_iconDimension, iconSize ?? 0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(filled ? 10 : 50),
-        color: (filled) 
-          ? null 
-          : circleColor ?? theme.colorScheme.onSurface.withOpacity(0.1),
-      ),
-      child: Padding(
-        padding: iconPadding,
-        child: customIcon == null 
-          ? Icon(icon, size: iconSize)
-          : iconOverflow 
-            ? Stack(clipBehavior: Clip.none, children: [
-                Positioned(
-                  left: -_iconDimension,
-                  top: -_iconDimension,
-                  bottom: -_iconDimension,
-                  right: -_iconDimension,
-                  child: Center(child: customIcon),
-                )
-              ],)
-            : customIcon,
-      ),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
+        child: Container(
+          alignment: Alignment.center,
+          height: max(_iconDimension, iconSize ?? 0),
+          width: max(_iconDimension, iconSize ?? 0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(filled ? 10 : 50),
+            color: (filled)
+                ? null
+                : circleColor ??
+                    theme.colorScheme.onSurface.withValues(alpha: 0.1),
+          ),
+          child: Padding(
+            padding: iconPadding,
+            child: customIcon == null
+                ? Icon(icon, size: iconSize)
+                : iconOverflow
+                    ? Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                            left: -_iconDimension,
+                            top: -_iconDimension,
+                            bottom: -_iconDimension,
+                            right: -_iconDimension,
+                            child: Center(child: customIcon),
+                          )
+                        ],
+                      )
+                    : customIcon,
+          ),
+        ),
+      );
 }
 
-
-
 class ButtonTilesRow extends StatefulWidget {
-
-  const ButtonTilesRow({
+  const ButtonTilesRow({super.key, 
     required this.children,
     this.margin = defaultMargin,
     this.separate = true,
@@ -153,11 +154,9 @@ class ButtonTilesRow extends StatefulWidget {
 
   @override
   State<ButtonTilesRow> createState() => _ButtonTilesRowState();
-  
 }
 
 class _ButtonTilesRowState extends State<ButtonTilesRow> {
-
   late AutoSizeGroup group;
 
   @override
@@ -165,11 +164,11 @@ class _ButtonTilesRowState extends State<ButtonTilesRow> {
     super.initState();
     group = AutoSizeGroup();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final expanded = <Widget>[
-      for(int i=0; i<widget.children.length; ++i)
+      for (int i = 0; i < widget.children.length; ++i)
         Expanded(
           flex: (widget.flexes?.checkIndex(i) ?? false) ? widget.flexes![i] : 1,
           child: widget.children[i],
@@ -179,13 +178,13 @@ class _ButtonTilesRowState extends State<ButtonTilesRow> {
     final child = Padding(
       padding: widget.margin,
       child: Row(
-        children: (widget.separate) 
-          ? expanded.separateWith(ButtonTilesRow.divider)
-          : expanded,
+        children: (widget.separate)
+            ? expanded.separateWith(ButtonTilesRow.divider)
+            : expanded,
       ),
     );
 
-    if(widget.sameAutoSizeGroup){
+    if (widget.sameAutoSizeGroup) {
       return _AutoSizeInherited(
         group: group,
         child: child,
@@ -196,8 +195,7 @@ class _ButtonTilesRowState extends State<ButtonTilesRow> {
 }
 
 class ExtraButtonDivider extends StatelessWidget {
-  
-  const ExtraButtonDivider();
+  const ExtraButtonDivider({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -208,16 +206,13 @@ class ExtraButtonDivider extends StatelessWidget {
         height: 44.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.15),
+          color:
+              Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.15),
         ),
       ),
     );
   }
 }
-
-
-
-
 
 class _AutoSizeInherited extends InheritedWidget {
   const _AutoSizeInherited({
@@ -230,4 +225,3 @@ class _AutoSizeInherited extends InheritedWidget {
   @override
   bool updateShouldNotify(_AutoSizeInherited oldWidget) => false;
 }
-

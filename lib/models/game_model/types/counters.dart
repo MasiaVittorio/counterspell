@@ -1,43 +1,41 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:convert';
-
-import 'package:counter_spell_new/core.dart';
 import 'dart:math';
 
+import 'package:counter_spell/core.dart';
 
 const int MAX_LIFE = 9999;
 const int MIN_LIFE = -999;
 
 extension on IconData {
-  Map<String,dynamic> get map => {
-    "codePoint": codePoint,
-    "fontFamily": fontFamily,
-    "fontPackage": fontPackage,
-    "matchTextDirection": matchTextDirection,
-  };
+  Map<String, dynamic> get map => {
+        "codePoint": codePoint,
+        "fontFamily": fontFamily,
+        "fontPackage": fontPackage,
+        "matchTextDirection": matchTextDirection,
+      };
 }
 
-IconData _iconFromMap(Map<String,dynamic> map) => IconData(
-  map["codePoint"],
-  fontFamily: map["fontFamily"],
-  fontPackage: map["fontPackage"],
-  matchTextDirection: map["matchTextDirection"],
-);
+IconData _iconFromMap(Map<String, dynamic> map) => IconData(
+      map["codePoint"],
+      fontFamily: map["fontFamily"],
+      fontPackage: map["fontPackage"],
+      matchTextDirection: map["matchTextDirection"],
+    );
 
-class Counter{
-
+class Counter {
   final String shortName;
   final String longName;
   final int minValue;
   final int maxValue;
   final IconData icon;
   final bool uniquePlayer;
-  
+
   const Counter({
     required this.shortName,
     required this.longName,
-    required this.icon,    
+    required this.icon,
     required this.minValue,
     required this.maxValue,
     required this.uniquePlayer,
@@ -49,16 +47,17 @@ class Counter{
     required int minValue,
     required int maxValue,
     bool uniquePlayer = false,
-  }) => Counter(
-    uniquePlayer: uniquePlayer,
-    shortName: shortName,
-    longName: longName,
-    minValue: max(MIN_LIFE, minValue),
-    maxValue: min(MAX_LIFE, maxValue),
-    icon: Icons.palette,
-  );
+  }) =>
+      Counter(
+        uniquePlayer: uniquePlayer,
+        shortName: shortName,
+        longName: longName,
+        minValue: max(MIN_LIFE, minValue),
+        maxValue: min(MAX_LIFE, maxValue),
+        icon: Icons.palette,
+      );
 
-  static Counter fromJson(Map<String,dynamic> json){
+  static Counter fromJson(Map<String, dynamic> json) {
     return Counter(
       uniquePlayer: json["uniquePlayer"] ?? false,
       icon: _iconFromMap(json["icon"]),
@@ -70,12 +69,12 @@ class Counter{
   }
 
   @override
-  operator == (Object other){
-    if(other is Counter){
-      if(other.longName != longName) return false;
-      if(other.maxValue != maxValue) return false;
-      if(other.shortName != shortName) return false;
-      if(other.uniquePlayer != uniquePlayer) return false;
+  operator ==(Object other) {
+    if (other is Counter) {
+      if (other.longName != longName) return false;
+      if (other.maxValue != maxValue) return false;
+      if (other.shortName != shortName) return false;
+      if (other.uniquePlayer != uniquePlayer) return false;
       return true;
     } else {
       return false;
@@ -85,14 +84,14 @@ class Counter{
   @override
   int get hashCode => jsonEncode(toJson()).hashCode;
 
-  Map<String,dynamic> toJson() => {
-    'longName' : longName,
-    'shortName' : shortName,
-    'minValue' : minValue,
-    'maxValue' : maxValue,
-    'uniquePlayer': uniquePlayer,
-    'icon': icon.map,
-  };
+  Map<String, dynamic> toJson() => {
+        'longName': longName,
+        'shortName': shortName,
+        'minValue': minValue,
+        'maxValue': maxValue,
+        'uniquePlayer': uniquePlayer,
+        'icon': icon.map,
+      };
 
   static const String poisonLongName = "Poison Counters";
   static const Counter poison = Counter(
@@ -194,7 +193,6 @@ class Counter{
   //   energyLongName: ManaIcons.e,
   // };
 
-
   static const List<Counter> defaultList = [
     poison,
     experience,
@@ -205,8 +203,4 @@ class Counter{
     energy,
     extraTurn,
   ];
-
-
-
 }
-

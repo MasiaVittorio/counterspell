@@ -1,9 +1,9 @@
-import 'package:counter_spell_new/core.dart';
-import 'components/all.dart'; 
+import 'package:counter_spell/core.dart';
+
+import 'components/all.dart';
 
 class TutorialContent extends StatelessWidget {
-
-  const TutorialContent(this.pageController);
+  const TutorialContent(this.pageController, {super.key});
 
   final PageController? pageController;
 
@@ -29,13 +29,15 @@ class TutorialContent extends StatelessWidget {
     return PageView.builder(
       itemCount: children.length,
       controller: pageController,
-      onPageChanged: (i) => Stage.of(context)!.panelController.alertController.savedStates[AdvancedTutorial.stateKey] = i,
+      onPageChanged: (i) => Stage.of(context)!
+          .panelController
+          .alertController
+          .savedStates[AdvancedTutorial.stateKey] = i,
       physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (_, page)
-        => Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: children[page],
-        ),
+      itemBuilder: (_, page) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: children[page],
+      ),
     );
   }
 }

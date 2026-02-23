@@ -1,12 +1,12 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'button.dart';
 import 'menu/menu.dart';
 
 class ArenaMenuButton extends StatelessWidget {
-
   //button
   final CSBloc? logic;
-  final Map<int,String?> positions;
+  final Map<int, String?> positions;
   final bool isScrollingSomewhere;
   final bool open;
   final VoidCallback openMenu;
@@ -20,9 +20,9 @@ class ArenaMenuButton extends StatelessWidget {
   final VoidCallback reorderPlayers;
   final BoxConstraints screenConstraints;
   final List<String> names;
-  final Map<ArenaLayoutType?,bool> flipped;
+  final Map<ArenaLayoutType?, bool> flipped;
 
-  const ArenaMenuButton({
+  const ArenaMenuButton({super.key, 
     required this.page,
     required this.logic,
     required this.positions,
@@ -41,14 +41,15 @@ class ArenaMenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final ThemeData theme = Theme.of(context);
 
-    final horizontalView = screenConstraints.maxHeight < screenConstraints.maxWidth;
+    final horizontalView =
+        screenConstraints.maxHeight < screenConstraints.maxWidth;
 
-    final double menuWidth = screenConstraints.maxWidth * (horizontalView ? 0.5 : 0.85);
-    final double menuHeight = screenConstraints.maxHeight * (horizontalView ? 0.85 : 0.65);
-
+    final double menuWidth =
+        screenConstraints.maxWidth * (horizontalView ? 0.5 : 0.85);
+    final double menuHeight =
+        screenConstraints.maxHeight * (horizontalView ? 0.85 : 0.65);
 
     final Widget menu = SizedBox(
       width: menuWidth,
@@ -56,9 +57,9 @@ class ArenaMenuButton extends StatelessWidget {
       child: Container(
         color: theme.scaffoldBackgroundColor,
         child: ArenaMenu(
-          names: names, 
-          reorderPlayers: reorderPlayers, 
-          exit: exit, 
+          names: names,
+          reorderPlayers: reorderPlayers,
+          exit: exit,
           close: closeMenu,
           height: menuHeight,
           layoutType: layoutType,
@@ -78,26 +79,24 @@ class ArenaMenuButton extends StatelessWidget {
       open: open,
     );
 
-
-
     return Material(
       clipBehavior: Clip.antiAlias,
       animationDuration: CSAnimations.medium,
       elevation: open ? 10 : 4,
-      borderRadius: BorderRadius.circular(open ? 16 : buttonSize/2),
+      borderRadius: BorderRadius.circular(open ? 16 : buttonSize / 2),
       child: AnimatedContainer(
         duration: CSAnimations.medium,
         width: open ? menuWidth : buttonSize,
         height: open ? menuHeight : buttonSize,
         curve: Curves.fastOutSlowIn,
         child: Stack(
-          alignment: Alignment.center, 
+          alignment: Alignment.center,
           children: <Widget>[
-            AnimatedDouble( 
+            AnimatedDouble(
               duration: CSAnimations.medium,
               value: !open ? 1.0 : -1.0,
-              builder:(_, val) => Opacity(
-                // clamping the [-1, 0] part in order to 
+              builder: (_, val) => Opacity(
+                // clamping the [-1, 0] part in order to
                 // cross fade between the two objects implicitly
                 opacity: val.clamp(0.0, 1.0),
                 child: IgnorePointer(
@@ -113,8 +112,8 @@ class ArenaMenuButton extends StatelessWidget {
               child: AnimatedDouble(
                 duration: CSAnimations.medium,
                 value: open ? 1.0 : -1.0,
-                builder:(_, val) => Opacity(
-                  // clamping the [-1, 0] part in order to 
+                builder: (_, val) => Opacity(
+                  // clamping the [-1, 0] part in order to
                   // cross fade between the two objects implicitly
                   opacity: val.clamp(0.0, 1.0),
                   child: IgnorePointer(
@@ -130,5 +129,3 @@ class ArenaMenuButton extends StatelessWidget {
     );
   }
 }
-
-

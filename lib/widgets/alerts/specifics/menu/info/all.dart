@@ -1,14 +1,12 @@
 export 'achievements/all.dart';
 export 'cache/all.dart';
-export '../settings/backups.dart';
-export 'contacts.dart';
 export 'changelog.dart';
+export 'contacts.dart';
 export 'developer.dart';
 export 'discord.dart';
 export 'email.dart';
 export 'feedback.dart';
 export 'licenses.dart';
 export 'quotes.dart';
-export 'stuff_i_like.dart';
 export 'support.dart';
 export 'telegram.dart';

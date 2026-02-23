@@ -1,10 +1,9 @@
+import 'package:counter_spell/core.dart';
 
-import 'package:counter_spell_new/core.dart';
 import 'info_components/all.dart';
 
 class PanelInfo extends StatelessWidget {
-
-  const PanelInfo();
+  const PanelInfo({super.key});
 
   static const double quoteSize = 70;
 
@@ -16,13 +15,15 @@ class PanelInfo extends StatelessWidget {
       builder: (_, constraints) => ConstrainedBox(
         constraints: constraints,
         child: ModalBottomList(
-          bottom: const QuoteTile(), 
+          bottom: const QuoteTile(),
           bottomHeight: quoteSize,
           physics: stage.panelController.panelScrollPhysics(),
           children: <Widget>[
             const Useful(),
             const Space.vertical(12),
-            Development(compact: constraints.maxHeight < 600,),
+            Development(
+              compact: constraints.maxHeight < 600,
+            ),
           ],
         ),
       ),

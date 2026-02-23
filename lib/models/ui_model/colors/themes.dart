@@ -1,10 +1,10 @@
 // ignore_for_file: avoid_debugPrint
 
 import 'dart:convert';
-import 'package:counter_spell_new/core.dart';
+
+import 'package:counter_spell/core.dart';
 
 class CSColorScheme {
-
   final String name;
   final Color primary;
   final Color accent;
@@ -26,41 +26,42 @@ class CSColorScheme {
   });
 
   CSColorScheme renamed(String newName) => CSColorScheme(
-    newName,
-    colorPlace: colorPlace,
-    primary: primary,
-    accent: accent,
-    perPage: perPage,
-    light: light,
-    darkStyle: darkStyle,
-    defenceColor: defenceColor,
-  );
+        newName,
+        colorPlace: colorPlace,
+        primary: primary,
+        accent: accent,
+        perPage: perPage,
+        light: light,
+        darkStyle: darkStyle,
+        defenceColor: defenceColor,
+      );
 
   Widget applyBaseTheme({
     required Widget child,
-  }) => Theme(
-    data: StageThemeUtils.getThemeData(
-      accent: accent,
-      brightness: light ? Brightness.light : Brightness.dark,
-      darkStyle: darkStyle,
-      primary: primary,
-    ),
-    child: child,
-  );
+  }) =>
+      Theme(
+        data: StageThemeUtils.getThemeData(
+          accent: accent,
+          brightness: light ? Brightness.light : Brightness.dark,
+          darkStyle: darkStyle,
+          primary: primary,
+        ),
+        child: child,
+      );
 
   Map<String, dynamic> get toJson => {
-    "name": name,
-    "primary": primary.value,
-    "accent": accent.value,
-    "perPage": <String, int?>{
-      for (final entry in perPage.entries)
-        CSPages.nameOf(entry.key)!: entry.value.value,
-    },
-    "light": light,
-    "darkStyle": darkStyle.name,
-    "defenceColor": defenceColor.value,
-    "colorPlace": colorPlace.name,
-  };
+        "name": name,
+        "primary": primary.toARGB32(),
+        "accent": accent.toARGB32(),
+        "perPage": <String, int?>{
+          for (final entry in perPage.entries)
+            CSPages.nameOf(entry.key)!: entry.value.toARGB32(),
+        },
+        "light": light,
+        "darkStyle": darkStyle.name,
+        "defenceColor": defenceColor.toARGB32(),
+        "colorPlace": colorPlace.name,
+      };
 
   static CSColorScheme fromJson(dynamic json) => CSColorScheme(
         json["name"],
@@ -72,14 +73,13 @@ class CSColorScheme {
                 Color((entry.value ?? 0) as int),
         },
         light: json["light"],
-        darkStyle: json["darkStyle"] == null 
-          ? DarkStyle.nightBlue 
-          : DarkStyle.fromName(json["darkStyle"]),
-        defenceColor: Color(json["defenceColor"] 
-          ?? ((StageColorPlaces.fromName(json["colorPlace"]).isTexts)
-            ? CSColors.darkBlueGoogle.value 
-            : CSColors.blue.value)
-        ),
+        darkStyle: json["darkStyle"] == null
+            ? DarkStyle.nightBlue
+            : DarkStyle.fromName(json["darkStyle"]),
+        defenceColor: Color(json["defenceColor"] ??
+            ((StageColorPlaces.fromName(json["colorPlace"]).isTexts)
+                ? CSColors.darkBlueGoogle.toARGB32()
+                : CSColors.blue.toARGB32())),
         colorPlace: StageColorPlaces.fromName(json["colorPlace"]),
       );
 
@@ -100,15 +100,15 @@ class CSColorScheme {
 
   bool equivalentTo(CSColorScheme other) {
     return other.primary == primary &&
-      other.accent == accent &&
-      (<CSPage>{
-        ...other.perPage.keys,
-        ...perPage.keys,
-      }.every((key) => perPage[key] == other.perPage[key])) &&
-      other.light == light &&
-      other.defenceColor == defenceColor &&
-      other.colorPlace == colorPlace &&
-      (other.darkStyle == darkStyle || light);
+        other.accent == accent &&
+        (<CSPage>{
+          ...other.perPage.keys,
+          ...perPage.keys,
+        }.every((key) => perPage[key] == other.perPage[key])) &&
+        other.light == light &&
+        other.defenceColor == defenceColor &&
+        other.colorPlace == colorPlace &&
+        (other.darkStyle == darkStyle || light);
   }
 
   static const String _defaultLightName = "Light Solid";

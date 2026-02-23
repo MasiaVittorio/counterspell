@@ -1,9 +1,7 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class DesignPattern extends StatelessWidget {
-
-  const DesignPattern();
+  const DesignPattern({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +9,15 @@ class DesignPattern extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final theme = Theme.of(context);
 
-    return bloc.payments.unlocked.build((_, unlocked)
-      => Stack(
+    return bloc.payments.unlocked.build(
+      (_, unlocked) => Stack(
         fit: StackFit.loose,
         children: <Widget>[
           ListTile(
             title: const Text("Pick design pattern"),
             leading: const Icon(McIcons.material_design),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: (){
+            onTap: () {
               stage!.panelController.close();
               stage.showSnackBar(
                 const DesignSnackBar(),
@@ -29,14 +27,16 @@ class DesignPattern extends StatelessWidget {
               );
             },
           ),
-
-          if(!unlocked) Positioned.fill(child: GestureDetector(
-            onTap: () => stage!.showAlert(const SupportAlert(), size: SupportAlert.height),
-            child: Container(
-              color: theme.scaffoldBackgroundColor
-                  .withOpacity(0.5),
+          if (!unlocked)
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () => stage!
+                    .showAlert(const SupportAlert(), size: SupportAlert.height),
+                child: Container(
+                  color: theme.scaffoldBackgroundColor.withValues(alpha: 0.5),
+                ),
+              ),
             ),
-          ),),
         ],
       ),
     );

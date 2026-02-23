@@ -1,8 +1,8 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'highlights.dart';
 
 class CountersTutorial {
-  
   static const tutorial = TutorialData(
     icon: CSIcons.counterOutlined,
     title: "Counters",
@@ -10,7 +10,7 @@ class CountersTutorial {
       pickCounter,
     ],
   );
-  
+
   static const pickCounter = Hint(
     text: 'Choose which counter type to track via the bottom panel',
     page: CSPage.counters,
@@ -18,5 +18,4 @@ class CountersTutorial {
     repeatAuto: 1,
     icon: HintIcon(CSIcons.poison),
   );
-
 }

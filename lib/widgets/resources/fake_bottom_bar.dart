@@ -1,18 +1,17 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 class FakeBottomBar extends StatelessWidget {
-
   final double collapsedPanelSize;
   final CSPage page;
-  final Map<CSPage,Color?>? colors;
+  final Map<CSPage, Color?>? colors;
   final void Function(CSPage) onSelect;
   final List<CSPage> orderedValues;
-  final Map<CSPage,String> leftTitles;
-  final Map<CSPage,String> rightTitles;
+  final Map<CSPage, String> leftTitles;
+  final Map<CSPage, String> rightTitles;
   final VoidCallback? rightCallback;
   final VoidCallback? leftCallback;
 
-  const FakeBottomBar({
+  const FakeBottomBar({super.key, 
     required this.collapsedPanelSize,
     required this.page,
     required this.colors,
@@ -24,10 +23,8 @@ class FakeBottomBar extends StatelessWidget {
     this.leftCallback,
   });
 
-
   @override
   Widget build(BuildContext context) {
-
     final ThemeData theme = Theme.of(context);
 
     return SizedBox(
@@ -46,9 +43,9 @@ class FakeBottomBar extends StatelessWidget {
               child: RadioNavBar<CSPage>(
                 tileSize: RadioNavBar.defaultTileSize,
                 topPadding: collapsedPanelSize / 2,
-                selectedValue: page, 
-                orderedValues: orderedValues, 
-                items: <CSPage,RadioNavBarItem>{
+                selectedValue: page,
+                orderedValues: orderedValues,
+                items: <CSPage, RadioNavBarItem>{
                   CSPage.history: RadioNavBarItem(
                     title: "History",
                     icon: CSIcons.historyFilled,
@@ -79,21 +76,21 @@ class FakeBottomBar extends StatelessWidget {
                     unselectedIcon: CSIcons.castOutlined,
                     color: colors![CSPage.commanderCast],
                   ),
-                }, 
+                },
                 onSelect: onSelect,
               ),
             ),
           ),
-
           Positioned(
             top: 0.0,
             height: collapsedPanelSize,
             right: 16.0,
             left: 16.0,
             child: DefaultTextStyle.merge(
-              style: TextStyle(color: theme.colorScheme.onSurface.withOpacity(0.5)),
+              style: TextStyle(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.5)),
               child: Material(
-                borderRadius: BorderRadius.circular(collapsedPanelSize/2),
+                borderRadius: BorderRadius.circular(collapsedPanelSize / 2),
                 elevation: 16,
                 clipBehavior: Clip.antiAlias,
                 child: SizedBox(
@@ -101,23 +98,28 @@ class FakeBottomBar extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Expanded(child: InkResponse(
-                        onTap: leftCallback,
-                        child: Center(
-                          child: AnimatedText(leftTitles[page]!),
+                      Expanded(
+                        child: InkResponse(
+                          onTap: leftCallback,
+                          child: Center(
+                            child: AnimatedText(leftTitles[page]!),
+                          ),
                         ),
-                      ),),
+                      ),
                       Container(
-                        color: theme.colorScheme.onSurface.withOpacity(0.5),
+                        color:
+                            theme.colorScheme.onSurface.withValues(alpha: 0.5),
                         width: 1,
                         height: collapsedPanelSize * 0.8,
                       ),
-                      Expanded(child: InkResponse(
-                        onTap: rightCallback,
-                        child: Center(
-                          child: AnimatedText(rightTitles[page]!),
+                      Expanded(
+                        child: InkResponse(
+                          onTap: rightCallback,
+                          child: Center(
+                            child: AnimatedText(rightTitles[page]!),
+                          ),
                         ),
-                      ),),
+                      ),
                     ],
                   ),
                 ),

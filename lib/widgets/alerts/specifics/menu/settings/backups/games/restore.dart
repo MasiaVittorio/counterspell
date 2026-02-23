@@ -1,19 +1,17 @@
 import 'dart:io';
 
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/logic/sub_blocs/backups/backup_logic.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 
 class RestoreGamesCard extends StatefulWidget {
-
-  const RestoreGamesCard({Key? key}) : super(key: key);
+  const RestoreGamesCard({super.key});
 
   @override
   State<RestoreGamesCard> createState() => _RestoreGamesCardState();
 }
 
 class _RestoreGamesCardState extends State<RestoreGamesCard> {
-
-
   String? message;
   bool error = false;
   bool working = false;
@@ -23,7 +21,7 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
     final stage = Stage.of(context)!;
     final logic = CSBloc.of(context);
     void onTap() => action(stage, logic);
-    
+
     return SubSection(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.max,
@@ -34,27 +32,30 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
           title: text,
           leading: icon,
           subtitle: message != null
-            ? Text(
-              message!, 
-              style: TextStyle(color: error ? CSColors.delete : null),
-            )
-            : null,
+              ? Text(
+                  message!,
+                  style: TextStyle(color: error ? CSColors.delete : null),
+                )
+              : null,
         ),
         const Spacer(),
       ],
-    );  
+    );
   }
 
   Widget get text => const Text("Restore games from any external file");
 
-  Widget get icon => const Icon(Icons.file_open, size: 40,);
-  
+  Widget get icon => const Icon(
+        Icons.file_open,
+        size: 40,
+      );
+
   void action(StageData stage, CSBloc logic) async {
     setState(() {
       working = true;
     });
     final File? file = await pickFile();
-    if(file == null){
+    if (file == null) {
       setState(() {
         error = true;
         message = "Pick a file";
@@ -72,7 +73,7 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
 
   Future<File?> pickFile() async {
     final String? filePath = await FlutterFileDialog.pickFile(params: params);
-    if(filePath == null){
+    if (filePath == null) {
       return null;
     } else {
       return File(filePath);
@@ -80,10 +81,9 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
   }
 
   Future<void> reactToFile(File file, StageData stage, CSBloc logic) async {
-
     final result = await logic.backups.readPastGames(file);
 
-    if(result.error){
+    if (result.error) {
       setState(() {
         error = true;
         message = result.errorMessage ?? "Unknown error";
@@ -91,14 +91,14 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
       return;
     }
 
-    final newPastGames = result.games; 
-    if(newPastGames == null){
+    final newPastGames = result.games;
+    if (newPastGames == null) {
       setState(() {
         error = true;
         message = result.errorMessage ?? "Unknown error";
       });
       return;
-    } else if(newPastGames.isEmpty){
+    } else if (newPastGames.isEmpty) {
       setState(() {
         error = true;
         message = "The file was empty";
@@ -109,7 +109,7 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
         ConfirmAlert(
           action: () async {
             final res = await logic.backups.restorePastGames(newPastGames);
-            if(res){
+            if (res) {
               file.delete();
             }
           },
@@ -118,7 +118,5 @@ class _RestoreGamesCardState extends State<RestoreGamesCard> {
         size: ConfirmAlert.height,
       );
     }
-
   }
-
 }

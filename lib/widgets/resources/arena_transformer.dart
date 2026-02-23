@@ -1,12 +1,11 @@
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/arena/arena_widget.dart';
-import 'package:flutter/services.dart';
 import 'package:animations/animations.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/arena/arena_widget.dart';
+import 'package:flutter/services.dart';
 
 /// Transform the collapsed panel in the arena, fuck it
 class ArenaTransformer extends StatelessWidget {
-
-  const ArenaTransformer({
+  const ArenaTransformer({super.key, 
     required this.builder,
     required this.closedRadiusSize,
     this.backgroundColor,
@@ -28,14 +27,14 @@ class ArenaTransformer extends StatelessWidget {
       openColor: theme.scaffoldBackgroundColor,
       middleColor: theme.canvasColor,
       // intermediateColor: theme.canvasColor,
-      openBuilder: (context, exitArena){
-        final Widget child = ArenaWidget(logic: logic); 
+      openBuilder: (context, exitArena) {
+        final Widget child = ArenaWidget(logic: logic);
 
-        if (logic.settings.arenaSettings.fullScreen.value){
-          return  MediaQuery.removePadding(
-            context: context, 
-            removeTop: true, 
-            removeBottom: true, 
+        if (logic.settings.arenaSettings.fullScreen.value) {
+          return MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            removeBottom: true,
             removeLeft: true,
             removeRight: true,
             child: child,
@@ -46,44 +45,49 @@ class ArenaTransformer extends StatelessWidget {
       },
       closedElevation: 0.0,
       openElevation: 0.0,
-      closedBuilder: (context, openArena) => builder(context, (){
-
-        if(!ArenaWidget.okNumbers.contains(logic.game.gameState.gameState.value.players.length)){
+      closedBuilder: (context, openArena) => builder(context, () {
+        if (!ArenaWidget.okNumbers
+            .contains(logic.game.gameState.gameState.value.players.length)) {
           stage.showAlert(
             AlternativesAlert(
               twoLinesLabel: true,
               label: "You need to have a smaller playgroup to open Arena Mode",
-              alternatives: [Alternative(
-                title: "Got it",
-                icon: Icons.check,
-                action: () => stage.closePanel(), 
-              )],
-            ), 
+              alternatives: [
+                Alternative(
+                  title: "Got it",
+                  icon: Icons.check,
+                  action: () => stage.closePanel(),
+                )
+              ],
+            ),
             size: AlternativesAlert.twoLinesheightCalc(1),
           );
           return;
         }
-        
-        logic.settings.appSettings.lastPageBeforeArena.set(stage.mainPagesController.currentPage);
+
+        logic.settings.appSettings.lastPageBeforeArena
+            .set(stage.mainPagesController.currentPage);
         stage.mainPagesController.goToPage(CSPage.life);
         logic.game.gameAction.clearSelection();
-        
-        if(logic.themer.flatDesign.value){
+
+        if (logic.themer.flatDesign.value) {
           stage.showAlert(
-            ArenaWidget(logic: logic, ),
+            ArenaWidget(
+              logic: logic,
+            ),
             size: double.infinity,
           );
           stage.panelController.onNextPanelClose(
             () => logic.tutorial.reactToArenaAlertFromBottom(),
           );
         } else {
-          if(logic.settings.arenaSettings.fullScreen.value){
-            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+          if (logic.settings.arenaSettings.fullScreen.value) {
+            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                overlays: []);
           }
 
           openArena();
         }
-
       }),
       tappable: false,
       onClosed: (dynamic _) {
@@ -91,15 +95,13 @@ class ArenaTransformer extends StatelessWidget {
           logic.settings.appSettings.lastPageBeforeArena.value,
         );
         SystemChrome.setEnabledSystemUIMode(
-          SystemUiMode.manual, 
+          SystemUiMode.manual,
           overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
         );
       },
       transitionType: ContainerTransitionType.fadeThrough,
       closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(closedRadiusSize)
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(closedRadiusSize)),
       ),
     );
   }

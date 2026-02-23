@@ -1,8 +1,6 @@
-import 'package:counter_spell_new/core.dart';
-
+import 'package:counter_spell/core.dart';
 
 class TutorialHistory extends StatelessWidget {
-
   const TutorialHistory({super.key});
 
   @override

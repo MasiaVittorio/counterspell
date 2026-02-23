@@ -1,9 +1,9 @@
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/arena/components/player_tile/components/all.dart';
-import 'package:counter_spell_new/widgets/stage/body/group/player_tile_gestures.dart';
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/arena/components/player_tile/components/all.dart';
+import 'package:counter_spell/widgets/stage/body/group/player_tile_gestures.dart';
 
 class AptGestures extends StatelessWidget {
-  const AptGestures({
+  const AptGestures({super.key, 
     required this.content,
     required this.bloc,
     required this.name,
@@ -160,7 +160,8 @@ class AptGestures extends StatelessWidget {
                     left: -aptCmdrDamageExtraPadding,
                     top: 0,
                     child: Align(
-                      alignment: AptContent.rightInfoFromButtonAlignment(buttonAlignment)
+                      alignment: AptContent.rightInfoFromButtonAlignment(
+                              buttonAlignment)
                           ? Alignment.bottomLeft
                           : Alignment.bottomRight,
                       child: AptCmdrDmg(
@@ -190,7 +191,8 @@ class AptGestures extends StatelessWidget {
         ),
       );
 
-  static const Map<bool, Map<bool, IconData>> _icons = <bool, Map<bool, IconData>>{
+  static const Map<bool, Map<bool, IconData>> _icons =
+      <bool, Map<bool, IconData>>{
     true: <bool, IconData>{
       true: Icons.keyboard_arrow_up,
       false: Icons.keyboard_arrow_down,
@@ -201,7 +203,8 @@ class AptGestures extends StatelessWidget {
     },
   };
 
-  static const Map<bool, Map<bool, Alignment>> _alignments = <bool, Map<bool, Alignment>>{
+  static const Map<bool, Map<bool, Alignment>> _alignments =
+      <bool, Map<bool, Alignment>>{
     true: <bool, Alignment>{
       true: Alignment.topCenter,
       false: Alignment.bottomCenter,
@@ -280,7 +283,7 @@ enum _CmdrMode {
 }
 
 class AptCmdrDmg extends StatelessWidget {
-  const AptCmdrDmg({
+  const AptCmdrDmg({super.key, 
     required this.bloc,
     required this.name,
     required this.page,
@@ -340,7 +343,8 @@ class AptCmdrDmg extends StatelessWidget {
       onLongPress: mode == _CmdrMode.isAttacking && hasPartnerB!
           ? () {
               //toggling used partners
-              bloc!.game.gameState.gameState.value.players[name]!.usePartnerB = !usePartnerB!;
+              bloc!.game.gameState.gameState.value.players[name]!.usePartnerB =
+                  !usePartnerB!;
               bloc!.game.gameState.gameState.refresh();
             }
           : null,

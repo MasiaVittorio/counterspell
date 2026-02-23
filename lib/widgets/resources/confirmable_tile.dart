@@ -2,7 +2,7 @@ import 'package:sid_ui/sid_ui.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmableTile extends StatefulWidget {
-  const ConfirmableTile({
+  const ConfirmableTile({super.key, 
     required this.onConfirm,
     required this.titleBuilder,
     required this.subTitleBuilder,

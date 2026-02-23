@@ -1,4 +1,5 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'components/all.dart';
 
 enum PlayerDetailsPage {
@@ -11,7 +12,7 @@ class PlayerDetails extends StatelessWidget {
   final int index;
   final double aspectRatio;
 
-  const PlayerDetails(this.index, this.aspectRatio);
+  const PlayerDetails(this.index, this.aspectRatio, {super.key});
 
   static const double height = 500.0;
 
@@ -23,13 +24,15 @@ class PlayerDetails extends StatelessWidget {
     final stage = Stage.of(context)!;
     final groupBloc = bloc.game.gameGroup;
 
-    return groupBloc.orderedNames.build((_, names) 
-      => RadioHeaderedAlert<PlayerDetailsPage>(
-        initialValue: stage.panelController.alertController
-          .savedStates[pageKey] ?? PlayerDetailsPage.commanderSettings,
-        onPageChanged: (p) => stage.panelController.alertController.savedStates[pageKey] = p,
+    return groupBloc.orderedNames.build(
+      (_, names) => RadioHeaderedAlert<PlayerDetailsPage>(
+        initialValue:
+            stage.panelController.alertController.savedStates[pageKey] ??
+                PlayerDetailsPage.commanderSettings,
+        onPageChanged: (p) =>
+            stage.panelController.alertController.savedStates[pageKey] = p,
         orderedValues: PlayerDetailsPage.values,
-        items: <PlayerDetailsPage,RadioHeaderedItem>{
+        items: <PlayerDetailsPage, RadioHeaderedItem>{
           PlayerDetailsPage.info: RadioHeaderedItem(
             longTitle: "${names[index]}'s details",
             child: PlayerDetailsInfo(index),
@@ -45,7 +48,10 @@ class PlayerDetails extends StatelessWidget {
           ),
           PlayerDetailsPage.commanderSettings: RadioHeaderedItem(
             longTitle: "${names[index]}'s commander settings",
-            child: PlayerDetailsCommanderSettings(index, aspectRatio: aspectRatio,),
+            child: PlayerDetailsCommanderSettings(
+              index,
+              aspectRatio: aspectRatio,
+            ),
             title: "Settings",
             icon: CSIcons.damageFilled,
             unselectedIcon: CSIcons.damageOutlined,
@@ -54,5 +60,4 @@ class PlayerDetails extends StatelessWidget {
       ),
     );
   }
-
 }

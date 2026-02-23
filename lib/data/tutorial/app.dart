@@ -1,8 +1,8 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
+
 import 'highlights.dart';
 
 class AppTutorial {
-  
   static const tutorial = TutorialData(
     icon: McIcons.material_design,
     title: "App structure",
@@ -13,7 +13,6 @@ class AppTutorial {
     ],
   );
 
-
   static const panel = Hint(
     text: 'Scroll the bottom panel up to open the settings',
     page: null,
@@ -23,7 +22,7 @@ class AppTutorial {
   );
   static Future<void> _showPanel(CSBloc bloc) async {
     bloc.stage.panelController.onNextPanelClose(() {
-      if(bloc.tutorial.currentHint == panel){
+      if (bloc.tutorial.currentHint == panel) {
         bloc.tutorial.nextHint();
       }
     });
@@ -40,7 +39,7 @@ class AppTutorial {
   );
   static Future<void> _skipOnNextClose(CSBloc bloc) async {
     bloc.stage.panelController.onNextPanelClose(() {
-      if(bloc.tutorial.currentHint == menuIcon){
+      if (bloc.tutorial.currentHint == menuIcon) {
         bloc.tutorial.nextHint();
       }
     });
@@ -52,5 +51,4 @@ class AppTutorial {
     manualHighlight: HintsHighlights.swipeDownExample,
     icon: HintIcon(McIcons.gesture_swipe_down),
   );
-
 }

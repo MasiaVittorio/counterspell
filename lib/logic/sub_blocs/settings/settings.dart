@@ -1,17 +1,15 @@
-import 'package:counter_spell_new/core.dart';
+import 'package:counter_spell/core.dart';
 
 export 'sub_settings/all.dart';
 
 class CSSettings {
-
-  void dispose(){
+  void dispose() {
     scrollSettings.dispose();
     arenaSettings.dispose();
     imagesSettings.dispose();
     appSettings.dispose();
     gameSettings.dispose();
   }
-
 
   //===================================
   // Values
@@ -23,16 +21,14 @@ class CSSettings {
   final CSSettingsApp appSettings;
   final CSSettingsGame gameSettings;
 
-
   //===================================
   // Constructor
-  CSSettings(this.parent): 
-    scrollSettings = CSSettingsScroll(parent),
-    arenaSettings = CSSettingsArena(parent),
-    imagesSettings = CSSettingsImages(parent),
-    appSettings = CSSettingsApp(parent),
-    gameSettings = CSSettingsGame(parent);
+  CSSettings(this.parent)
+      : scrollSettings = CSSettingsScroll(parent),
+        arenaSettings = CSSettingsArena(parent),
+        imagesSettings = CSSettingsImages(parent),
+        appSettings = CSSettingsApp(parent),
+        gameSettings = CSSettingsGame(parent);
 
   static const int versionCode = ChangeLogData.lastBigChange;
-
 }

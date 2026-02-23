@@ -51,10 +51,10 @@ typedef CSGestureDragUpdateCallback = void Function(CSDragUpdateDetails details)
 abstract class CSDragGestureRecognizer extends OneSequenceGestureRecognizer {
 
   CSDragGestureRecognizer({
-    Object? debugOwner,
-    Set<PointerDeviceKind>? supportedDevices,
+    super.debugOwner,
+    super.supportedDevices,
     this.dragStartBehavior = DragStartBehavior.start,
-  }) : super(debugOwner: debugOwner, supportedDevices: supportedDevices);
+  });
 
 
   DragStartBehavior dragStartBehavior;
@@ -385,9 +385,9 @@ class CSHorizontalDragGestureRecognizer extends CSDragGestureRecognizer {
   ///
   /// {@macro flutter.gestures.gestureRecognizer.kind}
   CSHorizontalDragGestureRecognizer({
-    Object? debugOwner,
-    Set<PointerDeviceKind>? supportedDevices,
-  }) : super(debugOwner: debugOwner, supportedDevices: supportedDevices);
+    super.debugOwner,
+    super.supportedDevices,
+  });
 
   @override
   bool _isFlingGesture(VelocityEstimate estimate) {
@@ -412,7 +412,7 @@ class CSHorizontalDragGestureRecognizer extends CSDragGestureRecognizer {
 
 class CSPanGestureRecognizer extends CSDragGestureRecognizer {
   /// Create a gesture recognizer for tracking movement on a plane.
-  CSPanGestureRecognizer({ Object? debugOwner }) : super(debugOwner: debugOwner);
+  CSPanGestureRecognizer({ super.debugOwner });
 
   @override
   bool _isFlingGesture(VelocityEstimate estimate) {

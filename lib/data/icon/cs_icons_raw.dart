@@ -11,15 +11,14 @@
 ///      fonts:
 ///       - asset: fonts/MagicIcons.ttf
 ///
-/// 
 ///
+///
+library;
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/widgets.dart';
 
-
 class CSIconsRaw {
-
   static const _kFontFam1 = 'MagicIcons';
   static const _kFontFam2 = 'MaterialDesignIcons';
   static const _kFontFam3 = 'ShieldIcons';
@@ -28,10 +27,14 @@ class CSIconsRaw {
   static const _kFontFamCS = 'CounterSpell';
 
   static const IconData cast_filled = IconData(0xe800, fontFamily: _kFontFamCS);
-  static const IconData cast_outlined = IconData(0xe801, fontFamily: _kFontFamCS);
-  static const IconData counterspell = IconData(0xe802, fontFamily: _kFontFamCS);
-  static const IconData damage_filled = IconData(0xe803, fontFamily: _kFontFamCS);
-  static const IconData damage_outlined = IconData(0xe804, fontFamily: _kFontFamCS);
+  static const IconData cast_outlined =
+      IconData(0xe801, fontFamily: _kFontFamCS);
+  static const IconData counterspell =
+      IconData(0xe802, fontFamily: _kFontFamCS);
+  static const IconData damage_filled =
+      IconData(0xe803, fontFamily: _kFontFamCS);
+  static const IconData damage_outlined =
+      IconData(0xe804, fontFamily: _kFontFamCS);
 
   static const IconData dice_1 = IconData(0xf1ca, fontFamily: _kFontFam4);
   static const IconData dice_2 = IconData(0xf1cb, fontFamily: _kFontFam4);
@@ -42,31 +45,42 @@ class CSIconsRaw {
   static const IconData dice_d20 = IconData(0xf5ea, fontFamily: _kFontFam4);
   static const IconData coins = IconData(0xf694, fontFamily: _kFontFam4);
 
-  static const IconData experience_filled = IconData(0xe802, fontFamily: _kFontFam1);
-  static const IconData experience_outlined = IconData(0xe803, fontFamily: _kFontFam1);
+  static const IconData experience_filled =
+      IconData(0xe802, fontFamily: _kFontFam1);
+  static const IconData experience_outlined =
+      IconData(0xe803, fontFamily: _kFontFam1);
   static const IconData phyrexia = IconData(0xe804, fontFamily: _kFontFam1);
 
-  static const IconData skull_crossbones = IconData(0xe800, fontFamily: _kFontFam2);
-  static const IconData skull_crossbones_outline = IconData(0xe801, fontFamily: _kFontFam2);
-  static const IconData skull_outline = IconData(0xe802, fontFamily: _kFontFam2);
+  static const IconData skull_crossbones =
+      IconData(0xe800, fontFamily: _kFontFam2);
+  static const IconData skull_crossbones_outline =
+      IconData(0xe801, fontFamily: _kFontFam2);
+  static const IconData skull_outline =
+      IconData(0xe802, fontFamily: _kFontFam2);
   static const IconData sword = IconData(0xf4e5, fontFamily: _kFontFam2);
   static const IconData skull = IconData(0xf68b, fontFamily: _kFontFam2);
   static const IconData sword_cross = IconData(0xf786, fontFamily: _kFontFam2);
 
   static const IconData shield_off = IconData(0xe800, fontFamily: _kFontFam3);
-  static const IconData shield_off_outline = IconData(0xe801, fontFamily: _kFontFam3);
-  static const IconData shield_check_outline = IconData(0xe802, fontFamily: _kFontFam3);
-  static const IconData shield_account_outline = IconData(0xe803, fontFamily: _kFontFam3);
+  static const IconData shield_off_outline =
+      IconData(0xe801, fontFamily: _kFontFam3);
+  static const IconData shield_check_outline =
+      IconData(0xe802, fontFamily: _kFontFam3);
+  static const IconData shield_account_outline =
+      IconData(0xe803, fontFamily: _kFontFam3);
   static const IconData shield_plus = IconData(0xe804, fontFamily: _kFontFam3);
-  static const IconData shield_plus_outline = IconData(0xe805, fontFamily: _kFontFam3);
-  static const IconData shield_remove = IconData(0xe806, fontFamily: _kFontFam3);
-  static const IconData shield_remove_outline = IconData(0xe807, fontFamily: _kFontFam3);
+  static const IconData shield_plus_outline =
+      IconData(0xe805, fontFamily: _kFontFam3);
+  static const IconData shield_remove =
+      IconData(0xe806, fontFamily: _kFontFam3);
+  static const IconData shield_remove_outline =
+      IconData(0xe807, fontFamily: _kFontFam3);
   static const IconData shield = IconData(0xf498, fontFamily: _kFontFam3);
-  static const IconData shield_outline = IconData(0xf499, fontFamily: _kFontFam3);
+  static const IconData shield_outline =
+      IconData(0xf499, fontFamily: _kFontFam3);
   static const IconData shield_check = IconData(0xf565, fontFamily: _kFontFam3);
-  static const IconData shield_half_full = IconData(0xf77f, fontFamily: _kFontFam3);
-  static const IconData shield_account = IconData(0xf88e, fontFamily: _kFontFam3);
-
+  static const IconData shield_half_full =
+      IconData(0xf77f, fontFamily: _kFontFam3);
+  static const IconData shield_account =
+      IconData(0xf88e, fontFamily: _kFontFam3);
 }
-
-

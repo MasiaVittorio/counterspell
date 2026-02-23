@@ -1,10 +1,8 @@
-import 'package:counter_spell_new/core.dart';
-import 'package:counter_spell_new/widgets/resources/highlightable/highlightable.dart';
-
+import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/resources/highlightable/highlightable.dart';
 
 class PanelGameExtras extends StatelessWidget {
-
-  const PanelGameExtras(this.arenaOpener, {required this.compact});
+  const PanelGameExtras(this.arenaOpener, {super.key, required this.compact});
 
   final VoidCallback arenaOpener;
   final bool compact;
@@ -15,51 +13,56 @@ class PanelGameExtras extends StatelessWidget {
     final stage = Stage.of(context)!;
 
     void launchHelpers() => stage.showAlert(
-      const CrazySpecificStuff(),
-      size: CrazySpecificStuff.size, 
-    );
+          const CrazySpecificStuff(),
+          size: CrazySpecificStuff.size,
+        );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-
-        SubSection(<Widget>[
-          const SectionTitle("Extras"),
-          ButtonTilesRow(children: <Widget>[
-            ButtonTile.transparent(
-              icon: McIcons.dice_multiple,
-              text: "Random",
-              onTap: () => stage.showAlert(DiceThrower(), size: DiceThrower.height),
+        SubSection(
+          <Widget>[
+            const SectionTitle("Extras"),
+            ButtonTilesRow(
+              children: <Widget>[
+                ButtonTile.transparent(
+                  icon: McIcons.dice_multiple,
+                  text: "Random",
+                  onTap: () =>
+                      stage.showAlert(DiceThrower(), size: DiceThrower.height),
+                ),
+                bloc.payments.unlocked.build(
+                  (_, unlocked) => ButtonTile.transparent(
+                    icon: McIcons.license,
+                    text: "Leaderboards",
+                    onTap: () {
+                      if (unlocked) {
+                        stage.showAlert(const Leaderboards(),
+                            size: Leaderboards.height);
+                      } else {
+                        stage.showAlert(const SupportAlert(),
+                            size: SupportAlert.height);
+                      }
+                    },
+                  ),
+                ),
+                Highlightable(
+                  controller: bloc.tutorial.panelArenaPlaygroupHighlight,
+                  borderRadius: 10,
+                  child: ButtonTile.transparent(
+                    icon: CSIcons.counterSpell,
+                    // iconSize: CSIcons.ideal_counterspell_size,
+                    // iconPadding: CSIcons.ideal_counterspell_padding,
+                    text: "Arena",
+                    onTap: arenaOpener,
+                  ),
+                ),
+              ],
             ),
-            bloc.payments.unlocked.build((_, unlocked) => ButtonTile.transparent(
-              icon: McIcons.license,
-              text: "Leaderboards",
-              onTap: () {
-                if(unlocked){
-                  stage.showAlert(const Leaderboards(), size: Leaderboards.height);
-                } else {
-                  stage.showAlert(const SupportAlert(), size: SupportAlert.height);
-                }
-              },
-            ),),
-            Highlightable(
-              controller: bloc.tutorial.panelArenaPlaygroupHighlight,
-              borderRadius: 10,
-              child: ButtonTile.transparent(
-                icon: CSIcons.counterSpell,
-                // iconSize: CSIcons.ideal_counterspell_size,
-                // iconPadding: CSIcons.ideal_counterspell_padding,
-                text: "Arena",
-                onTap: arenaOpener,
-              ),
-            ),
-          ],),
-
-          const Space.vertical(4),
-        ],),
-
+            const Space.vertical(4),
+          ],
+        ),
         const Space.vertical(10),
-
         ButtonTilesRow(
           margin: const EdgeInsets.symmetric(horizontal: 10),
           children: <Widget>[
@@ -69,7 +72,9 @@ class PanelGameExtras extends StatelessWidget {
               child: ButtonTile(
                 icon: McIcons.restart,
                 text: "Start new game",
-                onTap: () => stage.showAlert(const RestarterAlert(GameRestartedFrom.menu), size: ConfirmAlert.height),
+                onTap: () => stage.showAlert(
+                    const RestarterAlert(GameRestartedFrom.menu),
+                    size: ConfirmAlert.height),
               ),
             ),
             Highlightable(
@@ -79,23 +84,25 @@ class PanelGameExtras extends StatelessWidget {
                 icon: McIcons.account_multiple_outline,
                 text: "Edit playgroup",
                 onTap: () => stage.showAlert(
-                  PlayGroupEditor(bloc, fromClosedPanel: false,), 
+                  PlayGroupEditor(
+                    bloc,
+                    fromClosedPanel: false,
+                  ),
                   size: PlayGroupEditor.sizeCalc(
                     bloc.game.gameState.gameState.value.players.length,
                   ),
                 ),
               ),
             ),
-            if(compact)
+            if (compact)
               ButtonTile(
-                icon: ManaIcons.instant, 
-                text: "Helpers", 
+                icon: ManaIcons.instant,
+                text: "Helpers",
                 onTap: launchHelpers,
               ),
           ],
         ),
-
-        if(!compact)...[
+        if (!compact) ...[
           const Space.vertical(10),
           SubSection([
             ListTile(
@@ -106,12 +113,7 @@ class PanelGameExtras extends StatelessWidget {
             ),
           ]),
         ],
-
-
-
       ],
     );
   }
 }
-
-

@@ -1,4 +1,6 @@
 import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/alerts/specifics/game/image_search/components/card_tile.dart';
+import 'package:counter_spell/widgets/alerts/specifics/game/image_search/image_search_alert.dart';
 
 import '../all.dart';
 import 'edit_custom_stats.dart';
@@ -16,113 +18,98 @@ class PastGameScreen extends StatelessWidget {
     final bloc = CSBloc.of(context);
     final titlesVar = bloc.pastGames.customStatTitles;
     final gamesVar = bloc.pastGames.pastGames;
-    return gamesVar.build(
-      (_, pastGames) {
-        final PastGame game = pastGames[index]!;
-        return HeaderedAlertCustom(
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const AlertDrag(),
-              GameTimeTile(game, index: index, delete: false),
-            ],
-          ),
-          titleSize: 72.0 + AlertDrag.height,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Section(
-                <Widget>[
-                  SubSection(
-                    [
-                      const SectionTitle("Winner"),
-                      ListTile(
-                        leading: const Icon(McIcons.trophy),
-                        title: Text(game.winner ?? "not detected"),
-                      ),
-                    ],
-                    onTap: () => selectWinner(game, stage!, bloc),
+    return gamesVar.build((_, pastGames) {
+      final PastGame game = pastGames[index]!;
+      return HeaderedAlertCustom(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const AlertDrag(),
+            GameTimeTile(game, index: index, delete: false),
+          ],
+        ),
+        titleSize: 72.0 + AlertDrag.height,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Section(
+              <Widget>[
+                SubSection([
+                  const SectionTitle("Winner"),
+                  ListTile(
+                    leading: const Icon(McIcons.trophy),
+                    title: Text(game.winner ?? "not detected"),
                   ),
-                  SubSection([
-                    const SectionTitle("Notes"),
-                    ListTile(
-                      leading: const Icon(McIcons.fountain_pen_tip),
-                      title: Text(
-                        game.notes.or("[...]")!,
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      ),
+                ], onTap: () => selectWinner(game, stage!, bloc)),
+                SubSection([
+                  const SectionTitle("Notes"),
+                  ListTile(
+                    leading: const Icon(McIcons.fountain_pen_tip),
+                    title: Text(
+                      game.notes.or("[...]")!,
+                      style: const TextStyle(fontStyle: FontStyle.italic),
                     ),
-                  ], onTap: () => insertNotes(game, stage!, bloc)),
-                  SubSection(
-                    [
-                      const SectionTitle("Custom stats"),
-                      CSWidgets.height5,
-                      titlesVar.build(
-                        (context, titles) => Row(
-                          children: [
-                            Expanded(
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: (() {
-                                    final children = <Widget>[
-                                      for (final title in titles)
-                                        for (final n
-                                            in (game.customStats[title] ?? [])
-                                                as Iterable)
-                                          SidChip(
-                                            text: title,
-                                            subText: n,
-                                          ),
+                  ),
+                ], onTap: () => insertNotes(game, stage!, bloc)),
+                SubSection(
+                  [
+                    const SectionTitle("Custom stats"),
+                    CSWidgets.height5,
+                    titlesVar.build(
+                      (context, titles) => Row(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: (() {
+                                  final children = <Widget>[
+                                    for (final title in titles)
+                                      for (final n
+                                          in (game.customStats[title] ?? [])
+                                              as Iterable)
+                                        SidChip(text: title, subText: n),
+                                  ];
+                                  if (children.isEmpty) {
+                                    return [
+                                      const Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Text("Tap to edit"),
+                                      ),
                                     ];
-                                    if (children.isEmpty) {
-                                      return [
-                                        const Padding(
-                                          padding: EdgeInsets.all(16.0),
-                                          child: Text("Tap to edit"),
-                                        )
-                                      ];
-                                    } else {
-                                      return children.separateWith(
-                                        CSWidgets.width10,
-                                        alsoFirstAndLast: true,
-                                      );
-                                    }
-                                  })(),
-                                ),
+                                  } else {
+                                    return children.separateWith(
+                                      CSWidgets.width10,
+                                      alsoFirstAndLast: true,
+                                    );
+                                  }
+                                })(),
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                    onTap: () => stage!.showAlert(
-                      EditCustomStats(index: index),
-                      size: EditCustomStats.height,
                     ),
+                  ],
+                  onTap: () => stage!.showAlert(
+                    EditCustomStats(index: index),
+                    size: EditCustomStats.height,
                   ),
-                ].separateWith(
-                  CSWidgets.height10,
-                  alsoFirstAndLast: true,
                 ),
-              ),
-              Section([
-                const SectionTitle("Commanders"),
-                CSWidgets.height5,
-                for (final player in game.state.players.keys) ...[
-                  CommanderSubSection(
-                    game,
-                    player,
-                    index: index,
-                  ),
-                  CSWidgets.height10,
-                ],
-              ]),
-            ],
-          ),
-        );
-      },
-    );
+              ].separateWith(CSWidgets.height10, alsoFirstAndLast: true),
+            ),
+            Section([
+              const SectionTitle("Commanders"),
+              CSWidgets.height5,
+              for (final player in game.state.players.keys) ...[
+                CommanderSubSection(game, player, index: index),
+                CSWidgets.height10,
+              ],
+            ]),
+          ],
+        ),
+      );
+    });
   }
 
   void insertNotes(PastGame game, StageData stage, CSBloc bloc) {
@@ -166,7 +153,12 @@ class CommanderSubSection extends StatelessWidget {
   final int index;
   final String player;
 
-  const CommanderSubSection(this.game, this.player, {super.key, required this.index});
+  const CommanderSubSection(
+    this.game,
+    this.player, {
+    super.key,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -185,12 +177,12 @@ class CommanderSubSection extends StatelessWidget {
           callback: (_) => pick(true, bloc, stage!),
           autoClose: false,
           trailing: IconButton(
-              icon: CSWidgets.deleteIcon,
-              onPressed: () {
-                bloc.pastGames.pastGames.value[index]!.commandersA[player] =
-                    null;
-                bloc.pastGames.pastGames.refresh(index: index);
-              }),
+            icon: CSWidgets.deleteIcon,
+            onPressed: () {
+              bloc.pastGames.pastGames.value[index]!.commandersA[player] = null;
+              bloc.pastGames.pastGames.refresh(index: index);
+            },
+          ),
         )
       else
         ListTile(
@@ -206,12 +198,13 @@ class CommanderSubSection extends StatelessWidget {
                 autoClose: false,
                 callback: (_) => pick(false, bloc, stage!),
                 trailing: IconButton(
-                    icon: CSWidgets.deleteIcon,
-                    onPressed: () {
-                      bloc.pastGames.pastGames.value[index]!
-                          .commandersB[player] = null;
-                      bloc.pastGames.pastGames.refresh(index: index);
-                    }),
+                  icon: CSWidgets.deleteIcon,
+                  onPressed: () {
+                    bloc.pastGames.pastGames.value[index]!.commandersB[player] =
+                        null;
+                    bloc.pastGames.pastGames.refresh(index: index);
+                  },
+                ),
               )
             : ListTile(
                 leading: const Icon(McIcons.cards_outline),
@@ -222,8 +215,14 @@ class CommanderSubSection extends StatelessWidget {
       BottomExtra(
         Text(partner ? "Merge into one commander" : "Split into two partners"),
         onTap: () {
-          bloc.pastGames.pastGames.value[index]!.state.players[player]!
-              .havePartnerB = !partner;
+          bloc
+                  .pastGames
+                  .pastGames
+                  .value[index]!
+                  .state
+                  .players[player]!
+                  .havePartnerB =
+              !partner;
           bloc.pastGames.pastGames.refresh(index: index);
         },
         icon: partner ? Icons.unfold_less : Icons.unfold_more,
@@ -233,15 +232,17 @@ class CommanderSubSection extends StatelessWidget {
 
   void pick(bool first, CSBloc? bloc, StageData stage) {
     stage.showAlert(
-      ImageSearch((card) {
-        if (first) {
-          bloc!.pastGames.pastGames.value[index]!.commandersA[player] = card;
-        } else {
-          bloc!.pastGames.pastGames.value[index]!.commandersB[player] = card;
-        }
-        bloc.pastGames.pastGames.refresh(index: index);
-      }),
-      size: ImageSearch.height,
+      ImageSearchAlert(
+        onSelect: (card) {
+          if (first) {
+            bloc!.pastGames.pastGames.value[index]!.commandersA[player] = card;
+          } else {
+            bloc!.pastGames.pastGames.value[index]!.commandersB[player] = card;
+          }
+          bloc.pastGames.pastGames.refresh(index: index);
+        },
+      ),
+      size: ImageSearchAlert.height,
     );
   }
 }

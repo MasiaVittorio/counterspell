@@ -13,10 +13,7 @@ class MPLogic {
 
   ManaAction? get currentAction => selected.value == null
       ? null
-      : ManaAction(
-          delta: localScroller.intValue.value,
-          color: selected.value!,
-        );
+      : ManaAction(delta: localScroller.intValue.value, color: selected.value!);
 
   late BlocVar<Map<Clr, int>> pool;
 
@@ -38,7 +35,7 @@ class MPLogic {
       okVibrate: () =>
           parentBloc.settings.appSettings.canVibrate! &&
           parentBloc.settings.appSettings.wantVibrate.value,
-      onCancel: (_, __) {
+      onCancel: (_, _) {
         selected.set(null);
       },
       scrollSettings: parentBloc.settings.scrollSettings,
@@ -48,17 +45,11 @@ class MPLogic {
       },
     );
 
-    show = BlocVar(
-      <Clr, bool>{
-        for (final c in Clr.values) c: true,
-      },
-    );
+    show = BlocVar(<Clr, bool>{for (final c in Clr.values) c: true});
 
     history = BlocVar(<ManaAction>[]);
 
-    pool = BlocVar(<Clr, int>{
-      for (final v in Clr.values) v: 0,
-    });
+    pool = BlocVar(<Clr, int>{for (final v in Clr.values) v: 0});
   }
 
   void apply(ManaAction? action) {
@@ -106,62 +97,57 @@ enum Clr { w, u, b, r, g, c }
 ///+ colorless
 extension ClrExt on Clr {
   String get name => const <Clr, String>{
-        Clr.w: "w",
-        Clr.u: "u",
-        Clr.b: "b",
-        Clr.r: "r",
-        Clr.g: "g",
-        Clr.c: "c",
-      }[this]!;
+    Clr.w: "w",
+    Clr.u: "u",
+    Clr.b: "b",
+    Clr.r: "r",
+    Clr.g: "g",
+    Clr.c: "c",
+  }[this]!;
 
   Color get color => const <Clr, Color>{
-        Clr.w: Color(0xFFfffbd6),
-        Clr.u: Color(0xFFaae0fa),
-        Clr.b: Color(0xFFccc3c1),
-        Clr.r: Color(0xFFf9aa8f),
-        Clr.g: Color(0xFF9bd3af),
-        Clr.c: Color(0xFFd5cece),
-      }[this]!;
+    Clr.w: Color(0xFFfffbd6),
+    Clr.u: Color(0xFFaae0fa),
+    Clr.b: Color(0xFFccc3c1),
+    Clr.r: Color(0xFFf9aa8f),
+    Clr.g: Color(0xFF9bd3af),
+    Clr.c: Color(0xFFd5cece),
+  }[this]!;
 
   IconData? get icon => const <Clr, IconData>{
-        Clr.w: ManaIcons.w,
-        Clr.u: ManaIcons.u,
-        Clr.b: ManaIcons.b,
-        Clr.r: ManaIcons.r,
-        Clr.g: ManaIcons.g,
-        Clr.c: ManaIcons.c,
-      }[this];
+    Clr.w: ManaIcons.w,
+    Clr.u: ManaIcons.u,
+    Clr.b: ManaIcons.b,
+    Clr.r: ManaIcons.r,
+    Clr.g: ManaIcons.g,
+    Clr.c: ManaIcons.c,
+  }[this];
 }
 
 class Clrs {
   static Clr? fromName(String? name) => const <String, Clr>{
-        "w": Clr.w,
-        "u": Clr.u,
-        "b": Clr.b,
-        "r": Clr.r,
-        "g": Clr.g,
-        "c": Clr.c,
-      }[name ?? ''];
+    "w": Clr.w,
+    "u": Clr.u,
+    "b": Clr.b,
+    "r": Clr.r,
+    "g": Clr.g,
+    "c": Clr.c,
+  }[name ?? ''];
 }
 
 class ManaAction {
   final int delta;
   final Clr color;
 
-  const ManaAction({
-    required this.delta,
-    required this.color,
-  });
+  const ManaAction({required this.delta, required this.color});
 
   Map<String, dynamic> get toJson => <String, dynamic>{
-        "delta": delta,
-        "color": color.name,
-      };
+    "delta": delta,
+    "color": color.name,
+  };
 
-  static ManaAction fromJson(Map<String, dynamic> json) => ManaAction(
-        delta: json["delta"],
-        color: Clrs.fromName(json["color"])!,
-      );
+  static ManaAction fromJson(Map<String, dynamic> json) =>
+      ManaAction(delta: json["delta"], color: Clrs.fromName(json["color"])!);
 
   @override
   operator ==(Object other) {

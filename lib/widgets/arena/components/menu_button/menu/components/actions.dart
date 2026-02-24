@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:counter_spell/core.dart';
 
 class ArenaMenuActions extends StatelessWidget {
-  const ArenaMenuActions({super.key, 
+  const ArenaMenuActions({
+    super.key,
     required this.reorderPlayers,
     required this.exit,
     required this.close,
@@ -31,18 +32,9 @@ class ArenaMenuActions extends StatelessWidget {
         ]),
         Section(<Widget>[
           const SectionTitle("Random"),
-          RandomListTile(
-            2,
-            onThrowCallback: thrower,
-          ),
-          RandomListTile(
-            6,
-            onThrowCallback: thrower,
-          ),
-          RandomListTile(
-            20,
-            onThrowCallback: thrower,
-          ),
+          RandomListTile(2, onThrowCallback: thrower),
+          RandomListTile(6, onThrowCallback: thrower),
+          RandomListTile(20, onThrowCallback: thrower),
           RandomListTile(
             null,
             values: names,
@@ -71,7 +63,7 @@ class _Restarter extends StatelessWidget {
         closeMenu.call();
       },
       leading: const Icon(McIcons.restart),
-      titleBuilder: (_, __) => const Text("New game"),
+      titleBuilder: (_, _) => const Text("New game"),
       subTitleBuilder: (_, pressed) =>
           AnimatedText(pressed ? "Confirm?" : "Start fresh"),
     );
@@ -88,27 +80,31 @@ class ArenaFirstActions extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 10.0),
       child: Row(
-          children: <Widget>[
-        Expanded(
+        children: <Widget>[
+          Expanded(
             child: ButtonTile(
-          text: "Reorder players",
-          icon: McIcons.account_group_outline,
-          onTap: reorderPlayers,
-        )),
-        Expanded(
+              text: "Reorder players",
+              icon: McIcons.account_group_outline,
+              onTap: reorderPlayers,
+            ),
+          ),
+          Expanded(
             child: ButtonTile(
-          text: "Exit Arena mode",
-          icon: Icons.close,
-          onTap: exit,
-        )),
-      ].separateWith(CSWidgets.extraButtonsDivider)),
+              text: "Exit Arena mode",
+              icon: Icons.close,
+              onTap: exit,
+            ),
+          ),
+        ].separateWith(CSWidgets.extraButtonsDivider),
+      ),
     );
   }
 }
 
 class RandomListTile extends StatefulWidget {
   const RandomListTile(
-    this.max, {super.key, 
+    this.max, {
+    super.key,
     this.values,
     this.leading,
     this.title,
@@ -159,9 +155,9 @@ class _RandomListTileState extends State<RandomListTile>
   }
 
   void generate() => setState(() {
-        ///from 1 to max inclusive
-        value = generator.nextInt(max!) + 1;
-      });
+    ///from 1 to max inclusive
+    value = generator.nextInt(max!) + 1;
+  });
 
   void tap() {
     generate();
@@ -189,7 +185,7 @@ class _RandomListTileState extends State<RandomListTile>
   String? get valueString => value == null
       ? "/"
       : values?.elementAt(value! - 1) ??
-          ((max == 2) ? const {1: "tails", 2: "head"}[value!] : "$value");
+            ((max == 2) ? const {1: "tails", 2: "head"}[value!] : "$value");
 
   Widget get trailing => Text(valueString!);
 

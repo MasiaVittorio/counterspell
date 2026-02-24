@@ -61,7 +61,7 @@ class _HighlightOverlayState extends State<HighlightOverlay>
 
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final t = controller.value;
         final s = HighlightAnimations.circleSize(t);
         final o = HighlightAnimations.circleOpacity(t);

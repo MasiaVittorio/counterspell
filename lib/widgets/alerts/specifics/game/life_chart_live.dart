@@ -11,51 +11,48 @@ class AnimatedLifeChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: CSBloc.of(context).game.gameState.gameState.build(
-            (_, gameState) => _LifeChartLive(gameState),
-          ),
+        (_, gameState) => _LifeChartLive(gameState),
+      ),
     );
   }
 }
 
 class _LifeChartLive extends StatefulWidget {
   _LifeChartLive(this.gameState)
-      : gameDuration = gameState.lastTime.difference(gameState.firstTime).abs(),
-        gameLenght = gameState.historyLenght,
-        names = gameState.names.toList()..sort(),
-        times = <Duration>[
-          for (final state in gameState.players.values.first.states)
-            state.time
-                .difference(gameState.players.values.first.states.first.time),
-        ],
-        maxValue = (() {
-          int? max = gameState.players.values.first.states.first.life;
-          for (final player in gameState.players.values) {
-            for (final state in player.states) {
-              if (max! < state.life) {
-                max = state.life;
-              }
-              final int taken = state.totalDamageTaken;
-              if (max < taken) {
-                max = taken;
-              }
-              final int casts = state.totalCasts;
-              if (max < casts) {
-                max = casts;
-              }
+    : gameDuration = gameState.lastTime.difference(gameState.firstTime).abs(),
+      gameLenght = gameState.historyLenght,
+      names = gameState.names.toList()..sort(),
+      times = <Duration>[
+        for (final state in gameState.players.values.first.states)
+          state.time.difference(
+            gameState.players.values.first.states.first.time,
+          ),
+      ],
+      maxValue = (() {
+        int? max = gameState.players.values.first.states.first.life;
+        for (final player in gameState.players.values) {
+          for (final state in player.states) {
+            if (max! < state.life) {
+              max = state.life;
+            }
+            final int taken = state.totalDamageTaken;
+            if (max < taken) {
+              max = taken;
+            }
+            final int casts = state.totalCasts;
+            if (max < casts) {
+              max = casts;
             }
           }
-          return max!.toDouble();
-        })(),
-        showDamage = gameState.players.values.any(
-          (player) => player.states.any(
-            (state) => state.totalDamageTaken != 0,
-          ),
-        ),
-        showCasts = gameState.players.values.any(
-          (player) => player.states.any(
-            (state) => state.totalCasts != 0,
-          ),
-        );
+        }
+        return max!.toDouble();
+      })(),
+      showDamage = gameState.players.values.any(
+        (player) => player.states.any((state) => state.totalDamageTaken != 0),
+      ),
+      showCasts = gameState.players.values.any(
+        (player) => player.states.any((state) => state.totalCasts != 0),
+      );
 
   //real variable
   final GameState gameState;
@@ -90,10 +87,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: _idealDuration,
-    );
+    controller = AnimationController(vsync: this, duration: _idealDuration);
     index = 0;
     states = getStates(index);
     swapAnimationDuration = _swapAnimationDuration(index!);
@@ -136,14 +130,16 @@ class _LifeChartLiveState extends State<_LifeChartLive>
     }).seconds;
   }
 
-  int get _currentIndex => widget.times.lastIndexWhere((Duration time) =>
-      time.inMilliseconds / widget.gameDuration.inMilliseconds <=
-      controller.value);
+  int get _currentIndex => widget.times.lastIndexWhere(
+    (Duration time) =>
+        time.inMilliseconds / widget.gameDuration.inMilliseconds <=
+        controller.value,
+  );
 
   List<PlayerState> getStates(int? index) => <PlayerState>[
-        for (final name in widget.names)
-          widget.gameState.players[name]!.states[index!],
-      ];
+    for (final name in widget.names)
+      widget.gameState.players[name]!.states[index!],
+  ];
 
   bool get isPlaying => controller.isAnimating;
 
@@ -199,29 +195,26 @@ class _LifeChartLiveState extends State<_LifeChartLive>
     final ThemeData theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 2.0,
-        vertical: 8.0,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 8.0),
       child: BlocVar.build2(
         stage.themeController.derived.mainPageToPrimaryColor,
         bloc.themer.defenseColor,
-        builder: (_, dynamic colors, dynamic defenseColor) => SubSection(
-          <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 10.0),
-              child: buildLegenda(colors, defenseColor, theme),
-            ),
-            Expanded(
-              child: Padding(
+        builder: (_, dynamic colors, dynamic defenseColor) =>
+            SubSection(<Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 10.0),
+                child: buildLegenda(colors, defenseColor, theme),
+              ),
+              Expanded(
+                child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16.0,
                     vertical: 16.0,
                   ),
-                  child: buildChart(colors, defenseColor, theme)),
-            ),
-          ],
-        ),
+                  child: buildChart(colors, defenseColor, theme),
+                ),
+              ),
+            ]),
       ),
     );
   }
@@ -269,41 +262,42 @@ class _LifeChartLiveState extends State<_LifeChartLive>
         maxY: widget.maxValue,
         gridData: const FlGridData(show: false),
         titlesData: FlTitlesData(
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: style.fontSize! + 20,
-                interval: 1.0,
-                getTitlesWidget: (double value, _) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Text(
-                      safeSubString(widget.names[value.toInt()], 3),
-                      style: style,
-                    ),
-                  );
-                },
-              ),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: style.fontSize! + 20,
+              interval: 1.0,
+              getTitlesWidget: (double value, _) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    safeSubString(widget.names[value.toInt()], 3),
+                    style: style,
+                  ),
+                );
+              },
             ),
-            rightTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            leftTitles: AxisTitles(
-              sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 25,
-                  interval: maxTitle / 2,
-                  getTitlesWidget: (double value, _) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Text(
-                        "${value.toInt()}",
-                        style: style,
-                      ),
-                    );
-                  }),
-            )),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 25,
+              interval: maxTitle / 2,
+              getTitlesWidget: (double value, _) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: Text("${value.toInt()}", style: style),
+                );
+              },
+            ),
+          ),
+        ),
         borderData: FlBorderData(show: false),
         barTouchData: const BarTouchData(enabled: false),
       ),
@@ -324,7 +318,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
 
     final double nextDiff =
         (widget.times[i + 1] - widget.times[i]).inMilliseconds.abs() *
-            0.70; //milliseconds
+        0.70; //milliseconds
 
     //result / controller.duration = nextDiff / gameDuration
 
@@ -342,14 +336,15 @@ class _LifeChartLiveState extends State<_LifeChartLive>
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: AnimatedBuilder(
         animation: controller,
-        builder: (_, __) => Row(
+        builder: (_, _) => Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               alignment: Alignment.center,
               width: 60,
               child: Text(
-                  "-${(widget.gameDuration * (1.0 - controller.value)).textFormat}"),
+                "-${(widget.gameDuration * (1.0 - controller.value)).textFormat}",
+              ),
             ),
             Expanded(
               child: Slider(
@@ -391,12 +386,8 @@ class _LifeChartLiveState extends State<_LifeChartLive>
         Expanded(
           child: Center(
             child: ToggleButtons(
-              isSelected: <bool>[
-                for (final s in _okSeconds) currently == s,
-              ],
-              children: <Widget>[
-                for (final s in _okSeconds) Text("${s}s"),
-              ],
+              isSelected: <bool>[for (final s in _okSeconds) currently == s],
+              children: <Widget>[for (final s in _okSeconds) Text("${s}s")],
               onPressed: (i) => selectDuration(_okSeconds[i].seconds),
             ),
           ),
@@ -414,29 +405,32 @@ class _LifeChartLiveState extends State<_LifeChartLive>
     required Color lifeColor,
     required Color defenseColor,
     required Color castColor,
-  }) =>
-      <BarChartGroupData>[
-        for (int i = 0; i < states.length; i++)
-          BarChartGroupData(barsSpace: 5, x: i, barRods: [
-            if (widget.showCasts)
-              BarChartRodData(
-                toY: states[i].totalCasts.toDouble(),
-                color: castColor,
-                width: _barWidth,
-              ),
+  }) => <BarChartGroupData>[
+    for (int i = 0; i < states.length; i++)
+      BarChartGroupData(
+        barsSpace: 5,
+        x: i,
+        barRods: [
+          if (widget.showCasts)
             BarChartRodData(
-              toY: states[i].life.toDouble().clamp(0.0, double.infinity),
-              color: lifeColor,
+              toY: states[i].totalCasts.toDouble(),
+              color: castColor,
               width: _barWidth,
             ),
-            if (widget.showDamage)
-              BarChartRodData(
-                toY: states[i].totalDamageTaken.toDouble(),
-                color: defenseColor,
-                width: _barWidth,
-              ),
-          ]),
-      ];
+          BarChartRodData(
+            toY: states[i].life.toDouble().clamp(0.0, double.infinity),
+            color: lifeColor,
+            width: _barWidth,
+          ),
+          if (widget.showDamage)
+            BarChartRodData(
+              toY: states[i].totalDamageTaken.toDouble(),
+              color: defenseColor,
+              width: _barWidth,
+            ),
+        ],
+      ),
+  ];
 }
 
 class _LegendaItem extends StatelessWidget {
@@ -444,11 +438,7 @@ class _LegendaItem extends StatelessWidget {
   final String text;
   final ThemeData theme;
 
-  const _LegendaItem(
-    this.color,
-    this.text, {
-    required this.theme,
-  });
+  const _LegendaItem(this.color, this.text, {required this.theme});
 
   static const double height = _LifeChartLiveState._barWidth * 2;
 

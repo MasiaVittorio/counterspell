@@ -4,13 +4,13 @@ class Waiting extends StatelessWidget {
   const Waiting({super.key});
 
   @override
-  Widget build(BuildContext context) => const Center(
-        child: CircularProgressIndicator(),
-      );
+  Widget build(BuildContext context) =>
+      const Center(child: CircularProgressIndicator());
 }
 
 class DelayedWidget extends StatefulWidget {
-  const DelayedWidget({super.key, 
+  const DelayedWidget({
+    super.key,
     this.before = const Waiting(),
     required this.after,
     this.delay = defaultDelay,
@@ -39,10 +39,7 @@ class _DelayedWidgetState extends State<DelayedWidget>
   @override
   void initState() {
     super.initState();
-    barrierOpacity = AnimationController(
-      value: 1.0,
-      vsync: this,
-    );
+    barrierOpacity = AnimationController(value: 1.0, vsync: this);
     wait();
   }
 
@@ -75,22 +72,23 @@ class _DelayedWidgetState extends State<DelayedWidget>
       color: background,
       child: after
           ? fadedIn
-              ? widget.after
-              : Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Positioned.fill(child: widget.after),
-                    Positioned.fill(
-                      child: AnimatedBuilder(
-                        animation: barrierOpacity,
-                        builder: (_, __) => Container(
-                          color: background.withValues(
-                              alpha: barrierOpacity.value),
+                ? widget.after
+                : Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Positioned.fill(child: widget.after),
+                      Positioned.fill(
+                        child: AnimatedBuilder(
+                          animation: barrierOpacity,
+                          builder: (_, _) => Container(
+                            color: background.withValues(
+                              alpha: barrierOpacity.value,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
+                    ],
+                  )
           : widget.before,
     );
   }

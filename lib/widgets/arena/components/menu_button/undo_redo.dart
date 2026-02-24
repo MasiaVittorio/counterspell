@@ -2,7 +2,8 @@ import 'package:counter_spell/core.dart';
 import 'package:counter_spell/widgets/arena/arena_widget.dart';
 
 class ArenaUndo extends StatelessWidget {
-  const ArenaUndo({super.key, 
+  const ArenaUndo({
+    super.key,
     required this.undoRedoAxis,
     required this.open,
     required this.scrollingSomewhere,
@@ -64,19 +65,18 @@ class ArenaUndo extends StatelessWidget {
     );
 
     final paddings = horizontal
-
         /// To show shadow around the material
         ? [
             const EdgeInsets.fromLTRB(8, 8, 0, 8),
-            const EdgeInsets.fromLTRB(0, 8, 8, 8)
+            const EdgeInsets.fromLTRB(0, 8, 8, 8),
           ]
         : [
             const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            const EdgeInsets.fromLTRB(8, 0, 8, 8)
+            const EdgeInsets.fromLTRB(8, 0, 8, 8),
           ];
 
     return logic.gameState.build(
-      (_, __) => Flex(
+      (_, _) => Flex(
         direction: undoRedoAxis,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,

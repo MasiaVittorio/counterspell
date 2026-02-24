@@ -27,18 +27,9 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
   @override
   void initState() {
     super.initState();
-    commanders = <MtgCard?>[
-      null,
-      ...widget.stat.commanders,
-    ];
-    groupSizes = <int?>[
-      null,
-      ...widget.stat.groupSizes,
-    ];
-    opponents = <String?>[
-      null,
-      ...widget.stat.opponents,
-    ];
+    commanders = <MtgCard?>[null, ...widget.stat.commanders];
+    groupSizes = <int?>[null, ...widget.stat.groupSizes];
+    opponents = <String?>[null, ...widget.stat.opponents];
   }
 
   @override
@@ -71,30 +62,34 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           StageBuild.offMainColors(
-            (_, __, colors) => Section(<Widget>[
+            (_, _, colors) => Section(<Widget>[
               const SectionTitle("Stats"),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                child: Row(children: [
-                  Expanded(
-                    child: InfoDisplayer(
-                      title: const Text("Games"),
-                      value: Text("$totalGames"),
-                      background: const Icon(McIcons.cards),
-                      detail: const Text("(Total)"),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InfoDisplayer(
+                        title: const Text("Games"),
+                        value: Text("$totalGames"),
+                        background: const Icon(McIcons.cards),
+                        detail: const Text("(Total)"),
+                      ),
                     ),
-                  ),
-                  CSWidgets.extraButtonsDivider,
-                  Expanded(
-                    child: InfoDisplayer(
-                      title: const Text("Win rate"),
-                      value: Text("${InfoDisplayer.getString(winRate * 100)}%"),
-                      detail: Text("Overall wins: $totalWins"),
-                      background: const Icon(McIcons.trophy),
-                      color: CSColors.gold,
+                    CSWidgets.extraButtonsDivider,
+                    Expanded(
+                      child: InfoDisplayer(
+                        title: const Text("Win rate"),
+                        value: Text(
+                          "${InfoDisplayer.getString(winRate * 100)}%",
+                        ),
+                        detail: Text("Overall wins: $totalWins"),
+                        background: const Icon(McIcons.trophy),
+                        color: CSColors.gold,
+                      ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
               ),
             ]),
           ),
@@ -107,25 +102,26 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                   child: Text("Against:"),
                 ),
                 Expanded(
-                    child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ToggleButtons(
-                      isSelected: [for (final o in opponents) opponent == o],
-                      onPressed: (i) => setState(() {
-                        opponent = opponents[i];
-                      }),
-                      children: [
-                        for (final o in opponents)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(o ?? "-"),
-                          )
-                      ],
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ToggleButtons(
+                        isSelected: [for (final o in opponents) opponent == o],
+                        onPressed: (i) => setState(() {
+                          opponent = opponents[i];
+                        }),
+                        children: [
+                          for (final o in opponents)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(o ?? "-"),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
             CSWidgets.height5,
@@ -136,72 +132,81 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                   child: Text("Piloting:"),
                 ),
                 Expanded(
-                    child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ToggleButtons(
-                      isSelected: [
-                        for (final c in commanders)
-                          commander?.oracleId == c?.oracleId
-                      ],
-                      onPressed: (i) => setState(() {
-                        commander = commanders[i];
-                      }),
-                      children: [
-                        for (final c in commanders)
-                          Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(8.0),
-                                  decoration: c != null
-                                      ? BoxDecoration(
-                                          image: DecorationImage(
-                                            image: CachedNetworkImageProvider(
-                                                c.imageUrl()!),
-                                            colorFilter: ColorFilter.mode(
-                                              Color.alphaBlend(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ToggleButtons(
+                        isSelected: [
+                          for (final c in commanders)
+                            commander?.oracleId == c?.oracleId,
+                        ],
+                        onPressed: (i) => setState(() {
+                          commander = commanders[i];
+                        }),
+                        children: [
+                          for (final c in commanders)
+                            Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.all(8.0),
+                                    decoration: c != null
+                                        ? BoxDecoration(
+                                            image: DecorationImage(
+                                              image: CachedNetworkImageProvider(
+                                                c.imageUrl()!,
+                                              ),
+                                              colorFilter: ColorFilter.mode(
+                                                Color.alphaBlend(
                                                   theme.colorScheme.secondary
                                                       .withValues(
-                                                          alpha: c.oracleId ==
-                                                                  commander
-                                                                      ?.oracleId
-                                                              ? 0.2
-                                                              : 0.0),
+                                                        alpha:
+                                                            c.oracleId ==
+                                                                commander
+                                                                    ?.oracleId
+                                                            ? 0.2
+                                                            : 0.0,
+                                                      ),
                                                   theme.canvasColor.withValues(
-                                                      alpha: c.oracleId ==
-                                                              commander
-                                                                  ?.oracleId
-                                                          ? 0.8
-                                                          : 0.7)),
-                                              BlendMode.srcOver,
+                                                    alpha:
+                                                        c.oracleId ==
+                                                            commander?.oracleId
+                                                        ? 0.8
+                                                        : 0.7,
+                                                  ),
+                                                ),
+                                                BlendMode.srcOver,
+                                              ),
+                                              alignment: Alignment(
+                                                0.0,
+                                                imageSettings
+                                                        .imageAlignments
+                                                        .value[c.imageUrl()] ??
+                                                    0.0,
+                                              ),
+                                              fit: BoxFit.cover,
                                             ),
-                                            alignment: Alignment(
-                                              0.0,
-                                              imageSettings.imageAlignments
-                                                      .value[c.imageUrl()] ??
-                                                  0.0,
+                                          )
+                                        : null,
+                                    child: Text(
+                                      c == null
+                                          ? "-"
+                                          : safeSubString(
+                                              untilSpaceOrComma(c.name),
+                                              8,
                                             ),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        )
-                                      : null,
-                                  child: Text(c == null
-                                      ? "-"
-                                      : safeSubString(
-                                          untilSpaceOrComma(c.name),
-                                          8,
-                                        )),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                      ],
+                              ],
+                            ),
+                        ],
+                      ),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
             CSWidgets.height5,
@@ -218,7 +223,7 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                       scrollDirection: Axis.horizontal,
                       child: ToggleButtons(
                         isSelected: [
-                          for (final s in groupSizes) groupSize == s
+                          for (final s in groupSizes) groupSize == s,
                         ],
                         onPressed: (i) => setState(() {
                           groupSize = groupSizes[i];
@@ -228,7 +233,7 @@ class _PlayerStatScreenState extends State<PlayerStatScreen> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text("${s ?? "-"}"),
-                            )
+                            ),
                         ],
                       ),
                     ),

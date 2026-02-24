@@ -1,53 +1,68 @@
 import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/alerts/specifics/game/image_search/components/card_tile.dart';
+import 'package:counter_spell/widgets/alerts/specifics/game/image_search/image_search_alert.dart';
 
 import 'utils.dart';
 
 class PlayerDetailsCommanderSettings extends StatelessWidget {
   final int index;
   final double aspectRatio;
-  const PlayerDetailsCommanderSettings(this.index, {super.key, required this.aspectRatio});
+  const PlayerDetailsCommanderSettings(
+    this.index, {
+    super.key,
+    required this.aspectRatio,
+  });
 
   @override
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return PlayerBuilder(
-      index,
-      (gameState, names, name, playerState, player) {
-        final bool partner = player.havePartnerB;
+    return PlayerBuilder(index, (gameState, names, name, playerState, player) {
+      final bool partner = player.havePartnerB;
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            RadioSliderOf<bool>(
-              selectedItem: partner,
-              items: const <bool, RadioSliderItem>{
-                false: RadioSliderItem(
-                  icon: Icon(McIcons.account_outline),
-                  title: Text("Single"),
-                ),
-                true: RadioSliderItem(
-                  icon: Icon(McIcons.account_multiple_outline),
-                  title: Text("Partners"),
-                ),
-              },
-              onSelect: (val) => bloc.game.gameState.setHavePartner(name, val),
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          RadioSliderOf<bool>(
+            selectedItem: partner,
+            items: const <bool, RadioSliderItem>{
+              false: RadioSliderItem(
+                icon: Icon(McIcons.account_outline),
+                title: Text("Single"),
+              ),
+              true: RadioSliderItem(
+                icon: Icon(McIcons.account_multiple_outline),
+                title: Text("Partners"),
+              ),
+            },
+            onSelect: (val) => bloc.game.gameState.setHavePartner(name, val),
+          ),
+          if (partner) ...[
+            _Section(
+              index,
+              partnerA: true,
+              havePartner: true,
+              aspectRatio: aspectRatio,
             ),
-            if (partner) ...[
-              _Section(index,
-                  partnerA: true, havePartner: true, aspectRatio: aspectRatio),
-              _Section(index,
-                  partnerA: false, havePartner: true, aspectRatio: aspectRatio),
-            ] else
-              _Section(index,
-                  partnerA: true, havePartner: false, aspectRatio: aspectRatio),
-            CSWidgets.height5,
-            const _KeepSettings(),
-          ],
-        );
-      },
-    );
+            _Section(
+              index,
+              partnerA: false,
+              havePartner: true,
+              aspectRatio: aspectRatio,
+            ),
+          ] else
+            _Section(
+              index,
+              partnerA: true,
+              havePartner: false,
+              aspectRatio: aspectRatio,
+            ),
+          CSWidgets.height5,
+          const _KeepSettings(),
+        ],
+      );
+    });
   }
 }
 
@@ -93,10 +108,12 @@ class _Section extends StatelessWidget {
   final int index;
   final double aspectRatio;
 
-  const _Section(this.index,
-      {required this.partnerA,
-      required this.havePartner,
-      required this.aspectRatio});
+  const _Section(
+    this.index, {
+    required this.partnerA,
+    required this.havePartner,
+    required this.aspectRatio,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -104,52 +121,51 @@ class _Section extends StatelessWidget {
 
     return PlayerBuilder(
       index,
-      (gameState, names, name, playerState, player) => Section(
-        <Widget>[
-          if (havePartner)
-            SectionTitle(partnerA ? "First partner" : "Second partner"),
-          _CommanderTile(
-            index,
-            partnerA: partnerA,
-            havePartner: havePartner,
-            aspectRatio: aspectRatio,
+      (gameState, names, name, playerState, player) => Section(<Widget>[
+        if (havePartner)
+          SectionTitle(partnerA ? "First partner" : "Second partner"),
+        _CommanderTile(
+          index,
+          partnerA: partnerA,
+          havePartner: havePartner,
+          aspectRatio: aspectRatio,
+        ),
+        SubSection([
+          SwitchListTile(
+            value: player.damageDefendersLife(partnerA),
+            onChanged: (lifelink) {
+              bloc.game.gameState.gameState.value.players[name]!
+                  .toggleDamageDefendersLife(partnerA);
+              bloc.game.gameState.gameState.refresh();
+            },
+            title: const Text("Damage to life"),
+            secondary: const Icon(Icons.favorite_border),
           ),
-          SubSection([
-            SwitchListTile(
-              value: player.damageDefendersLife(partnerA),
-              onChanged: (lifelink) {
-                bloc.game.gameState.gameState.value.players[name]!
-                    .toggleDamageDefendersLife(partnerA);
-                bloc.game.gameState.gameState.refresh();
-              },
-              title: const Text("Damage to life"),
-              secondary: const Icon(Icons.favorite_border),
-            ),
-            SwitchListTile(
-              value: player.infect(partnerA),
-              onChanged: (lifelink) {
-                bloc.game.gameState.gameState.value.players[name]!
-                    .toggleInfect(partnerA);
-                bloc.game.gameState.gameState.refresh();
-              },
-              title: const Text("Infect"),
-              secondary: Icon(Counter.poison.icon),
-            ),
-            SwitchListTile(
-              value: player.lifelink(partnerA),
-              onChanged: (lifelink) {
-                bloc.game.gameState.gameState.value.players[name]!
-                    .toggleLifelink(partnerA);
-                bloc.game.gameState.gameState.refresh();
-              },
-              title: const Text("Lifelink"),
-              secondary: const Icon(McIcons.needle),
-            ),
-          ]),
-          CSWidgets.height10,
-        ],
-        last: !havePartner || !partnerA,
-      ),
+          SwitchListTile(
+            value: player.infect(partnerA),
+            onChanged: (lifelink) {
+              bloc.game.gameState.gameState.value.players[name]!.toggleInfect(
+                partnerA,
+              );
+              bloc.game.gameState.gameState.refresh();
+            },
+            title: const Text("Infect"),
+            secondary: Icon(Counter.poison.icon),
+          ),
+          SwitchListTile(
+            value: player.lifelink(partnerA),
+            onChanged: (lifelink) {
+              bloc.game.gameState.gameState.value.players[name]!.toggleLifelink(
+                partnerA,
+              );
+              bloc.game.gameState.gameState.refresh();
+            },
+            title: const Text("Lifelink"),
+            secondary: const Icon(McIcons.needle),
+          ),
+        ]),
+        CSWidgets.height10,
+      ], last: !havePartner || !partnerA),
     );
   }
 }
@@ -160,10 +176,12 @@ class _CommanderTile extends StatelessWidget {
   final int index;
   final double aspectRatio;
 
-  const _CommanderTile(this.index,
-      {required this.partnerA,
-      required this.havePartner,
-      required this.aspectRatio});
+  const _CommanderTile(
+    this.index, {
+    required this.partnerA,
+    required this.havePartner,
+    required this.aspectRatio,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -176,34 +194,29 @@ class _CommanderTile extends StatelessWidget {
       final name = names[index];
 
       void callback() => stage!.showAlert(
-          ImageSearch(
-            (found) {
-              group.cards(partnerA).value[name] = found;
-              group.cards(partnerA).refresh();
-              group.savedCards.setKey(name,
-                  (group.savedCards.value[name] ?? <MtgCard>{})..add(found));
+        ImageSearchAlert(
+          onSelect: (found) {
+            group.cards(partnerA).value[name] = found;
+            group.cards(partnerA).refresh();
+            group.savedCards.setKey(
+              name,
+              (group.savedCards.value[name] ?? <MtgCard>{})..add(found),
+            );
 
-              //Will always reset commander settings on a new card
-              if (partnerA) {
-                state.gameState.value.players[name]!.commanderSettingsA =
-                    CommanderSettings.defaultSettings;
-              } else {
-                state.gameState.value.players[name]!.commanderSettingsB =
-                    CommanderSettings.defaultSettings;
-              }
-              state.gameState.refresh();
-            },
-            searchableCache: <MtgCard>{
-              for (final single in group.savedCards.value.values) ...single!,
-            },
-            readyCache: group.savedCards.value[name],
-            readyCacheDeleter: (cardToDelete) {
-              group.savedCards.value[name]!
-                  .removeWhere((c) => c.id == cardToDelete.id);
-              group.savedCards.refresh(key: name);
-            },
-          ),
-          size: ImageSearch.height);
+            //Will always reset commander settings on a new card
+            if (partnerA) {
+              state.gameState.value.players[name]!.commanderSettingsA =
+                  CommanderSettings.defaultSettings;
+            } else {
+              state.gameState.value.players[name]!.commanderSettingsB =
+                  CommanderSettings.defaultSettings;
+            }
+            state.gameState.refresh();
+          },
+          playerName: name,
+        ),
+        size: MediaQuery.sizeOf(context).height * 0.5,
+      );
 
       return group.cards(partnerA).build((_, cards) {
         final card = cards[name];
@@ -224,10 +237,7 @@ class _CommanderTile extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   onPressed: () => stage!.showAlert(
-                    ImageAlign(
-                      card.imageUrl(),
-                      aspectRatio: aspectRatio,
-                    ),
+                    ImageAlign(card.imageUrl(), aspectRatio: aspectRatio),
                     size: ImageAlign.height,
                   ),
                   icon: const Icon(Icons.vertical_align_center),

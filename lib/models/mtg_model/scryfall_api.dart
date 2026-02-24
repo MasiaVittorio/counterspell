@@ -41,44 +41,50 @@ class ScryfallApi {
     }
   }
 
-  static String _searchString(String string, {bool uniqueName = true}) =>
-      "https://api.scryfall.com/cards/search?order=edhrec&q=${PercentEncode.encodeString(string)}${uniqueName ? "+unique%3Aname" : ""}"; //+legal%3Acommander";
-
-  static Future<List<MtgCard>?> searchReprints(MtgCard card) async {
-    return await search('!"${card.name}" unique:prints',
-        uniqueName: false, force: true);
-  }
-
-  static Future<List<MtgCard>?> searchArts(String name, bool commander) async {
-    return await search('"$name"${commander ? " is:commander" : ""} unique:art',
-        uniqueName: false, force: true);
-  }
-
+  static const Duration debounceDuration = Duration(milliseconds: 200);
   static DateTime? _last;
-  static Future<List<MtgCard>?> search(String string,
-      {bool force = false, bool uniqueName = true}) async {
-    // print("api searching (force: $force)");
-    final now = DateTime.now();
+  static List<String> queue = <String>[];
+  static bool isSearching = false;
 
-    if (force == false) {
-      if (_last != null) {
-        final secs = _last!.difference(now).inSeconds.abs();
-        // print("api searching -> (secs: $secs)");
-        if (secs < 10) {
-          return null;
-        }
-      }
+  static bool isNowAGoodTimeFor(String query) {
+    if (isSearching) return false;
+    if (queue.isEmpty) return true; // should never happen
+    if (queue.first != query) return false;
+    if (_last == null) return true;
+    return switch (_last) {
+      null => true,
+      DateTime last =>
+        DateTime.now().difference(last).abs() >= debounceDuration,
+    };
+  }
+
+  static Future<List<MtgCard>?> search(String query) async {
+    if (query == "") return null;
+
+    queue.add(query);
+
+    while (!isNowAGoodTimeFor(query)) {
+      await Future.delayed(debounceDuration);
     }
+    if (queue.isNotEmpty && queue.first == query) queue.removeAt(0);
+    _last = DateTime.now();
+    isSearching = true;
+    final result = await _actuallySearch(query);
+    isSearching = false;
+    _last = DateTime.now();
+    return result;
+  }
 
-    _last = now;
+  static Future<List<MtgCard>?> _actuallySearch(String query) async {
+    final String ss = ScryfallApi._searchString(query);
 
-    if (string == "") return null;
-    final ss = ScryfallApi._searchString(string, uniqueName: uniqueName);
-    // print("searching: $_ss");
-    final response = await http.get(Uri.parse(ss), headers: {
-      'User-Agent': 'Limited/1.0',
-      'Accept': 'application/json;q=0.9,*/*;q=0.8',
-    });
+    final response = await http.get(
+      Uri.parse(ss),
+      headers: {
+        'User-Agent': 'Limited/1.0',
+        'Accept': 'application/json;q=0.9,*/*;q=0.8',
+      },
+    );
 
     Map<String, dynamic>? map;
 
@@ -86,10 +92,8 @@ class ScryfallApi {
       case 200:
         map = json.decode(response.body);
         break;
-
       case 404:
         return <MtgCard>[];
-
       default:
     }
 
@@ -116,8 +120,9 @@ class ScryfallApi {
     if (data == null) return null;
     if (data.isEmpty) return <MtgCard>[];
 
-    return [
-      for (final cjs in data) MtgCard.fromJson(cjs),
-    ];
+    return [for (final cjs in data) MtgCard.fromJson(cjs)];
   }
+
+  static String _searchString(String string) =>
+      "https://api.scryfall.com/cards/search?order=edhrec&q=${PercentEncode.encodeString(string)}";
 }

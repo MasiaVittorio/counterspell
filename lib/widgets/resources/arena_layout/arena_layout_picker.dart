@@ -34,21 +34,9 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     "Bruce",
     "Natasha",
   };
-  static const Set<String> names4 = <String>{
-    "Tony",
-    "Stan",
-    "Peter",
-    "Bruce",
-  };
-  static const Set<String> names3 = <String>{
-    "Tony",
-    "Stan",
-    "Peter",
-  };
-  static const Set<String> names2 = <String>{
-    "Tony",
-    "Stan",
-  };
+  static const Set<String> names4 = <String>{"Tony", "Stan", "Peter", "Bruce"};
+  static const Set<String> names3 = <String>{"Tony", "Stan", "Peter"};
+  static const Set<String> names2 = <String>{"Tony", "Stan"};
 
   Map<int, String?> positions6 = <int, String>{
     0: "Tony",
@@ -76,47 +64,44 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
     1: "Stan",
     2: "Peter",
   };
-  Map<int, String?> positions2 = <int, String>{
-    0: "Tony",
-    1: "Stan",
-  };
+  Map<int, String?> positions2 = <int, String>{0: "Tony", 1: "Stan"};
 
   Set<String>? get realNames => <int, Set<String>>{
-        2: names2,
-        3: names3,
-        4: names4,
-        5: names5,
-        6: names6,
-      }[len];
+    2: names2,
+    3: names3,
+    4: names4,
+    5: names5,
+    6: names6,
+  }[len];
 
   Map<int, String?>? get realPositions => <int, Map<int, String?>>{
-        2: positions2,
-        3: positions3,
-        4: positions4,
-        5: positions5,
-        6: positions6,
-      }[len];
+    2: positions2,
+    3: positions3,
+    4: positions4,
+    5: positions5,
+    6: positions6,
+  }[len];
 
   void changePositions(Map<int, String?> newMap) => setState(() {
-        switch (len) {
-          case 2:
-            positions2 = newMap;
-            break;
-          case 3:
-            positions3 = newMap;
-            break;
-          case 4:
-            positions4 = newMap;
-            break;
-          case 5:
-            positions5 = newMap;
-            break;
-          case 6:
-            positions6 = newMap;
-            break;
-          default:
-        }
-      });
+    switch (len) {
+      case 2:
+        positions2 = newMap;
+        break;
+      case 3:
+        positions3 = newMap;
+        break;
+      case 4:
+        positions4 = newMap;
+        break;
+      case 5:
+        positions5 = newMap;
+        break;
+      case 6:
+        positions6 = newMap;
+        break;
+      default:
+    }
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +111,7 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
       customBackground: (theme) => theme.canvasColor,
       child: Column(
         children: <Widget>[
-          const SizedBox(
-            height: PanelTitle.height,
-          ),
+          const SizedBox(height: PanelTitle.height),
           Expanded(
             child: ArenaLayoutPicker(
               names: realNames,
@@ -145,15 +128,9 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
             ),
           ),
           ToggleButtons(
-            isSelected: [
-              len == 2,
-              len == 3,
-              len == 4,
-              len == 5,
-              len == 6,
-            ],
+            isSelected: [len == 2, len == 3, len == 4, len == 5, len == 6],
             children: [
-              for (final l in [2, 3, 4, 5, 6]) Text("$l")
+              for (final l in [2, 3, 4, 5, 6]) Text("$l"),
             ],
             onPressed: (i) => setState(() {
               len = [2, 3, 4, 5, 6][i];
@@ -166,7 +143,8 @@ class _ArenaLayoutAlertState extends State<ArenaLayoutAlert> {
 }
 
 class ArenaLayoutPicker extends StatefulWidget {
-  const ArenaLayoutPicker({super.key, 
+  const ArenaLayoutPicker({
+    super.key,
     required this.type,
     required this.onTypeChanged,
     required this.flipped,
@@ -228,14 +206,17 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
       !map.containsValue(name);
 
   List<String> getUnpositionedNames(Map<int, String?>? map) => [
-        for (final name in widget.names!)
-          if (unpositionedName(map!, name)) name,
-      ];
+    for (final name in widget.names!)
+      if (unpositionedName(map!, name)) name,
+  ];
 
   bool unpositionedKey(int key, Map<int, String?> map) => map[key] == null;
 
   Map<int, String?> positionName(
-      String name, int key, Map<int, String?> oldMap) {
+    String name,
+    int key,
+    Map<int, String?> oldMap,
+  ) {
     Map<int, String?> newMap = <int, String?>{
       for (final e in oldMap.entries) e.key: e.value,
     };
@@ -275,14 +256,16 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
               animateCenterWidget: false,
               layoutType: type,
               flipped: widget.flipped[type],
-              centerChildBuilder: (_, __) => FloatingActionButton(
+              centerChildBuilder: (_, _) => FloatingActionButton(
                 onPressed: () =>
                     widget.onFlippedChanged(type, !widget.flipped[type]!),
                 backgroundColor: theme.canvasColor,
-                child: Icon(Icons.rotate_right,
-                    color: theme.colorScheme.onSurface),
+                child: Icon(
+                  Icons.rotate_right,
+                  color: theme.colorScheme.onSurface,
+                ),
               ),
-              childBuilder: (_, i, __) => AnimatedContainer(
+              childBuilder: (_, i, _) => AnimatedContainer(
                 margin: const EdgeInsets.all(6.0),
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
@@ -294,13 +277,12 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                 child: InkWell(
                   onTap: widget.type == type && mustPosition
                       ? () => widget.onPositionsChange(
-                          positionName(unpositionedNames.first, i, positions!))
+                          positionName(unpositionedNames.first, i, positions!),
+                        )
                       : null,
                   child: Material(
                     type: MaterialType.transparency,
-                    child: Center(
-                      child: Text("$i. ${positions![i] ?? "-"}"),
-                    ),
+                    child: Center(child: Text("$i. ${positions![i] ?? "-"}")),
                   ),
                 ),
               ),
@@ -315,10 +297,11 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
         children: <Widget>[
           Expanded(
             child: PageView(
-                controller: controller,
-                onPageChanged: (page) =>
-                    widget.onTypeChanged(ArenaLayoutType.values[page]),
-                children: layouts),
+              controller: controller,
+              onPageChanged: (page) =>
+                  widget.onTypeChanged(ArenaLayoutType.values[page]),
+              children: layouts,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 14),
@@ -335,9 +318,8 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                       icon: const Icon(Icons.keyboard_arrow_left),
                       onPressed: widget.type == ArenaLayoutType.values[0]
                           ? null
-                          : () => widget.onTypeChanged(
-                                ArenaLayoutType.values[0],
-                              ),
+                          : () =>
+                                widget.onTypeChanged(ArenaLayoutType.values[0]),
                     ),
                   ),
                   Expanded(
@@ -345,22 +327,25 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                       borderRadius: BorderRadius.circular(8),
                       color: mustPosition
                           ? theme.canvasColor
-                          : theme.scaffoldBackgroundColor
-                              .withValues(alpha: 0.9),
+                          : theme.scaffoldBackgroundColor.withValues(
+                              alpha: 0.9,
+                            ),
                       child: ListTile(
                         title: Text(
                           mustPosition
                               ? "Place ${unpositionedNames.first}"
                               : "Reorder players",
                         ),
-                        leading: Icon(mustPosition
-                            ? Icons.person_outline
-                            : Icons.people_outline),
+                        leading: Icon(
+                          mustPosition
+                              ? Icons.person_outline
+                              : Icons.people_outline,
+                        ),
                         onTap: mustPosition
                             ? null
                             : () => widget.onPositionsChange(<int, String?>{
-                                  for (final key in positions!.keys) key: null,
-                                }),
+                                for (final key in positions!.keys) key: null,
+                              }),
                       ),
                     ),
                   ),
@@ -370,9 +355,8 @@ class _ArenaLayoutPickerState extends State<ArenaLayoutPicker> {
                       icon: const Icon(Icons.keyboard_arrow_right),
                       onPressed: widget.type == ArenaLayoutType.values[1]
                           ? null
-                          : () => widget.onTypeChanged(
-                                ArenaLayoutType.values[1],
-                              ),
+                          : () =>
+                                widget.onTypeChanged(ArenaLayoutType.values[1]),
                     ),
                   ),
                 ],

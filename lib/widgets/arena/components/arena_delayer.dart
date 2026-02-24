@@ -13,7 +13,8 @@ class ArenaDelayer extends StatefulWidget {
 
   final AnimationStatusListener animationListener;
 
-  const ArenaDelayer({super.key, 
+  const ArenaDelayer({
+    super.key,
     required this.onManualCancel,
     required this.onManualConfirm,
     required this.delayerController,
@@ -109,26 +110,27 @@ class _ArenaDelayerState extends State<ArenaDelayer>
   Widget build(BuildContext context) {
     final bloc = CSBloc.of(context);
 
-    return bloc.scroller.isScrolling
-        .build((context, scrolling) => AnimatedOpacity(
-              opacity: scrolling ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 250),
-              child: AnimatedBuilder(
-                animation: controller!,
-                builder: (_, __) => ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: ArenaWidget.buttonSize.height + 4,
-                    maxWidth: ArenaWidget.buttonSize.width + 4,
-                  ),
-                  child: SizedBox.expand(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 10,
-                      valueColor: AlwaysStoppedAnimation<Color>(widget.color),
-                      value: controller!.value,
-                    ),
-                  ),
-                ),
+    return bloc.scroller.isScrolling.build(
+      (context, scrolling) => AnimatedOpacity(
+        opacity: scrolling ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 250),
+        child: AnimatedBuilder(
+          animation: controller!,
+          builder: (_, _) => ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: ArenaWidget.buttonSize.height + 4,
+              maxWidth: ArenaWidget.buttonSize.width + 4,
+            ),
+            child: SizedBox.expand(
+              child: CircularProgressIndicator(
+                strokeWidth: 10,
+                valueColor: AlwaysStoppedAnimation<Color>(widget.color),
+                value: controller!.value,
               ),
-            ));
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -30,11 +30,13 @@ class _CardAlertState extends State<CardAlert> {
           child: AspectRatio(
             aspectRatio: MtgCard.cardAspectRatio,
             child: CachedNetworkImage(
-              errorWidget: (_, __, ___) =>
+              errorWidget: (_, _, _) =>
                   const Center(child: Icon(Icons.error_outline)),
               imageUrl: widget.card.imageUrl(
-                  faceIndex: firstFace ? 0 : 1, uri: ImageUris.BORDERCROP)!,
-              placeholder: (_, __) =>
+                faceIndex: firstFace ? 0 : 1,
+                uri: ImageUris.BORDERCROP,
+              )!,
+              placeholder: (_, _) =>
                   const Center(child: CircularProgressIndicator()),
               fit: BoxFit.cover,
             ),

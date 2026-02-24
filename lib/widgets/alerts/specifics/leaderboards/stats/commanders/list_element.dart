@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/alerts/specifics/game/image_search/components/card_tile.dart';
 
 import 'model_advanced.dart';
 import 'model_simple.dart';
@@ -14,7 +15,8 @@ class CommanderStatWidget extends StatelessWidget {
   //found by trial and error
 
   const CommanderStatWidget(
-    this.stat, {super.key, 
+    this.stat, {
+    super.key,
     required this.pastGames,
     required this.onSingleScreenCallback,
   });
@@ -24,19 +26,17 @@ class CommanderStatWidget extends StatelessWidget {
     void onTap() {
       onSingleScreenCallback.call();
       Stage.of(context)!.showAlert(
-          CommanderStatsScreen(CommanderStatsAdvanced.fromPastGames(
-            stat,
-            pastGames,
-          )),
-          size: CommanderStatsScreen.height);
+        CommanderStatsScreen(
+          CommanderStatsAdvanced.fromPastGames(stat, pastGames),
+        ),
+        size: CommanderStatsScreen.height,
+      );
     }
 
     final theme = Theme.of(context);
-    final pageColors = Stage.of(context)!
-        .themeController
-        .derived
-        .mainPageToPrimaryColor
-        .value!;
+    final pageColors = Stage.of(
+      context,
+    )!.themeController.derived.mainPageToPrimaryColor.value!;
 
     final logic = CSBloc.of(context);
     final imageSettings = logic.settings.imagesSettings;
@@ -71,7 +71,8 @@ class CommanderStatWidget extends StatelessWidget {
                       child: InfoDisplayer(
                         title: const Text("Win rate"),
                         value: Text(
-                            "${InfoDisplayer.getString(stat.winRate * 100)}%"),
+                          "${InfoDisplayer.getString(stat.winRate * 100)}%",
+                        ),
                         detail: Text("(Overall: ${stat.wins})"),
                         background: const Icon(McIcons.trophy),
                         color: CSColors.gold,

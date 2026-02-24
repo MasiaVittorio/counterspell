@@ -1,4 +1,5 @@
 import 'package:counter_spell/core.dart';
+import 'package:counter_spell/widgets/alerts/specifics/game/image_search/components/card_tile.dart';
 
 import 'model_advanced.dart';
 
@@ -24,14 +25,8 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
   @override
   void initState() {
     super.initState();
-    pilots = [
-      null,
-      ...widget.stat.pilots,
-    ];
-    groupSizes = [
-      null,
-      ...widget.stat.groupSizes,
-    ];
+    pilots = [null, ...widget.stat.pilots];
+    groupSizes = [null, ...widget.stat.groupSizes];
   }
 
   @override
@@ -67,11 +62,7 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const AlertDrag(),
-          CardTile(
-            widget.stat.card,
-            tapOpenCard: true,
-            autoClose: false,
-          ),
+          CardTile(widget.stat.card, tapOpenCard: true, autoClose: false),
         ],
       ),
       titleSize: 72.0 + AlertDrag.height,
@@ -79,34 +70,41 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           StageBuild.offMainColors(
-            (_, __, colors) => Section(<Widget>[
+            (_, _, colors) => Section(<Widget>[
               const SectionTitle("Stats"),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                child: Row(children: [
-                  Expanded(
-                    child: InfoDisplayer(
-                      title: const Text("Games"),
-                      value: Text("$totalGames"),
-                      background: const Icon(McIcons.cards),
-                      detail: const Text("(Total)"),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InfoDisplayer(
+                        title: const Text("Games"),
+                        value: Text("$totalGames"),
+                        background: const Icon(McIcons.cards),
+                        detail: const Text("(Total)"),
+                      ),
                     ),
-                  ),
-                  CSWidgets.extraButtonsDivider,
-                  Expanded(
-                    child: InfoDisplayer(
-                      title: const Text("Win rate"),
-                      value: Text("${InfoDisplayer.getString(winRate * 100)}%"),
-                      detail: Text("Overall wins: $totalWins"),
-                      background: const Icon(McIcons.trophy),
-                      color: CSColors.gold,
+                    CSWidgets.extraButtonsDivider,
+                    Expanded(
+                      child: InfoDisplayer(
+                        title: const Text("Win rate"),
+                        value: Text(
+                          "${InfoDisplayer.getString(winRate * 100)}%",
+                        ),
+                        detail: Text("Overall wins: $totalWins"),
+                        background: const Icon(McIcons.trophy),
+                        color: CSColors.gold,
+                      ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 6.0, right: 6.0, bottom: 6.0),
+                padding: const EdgeInsets.only(
+                  left: 6.0,
+                  right: 6.0,
+                  bottom: 6.0,
+                ),
                 child: Row(
                   children: [
                     Expanded(
@@ -143,25 +141,26 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
                   child: Text("Pilots:"),
                 ),
                 Expanded(
-                    child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ToggleButtons(
-                      isSelected: [for (final p in pilots) pilot == p],
-                      onPressed: (i) => setState(() {
-                        pilot = pilots[i];
-                      }),
-                      children: [
-                        for (final p in pilots)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(p ?? "-"),
-                          )
-                      ],
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ToggleButtons(
+                        isSelected: [for (final p in pilots) pilot == p],
+                        onPressed: (i) => setState(() {
+                          pilot = pilots[i];
+                        }),
+                        children: [
+                          for (final p in pilots)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(p ?? "-"),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
             CSWidgets.height5,
@@ -178,7 +177,7 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
                       scrollDirection: Axis.horizontal,
                       child: ToggleButtons(
                         isSelected: [
-                          for (final s in groupSizes) groupSize == s
+                          for (final s in groupSizes) groupSize == s,
                         ],
                         onPressed: (i) => setState(() {
                           groupSize = groupSizes[i];
@@ -188,7 +187,7 @@ class _CommanderStatsScreenState extends State<CommanderStatsScreen> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text("${s ?? "-"}"),
-                            )
+                            ),
                         ],
                       ),
                     ),

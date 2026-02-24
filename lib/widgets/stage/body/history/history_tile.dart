@@ -7,7 +7,7 @@ class HistoryTile extends StatelessWidget {
   final GameHistoryData data;
   final DateTime? firstTime;
   final bool avoidInteraction;
-  final Color defenceColor;
+  final Color defenseColor;
   final Map<CSPage, Color> pageColors;
   final Map<String?, Counter> counters;
   final List<String> names;
@@ -16,13 +16,14 @@ class HistoryTile extends StatelessWidget {
   final int dataLenght;
 
   const HistoryTile(
-    this.data, {super.key, 
+    this.data, {
+    super.key,
     required this.firstTime,
     required this.index,
     required this.havePartnerB,
     required this.tileSize,
     required this.avoidInteraction,
-    required this.defenceColor,
+    required this.defenseColor,
     required this.pageColors,
     required this.counters,
     required this.names,
@@ -117,7 +118,7 @@ class HistoryTile extends StatelessWidget {
         (data as GameHistoryNull).gameState,
         (data as GameHistoryNull).index,
         names: names,
-        defenceColor: defenceColor,
+        defenseColor: defenseColor,
         pagesColor: pageColors,
         tileSize: knownTileSize,
         counters: counters,
@@ -178,7 +179,7 @@ class HistoryTile extends StatelessWidget {
                         time: data.time,
                         firstTime: firstTime,
                         pageColors: pageColors,
-                        defenceColor: defenceColor,
+                        defenseColor: defenseColor,
                         counters: counters,
                         tileSize: knownTileSize,
                         partnerB: havePartnerB[name] ?? false,

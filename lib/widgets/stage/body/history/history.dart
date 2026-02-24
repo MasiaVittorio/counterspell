@@ -6,15 +6,16 @@ class BodyHistory extends StatelessWidget {
   final int count;
   final CSGameGroup? group;
   final double tileSize;
-  final Color defenceColor;
+  final Color defenseColor;
   final Map<CSPage, Color> pageColors;
 
-  const BodyHistory({super.key, 
+  const BodyHistory({
+    super.key,
     required this.names,
     required this.count,
     required this.group,
     required this.tileSize,
-    required this.defenceColor,
+    required this.defenseColor,
     required this.pageColors,
   });
 
@@ -43,7 +44,7 @@ class BodyHistory extends StatelessWidget {
                   index: index,
                   tileSize: tileSize,
                   avoidInteraction: false,
-                  defenceColor: defenceColor,
+                  defenseColor: defenseColor,
                   pageColors: pageColors,
                   counters: counters,
                   names: names,

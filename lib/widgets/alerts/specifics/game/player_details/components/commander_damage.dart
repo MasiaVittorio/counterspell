@@ -20,7 +20,7 @@ class PlayerDetailsDamage extends StatelessWidget {
     return Material(
       color: theme.scaffoldBackgroundColor,
       child: bloc.themer.buildFromDefenceColor(
-        (_, defenceColor) => BlocVar.build5<Map<CSPage, Color>?, List<String>,
+        (_, defenseColor) => BlocVar.build5<Map<CSPage, Color>?, List<String>,
             GameState, Map<String, MtgCard>, Map<String, MtgCard>>(
           stage.themeController.derived.mainPageToPrimaryColor,
           groupBloc.orderedNames,
@@ -110,12 +110,12 @@ class PlayerDetailsDamage extends StatelessWidget {
                         subtitle: const Text("partners"),
                         leading: Icon(
                           CSIcons.defenceFilled,
-                          color: defenceColor,
+                          color: defenseColor,
                         ),
                         trailing: Text(
                           "A: ${playerState.damages[otherName]!.a} // B: ${playerState.damages[otherName]!.b}",
                           style: textTheme.bodyLarge!
-                              .copyWith(color: defenceColor),
+                              .copyWith(color: defenseColor),
                         ),
                         onTap: () => DetailsUtils.partnerDamage(
                             stage, otherName, name, bloc, gameState),
@@ -126,12 +126,12 @@ class PlayerDetailsDamage extends StatelessWidget {
                             "Taken from ${otherName == name ? "yourself" : otherName}"),
                         leading: Icon(
                           CSIcons.defenceFilled,
-                          color: defenceColor,
+                          color: defenseColor,
                         ),
                         trailing: Text(
                           "${playerState.damages[otherName]!.a}",
                           style: textTheme.bodyLarge!
-                              .copyWith(color: defenceColor),
+                              .copyWith(color: defenseColor),
                         ),
                         onTap: () => DetailsUtils.insertDamage(false, false,
                             stage, otherName, name, bloc, gameState),

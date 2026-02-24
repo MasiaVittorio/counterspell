@@ -18,12 +18,12 @@ class ThemeColors extends StatelessWidget {
               const SectionTitle("CounterSpell Colors"),
               StageMainColorsPerPage(
                 extraChildren: <Widget>[
-                  bloc.themer.defenceColor.build(
-                    (context, defenceColor) => ListTile(
+                  bloc.themer.defenseColor.build(
+                    (context, defenseColor) => ListTile(
                       title: const Text("Defence"),
-                      leading: ColorCircleDisplayer(defenceColor,
+                      leading: ColorCircleDisplayer(defenseColor,
                           icon: CSIcons.defenceFilled),
-                      onTap: () => pickDefenceColor(stage!, defenceColor, bloc),
+                      onTap: () => pickDefenceColor(stage!, defenseColor, bloc),
                     ),
                   ),
                 ],
@@ -46,9 +46,9 @@ class ThemeColors extends StatelessWidget {
   }
 
   static void pickDefenceColor(
-      StageData stage, Color defenceColor, CSBloc bloc) {
+      StageData stage, Color defenseColor, CSBloc bloc) {
     stage.pickColor(
-      initialColor: defenceColor,
+      initialColor: defenseColor,
       onSubmitted: (color) {
         // (defence color changes with the color place, brightness, dark style)
         // saved themes are loaded as intended and change the design language etc

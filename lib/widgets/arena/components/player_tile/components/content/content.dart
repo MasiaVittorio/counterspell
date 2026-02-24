@@ -3,7 +3,8 @@ import 'package:counter_spell/core.dart';
 import 'components/all.dart';
 
 class AptContent extends StatelessWidget {
-  const AptContent({super.key, 
+  const AptContent({
+    super.key,
     required this.name,
     required this.pageColors,
     required this.buttonAlignment,
@@ -17,7 +18,7 @@ class AptContent extends StatelessWidget {
     required this.page,
     required this.whoIsAttacking,
     required this.whoIsDefending,
-    required this.defenceColor,
+    required this.defenseColor,
     required this.counter,
   });
 
@@ -36,7 +37,7 @@ class AptContent extends StatelessWidget {
   final CSPage page;
   final String? whoIsAttacking;
   final String? whoIsDefending;
-  final Color? defenceColor;
+  final Color? defenseColor;
   final Counter counter;
 
   //Theming
@@ -151,7 +152,7 @@ class AptContent extends StatelessWidget {
                 whoIsAttacking: whoIsAttacking,
                 whoIsDefending: whoIsDefending,
                 havingPartnerB: gameState!.players[name]!.havePartnerB,
-                // defenceColor: this.defenceColor,
+                // defenseColor: this.defenseColor,
               )
             : const SizedBox(
                 width: AptRole.size,
@@ -164,6 +165,6 @@ class AptContent extends StatelessWidget {
         bloc: bloc,
         name: name,
         pageColors: pageColors,
-        defenceColor: defenceColor,
+        defenseColor: defenseColor,
       );
 }

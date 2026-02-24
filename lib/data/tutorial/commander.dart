@@ -26,11 +26,11 @@ class CommanderTutorial {
   static const defender = Hint(
     text: "Swipe right on the defending player to deal damage",
     page: CSPage.commanderDamage,
-    getCustomColor: _defenceColor,
+    getCustomColor: _defenseColor,
     autoHighlight: HintsHighlights.secondPlayer,
     icon: HintIcon(McIcons.gesture_swipe_right),
   );
-  static Color _defenceColor(CSBloc logic) => logic.themer.resolveDefenceColor;
+  static Color _defenseColor(CSBloc logic) => logic.themer.resolveDefenceColor;
 
   static const split = Hint(
     text: 'Long-press on "person" icon to split in partners',

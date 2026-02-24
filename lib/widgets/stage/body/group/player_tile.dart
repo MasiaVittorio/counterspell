@@ -22,7 +22,7 @@ class PlayerTile extends StatelessWidget {
   final String whoIsDefending;
   final Counter counter;
   final PlayerState playerState;
-  final Color defenceColor;
+  final Color defenseColor;
   final int increment;
   final PlayerAction? normalizedPlayerAction;
   final double maxWidth;
@@ -35,7 +35,8 @@ class PlayerTile extends StatelessWidget {
   final bool flat;
 
   const PlayerTile(
-    this.name, {super.key, 
+    this.name, {
+    super.key,
     required this.usingPartnerB,
     required this.isAttackerUsingPartnerB,
     required this.havingPartnerB,
@@ -52,7 +53,7 @@ class PlayerTile extends StatelessWidget {
     required this.whoIsDefending,
     required this.counter,
     required this.playerState,
-    required this.defenceColor,
+    required this.defenseColor,
     required this.increment,
     required this.normalizedPlayerAction,
     required this.highlightController,
@@ -319,7 +320,7 @@ class PlayerTile extends StatelessWidget {
       attacking,
       defending,
       pageColor,
-      defenceColor,
+      defenseColor,
       someoneAttacking,
     )!;
 

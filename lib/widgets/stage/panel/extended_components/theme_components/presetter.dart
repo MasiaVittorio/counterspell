@@ -15,7 +15,7 @@ class ThemePResetter extends StatelessWidget {
 
     return BlocVar.build8(
       themer.savedSchemes,
-      themer.defenceColor,
+      themer.defenseColor,
       derived.currentPrimaryColor,
       derived.accentColor,
       derived.mainPageToPrimaryColor,
@@ -25,7 +25,7 @@ class ThemePResetter extends StatelessWidget {
       builder: (
         _,
         Map<String, CSColorScheme> savedSchemes,
-        Color defenceColor,
+        Color defenseColor,
         Color primary,
         Color accent,
         Map<CSPage, Color>? perPage,
@@ -40,7 +40,7 @@ class ThemePResetter extends StatelessWidget {
           perPage: perPage!,
           light: brightness.isLight,
           darkStyle: darkStyle,
-          defenceColor: defenceColor,
+          defenseColor: defenseColor,
           colorPlace: colorPlace,
         );
 

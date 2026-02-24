@@ -7,7 +7,7 @@ class BodyGroup extends StatelessWidget {
   final int count;
   final double tileSize;
   final CSGameGroup group;
-  final Color defenceColor;
+  final Color defenseColor;
   final bool landScape;
   final double maxWidth;
   final double bottom;
@@ -18,12 +18,13 @@ class BodyGroup extends StatelessWidget {
   final bool flat;
 
   const BodyGroup(
-    this.names, {super.key, 
+    this.names, {
+    super.key,
     required this.bottom,
     required this.currentPage,
     required this.maxWidth,
     required this.pageColors,
-    required this.defenceColor,
+    required this.defenseColor,
     required this.count,
     required this.group,
     required this.tileSize,
@@ -75,7 +76,7 @@ class BodyGroup extends StatelessWidget {
                             pageColor: pageColors[currentPage],
                             maxWidth: maxWidth,
                             increment: increment,
-                            defenceColor: defenceColor,
+                            defenseColor: defenseColor,
                             tileSize: tileSize,
                             bottom: ([
                               names.last,

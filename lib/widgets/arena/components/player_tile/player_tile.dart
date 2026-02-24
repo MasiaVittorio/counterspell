@@ -4,7 +4,8 @@ import 'components/all.dart';
 
 class ArenaPlayerTile extends StatelessWidget {
   const ArenaPlayerTile(
-    this.index, {super.key, 
+    this.index, {
+    super.key,
     required this.indexToName,
     required this.buttonAlignment,
     // @required this.constraints,
@@ -80,7 +81,7 @@ class ArenaPlayerTile extends StatelessWidget {
           stateLogic.gameState,
           actionLogic.attackingPlayer,
           actionLogic.defendingPlayer,
-          logic.themer.defenceColor,
+          logic.themer.defenseColor,
           actionLogic.selected,
           builder: (
             BuildContext context,
@@ -89,7 +90,7 @@ class ArenaPlayerTile extends StatelessWidget {
             GameState gameState,
             String? whoIsAttacking,
             String? whoIsDefending,
-            Color? defenceColor,
+            Color? defenseColor,
             Map<String, bool?>? selectedNames,
           ) {
             if (name == null) return buildPositioner(themeData, gameState);
@@ -113,7 +114,7 @@ class ArenaPlayerTile extends StatelessWidget {
               page: page,
               whoIsAttacking: whoIsAttacking,
               whoIsDefending: whoIsDefending,
-              defenceColor: defenceColor,
+              defenseColor: defenseColor,
               counter: Counter.poison,
               //LOW PRIORITY: not reacting to counters
             );
@@ -141,7 +142,7 @@ class ArenaPlayerTile extends StatelessWidget {
               gameState: gameState,
               isAttacking: whoIsAttacking == name,
               isDefending: whoIsDefending == name,
-              defenceColor: defenceColor,
+              defenseColor: defenseColor,
               pageColors: pageColors,
               maxWidth: constraints.maxWidth,
             );
@@ -151,7 +152,7 @@ class ArenaPlayerTile extends StatelessWidget {
               imageApplied: imageApplied,
               isAttacking: whoIsAttacking == name,
               isDefending: whoIsDefending == name,
-              defenceColor: defenceColor,
+              defenseColor: defenseColor,
               pageColors: pageColors,
             );
 

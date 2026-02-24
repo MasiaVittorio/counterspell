@@ -17,7 +17,7 @@ class CSThemer {
   // Values
   final CSBloc parent;
   final PersistentVar<ResolvableColor> resolvableDefenceColor;
-  late final BlocVar<Color> defenceColor;
+  late final BlocVar<Color> defenseColor;
   final PersistentVar<Map<String, CSColorScheme>> savedSchemes;
   late BlocVar<bool> flatDesign; // vs material design
 
@@ -47,7 +47,7 @@ class CSThemer {
       map: (StageColorPlace place) => place.isTexts,
     );
 
-    defenceColor = BlocVar.fromCorrelateLatest4<Color, Brightness, DarkStyle,
+    defenseColor = BlocVar.fromCorrelateLatest4<Color, Brightness, DarkStyle,
         StageColorPlace, ResolvableColor>(
       parent.stage.themeController.brightness.brightness,
       parent.stage.themeController.brightness.darkStyle,
@@ -74,18 +74,18 @@ class CSThemer {
   static Color? getHistoryChipColor({
     required DamageType type,
     required bool? attack,
-    required Color defenceColor,
+    required Color defenseColor,
     required Map<CSPage?, Color?>? pageColors,
   }) {
     if (type == DamageType.commanderDamage) {
-      return attack! ? pageColors![CSPage.commanderDamage] : defenceColor;
+      return attack! ? pageColors![CSPage.commanderDamage] : defenseColor;
     } else {
       return pageColors![CSPages.fromDamage(type)];
     }
   }
 
   static IconData? getHistoryChangeIcon({
-    required Color defenceColor,
+    required Color defenseColor,
     required DamageType type,
     required bool? attack,
     required Counter? counter,

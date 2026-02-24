@@ -11,7 +11,7 @@ class CSColorScheme {
   final Map<CSPage, Color> perPage;
   final bool light;
   final DarkStyle darkStyle;
-  final Color defenceColor;
+  final Color defenseColor;
   final StageColorPlace colorPlace;
 
   const CSColorScheme(
@@ -21,7 +21,7 @@ class CSColorScheme {
     required this.perPage,
     required this.light,
     required this.darkStyle,
-    required this.defenceColor,
+    required this.defenseColor,
     required this.colorPlace,
   });
 
@@ -33,7 +33,7 @@ class CSColorScheme {
         perPage: perPage,
         light: light,
         darkStyle: darkStyle,
-        defenceColor: defenceColor,
+        defenseColor: defenseColor,
       );
 
   Widget applyBaseTheme({
@@ -59,7 +59,7 @@ class CSColorScheme {
         },
         "light": light,
         "darkStyle": darkStyle.name,
-        "defenceColor": defenceColor.toARGB32(),
+        "defenseColor": defenseColor.toARGB32(),
         "colorPlace": colorPlace.name,
       };
 
@@ -76,7 +76,7 @@ class CSColorScheme {
         darkStyle: json["darkStyle"] == null
             ? DarkStyle.nightBlue
             : DarkStyle.fromName(json["darkStyle"]),
-        defenceColor: Color(json["defenceColor"] ??
+        defenseColor: Color(json["defenseColor"] ??
             ((StageColorPlaces.fromName(json["colorPlace"]).isTexts)
                 ? CSColors.darkBlueGoogle.toARGB32()
                 : CSColors.blue.toARGB32())),
@@ -106,7 +106,7 @@ class CSColorScheme {
           ...perPage.keys,
         }.every((key) => perPage[key] == other.perPage[key])) &&
         other.light == light &&
-        other.defenceColor == defenceColor &&
+        other.defenseColor == defenseColor &&
         other.colorPlace == colorPlace &&
         (other.darkStyle == darkStyle || light);
   }
@@ -119,7 +119,7 @@ class CSColorScheme {
     perPage: CSColors.perPageLight,
     light: true,
     darkStyle: DarkStyle.nightBlue,
-    defenceColor: CSColors.blue,
+    defenseColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
   static const String _defaultGoogleLightName = "Light Flat";
@@ -130,7 +130,7 @@ class CSColorScheme {
     perPage: CSColors.perPageLight,
     light: true,
     darkStyle: DarkStyle.nightBlue,
-    defenceColor: CSColors.blue,
+    defenseColor: CSColors.blue,
     colorPlace: StageColorPlace.texts,
   );
   static const String _defaultDarkName = "Dark Solid";
@@ -141,7 +141,7 @@ class CSColorScheme {
     perPage: CSColors.perPageDark,
     light: false,
     darkStyle: DarkStyle.dark,
-    defenceColor: CSColors.blue,
+    defenseColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
   static const String _defaultGoogleDarkName = "Dark Flat";
@@ -152,7 +152,7 @@ class CSColorScheme {
     perPage: CSColors.perPageDarkGoogle,
     light: false,
     darkStyle: DarkStyle.dark,
-    defenceColor: CSColors.darkBlueGoogle,
+    defenseColor: CSColors.darkBlueGoogle,
     colorPlace: StageColorPlace.texts,
   );
   static const String _defaultNightBlackName = "Night Black Solid";
@@ -163,7 +163,7 @@ class CSColorScheme {
     perPage: CSColors.perPageDark,
     light: false,
     darkStyle: DarkStyle.nightBlack,
-    defenceColor: CSColors.blue,
+    defenseColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
   static const String _defaultGoogleNightBlackName = "Night Black Flat";
@@ -174,7 +174,7 @@ class CSColorScheme {
     perPage: CSColors.perPageDarkGoogle,
     light: false,
     darkStyle: DarkStyle.nightBlack,
-    defenceColor: CSColors.darkBlueGoogle,
+    defenseColor: CSColors.darkBlueGoogle,
     colorPlace: StageColorPlace.texts,
   );
   static const String _defaultAmoledName = "Amoled Solid";
@@ -185,7 +185,7 @@ class CSColorScheme {
     perPage: CSColors.perPageDark,
     light: false,
     darkStyle: DarkStyle.amoled,
-    defenceColor: CSColors.blue,
+    defenseColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
   static const String _defaultGoogleAmoledName = "Amoled Flat";
@@ -196,7 +196,7 @@ class CSColorScheme {
     perPage: CSColors.perPageDarkGoogle,
     light: false,
     darkStyle: DarkStyle.amoled,
-    defenceColor: CSColors.darkBlueGoogle,
+    defenseColor: CSColors.darkBlueGoogle,
     colorPlace: StageColorPlace.texts,
   );
   static const String _defaultNightBlueName = "Night Blue Solid";
@@ -207,7 +207,7 @@ class CSColorScheme {
     perPage: CSColors.perPageDarkBlue,
     light: false,
     darkStyle: DarkStyle.nightBlue,
-    defenceColor: CSColors.blue,
+    defenseColor: CSColors.blue,
     colorPlace: StageColorPlace.background,
   );
   static const String _defaultGoogleNightBlueName = "Night Blue Flat";
@@ -218,7 +218,7 @@ class CSColorScheme {
     perPage: CSColors.perPageDarkGoogle,
     light: false,
     darkStyle: DarkStyle.nightBlue,
-    defenceColor: CSColors.darkBlueGoogle,
+    defenseColor: CSColors.darkBlueGoogle,
     colorPlace: StageColorPlace.texts,
   );
 

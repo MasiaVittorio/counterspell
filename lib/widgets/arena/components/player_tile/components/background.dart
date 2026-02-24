@@ -1,13 +1,14 @@
 import 'package:counter_spell/core.dart';
 
 class AptBackGround extends StatelessWidget {
-  const AptBackGround({super.key, 
+  const AptBackGround({
+    super.key,
     required this.imageApplied,
     required this.highlighted,
     required this.isAttacking,
     required this.isDefending,
     required this.pageColors,
-    required this.defenceColor,
+    required this.defenseColor,
   });
 
   final Widget imageApplied;
@@ -15,7 +16,7 @@ class AptBackGround extends StatelessWidget {
   final bool isAttacking;
   final bool isDefending;
   final Map<CSPage, Color?>? pageColors;
-  final Color? defenceColor;
+  final Color? defenseColor;
 
   static const double margin = 10.0;
   static const double _cmdrOpacity = 0.2;
@@ -34,7 +35,7 @@ class AptBackGround extends StatelessWidget {
       );
     } else if (isDefending) {
       bkgColor = Color.alphaBlend(
-        defenceColor!.withValues(alpha: _cmdrOpacity),
+        defenseColor!.withValues(alpha: _cmdrOpacity),
         bkgColor,
       );
     }

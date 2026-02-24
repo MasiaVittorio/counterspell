@@ -3,17 +3,18 @@ import 'package:counter_spell/core.dart';
 import '../../../models/extra_info.dart';
 
 class AptInfo extends StatelessWidget {
-  const AptInfo({super.key, 
+  const AptInfo({
+    super.key,
     required this.pageColors,
     required this.name,
     required this.bloc,
     required this.gameState,
-    required this.defenceColor,
+    required this.defenseColor,
   });
 
   //Theming
   final Map<CSPage, Color?>? pageColors;
-  final Color? defenceColor;
+  final Color? defenseColor;
 
   //Business Logic
   final CSBloc bloc;
@@ -37,7 +38,7 @@ class AptInfo extends StatelessWidget {
               for (final entry in gameState!.players.entries)
                 entry.key: entry.value.havePartnerB,
             },
-            defenceColor: defenceColor,
+            defenseColor: defenseColor,
             types: DamageTypes.fromPages(enabledPages),
             counterMap: bloc.game.gameAction.currentCounterMap,
           );

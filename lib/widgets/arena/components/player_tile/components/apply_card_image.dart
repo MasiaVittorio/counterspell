@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:counter_spell/core.dart';
 
 class AptCardImage extends StatelessWidget {
-  const AptCardImage({super.key, 
+  const AptCardImage({
+    super.key,
     required this.bloc,
     required this.name,
     required this.gameState,
@@ -10,7 +11,7 @@ class AptCardImage extends StatelessWidget {
     required this.isAttacking,
     required this.isDefending,
     required this.pageColors,
-    required this.defenceColor,
+    required this.defenseColor,
     required this.highlighted,
     required this.maxWidth,
   });
@@ -22,7 +23,7 @@ class AptCardImage extends StatelessWidget {
   final bool isAttacking;
   final bool isDefending;
   final Map<CSPage, Color?>? pageColors;
-  final Color? defenceColor;
+  final Color? defenseColor;
   final bool highlighted;
   final double maxWidth;
 
@@ -113,7 +114,7 @@ class AptCardImage extends StatelessWidget {
                 );
               } else if (isDefending) {
                 bkgColor = Color.alphaBlend(
-                  defenceColor!.withValues(alpha: _cmdrOpacity),
+                  defenseColor!.withValues(alpha: _cmdrOpacity),
                   bkgColor,
                 );
               }

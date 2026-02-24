@@ -205,12 +205,12 @@ class _LifeChartLiveState extends State<_LifeChartLive>
       ),
       child: BlocVar.build2(
         stage.themeController.derived.mainPageToPrimaryColor,
-        bloc.themer.defenceColor,
-        builder: (_, dynamic colors, dynamic defenceColor) => SubSection(
+        bloc.themer.defenseColor,
+        builder: (_, dynamic colors, dynamic defenseColor) => SubSection(
           <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 10.0),
-              child: buildLegenda(colors, defenceColor, theme),
+              child: buildLegenda(colors, defenseColor, theme),
             ),
             Expanded(
               child: Padding(
@@ -218,7 +218,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
                     horizontal: 16.0,
                     vertical: 16.0,
                   ),
-                  child: buildChart(colors, defenceColor, theme)),
+                  child: buildChart(colors, defenseColor, theme)),
             ),
           ],
         ),
@@ -228,7 +228,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
 
   Widget buildLegenda(
     Map<CSPage, Color> colors,
-    Color? defenceColor,
+    Color? defenseColor,
     ThemeData theme,
   ) {
     return SingleChildScrollView(
@@ -240,7 +240,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
             _LegendaItem(colors[CSPage.commanderCast], "Casts", theme: theme),
           _LegendaItem(colors[CSPage.life], "Life", theme: theme),
           if (widget.showDamage)
-            _LegendaItem(defenceColor, "Damage", theme: theme),
+            _LegendaItem(defenseColor, "Damage", theme: theme),
         ],
       ),
     );
@@ -248,7 +248,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
 
   Widget buildChart(
     Map<CSPage, Color> colors,
-    Color? defenceColor,
+    Color? defenseColor,
     ThemeData theme,
   ) {
     final TextStyle style = theme.textTheme.bodyMedium!.copyWith(
@@ -262,7 +262,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
         barGroups: _barGroupsData(
           states,
           lifeColor: colors[CSPage.life]!,
-          defenceColor: defenceColor!,
+          defenseColor: defenseColor!,
           castColor: colors[CSPage.commanderCast]!,
         ),
         // groupsSpace: 16.0,
@@ -412,7 +412,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
   List<BarChartGroupData> _barGroupsData(
     List<PlayerState> states, {
     required Color lifeColor,
-    required Color defenceColor,
+    required Color defenseColor,
     required Color castColor,
   }) =>
       <BarChartGroupData>[
@@ -432,7 +432,7 @@ class _LifeChartLiveState extends State<_LifeChartLive>
             if (widget.showDamage)
               BarChartRodData(
                 toY: states[i].totalDamageTaken.toDouble(),
-                color: defenceColor,
+                color: defenseColor,
                 width: _barWidth,
               ),
           ]),

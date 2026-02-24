@@ -12,7 +12,7 @@ class TutorialDamage extends StatelessWidget {
     final Map<CSPage, Color?> colors =
         stage.themeController.derived.mainPageToPrimaryColor.value!;
     final CSBloc bloc = CSBloc.of(context);
-    final Color defenceColor = bloc.themer.resolveDefenceColor;
+    final Color defenseColor = bloc.themer.resolveDefenceColor;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -47,11 +47,11 @@ class TutorialDamage extends StatelessWidget {
         ListTile(
           leading: Icon(
             McIcons.gesture_swipe_horizontal,
-            color: defenceColor,
+            color: defenseColor,
           ),
           trailing: Icon(
             CSIcons.defenceFilled,
-            color: defenceColor,
+            color: defenseColor,
           ),
           title: RichText(
             text: TextSpan(

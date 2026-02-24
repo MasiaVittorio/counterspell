@@ -1,4 +1,4 @@
-package com.mvsidereusart.counter_spell
+package com.mvsidereusart.counterspell
 
 import io.flutter.embedding.android.FlutterActivity
 

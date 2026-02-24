@@ -130,14 +130,14 @@ class PresetTile extends StatelessWidget {
                     elevation: 4,
                     borderRadius: BorderRadius.circular(100),
                     color:
-                        scheme.colorPlace.isTexts ? null : scheme.defenceColor,
+                        scheme.colorPlace.isTexts ? null : scheme.defenseColor,
                     child: SizedBox(
                       width: _medalSize,
                       child: Icon(
                         CSIcons.defenceFilled,
                         color: scheme.colorPlace.isTexts
-                            ? scheme.defenceColor
-                            : scheme.defenceColor.contrast,
+                            ? scheme.defenseColor
+                            : scheme.defenseColor.contrast,
                       ),
                     ),
                   ),
@@ -201,7 +201,7 @@ class PresetTile extends StatelessWidget {
             }
             themer.resolvableDefenceColor.set(
               themer.resolvableDefenceColor.value.copyWithState(
-                color: scheme.defenceColor,
+                color: scheme.defenseColor,
                 isLight: scheme.light,
                 isFlat: scheme.colorPlace.isTexts,
                 darkStyle: scheme.darkStyle,

@@ -3,22 +3,22 @@ import 'package:counter_spell/core.dart';
 class ResolvableColor {
   static ResolvableColor get def => ResolvableColor(
         light: FlatSolidColor(
-          flat: CSColorScheme.defaultGoogleLight.defenceColor,
-          solid: CSColorScheme.defaultLight.defenceColor,
+          flat: CSColorScheme.defaultGoogleLight.defenseColor,
+          solid: CSColorScheme.defaultLight.defenseColor,
         ),
         dark: DarkStyleColor(
           nightBlack: FlatSolidColor(
-              flat: CSColorScheme.defaultGoogleNightBlack.defenceColor,
-              solid: CSColorScheme.defaultNightBlack.defenceColor),
+              flat: CSColorScheme.defaultGoogleNightBlack.defenseColor,
+              solid: CSColorScheme.defaultNightBlack.defenseColor),
           nightBlue: FlatSolidColor(
-              flat: CSColorScheme.defaultGoogleNightBlue.defenceColor,
-              solid: CSColorScheme.defaultNightBlue.defenceColor),
+              flat: CSColorScheme.defaultGoogleNightBlue.defenseColor,
+              solid: CSColorScheme.defaultNightBlue.defenseColor),
           dark: FlatSolidColor(
-              flat: CSColorScheme.defaultGoogleDark.defenceColor,
-              solid: CSColorScheme.defaultDark.defenceColor),
+              flat: CSColorScheme.defaultGoogleDark.defenseColor,
+              solid: CSColorScheme.defaultDark.defenseColor),
           amoled: FlatSolidColor(
-              flat: CSColorScheme.defaultGoogleAmoled.defenceColor,
-              solid: CSColorScheme.defaultAmoled.defenceColor),
+              flat: CSColorScheme.defaultGoogleAmoled.defenseColor,
+              solid: CSColorScheme.defaultAmoled.defenseColor),
         ),
       );
 

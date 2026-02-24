@@ -7,17 +7,17 @@ class PTileUtils {
     bool attacking,
     bool defending,
     Color? pageColor,
-    Color defenceColor,
+    Color defenseColor,
     bool someoneAttacking,
   ) {
     if (page == CSPage.commanderDamage) {
       if (attacking) {
         return pageColor;
       } else if (defending) {
-        return defenceColor;
+        return defenseColor;
       } else {
         if (someoneAttacking) {
-          return defenceColor.withValues(alpha: 0.8);
+          return defenseColor.withValues(alpha: 0.8);
         } else {
           return pageColor!.withValues(alpha: 0.5);
         }

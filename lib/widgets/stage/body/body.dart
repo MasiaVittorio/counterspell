@@ -27,11 +27,11 @@ class CSBody extends StatelessWidget {
               List<String>>(
             stageTheme.derived.mainPageToPrimaryColor,
             themer.flatDesign,
-            themer.defenceColor,
+            themer.defenseColor,
             bloc.tutorial.showingTutorial,
             group.orderedNames,
             builder:
-                (_, pageColors, flat, defenceColor, showingTutorial, ordered) {
+                (_, pageColors, flat, defenseColor, showingTutorial, ordered) {
               final Set<String> current = {...ordered};
               final updated = bloc.game.gameState.gameState.value.names;
               late final List<String> names;
@@ -79,7 +79,7 @@ class CSBody extends StatelessWidget {
               );
 
               final Widget bodyHistory = BodyHistory(
-                defenceColor: defenceColor,
+                defenseColor: defenseColor,
                 pageColors: pageColors!,
                 count: count,
                 tileSize: tileSize,
@@ -160,7 +160,7 @@ class CSBody extends StatelessWidget {
                               count: count,
                               pageColors: pageColors,
                               tileSize: tileSize,
-                              defenceColor: defenceColor,
+                              defenseColor: defenseColor,
                               group: group,
                               landScape: landScape,
                               highlightableIndex: highlightableIndex,

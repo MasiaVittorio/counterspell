@@ -1,7 +1,8 @@
 import 'package:counter_spell/core.dart';
 
 class AptRole extends StatelessWidget {
-  const AptRole({super.key, 
+  const AptRole({
+    super.key,
     required this.bloc,
     required this.name,
     required this.pageColors,
@@ -10,7 +11,7 @@ class AptRole extends StatelessWidget {
     required this.isScrollingSomewhere,
     required this.whoIsAttacking,
     required this.whoIsDefending,
-    // @required this.defenceColor,
+    // @required this.defenseColor,
     required this.havingPartnerB,
   });
 
@@ -22,7 +23,7 @@ class AptRole extends StatelessWidget {
   final bool isScrollingSomewhere;
   final String? whoIsAttacking;
   final String? whoIsDefending;
-  // final Color defenceColor;
+  // final Color defenseColor;
   final bool havingPartnerB;
 
   static const double size = 56.0;
@@ -144,7 +145,7 @@ class AptRole extends StatelessWidget {
                   whoIsDefending == name
                       ? CSIcons.defenceFilled
                       : CSIcons.defenceOutline,
-                  // color: this.defenceColor,
+                  // color: this.defenseColor,
                 ),
               ),
             ),

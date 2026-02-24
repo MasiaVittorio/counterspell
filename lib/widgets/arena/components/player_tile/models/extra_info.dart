@@ -20,7 +20,7 @@ class ExtraInfo {
     required Map<DamageType, bool?> types,
     required Map<String, bool?> havingPartnerB,
     required Map<CSPage, Color?>? pageColors,
-    required Color? defenceColor,
+    required Color? defenseColor,
     required Map<String?, Counter> counterMap,
   }) {
     final state = ofGroup[name];
@@ -47,7 +47,7 @@ class ExtraInfo {
         for (final entry in state!.damages.entries) ...[
           if (entry.value.a != 0)
             ExtraInfo(
-                color: defenceColor,
+                color: defenseColor,
                 icon: CSIcons.defenceFilled,
                 value: entry.value.a,
                 note: havingPartnerB[entry.key] == true
@@ -56,7 +56,7 @@ class ExtraInfo {
           if (havingPartnerB[entry.key] == true)
             if (entry.value.b != 0)
               ExtraInfo(
-                color: defenceColor,
+                color: defenseColor,
                 icon: CSIcons.defenceFilled,
                 value: entry.value.b,
                 note: "${PTileUtils.subString(entry.key, 4)} (B)",

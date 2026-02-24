@@ -12,14 +12,15 @@ class HistoryPlayerTile extends StatelessWidget {
   // UI resources
   final double? tileSize;
   // final double coreTileSize;
-  final Color defenceColor;
+  final Color defenseColor;
   final Map<String?, Counter> counters;
   final Map<CSPage, Color> pageColors;
 
   //===================================
   // Constructor
   const HistoryPlayerTile(
-    this.changes, {super.key, 
+    this.changes, {
+    super.key,
     required this.partnerB,
     required this.time,
     required this.firstTime,
@@ -27,7 +28,7 @@ class HistoryPlayerTile extends StatelessWidget {
     required this.tileSize,
     // @required this.coreTileSize,
     required this.counters,
-    required this.defenceColor,
+    required this.defenseColor,
   });
 
   //===================================
@@ -42,7 +43,7 @@ class HistoryPlayerTile extends StatelessWidget {
             change,
             // counters: counters,
             pageColors: pageColors,
-            defenceColor: defenceColor,
+            defenseColor: defenseColor,
             partnerB: partnerB,
           ),
     ];
@@ -87,14 +88,14 @@ class _Change extends StatelessWidget {
   final PlayerHistoryChange change;
   final bool partnerB;
 
-  final Color defenceColor;
+  final Color defenseColor;
   final Map<CSPage, Color> pageColors;
   // final Map<String, Counter> counters;
 
   const _Change(
     this.change, {
     required this.partnerB,
-    required this.defenceColor,
+    required this.defenseColor,
     required this.pageColors,
     // @required this.counters,
   });
@@ -109,7 +110,7 @@ class _Change extends StatelessWidget {
 
     final Color? color = CSThemer.getHistoryChipColor(
       attack: change.attack,
-      defenceColor: defenceColor,
+      defenseColor: defenseColor,
       type: change.type,
       pageColors: pageColors,
     );
@@ -117,7 +118,7 @@ class _Change extends StatelessWidget {
     final IconData? icon = CSThemer.getHistoryChangeIcon(
       attack: change.attack,
       type: change.type,
-      defenceColor: defenceColor,
+      defenseColor: defenseColor,
       counter: change.counter,
     );
 

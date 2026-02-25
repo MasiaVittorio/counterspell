@@ -139,7 +139,11 @@ class _ImageSearchAlertState extends State<_ImageSearchAlert> {
       for (final cachedCard in searchableCache.values)
         if (cachedCard.name.toLowerCase().isFiltered(trimmedText.toLowerCase()))
           cachedCard,
-    ];
+      for (final entry in searchResults.entries)
+        for (final card in entry.value)
+          if (card.name.toLowerCase().isFiltered(trimmedText.toLowerCase()))
+            card,
+    ]..removeDuplicates();
   }
 
   void startSearching(String trimmedText) async {
@@ -205,11 +209,9 @@ class _ImageSearchAlertState extends State<_ImageSearchAlert> {
           final List<MtgCard> results = switch (trimmedText) {
             '' => widget.initialResults,
             _ => [
+              ...?searchResults[currentQuery],
               ...filteredCache,
-              if (searchResults[currentQuery] case List<MtgCard> fetchedResults)
-                for (final card in fetchedResults)
-                  if (!filteredCache.any((c) => c.id == card.id)) card,
-            ],
+            ]..removeDuplicates(),
           };
 
           return ListView(
@@ -261,5 +263,12 @@ extension on String {
       remainingText = remainingText.substring(index + 1);
     }
     return true;
+  }
+}
+
+extension on List<MtgCard> {
+  void removeDuplicates() {
+    final seenIds = <String>{};
+    removeWhere((card) => !seenIds.add(card.id));
   }
 }

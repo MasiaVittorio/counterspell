@@ -80,16 +80,13 @@ class _GeneratePreferencesBackupCardState
 
   Widget icon(Color progressColor) => working
       ? CircularProgressIndicator(color: progressColor)
-      : const Icon(
-          Icons.save_outlined,
-          size: 40,
-        );
+      : const Icon(Icons.save_outlined, size: 40);
 
   Widget get text => AnimatedText(
-        generated == null
-            ? "Generate backup file"
-            : "Backup generated in the cache",
-      );
+    generated == null
+        ? "Generate backup file"
+        : "Backup generated in the cache",
+  );
 
   void generate(CSBloc logic) async {
     setState(() {

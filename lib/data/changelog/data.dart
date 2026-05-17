@@ -1,7 +1,7 @@
 import 'package:counter_spell/models/changelog/model.dart';
 
 class ChangeLogData {
-  static const int lastBigChange = 91;
+  static const int lastBigChange = 95;
 
   static const List<Version> list = <Version>[
     // Version("3.2.12", <Change>[
@@ -13,141 +13,99 @@ class ChangeLogData {
     //     null,
     //   ),
     // ],),
-    Version(
-      "3.2.11",
-      <Change>[
-        Change(
-          ChangeType.change,
-          "Android 13 compatibility fix.",
-          null,
-        ),
-      ],
-    ),
-    Version(
-      "3.2.10",
-      <Change>[
-        Change(
-          ChangeType.change,
-          "Changed arena long press with tap gestures",
-          "If you hold down a tap gesture while in arena mode, the increments will gradually increase from a +1/-1 to a +5/-5 and eventually a +10/-10 per-tick.",
-        ),
-      ],
-    ),
-    Version(
-      "3.2.9",
-      <Change>[
-        Change(
-          ChangeType.change,
-          "New backups system",
-          "The app doesn't automatically save the backups anywhere, you have to save them externally yourself and provide the backup files later for restoring purposes. This prevents accidental loss of data when uninstalling the app without giving the app permission to write to any folder by itself.",
-        ),
-        Change(
-          ChangeType.change,
-          "New dedicated Krarkulator app",
-          "The small version of the krark & sakashima helper inside CounterSpell is gone, a link is provided to download the dedicated Krarkulator app (much better and completely free, of course).",
-        ),
-        Change(
-          ChangeType.newFeature,
-          "Merge history elements",
-          "You can now merge an action with the previous one to clean up the history screen. Sleek!",
-        ),
-        Change(
-          ChangeType.newFeature,
-          "New interactive tutorial",
-          'Check it out in the menu panel, you\'ll find it in the "info" tab!',
-        ),
-      ],
-    ),
-    Version(
-      "3.2.8",
-      <Change>[
-        Change(
-          ChangeType.change,
-          "Changed internal storage directory for the backups",
-          null,
-        ),
-      ],
-    ),
-    Version(
-      "3.2.7",
-      <Change>[
-        Change(
-          ChangeType.change,
-          "Cleaned up the Krarkulator a bit",
-          null,
-        ),
-        Change(
-          ChangeType.change,
-          "Moved the Crazy specific stuff to the Game tab",
-          null,
-        ),
-        Change(
-          ChangeType.newFeature,
-          "Mana Pool + Zndrsplt helper",
-          "The Crazy specific stuff section now features 2 more handy helpers! CRAZY, RIGTH?",
-        ),
-      ],
-    ),
-    Version(
-      "3.2.6",
-      <Change>[
-        Change(
-          ChangeType.newFeature,
-          "Krarkulator: the 1st crazy specific combo helper",
-          "Open the menu panel, go to the Info tab and you'll find the \"Crazy specific stuff\" section!",
-        ),
-      ],
-    ),
-    Version(
-      "3.2.5",
-      <Change>[
-        Change(
-          ChangeType.change,
-          "Re-designed commander icons for the bottom bar",
-          null,
-        ),
-      ],
-    ),
-    Version(
-      "3.2.4",
-      <Change>[
-        Change(
-          ChangeType.newFeature,
-          "New and improved interactive tutorial",
-          null,
-        ),
-      ],
-    ),
-    Version(
-      "3.2.3",
-      <Change>[
-        Change(
-          ChangeType.newFeature,
-          "Flat style theming option",
-          null,
-        ),
-      ],
-    ),
-    Version(
-      "3.2.2",
-      <Change>[
-        Change(
-          ChangeType.newFeature,
-          "Custom statistics",
-          "Track the winrate of the good old Turn 1 Sol Ring and who play it more frequently!",
-        ),
-      ],
-    ),
-    Version(
-      "3.2.1",
-      <Change>[
-        Change(
-          ChangeType.change,
-          "Split partner images",
-          null,
-        ),
-      ],
-    ),
+    Version("3.3.0", <Change>[
+      Change(
+        ChangeType.change,
+        "Fixed scryfall search",
+        "Not only is it back up and running, but I also fixed a bunch of old bugs along the way regarding some commanders not showing up",
+      ),
+    ]),
+    Version("3.2.11", <Change>[
+      Change(ChangeType.change, "Android 13 compatibility fix.", null),
+    ]),
+    Version("3.2.10", <Change>[
+      Change(
+        ChangeType.change,
+        "Changed arena long press with tap gestures",
+        "If you hold down a tap gesture while in arena mode, the increments will gradually increase from a +1/-1 to a +5/-5 and eventually a +10/-10 per-tick.",
+      ),
+    ]),
+    Version("3.2.9", <Change>[
+      Change(
+        ChangeType.change,
+        "New backups system",
+        "The app doesn't automatically save the backups anywhere, you have to save them externally yourself and provide the backup files later for restoring purposes. This prevents accidental loss of data when uninstalling the app without giving the app permission to write to any folder by itself.",
+      ),
+      Change(
+        ChangeType.change,
+        "New dedicated Krarkulator app",
+        "The small version of the krark & sakashima helper inside CounterSpell is gone, a link is provided to download the dedicated Krarkulator app (much better and completely free, of course).",
+      ),
+      Change(
+        ChangeType.newFeature,
+        "Merge history elements",
+        "You can now merge an action with the previous one to clean up the history screen. Sleek!",
+      ),
+      Change(
+        ChangeType.newFeature,
+        "New interactive tutorial",
+        'Check it out in the menu panel, you\'ll find it in the "info" tab!',
+      ),
+    ]),
+    Version("3.2.8", <Change>[
+      Change(
+        ChangeType.change,
+        "Changed internal storage directory for the backups",
+        null,
+      ),
+    ]),
+    Version("3.2.7", <Change>[
+      Change(ChangeType.change, "Cleaned up the Krarkulator a bit", null),
+      Change(
+        ChangeType.change,
+        "Moved the Crazy specific stuff to the Game tab",
+        null,
+      ),
+      Change(
+        ChangeType.newFeature,
+        "Mana Pool + Zndrsplt helper",
+        "The Crazy specific stuff section now features 2 more handy helpers! CRAZY, RIGTH?",
+      ),
+    ]),
+    Version("3.2.6", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "Krarkulator: the 1st crazy specific combo helper",
+        "Open the menu panel, go to the Info tab and you'll find the \"Crazy specific stuff\" section!",
+      ),
+    ]),
+    Version("3.2.5", <Change>[
+      Change(
+        ChangeType.change,
+        "Re-designed commander icons for the bottom bar",
+        null,
+      ),
+    ]),
+    Version("3.2.4", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "New and improved interactive tutorial",
+        null,
+      ),
+    ]),
+    Version("3.2.3", <Change>[
+      Change(ChangeType.newFeature, "Flat style theming option", null),
+    ]),
+    Version("3.2.2", <Change>[
+      Change(
+        ChangeType.newFeature,
+        "Custom statistics",
+        "Track the winrate of the good old Turn 1 Sol Ring and who play it more frequently!",
+      ),
+    ]),
+    Version("3.2.1", <Change>[
+      Change(ChangeType.change, "Split partner images", null),
+    ]),
     Version("3.2.0", <Change>[
       Change(
         ChangeType.newFeature,
@@ -185,11 +143,7 @@ class ChangeLogData {
     ]),
 
     Version("3.1.4", <Change>[
-      Change(
-        ChangeType.change,
-        "Arena mode overall redesign",
-        null,
-      ),
+      Change(ChangeType.change, "Arena mode overall redesign", null),
       Change(
         ChangeType.newFeature,
         "Enhanced arena mode capabilities",
@@ -198,11 +152,7 @@ class ChangeLogData {
     ]),
 
     Version("3.1.3", <Change>[
-      Change(
-        ChangeType.change,
-        "Keep commander settings between games",
-        null,
-      ),
+      Change(ChangeType.change, "Keep commander settings between games", null),
       Change(
         ChangeType.newFeature,
         "Start new game from Arena quick menu",
@@ -237,16 +187,8 @@ class ChangeLogData {
         "Past games notes",
         "You can now note some text along with each past game to record interesting stuff about that game. Just open a game from the list of past games in the leaderboards screen and you'll find a dedicated field to fill with your annotations.",
       ),
-      Change(
-        ChangeType.change,
-        "Simple view renamed to Arena Mode",
-        null,
-      ),
-      Change(
-        ChangeType.newFeature,
-        "Arena Mode advanced settings",
-        null,
-      ),
+      Change(ChangeType.change, "Simple view renamed to Arena Mode", null),
+      Change(ChangeType.newFeature, "Arena Mode advanced settings", null),
       Change(
         ChangeType.newFeature,
         "Arena Mode up to 6 players, plus a new menu",
@@ -262,11 +204,7 @@ class ChangeLogData {
         "History life chart",
         "On the bottom left on the screen, when you're on the history screen, you'll now find a button to bring up a chart with the life of each player plotted over time.",
       ),
-      Change(
-        ChangeType.change,
-        "Adaptive system nav bar color",
-        null,
-      ),
+      Change(ChangeType.change, "Adaptive system nav bar color", null),
       Change(
         ChangeType.newFeature,
         "Cache manager",

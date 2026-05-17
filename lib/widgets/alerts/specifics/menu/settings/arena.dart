@@ -7,20 +7,20 @@ class ArenaSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HeaderedAlert(
+    return HeaderedAlert(
       "Arena Settings",
       child: Column(
         children: <Widget>[
-          Section(<Widget>[
-            SectionTitle("Gestures"),
-            Gestures(),
-          ]),
-          Section(<Widget>[
-            SectionTitle("Appearance"),
-            ArenaOpacityTile(),
-            ArenaHideNamesWithImageToggle(),
-            ArenaFullScreenToggle(),
-          ]),
+          Section(<Widget>[SectionTitle("Gestures"), Gestures()]),
+          CSBloc.of(context).themer.flatDesign.build(
+            (context, flatDesign) => Section(<Widget>[
+              // with flat design, arena is opened in the stage panel, not with the OpenContainer thing
+              SectionTitle("Appearance"),
+              ArenaOpacityTile(),
+              ArenaHideNamesWithImageToggle(),
+              if (!flatDesign) ArenaFullScreenToggle(),
+            ]),
+          ),
         ],
       ),
     );
@@ -39,10 +39,14 @@ class ArenaScrollOverTap extends StatelessWidget {
       (context, scrollOverTap) => RadioSliderOf<bool>(
         selectedItem: scrollOverTap,
         items: const <bool, RadioSliderItem>{
-          true:
-              RadioSliderItem(title: Text("Scroll"), icon: Icon(Icons.gesture)),
+          true: RadioSliderItem(
+            title: Text("Scroll"),
+            icon: Icon(Icons.gesture),
+          ),
           false: RadioSliderItem(
-              title: Text("Tap"), icon: Icon(McIcons.gesture_tap)),
+            title: Text("Tap"),
+            icon: Icon(McIcons.gesture_tap),
+          ),
         },
         onSelect: settings.scrollOverTap.set,
       ),
@@ -67,11 +71,13 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
             title: const Text("Axis"),
             items: const <bool, RadioSliderItem>{
               true: RadioSliderItem(
-                  title: Text("Vertical"),
-                  icon: Icon(McIcons.gesture_swipe_vertical)),
+                title: Text("Vertical"),
+                icon: Icon(McIcons.gesture_swipe_vertical),
+              ),
               false: RadioSliderItem(
-                  title: Text("Horizontal"),
-                  icon: Icon(McIcons.gesture_swipe_horizontal)),
+                title: Text("Horizontal"),
+                icon: Icon(McIcons.gesture_swipe_horizontal),
+              ),
             },
           ),
           Padding(
@@ -96,10 +102,9 @@ class ArenaScrollDirectionSelector extends StatelessWidget {
       ),
     );
 
-    return settings.scrollOverTap.build((context, scroll) => AnimatedListed(
-          listed: scroll,
-          child: content,
-        ));
+    return settings.scrollOverTap.build(
+      (context, scroll) => AnimatedListed(listed: scroll, child: content),
+    );
   }
 }
 
@@ -129,11 +134,11 @@ class Gestures extends StatelessWidget {
                       ButtonTile(
                         icon: scroll
                             ? verticalScroll
-                                ? McIcons.gesture_swipe_vertical
-                                : McIcons.gesture_swipe_horizontal
+                                  ? McIcons.gesture_swipe_vertical
+                                  : McIcons.gesture_swipe_horizontal
                             : verticalTap
-                                ? McIcons.unfold_more_horizontal
-                                : McIcons.unfold_more_vertical,
+                            ? McIcons.unfold_more_horizontal
+                            : McIcons.unfold_more_vertical,
                         text: (scroll ? verticalScroll : verticalTap)
                             ? "Vertical"
                             : "Horizontal",
@@ -142,9 +147,7 @@ class Gestures extends StatelessWidget {
                             : () => settings.verticalTap.set(!verticalTap),
                       ),
                     ])
-                      Expanded(
-                        child: child,
-                      ),
+                      Expanded(child: child),
                   ].separateWith(CSWidgets.extraButtonsDivider),
                 ),
               ),
@@ -153,11 +156,11 @@ class Gestures extends StatelessWidget {
                 child: AnimatedText(
                   scroll
                       ? (verticalScroll
-                          ? "(down to up to increase)"
-                          : "(left to right to increase)")
+                            ? "(down to up to increase)"
+                            : "(left to right to increase)")
                       : (verticalTap
-                          ? "(top half to increase)"
-                          : "(right half to increase)"),
+                            ? "(top half to increase)"
+                            : "(right half to increase)"),
                   style: const TextStyle(fontStyle: FontStyle.italic),
                   textAlign: TextAlign.center,
                 ),
@@ -197,11 +200,13 @@ class ArenaTapDirectionSelector extends StatelessWidget {
             title: const Text("Axis"),
             items: const <bool, RadioSliderItem>{
               true: RadioSliderItem(
-                  title: Text("Vertical"),
-                  icon: Icon(McIcons.unfold_more_horizontal)),
+                title: Text("Vertical"),
+                icon: Icon(McIcons.unfold_more_horizontal),
+              ),
               false: RadioSliderItem(
-                  title: Text("Horizontal"),
-                  icon: Icon(McIcons.unfold_more_vertical)),
+                title: Text("Horizontal"),
+                icon: Icon(McIcons.unfold_more_vertical),
+              ),
             },
           ),
           Padding(
@@ -215,10 +220,9 @@ class ArenaTapDirectionSelector extends StatelessWidget {
       ),
     );
 
-    return settings.scrollOverTap.build((context, scroll) => AnimatedListed(
-          listed: !scroll,
-          child: content,
-        ));
+    return settings.scrollOverTap.build(
+      (context, scroll) => AnimatedListed(listed: !scroll, child: content),
+    );
   }
 }
 
@@ -253,8 +257,9 @@ class ArenaFullScreenToggle extends StatelessWidget {
         onChanged: settings.fullScreen.set,
         value: fullScreen,
         title: const Text("Full screen"),
-        subtitle:
-            (disclaimer) ? const Text("Exit and re-enter to apply") : null,
+        subtitle: (disclaimer)
+            ? const Text("Exit and re-enter to apply")
+            : null,
         secondary: const Icon(McIcons.fullscreen),
       ),
     );

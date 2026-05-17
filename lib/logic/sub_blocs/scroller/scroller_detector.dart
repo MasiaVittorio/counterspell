@@ -44,17 +44,17 @@ class VelocityPanDetector extends StatelessWidget {
         onPanCancel != null) {
       gestures[CSPanGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<CSPanGestureRecognizer>(
-        () => CSPanGestureRecognizer(debugOwner: this),
-        (CSPanGestureRecognizer instance) {
-          instance
-            ..onDown = onPanDown
-            ..onStart = onPanStart
-            ..onUpdate = onPanUpdate
-            ..onEnd = onPanEnd
-            ..onCancel = onPanCancel
-            ..dragStartBehavior = dragStartBehavior;
-        },
-      );
+            () => CSPanGestureRecognizer(debugOwner: this),
+            (CSPanGestureRecognizer instance) {
+              instance
+                ..onDown = onPanDown
+                ..onStart = onPanStart
+                ..onUpdate = onPanUpdate
+                ..onEnd = onPanEnd
+                ..onCancel = onPanCancel
+                ..dragStartBehavior = dragStartBehavior;
+            },
+          );
     }
 
     return RawGestureDetector(
@@ -69,6 +69,7 @@ class VelocityPanDetector extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(
-        EnumProperty<DragStartBehavior>('startBehavior', dragStartBehavior));
+      EnumProperty<DragStartBehavior>('startBehavior', dragStartBehavior),
+    );
   }
 }

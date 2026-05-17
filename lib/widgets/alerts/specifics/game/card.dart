@@ -19,7 +19,7 @@ class _CardAlertState extends State<CardAlert> {
       color: Colors.black,
       child: InkWell(
         onTap: () {
-          if (widget.card.isFaced) {
+          if (widget.card.cardFaces != null) {
             setState(() {
               firstFace = !firstFace;
             });

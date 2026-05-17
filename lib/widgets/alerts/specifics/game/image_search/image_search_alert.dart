@@ -173,9 +173,9 @@ class _ImageSearchAlertState extends State<_ImageSearchAlert> {
 
   String composeQuery(String trimmedText) {
     if (filterForCommanders) {
-      return "$trimmedText is:commander order:edhrec";
+      return "$trimmedText is:commander order:edhrec unique:art";
     } else {
-      return trimmedText;
+      return "$trimmedText unique:art";
     }
   }
 

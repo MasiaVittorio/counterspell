@@ -38,22 +38,23 @@ class CardsLogic extends LogicBase {
       );
 
   // player name to list of saved card ids
-  final PersistentReactive<Map<String, Set<String>>> playerCards =
-      PersistentReactive(
-        {},
-        key: 'playerCards',
-        toJsonEncodable: (value) => {
-          for (final entry in value.entries) entry.key: entry.value.toList(),
-        },
-        fromJsonDecoded: (jsonDecoded) => {
-          for (final entry in (jsonDecoded as Map).entries)
-            if (entry.value case Iterable list)
-              entry.key: {
-                for (final e in list)
-                  if (e is String) e,
-              },
-        },
-      );
+  final PersistentReactive<Map<String, Set<String>>>
+  playerCards = PersistentReactive(
+    {},
+    key: 'playerCards',
+    toJsonEncodable: (Map<String, Set<String>> value) => <String, List<String>>{
+      for (final entry in value.entries) entry.key: entry.value.toList(),
+    },
+    fromJsonDecoded: (jsonDecoded) => <String, Set<String>>{
+      for (final entry in (jsonDecoded as Map).entries)
+        if (entry.key case String key)
+          if (entry.value case List list)
+            key: <String>{
+              for (final e in list)
+                if (e is String) e,
+            },
+    },
+  );
 
   @override
   void dispose() {

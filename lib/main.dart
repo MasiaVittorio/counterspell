@@ -219,7 +219,7 @@ class CounterSpell {
   late final GameLogic gameLogic; // needs cardsLogic
   late final InteractionLogic interactionLogic; // needs game and pages logic
   late final PlaygroupLogic playgroupLogic; // needs game logic
-  late final LeaderboardsLogic leaderboardsLogic;
+  late final LeaderboardsLogic leaderboardsLogic; // needs cards logic
 
   final PersistentReactive<List<String>> bugLogs = PersistentReactive(
     [],
@@ -227,7 +227,7 @@ class CounterSpell {
   );
 
   CounterSpell() {
-    leaderboardsLogic = LeaderboardsLogic(onLogBugs);
+    leaderboardsLogic = LeaderboardsLogic(onLogBugs, cardsLogic);
     gameLogic = GameLogic(cardsLogic);
     playgroupLogic = PlaygroupLogic(gameLogic);
     interactionLogic = InteractionLogic(
@@ -256,15 +256,15 @@ class CounterSpell {
   }
 
   void dispose() {
-    interactionLogic.dispose();
+    leaderboardsLogic.dispose();
     playgroupLogic.dispose();
+    interactionLogic.dispose();
     gameLogic.dispose();
     settingsLogic.dispose();
     cardsLogic.dispose();
     arenaLogic.dispose();
     pagesLogic.dispose();
     manaPoolLogic.dispose();
-    leaderboardsLogic.dispose();
     historyScrollController.dispose();
     bugLogs.dispose();
   }

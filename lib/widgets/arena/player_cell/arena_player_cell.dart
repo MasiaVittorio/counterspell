@@ -95,8 +95,8 @@ class _ArenaPlayerCellState extends State<_ArenaPlayerCell>
 
   // when increasing the value, the attacking player index is cached to be used in the onApply, so that it doesn't change if the user changes the attacking player before the delay is over
   @override
-  void increase() {
-    increment.update(increment.value + 1);
+  void nextMultipleOf(int n) {
+    increment.update(increment.value.nextMultipleOf(n));
     cachedAttackerIndex.update(
       cachedAttackerIndex.value ??
           widget.counterSpell.interactionLogic.attackingPlayerIndex.value ??
@@ -105,8 +105,9 @@ class _ArenaPlayerCellState extends State<_ArenaPlayerCell>
   }
 
   @override
-  void decrease() {
-    increment.update(increment.value - 1);
+  void previousMultipleOf(int n) {
+    var previousMultipleOf = increment.value.previousMultipleOf(n);
+    increment.update(previousMultipleOf);
     cachedAttackerIndex.update(
       cachedAttackerIndex.value ??
           widget.counterSpell.interactionLogic.attackingPlayerIndex.value ??
@@ -142,9 +143,30 @@ mixin ArenaPlayerController {
 
   Reactive<int?> get cachedAttackerIndex;
 
-  void increase();
+  void nextMultipleOf(int n);
 
-  void decrease();
+  void previousMultipleOf(int n);
+}
+
+extension on int {
+  int nextMultipleOf(int n) {
+    if (n == 0) return this;
+    if (n == 1) return this + 1;
+    final remainder = this.remainder(n);
+    if (remainder == 0) return this + n;
+    return this + (n - remainder).round();
+  }
+
+  int previousMultipleOf(int n) {
+    if (n == 0) return this;
+    if (n == 1) return this - 1;
+    final remainder = this.remainder(n);
+    if (remainder == 0) return this - n;
+    if (remainder < 0) {
+      return this - (n + remainder).round();
+    }
+    return this - remainder.round();
+  }
 }
 
 extension BuildContextArenaPlayer on BuildContext {

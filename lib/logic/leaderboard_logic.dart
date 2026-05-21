@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:counter_spell/logic/cards_logic.dart';
 import 'package:counter_spell/logic/old_logic_stuff/shared_db.dart';
 import 'package:counter_spell/models/game/game.dart';
 import 'package:counter_spell/models/game/old_app/old_game_record.dart';
@@ -25,13 +26,15 @@ class LeaderboardsLogic extends LogicBase {
 
   final ValueChanged<String> onLogBugs;
 
+  final CardsLogic cardsLogic;
+
   @override
   void dispose() {
     gameRecords.dispose();
     super.dispose();
   }
 
-  LeaderboardsLogic(this.onLogBugs) {
+  LeaderboardsLogic(this.onLogBugs, this.cardsLogic) {
     _readOldAppData();
   }
 
@@ -81,8 +84,7 @@ class LeaderboardsLogic extends LogicBase {
             ConfirmPanelAlert(
               title: Text('Merge ${valid.length} new past games?'),
               onConfirmed: () {
-                gameRecords.value.addAll(valid);
-                gameRecords.refresh();
+                mergeValidRecords(valid);
                 panelFrame.showSnackBar(
                   PanelSnackBar(
                     child: Text('Merged ${valid.length} past games'),
@@ -112,10 +114,10 @@ class LeaderboardsLogic extends LogicBase {
         ConfirmPanelAlert(
           title: Text('Merge ${valid.length} new past games?'),
           onConfirmed: () {
-            gameRecords.value.addAll([
+            mergeValidRecords([
               for (final old in valid) GameRecord.fromOldGameRecord(old),
             ]);
-            gameRecords.refresh();
+
             panelFrame.showSnackBar(
               PanelSnackBar(child: Text('Merged ${valid.length} past games')),
             );
@@ -127,6 +129,31 @@ class LeaderboardsLogic extends LogicBase {
       return null;
     }
     return 'Unknown file format';
+  }
+
+  void mergeValidRecords(List<GameRecord> valid) {
+    gameRecords.value.addAll(valid);
+    gameRecords.refresh();
+    final Map<String, Set<String>> newPlayerCards = {};
+    for (final record in valid) {
+      for (final settings in record.settings.playerSettings) {
+        final String name = settings.name;
+        newPlayerCards[name] = {
+          ...?newPlayerCards[name],
+          ?settings.commanders.partnerA,
+          ?settings.commanders.partnerB,
+        };
+      }
+    }
+    cardsLogic.playerCards.accessAfterReading((_) {
+      for (final entry in newPlayerCards.entries) {
+        cardsLogic.playerCards.value[entry.key] = {
+          ...?cardsLogic.playerCards.value[entry.key],
+          ...entry.value,
+        };
+      }
+      cardsLogic.playerCards.refresh();
+    });
   }
 
   void mergeOldBackup(List<OldGameRecord> oldRecords) {
@@ -173,10 +200,11 @@ class LeaderboardsLogic extends LogicBase {
     }
     if (error) return false;
     if (lenghtFromDisk == 0) return false;
+    if (lenghtFromDisk == null) return false;
 
     List<OldGameRecord?> content = <OldGameRecord?>[];
 
-    for (int i = 0; i < lenghtFromDisk!; ++i) {
+    for (int i = 0; i < lenghtFromDisk; ++i) {
       String? itemString = await instance.getString(indexKey(i));
       if (itemString == null) continue;
       OldGameRecord? item;
@@ -206,10 +234,39 @@ class LeaderboardsLogic extends LogicBase {
           'found ${valid.length} unrecorded past games in old app data',
         );
       }
-      gameRecords.value.addAll([
+      final newRecords = [
         for (final old in valid) GameRecord.fromOldGameRecord(old),
-      ]);
+      ];
+      final Map<String, Set<String>> newPlayerCards = {};
+      for (final record in newRecords) {
+        for (int i = 0; i < record.settings.playerSettings.length; i++) {
+          final settings = record.settings.playerSettings[i];
+          final String name = settings.name;
+          newPlayerCards[name] = {
+            ...?newPlayerCards[name],
+            ?settings.commanders.partnerA,
+            ?settings.commanders.partnerB,
+          };
+        }
+      }
+      gameRecords.value.addAll(newRecords);
       gameRecords.refresh();
+      cardsLogic.playerCards.accessAfterReading((_) {
+        for (final entry in newPlayerCards.entries) {
+          cardsLogic.playerCards.value[entry.key] = {
+            ...?cardsLogic.playerCards.value[entry.key],
+            ...entry.value,
+          };
+        }
+        cardsLogic.playerCards.refresh();
+      });
+
+      if (newRecords.isEmpty) {
+        // past games already merged, let's delete old app data to free up space and to avoid re-merging it in case the user deletes the new past games
+        for (int i = 0; i < lenghtFromDisk!; ++i) {
+          await instance.deleteByKey(indexKey(i));
+        }
+      }
     });
 
     return true;

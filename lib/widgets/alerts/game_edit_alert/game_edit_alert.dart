@@ -19,7 +19,7 @@ class GameEditAlert extends StatelessWidget {
           const EditComandersTile(),
           const HistoryTile(),
         ].groupedCards(),
-        const NewGameCta(),
+        const NewGameCta(replaceAlert: true),
         const SectionTitle(
           title: Text('User interface'),
           leading: Icon(Icons.layers_outlined),

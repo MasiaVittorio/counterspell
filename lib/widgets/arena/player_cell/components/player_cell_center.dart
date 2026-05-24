@@ -17,55 +17,77 @@ class PlayerCellCenter extends StatelessWidget {
     final theme = context.theme;
     final controller = context.arenaPlayerController;
 
-    final style = theme.textTheme.displayLarge!.copyWith(
-      fontSize: theme.textTheme.displayLarge!.fontSize! * 1.2,
-    );
     final incrementStyle = theme.textTheme.headlineMedium;
-    final lifeValue = PlayerCellValueBuilder(
-      mode: CellMode.life,
-      playerIndex: playerIndex,
-      builder: (context, value, child) => AnimatedCountBuilder(
-        count: value,
-        builder: (context, val, child) => Text(val.toString(), style: style),
-      ),
-    );
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ArenaCellModeBuilder(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final style = theme.textTheme.displayLarge!.copyWith(
+          fontSize: constraints.maxHeight * 0.6,
+        );
+
+        final lifeValue = PlayerCellValueBuilder(
+          mode: CellMode.life,
           playerIndex: playerIndex,
-          child: lifeValue,
-          builder: (context, mode, lifeValue) {
-            return CenteredStack(
-              show1: mode == CellMode.life,
-              child1: lifeValue!,
-              child2: PlayerCellValueBuilder(
-                mode: CellMode.attacking,
-                playerIndex: playerIndex,
-                builder: (context, value, child) =>
-                    Text(value.toString(), style: style),
-              ),
-            );
-          },
-        ),
-        controller.increment.build(
-          (context, value) => NewAnimatedListed(
-            listed: value != 0,
-            direction: Axis.horizontal,
-            child: Pad(
-              left: theme.layout.padding.medium,
-              child: Row(
-                children: [
-                  Text(value >= 0 ? '+' : '-', style: incrementStyle),
-                  Space.horizontal(theme.layout.spacing.smaller),
-                  Text(value.abs().toString(), style: incrementStyle),
-                ],
-              ),
+          builder: (context, value, child) => AnimatedCountBuilder(
+            count: value,
+            builder: (context, val, child) => Text(
+              val.toString(),
+              style: style
+                  .smallerIfValueBiggerThan(value.toDouble(), 999)
+                  .smallerIfValueBiggerThan(value.toDouble(), 9999),
             ),
           ),
-        ),
-      ],
+        );
+
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ArenaCellModeBuilder(
+              playerIndex: playerIndex,
+              child: lifeValue,
+              builder: (context, mode, lifeValue) {
+                return CenteredStack(
+                  show1: mode == CellMode.life,
+                  child1: lifeValue!,
+                  child2: PlayerCellValueBuilder(
+                    mode: CellMode.attacking,
+                    playerIndex: playerIndex,
+                    builder: (context, value, child) {
+                      return Text(
+                        value.toString(),
+                        style: style
+                            .smallerIfValueBiggerThan(value.toDouble(), 999)
+                            .smallerIfValueBiggerThan(value.toDouble(), 9999),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+            controller.increment.build(
+              (context, value) => NewAnimatedListed(
+                listed: value != 0,
+                direction: Axis.horizontal,
+                child: Pad(
+                  left: theme.layout.padding.medium,
+                  child: Row(
+                    children: [
+                      Text(value >= 0 ? '+' : '-', style: incrementStyle),
+                      Space.horizontal(theme.layout.spacing.smaller),
+                      Text(value.abs().toString(), style: incrementStyle),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
+}
+
+extension on TextStyle {
+  TextStyle smallerIfValueBiggerThan(double value, double than) =>
+      copyWith(fontSize: value > than ? fontSize! * 0.8 : fontSize);
 }

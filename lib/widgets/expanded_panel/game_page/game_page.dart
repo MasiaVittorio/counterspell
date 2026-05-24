@@ -84,7 +84,9 @@ class LeaderboardsTile extends StatelessWidget {
 }
 
 class NewGameCta extends StatelessWidget {
-  const NewGameCta({super.key});
+  const NewGameCta({super.key, this.replaceAlert = false});
+
+  final bool replaceAlert;
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +94,10 @@ class NewGameCta extends StatelessWidget {
     final counterSpell = context.counterSpell;
 
     return CallToAction(
-      action: () =>
-          frame.promptRestart(context: context, counterSpell: counterSpell),
+      action: () {
+        if (replaceAlert) frame.previousAlert();
+        frame.promptRestart(context: context, counterSpell: counterSpell);
+      },
       label: const Text('New game'),
       icon: const Icon(Icons.restart_alt),
     );

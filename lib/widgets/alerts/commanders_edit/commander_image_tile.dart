@@ -122,7 +122,11 @@ class CommanderImageTile extends StatelessWidget {
                 cardsLogic.cachedCards.value[card.id] = card.deepCopy();
                 cardsLogic.cachedCards.refresh();
                 cardsLogic.playerCards.value[playerSettings.name] = {
-                  ...?cardsLogic.playerCards.value[playerSettings.name],
+                  for (final String old
+                      in cardsLogic.playerCards.value[playerSettings.name] ??
+                          {})
+                    // so it goes to the end of the list
+                    if (old != card.id) old,
                   card.id,
                 };
                 cardsLogic.playerCards.refresh();

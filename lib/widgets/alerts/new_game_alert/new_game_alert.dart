@@ -2,6 +2,7 @@ import 'package:call_to_action/call_to_action.dart';
 import 'package:counter_spell/logic/playgroup_logic.dart';
 import 'package:counter_spell/main.dart';
 import 'package:counter_spell/models/pages.dart';
+import 'package:counter_spell/widgets/alerts/random_player_alert.dart';
 import 'package:counter_spell/widgets/components/common/my_chip.dart';
 import 'package:counter_spell/widgets/expanded_panel/game_page/starting_life_slider.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +22,11 @@ class NewGameAlert extends StatelessWidget {
     return playgroupLogic.pastNameRecords.build(
       (context, records) => _NewGameAlert(
         sortedNames: records.sortedNames,
-        onStart: (names) {
+        onStart: (names) async {
           gameLogic.newGame(names: names, playgroupLogic: playgroupLogic);
-          panelFrame.closePanel();
           counterSpell.pagesLogic.bodyPage.update(BodyPage.life);
+          panelFrame.previousAlert();
+          panelFrame.showAlert(const RandomPlayerAlert());
         },
         currentPlaygroup: gameLogic.gameReactive.value.settings.playerSettings
             .map((s) => s.name)

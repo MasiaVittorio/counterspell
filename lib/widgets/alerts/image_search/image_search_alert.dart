@@ -48,7 +48,7 @@ class ImageSearchAlert extends StatelessWidget
       initialResults: switch (playerName) {
         '' => [],
         String name => [
-          for (final id in playerCards.value[name] ?? {})
+          for (final id in (playerCards.value[name] ?? {}).toList().reversed)
             if (cachedCards.value[id] case final MtgCard card) card.deepCopy(),
         ],
       },
@@ -171,6 +171,7 @@ class _ImageSearchAlertState extends State<_ImageSearchAlert> {
     });
 
     final result = await ScryfallApi.search(thisQuery);
+
     final List<MtgCard> foundCards = result ?? [];
     if (!mounted) return;
     setState(() {

@@ -28,13 +28,20 @@ class PlayerCellCenter extends StatelessWidget {
         final lifeValue = PlayerCellValueBuilder(
           mode: CellMode.life,
           playerIndex: playerIndex,
-          builder: (context, value, child) => AnimatedCountBuilder(
+          builder: (context, value, isDead, child) => AnimatedCountBuilder(
             count: value,
             builder: (context, val, child) => Text(
               val.toString(),
               style: style
                   .smallerIfValueBiggerThan(value.toDouble(), 999)
-                  .smallerIfValueBiggerThan(value.toDouble(), 9999),
+                  .smallerIfValueBiggerThan(value.toDouble(), 9999)
+                  .copyWith(
+                    color: isDead
+                        ? theme.colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.8,
+                          )
+                        : null,
+                  ),
             ),
           ),
         );
@@ -52,12 +59,18 @@ class PlayerCellCenter extends StatelessWidget {
                   child2: PlayerCellValueBuilder(
                     mode: CellMode.attacking,
                     playerIndex: playerIndex,
-                    builder: (context, value, child) {
+                    builder: (context, value, isDead, child) {
                       return Text(
                         value.toString(),
                         style: style
                             .smallerIfValueBiggerThan(value.toDouble(), 999)
-                            .smallerIfValueBiggerThan(value.toDouble(), 9999),
+                            .smallerIfValueBiggerThan(value.toDouble(), 9999)
+                            .copyWith(
+                              color: isDead
+                                  ? theme.colorScheme.onSurfaceVariant
+                                        .withValues(alpha: 0.8)
+                                  : null,
+                            ),
                       );
                     },
                   ),

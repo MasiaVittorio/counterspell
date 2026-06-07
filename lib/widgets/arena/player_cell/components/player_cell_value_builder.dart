@@ -17,7 +17,13 @@ class PlayerCellValueBuilder extends StatelessWidget {
 
   final CellMode mode;
   final Widget? child;
-  final Widget Function(BuildContext context, int value, Widget? child) builder;
+  final Widget Function(
+    BuildContext context,
+    int value,
+    bool isDead,
+    Widget? child,
+  )
+  builder;
   final int playerIndex;
 
   @override
@@ -53,7 +59,13 @@ class _PlayerCellValueBuilder extends StatefulWidget {
   });
 
   final Widget? child;
-  final Widget Function(BuildContext context, int value, Widget? child) builder;
+  final Widget Function(
+    BuildContext context,
+    int value,
+    bool isDead,
+    Widget? child,
+  )
+  builder;
 
   final Reactive<Game> game;
   final Reactive<int?> cachedAttackerIndex;
@@ -70,11 +82,14 @@ class _PlayerCellValueBuilder extends StatefulWidget {
 
 class _PlayerCellValueBuilderState extends State<_PlayerCellValueBuilder> {
   int value = 0;
+  bool isDead = false;
 
   @override
   void initState() {
     super.initState();
-    value = newValue();
+    final v = newValue();
+    value = v.$1;
+    isDead = v.$2;
     widget.attackingPlayerIndex.addListener(attackingListener);
     widget.cachedAttackerIndex.addListener(cachedListener);
     widget.game.addListener(gameListener);
@@ -95,7 +110,9 @@ class _PlayerCellValueBuilderState extends State<_PlayerCellValueBuilder> {
     super.didUpdateWidget(oldWidget);
     if (widget.playerIndex != oldWidget.playerIndex ||
         widget.mode != oldWidget.mode) {
-      value = newValue();
+      final v = newValue();
+      value = v.$1;
+      isDead = v.$2;
     }
   }
 
@@ -107,35 +124,42 @@ class _PlayerCellValueBuilderState extends State<_PlayerCellValueBuilder> {
   void update() {
     if (!mounted) return;
     final v = newValue();
-    if (v != value) {
-      setState(() => value = v);
+    if (v.$1 != value || v.$2 != isDead) {
+      setState(() {
+        value = v.$1;
+        isDead = v.$2;
+      });
     }
   }
 
-  int newValue() {
+  (int value, bool isdead) newValue() {
+    final bool isDead = widget.game.value.isPlayerDead(widget.playerIndex);
     if (widget.playerIndex >=
         widget.game.value.currentState.playerStates.length) {
-      return 0;
+      return (0, isDead);
     }
     final state =
         widget.game.value.currentState.playerStates[widget.playerIndex];
-    if (widget.mode == CellMode.life) return state.life;
+    if (widget.mode == CellMode.life) return (state.life, isDead);
 
     final int? attackerIndex =
         widget.cachedAttackerIndex.value ?? widget.attackingPlayerIndex.value;
-    if (attackerIndex == null) return state.life;
-    if (attackerIndex == -1) return state.life;
+    if (attackerIndex == null) return (state.life, isDead);
+    if (attackerIndex == -1) return (state.life, isDead);
 
-    if (attackerIndex >= state.commanderDamageTaken.length) return 0;
-    if (attackerIndex >= widget.usingPartnerA.value.length) return 0;
+    if (attackerIndex >= state.commanderDamageTaken.length) return (0, isDead);
+    if (attackerIndex >= widget.usingPartnerA.value.length) return (0, isDead);
 
-    return state.commanderDamageTaken[attackerIndex].from(
-      widget.usingPartnerA.value[attackerIndex],
+    return (
+      state.commanderDamageTaken[attackerIndex].from(
+        widget.usingPartnerA.value[attackerIndex],
+      ),
+      isDead,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, value, widget.child);
+    return widget.builder(context, value, isDead, widget.child);
   }
 }

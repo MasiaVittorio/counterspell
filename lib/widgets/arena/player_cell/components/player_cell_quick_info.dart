@@ -178,6 +178,7 @@ class _PlayerCellQuickInfo extends StatelessWidget {
                   note: 'B',
                   result: castsB,
                 ),
+            // TODO: add is dead chip
           ].separateWith(Space.vertical(layout.spacing.tiny)),
         ),
       ),

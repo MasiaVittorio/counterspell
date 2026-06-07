@@ -1,3 +1,4 @@
+import 'package:counter_spell/logic/game_logic.dart';
 import 'package:counter_spell/logic/interaction_logic.dart';
 import 'package:counter_spell/main.dart';
 import 'package:counter_spell/widgets/arena/player_cell/arena_player_cell.dart';
@@ -28,6 +29,7 @@ class ArenaPlayerCellVisibilityBuilder extends StatelessWidget {
       playerIndex: playerIndex,
       generalInteraction: generalInteraction,
       arenaPlayerController: arenaPlayerController,
+      gameLogic: counterSpell.gameLogic,
       builder: builder,
       child: child,
     );
@@ -39,11 +41,13 @@ class _VisibilityBuilder extends StatefulWidget {
     required this.playerIndex,
     required this.generalInteraction,
     required this.arenaPlayerController,
+    required this.gameLogic,
     required this.child,
     required this.builder,
   });
 
   final int playerIndex;
+  final GameLogic gameLogic;
   final InteractionLogic generalInteraction;
   final ArenaPlayerController arenaPlayerController;
   final Widget? child;
@@ -63,6 +67,7 @@ class _VisibilityBuilderState extends State<_VisibilityBuilder> {
     );
     widget.arenaPlayerController.increment.addListener(incrementListener);
     widget.arenaPlayerController.advanced.addListener(advancedListener);
+    widget.gameLogic.gameReactive.addListener(gameListener);
   }
 
   @override
@@ -72,6 +77,7 @@ class _VisibilityBuilderState extends State<_VisibilityBuilder> {
     );
     widget.arenaPlayerController.increment.removeListener(incrementListener);
     widget.arenaPlayerController.advanced.removeListener(advancedListener);
+    widget.gameLogic.gameReactive.removeListener(gameListener);
     super.dispose();
   }
 
@@ -93,7 +99,10 @@ class _VisibilityBuilderState extends State<_VisibilityBuilder> {
       return ImageVisibility.high;
     }
     return switch (widget.generalInteraction.attackingPlayerIndex.value) {
-      null => ImageVisibility.normal,
+      null =>
+        widget.gameLogic.gameReactive.value.isPlayerDead(widget.playerIndex)
+            ? ImageVisibility.lowest
+            : ImageVisibility.normal,
       int a when a == widget.playerIndex => ImageVisibility.high,
       int _ => ImageVisibility.low,
     };
@@ -102,6 +111,7 @@ class _VisibilityBuilderState extends State<_VisibilityBuilder> {
   void attackingListener() => update();
   void incrementListener() => update();
   void advancedListener() => update();
+  void gameListener() => update();
 
   void update() {
     if (!mounted) return;

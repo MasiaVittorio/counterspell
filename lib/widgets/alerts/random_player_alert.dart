@@ -82,34 +82,33 @@ class _RandomPlayerAlertState extends State<_RandomPlayerAlert>
 
               final isFirst = i == 0;
               final isLast = i == widget.names.length - 1;
-              final bottomMargin = isLast
-                  ? (groupedTheme.lastPadding ?? layout.margin.medium)
-                  : layout.spacing.tiny;
-
-              final radius = GroupedCard.borderRadius(
-                theme.layout,
-                isFirst: isFirst,
-                isLast: isLast,
-              );
-              final backgroundColor = isThisHighlighted
-                  ? theme.colorScheme.surfaceContainerHighest
-                  : theme.colorScheme.surfaceContainer;
-              final borderSide = superHighlight
-                  ? BorderSide(color: theme.colorScheme.primary)
-                  : BorderSide.none;
 
               return AnimatedContainer(
+                duration: Motion.beginAndEndOnScreenEmphasized.duration,
+                curve: Motion.beginAndEndOnScreenEmphasized.curve,
                 margin: EdgeInsets.only(
-                  bottom: bottomMargin,
+                  bottom: isLast
+                      ? (groupedTheme.lastPadding ?? layout.margin.medium)
+                      : layout.spacing.tiny,
                   right: layout.margin.medium,
                   left: layout.margin.medium,
                 ),
-                duration: Motion.beginAndEndOnScreenEmphasized.duration,
-                curve: Motion.beginAndEndOnScreenEmphasized.curve,
                 decoration: BoxDecoration(
-                  color: backgroundColor,
-                  borderRadius: radius,
-                  border: Border.fromBorderSide(borderSide),
+                  color: controller.value == 1 && i != pick
+                      ? theme.colorScheme.surfaceContainerLowest
+                      : isThisHighlighted
+                      ? theme.colorScheme.surfaceContainerHighest
+                      : theme.colorScheme.surfaceContainer,
+                  borderRadius: GroupedCard.borderRadius(
+                    theme.layout,
+                    isFirst: isFirst,
+                    isLast: isLast,
+                  ),
+                  border: Border.fromBorderSide(
+                    superHighlight
+                        ? BorderSide(color: theme.colorScheme.primary)
+                        : BorderSide.none,
+                  ),
                 ),
                 child: ListTile(
                   title: Text(

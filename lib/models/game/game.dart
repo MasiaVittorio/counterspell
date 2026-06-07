@@ -65,6 +65,14 @@ class Game {
 
   Game deepCopy() => Game.fromJson(toJson());
 
+  bool isPlayerDead(int playerIndex) {
+    if (playerIndex >= currentState.playerStates.length) return false;
+    if (playerIndex < 0) return false;
+    return currentState.playerStates[playerIndex].isDead(
+      settings.lethalPoisonCounters,
+    );
+  }
+
   Game applyGeneralInteraction({
     required List<bool?> playersMultiSelection,
     required InteractionMode mode,

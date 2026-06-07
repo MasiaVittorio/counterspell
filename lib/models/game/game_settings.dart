@@ -96,6 +96,8 @@ class GameSettings {
     ],
   );
 
+  //
+
   // LATER: maybe make this an editable setting
   int get lethalPoisonCounters => switch (startingLifeTotal) {
     30 || 60 => 15,

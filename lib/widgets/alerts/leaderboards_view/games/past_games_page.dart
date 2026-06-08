@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:counter_spell/models/leaderboards/game_record.dart';
 import 'package:counter_spell/widgets/alerts/leaderboards_view/games/past_game_tile.dart';
 import 'package:flutter/material.dart';

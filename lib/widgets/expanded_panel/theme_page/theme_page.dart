@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:counter_spell/logic/theme_logic.dart';
 import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:counter_spell/widgets/expanded_panel/game_page/expanded_page_list.dart';

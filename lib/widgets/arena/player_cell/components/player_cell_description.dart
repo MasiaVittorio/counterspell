@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:counter_spell/widgets/arena/player_cell/builders/cell_mode_builder.dart';
 import 'package:counter_spell/widgets/components/builders/player_settings_builder.dart';
 import 'package:flutter/material.dart';

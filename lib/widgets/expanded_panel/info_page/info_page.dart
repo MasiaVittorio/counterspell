@@ -151,7 +151,7 @@ class SupportTile extends StatelessWidget {
         'Help me keep working on this app by donating or starring the repo!',
       ),
       onTap: () {
-        // TODO: donate
+        launchUrl(Uri.parse('https://github.com/sponsors/MasiaVittorio'));
       },
     );
   }

@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:counter_spell/main.dart';
 import 'package:counter_spell/widgets/arena/player_cell/arena_player_cell.dart';
 import 'package:counter_spell/widgets/arena/player_cell/components/player_cell_bottom.dart';

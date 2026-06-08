@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:counter_spell/models/game/game_settings.dart';
 import 'package:counter_spell/models/game/partner_vectors.dart';
 import 'package:counter_spell/models/game/player_settings.dart';

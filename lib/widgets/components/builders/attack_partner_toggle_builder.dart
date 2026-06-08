@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:counter_spell/logic/interaction_logic.dart';
 import 'package:counter_spell/main.dart';
 import 'package:counter_spell/widgets/components/builders/runs_partners_and_using_a_builder.dart';

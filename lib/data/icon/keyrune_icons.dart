@@ -614,7 +614,7 @@ class Keyrune {
     fontPackage: _kFontPkg,
   );
   static const IconData tsp = IconData(
-    0xe876,
+    0xe63a,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );

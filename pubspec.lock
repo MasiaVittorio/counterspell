@@ -92,9 +92,11 @@ packages:
   call_to_action:
     dependency: "direct main"
     description:
-      path: "../../call_to_action"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "12570f5b84abc6d910f59dd2a3a7748c6b720f0f"
+      url: "https://github.com/MasiaVittorio/call_to_action.git"
+    source: git
     version: "1.0.0+1"
   characters:
     dependency: transitive
@@ -562,9 +564,11 @@ packages:
   panel_frame:
     dependency: "direct main"
     description:
-      path: "../../panel_frame"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "856f7484851c3f0b95e39c210a3733535b65c712"
+      url: "https://github.com/MasiaVittorio/panel_frame.git"
+    source: git
     version: "0.0.1"
   path:
     dependency: "direct main"
@@ -673,16 +677,20 @@ packages:
   scrollable_card:
     dependency: "direct main"
     description:
-      path: "../../scrollable_card"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: eca3aa566b6678ef39286855dd3b740f1c42ce57
+      url: "https://github.com/MasiaVittorio/scrollable_card.git"
+    source: git
     version: "1.0.0+1"
   segmented_slider:
     dependency: "direct main"
     description:
-      path: "../../segmented_slider"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "5df15af4713f66a5c7b4379699145e7c1ace6dc1"
+      url: "https://github.com/MasiaVittorio/segmented_slider.git"
+    source: git
     version: "1.0.0+1"
   share_plus:
     dependency: "direct main"
@@ -703,9 +711,11 @@ packages:
   sid_base:
     dependency: "direct main"
     description:
-      path: "../../sid_base"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "5905a11570af3b2aa158ed1120c991e073bdceb0"
+      url: "https://github.com/MasiaVittorio/sid_base.git"
+    source: git
     version: "1.0.0+1"
   sky_engine:
     dependency: transitive

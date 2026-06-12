@@ -3,7 +3,6 @@ import 'package:counter_spell/models/game/player_settings.dart';
 import 'package:counter_spell/widgets/alerts/commanders_edit/commander_image_tile.dart';
 import 'package:counter_spell/widgets/alerts/commanders_edit/damage_properties_buttons.dart';
 import 'package:counter_spell/widgets/components/builders/card_builder.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
 
@@ -48,7 +47,7 @@ class PlayerCommanderCard extends StatelessWidget {
               error: error,
               dense: focusSettings,
             ),
-            NewAnimatedListed(
+            AnimatedListed(
               duration: Motion.beginAndEndOnScreenEmphasized.duration,
               curve: Motion.beginAndEndOnScreenEmphasized.curve,
               listed: focusSettings,

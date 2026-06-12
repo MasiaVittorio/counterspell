@@ -7,7 +7,6 @@ import 'package:counter_spell/models/scryfall/card.dart';
 import 'package:counter_spell/widgets/body/players_list_view/player_tile/components/split_theme.dart';
 import 'package:counter_spell/widgets/body/players_list_view/player_tile/components/trailing_type_builder.dart';
 import 'package:counter_spell/widgets/components/builders/card_theme_builder.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:counter_spell/widgets/components/project/delay_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
@@ -191,7 +190,7 @@ class _PlayerTileTrailing extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  NewAnimatedListed(
+                  AnimatedListed(
                     listed: !swapped,
                     direction: Axis.horizontal,
                     curve: Motion.beginAndEndOnScreenEmphasized.curve,
@@ -236,7 +235,7 @@ class _PlayerTileTrailing extends StatelessWidget {
                       ),
                     ),
                   ),
-                  NewAnimatedListed(
+                  AnimatedListed(
                     curve: Motion.beginAndEndOnScreenEmphasized.curve,
                     duration: Motion.beginAndEndOnScreenEmphasized.duration,
                     direction: Axis.horizontal,

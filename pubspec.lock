@@ -566,7 +566,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "856f7484851c3f0b95e39c210a3733535b65c712"
+      resolved-ref: "1de8200f13020fb4fed7640eb952b62db1b0bc83"
       url: "https://github.com/MasiaVittorio/panel_frame.git"
     source: git
     version: "0.0.1"
@@ -713,7 +713,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5905a11570af3b2aa158ed1120c991e073bdceb0"
+      resolved-ref: "4dc4d345950cf4cb1d48849bad8b74e7e27dbcfa"
       url: "https://github.com/MasiaVittorio/sid_base.git"
     source: git
     version: "1.0.0+1"

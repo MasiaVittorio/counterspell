@@ -6,7 +6,6 @@ import 'package:counter_spell/widgets/arena/components/arena_view_menu.dart';
 import 'package:counter_spell/widgets/arena/components/arena_view_players.dart';
 import 'package:counter_spell/widgets/components/builders/players_count_builder.dart';
 import 'package:counter_spell/widgets/components/common/delayed_child.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
 
@@ -104,7 +103,7 @@ class _ArenaViewState extends State<_ArenaView> {
             Positioned.fill(
               child: Al.bottomCenter(
                 child: widget.arenaLogic.isMenuOpen.buildWithStaticChild(
-                  builder: (context, value, child) => NewAnimatedListed(
+                  builder: (context, value, child) => AnimatedListed(
                     listed: value,
                     unlistedFraction: 0.8,
                     fadeFirstFraction: 1,

@@ -6,7 +6,6 @@ import 'package:counter_spell/models/scryfall/card.dart';
 import 'package:counter_spell/widgets/alerts/card_alignment/card_alignment_alert.dart';
 import 'package:counter_spell/widgets/alerts/image_search/components/card_tile.dart';
 import 'package:counter_spell/widgets/alerts/image_search/image_search_alert.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:counter_spell/widgets/components/common/small_progress_indicator.dart';
 import 'package:counter_spell/widgets/components/project/artist_row.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +57,7 @@ class CommanderImageTile extends StatelessWidget {
       ),
     );
 
-    final subtitle = NewAnimatedListed(
+    final subtitle = AnimatedListed(
       listed: !dense,
       duration: Motion.beginAndEndOnScreenEmphasized.duration,
       curve: Motion.beginAndEndOnScreenEmphasized.curve,

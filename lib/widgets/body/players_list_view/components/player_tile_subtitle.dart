@@ -1,4 +1,3 @@
-
 import 'package:counter_spell/models/game/game_settings.dart';
 import 'package:counter_spell/models/game/partner_vectors.dart';
 import 'package:counter_spell/models/game/player_settings.dart';
@@ -9,7 +8,6 @@ import 'package:counter_spell/widgets/components/builders/card_builder.dart';
 import 'package:counter_spell/widgets/components/builders/is_defending_builder.dart';
 import 'package:counter_spell/widgets/components/builders/is_selected_builder.dart';
 import 'package:counter_spell/widgets/components/builders/using_partner_a_builder.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
 
@@ -41,7 +39,7 @@ class PlayerTileSubtitle extends StatelessWidget {
         return IsSelectedBuilder(
           index: index,
           builder: (context, isSelected, child) {
-            return NewAnimatedListed(
+            return AnimatedListed(
               listed: switch (page) {
                 BodyPage.life when isSelected == null => true,
                 BodyPage.damage when attackerIndex != null => true,

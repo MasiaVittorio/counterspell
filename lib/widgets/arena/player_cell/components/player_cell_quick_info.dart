@@ -8,7 +8,6 @@ import 'package:counter_spell/models/interaction/interaction_mode.dart';
 import 'package:counter_spell/widgets/arena/player_cell/builders/cell_mode_builder.dart';
 import 'package:counter_spell/widgets/body/players_list_view/player_tile/components/split_theme.dart';
 import 'package:counter_spell/widgets/components/builders/cell_mode_and_increment_builder.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:counter_spell/widgets/components/project/delta_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
@@ -43,7 +42,7 @@ class PlayerCellQuickInfo extends StatelessWidget {
           ),
         ),
         builder: (context, mode, hasIncrement, child) => Al.topCenter(
-          child: NewAnimatedListed(
+          child: AnimatedListed(
             direction: Axis.horizontal,
             axisAlignment: axisAlignment,
             listed: mode == CellMode.life && !hasIncrement,

@@ -2,7 +2,6 @@ import 'package:call_to_action/call_to_action.dart';
 import 'package:counter_spell/logic/theme_logic.dart';
 import 'package:counter_spell/models/theme/saved_theme.dart';
 import 'package:counter_spell/widgets/alerts/themes/saved_themes_alert.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:panel_frame/panel_frame.dart';
 import 'package:sid_base/sid_base.dart';
@@ -24,7 +23,7 @@ class ThemeSaveBottomRow extends StatelessWidget {
           horizontal: layout.margin.medium,
           child: Row(
             children: <Widget>[
-              NewAnimatedListed(
+              AnimatedListed(
                 listed: isSaved,
                 direction: Axis.horizontal,
                 child: Pad(

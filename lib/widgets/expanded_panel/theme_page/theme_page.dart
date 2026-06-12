@@ -1,5 +1,4 @@
 import 'package:counter_spell/logic/theme_logic.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:counter_spell/widgets/expanded_panel/game_page/expanded_page_list.dart';
 import 'package:counter_spell/widgets/expanded_panel/theme_page/components/color_picker_tile.dart';
 import 'package:counter_spell/widgets/expanded_panel/theme_page/components/color_source_slider.dart';
@@ -40,7 +39,7 @@ class ThemePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              NewAnimatedListed(
+              AnimatedListed(
                 listed: !useDynamic,
                 axisAlignment: 1,
                 child: const GroupedCard(

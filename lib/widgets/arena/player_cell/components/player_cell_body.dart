@@ -2,7 +2,6 @@ import 'package:counter_spell/widgets/arena/player_cell/arena_player_cell.dart';
 import 'package:counter_spell/widgets/arena/player_cell/components/player_cell_advanced_body.dart';
 import 'package:counter_spell/widgets/arena/player_cell/components/player_cell_basic_body.dart';
 import 'package:counter_spell/widgets/arena/player_cell/components/player_cell_more_button.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:counter_spell/widgets/components/project/delay_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
@@ -98,7 +97,7 @@ class _PlayerCellBodyState extends State<PlayerCellBody> {
                   ),
                 ],
               ),
-              builder: (context, value, child) => NewAnimatedListed(
+              builder: (context, value, child) => AnimatedListed(
                 listed: !value,
                 direction: Axis.horizontal,
                 axisAlignment: toTheLeft ? 1 : -1,
@@ -118,7 +117,7 @@ class _PlayerCellBodyState extends State<PlayerCellBody> {
                 pageController: advancedPageController,
                 physics: advancedScrollPhysics,
               ),
-              builder: (context, value, child) => NewAnimatedListed(
+              builder: (context, value, child) => AnimatedListed(
                 listed: value,
                 direction: Axis.horizontal,
                 fadeFirstFraction: 1,

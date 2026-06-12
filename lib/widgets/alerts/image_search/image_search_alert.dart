@@ -6,7 +6,6 @@ import 'package:counter_spell/models/scryfall/scryfall_api.dart';
 import 'package:counter_spell/widgets/alerts/image_search/components/card_tile.dart';
 import 'package:counter_spell/widgets/alerts/image_search/components/image_search_commander_filter_toggle.dart';
 import 'package:counter_spell/widgets/alerts/image_search/components/image_search_text_field.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:panel_frame/panel_frame.dart';
 import 'package:sid_base/sid_base.dart';
@@ -235,7 +234,7 @@ class _ImageSearchAlertState extends State<_ImageSearchAlert> {
             ],
           ),
           children: <Widget>[
-            NewAnimatedListed(
+            AnimatedListed(
               listed: isSearching,
               child: const LinearProgressIndicator(),
             ),

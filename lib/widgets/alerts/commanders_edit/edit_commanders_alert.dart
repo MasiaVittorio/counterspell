@@ -3,7 +3,6 @@ import 'package:counter_spell/models/game/game_settings.dart';
 import 'package:counter_spell/models/game/player_settings.dart';
 import 'package:counter_spell/widgets/alerts/commanders_edit/player_commander_card.dart';
 import 'package:counter_spell/widgets/alerts/commanders_edit/player_partners_toggle.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:panel_frame/panel_frame.dart';
 import 'package:segmented_slider/segmented_slider.dart';
@@ -111,7 +110,7 @@ class _RawEditCommandersAlertState extends State<RawEditCommandersAlert> {
                   onChanged: update,
                   focusSettings: focusSettings,
                 ),
-                NewAnimatedListed(
+                AnimatedListed(
                   listed: playerSettings.runsTwoPartners,
                   child: PlayerCommanderCard(
                     playerSettings: playerSettings,

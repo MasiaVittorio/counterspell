@@ -3,7 +3,6 @@ import 'package:counter_spell/widgets/arena/player_cell/builders/cell_mode_build
 import 'package:counter_spell/widgets/arena/player_cell/components/player_cell_value_builder.dart';
 import 'package:counter_spell/widgets/components/common/animated_count_builder.dart';
 import 'package:counter_spell/widgets/components/common/centered_stack.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
 
@@ -78,7 +77,7 @@ class PlayerCellCenter extends StatelessWidget {
               },
             ),
             controller.increment.build(
-              (context, value) => NewAnimatedListed(
+              (context, value) => AnimatedListed(
                 listed: value != 0,
                 direction: Axis.horizontal,
                 child: Pad(

@@ -1,4 +1,3 @@
-
 import 'package:counter_spell/main.dart';
 import 'package:counter_spell/widgets/collapsed_panel/center/collapsed_panel_center.dart';
 import 'package:counter_spell/widgets/collapsed_panel/center/collapsed_panel_delay_indicator.dart';
@@ -6,7 +5,6 @@ import 'package:counter_spell/widgets/collapsed_panel/collapsed_panel_left_butto
 import 'package:counter_spell/widgets/collapsed_panel/right/collapsed_panel_right_button.dart';
 import 'package:counter_spell/widgets/components/builders/can_use_arena_view_builder.dart';
 import 'package:counter_spell/widgets/components/builders/has_increment_builder.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:counter_spell/widgets/components/project/delay_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +29,7 @@ class CollapsedPanel extends StatelessWidget {
           builder: (context, arenaView, center) {
             return Column(
               children: [
-                NewAnimatedListed(
+                AnimatedListed(
                   listed: hasIncrement,
                   child: const CollapsedPanelDelayIndicator(),
                 ),

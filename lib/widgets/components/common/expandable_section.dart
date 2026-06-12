@@ -1,5 +1,4 @@
 import 'package:counter_spell/widgets/components/common/expand_to_collapse_icon.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
 
@@ -110,7 +109,7 @@ class _ExpandableSectionState extends State<ExpandableSection> {
                             ),
                             child: widget.title,
                           ),
-                          NewAnimatedListed(
+                          AnimatedListed(
                             listed: !expanded,
                             duration: duration,
                             curve: curve,
@@ -161,7 +160,7 @@ class _ExpandableSectionState extends State<ExpandableSection> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             for (final grouped in widget.children.groupedCards())
-              NewAnimatedListed(
+              AnimatedListed(
                 fadeFirstFraction: 0.7,
                 axisAlignment: 1,
                 listed: expanded,

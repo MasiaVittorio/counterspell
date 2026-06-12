@@ -5,7 +5,6 @@ import 'package:counter_spell/widgets/arena/components/arena_menu_button.dart';
 import 'package:counter_spell/widgets/arena/components/can_undo_redo_builder.dart';
 import 'package:counter_spell/widgets/arena/components/offset_alignment.dart';
 import 'package:counter_spell/widgets/arena/player_cell/arena_player_cell.dart';
-import 'package:counter_spell/widgets/components/common/new_animated_listed.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
 
@@ -75,7 +74,7 @@ class ArenaViewPlayers extends StatelessWidget {
           for (final seat in seats)
             Al.bottomCenter(
               child: open.buildWithStaticChild(
-                builder: (context, value, child) => NewAnimatedListed(
+                builder: (context, value, child) => AnimatedListed(
                   listed: !value,
                   fadeFirstFraction: 1,
                   child: child,

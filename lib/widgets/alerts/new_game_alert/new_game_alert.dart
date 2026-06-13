@@ -150,12 +150,21 @@ class __NewGameAlertState extends State<_NewGameAlert> {
                           label: player,
                           onDelete: () => remove(player),
                           selected: true,
-                          onPressed: () => frame.showAlert(
-                            InsertPanelAlert(
-                              label: 'Rename $player',
-                              onSubmit: (value) => rename(player, value),
-                            ),
-                          ),
+                          onPressed: () {
+                            final allNames = context
+                                .counterSpell
+                                .playgroupLogic
+                                .pastNameRecords
+                                .value
+                                .keys;
+                            frame.showAlert(
+                              InsertPanelAlert(
+                                label: 'Rename $player',
+                                onSubmit: (value) => rename(player, value),
+                                autocompletions: allNames,
+                              ),
+                            );
+                          },
                           overrideDeleteIcon: Icons.close,
                         ),
                     ],

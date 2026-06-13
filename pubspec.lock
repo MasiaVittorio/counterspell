@@ -94,7 +94,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "12570f5b84abc6d910f59dd2a3a7748c6b720f0f"
+      resolved-ref: "82c1269507b5441dab27ebcbc2bf8515d4b48ccf"
       url: "https://github.com/MasiaVittorio/call_to_action.git"
     source: git
     version: "1.0.0+1"
@@ -566,7 +566,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1de8200f13020fb4fed7640eb952b62db1b0bc83"
+      resolved-ref: f031553f5a4b0330ab53c95b157b98a65f833afd
       url: "https://github.com/MasiaVittorio/panel_frame.git"
     source: git
     version: "0.0.1"
@@ -688,7 +688,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5df15af4713f66a5c7b4379699145e7c1ace6dc1"
+      resolved-ref: "9c9b2f09ae73df3a6adb0bb31af063f81b4ffd4f"
       url: "https://github.com/MasiaVittorio/segmented_slider.git"
     source: git
     version: "1.0.0+1"

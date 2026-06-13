@@ -7,6 +7,7 @@ import 'package:counter_spell/widgets/components/builders/can_use_arena_view_bui
 import 'package:counter_spell/widgets/components/builders/has_increment_builder.dart';
 import 'package:counter_spell/widgets/components/project/delay_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sid_base/sid_base.dart';
 
 class CollapsedPanel extends StatelessWidget {
   const CollapsedPanel({super.key});

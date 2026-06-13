@@ -47,9 +47,15 @@ class PlaygroupEditAlert extends StatelessWidget {
         );
       }
 
+      final allNames =
+          context.counterSpell.playgroupLogic.pastNameRecords.value.keys;
       void onAddPlayer() {
         frame.showAlert(
-          InsertPanelAlert(label: "New player's name", onSubmit: onNewName),
+          InsertPanelAlert(
+            label: "New player's name",
+            onSubmit: onNewName,
+            autocompletions: allNames,
+          ),
         );
       }
 
@@ -59,6 +65,7 @@ class PlaygroupEditAlert extends StatelessWidget {
             label: 'Rename $name',
             initialValue: name,
             onSubmit: (value) => onRename(playerIndex, value),
+            autocompletions: allNames,
           ),
         );
       }

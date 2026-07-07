@@ -16,15 +16,27 @@ extension on String {
   String get initial => isEmpty ? this : this[0];
 }
 
+/// Which subset of quick-info chips a [PlayerCellQuickInfo] renders, so the two
+/// groups can be pinned to opposite sides of the cell.
+enum QuickInfoGroup {
+  /// Commander damage taken (and dealt, when [PlayerCellQuickInfo.showDamageDealt]).
+  commanderDamage,
+
+  /// Counters, statuses and commander casts.
+  other,
+}
+
 class PlayerCellQuickInfo extends StatelessWidget {
   const PlayerCellQuickInfo({
     super.key,
     required this.playerIndex,
     required this.axisAlignment,
+    required this.group,
     this.showDamageDealt = false,
   });
   final int playerIndex;
   final double axisAlignment;
+  final QuickInfoGroup group;
   final bool showDamageDealt;
 
   @override
@@ -38,6 +50,7 @@ class PlayerCellQuickInfo extends StatelessWidget {
             playerIndex: playerIndex,
             playerSettings: game.settings.playerSettings,
             playerStates: game.currentState.playerStates,
+            group: group,
             showDamageDealt: showDamageDealt,
           ),
         ),
@@ -60,19 +73,20 @@ class _PlayerCellQuickInfo extends StatelessWidget {
     required this.playerIndex,
     required this.playerSettings,
     required this.playerStates,
+    required this.group,
     required this.showDamageDealt,
   });
 
   final int playerIndex;
   final List<PlayerState> playerStates;
   final List<PlayerSettings> playerSettings;
+  final QuickInfoGroup group;
   final bool showDamageDealt;
 
   @override
   Widget build(BuildContext context) {
     final PlayerSettings thisPlayerSettings = playerSettings[playerIndex];
     final PlayerState thisPlayerState = playerStates[playerIndex];
-    final int playerCount = playerStates.length;
 
     final List<CommanderDamage> damageDealt = [
       for (final playerStateDelta in playerStates)
@@ -81,15 +95,87 @@ class _PlayerCellQuickInfo extends StatelessWidget {
 
     final theme = context.theme;
     final layout = theme.layout;
-    final isEmpty =
-        thisPlayerState.copyWith(lifePoints: 0) ==
-            PlayerState.start(startingLifeTotal: 0, playerCount: playerCount) &&
-        (!showDamageDealt ||
-            damageDealt.every(
-              (element) => element == (fromPartnerA: 0, fromPartnerB: 0),
-            ));
 
-    if (isEmpty) return const SizedBox.shrink();
+    final List<Widget> chips = switch (group) {
+      QuickInfoGroup.commanderDamage => <Widget>[
+        for (
+          int i = 0;
+          i < thisPlayerState.commanderDamageTaken.length;
+          i++
+        ) ...[
+          if (thisPlayerState.commanderDamageTaken[i].fromPartnerA
+              case int damage)
+            if (damage != 0)
+              DeltaChip.result(
+                icon: CounterSpellIcons.defense_filled,
+                result: damage,
+                note: switch (playerSettings[i].runsTwoPartners) {
+                  true => 'by ${playerSettings[i].name.initial} (A)',
+                  false => 'by ${playerSettings[i].name.initial}',
+                },
+              ),
+          if (thisPlayerState.commanderDamageTaken[i].fromPartnerB
+              case int damage)
+            if (damage != 0)
+              DeltaChip.result(
+                icon: CounterSpellIcons.defense_filled,
+                note: 'by ${playerSettings[i].name.initial} (B)',
+                result: damage,
+              ),
+        ],
+        if (showDamageDealt)
+          for (int i = 0; i < damageDealt.length; i++) ...[
+            if (damageDealt[i].fromPartnerA case int damage)
+              if (damage != 0)
+                DeltaChip.result(
+                  icon: CounterSpellIcons.attack,
+                  result: damage,
+                  note: switch (thisPlayerSettings.runsTwoPartners) {
+                    true => 'to ${playerSettings[i].name.initial} (A)',
+                    false => 'to ${playerSettings[i].name.initial}',
+                  },
+                ),
+            if (damageDealt[i].fromPartnerB case int damage)
+              if (damage != 0)
+                DeltaChip.result(
+                  icon: CounterSpellIcons.attack,
+                  note: 'to ${playerSettings[i].name.initial} (B)',
+                  result: damage,
+                ),
+          ],
+      ],
+      QuickInfoGroup.other => <Widget>[
+        if (thisPlayerState.counters.isNotEmpty)
+          for (final counter in Counter.values)
+            if (thisPlayerState.counters[counter] case int amount)
+              if (amount != 0)
+                DeltaChip.result(
+                  icon: counter.filledIcon,
+                  result: amount,
+                  boolean: counter.isBoolean,
+                ),
+        if (thisPlayerState.commanderCasts.partnerA case int castsA)
+          if (castsA != 0)
+            DeltaChip.result(
+              icon: InteractionMode.cast.filledIcon,
+              note: switch (thisPlayerSettings.runsTwoPartners) {
+                true => 'A',
+                false => null,
+              },
+              result: castsA,
+            ),
+        if (thisPlayerState.commanderCasts.partnerB case int castsB)
+          if (castsB != 0)
+            DeltaChip.result(
+              icon: InteractionMode.cast.filledIcon,
+              note: 'B',
+              result: castsB,
+            ),
+        // TODO: add is dead chip
+      ],
+    };
+
+    if (chips.isEmpty) return const SizedBox.shrink();
 
     return SingleChildScrollView(
       physics: CallbackScrollPhysics(
@@ -103,81 +189,7 @@ class _PlayerCellQuickInfo extends StatelessWidget {
         vertical: layout.padding.smaller,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            if (thisPlayerState.counters.isNotEmpty)
-              for (final counter in Counter.values)
-                if (thisPlayerState.counters[counter] case int amount)
-                  if (amount != 0)
-                    DeltaChip.result(
-                      icon: counter.filledIcon,
-                      result: amount,
-                      boolean: counter.isBoolean,
-                    ),
-            for (
-              int i = 0;
-              i < thisPlayerState.commanderDamageTaken.length;
-              i++
-            ) ...[
-              if (thisPlayerState.commanderDamageTaken[i].fromPartnerA
-                  case int damage)
-                if (damage != 0)
-                  DeltaChip.result(
-                    icon: CounterSpellIcons.defense_filled,
-                    result: damage,
-                    note: switch (playerSettings[i].runsTwoPartners) {
-                      true => 'by ${playerSettings[i].name.initial} (A)',
-                      false => 'by ${playerSettings[i].name.initial}',
-                    },
-                  ),
-              if (thisPlayerState.commanderDamageTaken[i].fromPartnerB
-                  case int damage)
-                if (damage != 0)
-                  DeltaChip.result(
-                    icon: CounterSpellIcons.defense_filled,
-                    note: 'by ${playerSettings[i].name.initial} (B)',
-                    result: damage,
-                  ),
-            ],
-            if (showDamageDealt)
-              for (int i = 0; i < damageDealt.length; i++) ...[
-                if (damageDealt[i].fromPartnerA case int damage)
-                  if (damage != 0)
-                    DeltaChip.result(
-                      icon: CounterSpellIcons.attack,
-                      result: damage,
-                      note: switch (thisPlayerSettings.runsTwoPartners) {
-                        true => 'to ${playerSettings[i].name.initial} (A)',
-                        false => 'to ${playerSettings[i].name.initial}',
-                      },
-                    ),
-                if (damageDealt[i].fromPartnerB case int damage)
-                  if (damage != 0)
-                    DeltaChip.result(
-                      icon: CounterSpellIcons.attack,
-                      note: 'to ${playerSettings[i].name.initial} (B)',
-                      result: damage,
-                    ),
-              ],
-
-            if (thisPlayerState.commanderCasts.partnerA case int castsA)
-              if (castsA != 0)
-                DeltaChip.result(
-                  icon: InteractionMode.cast.filledIcon,
-                  note: switch (thisPlayerSettings.runsTwoPartners) {
-                    true => 'A',
-                    false => null,
-                  },
-                  result: castsA,
-                ),
-            if (thisPlayerState.commanderCasts.partnerB case int castsB)
-              if (castsB != 0)
-                DeltaChip.result(
-                  icon: InteractionMode.cast.filledIcon,
-                  note: 'B',
-                  result: castsB,
-                ),
-            // TODO: add is dead chip
-          ].separateWith(Space.vertical(layout.spacing.tiny)),
+          children: chips.separateWith(Space.vertical(layout.spacing.tiny)),
         ),
       ),
     );

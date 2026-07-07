@@ -54,6 +54,9 @@ class _ArenaPlayerCellState extends State<_ArenaPlayerCell>
   @override
   Reactive<int> increment = Reactive(0);
 
+  @override
+  Reactive<bool> incrementOnRight = Reactive(true);
+
   /// whether the advanced options are shown (commander casts, counters)
   @override
   Reactive<bool> advanced = Reactive(false);
@@ -64,6 +67,7 @@ class _ArenaPlayerCellState extends State<_ArenaPlayerCell>
   @override
   void dispose() {
     increment.dispose();
+    incrementOnRight.dispose();
     advanced.dispose();
     cachedAttackerIndex.dispose();
     super.dispose();
@@ -138,6 +142,8 @@ class _ArenaPlayerCellState extends State<_ArenaPlayerCell>
 
 mixin ArenaPlayerController {
   Reactive<int> get increment;
+
+  Reactive<bool> get incrementOnRight;
 
   Reactive<bool> get advanced;
 

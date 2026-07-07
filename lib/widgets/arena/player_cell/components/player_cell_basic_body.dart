@@ -29,14 +29,26 @@ class PlayerCellBasicBody extends StatelessWidget {
     return PlayerCellSideTaps(
       child: Stack(
         children: [
+          // Commander damage chips, pinned to the top-left.
           Positioned(
             top: 0,
             bottom: PlayerCellBottom.iconButtonsSize,
-            left: inverted ? 0 : null,
-            right: !inverted ? 0 : null,
+            left: 0,
             child: PlayerCellQuickInfo(
               playerIndex: playerIndex,
-              axisAlignment: inverted ? 1 : -1,
+              axisAlignment: 1,
+              group: QuickInfoGroup.commanderDamage,
+            ),
+          ),
+          // Counters, statuses and casts, pinned to the top-right.
+          Positioned(
+            top: 0,
+            bottom: PlayerCellBottom.iconButtonsSize,
+            right: 0,
+            child: PlayerCellQuickInfo(
+              playerIndex: playerIndex,
+              axisAlignment: -1,
+              group: QuickInfoGroup.other,
             ),
           ),
           Positioned.fill(

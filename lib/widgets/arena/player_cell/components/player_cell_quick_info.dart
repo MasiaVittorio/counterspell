@@ -8,6 +8,7 @@ import 'package:counter_spell/models/interaction/interaction_mode.dart';
 import 'package:counter_spell/widgets/arena/player_cell/builders/cell_mode_builder.dart';
 import 'package:counter_spell/widgets/body/players_list_view/player_tile/components/split_theme.dart';
 import 'package:counter_spell/widgets/components/builders/cell_mode_and_increment_builder.dart';
+import 'package:counter_spell/widgets/components/builders/player_cards_and_themes_builder.dart';
 import 'package:counter_spell/widgets/components/project/delta_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:sid_base/sid_base.dart';
@@ -106,7 +107,9 @@ class _PlayerCellQuickInfo extends StatelessWidget {
           if (thisPlayerState.commanderDamageTaken[i].fromPartnerA
               case int damage)
             if (damage != 0)
-              DeltaChip.result(
+              _CommanderDamageChip(
+                attackerIndex: i,
+                fromPartnerA: true,
                 icon: CounterSpellIcons.defense_filled,
                 result: damage,
                 note: switch (playerSettings[i].runsTwoPartners) {
@@ -117,17 +120,21 @@ class _PlayerCellQuickInfo extends StatelessWidget {
           if (thisPlayerState.commanderDamageTaken[i].fromPartnerB
               case int damage)
             if (damage != 0)
-              DeltaChip.result(
+              _CommanderDamageChip(
+                attackerIndex: i,
+                fromPartnerA: false,
                 icon: CounterSpellIcons.defense_filled,
-                note: 'by ${playerSettings[i].name.initial} (B)',
                 result: damage,
+                note: 'by ${playerSettings[i].name.initial} (B)',
               ),
         ],
         if (showDamageDealt)
           for (int i = 0; i < damageDealt.length; i++) ...[
             if (damageDealt[i].fromPartnerA case int damage)
               if (damage != 0)
-                DeltaChip.result(
+                _CommanderDamageChip(
+                  attackerIndex: playerIndex,
+                  fromPartnerA: true,
                   icon: CounterSpellIcons.attack,
                   result: damage,
                   note: switch (thisPlayerSettings.runsTwoPartners) {
@@ -137,10 +144,12 @@ class _PlayerCellQuickInfo extends StatelessWidget {
                 ),
             if (damageDealt[i].fromPartnerB case int damage)
               if (damage != 0)
-                DeltaChip.result(
+                _CommanderDamageChip(
+                  attackerIndex: playerIndex,
+                  fromPartnerA: false,
                   icon: CounterSpellIcons.attack,
-                  note: 'to ${playerSettings[i].name.initial} (B)',
                   result: damage,
+                  note: 'to ${playerSettings[i].name.initial} (B)',
                 ),
           ],
       ],
@@ -192,6 +201,38 @@ class _PlayerCellQuickInfo extends StatelessWidget {
           children: chips.separateWith(Space.vertical(layout.spacing.tiny)),
         ),
       ),
+    );
+  }
+}
+
+/// A commander-damage [DeltaChip] themed by the commander that applied the
+/// damage — [attackerIndex]'s partner A or B theme — so the pill takes that
+/// commander's container color with a legible on-container foreground.
+class _CommanderDamageChip extends StatelessWidget {
+  const _CommanderDamageChip({
+    required this.attackerIndex,
+    required this.fromPartnerA,
+    required this.icon,
+    required this.result,
+    this.note,
+  });
+
+  final int attackerIndex;
+  final bool fromPartnerA;
+  final IconData icon;
+  final int result;
+  final String? note;
+
+  @override
+  Widget build(BuildContext context) {
+    return PlayerCardsAndThemesBuilder(
+      playerIndex: attackerIndex,
+      builder: (context, cardA, cardB, themeA, themeB, child) {
+        return Theme(
+          data: fromPartnerA ? themeA : themeB,
+          child: DeltaChip.result(icon: icon, result: result, note: note),
+        );
+      },
     );
   }
 }

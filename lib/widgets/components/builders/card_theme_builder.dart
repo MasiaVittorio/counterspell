@@ -121,10 +121,17 @@ class _CardThemeBuilderState extends State<_CardThemeBuilder> {
   @override
   void didUpdateWidget(covariant _CardThemeBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.variant != widget.variant ||
+    final bool cardChanged = oldWidget.card.id != widget.card.id;
+    if (cardChanged) {
+      // Fall back to the new card's color-identity seed right away so the
+      // previous commander's color doesn't linger while the artwork-derived
+      // scheme is computed asynchronously.
+      colorScheme = widget.card.colorSchemes(widget.appTheme).first;
+    }
+    if (cardChanged ||
+        oldWidget.variant != widget.variant ||
         oldWidget.contrast != widget.contrast ||
-        widget.appTheme.brightness != oldWidget.appTheme.brightness ||
-        (oldWidget.card.id != widget.card.id)) {
+        widget.appTheme.brightness != oldWidget.appTheme.brightness) {
       _updateColorScheme();
     }
   }

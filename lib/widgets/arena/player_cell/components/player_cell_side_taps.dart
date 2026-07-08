@@ -71,6 +71,13 @@ class PlayerCellSideTaps extends StatelessWidget {
       context,
       direction,
     ) {
+      void setSide(TapDownDetails details, double width, {required bool firstRegion}) {
+        final bool tappedLeft = direction == Axis.horizontal
+            ? firstRegion
+            : details.localPosition.dx < width / 2;
+        controller.incrementOnRight.update(tappedLeft);
+      }
+
       return Stack(
         children: [
           Positioned.fill(
@@ -81,23 +88,39 @@ class PlayerCellSideTaps extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: ContinuedLongPress(
-                      onContinuedLongPress: (duration) =>
-                          onLongPress(duration, direction),
-                      onTapDown: direction == Axis.horizontal
-                          ? holdDown
-                          : holdUp,
-                      onTapUp: delay.tap,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => ContinuedLongPress(
+                        onContinuedLongPress: (duration) =>
+                            onLongPress(duration, direction),
+                        onTapDown: (details) {
+                          setSide(details, constraints.maxWidth,
+                              firstRegion: true);
+                          if (direction == Axis.horizontal) {
+                            holdDown();
+                          } else {
+                            holdUp();
+                          }
+                        },
+                        onTapUp: delay.tap,
+                      ),
                     ),
                   ),
                   Expanded(
-                    child: ContinuedLongPress(
-                      onContinuedLongPress: (duration) =>
-                          onLongPress(duration, direction.opposite),
-                      onTapDown: direction == Axis.horizontal
-                          ? holdUp
-                          : holdDown,
-                      onTapUp: delay.tap,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => ContinuedLongPress(
+                        onContinuedLongPress: (duration) =>
+                            onLongPress(duration, direction.opposite),
+                        onTapDown: (details) {
+                          setSide(details, constraints.maxWidth,
+                              firstRegion: false);
+                          if (direction == Axis.horizontal) {
+                            holdUp();
+                          } else {
+                            holdDown();
+                          }
+                        },
+                        onTapUp: delay.tap,
+                      ),
                     ),
                   ),
                 ],
@@ -128,7 +151,7 @@ class ContinuedLongPress extends StatefulWidget {
   });
 
   final Widget? child;
-  final VoidCallback onTapDown;
+  final void Function(TapDownDetails details) onTapDown;
   final VoidCallback onTapUp;
   final void Function(Duration duration) onContinuedLongPress;
 
@@ -187,7 +210,7 @@ class _ContinuedLongPressState extends State<ContinuedLongPress> {
   Widget build(BuildContext context) {
     return InkWell(
       onTapDown: (details) {
-        widget.onTapDown();
+        widget.onTapDown(details);
         onTapDown();
       },
       onTapUp: (details) => onTapUp(),

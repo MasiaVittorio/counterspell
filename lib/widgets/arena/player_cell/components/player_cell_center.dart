@@ -45,8 +45,9 @@ class PlayerCellCenter extends StatelessWidget {
           ),
         );
 
-        return Row(
+        return controller.incrementOnRight.build((context, onRight) => Row(
           mainAxisSize: MainAxisSize.min,
+          textDirection: onRight ? TextDirection.ltr : TextDirection.rtl,
           children: [
             ArenaCellModeBuilder(
               playerIndex: playerIndex,
@@ -81,7 +82,8 @@ class PlayerCellCenter extends StatelessWidget {
                 listed: value != 0,
                 direction: Axis.horizontal,
                 child: Pad(
-                  left: theme.layout.padding.medium,
+                  left: onRight ? theme.layout.padding.medium : 0,
+                  right: onRight ? 0 : theme.layout.padding.medium,
                   child: Row(
                     children: [
                       Text(value >= 0 ? '+' : '-', style: incrementStyle),
@@ -93,7 +95,7 @@ class PlayerCellCenter extends StatelessWidget {
               ),
             ),
           ],
-        );
+        ));
       },
     );
   }
